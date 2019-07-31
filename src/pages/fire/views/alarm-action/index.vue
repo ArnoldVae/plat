@@ -911,7 +911,7 @@
                         width: 45%;
                         height: 30px;
                         color: #fff;
-                        font-size: 20px;
+                        font-size: 16px;
                         border: none;
                         cursor: pointer;
                     }
