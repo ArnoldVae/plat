@@ -614,7 +614,6 @@
                     subIdsStr: '90010001'
                 }).then(res => {
                     if (res.code == 200) {
-                        console.log(res.data[0].vcUrl);
                         this.hturl = res.data[0].vcUrl
                         // console.log(res);
                     }
