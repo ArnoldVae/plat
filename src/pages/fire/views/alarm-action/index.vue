@@ -33,7 +33,6 @@
         <div class="alarmContainer" v-show="comfireAlarm">
             <div class="container">
                 <div class="unitTitle">
-                    当前报警变电站:
                     <span>{{unitTitle}}</span>
                 </div>
                 <div class="alarm-now-video" v-if="comfireAlarm">
@@ -196,28 +195,28 @@
                 videoConfig: [
                     {
                         isAutoPlay: true,
-                        serviceInfo: '1$22.46.34.114$6800$admin$admin',
-                        deviceInfo: '2|22.46.34.114:37782|admin:admin123|2',
+                        serviceInfo: '1$172.26.1.18$6800$admin$admin',
+                        deviceInfo: '64a8e27f9e3011e9ac508cec4b8f5477',
                         hideTool: true
                     },
                     {
                         isAutoPlay: true,
-                        serviceInfo: '1$22.46.34.114$6800$admin$admin',
-                        deviceInfo: '2|22.46.34.114:37781|admin:admin123|1',
+                        serviceInfo: '1$172.26.1.18$6800$admin$admin',
+                        deviceInfo: '62761a899e3011e9ac508cec4b8f5477',
                         hideTool: true
                     }
                 ],
                 videoAlarm: [
                     {
                         isAutoPlay: true,
-                        serviceInfo: '1$172.26.1.128$6800$admin$admin',
-                        deviceInfo: '2|172.26.1.28:37777|admin:admin123|0',
+                        serviceInfo: '1$172.26.1.18$6800$admin$admin',
+                        deviceInfo: '64a8e27f9e3011e9ac508cec4b8f5477',
                         hideTool: true
                     },
                     {
                         isAutoPlay: true,
-                        serviceInfo: '1$22.46.34.114$6800$admin$admin',
-                        deviceInfo: '',
+                        serviceInfo: '1$172.26.1.18$6800$admin$admin',
+                        deviceInfo: '62761a899e3011e9ac508cec4b8f5477',
                         hideTool: true
                     }
                 ],
@@ -744,7 +743,8 @@
                 margin: 0px 0 5px 36px;
 
                 .alarm-now-video-item {
-                    width: 50%;
+                    width: 45%;
+                    margin 0 10px
                     height: 100%;
                     float: left;
                 }
