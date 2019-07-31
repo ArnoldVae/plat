@@ -10,8 +10,11 @@
             </div>
         </div>
         <div class="fire-content">
-            <component v-bind:is="current" ref="test" @transfer="getMethod" :node="alarmNode"
-                       @receiveAlarm="receiveAlarm"></component>
+            <keep-alive  include="statusCheck">
+                <component v-bind:is="current" ref="test" @transfer="getMethod" :node="alarmNode"
+                           @receiveAlarm="receiveAlarm"></component>
+            </keep-alive>
+
         </div>
         <statistics class='statisBottom'></statistics>
     </div>

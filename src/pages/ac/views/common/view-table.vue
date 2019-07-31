@@ -48,7 +48,7 @@
 				</el-table-column>
 				<el-table-column label="远方控制" align="center">
 					<template slot-scope="scope">
-						<div class="control-wrap">
+						<div class="control-wrap" v-if="scope.row.i_NodeType == 3 || scope.row.i_NodeType == 4">
 							<template v-for="item in transFunction(scope.row.vc_ValueDesc)">
 								<el-button size="mini" @click="handleControl(item.id, scope.row)">{{
 									item.label
@@ -82,7 +82,7 @@
 			<p>确认执行该操作？</p>
 		</ocx-modal>
 		<!-- 历史曲线 -->
-		<Modal
+		<ocx-modal
 			:styles="{ top: '0px' }"
 			title="历史记录"
 			:mask="false"
@@ -118,7 +118,7 @@
 				<div class="chart" ref="view-table-chart"></div>
 			</div>
 			<div slot="footer"></div>
-		</Modal>
+		</ocx-modal>
 	</div>
 </template>
 <script>
@@ -356,6 +356,7 @@ export default {
 					this.spanArr = []
 					this.position = 0
 					this.tableData = result.data.lists
+					console.log(this.tableData)
 					this.total = result.data.page.totalNum
 	 
 					this.rowFn()

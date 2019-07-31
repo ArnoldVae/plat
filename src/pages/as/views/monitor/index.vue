@@ -1,12 +1,9 @@
 <template>
   <div class="monitor">
     <!-- 头部 -->
-    <!-- <img src="../../assets/img/monitor/switchover.png" alt="" @click="imgClick" class="taskGroupImg" /> -->
     <div class="monitor-top">
       <!-- 左边 -->
       <div class="monitor-left">
-        <!-- <div class="unitTreeBox">
-        <div class="tree-content">-->
         <el-filter-tree
           placeholder="输入关键字进行过滤"
           v-model="filterText"
@@ -18,72 +15,6 @@
           highlight-current
           @node-click="handleClickNode"
         ></el-filter-tree>
-
-        <!-- </div>
-        </div>-->
-        <!-- <transition name="slide-fade">
-					<div class="task-group" v-if="show">
-						<Tabs :animated="false" type="card">
-							<Tab-pane label="临时特巡">
-								<div class="temporary-inspection">
-									<Icon type="ios-arrow-down" />
-									<p>巡检区域</p>
-									<div class="inFirst">
-										<ul>
-											<li
-												v-for="(item, index) in areaInspectionList"
-												:key="index"
-												@click="areaInClick(item.areaId, item.vcName)"
-											>
-												{{ item.vcName }}
-											</li>
-										</ul>
-									</div>
-									<Icon type="ios-arrow-down" />
-									<p>巡检类型</p>
-									<div class="inSencond">
-										<ul>
-											<li class="special" v-if="specialIns.length != 0">
-												<p>特殊巡视</p>
-												<ul>
-													<li v-for="(item, index) in specialIns" :key="index">
-														{{ item.subTaskTypeName }}
-														<el-button type="primary" @click="detailClick(item)"
-															>详情</el-button
-														>
-													</li>
-												</ul>
-											</li>
-											<li v-for="(item, index) in inspectionTypeList" :key="index">
-												{{ item.name }}
-												<el-button type="primary" @click="detailClick(item)">详情</el-button>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</Tab-pane>
-							<Tab-pane label="预置巡检">
-								<div class="preset-inspection">
-									<Scroll :on-reach-bottom="handleReachBottom" height="710">
-										<Card
-											dis-hover
-											v-for="(item, index) in presetInspectionList"
-											:key="index"
-											style="margin: 10px 0; text-align: left;"
-										>
-											<i :style="{ background: item.bgColor }"></i>
-											{{ item.vcName }}
-										</Card>
-									</Scroll>
-								</div>
-							</Tab-pane>
-						</Tabs>
-						<div class="button-group">
-							<div class="btn">执行任务</div>
-							<div class="btn">停止任务</div>
-						</div>
-					</div>
-        </transition>-->
       </div>
       <!-- 右边 -->
       <div class="monitor-right">
@@ -92,11 +23,7 @@
           <div class="nInspection">
             <span>
               当前巡检区域：
-              <i @click='handleDeviceSelected'>请选择巡检区域</i>
-            </span>
-            <span>
-              当前巡检类型：
-              <i>全面巡检</i>
+              <i @click="handleDeviceSelected">请选择巡检区域</i>
             </span>
           </div>
           <div class="inspection-map">
@@ -251,7 +178,7 @@
       <statistics></statistics>
     </div>
     <!-- 报警模态框 -->
-    <Modal title="Title" v-model="alarmRecordFlag" :width="1600" :mask-closable="false">
+    <ocx-modal title="Title" v-model="alarmRecordFlag" :width="1600" :mask-closable="false">
       <!-- 报警详情 -->
       <div class="alarm-detail">
         <!-- 详细信息 -->
@@ -356,10 +283,10 @@
           </div>
         </div>
       </div>
-    </Modal>
+    </ocx-modal>
 
     <!-- 实时信息详情弹框 -->
-    <Modal v-model="timeInfoFlag" :width="1600" :mask-closable="false">
+    <ocx-modal v-model="timeInfoFlag" :width="1600" :mask-closable="false">
       <div class="time-info">
         <div class="modal-img">
           <img class="img-content" src alt />
@@ -368,195 +295,226 @@
       <div class="line-map">
         <div class="chart" ref="chart1"></div>
       </div>
-    </Modal>
+    </ocx-modal>
 
     <!-- 选择设备弹框 -->
-    <Modal v-model="selectDeviceFlag" :width="1600" :mask-closable="false" footer-hide>
+    <ocx-modal v-model="selectDeviceFlag" :width="1600" :mask-closable="false" footer-hide>
       <div class="inspection-type">
         <div class="select-type">
           <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="巡检类型">
-              <el-radio-group v-model="form.inspection">
-                <el-radio label="1">全面巡检</el-radio>
-                <el-radio label="2">例行巡检</el-radio>
-                <el-radio label="3">专项巡检</el-radio>
-                <el-radio label="4">特殊巡检</el-radio>
+              <el-radio-group v-model="form.inspection" @change="handleSelectInspType">
+                <el-radio
+                  :label="item.typeCode"
+                  v-for="item in inspectionType"
+                  :key="item.id"
+                >{{item.typeName}}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-form>
         </div>
-        <div class="sub-type" v-show='form.inspection == 3'>
-          <el-form ref="subTypeForm" :model="subTypeForm" label-width="100px">
+        <div class="sub-type" v-show="form.inspection == 165">
+          <el-form ref="subTypeForm" :model="specSubTypeForm" label-width="100px">
             <el-form-item label=" ">
-              <el-radio-group v-model="subTypeForm.subtype">
-                <el-radio label="1">子类型1</el-radio>
-                <el-radio label="2">子类型2</el-radio>
-                <el-radio label="3">子类型3</el-radio>
+              <el-radio-group v-model="specSubTypeForm.subType">
+                <el-radio
+                  :label="item.id"
+                  v-for="item in espInspSubType"
+                  :key="item.id"
+                >{{item.typeName}}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-form>
         </div>
-        <div class='list-con'>
-          <div class='title'>设备区域：</div>
-          <div class="select">
-            <el-checkbox
-            :indeterminate="isIndeterminate"
-            v-model="checkAll"
-            @change="handleCheckAllChange"
-          >全部</el-checkbox>
-          <!-- <div style="margin: 15px 0;"></div> -->
-          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-            <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
-          </el-checkbox-group>
-          </div>
-          
+
+        <div class="sub-type" v-show="form.inspection == 250">
+          <el-form ref="subTypeForm" :model="espSubTypeForm" label-width="100px">
+            <el-form-item label=" ">
+              <el-radio-group v-model="espSubTypeForm.subType">
+                <el-radio
+                  :label="item.id"
+                  v-for="item in specInspSubType"
+                  :key="item.id"
+                >{{item.typeName}}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-form>
         </div>
-         <div class='list-con'>
-          <div class='title'>设备类型：</div>
+
+        <div class="list-con">
+          <div class="title">设备区域：</div>
           <div class="select">
             <el-checkbox
-            :indeterminate="isIndeterminate"
-            v-model="checkAll"
-            @change="handleCheckAllChange"
-          >全部</el-checkbox>
-          <!-- <div style="margin: 15px 0;"></div> -->
-          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-            <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
-          </el-checkbox-group>
+              :indeterminate="isdeviceAreaList"
+              v-model="checkdeviceAreaListAll"
+              @change="handleCheckAllDeviceAreaListChange"
+            >全部</el-checkbox>
+            <el-checkbox-group
+              v-model="checkedDeviceAreaList"
+              @change="handleCheckedDeviceAreaListChange"
+            >
+              <el-checkbox
+                v-for="item in deviceAreaList"
+                :label="item"
+                :key="item.id"
+              >{{item.typeName}}</el-checkbox>
+            </el-checkbox-group>
           </div>
-          
         </div>
-         <div class='list-con'>
-          <div class='title'>识别类型：</div>
+        <div class="list-con">
+          <div class="title">设备类型：</div>
           <div class="select">
             <el-checkbox
-            :indeterminate="isIndeterminate"
-            v-model="checkAll"
-            @change="handleCheckAllChange"
-          >全部</el-checkbox>
-          <!-- <div style="margin: 15px 0;"></div> -->
-          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-            <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
-          </el-checkbox-group>
+              :indeterminate="isDeviceType"
+              v-model="checkedDeviceTypeAll"
+              @change="handleCheckDeviceTypeAllChange"
+            >全部</el-checkbox>
+            <el-checkbox-group v-model="checkedDeviceType" @change="handleCheckedDeviceTypeChange">
+              <el-checkbox v-for="item in deviceType" :label="item" :key="item.id" v-model="item.vcFlag">{{item.typeName}}</el-checkbox>
+            </el-checkbox-group>
           </div>
-          
         </div>
-         <div class='list-con'>
-          <div class='title'>表计类型：</div>
+        <div class="list-con">
+          <div class="title">识别类型：</div>
           <div class="select">
             <el-checkbox
-            :indeterminate="isIndeterminate"
-            v-model="checkAll"
-            @change="handleCheckAllChange"
-          >全部</el-checkbox>
-          <!-- <div style="margin: 15px 0;"></div> -->
-          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-            <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
-          </el-checkbox-group>
+              :indeterminate="isRecognitionType"
+              v-model="checkRecognitionTypeAll"
+              @change="handleCheckAllRecognitionTypeChange"
+            >全部</el-checkbox>
+            <el-checkbox-group
+              v-model="checkedRecognitionType"
+              @change="handleCheckedRecognitionTypeChange"
+            >
+              <el-checkbox
+                v-for="item in recognitionType"
+                :label="item"
+                :key="item.id"
+              >{{item.typeName}}</el-checkbox>
+            </el-checkbox-group>
           </div>
-          
         </div>
-         <div class='list-con'>
-          <div class='title'>设备外观类型：</div>
+        <div class="list-con">
+          <div class="title">表计类型：</div>
           <div class="select">
             <el-checkbox
-            :indeterminate="isIndeterminate"
-            v-model="checkAll"
-            @change="handleCheckAllChange"
-          >全部</el-checkbox>
-          <!-- <div style="margin: 15px 0;"></div> -->
-          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-            <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
-          </el-checkbox-group>
+              :indeterminate="isMeterType"
+              v-model="checkMeterTypeAll"
+              @change="handleCheckAllMeterTypeChange"
+            >全部</el-checkbox>
+            <el-checkbox-group v-model="checkedMeterType" @change="handleCheckedMeterTypeChange">
+              <el-checkbox v-for="item in meterType" :label="item" :key="item.id">{{item.typeName}}</el-checkbox>
+            </el-checkbox-group>
           </div>
-          
+        </div>
+        <div class="list-con">
+          <div class="title">设备外观类型：</div>
+          <div class="select">
+            <el-checkbox
+              :indeterminate="isAppearanceType"
+              v-model="checkedAppearanceTypeAll"
+              @change="handleCheckAppearanceTypeAllChange"
+            >全部</el-checkbox>
+            <el-checkbox-group v-model="checkedAppearanceType" @change="handleCheckedAppearanceTypeChange">
+              <el-checkbox
+                v-for="item in appearanceType"
+                :label="item"
+                :key="item.id"
+
+              >{{item.typeName}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
         </div>
         <div class="type-bottom">
-          <div class="selected-num">
+          <!-- <div class="selected-num">
             当前已选择：
             <span></span>个测点
-          </div>
+          </div> -->
           <div class="task-order">
-            <input type="button" value="巡检成票" class="btn" />
-            <input type="button" value="取消" class="btn" />
+            <input type="button" value="巡检成票" class="btn" @click="inspectionAticketClick" />
+            <input type="button" value="取消" class="btn" @click="cancel" />
           </div>
         </div>
       </div>
-    </Modal>
-		
-		<!-- 巡检成票 -->
-		<Modal v-model="inspectionAticket" :width="1600" :mask-closable="false" footer-hide>
-			<div class="inspectionTicket">
-				<el-table
-					:data="inspectionAticketData"
-					max-height="600"
-					:span-method="objectSpanMethod"   
-					border
-					:header-cell-style="{ background: '', color: '#90d9ff' }"
-				>
-					<el-table-column prop="area" label="区域" align="center"></el-table-column>
-					<el-table-column prop="interval" label="子区域" align="center"></el-table-column>
-					<el-table-column prop="devTitle" label="设备" align="center"></el-table-column>
-					<el-table-column prop="dian" label="巡检点位" align="center"></el-table-column>
-					<el-table-column label="室外机器人" align="center" width="122">
-						<template slot-scope="scope">
-							<img
-								src="../../assets/img/common/dui.png"
-								alt
-								style="width: 15px;height: 15px;"
-								v-show="scope.row.outR"
-							/>
-						</template>
-					</el-table-column>
-					<el-table-column label="高清视频" align="center" width="120">
-						<template slot-scope="scope">
-							<img
-								src="../../assets/img/common/dui.png"
-								alt
-								style="width: 15px;height: 15px;"
-								v-show="scope.row.video"
-							/>
-						</template>
-					</el-table-column>
-					<el-table-column label="室内机器人" align="center" width="122">
-						<template slot-scope="scope">
-							<img
-								src="../../assets/img/common/dui.png"
-								alt
-								style="width: 15px;height: 15px;"
-								v-show="scope.row.doorR"
-							/>
-						</template>
-					</el-table-column>
-					<el-table-column label="智辅系统" align="center" width="120">
-						<template slot-scope="scope">
-							<img
-								src="../../assets/img/common/dui.png"
-								alt
-								style="width: 15px;height: 15px;"
-								v-show="scope.row.zhifu"
-							/>
-						</template>
-					</el-table-column>
-					<el-table-column label="无人机" align="center" width="120">
-						<template slot-scope="scope">
-							<img
-								src="../../assets/img/common/dui.png"
-								alt
-								style="width: 15px;height: 15px;"
-								v-show="scope.row.wuren"
-							/>
-						</template>
-					</el-table-column>
-				</el-table>
-				<!-- 底部 按钮 -->
-				<div class="modalFooterBtn">
-					<span @click="executeClick">执行任务</span>
-					<span @click="cancelClick">取消</span>
-				</div>
-			</div>
-		</Modal>
-		
+    </ocx-modal>
+
+    <!-- 巡检成票 -->
+    <ocx-modal
+      v-model="inspectionAticket"
+      :width="1600"
+      :mask-closable="false"
+      footer-hide
+      @on-cancel="closeInspectionTicket"
+    >
+      <div class="inspectionTicket">
+        <el-table
+          :data="inspectionAticketData"
+          max-height="600"
+          :span-method="objectSpanMethod"
+          :header-cell-style="{ background: '#161d38', color: '#3299ff' }"
+        >
+          <el-table-column prop="area" label="区域" align="center"></el-table-column>
+          <el-table-column prop="interval" label="子区域" align="center"></el-table-column>
+          <el-table-column prop="devTitle" label="设备" align="center"></el-table-column>
+          <el-table-column prop="dian" label="巡检点位" align="center"></el-table-column>
+          <el-table-column label="室外机器人" align="center" width="122">
+            <template slot-scope="scope">
+              <img
+                src="../../assets/img/common/dui.png"
+                alt
+                style="width: 15px;height: 15px;"
+                v-show="scope.row.outR"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column label="高清视频" align="center" width="120">
+            <template slot-scope="scope">
+              <img
+                src="../../assets/img/common/dui.png"
+                alt
+                style="width: 15px;height: 15px;"
+                v-show="scope.row.video"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column label="室内机器人" align="center" width="122">
+            <template slot-scope="scope">
+              <img
+                src="../../assets/img/common/dui.png"
+                alt
+                style="width: 15px;height: 15px;"
+                v-show="scope.row.doorR"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column label="智辅系统" align="center" width="120">
+            <template slot-scope="scope">
+              <img
+                src="../../assets/img/common/dui.png"
+                alt
+                style="width: 15px;height: 15px;"
+                v-show="scope.row.zhifu"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column label="无人机" align="center" width="120">
+            <template slot-scope="scope">
+              <img
+                src="../../assets/img/common/dui.png"
+                alt
+                style="width: 15px;height: 15px;"
+                v-show="scope.row.wuren"
+              />
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- 底部 按钮 -->
+        <div class="modalFooterBtn">
+          <input type="button" value="执行任务" class="btn" @click='executeTaskClick' />
+          <input type="button" value="取消" class="btn" @click='closeInspectionTicket' />
+        </div>
+      </div>
+    </ocx-modal>
   </div>
 </template>
 <script>
@@ -564,18 +522,28 @@ import cvideo from '@/components/native/video/OcxVideo'
 import { debuglog } from 'util'
 import monitorCurrent from '../common/monitor-current.vue'
 import moment from 'moment'
-const cityOptions = ['上海', '北京', '广州', '深圳','啊啊', '拜拜', '查重', '等等', '嗯嗯', '方法', '谷歌', '哈哈', '解决', '看看', '来了', '密码'];
 export default {
   name: 'monitor',
   props: {},
   data() {
     return {
-   
-     checkAll: false,
-        checkedCities: ['上海', '北京'],
-        cities: cityOptions,
-        isIndeterminate: true,
+      checkMeterTypeAll: false,//表计全选
+      checkRecognitionTypeAll: false,//识别类型全选
+      checkdeviceAreaListAll: false,//设备区域全选
+      checkedDeviceTypeAll: false,//设备类型全选
+      checkedAppearanceTypeAll: false,//设备外观类型全选
+      checkedMeterType: [],//默认选中表计类型
+      checkedRecognitionType: [],//默认选中识别类型
+      checkedDeviceAreaList: [],//默认选中设备区域
+      checkedDeviceType: [],//默认选中设备类型
+      checkedAppearanceType: [],//默认选中设备外观类型
 
+      isIndeterminate: true,
+      isMeterType: true,
+      isRecognitionType: true,
+      isdeviceAreaList: true,
+      isDeviceType: true,
+      isAppearanceType: true,
 
       axios: this.$_api.monitorData,
       // 任务相关
@@ -664,16 +632,31 @@ export default {
       stationId: '',
       // 视频tab头
       tabIdx: -1,
+      typeCode: '',
       tableList: [],
       tabFirstData: [],
+      inspectionType: [],
+      specInspSubType: [],//专项巡检子类型表
+      espInspSubType: [],//特殊巡检子类型表
+      deviceAreaList: [],//设备区域表
+      deviceType: [],//设备类型表
+      recognitionType: [],//识别类型表
+      meterType: [],//表计类型
+      appearanceType: [],//设备外观类型
+
       //巡检类型
       form: {
-        inspection: '1'
+        inspection: '70100001'
       },
-      //子类型
-      subTypeForm: {
-        subtype: '1'
+      //专项巡检子类型
+      specSubTypeForm: {
+        subType: '1'
       },
+      //特殊巡检子类型
+      espSubTypeForm: {
+        subType: '1'
+      },
+
       video1: {
         deviceInfo: '',
         isAutoPlay: true,
@@ -756,15 +739,14 @@ export default {
       temperature: '', //温度
       humidity: '', //湿度
       windSpeed: '', //风速
-      selectDeviceFlag: false,//选择设备弹框开关
-			inspectionAticket: false, //巡检成票弹框开关
-			inspectionAticketData: [
-				{area: '某区域',interval: '某间隔',devTitle: '1号主变A避雷器',dian: '1',outR: true,video: false,doorR: false,zhifu: false,wuren: false},
-				{area: '某区域',interval: '某间隔',devTitle: '1号主变A避雷器',dian: '2',outR: true,video: false,doorR: false,zhifu: false,wuren: false},
-				{area: '某区域',interval: '某间隔',devTitle: '1号主变A避雷器',dian: '3',outR: true,video: false,doorR: false,zhifu: false,wuren: false},
-				
-			] //巡检成票表格数据
-		
+      selectDeviceFlag: false,//选择设备弹框开关 
+      inspectionAticket: false, //巡检成票弹框开关
+      inspectionAticketData: [//巡检成票表格数据
+        { area: '某区域', interval: '某间隔', devTitle: '1号主变A避雷器', dian: '1', outR: true, video: false, doorR: false, zhifu: false, wuren: false },
+        { area: '某区域', interval: '某间隔', devTitle: '1号主变A避雷器', dian: '2', outR: true, video: false, doorR: false, zhifu: false, wuren: false },
+        { area: '某区域', interval: '某间隔', devTitle: '1号主变A避雷器', dian: '3', outR: true, video: false, doorR: false, zhifu: false, wuren: false },
+      ]
+
     }
   },
   computed: {},
@@ -786,6 +768,7 @@ export default {
     this.findAsAreaData()
     this.getNuitTreeData()
     this.getStationInfo()
+    this.getDeviceType()
   },
   mounted() {
     //console.log(this.$route.params.stationId) //变电站id
@@ -819,20 +802,136 @@ export default {
   update() { },
   beforeDestory() { },
   methods: {
-    handleDeviceSelected(){
+    //选择巡检类型
+    handleSelectInspType(val){
+      this.typeCode = val
+      this.getDeviceType()
+    },
+    getDeviceType() {
+      var ctx = this
+      ctx.axios.getInspectionType({
+        typeCode: ctx.typeCode,
+        // unitId: ctx.stationId
+        unitId: '192fe4cec3ec4d3fb81c0d05f82bde41'
+      }).then((res) => {
+        console.log(res.data, 'res');
+        var data = res.data;
+        if (res.code == 200) {
+          ctx.inspectionType = data.asType1List
+          ctx.espInspSubType = data.asType1List3
+          ctx.specInspSubType = data.asType1List2
+          ctx.deviceAreaList = data.asDevAreaList
+          ctx.meterType = data.asMeterType1List
+          ctx.recognitionType = data.asDiscernTypeList
+          ctx.deviceType = data.asDevTypeList
+          ctx.appearanceType = data.asOutwardList
+          ctx.deviceAreaList.map(item => {
+            if(item.vcFlag){
+              ctx.checkedDeviceAreaList.push(item)
+            }
+          })
+          ctx.deviceType.map(item => {
+            if(item.vcFlag){
+              ctx.checkedDeviceType.push(item)
+            }
+          })
+          ctx.recognitionType.map(item => {
+            if(item.vcFlag){
+              ctx.checkedRecognitionType.push(item)
+            }
+          })
+          ctx.meterType.map(item => {
+            if(item.vcFlag){
+              ctx.checkedMeterType.push(item)
+            }
+          })
+          ctx.appearanceType.map(item => {
+            if(item.vcFlag){
+              ctx.checkedAppearanceType.push(item)
+            }
+          })
+        }
+
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
+    //点击取消按钮关闭选择设备区域弹框
+    cancel() {
+      this.selectDeviceFlag = false
+    },
+    
+	//点击巡检成票按钮
+		inspectionAticketClick() {
+			this.selectDeviceFlag = false
+			this.inspectionAticket = true
+		},
+
+    //点击请选择巡检区域
+    handleDeviceSelected() {
       this.selectDeviceFlag = true
     },
-     handleCheckAllChange(val) {
-       console.log(val,'all')
-        this.checkedCities = val ? cityOptions : [];
-        this.isIndeterminate = false;
-      },
-      handleCheckedCitiesChange(value) {
-        console.log(value,'group')
-        let checkedCount = value.length;
-        this.checkAll = checkedCount === this.cities.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
-      },
+  
+    //全选表计类型
+    handleCheckAllMeterTypeChange(val) {
+      this.checkedMeterType = val ? this.meterType : []
+      this.isMeterType = false;
+    },
+    //全选识别类型
+    handleCheckAllRecognitionTypeChange(val) {
+      this.checkedRecognitionType = val ? this.recognitionType : []
+      this.isRecognitionType = false
+    },
+    //全选设备区域
+    handleCheckAllDeviceAreaListChange(val) {
+      this.checkedDeviceAreaList = val ? this.deviceAreaList : []
+      this.isdeviceAreaList = false;
+    },
+    //全选设备类型
+    handleCheckDeviceTypeAllChange(val){
+       this.checkedDeviceType = val ? this.deviceType : []
+        this.isDeviceType = false;
+    },
+    //全选设备外观类型
+    handleCheckAppearanceTypeAllChange(val){
+      this.checkedAppearanceType = val ? this.appearanceType : []
+      this.isAppearanceType = false;
+    },
+    //选择设备外观类型
+    handleCheckedAppearanceTypeChange(value){
+      console.log(value,'设备外观类型')
+      let checkedCount = value.length;
+      this.checkedAppearanceTypeAll = checkedCount === this.appearanceType.length;
+      this.isAppearanceType = checkedCount > 0 && checkedCount < this.appearanceType.length;
+    },
+    //选择设备类型
+    handleCheckedDeviceTypeChange(value) {
+      console.log(value,'设备类型')
+      let checkedCount = value.length;
+      this.checkedDeviceTypeAll = checkedCount === this.deviceType.length;
+      this.isDeviceType = checkedCount > 0 && checkedCount < this.deviceType.length;
+    },
+    //选择设备区域
+    handleCheckedDeviceAreaListChange(value) {
+      console.log(value, '区域')
+      let checkedCount = value.length;
+      this.checkdeviceAreaListAll = checkedCount === this.deviceAreaList.length;
+      this.isdeviceAreaList = checkedCount > 0 && checkedCount < this.deviceAreaList.length;
+    },
+    //选择表计类型
+    handleCheckedMeterTypeChange(value) {
+      console.log(value, '表计')
+      let checkedCount = value.length;
+      this.checkMeterTypeAll = checkedCount === this.meterType.length;
+      this.isMeterType = checkedCount > 0 && checkedCount < this.meterType.length;
+    },
+    //选择识别类型
+    handleCheckedRecognitionTypeChange(value) {
+      console.log(value, '识别')
+      let checkedCount = value.length;
+      this.checkRecognitionTypeAll = checkedCount === this.recognitionType.length;
+      this.isRecognitionType = checkedCount > 0 && checkedCount < this.recognitionType.length;
+    },
     _forEach: function (data, isTrue, callback) {
       var arr = []
       for (var i = 0; i < data.length; i++) {
@@ -881,61 +980,53 @@ export default {
         }
       })
     },
-		//合并单元格的方法
-		objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-			if (columnIndex === 0) {
-				const _row = this.desData('area', this.inspectionAticketData)[rowIndex]
-				const _col = _row > 0 ? 1 : 0
-				return {
-					rowspan: _row,
-					colspan: _col
-				}
-			}
-			if (columnIndex === 1) {
-				const _row = this.desData('interval', this.inspectionAticketData)[rowIndex]
-				const _col = _row > 0 ? 1 : 0
-				return {
-					rowspan: _row,
-					colspan: _col
-				}
-			}
-			if (columnIndex == 2) {
-				const _row = this.desData('devTitle', this.inspectionAticketData)[rowIndex]
-				const _col = _row > 0 ? 1 : 0
-				return {
-					rowspan: _row,
-					colspan: _col
-				}
-			}
-		},
-		// 核心处理 数据方法
-		desData(key, data) {	
-			let contactDot = 0
-			let spanArr = []
-			data.forEach((item, index) => {
-				item.index = index
-				if (index === 0) {
-					spanArr.push(1)
-				} else {
-					if (item[key] === data[index - 1][key]) {
-						spanArr[contactDot] += 1
-						spanArr.push(0)
-					} else {
-						spanArr.push(1)
-						contactDot = index
-					}
-				}
-			})
-			return spanArr;
-		},
-		//点击 执行任务按钮
-		executeClick() {
-			
-		},
-		//点击 取消 按钮
-		cancelClick() {
-			
-		},
+    //合并单元格的方法
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 0) {
+        const _row = this.desData('area', this.inspectionAticketData)[rowIndex]
+        const _col = _row > 0 ? 1 : 0
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
+      if (columnIndex === 1) {
+        const _row = this.desData('interval', this.inspectionAticketData)[rowIndex]
+        const _col = _row > 0 ? 1 : 0
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
+      if (columnIndex == 2) {
+        const _row = this.desData('devTitle', this.inspectionAticketData)[rowIndex]
+        const _col = _row > 0 ? 1 : 0
+        return {
+          rowspan: _row,
+          colspan: _col
+        }
+      }
+    },
+    // 核心处理 数据方法
+    desData(key, data) {
+      let contactDot = 0
+      let spanArr = []
+      data.forEach((item, index) => {
+        item.index = index
+        if (index === 0) {
+          spanArr.push(1)
+        } else {
+          if (item[key] === data[index - 1][key]) {
+            spanArr[contactDot] += 1
+            spanArr.push(0)
+          } else {
+            spanArr.push(1)
+            contactDot = index
+          }
+        }
+      })
+      return spanArr;
+    },
     handleReachBottom() {
       return new Promise(resolve => {
         setTimeout(() => {
@@ -984,6 +1075,7 @@ export default {
           console.log(error)
         })
     },
+
     //  选择tab页签加载视频
     selectTab(item, idx) {
       this.tabIdx = idx
@@ -1007,6 +1099,14 @@ export default {
           console.log(error)
         })
     },
+    //点击 执行任务 按钮
+		executeTaskClick() {
+			console.log( '666' )
+		},
+		//关闭巡检任务单弹框
+		closeInspectionTicket() {
+			this.inspectionAticket = false
+		},
     //tabs切换
     handelTabCkick(name) {
       console.log(name)
@@ -1598,51 +1698,52 @@ export default {
   }
 }
 
-.inspectionTicket{
-	height: 700px;
-	padding-top: 20px;
-	background: url('~@/assets/img/common/bg-border.png') no-repeat;
-	background-size: 100% 100%;
-	overflow: hidden;
+.inspectionTicket {
+  height: 700px;
+  padding-top: 20px;
+  background: url('~@/assets/img/common/bg-border.png') no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
 
-	/deep/.el-table{
-		margin-left: 50px;
-		width: calc( 100% - 100px );
+  /deep/.el-table {
+    margin-left: 50px;
+    width: calc(100% - 100px);
+    border-collapse: collapse !important;
 
-		/deep/td, /deep/th.is-leaf {
-		  border: 1px solid #90d9ff !important;
-		  font-size: 20px;
-		  color: #fff;
-		}
+    /deep/td, /deep/th.is-leaf {
+      border: 1px solid #0098ff !important;
+      font-size: 20px;
+      color: #fff;
+    }
+  }
 
-	}
+  .modalFooterBtn {
+    // padding-left: 1200px;
+    // float: right;
+    // margin-right: 50px;
+    // margin-top: 20px;
+    position: absolute;
+    right: 50px;
+    bottom: 60px;
 
-	.modalFooterBtn{
-		//padding-left: 1200px;
-		// float: right;
-		// margin-right: 50px;
-		// margin-top: 20px;
-		position: absolute;
-		right: 50px;
-		bottom: 35px;
-		span{
-			width: 150px;
-			height: 50px;
-			background: url('../../../../assets/img/common/bg540.png') no-repeat center;
-			background-size: 100% 100%;
-			border-radius: 3px;
-			text-align: center;
-			margin: 0 20px 0 0;
-			color: #fff;
-			font-size: 20px;
-			padding: 10px 40px
-			cursor: pointer;
-		}
-		span:active{
-			color: #fff902;
-		}
-	}
+    .btn {
+      width: 130px;
+      height: 30px;
+      background: url('../../../../assets/img/common/bg540.png') no-repeat center;
+      background-size: 100% 100%;
+      border-radius: 3px;
+      text-align: center;
+      margin: 5px;
+      border: 0;
+      color: #fff;
+      font: 100 16px / 30px '';
+      cursor: pointer;
+    }
 
+    .btn:active {
+      color: #fff902;
+    }
+  }
 }
 
 .time-info {
@@ -1691,11 +1792,12 @@ export default {
       margin-left: 25px;
     }
 
-    /deep/.el-form-item__label, .el-radio{
+    /deep/.el-form-item__label, .el-radio {
       font: 100 16px / 60px '';
       color: #35a2ff;
     }
-    /deep/.el-radio__label{
+
+    /deep/.el-radio__label {
       font-size: 16px;
     }
 
@@ -1703,48 +1805,56 @@ export default {
       font-size: 16px;
     }
   }
-  .sub-type{
-     width: 1462px;
-     height: 40px;
-     background: #0c1b3b;
+
+  .sub-type {
+    width: 1462px;
+    height: 40px;
+    background: #0c1b3b;
     margin-left: 52px;
-    /deep/.el-form-item__label, .el-radio{
+
+    /deep/.el-form-item__label, .el-radio {
       font: 100 14px / 40px '';
       color: #35a2ff;
     }
-    /deep/.el-radio__label{
+
+    /deep/.el-radio__label {
       font-size: 14px;
     }
   }
-  .list-con{
-    overflow: hidden;
-    margin: 30px 0 ;
-    
-    .title{
+
+  .list-con {
+    overflow: auto;
+    margin: 30px 0;
+    height: 100px;
+
+    .title {
       float: left;
       width: 150px;
       height: 30px;
-      font: 100 18px/30px "";
-    color: #8fd8fe;
-    margin:20px 0 0 74px;
+      font: 100 18px / 30px '';
+      color: #8fd8fe;
+      margin: 20px 0 0 74px;
     }
-    .select{
+
+    .select {
       float: left;
       width: 1240px;
-       /deep/.el-checkbox{
-      float: left;
-      margin-top: 20px;
+
+      /deep/.el-checkbox {
+        float: left;
+        margin-top: 20px;
+      }
+
+      /deep/.el-checkbox-group {
+        float: left;
+        margin-left: 20px;
+        width: 1080px;
+      }
     }
-    /deep/.el-checkbox-group{
-      float: left;
-      margin-left: 20px;
-      width: 1080px;
-    }
-    }
-   
-    /deep/.el-checkbox__label{
-       font: 100 18px/30px "";
-        color: #8fd8fe;
+
+    /deep/.el-checkbox__label {
+      font: 100 18px / 30px '';
+      color: #8fd8fe;
     }
   }
 

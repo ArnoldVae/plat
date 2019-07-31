@@ -72,6 +72,15 @@ export default {
 			method: 'post',
 			data: params
 		})
+  },
+  
+  //获取巡检类型
+  getInspectionType(params) {
+		return axios.request({
+			url: 'astask/findAsTypeLists',
+			method: 'post',
+			data: params
+		})
 	},
 
 	//获取图元节点

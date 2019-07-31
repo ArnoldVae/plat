@@ -396,8 +396,6 @@
                     },
                     legend: {
                         data: this.categorName,
-                        // data:["131","132"],
-                        // orient: 'vertical',
                         top: 20,
                         right: 10,
                         textStyle: {
@@ -407,8 +405,6 @@
                     color: ["#47b2fe", "#5d6040"],
                     grid: [
                         {
-                            // top: 20,
-                            // height: 250,
                             containLabel: true
                         }
                     ],
@@ -428,6 +424,9 @@
                             textStyle: {
                                 fontSize: 16
                             }
+                        },
+                        areaStyle:{
+                            color:"#fff"
                         }
                     },
                     yAxis: {
@@ -467,13 +466,13 @@
                             data: obj.arr1,
                             type: 'line',
                             areaStyle: {
-                                color: '#47b2fe'
+                                color: '#eb6100'
                             },
                             itemStyle: {
-                                color: '#47b2fe'
+                                color: '#eb6100'
                             },
                             lineStyle: {
-                                color: '#47b2fe'
+                                color: 'red'
                             },
                             smooth: true,
                             markLine: {
@@ -491,13 +490,13 @@
                             data:obj.arr2,
                             type: 'line',
                             areaStyle: {
-                                color: '#5d6040'
+                                color: '#47b2fe'
                             },
                             itemStyle: {
-                                color: '#5d6040'
+                                color: '#47b2fe'
                             },
                             lineStyle: {
-                                color: '#5d6040'
+                                color: 'blue'
                             },
                             smooth: true,
                             markLine: {

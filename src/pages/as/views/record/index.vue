@@ -45,10 +45,10 @@
         :header-cell-style="tableHeaderColor"
         style="width: 100%"
       >
-        <el-table-column label="计划" align="center" width="250">
+        <el-table-column label="计划" align="center" width="270">
           <template slot-scope="scope">{{ scope.row.planName }}</template>
         </el-table-column>
-        <el-table-column label="任务" align="center" width="250">
+        <el-table-column label="任务" align="center" width="270">
           <template slot-scope="scope">{{ scope.row.taskName }}</template>
         </el-table-column>
         <el-table-column align="center" label="任务类型" width="140">
@@ -92,7 +92,7 @@
       <Page
         @on-change="handleChangePage"
         @on-page-size-change="handleChangeSize"
-        :total="100"
+        :total="total"
         :current=currentPage
         :page-size=pageSize
         show-sizer
@@ -158,7 +158,7 @@ export default {
       dateId: '', //时间
       pageSize: 10,//每页显示条数
       currentPage: 1,//当前页码
-      total: ''
+      total: 0
     }
   },
   computed: {},
@@ -215,6 +215,7 @@ export default {
               data[i].iStopTime = moment(data[i].iStopTime * 1000).format('YYYY-MM-DD hh:mm:ss')
             }
             this.inspectionRecordList = res.data.data.lists
+            this.total = res.data.data.page.totalNum;
             // console.log(this.inspectionRecordList, 'aa')
           }
         })

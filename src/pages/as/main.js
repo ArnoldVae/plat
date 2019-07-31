@@ -25,9 +25,13 @@ const Antd = [ A1, A2 ]*/
 import { statistics } from '@/components/singletons'
 Vue.use(statistics)
 
+// iviewDev 按需
+import { ocxModal, ocxMessage } from '@/components/iview-dev'
+const iviewDev = [ocxModal, ocxMessage]
+
 // 捆绑注册
 function* register(name) { Vue.use(name) }
-[ ...ElementUI,...ElementDev].forEach( component => register(component).next() )
+[ ...ElementUI,...ElementDev,...iviewDev].forEach( component => register(component).next() )
 
 // 全局引用map组件
 import BaiduMap from '../../components/native/gismap/index'

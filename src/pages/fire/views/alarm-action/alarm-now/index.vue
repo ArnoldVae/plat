@@ -92,14 +92,14 @@ export default {
 			videoConfig: [
 				{
 					isAutoPlay: true,
-					serviceInfo: '1$22.46.34.114$6800$admin$admin',
-					deviceInfo: '',
+                    serviceInfo: '1$172.26.1.18$6800$admin$admin',
+                    deviceInfo: '627c0f1e9e3011e9ac508cec4b8f5477',
 					hideTool: true
 				},
 				{
 					isAutoPlay: true,
-					serviceInfo: '1$22.46.34.114$6800$admin$admin',
-					deviceInfo: '',
+                    serviceInfo: '1$172.26.1.18$6800$admin$admin',
+                    deviceInfo: '62761a899e3011e9ac508cec4b8f5477',
 					hideTool: true
 				}
 			],

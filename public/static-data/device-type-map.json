@@ -206,5 +206,21 @@
                 "icon": "table"
             }
         ]
+    },
+    {
+        "typeId": 2030,
+        "name": "core-clamp",
+        "mode": [
+            {
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
+            }, 
+            {
+                "title": "表格",
+                "name": "table",
+                "icon": "table"
+            }
+        ]
     }
 ]

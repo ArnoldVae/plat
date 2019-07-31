@@ -84,12 +84,25 @@
 			}
 		},
 		computed: {
+			activeUnitId() {
+				return this.$store.getters.unitId
+			}
 		},
 		filters: {},
 		watch: {
 			filterText(val) {
 				this.$refs.elFilterTree.$refs['el-tree'].filter(val)
 			},
+			activeUnitId:{
+				handler(val){
+
+					this.current='sub-system'
+					this.tabList.forEach((item)=>{
+						item.active=false
+					})
+					this.tabList[0].active=true
+				},
+			}
 		},
 		created() {},
 		mounted() {

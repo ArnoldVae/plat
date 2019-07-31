@@ -237,18 +237,18 @@ export default {
 			left: 22px;
 
 			.icon {
-				// width: 40px;
-				// height: 40px;
-				// background: url('~@/assets/img/navigation/logo.png') no-repeat;
+				width: 40px;
+				height: 40px;
+				background: url('~@/assets/img/navigation/logo.png') no-repeat;
 				background-size: 40px 40px;
 			}
 
 			.info {
 				margin-left: 15px;
-				width: 240px;
+				width: 195px;
 				height: 85px;
-				background: url('/img/logo-wuxi.png') no-repeat;
-				background-size: 240px 85px;
+				background: url('/img/login-title.png') no-repeat;
+				background-size: 195px 85px;
 				/* color: #40a3e9; */
 
 				/* .chinese {

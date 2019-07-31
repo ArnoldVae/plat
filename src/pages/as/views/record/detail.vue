@@ -14,27 +14,32 @@
           <i class="count inspect"></i>
           <span class="txt">
             巡检点数:
-            <i class="count">{{viewPoints}}</i>
+            <!-- <i class="num">{{viewPoints}}</i> -->
+            <span>{{viewPoints}}</span>
           </span>
           <i class="count skip"></i>
           <span class="txt">
             跳过点数:
-            <i class="count">{{skipPoints}}</i>
+            <!-- <i class="count">{{skipPoints}}</i> -->
+             <span>{{skipPoints}}</span>
           </span>
           <i class="count fail"></i>
           <span class="txt">
             失败点数:
-            <i class="count">{{failPoints}}</i>
+            <!-- <i class="count">{{failPoints}}</i> -->
+              <span>{{failPoints}}</span>
           </span>
           <i class="count police"></i>
           <span class="txt">
             报警点数:
-            <i class="count">{{alarmPoints}}</i>
+            <!-- <i class="count">{{alarmPoints}}</i> -->
+            <span>{{alarmPoints}}</span>
           </span>
           <i class="count normal"></i>
           <span class="txt">
             正常点数:
-            <i class="count">{{normalPoints}}</i>
+            <!-- <i class="count">{{normalPoints}}</i> -->
+            <span>{{normalPoints}}</span>
           </span>
         </div>
         <!-- <div class="back" @click="goback">返回</div> -->
@@ -256,6 +261,7 @@ export default {
       top: 80px;
       display:flex;
       align-items:center;
+      justify-content:space-between;
       font-weight:bold;
 
       .txt {
@@ -265,8 +271,6 @@ export default {
 
       .info-left {
         float: left;
-        margin-left: 20px;
-       
       }
 
       .info-right {

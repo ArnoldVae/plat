@@ -146,6 +146,15 @@ export default [{
                 },
                 component: () =>
                     import ('@ac/views/securityControl')
+            },
+            {
+                path: 'core-clamp',
+                name: 'core-clamp',
+                meta: {
+                    title: '铁芯夹件'
+                },
+                component: () =>
+                    import ('@ac/views/core-clamp')
             }
         ]
     }

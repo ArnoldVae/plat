@@ -31,11 +31,15 @@ const ElementDev = [elFilterTree]
 import { ocxModal, ocxMessage } from '@/components/iview-dev'
 const iviewDev = [ocxModal, ocxMessage]
 
+// Business(常规业务组件库) 按需
+import { acHistoryModal } from '@/components/business'
+const Business = [acHistoryModal]
+
 // 捆绑注册
 function* register(name) {
 	Vue.use(name)
 }
-;[...ElementUI, ...Antd, ...Singletons, ...ElementDev, ...iviewDev].forEach(component => register(component).next())
+;[...ElementUI, ...Antd, ...Singletons, ...ElementDev, ...iviewDev, ...Business].forEach(component => register(component).next())
 
 // 挂载api
 import api from '@ac/api'

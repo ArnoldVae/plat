@@ -1,20 +1,22 @@
 <template>
-	<div class="monitor-current">
-		<div class="current-top">
-			<span v-for="(item, index) in list" :key="index" :class="{ onBut: pitchOn == item.pageId }">{{
+  <div class="monitor-current">
+    <div class="current-top">
+      <span v-for="(item, index) in list"
+            :key="index"
+            v-show="item.vcUrl.length != 0"
+            :class="{ onBut: pitchOn == item.pageId }"
+            @click="but(item)">{{
 				item.vcName
-			}}</span
-			><!-- @click="but(item)" -->
-		</div>
-		<div class="current-center">
-			<mcBlueprint
-				:blueprintUrl="blueprintUrl"
-				:blueprintObj="blueprintObj"
-				:primitiveNodes="primitiveNodes"
-				:unitId="unitId"
-			/>
-		</div>
-	</div>
+			}}</span><!-- @click="but(item)" -->
+    </div>
+    <div class="current-center">
+      <mcBlueprint :blueprintUrl="blueprintUrl"
+                   :blueprintObj="blueprintObj"
+                   :primitiveNodes="primitiveNodes"
+                   :unitId="unitId"
+                   :mqttData="mqttData" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -36,7 +38,10 @@ export default {
 			blueprintObj: {},
 			primitiveNodes: [], //图元节点数组
 			list: [],
-			pitchOn: ''
+			pitchOn: '',
+			topicArr: ['qif/xj/app/'],
+			topicStr: '',
+			mqttData: {}
 		}
 	},
 	computed: {},
@@ -45,13 +50,76 @@ export default {
 	created() {
 		this.getData()
 	},
-	mounted() {},
+	mounted() {
+		this.topicStr = this.topicArr[0] + this.unitId
+		this.subscribe(this.topicStr)
+		//实时数据回调
+		const _this = this
+
+		this.$_listen('inspectionhtmap', (topic, message, packet) => {
+			let data = ''
+			let dataobj = []
+			dataobj = message
+			dataobj.forEach(item => {
+				//将推送的报文转码
+				data = data + String.fromCharCode(item)
+			})
+			data = JSON.parse(data)
+			
+		// 	//如果推送上来的数据的topic和订阅的topic一致qif/zf/app/192fe4cec3ec4d3fb81c0d05f82bde41
+			if (data.cmd == 2103 || data.cmd == 2104) {
+				console.log(data)
+				_this.mqttData = data
+			}
+		})
+	},
 	activited() {},
 	update() {},
 	beforeDestory() {},
 	methods: {
+		subscribe(topicArr) {
+			// this.$_mqtt.connected
+			if (true) {
+				this.$_mqtt.unsubscribe('qif/xj/app/data/57fdad1317b04c5e87374c6567521114', err => {
+					if (err) {
+						console.log('取消MQTT订阅失败')
+					} else {
+						console.log('取消MQTT订阅成功')
+						this.$_mqtt.subscribe('qif/xj/app/data/57fdad1317b04c5e87374c6567521114', err => {
+							if (err) {
+								console.log('订阅失败!')
+							} else {
+								console.log('订阅成功!')
+							}
+						})
+					}
+				})
+			} else {
+				console.log('MQTT连接失败')
+			}
+		},
+		stop() {
+			// this.$_mqtt.end()
+			this.$_mqtt.unsubscribe(this.testTopicArr, err => {
+				if (err) {
+					console.log('取消MQTT订阅失败')
+				} else {
+					console.log('取消MQTT订阅成功')
+				}
+			})
+		},
+
+		//图纸切换
+		but(val) {
+			if (val.vcUrl != this.blueprintUrl) {
+				this.blueprintUrl = val.vcUrl
+				this.blueprintObj = val
+				this.pitchOn = val.pageId
+			}
+		},
 		//获取图纸信息
 		getData() {
+			console.log(this.unitId)
 			let params = {
 				unitId: this.unitId,
 				iSubType: '10100006'
@@ -59,12 +127,15 @@ export default {
 			this.axios.getMCDrawing(params).then(res => {
 				if (res.code == 200) {
 					this.list = res.data
-					console.log(res)
 					if (res.data.length) {
-						console.log(res)
-						this.blueprintObj = res.data[0]
-						this.blueprintUrl = res.data[0].vcUrl
-						this.pitchOn = res.data[0].pageId
+						res.data.map(item => {
+							if (item.vcUrl.length) {
+								this.blueprintObj = item
+								this.blueprintUrl = item.vcUrl
+								this.pitchOn = item.pageId
+								return
+							}
+						})
 					}
 				}
 			})
@@ -91,35 +162,35 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.monitor-current{
-	width: 100%;
-	height: 100%;
+.monitor-current {
+  width: 100%;
+  height: 100%;
 
-	.current-top{
-		height: 34px;
+  .current-top {
+    height: 34px;
 
-		.onBut{
-			color: #ffe06d;
-		}
+    .onBut {
+      color: #ffe06d;
+    }
 
-		>span{
-			color: #8fd8fe;
-			display: inline-block;
-			margin-left: 11px;
-			text-align: center;
-			font-size: 14px;
-			height: 28px;
-			line-height: 28px;
-			padding: 0 5px;
-			border: 1px solid #0173bb;
-			border-radius: 3px;
-			cursor: pointer;
-		}
-	}
+    >span {
+      color: #8fd8fe;
+      display: inline-block;
+      margin-left: 11px;
+      text-align: center;
+      font-size: 14px;
+      height: 28px;
+      line-height: 28px;
+      padding: 0 5px;
+      border: 1px solid #0173bb;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  }
 
-	.current-center{
-		width: 100%;
-		height: 465px;
-	}
+  .current-center {
+    width: 100%;
+    height: 465px;
+  }
 }
 </style>

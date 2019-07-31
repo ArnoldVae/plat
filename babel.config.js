@@ -18,6 +18,15 @@ module.exports = {
 		[
 			'component',
 			{
+				libraryName: '@/components/business',
+				libDir: './',
+				style: false
+			},
+			'@/components/business'
+		],
+		[
+			'component',
+			{
 				libraryName: '@/components/singletons',
 				libDir: './',
 				style: false
