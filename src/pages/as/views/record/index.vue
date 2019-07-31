@@ -396,6 +396,10 @@ label {
   height: 34px;
 }
 
+/deep/ .el-table{
+  font-size:16px;
+}
+
 /deep/.el-table::before {
   left: 0;
   bottom: 0;

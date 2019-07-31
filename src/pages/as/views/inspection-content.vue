@@ -12,7 +12,8 @@
           >{{item.name}}</li>
         </ul>
       </div>
-      <span class="back" @click="goback()"><Icon type="arrow-left-a" :size="10" color="#90d9ff"></Icon>返回</span>
+      <!-- <span class="back" @click="goback()"><Icon type="arrow-left-a" :size="10" color="#90d9ff"></Icon>返回</span> -->
+      <el-button class="back" type="primary" @click="goback">返回</el-button>
     </div>
     <component :is="currentView" class="component-view"></component>
   </div>
@@ -119,15 +120,17 @@ export default {
     height: 40px;
     width: 100%;
     .back{
-      display inline-block;
-      height: 40px;
-      width: 40px;
-      text-align: center;
-      line-height: 40px;
-      cursor: pointer;
-      color: #90d9ff;
-      margin-left: 10px;
-      font-size: 16px;
+      // display inline-block;
+      // height: 40px;
+      // width: 40px;
+      // text-align: center;
+      // line-height: 40px;
+      // cursor: pointer;
+      // color: #90d9ff;
+      // margin-left: 10px;
+      // font-size: 16px;
+       background: url('~@/assets/img/common/bg17.png') no-repeat;
+      background-size: 100% 100%;
     }
     .header-lf {
       float: left;

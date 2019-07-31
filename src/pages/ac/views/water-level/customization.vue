@@ -61,9 +61,11 @@ export default {
 			pageSize: 20,
 			videoConfig: {
 				isAutoPlay: true,
-				serviceInfo: '1$172.26.1.128$6800$admin$admin',
+				// serviceInfo: '1$172.26.1.128$6800$admin$admin',
 				// deviceInfo: '2|172.26.1.28:37777|admin:admin123|2',
-				deviceInfo: '2|172.26.1.28:37777|admin:admin123|0',
+				// deviceInfo: '2|172.26.1.28:37777|admin:admin123|0',
+				serviceInfo: '1$153.3.56.162$6800$admin$admin',
+				deviceInfo: '64bae7e19e3011e9ac508cec4b8f5477',
 				hideTool: true
 			},
 			echarts: null,
@@ -199,7 +201,7 @@ export default {
 			})
 			firstUrl = videoLinkArr[firstUrlIndex]
 
-			this.$set(this.videoConfig, 'deviceInfo', firstUrl)
+			// this.$set(this.videoConfig, 'deviceInfo', firstUrl)
 
 			// if ((row.linkDevInfo.length >) 0 && (row.linkDevInfo[0] != '')) {
 			// 	currentLink = row.linkDevInfo[0]

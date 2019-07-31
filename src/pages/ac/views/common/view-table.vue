@@ -36,7 +36,7 @@
 				<el-table-column label="状态/值" align="center">
 					<template slot-scope="scope">
 						<!-- <span style="margin-left: 10px">{{ vc_ValueDesc | getLabel(scope.row.f_Value) }}/{{ scope.row.f_Value }}</span> -->
-						<span style="margin-left: 10px">{{ scope.row.f_Value }}</span>
+						<span style="margin-left: 10px">{{ scope.row.desc }}</span>
 						<!-- <el-popover trigger="hover" placement="top">
 							<p>姓名: {{ scope.row.name }}</p>
 							<p>住址: {{ scope.row.address }}</p>

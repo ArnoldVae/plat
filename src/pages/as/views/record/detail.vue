@@ -1,5 +1,7 @@
 <template>
   <div class="detail">
+    <!-- <div class="back" @click="goback">返回</div> -->
+   
     <div class="detail-content">
       <!-- <div class="look-detail">查看任务详情</div> -->
       <div class="info">
@@ -35,7 +37,7 @@
             <i class="count">{{normalPoints}}</i>
           </span>
         </div>
-        <div class="back" @click="goback">返回</div>
+        <!-- <div class="back" @click="goback">返回</div> -->
       </div>
       <div class="time">
         <!-- <div class="plan-time">
@@ -84,6 +86,7 @@
       </div>
     </div>
     <statistics></statistics>
+     <el-button type="primary" class="back" @click="goback">返回</el-button>
   </div>
 </template>
 <script>
@@ -213,6 +216,18 @@ export default {
   height: 1080px;
   background: url('~@/assets/img/navigation/background.png') no-repeat;
   background-size: 100% 1080px;
+  position:relative;
+
+   .back {
+        color: #90d9ff;
+        cursor: pointer;
+        position:absolute;
+        top:20px;
+        right:100px;
+        border:1px solid #0173bb;
+        background: url('~@/assets/img/common/bg17.png') no-repeat;
+        background-size: 100% 100%;
+      }
 
   .detail-content {
     height: 78%;
@@ -231,14 +246,17 @@ export default {
     }
 
     .info {
-      height: 30px;
-      width: 70%;
-      margin-left: 372px;
+      height: 50px;
+      width: 80%;
+      margin-left: 300px;
       border: 1px solid #3bacf3;
-      font: 100 10px / 30px '';
+      font: 100 18px / 30px '';
       box-shadow: 2px 1px 3px #3e9589;
       position: relative;
       top: 80px;
+      display:flex;
+      align-items:center;
+      font-weight:bold;
 
       .txt {
         color: #90d9ff;
@@ -248,6 +266,7 @@ export default {
       .info-left {
         float: left;
         margin-left: 20px;
+       
       }
 
       .info-right {
@@ -284,14 +303,6 @@ export default {
         .txt {
           margin: 0 5px;
         }
-      }
-
-      .back {
-        float: right;
-        margin-right: -610px;
-        font: 100 16px / 30px '';
-        color: #90d9ff;
-        cursor: pointer;
       }
     }
 

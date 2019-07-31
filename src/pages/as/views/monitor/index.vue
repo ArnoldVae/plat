@@ -483,6 +483,80 @@
         </div>
       </div>
     </Modal>
+		
+		<!-- 巡检成票 -->
+		<Modal v-model="inspectionAticket" :width="1600" :mask-closable="false" footer-hide>
+			<div class="inspectionTicket">
+				<el-table
+					:data="inspectionAticketData"
+					max-height="600"
+					:span-method="objectSpanMethod"   
+					border
+					:header-cell-style="{ background: '', color: '#90d9ff' }"
+				>
+					<el-table-column prop="area" label="区域" align="center"></el-table-column>
+					<el-table-column prop="interval" label="子区域" align="center"></el-table-column>
+					<el-table-column prop="devTitle" label="设备" align="center"></el-table-column>
+					<el-table-column prop="dian" label="巡检点位" align="center"></el-table-column>
+					<el-table-column label="室外机器人" align="center" width="122">
+						<template slot-scope="scope">
+							<img
+								src="../../assets/img/common/dui.png"
+								alt
+								style="width: 15px;height: 15px;"
+								v-show="scope.row.outR"
+							/>
+						</template>
+					</el-table-column>
+					<el-table-column label="高清视频" align="center" width="120">
+						<template slot-scope="scope">
+							<img
+								src="../../assets/img/common/dui.png"
+								alt
+								style="width: 15px;height: 15px;"
+								v-show="scope.row.video"
+							/>
+						</template>
+					</el-table-column>
+					<el-table-column label="室内机器人" align="center" width="122">
+						<template slot-scope="scope">
+							<img
+								src="../../assets/img/common/dui.png"
+								alt
+								style="width: 15px;height: 15px;"
+								v-show="scope.row.doorR"
+							/>
+						</template>
+					</el-table-column>
+					<el-table-column label="智辅系统" align="center" width="120">
+						<template slot-scope="scope">
+							<img
+								src="../../assets/img/common/dui.png"
+								alt
+								style="width: 15px;height: 15px;"
+								v-show="scope.row.zhifu"
+							/>
+						</template>
+					</el-table-column>
+					<el-table-column label="无人机" align="center" width="120">
+						<template slot-scope="scope">
+							<img
+								src="../../assets/img/common/dui.png"
+								alt
+								style="width: 15px;height: 15px;"
+								v-show="scope.row.wuren"
+							/>
+						</template>
+					</el-table-column>
+				</el-table>
+				<!-- 底部 按钮 -->
+				<div class="modalFooterBtn">
+					<span @click="executeClick">执行任务</span>
+					<span @click="cancelClick">取消</span>
+				</div>
+			</div>
+		</Modal>
+		
   </div>
 </template>
 <script>
@@ -683,6 +757,14 @@ export default {
       humidity: '', //湿度
       windSpeed: '', //风速
       selectDeviceFlag: false,//选择设备弹框开关
+			inspectionAticket: false, //巡检成票弹框开关
+			inspectionAticketData: [
+				{area: '某区域',interval: '某间隔',devTitle: '1号主变A避雷器',dian: '1',outR: true,video: false,doorR: false,zhifu: false,wuren: false},
+				{area: '某区域',interval: '某间隔',devTitle: '1号主变A避雷器',dian: '2',outR: true,video: false,doorR: false,zhifu: false,wuren: false},
+				{area: '某区域',interval: '某间隔',devTitle: '1号主变A避雷器',dian: '3',outR: true,video: false,doorR: false,zhifu: false,wuren: false},
+				
+			] //巡检成票表格数据
+		
     }
   },
   computed: {},
@@ -799,6 +881,61 @@ export default {
         }
       })
     },
+		//合并单元格的方法
+		objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+			if (columnIndex === 0) {
+				const _row = this.desData('area', this.inspectionAticketData)[rowIndex]
+				const _col = _row > 0 ? 1 : 0
+				return {
+					rowspan: _row,
+					colspan: _col
+				}
+			}
+			if (columnIndex === 1) {
+				const _row = this.desData('interval', this.inspectionAticketData)[rowIndex]
+				const _col = _row > 0 ? 1 : 0
+				return {
+					rowspan: _row,
+					colspan: _col
+				}
+			}
+			if (columnIndex == 2) {
+				const _row = this.desData('devTitle', this.inspectionAticketData)[rowIndex]
+				const _col = _row > 0 ? 1 : 0
+				return {
+					rowspan: _row,
+					colspan: _col
+				}
+			}
+		},
+		// 核心处理 数据方法
+		desData(key, data) {	
+			let contactDot = 0
+			let spanArr = []
+			data.forEach((item, index) => {
+				item.index = index
+				if (index === 0) {
+					spanArr.push(1)
+				} else {
+					if (item[key] === data[index - 1][key]) {
+						spanArr[contactDot] += 1
+						spanArr.push(0)
+					} else {
+						spanArr.push(1)
+						contactDot = index
+					}
+				}
+			})
+			return spanArr;
+		},
+		//点击 执行任务按钮
+		executeClick() {
+			
+		},
+		//点击 取消 按钮
+		cancelClick() {
+			
+		},
     handleReachBottom() {
       return new Promise(resolve => {
         setTimeout(() => {
@@ -1459,6 +1596,53 @@ export default {
       }
     }
   }
+}
+
+.inspectionTicket{
+	height: 700px;
+	padding-top: 20px;
+	background: url('~@/assets/img/common/bg-border.png') no-repeat;
+	background-size: 100% 100%;
+	overflow: hidden;
+
+	/deep/.el-table{
+		margin-left: 50px;
+		width: calc( 100% - 100px );
+
+		/deep/td, /deep/th.is-leaf {
+		  border: 1px solid #90d9ff !important;
+		  font-size: 20px;
+		  color: #fff;
+		}
+
+	}
+
+	.modalFooterBtn{
+		//padding-left: 1200px;
+		// float: right;
+		// margin-right: 50px;
+		// margin-top: 20px;
+		position: absolute;
+		right: 50px;
+		bottom: 35px;
+		span{
+			width: 150px;
+			height: 50px;
+			background: url('../../../../assets/img/common/bg540.png') no-repeat center;
+			background-size: 100% 100%;
+			border-radius: 3px;
+			text-align: center;
+			margin: 0 20px 0 0;
+			color: #fff;
+			font-size: 20px;
+			padding: 10px 40px
+			cursor: pointer;
+		}
+		span:active{
+			color: #fff902;
+		}
+	}
+
 }
 
 .time-info {
