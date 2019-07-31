@@ -1,0 +1,46 @@
+{
+  "paraData":[
+    {
+      "id":"test0",
+      "title":"站点",
+      "describe":"站点统计",
+      "color1 ":"color-yellow",
+      "detail ":[
+        {"value":68, "name ":"在线","class":"color-yellow shape-icon"},
+        {"value":2, "name ":"离线","class":"color-blue shape-icon"}
+      ],
+          "color":["#37a8f2","#ffdf6f"]
+    },
+    {
+      "id":"test1",
+      "title":"警情",
+      "describe":"警情统计",
+      "detail":[
+        {"value":78, "name":"预警", "class":"color-blue shape-icon"},
+        {"value":22, "name":"报警","class":"color-red shape-icon"}
+      ],
+      "color":["#37a8f2","#cf1322"]
+    },
+    {
+      "id":"test2",
+      "title":"设备",
+      "describe":"设备统计",
+      "detail":[
+        {"value":58, "name":"正常", "class":"color-blue shape-icon"},
+        {"value":49," name":"故障", "class":"color-dark-yellow shape-icon"}
+      ],
+      "color":["#37a8f2","#cf1322"]
+    },
+    {
+      "id":"test3",
+      "title":"缺陷",
+      "describe":"缺陷统计",
+      "detail":[
+        {"value":68, "name":"一类", "class":"color-red shape-icon"},
+        {"value":30," name":"二类", "class":"color-dark-yellow shape-icon"},
+        {"value":90, "name":"三类","class":"color-yellow shape-icon"}
+      ],
+      "color":["#37a8f2","#cf1322"]
+    }
+  ]
+}
