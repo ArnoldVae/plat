@@ -300,7 +300,6 @@
                 }
             },
             node(val) {
-                console.log(val);
                 this.node = val
             }
         },
@@ -323,6 +322,10 @@
         beforeDestory() {
         },
         methods: {
+            /**
+             *获取报警信息列表 列表初始化调用
+             *
+             */
             getAlarmList() {
                 this.$_api.alarmAction
                     .getAlarmList({
@@ -340,6 +343,10 @@
                         }
                     })
             },
+            /**
+             * 点击显示报警信息显示详情渲染视图
+             * param：item为当前勾选对象
+             */
             async showItemDetail(item) {
                 this.unitTitle = this.alarmTitle = item.unitName
                 let result = await this.$_api.alarmAction.getAlarmData({

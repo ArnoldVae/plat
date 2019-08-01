@@ -66,9 +66,12 @@ const Singletons = [sideMenu, horMenu, crumbs, statistics]
 //树
 import { elFilterTree } from '@/components/element-dev'
 const ElementDev = [elFilterTree]
+//弹出框
+import {ocxModal,ocxMessage} from "@/components/iview-dev"
+const iviewDev=[ocxModal,ocxMessage]
 // 捆绑注册
 function* register(name) { Vue.use(name) }
-[ ...ElementUI,...Singletons, ...ElementDev].forEach( component => register(component).next() )
+[ ...ElementUI,...Singletons, ...ElementDev,...iviewDev].forEach( component => register(component).next() )
 
 // 挂载api
 import api from '@fire/api'
