@@ -1,16 +1,16 @@
 <template>
 	<div class="ac-history-modal">
-		<!-- 历史曲线 -->
 		<ocx-modal
 			:styles="{ top: '0px' }"
 			title="历史记录"
 			:mask="false"
 			@on-cancel="handleCloseHistoryModal"
-			class="historyModal"
-			v-model="historyModal"
+			class="historyModal-wrap"
+			:value="value"
 			scrollable
+			v-bind="$attrs"
+			v-on="$listeners"
 		>
-			<!-- <div class="slot:header"></div> -->
 			<div class="history-body">
 				<div class="selectionTime">
 					<Form
@@ -33,7 +33,6 @@
 						</FormItem>
 					</Form>
 				</div>
-				<!-- <div class="name">设备-节点</div> -->
 				<div class="chart" ref="view-table-chart"></div>
 			</div>
 			<div slot="footer"></div>
@@ -41,6 +40,8 @@
 	</div>
 </template>
 <script>
+import { getDataType } from '@/libs/assist'
+import moment from 'moment'
 export default {
 	name: 'ac-history-modal',
 	components: {},
@@ -49,8 +50,17 @@ export default {
             type: Boolean,
             default: false
         },
-		title: {
-            type: String
+		subTitle: {
+            type: String,
+            default: ''
+        },
+        nodeId: {
+        	type: String,
+            default: ''
+        },
+        unit: {
+        	type: String,
+            default: ''
         }
 	},
 	data() {
@@ -66,7 +76,6 @@ export default {
 			})
 		}
 		return {
-			historyModal: false,
 			formValidate: {
 				date: ['2019-07-14', '2019-07-24']
 			},
@@ -84,7 +93,19 @@ export default {
 	},
 	computed: {},
 	filters: {},
-	watch: {},
+	watch: {
+		nodeId: {
+			handler(val) {
+				if (this.value) {
+					this.eNodeId = val
+					this.$nextTick(() => {
+						this.handleViewHistory()
+					})
+				}
+			},
+			immediate: true
+		},
+	},
 	created() {},
 	mounted() {},
 	activited() {},
@@ -106,12 +127,12 @@ export default {
 			this.nodeStateHistory = []
 			this.formatstr = ''
 		},
-		async handleViewHistory(row) {
-			// console.log(row)
-			this.historyModal = true
-			this.nodeTitle = `${row.devName}设备 ${row.nodeName}节点 状态分布`
+		async handleViewHistory() {
 
-			this.formatstr = row.vc_Unit
+			// console.log(row)
+			// this.nodeTitle = `${row.devName}设备 ${row.nodeName}节点 状态分布`
+
+			this.formatstr = this.unit
 
 			// this.axisLabelData = row.valueDesc.split('|')
 			// if (!!row.valueDesc && row.nodeName != '水位') {
@@ -120,17 +141,17 @@ export default {
 			// 	this.axisLabelData = []
 			// }
 
-			this.eNodeId = row.NodeID
+			this.eNodeId = this.nodeId
 
 			// 设置默认时间 风速 风向 数据量过大 只取一小时
 			this.$set(this.formValidate.date, 0, new Date(Date.now() - 24 * 60 * 60 * 1000))
 			this.$set(this.formValidate.date, 1, new Date(Date.now()))
 			this.zStart = 0
-			if (row.nodeName == '风速' || row.nodeName == '风向' || row.nodeName == '风级') {
-				this.$set(this.formValidate.date, 0, new Date(Date.now() - 1 * 60 * 60 * 1000))
-				this.$set(this.formValidate.date, 1, new Date(Date.now()))
-				this.zStart = 99
-			}
+			// if (row.nodeName == '风速' || row.nodeName == '风向' || row.nodeName == '风级') {
+			// 	this.$set(this.formValidate.date, 0, new Date(Date.now() - 1 * 60 * 60 * 1000))
+			// 	this.$set(this.formValidate.date, 1, new Date(Date.now()))
+			// 	this.zStart = 99
+			// }
 
 			await this.getHistoryByNodeId()
 
@@ -167,7 +188,7 @@ export default {
 			let _this = this
 			let option = {
 				title: {
-					text: this.nodeTitle,
+					text: this.subTitle,
 					textStyle: {
 						color: '#fff'
 					}
@@ -309,6 +330,7 @@ export default {
 					}
 				]
 			}
+			
 			EchartsDom.setOption(option)
 		},
 	},
@@ -324,18 +346,16 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.ac-history-modal {
+.ac-history-modal{}
+.historyModal-wrap {
 	/deep/ .ivu-modal-wrap {
 
 		.ivu-modal {
 			width: 53.333rem !important;
 
 			.ivu-modal-content {
-				background: url('~@/assets/img/common/modal-bg.png') no-repeat;
-				background-size: 100% 100%;
 
 				.ivu-modal-header {
-					border-color: rgba(36, 108, 169, 0.48);
 					text-align: center;
 
 					.ivu-modal-header-inner {
@@ -432,34 +452,11 @@ export default {
 								border-color: #194c82;
 							}
 						}
-						
 					}
 				}
 
 				.ivu-modal-footer {
-					border-color: rgba(36, 108, 169, 0.48);
 					display: none;
-
-					.ivu-btn-text {
-						color: #8895ad;
-
-						&:hover {
-							color: #57a3f3;
-							background-color: #183e6f;
-							border-color: transparent;
-						}
-					}
-					.ivu-btn-primary {
-						background-color: transparent;
-						color:#73a6c3;
-						border-color: #0f3047;
-
-						&:hover {
-							color: #47b2fe;
-							// background-color: #47b2fe ;
-							border-color: #2d8cf0;
-						}
-					}
 				}
 			}
 		}

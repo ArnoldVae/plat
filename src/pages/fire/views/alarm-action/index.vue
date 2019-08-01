@@ -672,7 +672,6 @@
         .alarmList {
             width: 15%;
             height: 770px;
-            background-color: #09112e;
 
             .alarmNow-title {
                 width: 100%;

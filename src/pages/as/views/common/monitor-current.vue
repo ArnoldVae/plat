@@ -1,14 +1,14 @@
 <template>
   <div class="monitor-current">
-    <div class="current-top">
+    <!-- <div class="current-top">
       <span v-for="(item, index) in list"
             :key="index"
             v-show="item.vcUrl.length != 0"
             :class="{ onBut: pitchOn == item.pageId }"
             @click="but(item)">{{
 				item.vcName
-			}}</span><!-- @click="but(item)" -->
-    </div>
+			}}</span>
+    </div> -->
     <div class="current-center">
       <mcBlueprint :blueprintUrl="blueprintUrl"
                    :blueprintObj="blueprintObj"
@@ -190,7 +190,7 @@ export default {
 
   .current-center {
     width: 100%;
-    height: 465px;
+    height: 535px;
   }
 }
 </style>

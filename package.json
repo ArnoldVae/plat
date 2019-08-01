@@ -7,7 +7,7 @@
     "build": "vue-cli-service build index && vue-cli-service build ac && vue-cli-service build as && vue-cli-service build personnel && vue-cli-service build fire",
     "build-index": "vue-cli-service build index",
     "build-ac": "vue-cli-service build ac",
-    "build-as": "vue-cli-service build fire",
+    "build-as": "vue-cli-service build as",
     "build-personnel": "vue-cli-service build personnel",
     "build-fire": "vue-cli-service build fire",
     "lint": "vue-cli-service lint",

@@ -148,6 +148,33 @@ export default [{
                     import ('@ac/views/securityControl')
             },
             {
+                path: 'arrester-monitor',
+                name: 'arrester-monitor',
+                meta: {
+                    title: '避雷器在线监测'
+                },
+                component: () =>
+                    import ('@ac/views/arrester-monitor')
+            },
+            {
+                path: 'main-oil',
+                name: 'main-oil',
+                meta: {
+                    title: '主变油色谱'
+                },
+                component: () =>
+                    import ('@ac/views/main-oil')
+            },
+            {
+                path: 'micro-weather',
+                name: 'micro-weather',
+                meta: {
+                    title: '微气象'
+                },
+                component: () =>
+                    import ('@ac/views/micro-weather')
+            },
+            {
                 path: 'core-clamp',
                 name: 'core-clamp',
                 meta: {

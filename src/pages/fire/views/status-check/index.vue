@@ -66,7 +66,7 @@
 						active:true
 					},
 					{
-						title:"视图监视",
+						title:"电缆温度检测",
 						id: "02",
 						code:"view-check",
 						active:false
@@ -234,8 +234,8 @@
 					}
 				}
 				position relative
-				background #0c1b3a
-				border 1px solid #0a2a4e
+				background: #062964;
+				border: 0.04444rem solid #044e90;
 				border-radius 4px
 
 			}

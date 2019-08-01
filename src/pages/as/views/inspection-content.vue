@@ -4,8 +4,8 @@
       <!-- <div class="header-lf">{{vcName}}</div> -->
       <div class="header-rt">
         <ul>
-          <li 
-            v-for="item in menuData" 
+          <li
+            v-for="item in menuData"
             :key="item.id"
             @click="changeView(item.view,item.id)"
             :class="{'changeStyle': item.id == currentIndex}"
@@ -25,7 +25,7 @@ import { debuglog } from 'util';
 export default {
   name: 'inspection-content',
   components: {
-    monitor,record
+    monitor, record
   },
   props: {},
   data() {
@@ -66,10 +66,10 @@ export default {
   filters: {},
   watch: {
     vcName: {
-      handler(newName,oldName){
+      handler(newName, oldName) {
         // console.log(oldName,'old')
         // console.log(newName,'new')
-        if(newName == undefined){
+        if (newName == undefined) {
           this.currentView = 'record'
           this.currentIndex = 2
         }
@@ -77,24 +77,24 @@ export default {
       immediate: true
     }
   },
-  created() { 
+  created() {
     // console.log(this.$route.params.vcName)
     this.vcName = this.$route.params.vcName
   },
   mounted() {
     // this.changeView(monitor,1)
-   },
+  },
   activited() { },
   update() { },
   beforeDestory() { },
   methods: {
     //切换组件
-    changeView(data,index){
+    changeView(data, index) {
       this.currentView = data
       this.currentIndex = index
     },
     //返回
-    goback(){
+    goback() {
       this.$router.go(-1)
     }
   },
@@ -119,19 +119,12 @@ export default {
   .inspection-header {
     height: 40px;
     width: 100%;
-    .back{
-      // display inline-block;
-      // height: 40px;
-      // width: 40px;
-      // text-align: center;
-      // line-height: 40px;
-      // cursor: pointer;
-      // color: #90d9ff;
-      // margin-left: 10px;
-      // font-size: 16px;
-       background: url('~@/assets/img/common/bg17.png') no-repeat;
+
+    .back {
+      background: url('~@/assets/img/common/bg17.png') no-repeat;
       background-size: 100% 100%;
     }
+
     .header-lf {
       float: left;
       width: 200px;
@@ -145,31 +138,34 @@ export default {
       margin-left: 135px;
       height: 100%;
       width: 76%;
+
+      ul {
+        height: 100%;
+        width: 100%;
+        background: url('../../fire/assets/img/headerHull.png');
+        background-size: 100% 100%;
+        color: #fff;
+
+        li {
+          float: left;
+          height: 100%;
+          width: 150px;
+          font-size: 22px;
+          line-height: 40px;
+          text-align: center;
+          margin: 0 10px;
+          cursor: pointer;
+        }
+      }
     }
   }
 }
 
-.header-rt ul {
-  height: 100%;
-  width: 100%;
-  background: url('../../fire/assets/img/headerHull.png')
-  background-size:100% 100%
-  color: #fff;
-}
-
-.header-rt ul li {
-  float: left;
-  height: 100%;
-  width: 150px;
-  font: 100 16px / 40px '';
-  text-align: center;
-  margin: 0 10px;
-  cursor: pointer;
-}
-.changeStyle{
+.changeStyle {
   color: #f6ce69;
 }
-.component-view{
+
+.component-view {
   margin-top: 10px;
 }
 </style>

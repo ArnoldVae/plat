@@ -3,7 +3,7 @@
 		<div class="video-wrap">
 			<ocx-video :videoConfig="videoConfig"></ocx-video>
 		</div>
-		<Button type="primary" @click="modal1 = true">Display dialog box</Button>
+		<Button type="primary" @click="test">Display dialog box</Button>
 		<ocx-modal
 			v-model="modal1"
 	        title="Common Modal dialog box title"
@@ -24,6 +24,13 @@
 	      	text="确认执行该操作？"
 	      	v-model="confirmModalShow"
     	></confirm-modal>
+    	<ac-history-modal
+			v-model="history"
+			:node-id="nodeId"
+			sub-title="asdasdasd"
+			unit="%"
+    	>
+    	</ac-history-modal>
 	</div>
 </template>
 <script>
@@ -45,7 +52,9 @@ export default {
 				deviceInfo: '2|172.26.1.128:3777|admin:admin123|0',
 				hideTool: true
 			},
-			confirmModalShow: false
+			confirmModalShow: false,
+			history: false,
+			nodeId: ''
 		}
 	},
 	computed: {},
@@ -62,6 +71,10 @@ export default {
 	update() {},
 	beforeDestory() {},
 	methods: {
+		test() {
+			this.history = true
+			this.nodeId = '6e5582f5a4be4e6399c230ea1ce4ed35'
+		},
 		ok () {
 		
 		// 提示框

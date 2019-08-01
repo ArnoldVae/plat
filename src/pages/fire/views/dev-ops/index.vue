@@ -173,8 +173,8 @@
 					}
 				}
 				position relative
-				background #0c1b3a
-				border 1px solid #0a2a4e
+				background: #062964;
+				border: 0.04444rem solid #044e90;
 				border-radius 4px
 
 			}

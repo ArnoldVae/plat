@@ -699,7 +699,7 @@ export default {
               }
             }
             .equipDetail {
-              width :calc(100% - 224px);
+              width :calc(100% - 200px);
               // height:100%;
               padding-top :30px;
               .detailLine {
@@ -721,12 +721,12 @@ export default {
                     margin-right :10px;
                   }
                   .whiteCls {
-                    font-size : 16px;
+                    font-size : 20px;
                   }
                   .blueCls,
                   .yellowCls {
                     font-family :'DS-DIGI';
-                    font-size : 22px;
+                    font-size : 30px;
                     letter-spacing :2px;
                   }
                   .blueCls {

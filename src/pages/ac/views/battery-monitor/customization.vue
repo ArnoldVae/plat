@@ -159,7 +159,7 @@ export default {
 			this.seriesData.push(3 + num)
 			this.xData.push(i + 1)
 		}
-		this.getList()
+		this.getDevList()
 	},
 	mounted() {},
 	activited() {},
@@ -177,13 +177,24 @@ export default {
 				console.log(res)
 			})
 		},
+		getDevList() {
+			let params = {
+				devTypeId: this.activeDeviceTypeId,
+				isPage: 1,
+				isFindNodes: 1,
+				unitId: this.unitId
+			}
+			this.$_api.batteryMonitor.getDevList(params).then(res => {
+				console.log(res)
+			})
+		},
 		getcharts() {
 			this.seriesData.push(3)
-      this.xData.push(1)
-      this.getST()
+			this.xData.push(1)
+			this.getST()
 		},
 		getST() {
-      console.log('click')
+			console.log('click')
 			this.$_api.mapApi.getRcu({ unitId: '' }).then(res => {
 				console.log(res)
 			})

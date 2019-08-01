@@ -64,6 +64,7 @@ export default {
 				tag.setStyle('note.background', 'transparent')
 				tag.setStyle('note.border.color', 'transparent')
 				tag.setStyle('note.position', 31)
+				tag.setStyle('note.offset.y', 16)
 				//添加动画
 				this.animation()
 			} else if (data.cmd == 2104) {
@@ -134,6 +135,7 @@ export default {
 							eData.setStyle('note.background', 'transparent')
 							eData.setStyle('note.border.color', 'transparent')
 							eData.setStyle('note.position', 31)
+							eData.setStyle('note.offset.y', 16)
 						}
 					}
 					if (eType == 'onLeave') {
@@ -215,28 +217,24 @@ export default {
 					property: 'width',
 					from: iWidth,
 					to: iWidth * 2,
-					easing: 'Bounce.easeOut',
 					next: 'collapseWidth'
 				},
 				collapseWidth: {
 					property: 'width',
 					from: iWidth * 2,
 					to: iWidth,
-					easing: 'Bounce.easeOut',
 					next: 'expandWidth'
 				},
 				expandHeight: {
 					property: 'height',
 					from: iHeight,
 					to: iHeight * 2,
-					easing: 'Bounce.easeOut',
 					next: 'collapseHeight'
 				},
 				collapseHeight: {
 					property: 'height',
 					from: iHeight * 2,
 					to: iHeight,
-					easing: 'Bounce.easeOut',
 					next: 'expandHeight'
 				},
 				start: ['expandWidth', 'expandHeight']
