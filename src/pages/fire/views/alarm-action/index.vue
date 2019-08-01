@@ -1266,6 +1266,7 @@
                             // border 1px solid red;
                             margin 15px 0 0 20px;
                             text-indent 20px;
+                            padding-right 10px
                         }
                     }
                 }

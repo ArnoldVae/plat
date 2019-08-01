@@ -24,12 +24,15 @@
                 document.getElementById('main').innerHTML = "";
                 let localHt = (this.localHt = global.ht)
                 let dataModel = (global.dataModel = this.dataModel = new localHt.DataModel())
-
+                dataModel.enableAnimation();
                 let graphView = (this.graphView = new localHt.graph.GraphView(dataModel))
                 let dom = this.$refs['view-main']
 
                 graphView.addToDOM(dom)
                 graphView.reset()
+
+
+
 
                 //监听窗口大小变化
                 window.addEventListener('resize', e => {
@@ -49,6 +52,36 @@
                 ht.Default.xhrLoad(getUrl, res => {
                     let json = ht.Default.parse(res)
                     dataModel.deserialize(json)
+                    // var node4 = new ht.Node();
+                    // node4._counter = 0;
+                    // node4.setAnimation({
+                    //     hide: {
+                    //         property: "opacity",
+                    //         accessType: "style",
+                    //         from: 1,
+                    //         to: 0,
+                    //         frames: 20,
+                    //         next: "show"
+                    //     },
+                    //     show: {
+                    //         property: "opacity",
+                    //         accessType: "style",
+                    //         from: 0,
+                    //         to: 1,
+                    //         frames: 20,
+                    //         next: "hide",
+                    //         onComplete: function() {
+                    //
+                    //             if (this._counter >= 10) {
+                    //                 this.setAnimation(null);
+                    //             }
+                    //         }
+                    //     },
+                    //     start: ["hide"]
+                    // });
+                    //
+                    // node4.setPosition(600, 300);
+                    // dataModel.add(node4);
 
                     graphView.fitContent(true)
                 })
