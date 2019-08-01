@@ -66,7 +66,7 @@
 						active:true
 					},
 					{
-						title:"电缆温度检测",
+						title:"电缆温度监测",
 						id: "02",
 						code:"view-check",
 						active:false

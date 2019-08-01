@@ -773,7 +773,7 @@
                         width: 100%;
                         height: 20px;
                         color: #fff;
-                        font-size: 20px;
+                        font-size: 16px;
                     }
 
                     .weather {
@@ -847,14 +847,14 @@
                         height: 280px;
                         background: url('~@fire/assets/img/alarm-now/info-wrap.png') no-repeat;
                         background-size: 100% 100%;
-                        padding: 20px;
+                        padding: 16px;
                         box-sizing: border-box;
 
                         .title {
                             width: 100%;
                             height: 20px;
                             color: #fff;
-                            font-size: 20px;
+                            font-size: 16px;
                         }
 
                         .info-wrap {
@@ -1008,12 +1008,13 @@
                             background-size: 100% 100%;
                             padding: 20px;
                             box-sizing: border-box;
+                            font-size 16px
 
                             .aInfotitle {
                                 width: 100%;
                                 height: 20px;
                                 color: #fff;
-                                font-size: 20px;
+                                font-size 16px
                             }
 
                             .info-wrap {
@@ -1026,7 +1027,7 @@
 
                                     li {
                                         color: #fff;
-                                        font-size: 18px;
+                                        font-size 16px
                                         margin-bottom: 20px;
                                         width: 100%;
                                         height: 30px;
@@ -1067,7 +1068,7 @@
                             width: 100%;
                             height: 20px;
                             color: #fff;
-                            font-size: 20px;
+                            font-size: 16px;
                         }
 
                         .weather {
@@ -1141,7 +1142,7 @@
                             width: 300px;
                             height: 30px;
                             color: #fff;
-                            font-size: 20px;
+                            font-size: 16px;
                         }
 
                         .htCon {
