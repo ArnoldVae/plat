@@ -24,6 +24,7 @@
 				</div>
 				<div class="el-main-content">
 <!--					<component ref="sunMethod" v-bind:is="current"></component>-->
+					<dialogs></dialogs>
 				</div>
 			</el-main>
 
@@ -31,9 +32,11 @@
 	</div>
 </template>
 <script>
+	import dialogs from './dialog'
 	export default {
 		name: 'dev-ops',
 		components: {
+			dialogs
 		},
 		props: {},
 		data() {
