@@ -1,108 +1,99 @@
 <template>
-	<div class="systemView">
-		<dialogs :dialog-visible="dialogVisible" @handleClose="handleClose"></dialogs>
-		<div class="mian-taining">
-			<el-form :inline="true" size="mini" :model="search">
-				<el-form-item label="开始日期:">
-					<el-date-picker
-						popper-class="dateDrop"
-						suffix-icon="el-icon-date"
-						v-model="search.starTime"
-						type="date"
-					></el-date-picker>
-				</el-form-item>
-				<el-form-item label="结束日期:">
-					<el-date-picker v-model="search.endTime" type="date"></el-date-picker>
-				</el-form-item>
-				<el-form-item label="时间段:">
-					<el-select v-model="search.region" placeholder>
-						<el-option label="全部" value="nullValue"></el-option>
-						<el-option label="一周" value="week"></el-option>
-						<el-option label="一月" value="month"></el-option>
-						<el-option label="一年" value="year"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="维保单位:">
-					<el-select v-model="search.maintenanceUnit" placeholder>
-						<el-option label="全部" value="nullValue"></el-option>
-						<el-option
-							v-for="item in maintenanceUnits"
-							:key="item.MtcCoID"
-							:label="item.vc_Name"
-							:value="item.MtcCoID"
-						></el-option>
-					</el-select>
-				</el-form-item>
+  <div class="systemView">
+    <div class="mian-taining">
+      <el-form :inline="true" size="mini" :model="search">
+        <el-form-item label="开始日期:">
+          <el-date-picker
+            popper-class="dateDrop"
+            suffix-icon="el-icon-date"
+            v-model="search.starTime"
+            type="date"
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="结束日期:">
+          <el-date-picker v-model="search.endTime" type="date"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="时间段:">
+          <el-select v-model="search.timeQuantum" placeholder>
+            <el-option label="自定义" :value="nullValue"></el-option>
+            <el-option label="本周" value="week"></el-option>
+            <el-option label="本月" value="month"></el-option>
+            <el-option label="本年" value="year"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="维保单位:">
+          <el-select v-model="search.maintenanceUnit" placeholder>
+            <el-option label="全部" value="nullValue"></el-option>
+            <el-option
+              v-for="item in maintenanceUnits"
+              :key="item.MtcCoID"
+              :label="item.vc_Name"
+              :value="item.MtcCoID"
+            ></el-option>
+          </el-select>
+        </el-form-item>
 
-				<el-form-item label="状态:">
-					<el-checkbox-group v-model="search.stute">
-						<el-checkbox v-for="i in stutes" :key="i.id" :label="i.id">{{ i.name }}</el-checkbox>
-						<!-- <el-checkbox label="1">正在执行</el-checkbox>
+        <el-form-item label="状态:">
+          <el-checkbox-group v-model="search.stute">
+            <el-checkbox v-for="i in stutes" :key="i.id" :label="i.id">{{i.name}}</el-checkbox>
+            <!-- <el-checkbox label="1">正在执行</el-checkbox>
             <el-checkbox label="2">已结束</el-checkbox>-->
-					</el-checkbox-group>
-				</el-form-item>
+          </el-checkbox-group>
+        </el-form-item>
 
-				<el-form-item class="taining-button">
-					<el-button class="blue-btn" @click="searchInfo" type="text">查&nbsp找</el-button>
-					<el-button class="yellow-btn" @click="leadTo" type="text">导&nbsp入</el-button>
-					<el-button class="yellow-btn" @click="exportInfo" type="text">导&nbsp出</el-button>
-				</el-form-item>
-			</el-form>
-			<!-- table -->
-			<div>
-				<el-table :header-cell-style="{ background: 'none' }" :data="maintainData" style="width: 100%">
-					<el-table-column prop="mtcName" align="center" label="维保单位"></el-table-column>
-					<el-table-column prop="unitName" align="center" label="变电站"></el-table-column>
-					<el-table-column
-						prop="vc_Context"
-						align="center"
-						label="维护内容"
-						show-overflow-tooltip
-					></el-table-column>
-					<el-table-column prop="i_BeginTime" align="center" label="计划开始时间"></el-table-column>
-					<el-table-column prop="i_EndTime" align="center" label="计划结束时间"></el-table-column>
-					<el-table-column prop="vc_PowerOffScene" align="center" label="停电场所"></el-table-column>
-					<el-table-column prop="vc_PowerLevel" align="center" label="电压等级"></el-table-column>
-					<el-table-column prop="vc_People" align="center" label="负责人"></el-table-column>
-					<el-table-column prop="vc_Telephone" align="center" label="联系电话"></el-table-column>
-					<el-table-column prop="date" align="center" label="当前状态">
-						<template slot-scope="scope">
-							<span v-if="scope.row.iStatus == '未执行'" style="color:red;">{{ scope.row.iStatus }}</span>
-							<span v-if="scope.row.iStatus == '正在执行'" style="color:green;">{{
-								scope.row.iStatus
-							}}</span>
-							<span v-if="scope.row.iStatus == '已结束'" style="color:blue;">{{
-								scope.row.iStatus
-							}}</span>
-						</template>
-					</el-table-column>
-					<el-table-column label="执行" align="center" width="250">
-						<template>
-							<div>
-								<el-button class="blue-btn" @click="lookInfo" size="mini" type="text"
-									>查看详情</el-button
-								>
-								<el-button class="yellow-btn" @click="outRow" size="mini" type="text">导出</el-button>
-							</div>
-						</template>
-					</el-table-column>
-				</el-table>
-			</div>
-		</div>
-	</div>
+        <el-form-item class="taining-button">
+          <el-button class="blue-btn" @click="searchInfo" type="text">查&nbsp找</el-button>
+          <el-button class="yellow-btn" @click="leadTo" type="text">导&nbsp入</el-button>
+          <el-button class="yellow-btn" @click="exportInfo" type="text">导&nbsp出</el-button>
+        </el-form-item>
+      </el-form>
+      <!-- table -->
+      <div>
+        <el-table
+          :header-cell-style="{background:'none'}"
+          :data="maintainData"
+          style="width: 100%;margin-top:3%"
+        >
+          <el-table-column prop="mtcName" align="center" label="维保单位"></el-table-column>
+          <el-table-column prop="unitName" align="center" label="变电站"></el-table-column>
+          <el-table-column prop="vc_Context" align="center" label="维护内容" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="i_BeginTime" align="center" label="计划开始时间"></el-table-column>
+          <el-table-column prop="i_EndTime" align="center" label="计划结束时间"></el-table-column>
+          <el-table-column prop="vc_PowerOffScene" align="center" label="停电场所"></el-table-column>
+          <el-table-column prop="vc_PowerLevel" align="center" label="电压等级"></el-table-column>
+          <el-table-column prop="vc_People" align="center" label="负责人"></el-table-column>
+          <el-table-column prop="vc_Telephone" align="center" label="联系电话"></el-table-column>
+          <el-table-column prop="date" align="center" label="当前状态">
+            <template slot-scope="scope">
+              <span v-if="scope.row.iStatus=='未执行'" style="color:red;">{{scope.row.iStatus}}</span>
+              <span v-if="scope.row.iStatus=='正在执行'" style="color:green;">{{scope.row.iStatus}}</span>
+              <span v-if="scope.row.iStatus=='已结束'" style="color:blue;">{{scope.row.iStatus}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="执行" align="center" width="250">
+            <template>
+              <div>
+                <el-button class="blue-btn" @click="searchInfo" size="mini" type="text">查看详情</el-button>
+                <el-button class="yellow-btn" @click="searchInfo" size="mini" type="text">导出</el-button>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-import dialogs from '../dialog'
 export default {
-	name: 'main-taining',
+	name: 'mian-taining',
 	data() {
 		return {
-			dialogVisible: false,
 			nullValue: null,
 			search: {
 				starTime: '',
 				endTime: '',
 				user: '',
+				timeQuantum: '',
 				maintenanceUnit: '',
 				stute: []
 			},
@@ -111,13 +102,45 @@ export default {
 			maintainData: []
 		}
 	},
-	components: {
-		dialogs
-	},
+
 	created() {
 		this.init()
 		this.searchInfo()
 	},
+
+	watch: {
+      'search.timeQuantum'(val) {
+        switch (val) {
+          case 'week':
+            const endw = new Date()
+            const startw = new Date()
+            startw.setTime(startw.getTime() - 3600 * 1000 * 24 * 7)
+            this.search.starTime = startw
+            this.search.endTime = endw
+            break
+          case 'month':
+            const endm = new Date()
+            const startm = new Date()
+            startm.setTime(startm.getTime() - 3600 * 1000 * 24 * 30)
+            this.search.starTime = startm
+            this.search.endTime = endm
+            break
+          case 'year':
+            const endy = new Date()
+            const starty = new Date()
+            starty.setTime(starty.getTime() - 3600 * 1000 * 24 * 365)
+            this.search.starTime = starty
+            this.search.endTime = endy
+            break
+          case null:
+            this.search.starTime = ''
+            this.search.endTime = ''
+            break
+          default:
+            break
+        }
+      }
+    },
 	methods: {
 		async init() {
 			let result = await this.$_api.maintaining.getMaintenance()
@@ -143,14 +166,7 @@ export default {
 			}
 		},
 		leadTo() {},
-		exportInfo() {},
-		outRow() {},
-		lookInfo() {
-			this.dialogVisible = true
-		},
-		handleClose(value) {
-			this.dialogVisible = value
-		}
+		exportInfo() {}
 	}
 }
 </script>
@@ -158,7 +174,7 @@ export default {
 <style lang="stylus">
 .mian-taining {
   padding: 1.66667rem;
-	margin-top: -20px
+  margin-top -20px
 
   /deep/.el-popper[x-placement^=bottom] {
     margin-top: 0.53333rem;
@@ -177,10 +193,12 @@ export default {
     }
 
     .el-input {
+      width: 145px;
       /deep/.el-input__inner {
         border: none;
       }
     }
+
 
     .el-select {
       /deep/.el-input__inner {
@@ -236,3 +254,4 @@ export default {
   }
 }
 </style>
+

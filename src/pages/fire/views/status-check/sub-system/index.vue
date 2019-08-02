@@ -4,7 +4,8 @@
             <el-aside width="72%">
                 <div class="sub-system-top">
                     <div class="sub-system-top-item left">
-                        <ocx-video :videoConfig="videoConfig"></ocx-video>
+                        <img src="../../../assets/img/status/spw.png" width="420px" alt="">
+<!--                        <ocx-video :videoConfig="videoConfig"></ocx-video>-->
                     </div>
                     <div class="sub-system-top-item right">
                         <el-row>
@@ -257,6 +258,9 @@
                         width 50%
                         float left
                         margin-left 3%
+                        img{
+                            margin 48px
+                        }
                     }
                     .right{
                         border-radius 5px
