@@ -18,10 +18,10 @@
                     </el-row>
                     <div class="search-item">
                         <el-row v-for="(item,index) in subMenuList" :key="index">
-                            <el-col :span="12" >
+                            <el-col :span="16" >
                                 <span><span class="color-green">● </span>{{item.vcName}}</span>
                             </el-col>
-                            <el-col :span="12" class="item-btn">
+                            <el-col :span="8" class="item-btn">
                               <el-button size="mini" @click="showHtMap(item)">
                                   查看
                               </el-button>
@@ -59,7 +59,11 @@
                 },
                 getId:"",
                 htCommon:"htCommon",
-                subMenuList:[]
+                subMenuList:[
+                    {
+                        "vcName":"500kV东善桥变电站防火封堵"
+                    }
+                ]
             }
         },
         computed: {},

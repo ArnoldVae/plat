@@ -249,7 +249,7 @@
                 let result = await this.$_api.statusCheck.getTemDetail({
                     unitId:item.unitId,
                     areaId:item.protectAreaId,
-                    devTypeId:"1014"
+                    devTypeId:"1010"
 
                 })
                 if (result.success){

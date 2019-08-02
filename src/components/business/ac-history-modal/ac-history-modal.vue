@@ -94,10 +94,10 @@ export default {
 	computed: {},
 	filters: {},
 	watch: {
-		nodeId: {
+		value: {
 			handler(val) {
-				if (this.value) {
-					this.eNodeId = val
+				if (val) {
+					this.eNodeId = this.nodeId
 					this.$nextTick(() => {
 						this.handleViewHistory()
 					})
@@ -107,7 +107,12 @@ export default {
 		},
 	},
 	created() {},
-	mounted() {},
+	mounted() {
+		// this.eNodeId = this.nodeId
+		// this.$nextTick(() => {
+		// 	this.handleViewHistory()
+		// })
+	},
 	activited() {},
 	update() {},
 	beforeDestory() {},
@@ -330,7 +335,7 @@ export default {
 					}
 				]
 			}
-			
+
 			EchartsDom.setOption(option)
 		},
 	},

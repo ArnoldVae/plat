@@ -35,11 +35,11 @@ export default {
 			//添加背景
 			 localHt.Default.setImage(
 				"mapBg",
-				"ht/storage/assets/svg/alarmSvg.png"
+				"ht/storage/assets/svg/no1.gif"
 			); // 背景
 			localHt.Default.setImage(
 				"arrow-orange",
-				"ht/storage/assets/svg/arrow-orange.png"
+				"ht/storage/assets/svg/no1.gif"
 			); // 箭头
 			let width = graphView.getWidth();
 			let height = graphView.getHeight();

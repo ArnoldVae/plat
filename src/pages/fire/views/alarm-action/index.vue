@@ -615,7 +615,7 @@
             },
             getHtMap() {
                 this.$_api.alarmAction.getHtMap({
-                    unitId: this.node,
+                    unitId: this.$store.getters.stationId,
                     subIdsStr: '90010001'
                 }).then(res => {
                     if (res.code == 200) {

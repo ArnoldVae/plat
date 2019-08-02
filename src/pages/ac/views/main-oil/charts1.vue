@@ -110,9 +110,7 @@ export default {
 						tempList.push(item.f_Value)
 						timeList.push(this.strToymd(item.i_DataTime))
 					})
-					this.chartData = tempList
-					this.timeData = timeList
-					this.setEcharts(this.xdata, this.ydata, this.unit, this.subTitle)
+					this.setEcharts(tempList, timeList, this.unit, this.subTitle)
 				}
 			})
 		},

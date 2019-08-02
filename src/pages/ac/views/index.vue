@@ -471,7 +471,7 @@ export default {
 
               .name {
                 margin-left: 5px;
-                color: #3789c9;
+                color: #3299ff;
               }
             }
 
@@ -560,10 +560,10 @@ export default {
       }
 
       .el-scrollbar__thumb {
-        background-color: #163c67 !important;
+        background-color: #3299ff !important;
 
         &:hover {
-          background-color: #163c67 !important;
+          background-color: #3299ff !important;
         }
       }
     }

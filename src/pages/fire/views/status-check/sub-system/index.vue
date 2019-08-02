@@ -4,8 +4,8 @@
             <el-aside width="72%">
                 <div class="sub-system-top">
                     <div class="sub-system-top-item left">
-                        <img src="../../../assets/img/status/spw.png" width="420px" alt="">
-<!--                        <ocx-video :videoConfig="videoConfig"></ocx-video>-->
+                        <img src="../../../assets/img/status/spw.png" width="420px" alt="" v-show="showFlag">
+                        <ocx-video :videoConfig="videoConfig" v-show="!showFlag"></ocx-video>
                     </div>
                     <div class="sub-system-top-item right">
                         <el-row>
@@ -90,6 +90,7 @@
         props: {},
         data() {
             return {
+                showFlag:false,
                 videoConfig: {
                    	isAutoPlay: true,
 					serviceInfo: '1$22.46.34.114$6800$admin$admin',
@@ -216,6 +217,12 @@
              */
 
             showSysDetail(item){
+                console.log(item)
+                if(item.vcName.indexOf('水喷雾')>-1){
+                    this.showFlag=true
+                }else {
+                    this.showFlag=false
+                }
                 this.getLightItem(item)
                 this.getHtMap(item)
             }
