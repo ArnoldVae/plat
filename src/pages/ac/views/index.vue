@@ -1,97 +1,97 @@
 <template>
-	<div class="intelligent">
-		<div class="body">
-			<!-- 变电站树区域 -->
-			<div class="station">
-				<el-filter-tree
-					placeholder="输入关键字进行过滤"
-					v-model="filterText"
-					ref="elFilterTree"
-					:data="data"
-					:props="defaultProps"
-					default-expand-all
-					:filter-node-method="filterNode"
-					highlight-current
-					@node-click="handleClickNode"
-					:current-node-key="$store.getters.unitId"
-					node-key="id"
-				></el-filter-tree>
-			</div>
-			<div class="container">
-				<hor-menu
-					:data="menuData"
-					:currentSystemId="currentSystemId"
-					@handleSelectSideMenu="handleSelectSideMenu"
-					@handleGoBack="handleGoBack"
-				></hor-menu>
+  <div class="intelligent">
+    <div class="body">
+      <!-- 变电站树区域 -->
+      <div class="station">
+        <el-filter-tree
+          placeholder="输入关键字进行过滤"
+          v-model="filterText"
+          ref="elFilterTree"
+          :data="data"
+          :props="defaultProps"
+          default-expand-all
+          :filter-node-method="filterNode"
+          highlight-current
+          @node-click="handleClickNode"
+          :current-node-key="$store.getters.unitId"
+          node-key="id"
+        ></el-filter-tree>
+      </div>
+      <div class="container">
+        <hor-menu
+          :data="menuData"
+          :currentSystemId="currentSystemId"
+          @handleSelectSideMenu="handleSelectSideMenu"
+          @handleGoBack="handleGoBack"
+        ></hor-menu>
 
-				<div class="content">
-					<!-- <transition name="fade" mode="out-in"> -->
-					<div v-if="typeList.length != 1 && cardReset" class="card">
-						<el-scrollbar v-if="typeList.length != 1">
-							<div
-								v-for="(item, index) in typeList"
-								:key="item.devTypeId"
-								@click="handleSelectCard(item, index)"
-								class="card-item"
-								:class="{ current: currentTypeId == item.devTypeId }"
-							>
-								<div class="line"></div>
-								<div class="type">
-									<!-- ~@ac/assets/img/device-type/空调-0.png -->
-									<!-- <div 
+        <div class="content">
+          <!-- <transition name="fade" mode="out-in"> -->
+          <div v-if="typeList.length != 1 && cardReset" class="card">
+            <el-scrollbar v-if="typeList.length != 1">
+              <div
+                v-for="(item, index) in typeList"
+                :key="item.devTypeId"
+                @click="handleSelectCard(item, index)"
+                class="card-item"
+                :class="{ current: currentTypeId == item.devTypeId }"
+              >
+                <div class="line"></div>
+                <div class="type">
+                  <!-- ~@ac/assets/img/device-type/空调-0.png -->
+                  <!-- <div 
 											class="icon" 
 											:style="{ background: `url( ${require(`@ac/assets/img/device-type/${'空调'}-${currentTypeId == item.devTypeId?1:0}.png`)} )` }"
-									></div>-->
-									<div class="name">{{ item.vcName }}</div>
-								</div>
-								<div class="info">
-									<div class="total">
-										总：
-										<span :style="{ color: '#44e908' }">{{ item.devCount }}</span>
-									</div>
-									<div class="alarm">
-										报警：
-										<span :style="{ color: '#ff291e' }">{{ item.alarmCount }}</span>
-									</div>
-									<div class="normal">
-										故障：
-										<span :style="{ color: '#ffa01e' }">0</span>
-									</div>
-								</div>
-							</div>
-						</el-scrollbar>
-					</div>
-					<!-- </transition> -->
+                  ></div>-->
+                  <div class="name">{{ item.vcName }}</div>
+                </div>
+                <div class="info">
+                  <div class="total">
+                    总：
+                    <span :style="{ color: '#44e908' }">{{ item.devCount }}</span>
+                  </div>
+                  <div class="alarm">
+                    报警：
+                    <span :style="{ color: '#ff291e' }">{{ item.alarmCount }}</span>
+                  </div>
+                  <div class="normal">
+                    故障：
+                    <span :style="{ color: '#ffa01e' }">0</span>
+                  </div>
+                </div>
+              </div>
+            </el-scrollbar>
+          </div>
+          <!-- </transition> -->
 
-					<!-- view 区域 -->
-					<div class="router-view-wrap">
-						<!-- <transition name="fade" mode="out-in"> -->
-						<router-view
-							@hook:mounted="initDisplayMode"
-							ref="view"
-							class="view"
-							:class="{ full: typeList.length == 1 }"
-						></router-view>
-						<!-- </transition> -->
-						<div class="style">
-							<!-- v-if="currentModeList.length != 1" -->
-							<a-button-group v-show="buttonGroupShow">
-								<a-button
-									v-for="(mode, index) in currentModeList"
-									:key="mode.typeId"
-									@click="handleChangeDisplayMode(mode, index)"
-									:icon="mode.icon"
-									:class="{ current: currentModeIndex == index }"
-								></a-button>
-							</a-button-group>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<statistics></statistics>
-	</div>
+          <!-- view 区域 -->
+          <div class="router-view-wrap">
+            <!-- <transition name="fade" mode="out-in"> -->
+            <router-view
+              @hook:mounted="initDisplayMode"
+              ref="view"
+              class="view"
+              :class="{ full: typeList.length == 1 }"
+            ></router-view>
+            <!-- </transition> -->
+            <div class="style">
+              <!-- v-if="currentModeList.length != 1" -->
+              <a-button-group v-show="buttonGroupShow">
+                <a-button
+                  v-for="(mode, index) in currentModeList"
+                  :key="mode.typeId"
+                  @click="handleChangeDisplayMode(mode, index)"
+                  :icon="mode.icon"
+                  :class="{ current: currentModeIndex == index }"
+                ></a-button>
+              </a-button-group>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <statistics></statistics>
+  </div>
 </template>
 <script>
 export default {
@@ -393,179 +393,180 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .intelligent {
-	width: 1920px;
-	height: 100%;
-	background: url('~@/assets/img/navigation/background.png') no-repeat 0 -140px;
-	background-size: 100% 1080px;
+  width: 1920px;
+  height: 100%;
+  background: url('~@/assets/img/navigation/background.png') no-repeat 0 -140px;
+  background-size: 100% 1080px;
 
-	.body {
-		width: 100%;
-		height: 890px;
-		// padding-top: 15px;
-		display: flex;
+  .body {
+    width: 100%;
+    height: 890px;
+    // padding-top: 15px;
+    display: flex;
 
-		.station {
-			width: 313px;
-			height: 890px;
-			// background: url('~@/assets/img/common/side-bg.png') no-repeat;
-			// background-size: 313px 890px;
-			padding: 0 10px;
-			margin: 0 10px;
+    .station {
+      width: 313px;
+      height: 890px;
+      // background: url('~@/assets/img/common/side-bg.png') no-repeat;
+      // background-size: 313px 890px;
+      padding: 0 10px;
+      margin: 0 10px;
 
-			/* background: #0af; */
-			/deep/ .el-tree {
-				height: 840px;
-				overflow: auto;
-			}
-		}
+      /* background: #0af; */
+      /deep/ .el-tree {
+        height: 840px;
+        overflow: auto;
+      }
+    }
 
-		.container {
-			width: 1590px;
+    .container {
+      width: 1590px;
 
-			.content {
-				margin-top: 13px;
-				width: 100%;
-				height: 880px;
+      .content {
+        margin-top: 13px;
+        width: 100%;
+        height: 880px;
 
-				.card {
-					width: 1570px;
-					display: flex;
-					background: #0c1b3b;
-					border-radius: 5px;
-					padding-left: 5px;
-					padding-right: 5px;
+        .card {
+          width: 1570px;
+          display: flex;
+          // background: #0c1b3b;
+          background-color: rgba(12, 27, 59, 0.3);
+          border-radius: 5px;
+          padding-left: 5px;
+          padding-right: 5px;
 
-					/* margin-bottom: 12px; */
-					.card-item {
-						min-width: 250px;
-						height: 94px;
-						/* background: #0c1b3b; */
-						/* background: url('~@ac/assets/img/content/card.png') no-repeat; */
-						/* background-size: 250px 94px; */
-						/* margin-right: 15px; */
-						cursor: pointer;
-						position: relative;
-						padding-left: 35px;
+          /* margin-bottom: 12px; */
+          .card-item {
+            min-width: 250px;
+            height: 94px;
+            /* background: #0c1b3b; */
+            /* background: url('~@ac/assets/img/content/card.png') no-repeat; */
+            /* background-size: 250px 94px; */
+            /* margin-right: 15px; */
+            cursor: pointer;
+            position: relative;
+            padding-left: 35px;
 
-						.line {
-							position: absolute;
-							right: 0;
-							top: 22px;
-							width: 2px;
-							height: 55px;
-							background: #0a1434;
-						}
+            .line {
+              position: absolute;
+              right: 0;
+              top: 22px;
+              width: 2px;
+              height: 55px;
+              background: #3299ff;
+            }
 
-						.type {
-							display: flex;
-							margin-top: 20px;
+            .type {
+              display: flex;
+              margin-top: 20px;
 
-							.icon {
-								width: 18px;
-								height: 18px;
-								/* background: url('~@ac/assets/img/device-type/空调-0.png') no-repeat; */
-								background-repeat: no-repeat;
-								background-size: 18px 18px !important;
-							}
+              .icon {
+                width: 18px;
+                height: 18px;
+                /* background: url('~@ac/assets/img/device-type/空调-0.png') no-repeat; */
+                background-repeat: no-repeat;
+                background-size: 18px 18px !important;
+              }
 
-							.name {
-								margin-left: 5px;
-								color: #3789c9;
-							}
-						}
+              .name {
+                margin-left: 5px;
+                color: #3789c9;
+              }
+            }
 
-						&.current {
-							/* background: url('~@ac/assets/img/content/card-active.png') no-repeat; */
-							background: #0f2145;
+            &.current {
+              /* background: url('~@ac/assets/img/content/card-active.png') no-repeat; */
+              background-color: rgba(15, 33, 69, 0.7);
 
-							.type .name {
-								color: #ffd36a;
-							}
+              .type .name {
+                color: #ffd36a;
+              }
 
-							/* background-size: 250px 94px; */
-						}
+              /* background-size: 250px 94px; */
+            }
 
-						.info {
-							display: flex;
-							color: #fff;
-							margin-top: 17px;
+            .info {
+              display: flex;
+              color: #fff;
+              margin-top: 17px;
 
-							.total {
-								margin-right: 15px;
-							}
+              .total {
+                margin-right: 15px;
+              }
 
-							.alarm {
-								margin-right: 15px;
-							}
+              .alarm {
+                margin-right: 15px;
+              }
 
-							.normal {
-							}
-						}
-					}
-				}
+              .normal {
+              }
+            }
+          }
+        }
 
-				.router-view-wrap {
-					position: relative;
-					margin-top: 12px;
+        .router-view-wrap {
+          position: relative;
+          margin-top: 12px;
 
-					.view {
-						/* padding-top: 10px; */
-						padding-bottom: 50px;
-						width: 100%;
-						height: 745px;
+          .view {
+            /* padding-top: 10px; */
+            padding-bottom: 50px;
+            width: 100%;
+            height: 745px;
 
-						&.full {
-							height: 849px;
-						}
-					}
+            &.full {
+              height: 849px;
+            }
+          }
 
-					.style {
-						/* width: 100px; */
-						/* height: 20px; */
-						/* background: #f00; */
-						position: absolute;
-						bottom: 10px;
-						left: 10px;
+          .style {
+            /* width: 100px; */
+            /* height: 20px; */
+            /* background: #f00; */
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
 
-						.ant-btn {
-							background-color: #054166;
-							border-color: #000;
+            .ant-btn {
+              background-color: #054166;
+              border-color: #000;
 
-							&.current {
-								background-color: #0291ed;
-								border-color: #013351;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+              &.current {
+                background-color: #0291ed;
+                border-color: #013351;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 </style>
 <style lang="stylus">
 .intelligent {
-	.container {
-		.card {
-			.el-scrollbar__wrap {
-				overflow-y: hidden;
-				overflow-x: hidden;
-				margin-right: initial !important;
-				margin-bottom: initial !important;
+  .container {
+    .card {
+      .el-scrollbar__wrap {
+        overflow-y: hidden;
+        overflow-x: hidden;
+        margin-right: initial !important;
+        margin-bottom: initial !important;
 
-				.el-scrollbar__view {
-					display: flex;
-				}
-			}
+        .el-scrollbar__view {
+          display: flex;
+        }
+      }
 
-			.el-scrollbar__thumb {
-				background-color: #163c67 !important;
+      .el-scrollbar__thumb {
+        background-color: #163c67 !important;
 
-				&:hover {
-					background-color: #163c67 !important;
-				}
-			}
-		}
-	}
+        &:hover {
+          background-color: #163c67 !important;
+        }
+      }
+    }
+  }
 }
 </style>

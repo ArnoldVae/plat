@@ -15,15 +15,17 @@
         </div>
       </div>
     </div>
-    <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal>
+    <!-- <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal> -->
+    <charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
   </div>
 </template>
 <script>
 import qs from 'qs'
 import moment from 'moment'
+import charts from '../main-oil/charts'
 export default {
 	name: 'hgis-monitor-customization',
-	components: {},
+	components: { charts },
 	props: {},
 	data() {
 		return {

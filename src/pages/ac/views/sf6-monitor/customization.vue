@@ -176,13 +176,20 @@ export default {
 				if (res.code == 200) {
 					// console.log(res)
 					if (res.data.lists && res.data.lists.length > 0) {
+						let devList = []
+						for (let i = 0; i < res.data.lists[0].devNodesList.length; i++) {
+							if (res.data.lists[0].devNodesList[i].nodeType != 2) {
+								devList.push(res.data.lists[0].devNodesList[i])
+							}
+						}
+						// console.log(res.data.lists)
 						if (!DevID) {
 							res.data.lists.forEach(item => {
 								item.label = item.vcName
 								item.value = item.devId
 							})
 							this.devNameList = res.data.lists
-							this.chartsList = res.data.lists[0].devNodesList
+							this.chartsList = devList
 							this.devNameItem = this.devNameList.length > 0 ? this.devNameList[0].value : ''
 							this.getCharts()
 						} else {
@@ -190,14 +197,14 @@ export default {
 							// console.log(res)
 							res.data.lists.forEach(item => {
 								if (item.devId == DevID) {
-									this.chartsList = item.devNodesList
+									for (let i = 0; i < item.devNodesList.length; i++) {
+										if (item.devNodesList[i].nodeType != 2) {
+											this.chartsList.push(item.devNodesList[i])
+										}
+									}
 									this.getCharts()
 								}
 							})
-							
-
-							
-							
 						}
 					}
 				}

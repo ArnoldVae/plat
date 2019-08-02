@@ -54,9 +54,8 @@ export default {
 			button4: '一天',
 			endTime: '',
 			startTime: '',
-			xdata: [5, 2, 3, 5, 1, 6, 7, 3, 2, 1, 7, 2, 1, 3, 5, 7, 4, 2, 1, 3],
-			ydata: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-			units: '%'
+			xdata: [],
+			ydata: []
 		}
 	},
 	computed: {},
@@ -68,32 +67,30 @@ export default {
 		value: {
 			handler(newVal) {
 				if (newVal) {
-					setTimeout(() => {
-						this.handleDay('一天')
-					}, 500)
+					// setTimeout(() => {
+					this.handleDay('一天')
+					// }, 500)
 				} else {
-					this.xData = []
-					this.yData = []
-					this.subTitle = ''
-					this.nodeId = ''
-					this.unit = ''
 					this.button4 = '一天'
 					this.endTime = ''
 					this.startTime = ''
-					this.units = ''
 				}
 			}
 		}
 	},
 	created() {},
-	mounted() {},
+	mounted() {
+		this.getTimeArr(24)
+	},
 	activited() {},
 	update() {},
 	beforeDestory() {},
 	methods: {
 		handleCloseHistoryModal() {},
 		handleDay(type) {
-			let time = type == '一天' ? 86400 : type == '三天' ? 259200 : type == '七天' ? 604800 : 86400
+			let time = type == '一天' ? 86400 : type == '三天' ? 259200 : type == '一周' ? 604800 : 86400
+			let day = type == '一天' ? 24 : type == '三天' ? 72 : type == '一周' ? 168 : 24
+			this.xData = this.getTimeArr(day)
 			let nowDate = new Date().getTime()
 			let endTime = Math.ceil(nowDate / 1000)
 			let startTime = endTime - time
@@ -105,23 +102,27 @@ export default {
 			this.getChartsData(params)
 		},
 		getChartsData(params) {
-			console.log(params)
+			// console.log(params)
 			this.$_api.humiture.getNodeChart(params).then(res => {
 				if (res.code == 200 && res.data) {
-					this.xData = []
-					this.yData = []
-					res.data.forEach(item => {
-						this.yData.push(item.f_Value)
-						this.xData.push(this.strToymd(item.i_DataTime))
-					})
+					// this.xData = []
+					// this.yData = []
+					// res.data.forEach(item => {
+					// 	this.yData.push(item.f_Value)
+					// 	this.xData.push(this.strToymd(item.i_DataTime))
+					// })
 					// this.chartData = tempList
 					// this.timeData = timeList
-					this.setEcharts(this.xdata, this.ydata, this.units, this.subTitle)
+					this.setEcharts(this.xdata, this.ydata, this.unit, this.subTitle)
 				}
 			})
 		},
 		setEcharts(data, time, unit, name) {
-			console.log('setEcharts')
+			let yData = []
+			let xData = []
+			for (let i = 0; i < this.xData.length; i++) {
+				yData.push(this.randomNum(20, 40))
+			}
 			// 基于准备好的dom，初始化echarts实例
 			var myChart = this.$_echarts.init(document.getElementById('charts'))
 
@@ -161,7 +162,7 @@ export default {
 					{
 						type: 'category',
 						boundaryGap: false,
-						data: time,
+						data: this.xData,
 						axisLine: {
 							show: true,
 							lineStyle: {
@@ -192,8 +193,8 @@ export default {
 						axisLabel: {
 							textStyle: {
 								color: '#fff'
-							}
-							// formatter: `{value} ${unit}`
+							},
+							formatter: `{value} ${unit}`
 						}
 					}
 				],
@@ -204,8 +205,27 @@ export default {
 						symbol: 'none',
 						areaStyle: { normal: { color: '#0f335f' } }, //折线区域背景色
 						lineStyle: { normal: { color: '#04a3ff' } }, //折线颜色
-						data: data,
+						data: yData,
 						connectNulls: true //这个是重点，将断点连接
+					}
+				],
+				dataZoom: [
+					{
+						type: 'inside',
+						minValueSpan: 7,
+						minSpan: 20,
+						start: 0,
+						end: 100
+					},
+					{
+						showDetail: true,
+						height: 15,
+                        bottom:50,
+						borderColor: 'rgba(1,37,59,0.5)',
+						backgroundColor: 'rgba(1,37,59,0.5)',
+						dataBackgroundColor: 'rgba(47,126,181,0.9)',
+						fillerColor: 'rgba(1,138,225,0.5)',
+						handleColor: 'rgba(1,37,59,0.8)'
 					}
 				]
 			}
@@ -213,6 +233,40 @@ export default {
 			// 使用刚指定的配置项和数据显示图表。
 			myChart.setOption(option)
 			myChart.resize()
+		},
+		randomNum(minNum, maxNum) {
+			switch (arguments.length) {
+				case 1:
+					return parseInt(Math.random() * minNum + 1, 10)
+					break
+				case 2:
+					return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
+					break
+				default:
+					return 0
+					break
+			}
+		},
+		getTimeArr(day) {
+			let nowDate = new Date().getTime() / 1000
+			let time = []
+			for (let i = 0; i < day; i++) {
+				time.push(this.strToymd(nowDate))
+				nowDate = nowDate - 3600
+			}
+			return time.reverse()
+		},
+		strToymd(time) {
+			// 遍历时间 处理格式
+			let date = new Date(time * 1000)
+			let Y = date.getFullYear() + '-'
+			let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+			let D = date.getDate() + ' '
+			let h = date.getHours() + ':'
+			let m = date.getMinutes() + ':'
+			let s = date.getSeconds()
+			let b = M + D + h + m + s
+			return b
 		}
 	},
 	beforeRouteEnter(to, from, next) {

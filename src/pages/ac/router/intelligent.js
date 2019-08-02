@@ -147,15 +147,15 @@ export default [{
             component: () =>
                 import('@ac/views/securityControl')
         },
-        {
-            path: 'arrester-monitor',
-            name: 'arrester-monitor',
-            meta: {
-                title: '避雷器在线监测'
-            },
-            component: () =>
-                import('@ac/views/arrester-monitor')
-        },
+        // {
+        //     path: 'arrester-monitor',
+        //     name: 'arrester-monitor',
+        //     meta: {
+        //         title: '避雷器在线监测'
+        //     },
+        //     component: () =>
+        //         import('@ac/views/arrester-monitor')
+        // },
         {
             path: 'main-oil',
             name: 'main-oil',

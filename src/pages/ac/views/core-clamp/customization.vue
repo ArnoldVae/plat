@@ -39,15 +39,17 @@
         </ul>
       </div>
     </div>
-    <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal>
+    <!-- <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal> -->
+    <charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
   </div>
 </template>
 <script>
 import { findComponentUpward } from '@/libs/assist'
 import moment from 'moment'
+import charts from '../main-oil/charts'
 export default {
 	name: 'core-clamp-customization',
-	components: {},
+	components: { charts },
 	props: {},
 	data() {
 		return {
@@ -284,7 +286,7 @@ export default {
                   height: 37px;
                   float: left;
                   margin: 10px 13px;
-                  border-radius:5px;
+                  border-radius: 5px;
                 }
 
                 li:nth-of-type(1) {
@@ -366,7 +368,7 @@ export default {
                   height: 37px;
                   float: left;
                   margin: 15px 13px;
-                  border-radius:5px;
+                  border-radius: 5px;
                 }
 
                 li:nth-of-type(1) {

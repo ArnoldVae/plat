@@ -18,7 +18,7 @@
             <p>电池组电流</p>
           </div>
           <div class="status-right">
-            <span>117.51</span> A
+            <span>109.35</span> A
           </div>
         </div>
         <div class="status status-item">
@@ -50,7 +50,7 @@
             <p>电池组电压</p>
           </div>
           <div class="status-right" @click="getcharts">
-            <span>117.51</span> V
+            <span>115</span> V
           </div>
         </div>
         <div class="current status-item">
@@ -59,7 +59,7 @@
             <p>电池组电流</p>
           </div>
           <div class="status-right">
-            <span>117.51</span> A
+            <span>103.51</span> A
           </div>
         </div>
         <div class="status status-item">
@@ -155,8 +155,8 @@ export default {
 		this.seriesData = []
 		this.xData = []
 		for (let i = 0; i < 52; i++) {
-			let num = parseFloat(Math.random().toFixed(2))
-			this.seriesData.push(3 + num)
+			let num = 2 + (this.randomNum(24, 26) / 100)
+			this.seriesData.push(num)
 			this.xData.push(i + 1)
 		}
 		this.getDevList()
@@ -192,6 +192,19 @@ export default {
 			this.seriesData.push(3)
 			this.xData.push(1)
 			this.getST()
+		},
+		randomNum(minNum, maxNum) {
+			switch (arguments.length) {
+				case 1:
+					return parseInt(Math.random() * minNum + 1, 10)
+					break
+				case 2:
+					return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
+					break
+				default:
+					return 0
+					break
+			}
 		},
 		getST() {
 			console.log('click')

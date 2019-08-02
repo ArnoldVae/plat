@@ -53,8 +53,8 @@ export default {
 	computed: {},
 	filters: {},
 	watch: {
-		seriesData:{
-			handler(val){
+		seriesData: {
+			handler(val) {
 				this.setCharts()
 			}
 		}
@@ -73,9 +73,13 @@ export default {
 			let maxArr = []
 			let minArr = []
 			let unit = this.options.unit
+			this.options.max = this.options.name == '电压' ? 2.28 : '0.4'
+			this.options.min = this.options.name == '电压' ? 2.23 : '0.3'
+			let dz = []
 			for (let i = 0; i < this.seriesData.length; i++) {
 				minArr.push(this.options.max)
 				maxArr.push(this.options.min)
+				dz.push(0.35)
 			}
 			var myChart = this.$_echarts.init(document.getElementById(this.id))
 			var option = {
@@ -123,7 +127,7 @@ export default {
 						}
 					},
 					min: function(value) {
-						return value.min - 2
+						return value.min - 0.2
 						//这里设置Y轴展示的缩放级别
 					}
 				},
@@ -146,7 +150,7 @@ export default {
 					{
 						name: this.options.name,
 						type: 'bar',
-						data: this.seriesData
+						data: this.options.name == '电压' ? this.seriesData:dz
 					},
 					{
 						name: this.options.min,

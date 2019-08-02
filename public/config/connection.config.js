@@ -1,7 +1,7 @@
 // 开发模式
 var $_development = {
 	request: {
-		location: "http://172.26.1.233:8085",
+		location: "http://172.26.1.149:8085",
 		javaModule: "dsa5200"
 	},
 	video: {
@@ -24,7 +24,7 @@ var $_production = {
 		location: "172.26.1.152:8888"
 	},
 	mqtt: {
-		host: "172.26.1.233",
+		host: "172.26.1.18",
 		port: "8083",
 		path: "mqtt",
 		username: 'qif',

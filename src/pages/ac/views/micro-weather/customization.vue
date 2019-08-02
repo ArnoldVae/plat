@@ -5,7 +5,7 @@
     </div>
     <span class="logo" :class="item.class" v-for="(item,index) in chartsList" :key="index">
       <img :src="item.src" alt />
-      <p>{{item.nodeName}}</p>
+      <p>{{item.vcName}}</p>
       <p>
         <i>{{item.fvalue}}</i>
         &nbsp;{{item.vcUnit}}
@@ -56,10 +56,21 @@ export default {
 	update() {},
 	beforeDestory() {},
 	methods: {
+		// getDevList(DevID) {
+		// 	this.$_api.getStaticData('./simulation-data/micro-weather.json').then(res => {
 		getDevList(DevID) {
-			this.$_api.getStaticData('./simulation-data/micro-weather.json').then(res => {
-				console.log(res)
-				this.chartsList = res.data.rows
+			let params = {
+				devTypeId: this.activeDeviceTypeId,
+				isPage: 1,
+				isFindNodes: 1,
+				unitId: this.unitId
+			}
+			this.$_api.sf6Monitor.getDevList(params).then(res => {
+				for (let i = 0; i < res.data.lists[1].devNodesList.length; i++) {
+					if (res.data.lists[1].devNodesList[i].vcName != '风向') {
+						this.chartsList.push(res.data.lists[1].devNodesList[i])	
+					}
+				}
 				this.getCharts()
 			})
 		},
@@ -73,12 +84,13 @@ export default {
 			let classArr = ['logo1', 'logo2', 'logo3', 'logo4', 'logo5']
 			let idArr = ['chart1', 'chart2', 'chart3', 'chart4', 'chart5']
 			let imgArr = [
-				require('../../assets/img/micro-weather/yl.png'),
+				require('../../assets/img/micro-weather/fx.png'),
 				require('../../assets/img/micro-weather/wd.png'),
 				require('../../assets/img/micro-weather/sd.png'),
-				require('../../assets/img/micro-weather/fx.png'),
+				require('../../assets/img/micro-weather/yl.png'),
 				require('../../assets/img/micro-weather/mfzyl.png')
 			]
+
 			this.chartsList.forEach((item, index) => {
 				item.class = classArr[index]
 				item.id = idArr[index]
