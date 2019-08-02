@@ -48,7 +48,7 @@
 <script>
 import qs from 'qs'
 import moment from 'moment'
-import charts from '../main-oil/charts'
+import charts from '../main-oil/charts1'
 export default {
 	name: 'cabinet-customization',
 	components: { charts },
@@ -107,8 +107,11 @@ export default {
 			// 	.then(res => {
 			this.$_api.getStaticData('./simulation-data/cabinet.json').then(res => {
 				// if (res.ret === '0') {
-				console.log(res)
-				this.list = res.data.data
+				// console.log(res)
+        this.list = res.data.data
+        let testData = JSON.parse(JSON.stringify(res.data.data))
+        console.log(testData)
+        
 				// }
 			})
 		},

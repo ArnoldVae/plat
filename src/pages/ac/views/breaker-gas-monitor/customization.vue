@@ -22,7 +22,7 @@
 <script>
 import qs from 'qs'
 import moment from 'moment'
-import charts from '../main-oil/charts'
+import charts from '../main-oil/charts1'
 export default {
 	name: 'breaker-gas-monitor-customization',
 	components: {charts},

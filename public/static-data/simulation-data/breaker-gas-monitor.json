@@ -4,7 +4,7 @@
     "total": 15,
     "rows": [
         {
-            "nodeId": "160ef0cd781f4847ac7afb79c0f0d5e6",
+            "nodeId": "41ec3431cb4347d3a9827b9f167cc414",
             "equId": "1c0cd42705354159b51d584ac526e6b7",
             "equName": "2号主变4号电容器 314断路器",
             "videoUrl": null,
@@ -23,7 +23,7 @@
             "vcUnit": "MPa"
         },
         {
-            "nodeId": "04f7911d0b2a4ac98cfc41e0e5a7f188",
+            "nodeId": "8e756e0e30ef44bb8c6ee5c123ba96c7",
             "equId": "1c0cd42705354159b51d584ac526e6b7",
             "equName": "2号主变4号电容器 314断路器",
             "videoUrl": null,
@@ -42,7 +42,7 @@
             "vcUnit": "kg/m^3"
         },
         {
-            "nodeId": "05ac4092d1044c09a44417f608b4b474",
+            "nodeId": "76cb21f37ed84efb8ea82410a2feeeb9",
             "equId": "1c0cd42705354159b51d584ac526e6b7",
             "equName": "2号主变4号电容器 314断路器",
             "videoUrl": null,
@@ -61,7 +61,7 @@
             "vcUnit": "ppm"
         },
         {
-            "nodeId": "69c349909e724cd4bf16853977fee0f0",
+            "nodeId": "6afbf36027c549309da809f1707c8343",
             "equId": "1c0cd42705354159b51d584ac526e6b7",
             "equName": "2号主变4号电容器 314断路器",
             "videoUrl": null,
@@ -80,7 +80,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "35e105df035f49189c9a2b3f2fad757a",
+            "nodeId": "699be00935d24f1c911c59e7df7e9849",
             "equId": "1c0cd42705354159b51d584ac526e6b7",
             "equName": "2号主变4号电容器 314断路器",
             "videoUrl": null,
@@ -99,7 +99,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "ea9d9632ee044425b2e9358888ea85ae",
+            "nodeId": "579ab5b7546c4894af23a40e3ceb8687",
             "equId": "aac0ae178ab9464faae99947ab2fd4a6",
             "equName": "2号主变4号电容器 324断路器",
             "videoUrl": null,
@@ -118,7 +118,7 @@
             "vcUnit": "MPa"
         },
         {
-            "nodeId": "b69d2a23df2047f5b43d078002d62a22",
+            "nodeId": "2663bcead5b64e6c8b20720ee12769b6",
             "equId": "aac0ae178ab9464faae99947ab2fd4a6",
             "equName": "2号主变4号电容器 324断路器",
             "videoUrl": null,
@@ -137,7 +137,7 @@
             "vcUnit": "kg/m^3"
         },
         {
-            "nodeId": "5e33939774bd4d0da4dbe2ee74e6adf1",
+            "nodeId": "fc42378b1e894053b9fe91ed8fc9a657",
             "equId": "aac0ae178ab9464faae99947ab2fd4a6",
             "equName": "2号主变4号电容器 324断路器",
             "videoUrl": null,
@@ -156,7 +156,7 @@
             "vcUnit": "ppm"
         },
         {
-            "nodeId": "4f0ac1911d404dcf8592854eebca387b",
+            "nodeId": "6eb9afe2a6e446db9077cd0103643c6b",
             "equId": "aac0ae178ab9464faae99947ab2fd4a6",
             "equName": "2号主变4号电容器 324断路器",
             "videoUrl": null,
@@ -175,7 +175,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "8830f1cbe64a4ed69e1ffd61ee5d291c",
+            "nodeId": "bc7595457501473a8cb4d26584961731",
             "equId": "aac0ae178ab9464faae99947ab2fd4a6",
             "equName": "2号主变4号电容器 324断路器",
             "videoUrl": null,
@@ -194,7 +194,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "984a633f7a2748d9a33d3f633a9a84f4",
+            "nodeId": "e39827352e6441669b1433208fb0ea7a",
             "equId": "02a100e4da27456cb85a50e74a6d8192",
             "equName": "备用2001 断路器",
             "videoUrl": null,
@@ -213,7 +213,7 @@
             "vcUnit": "MPa"
         },
         {
-            "nodeId": "331f5673550949df906a87f9b8ef50de",
+            "nodeId": "38f22ac2c3164952817289bae48dff92",
             "equId": "02a100e4da27456cb85a50e74a6d8192",
             "equName": "备用2001 断路器",
             "videoUrl": null,
@@ -232,7 +232,7 @@
             "vcUnit": "kg/m^3"
         },
         {
-            "nodeId": "35faa45dfa8b41f985a10ca05388b303",
+            "nodeId": "8fc0e11bdb8c42a49c92504cbd578d83",
             "equId": "02a100e4da27456cb85a50e74a6d8192",
             "equName": "备用2001 断路器",
             "videoUrl": null,
@@ -251,7 +251,7 @@
             "vcUnit": "ppm"
         },
         {
-            "nodeId": "6ae1b2df74b845738b297d312fc8a3b6",
+            "nodeId": "8b9782b41c354ccea574772ec00b33b5",
             "equId": "02a100e4da27456cb85a50e74a6d8192",
             "equName": "备用2001 断路器",
             "videoUrl": null,
@@ -270,7 +270,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "d9600569fff54e73bc165712d786b6d3",
+            "nodeId": "f2b22170b24a4d3a8ba8b81e831b3b3e",
             "equId": "02a100e4da27456cb85a50e74a6d8192",
             "equName": "备用2001 断路器",
             "videoUrl": null,

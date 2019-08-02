@@ -4,7 +4,7 @@
     "total": 45,
     "rows": [
         {
-            "nodeId": "61a7d188b9af4ec5b85dc7ce20ec4768",
+            "nodeId": "0af2c02aac634c579e6d277be13a3715",
             "equId": "a79248396cb94e88844ebba70e2a1de2",
             "equName": "3号主变5003 断路器A相气室",
             "videoUrl": null,
@@ -23,7 +23,7 @@
             "vcUnit": "MPa"
         },
         {
-            "nodeId": "31303028efc145c2baf7b6631b0c2cf8",
+            "nodeId": "ec322ba4265c44a29d709380029993c1",
             "equId": "a79248396cb94e88844ebba70e2a1de2",
             "equName": "3号主变5003 断路器A相气室",
             "videoUrl": null,
@@ -42,7 +42,7 @@
             "vcUnit": "kg/m^3"
         },
         {
-            "nodeId": "155535dcf3ab4972af34614c7d5daf74",
+            "nodeId": "9b4c8ac51c53452295a849e8e9bfb752",
             "equId": "a79248396cb94e88844ebba70e2a1de2",
             "equName": "3号主变5003 断路器A相气室",
             "videoUrl": null,
@@ -61,7 +61,7 @@
             "vcUnit": "ppm"
         },
         {
-            "nodeId": "eb65b9468868402288d755b29a330879",
+            "nodeId": "0dc76c58037c422091cc3ce01840e60d",
             "equId": "a79248396cb94e88844ebba70e2a1de2",
             "equName": "3号主变5003 断路器A相气室",
             "videoUrl": null,
@@ -80,7 +80,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "e859e3cfb3cb4d0ab93d40ab8de296e8",
+            "nodeId": "78520643b4084ca3b4a620f1573a5f82",
             "equId": "a79248396cb94e88844ebba70e2a1de2",
             "equName": "3号主变5003 断路器A相气室",
             "videoUrl": null,
@@ -99,7 +99,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "75a0748e47354ab4b9b8c0444e79f52c",
+            "nodeId": "29a27af12f7c4842b08f9eef65e16f2a",
             "equId": "71a734b0ea9046bd85b2859acc49e03f",
             "equName": "3号主变5003 断路器B相气室",
             "videoUrl": null,
@@ -118,7 +118,7 @@
             "vcUnit": "MPa"
         },
         {
-            "nodeId": "5a13f300bc4349579f57e4845b6b3583",
+            "nodeId": "f131c177e9ed48da9006aa908b40c4da",
             "equId": "71a734b0ea9046bd85b2859acc49e03f",
             "equName": "3号主变5003 断路器B相气室",
             "videoUrl": null,
@@ -137,7 +137,7 @@
             "vcUnit": "kg/m^3"
         },
         {
-            "nodeId": "529377be59e54c63b7cdb62b2b90c00c",
+            "nodeId": "f131c177e9ed48da9006aa908b40c4da",
             "equId": "71a734b0ea9046bd85b2859acc49e03f",
             "equName": "3号主变5003 断路器B相气室",
             "videoUrl": null,
@@ -156,7 +156,7 @@
             "vcUnit": "ppm"
         },
         {
-            "nodeId": "07c5af76659a4fa79166fcced9367627",
+            "nodeId": "1718672c2cfa48ceb1b5a86d8238b1b3",
             "equId": "71a734b0ea9046bd85b2859acc49e03f",
             "equName": "3号主变5003 断路器B相气室",
             "videoUrl": null,
@@ -175,7 +175,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "f0744ced7cff4b36b1072f9b52792588",
+            "nodeId": "3f2956cd5ffc4187b06ebe8e17d711d7",
             "equId": "71a734b0ea9046bd85b2859acc49e03f",
             "equName": "3号主变5003 断路器B相气室",
             "videoUrl": null,
@@ -194,7 +194,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "b8697709241444f2ac32caef71205ed4",
+            "nodeId": "18842b7f61cb428e8723ac9120610a1c",
             "equId": "1107af77580b42d3bab59db8255f9fd9",
             "equName": "3号主变5003 断路器C相气室",
             "videoUrl": null,
@@ -213,7 +213,7 @@
             "vcUnit": "MPa"
         },
         {
-            "nodeId": "1443e4ccebc94e54a8618c5c7ef962cb",
+            "nodeId": "e6bf3d14d51040a9b4a83fef2e68353f",
             "equId": "1107af77580b42d3bab59db8255f9fd9",
             "equName": "3号主变5003 断路器C相气室",
             "videoUrl": null,
@@ -232,7 +232,7 @@
             "vcUnit": "kg/m^3"
         },
         {
-            "nodeId": "12cb7bb58cbd402789012d5c5c4309d2",
+            "nodeId": "48e2fe476cd848748ff5cc8f2a99208a",
             "equId": "1107af77580b42d3bab59db8255f9fd9",
             "equName": "3号主变5003 断路器C相气室",
             "videoUrl": null,
@@ -251,7 +251,7 @@
             "vcUnit": "ppm"
         },
         {
-            "nodeId": "b0ea9658a68f44c8b62dff5b8145a3ec",
+            "nodeId": "d587fdf87a6b49df92391ff3c6883aee",
             "equId": "1107af77580b42d3bab59db8255f9fd9",
             "equName": "3号主变5003 断路器C相气室",
             "videoUrl": null,
@@ -270,7 +270,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "bee550fe4bf8401f9e0165cd0f4809bc",
+            "nodeId": "3474e7b92d304d7eb609cb425d11dcd3",
             "equId": "1107af77580b42d3bab59db8255f9fd9",
             "equName": "3号主变5003 断路器C相气室",
             "videoUrl": null,
@@ -289,7 +289,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "91ded2659ed64c72afdbe0b2a650b749",
+            "nodeId": "bab79be7fd3946f885edce1f21a10356",
             "equId": "b4239a410a5f442dab6412535e7247e6",
             "equName": "3号主变50031 A相隔离开关气室",
             "videoUrl": null,
@@ -308,7 +308,7 @@
             "vcUnit": "MPa"
         },
         {
-            "nodeId": "76db17451e6f42e5b0011f4be58fdc07",
+            "nodeId": "eef5ba66deaf47cea7ad36a1bd13bea1",
             "equId": "b4239a410a5f442dab6412535e7247e6",
             "equName": "3号主变50031 A相隔离开关气室",
             "videoUrl": null,
@@ -327,7 +327,7 @@
             "vcUnit": "kg/m^3"
         },
         {
-            "nodeId": "1a120a90ccf942449c16c5381c358761",
+            "nodeId": "2d02daafa9244f6cbfbddb49453159bd",
             "equId": "b4239a410a5f442dab6412535e7247e6",
             "equName": "3号主变50031 A相隔离开关气室",
             "videoUrl": null,
@@ -346,7 +346,7 @@
             "vcUnit": "ppm"
         },
         {
-            "nodeId": "d495e0e74065409a99f5d5798e608d83",
+            "nodeId": "d4a23f221ea5404392fe64c9614974c5",
             "equId": "b4239a410a5f442dab6412535e7247e6",
             "equName": "3号主变50031 A相隔离开关气室",
             "videoUrl": null,
@@ -365,7 +365,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "ef3827281e5346a2887c7ef00eaa63c0",
+            "nodeId": "ac82145d05db482fa8a8e11158910a80",
             "equId": "b4239a410a5f442dab6412535e7247e6",
             "equName": "3号主变50031 A相隔离开关气室",
             "videoUrl": null,
@@ -384,7 +384,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "0790f807662f46769ec2e6059c043d3d",
+            "nodeId": "541b72881fdb438b8c6afb3ed75b0df3",
             "equId": "40bb15c2e9c543faa13218138421f22a",
             "equName": "3号主变50031 B相隔离开关气室",
             "videoUrl": null,
@@ -403,7 +403,7 @@
             "vcUnit": "MPa"
         },
         {
-            "nodeId": "cba9131b068b4cdd8343ac93fb4f884b",
+            "nodeId": "0c4375fc86c9471683dc1fc5c5f7fe81",
             "equId": "40bb15c2e9c543faa13218138421f22a",
             "equName": "3号主变50031 B相隔离开关气室",
             "videoUrl": null,
@@ -422,7 +422,7 @@
             "vcUnit": "kg/m^3"
         },
         {
-            "nodeId": "76d78e9285b749b0a41154672f908238",
+            "nodeId": "ec06790ca6ee4a44a94c6c3f06e8d70f",
             "equId": "40bb15c2e9c543faa13218138421f22a",
             "equName": "3号主变50031 B相隔离开关气室",
             "videoUrl": null,
@@ -441,7 +441,7 @@
             "vcUnit": "ppm"
         },
         {
-            "nodeId": "7390441c03594e4e9a5ee5ccc5d4aa17",
+            "nodeId": "1ff09c25cff64c7f911b6799938f69a8",
             "equId": "40bb15c2e9c543faa13218138421f22a",
             "equName": "3号主变50031 B相隔离开关气室",
             "videoUrl": null,
@@ -460,7 +460,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "0cd9dda4c9d743c987b3454bd92ed146",
+            "nodeId": "b273c4fe30a24993a227643b1cfddad8",
             "equId": "40bb15c2e9c543faa13218138421f22a",
             "equName": "3号主变50031 B相隔离开关气室",
             "videoUrl": null,
@@ -479,7 +479,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "01600cddc9d3407d865fab75c28a4bc1",
+            "nodeId": "ef3cbde0e4c94c8f932d241cab73cf00",
             "equId": "e9ef40885d7d4fc08d4c850441140d36",
             "equName": "3号主变50031 C相隔离开关气室",
             "videoUrl": null,
@@ -498,7 +498,7 @@
             "vcUnit": "MPa"
         },
         {
-            "nodeId": "c43e8afe08304467b4e515b84b5ee78c",
+            "nodeId": "5d87f7c98f9f46dca3c2ca1c7be5ce82",
             "equId": "e9ef40885d7d4fc08d4c850441140d36",
             "equName": "3号主变50031 C相隔离开关气室",
             "videoUrl": null,
@@ -517,7 +517,7 @@
             "vcUnit": "kg/m^3"
         },
         {
-            "nodeId": "9c1d5e8514514014ac034f19d8ed1662",
+            "nodeId": "3356a73c2e08493fae5c7dd350fc892d",
             "equId": "e9ef40885d7d4fc08d4c850441140d36",
             "equName": "3号主变50031 C相隔离开关气室",
             "videoUrl": null,
@@ -536,7 +536,7 @@
             "vcUnit": "ppm"
         },
         {
-            "nodeId": "e42fad8167fc433d99c3d5cadf9e577a",
+            "nodeId": "111a1cfcc0e04b39866dd02de17c9416",
             "equId": "e9ef40885d7d4fc08d4c850441140d36",
             "equName": "3号主变50031 C相隔离开关气室",
             "videoUrl": null,
@@ -555,7 +555,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "7deccee392d648a08f7e05d3d45d9163",
+            "nodeId": "78a3bc9e58b8477384938b338078e36d",
             "equId": "e9ef40885d7d4fc08d4c850441140d36",
             "equName": "3号主变50031 C相隔离开关气室",
             "videoUrl": null,
@@ -574,7 +574,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "9f1d8ca2f54f4a19962e426c294e4fd0",
+            "nodeId": "6472f70a0f4e4f2fa6d893798c1f0581",
             "equId": "13759cdcb11d43daa8079afdb36d8262",
             "equName": "3号主变50032 A相隔离开关气室",
             "videoUrl": null,
@@ -593,7 +593,7 @@
             "vcUnit": "MPa"
         },
         {
-            "nodeId": "12751a0630294a90937fb0bda6f49462",
+            "nodeId": "8fbf2a7696c14ed6952e2bc1413d16ea",
             "equId": "13759cdcb11d43daa8079afdb36d8262",
             "equName": "3号主变50032 A相隔离开关气室",
             "videoUrl": null,
@@ -612,7 +612,7 @@
             "vcUnit": "kg/m^3"
         },
         {
-            "nodeId": "7d7c4bbb5f574c54a22f9e3b03d91826",
+            "nodeId": "95fd58daeca24f2e951248f73020bd96",
             "equId": "13759cdcb11d43daa8079afdb36d8262",
             "equName": "3号主变50032 A相隔离开关气室",
             "videoUrl": null,
@@ -631,7 +631,7 @@
             "vcUnit": "ppm"
         },
         {
-            "nodeId": "884e62dfd52641e4995811bd3a15ca02",
+            "nodeId": "a7e511ceee654d74b565afd74cb80b32",
             "equId": "13759cdcb11d43daa8079afdb36d8262",
             "equName": "3号主变50032 A相隔离开关气室",
             "videoUrl": null,
@@ -650,7 +650,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "67864dd4b3104f6eb9b0ba191a05de26",
+            "nodeId": "3bcd97eaed9d4c6a92bc620eaca04d8f",
             "equId": "13759cdcb11d43daa8079afdb36d8262",
             "equName": "3号主变50032 A相隔离开关气室",
             "videoUrl": null,
@@ -669,7 +669,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "083c5bfb3cdf416eab6a7af710225b1b",
+            "nodeId": "8d921778528d462899abe891e8e55de3",
             "equId": "bae19dece1804a2bbb3c8991172fd0d5",
             "equName": "3号主变50032 B相隔离开关气室",
             "videoUrl": null,
@@ -688,7 +688,7 @@
             "vcUnit": "MPa"
         },
         {
-            "nodeId": "b4fc3562c6c14685aad8d73efaa6b6ba",
+            "nodeId": "5ec958dc8ae841f9b8037978cfbdee27",
             "equId": "bae19dece1804a2bbb3c8991172fd0d5",
             "equName": "3号主变50032 B相隔离开关气室",
             "videoUrl": null,
@@ -707,7 +707,7 @@
             "vcUnit": "kg/m^3"
         },
         {
-            "nodeId": "906f4d267a1a474fb254e4729b53beaa",
+            "nodeId": "a5eb5fbc21074d0a863bd6f59151a9b5",
             "equId": "bae19dece1804a2bbb3c8991172fd0d5",
             "equName": "3号主变50032 B相隔离开关气室",
             "videoUrl": null,
@@ -726,7 +726,7 @@
             "vcUnit": "ppm"
         },
         {
-            "nodeId": "61139b2665a9482e86828b67d2e8a432",
+            "nodeId": "1ca8f031e04243ccb443a913306d23fa",
             "equId": "bae19dece1804a2bbb3c8991172fd0d5",
             "equName": "3号主变50032 B相隔离开关气室",
             "videoUrl": null,
@@ -745,7 +745,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "78ecaea7a56e415b9aa81a10fb5d7d72",
+            "nodeId": "34f224846e04431b8a122bccb19b3fa9",
             "equId": "bae19dece1804a2bbb3c8991172fd0d5",
             "equName": "3号主变50032 B相隔离开关气室",
             "videoUrl": null,
@@ -764,7 +764,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "3b546d45115a4ee4be16ba8a6aac9cfc",
+            "nodeId": "bdf6001e65784909b6d5e85bc22e0fba",
             "equId": "a4413886aee143dab39d40e9921114ae",
             "equName": "3号主变50032 C相隔离开关气室",
             "videoUrl": null,
@@ -783,7 +783,7 @@
             "vcUnit": "MPa"
         },
         {
-            "nodeId": "69aaec04629747418f675dc4ac34a999",
+            "nodeId": "0c4375fc86c9471683dc1fc5c5f7fe81",
             "equId": "a4413886aee143dab39d40e9921114ae",
             "equName": "3号主变50032 C相隔离开关气室",
             "videoUrl": null,
@@ -802,7 +802,7 @@
             "vcUnit": "kg/m^3"
         },
         {
-            "nodeId": "17c13956b4da4bc59e757650377292e1",
+            "nodeId": "ec06790ca6ee4a44a94c6c3f06e8d70f",
             "equId": "a4413886aee143dab39d40e9921114ae",
             "equName": "3号主变50032 C相隔离开关气室",
             "videoUrl": null,
@@ -821,7 +821,7 @@
             "vcUnit": "ppm"
         },
         {
-            "nodeId": "5c27971f6ce44beea309356d928ca042",
+            "nodeId": "1ff09c25cff64c7f911b6799938f69a8",
             "equId": "a4413886aee143dab39d40e9921114ae",
             "equName": "3号主变50032 C相隔离开关气室",
             "videoUrl": null,
@@ -840,7 +840,7 @@
             "vcUnit": "℃"
         },
         {
-            "nodeId": "6152a975e42749f2952adf8c348dd7a5",
+            "nodeId": "b273c4fe30a24993a227643b1cfddad8",
             "equId": "a4413886aee143dab39d40e9921114ae",
             "equName": "3号主变50032 C相隔离开关气室",
             "videoUrl": null,
