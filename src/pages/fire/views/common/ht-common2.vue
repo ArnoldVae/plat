@@ -15,7 +15,7 @@
         },
         mounted() {
 
-            this.init()
+            this.mapHt()
         },
         watch: {
         },
@@ -144,6 +144,44 @@
                         }
                     }
                 })
+            },
+            //ht
+            mapHt(){
+                let localHt = (this.localHt = window.ht);
+                let dataModel = (this.dataModel = new localHt.DataModel());
+                let graphView = (this.graphView = new localHt.graph.GraphView(dataModel));
+                let mapHT = this.$refs["view-main"];
+                graphView.addToDOM(mapHT);
+                graphView.setMovableFunc(function() {
+                    return false;
+                });
+                graphView.getSelectWidth = function() {
+                    return 0;
+                };
+                graphView.setScrollBarSize(0);
+                graphView.fitContent(true)
+                graphView.setSelectableFunc(() => {
+                    return false;
+                });
+                graphView.adjustZoom = () => {
+                    return 1;
+                };
+                //添加背景
+                localHt.Default.setImage(
+                    "mapBg",
+                    "ht/storage/assets/svg/01.svg"
+                ); // 背景
+                localHt.Default.setImage(
+                    "arrow-orange",
+                    "ht/storage/assets/svg/01.svg"
+                ); // 箭头
+                let width = graphView.getWidth();
+                let height = graphView.getHeight();
+                // 添加背景图片
+                const MAPBG = new localHt.Node();
+                MAPBG.setRect(0, 0, width, height);
+                MAPBG.setImage("mapBg");
+                dataModel.add(MAPBG);
             }
 
 
@@ -161,7 +199,7 @@
     }
     .fireControlHt {
         width: 100%;
-        height: 800px;
+        height: 700px;
         position: relative;
     }
 </style>
