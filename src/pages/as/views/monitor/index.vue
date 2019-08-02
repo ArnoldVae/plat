@@ -38,7 +38,7 @@
 									<monitorCurrent :unitId='stationId'></monitorCurrent>
 								</div>
               </Tab-pane>-->
-            </Tabs>
+            <!-- </Tabs> -->
           </div>
           <!-- 视频 -->
           <div class="video">

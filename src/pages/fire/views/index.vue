@@ -12,7 +12,7 @@
         <div class="fire-content">
             <keep-alive  include="statusCheck">
                 <component v-bind:is="current" ref="test" @transfer="getMethod" :node="alarmNode"
-                           @receiveAlarm="receiveAlarm"></component>
+                           @receiveAlarm="receiveAlarm" @switchWarning="switchWarning"></component>
             </keep-alive>
 
         </div>
@@ -51,22 +51,22 @@
                         code: 'system-view', //菜单对应code
                         active: true
                     },
-                    {
-                        title: '状态监视',
-                        id: '02',
-                        code: 'status-check',
-                        active: false
-                    },
-                    {
-                        title: '早期预警',
-                        id: '03',
-                        code: 'early-warning',
-                        active: false
-                    },
+                    // {
+                    //     title: '早期预警',
+                    //     id: '03',
+                    //     code: 'early-warning',
+                    //     active: false
+                    // },
                     {
                         title: '报警联动',
                         id: '04',
                         code: 'alarm-action',
+                        active: false
+                    },
+                    {
+                        title: '状态监视',
+                        id: '02',
+                        code: 'status-check',
                         active: false
                     },
                     {
@@ -75,12 +75,12 @@
                         code: 'dev-ops',
                         active: false
                     },
-                    {
-                        title: '数据分析',
-                        active: false,
-                        code: 'analyst-data',
-                        id: '06'
-                    }
+                    // {
+                    //     title: '数据分析',
+                    //     active: false,
+                    //     code: 'analyst-data',
+                    //     id: '06'
+                    // }
                 ],
                 alaramTopic: 'qif/xf/app/alarm/',
                 topicArr: [], //mqtt 需要订阅的topic
@@ -137,6 +137,19 @@
             backPage() {
                 this.current = 'system-view'
             },
+            //跳转切换报警联动页面
+            switchWarning(val){
+                // console.log(val)
+                this.tabList.forEach(item=>{
+                    if(item.code == 'alarm-action'){
+                        item.active = true
+                    }else{
+                        item.active = false
+                    }
+                })
+                this.current = 'alarm-action'
+            },
+
             //获取所有接入消防的站
             getAllstation() {
                 this.$_api.systemView.getAllStation({iType: 10060003}).then(res => {

@@ -158,6 +158,7 @@ export default {
 <style lang="stylus">
 .mian-taining {
   padding: 1.66667rem;
+	margin-top: -20px
 
   /deep/.el-popper[x-placement^=bottom] {
     margin-top: 0.53333rem;
