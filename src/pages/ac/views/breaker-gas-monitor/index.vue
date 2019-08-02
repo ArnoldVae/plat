@@ -1,23 +1,23 @@
 <template>
-  <div class="anti-theft">
+  <div class="breaker-gas-monitor">
     <!-- <transition name="v" mode="out-in"> -->
     <component v-bind:is="current"></component>
     <!-- </transition> -->
   </div>
 </template>
 <script>
-import antiTheftTable from '@ac/views/common/view-table'
-import antiTheftCustomization from './customization.vue'
+import breakerGasMonitorCustomization from './customization.vue'
+import breakerGasMonitorTable from '@ac/views/common/view-table'
 export default {
-	name: 'anti-theft',
+	name: 'breaker-gas-monitor',
 	components: {
-		'anti-theft-table': antiTheftTable,
-		'anti-theft-customization': antiTheftCustomization
+		'breaker-gas-monitor-customization': breakerGasMonitorCustomization,
+		'breaker-gas-monitor-table': breakerGasMonitorTable
 	},
 	props: {},
 	data() {
 		return {
-			current: 'anti-theft-customization'
+			current: 'breaker-gas-monitor-customization'
 		}
 	},
 	computed: {},
@@ -41,7 +41,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.anti-theft {
+.breaker-gas-monitor {
   height: 100%;
   /* background: #fa0; */
 }

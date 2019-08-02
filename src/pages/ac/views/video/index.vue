@@ -6,11 +6,13 @@
 	</div>
 </template>
 <script>
+import videoTable from '@ac/views/common/view-table'
 import videoCustomization from './customization.vue'
 export default {
 	name: 'video',
 	components: {
-		'video-customization': videoCustomization
+		'video-customization': videoCustomization,
+		'video-table': videoTable,
 	},
 	props: {},
 	data() {

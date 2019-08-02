@@ -1,25 +1,444 @@
 <template>
-	<div class="video-customization">
-		视频定制化
-	</div>
+  <div class="video-customization">
+    <div class="rtCtn">
+      <!-- <div class="videoControl">
+      </div>-->
+      <div class="videoCtn-box">
+        <div class="ctnMain">
+          <div class="videoPanorama-ctnBox">
+            <div class="videoCtn">
+              <div
+                :class="
+									selectIdx == idx && playType == '视频'
+										? `videoItem layout-${videoLen} videoSelect`
+										: `videoItem layout-${videoLen}`
+								"
+                v-for="(item, idx) in videoComList"
+                :key="idx"
+              >
+                <!-- <VideoKurento :videoConfig="item" :isShowTool="false"></VideoKurento> -->
+                <ocxVideo :videoConfig="item" @setSelectIdx="selectIndex"></ocxVideo>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="lfCtn">
+      <div class="tabBox">
+        <div
+          class="inBox"
+          @click="videoclickShow('场景')"
+          :class="{ active: active == !videoShow }"
+        >场景</div>
+        <div class="inBox" @click="videoclickShow('视频')" :class="{ active: active == videoShow }">视频</div>
+      </div>
+      <div class="videoBox" v-show="videoShow">
+        <Menu :active-name="firstScene" width="auto" @on-select="selectMenu" ref="videoScene">
+          <MenuItem :name="item.sceneID" v-for="(item, idx) in sceneList" :key="idx">
+            <!-- <img :src="selectScene == item.sceneID ? iconCheck[item.iconName] : iconList[item.iconName]" alt=""> -->
+            <!-- <img :src="selectScene == item.sceneID ? checkIcon : defaultIcon" alt=""> -->
+            <p>{{ item.vcName }}</p>
+          </MenuItem>
+        </Menu>
+      </div>
+      <input
+        type="text"
+        v-model="search"
+        class="search-ipt"
+        placeholder="请输入搜索关键字"
+        v-show="!videoShow"
+      />
+      <div class="videoBox2" v-show="!videoShow">
+        <Menu width="auto" @on-select="selectMenuVideo" ref="video">
+          <MenuItem
+            :name="item.videoPlayUrl || ''"
+            v-for="(item, idx) in filterplayVideoList"
+            :key="idx"
+          >
+            <!-- <img :src="selectScene == item.sceneID ? iconCheck[item.iconName] : iconList[item.iconName]" alt=""> -->
+            <!-- <img :src="selectScene == item.sceneID ? checkIcon : defaultIcon" alt=""> -->
+            <p>{{ item.vcName }}</p>
+          </MenuItem>
+        </Menu>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
+import ocxVideo from '@/components/native/video/OcxVideo'
+import pinyin from 'pinyin2'
+import { findComponentUpward } from '@/libs/assist'
 export default {
 	name: 'video-customization',
-	components: {},
+	components: { ocxVideo },
 	props: {},
 	data() {
-		return {}
+		return {
+			unitId: this.$store.getters.unitId,
+			videoShow: true,
+			active: '',
+			lxTime: 0, //轮巡间隔
+			lxStatus: '开始轮巡',
+			videoLen: 4, //默认分屏
+			index: 0, // 视频轮训列表当前位置
+			videoComList: [], // 视频分屏列表
+			playVideoList: [],
+			videoSeviceUrl: '',
+			firstvideoPlayUrl: '',
+			playType: '',
+			modalShow2: false,
+			// 视频列表
+			timer: null, // 定时器
+			stationVideo: '测试站测试视频', // 站点视频名称
+			sceneList: [],
+			videoList: [],
+			firstScene: '',
+			search: '',
+			selectScene: '', //当前选中的场景
+			serviceInfo: '',
+			isPlaying: false, // 是否在轮巡播放中
+			defaultIcon: require('../../assets/img/video/cdjs.png'),
+			checkIcon: require('../../assets/img/video/cdjs_check.png'),
+			iconList: {
+				cdjs: require('../../assets/img/video/cdjs.png'),
+				afxs: require('../../assets/img/video/afxs.png'),
+				sbjs: require('../../assets/img/video/sbjs.png'),
+				dlcjs: require('../../assets/img/video/dlcjs.png'),
+				qjnk: require('../../assets/img/video/qjnk.png')
+			},
+			iconCheck: {
+				cdjs: require('../../assets/img/video/cdjs_check.png'),
+				afxs: require('../../assets/img/video/afxs_check.png'),
+				sbjs: require('../../assets/img/video/sbjs_check.png'),
+				dlcjs: require('../../assets/img/video/dlcjs_check.png'),
+				qjnk: require('../../assets/img/video/qjnk_check.png')
+			},
+			selectIdx: 0
+		}
 	},
-	computed: {},
+	computed: {
+		getunitId: function() {
+			return this.$store.getters.unitId
+		},
+		activeDeviceTypeId() {
+			return findComponentUpward(this, 'intelligent').currentTypeId
+		},
+		filterplayVideoList() {
+			let result = []
+			result = this.playVideoList.filter(item => {
+				// return item.vcName.match(this.search)
+				// console.log(item);
+				if (this.search == '') {
+					return true
+				} else if (
+					/^[\u4e00-\u9fa5]+$/gi.test(this.search) &&
+					item.vcName.includes(this.search) &&
+					this.search != ''
+				) {
+					item.vcName.match(this.search)
+					return true
+				} else if (
+					escape(this.search).indexOf('%u') < 0 &&
+					item.py.includes(this.search.toLowerCase()) &&
+					this.search != ''
+				) {
+					item.vcName.match(this.vcName)
+					return true
+				}
+			})
+			return result
+		}
+	},
 	filters: {},
-	watch: {},
-	created() {},
-	mounted() {},
+	watch: {
+		getunitId: {
+			handler(newValue) {
+				this.unitId = newValue
+				this.topicStr = this.topicArr[0] + this.unitId
+			}
+		},
+		//监听分屏数量变化
+		videoLen: function(val) {
+			this.setVideoScreen(val)
+		},
+		stationId(val) {
+			const _this = this
+			_this.loadSceneList(val)
+			_this.palyVideo(val)
+		}
+	},
+	created() {
+		const $this = this
+		// $this.$api.dsqIntelligent.getDefaultInfo().then(defaultInfo => {
+		$this.$_api.getStaticData('./simulation-data/video-changeVideoTime.json').then(defaultInfo => {
+			$this.lxTime = defaultInfo.data.changeVideoTime
+		})
+	},
+	mounted() {
+		const _this = this
+		// 初始化的时候，默认先加载每个视频容器
+		_this.setVideoScreen(_this.videoLen)
+		_this.loadSceneList(_this.$store.getters.stationId)
+		_this.palyVideo(_this.$store.getters.stationId)
+		window.pqw_this = this
+	},
 	activited() {},
 	update() {},
-	beforeDestory() {},
-	methods: {},
+	beforeDestory() {
+		window.clearInterval(this.timer)
+	},
+	methods: {
+		videoclickShow(type) {
+			this.playType = type
+			if (type == '场景') {
+				this.videoList = []
+				// this.setVideoScreen(this.videoLen);
+				// this.loadSceneList(this.$store.getters.stationId);
+				this.videoShow = true
+			} else if (type == '视频') {
+				this.setVideoScreen(this.videoLen)
+				this.videoList = []
+				// this.selectMenuVideo(this.firstvideoPlayUrl)
+				this.videoShow = false
+			}
+		},
+		selectIndex(val) {
+			// console.log(val);
+			// alert(val)
+
+			this.selectIdx = val
+		},
+		selectMenu: function(data) {
+			this.setVideoScreen(this.videoLen)
+			this.videoList = []
+			this.selectScene = data
+			this.index = 0
+			if (this.timer != null) {
+				window.clearInterval(this.timer)
+			}
+			// 获取视频列表
+			this.loadVideoList(data)
+		},
+		selectMenuVideo(data) {
+			console.log(data)
+			console.log(this.videoSeviceUrl)
+			this.videoComList[this.selectIdx].deviceInfo = data
+			this.videoComList[this.selectIdx].serviceInfo = this.videoSeviceUrl
+			// this.videoComList[this.selectIdx].serviceInfo = "1$22.46.34.114$6800$admin$admin";
+		},
+		// 改变分屏
+		changePanel(len) {
+			this.videoLen = len
+			this.index = 0
+			if (this.timer != null) {
+				window.clearInterval(this.timer)
+			}
+			setTimeout(() => {
+				let W = this.$el.querySelector('.videoItem').offsetWidth
+				let doms = this.$el.querySelectorAll('.ocxVideo')
+				for (let a1 = 0; a1 < doms.length; a1++) {
+					doms[a1].style.width = W + 'px'
+				}
+			}, 500)
+			// 获取视频列表
+			this.loadVideoList(this.selectScene)
+		},
+		// 根据指定分屏数量，展示分屏
+		setVideoScreen(len) {
+			this.videoComList = []
+			for (let i = 0; i < len; i++) {
+				this.videoComList.push({
+					isAutoPlay: false,
+					videoIdx: i,
+					serviceInfo: '',
+					deviceInfo: '',
+					hideTool: true
+				})
+			}
+		},
+		// 获取视频列表
+		loadVideoList(sceneID) {
+			const _this = this
+			// this.$api.dsqIntelligent
+			// 	.getVideoByScene(
+			// 		qs.stringify({
+			// 			sceneId: sceneID,
+			// 			stationId: _this.$store.getters.stationId
+			// 		})
+			// 	)
+			// 	.then(res => {
+			_this.$_api.getStaticData('./simulation-data/video-list.json').then(res => {
+				if (res.data.ret == 0) {
+					if (res.data.data.length != 0) {
+						res.data.data.forEach(item => {
+							if (!!item.vc_Params3 && _this.serviceInfo == '') {
+								_this.serviceInfo = item.vc_Params3
+							}
+							_this.videoList.push({
+								videoUrl: item.vc_Params1,
+								preset: item.fParam1
+							})
+						})
+						_this.autoPlay()
+					}
+				}
+			})
+			console.log(_this.videoList)
+		},
+		// 开始轮巡
+		startPlay() {
+			const _this = this
+			let _vidoeInfos = []
+			for (let i = 0; i < this.videoLen; i++) {
+				_vidoeInfos[i] = {
+					isAutoPlay: true,
+					hideTool: true,
+					deviceInfo:
+						typeof _this.videoList[_this.index].videoUrl === 'undefined'
+							? ''
+							: _this.videoList[_this.index].videoUrl,
+					serviceInfo: _this.serviceInfo,
+					presetVal:
+						typeof _this.videoList[_this.index].preset === 'undefined'
+							? ''
+							: _this.videoList[_this.index].preset
+				}
+				if (_this.videoList.length > _this.videoLen) {
+					_this.index = _this.index + 1 < _this.videoList.length ? _this.index + 1 : 0
+				} else {
+					_this.index++
+				}
+			}
+			_this.videoComList = _vidoeInfos
+		},
+		autoPlay(isClick) {
+			const _this = this
+			if (isClick == true) {
+				if (_this.isPlaying == false) {
+					_this.startPlay()
+					if (_this.videoList.length > _this.videoLen) {
+						_this.timer = setInterval(() => {
+							_this.startPlay()
+						}, _this.lxTime)
+					}
+					_this.isPlaying = true
+					_this.lxStatus = '结束轮巡'
+				} else {
+					window.clearInterval(_this.timer)
+					_this.lxStatus = '开始轮巡'
+					_this.isPlaying = false
+				}
+			} else {
+				if (_this.timer != null) {
+					window.clearInterval(_this.timer)
+				}
+				_this.startPlay()
+				// if(_this.videoList.length > _this.videoLen){
+				//   _this.timer = setInterval(()=>{
+				//     _this.startPlay();
+				//   }, _this.lxTime);
+				// }
+				_this.isPlaying = true
+				_this.lxStatus = '结束轮巡'
+			}
+		},
+		loadSceneList(params) {
+			const _this = this
+			// _this.$api.dsqIntelligent
+			// 	.getSceneList(
+			// 		qs.stringify({
+			// 			stationId: params
+			// 		})
+			// 	)
+			// 	.then(res => {
+			_this.$_api.getStaticData('./simulation-data/video-scene.json').then(res => {
+				if (res.data.ret == 0 && res.data.data[0] != undefined) {
+					_this.sceneList = res.data.data
+					_this.sceneList.forEach(itemScene => {
+						switch (itemScene.type) {
+							case '130002':
+								itemScene.iconName = 'cdjs'
+								break
+							case '130004':
+								itemScene.iconName = 'afxs'
+								break
+							case '130005':
+								itemScene.iconName = 'sbjs'
+								break
+							case '130006':
+								itemScene.iconName = 'dlcjs'
+								break
+							case '130003':
+								itemScene.iconName = 'qjnk'
+								break
+						}
+					})
+					// 默认选中第一个   且赋值给当前选中项
+					_this.firstScene = _this.selectScene = _this.sceneList[0].sceneID
+					_this.$nextTick(() => {
+						_this.$refs.videoScene.updateActiveName()
+						_this.loadVideoList(_this.firstScene)
+					})
+				}
+			})
+		},
+		//点击视频+列表播放
+		palyVideo(playId) {
+			const _this = this
+			// _this.$api.dsqIntelligent
+			// 	.getVideoList(
+			// 		qs.stringify({
+			// 			stationId: playId,
+			// 			smTypeId: 12,
+			// 			type: 1
+			// 		})
+			// 	)
+			// 	.then(res => {
+			_this.$_api.getStaticData('./simulation-data/video-playList.json').then(res => {
+				if (res.data.ret == 0) {
+					// console.log(res)
+					this.firstvideoPlayUrl = res.data.data[0].vc_Params1
+					res.data.data.forEach(item => {
+						// console.log(item);
+						if (!!item.vc_Params3 && _this.videoSeviceUrl == '') {
+							_this.videoSeviceUrl = item.vc_Params3
+							// console.log(_this.videoSeviceUrl);
+						}
+						_this.playVideoList.push({
+							videoPlayUrl: item.vc_Params1,
+							vcName: item.vcName
+						})
+					})
+					this.convertToPinyin(_this.playVideoList)
+				}
+			})
+		},
+		videoHandler(type) {
+			// console.log(type);
+			alert(type)
+		},
+		convertToPinyin(data) {
+			data.forEach(
+				(item => {
+					// console.log(item);
+					const _pinyin = pinyin(item.vcName, {
+						style: pinyin.STYLE_NORMAL //全拼风格
+					})
+					item.pinyin = _pinyin.join('').toLowerCase()
+					item.py = _pinyin
+						.map(item => {
+							return item[0].substr(0, 1)
+						})
+						.join('')
+						.toLowerCase()
+					// if(item.children instanceof Array && item.children.length > 0){
+					// this.convertToPinyin(item.children)
+					// }
+				}).bind(this)
+			)
+		}
+	},
 	beforeRouteEnter(to, from, next) {
 		next()
 	},
@@ -33,8 +452,318 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .video-customization {
-	height: 100%;
-	overflow: auto;
-	// background: #333;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .lfCtn {
+    width: 340px;
+    height: 100%;
+    background-color: rgba(20, 26, 38, 0.6);
+    text-align: center;
+    // overflow-y: auto;
+    // padding-top: 10px;
+    padding-left: 10px;
+	overflow:hidden;
+
+    .tabBox {
+      width: 100%;
+      overflow: hidden;
+      cursor: pointer;
+      margin-bottom: 10px;
+
+      .inBox {
+        width: 50%;
+        height: 45px;
+        float: left;
+        font-size: 22px;
+        // background-color: #47758f;
+        color: #fff;
+        text-align: center;
+        line-height: 45px;
+        // border: 1px solid #fff;
+        border: 1px solid #3ea1aa;
+        background-color: #0d2e43;
+      }
+
+      .active {
+        background: linear-gradient(#0d2e43, #0381b9);
+      }
+    }
+
+    .videoBox, .videoBox2 {
+      width: 100%;
+      height: calc(100% - 50px);
+      overflow-y: auto;
+    }
+
+    .search-ipt {
+      width: 280px;
+      height: 40px;
+      margin-bottom: 10px;
+      background-color: #fff;
+      outline: none;
+      border-radius: 4px;
+      padding-left: 10px;
+      border: none;
+    }
+
+    img {
+      width: 86px;
+      height: 82px;
+    }
+
+    p {
+      font-size: 18px;
+    }
+  }
+
+  .ModalBox2 {
+    position: absolute;
+    width: 1400px;
+    height: 720px;
+    margin-top: 80px;
+    margin-left: -1689px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid red;
+    // opacity: 1;
+    border-radius: 10px;
+    z-index: 99999;
+
+    iframe {
+      position: absolute;
+      visibility: inherit;
+      width: 100%;
+      height: 100%;
+      z-index: 888;
+    }
+
+    .modContent {
+      width: 1400px;
+      height: 720px;
+      position: relative;
+
+      .confirmBox {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        text-align: center;
+
+        > div {
+          width: 50%;
+          height: 50%;
+          // border: 1px solid red;
+          float: left;
+        }
+
+        .confirmTop {
+          width: 100%;
+          height: 40px;
+          padding-top: 10px;
+          color: #fff;
+          float: left;
+          background-color: #041e2f;
+          font-size: 25px;
+          line-height: 30px;
+        }
+
+        .confirmTitle {
+          width: 100%;
+          height: 50px;
+          margin-top: 100px;
+          font-size: 20px;
+          color: #fff;
+          line-height: 50px;
+        }
+
+        .yBtn {
+          width: 80px;
+          float: left;
+          height: 35px;
+          background-color: #236e91;
+          font-size: 18px;
+          line-height: 35px;
+          margin-top: 90px;
+          color: #fff;
+          cursor: pointer;
+          border-radius: 10px;
+          margin-left: 25px;
+        }
+
+        .nBtn {
+          width: 80px;
+          height: 35px;
+          float: left;
+          margin-left: 280px;
+          margin-top: 90px;
+          background-color: #236e91;
+          font-size: 18px;
+          line-height: 35px;
+          color: #fff;
+          cursor: pointer;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+
+  .rtCtn {
+    height: 100%;
+    width: calc(100% - 360px);
+
+    .videoControl {
+      margin: 10px 0;
+      height: 55px;
+
+      .headBtns {
+        height: 55px;
+        line-height: 55px;
+        text-align: right;
+
+        .aBtn {
+          display: inline-block;
+          height: 100%;
+          color: #fff;
+          margin-left: 10px;
+        }
+
+        .screenBtn {
+          background: url('../../assets/img/video/changeScreen.png') no-repeat;
+          background-size: 100% 100%;
+          padding: 0 33px;
+          margin-left: -15px;
+        }
+
+        .active {
+          color: #00f0ff;
+          background: url('../../assets/img/video/changeScreen_1.png') no-repeat;
+          background-size: 100% 100%;
+        }
+
+        .btnGroup {
+          background: url('../../assets/img/video/group.png') no-repeat;
+          background-size: 100% 100%;
+          padding: 0 15px;
+
+          &:first-child {
+            margin-left: 15px;
+          }
+        }
+
+        .btnStart {
+          background: url('../../assets/img/video/startLX.png') no-repeat;
+          background-size: 100% 100%;
+          padding: 0 30px;
+        }
+      }
+    }
+
+    .videoCtn-box {
+      border: 1px solid #fff;
+      height: 100%;
+
+      .ctnMain {
+        height: 100%;
+
+        .videoPanorama-ctnBox {
+          height: 100%;
+        }
+
+        .videoCtn {
+          height: 100%;
+
+          .videoItem {
+            float: left;
+            box-sizing: border-box;
+            // border: 1px solid #000;
+          }
+
+          .layout-1 {
+            width: 100%;
+            height: 100%;
+          }
+
+          .layout-4 {
+            width: 50%;
+            height: 50%;
+          }
+
+          .layout-9 {
+            width: calc((100% / 3));
+            height: calc((100% / 3));
+          }
+
+          .videoSelect {
+            border: 2px solid #ff0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.ivu-menu-light {
+  background-color: rgba(0, 0, 0, 0) !important;
+
+  &::after {
+    display: none;
+  }
+}
+
+.ivu-menu-vertical .ivu-menu-item {
+  padding: 14px 0;
+  color: #fff;
+  // background: #1b2938;
+  background: #232b33;
+  margin-bottom: 10px;
+  border: 1px solid transparent;
+  text-align: left;
+  padding-left: 10px;
+
+  &:hover {
+    background: #434750;
+  }
+
+  p {
+    display: flex;
+    display: -ms-flexbox;
+    align-items: center;
+    -webkit-align-items: center;
+  }
+
+  p:before {
+    content: '';
+    display: table;
+    width: 30px;
+    height: 30px;
+    background: url('../../assets/img/video/videoIcon.png') no-repeat;
+    background-size: 100% 100%;
+    margin-right: 10px;
+  }
+}
+
+.ivu-menu-vertical .ivu-menu-item:nth-last-child(1) {
+  margin-bottom: 0;
+}
+
+.ivu-menu-item-active {
+  background-color: transparent;
+}
+
+.ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu) {
+  color: #fff;
+  background: url('../../assets/img/video/active.png') no-repeat !important;
+  background-size: 100% 100% !important;
+}
+
+.ivu-menu-light.ivu-menu-vertical {
+  .ivu-menu-item-active:not(.ivu-menu-submenu):after {
+    display: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
 }
 </style>

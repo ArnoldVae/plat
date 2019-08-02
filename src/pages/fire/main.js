@@ -12,12 +12,11 @@ import iView from 'iview/dist/iview.min.js'
 import 'iview/dist/styles/iview.css'
 Vue.use(iView)
 
-require('echarts/lib/chart/pie');
-require('echarts/lib/component/legendScroll');
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/title');
-require('echarts/lib/component/toolbox');
-
+require('echarts/lib/chart/pie')
+require('echarts/lib/component/legendScroll')
+require('echarts/lib/component/tooltip')
+require('echarts/lib/component/title')
+require('echarts/lib/component/toolbox')
 
 Vue.prototype.$_echarts = echarts
 
@@ -42,7 +41,16 @@ import {
 	Steps,
 	Step,
 	Timeline,
-	TimelineItem
+	TimelineItem,
+	Form,     //表单元素
+	FormItem,
+	DatePicker, //时间选择器
+	Checkbox,
+	CheckboxButton,
+	CheckboxGroup, //多选
+	Table, //Table表格
+	TableColumn,
+
 } from 'element-ui'
 const ElementUI = [
 	Tree,
@@ -60,25 +68,36 @@ const ElementUI = [
 	Icon,
 	Button,
 	Tag,
-	Dialog,    //对话框
+	Dialog, //对话框
 	Steps,
 	Step,
 	Timeline,
-	TimelineItem
+	TimelineItem,
+	Form,     //表单元素
+	FormItem,
+	DatePicker, //时间选择器
+	Checkbox,
+	CheckboxButton,
+	CheckboxGroup, //多选
+	Table, //Table表格
+	TableColumn,
+
 ]
 
 // Antd 按需
 /*import { A1, A2 } from 'ant-design-vue'
 const Antd = [ A1, A2 ]*/
-	// Singletons(单例组件库) 按需
+// Singletons(单例组件库) 按需
 import { sideMenu, horMenu, crumbs, statistics } from '@/components/singletons'
 const Singletons = [sideMenu, horMenu, crumbs, statistics]
 //树
 import { elFilterTree } from '@/components/element-dev'
 const ElementDev = [elFilterTree]
 // 捆绑注册
-function* register(name) { Vue.use(name) }
-[ ...ElementUI,...Singletons, ...ElementDev].forEach( component => register(component).next() )
+function* register(name) {
+	Vue.use(name)
+}
+;[...ElementUI, ...Singletons, ...ElementDev].forEach(component => register(component).next())
 
 // 挂载api
 import api from '@fire/api'
@@ -98,8 +117,6 @@ Vue.prototype.$_listen = listen
  * rem响应设置 样式重置 基本过渡效果 字体文件
  */
 require('@/config')
-
-
 
 Vue.config.productionTip = false
 

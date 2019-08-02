@@ -42,16 +42,21 @@ export default {
 
 <style lang="stylus" scoped>
 .waterSoaking {
-  width: 100%;
+  // width: 100%;
+  width: calc(100% - 20px);
+  height: 100%;
+  background: url('~@/assets/img/common/bg-border.png') no-repeat;
+  background-size: 100% 100%;
+  padding: 5px 50px 25px 50px;
 
   .buttnBox {
-    height: 50px;
+    height: 30px;
     margin-bottom: 10px;
 
     .water_buttonDian, .water_buttonFire {
       float: left;
-      height: 50px;
-      line-height: 50px;
+      height: 30px;
+      line-height: 30px;
       border: 1px solid #0691da;
       margin-left: 10px;
       border-radius: 5px;

@@ -154,7 +154,7 @@ export default {
 	created() {
 		this.seriesData = []
 		this.xData = []
-		for (let i = 0; i < 50; i++) {
+		for (let i = 0; i < 52; i++) {
 			let num = parseFloat(Math.random().toFixed(2))
 			this.seriesData.push(3 + num)
 			this.xData.push(i + 1)

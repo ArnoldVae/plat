@@ -3,194 +3,232 @@
 		<el-container>
 			<el-aside width="260px">
 				<el-filter-tree
-						placeholder="输入关键字进行过滤"
-						v-model="filterText"
-						ref="elFilterTree"
-						:data="treeData"
-						:props="defaultProps"
-						default-expand-all
-						:filter-node-method="filterNode"
-						highlight-current
-						@node-click="handleClickNode"
+					placeholder="输入关键字进行过滤"
+					v-model="filterText"
+					ref="elFilterTree"
+					:data="treeData"
+					:props="defaultProps"
+					default-expand-all
+					:filter-node-method="filterNode"
+					highlight-current
+					@node-click="handleClickNode"
 				></el-filter-tree>
 			</el-aside>
 			<el-main>
-				<div class="el-main-header">
-					<el-row>
-						<el-col :span="24">
-							<span class="fire-header-title" :class="{'fire-header-active': tab.active==true}" @click="tabChange(tab)"  v-for="(tab,index) in tabList" :key="index">{{tab.title}}</span>
-						</el-col>
-					</el-row>
-				</div>
+<!--				<div class="el-main-header">-->
+<!--					<el-row>-->
+<!--						<el-col :span="24">-->
+<!--							<span-->
+<!--								class="fire-header-title"-->
+<!--								:class="{ 'fire-header-active': tab.active == true }"-->
+<!--								@click="tabChange(tab)"-->
+<!--								v-for="(tab, index) in tabList"-->
+<!--								:key="index"-->
+<!--								>{{ tab.title }}</span-->
+<!--							>-->
+<!--						</el-col>-->
+<!--					</el-row>-->
+<!--				</div>-->
 				<div class="el-main-content">
-<!--					<component ref="sunMethod" v-bind:is="current"></component>-->
-					<dialogs></dialogs>
+					<component
+						ref="sunMethod"
+						v-bind:is="current"
+						@transfer="getMethod"
+						:node="alarmNode"
+						@receiveAlarm="receiveAlarm"
+					></component>
 				</div>
 			</el-main>
-
 		</el-container>
 	</div>
 </template>
 <script>
-	import dialogs from './dialog'
-	export default {
-		name: 'dev-ops',
-		components: {
-			dialogs
-		},
-		props: {},
-		data() {
-			return {
-				filterText:"",
-				treeData:[],
-				current:"analyst-main",
-				defaultProps: {
-					children: 'children',
-					label: 'label'
+import maintaining from './main-taining'
+
+export default {
+	name: 'dev-ops',
+	components: {
+		'main-taining': maintaining
+	},
+	props: {},
+	data() {
+		return {
+			filterText: '',
+			treeData: [],
+			current: 'main-taining',
+			defaultProps: {
+				children: 'children',
+				label: 'label'
+			},
+			tabList: [
+				{
+					title: '运维总览',
+					id: '01',
+					code: 'analyst-main', //菜单对应code
+					active: false
 				},
-				tabList:[
-					{
-						title:"运维总览",
-						id: "01",
-						code:"analyst-main",//菜单对应code
-						active:true
-					},
-					{
-						title:"消防设施台账",
-						id: "02",
-						code:"view-check",
-						active:false
-					},
-					{
-						title:"维护保养",
-						id: "03",
-						code:"protection-zone",
-						active:false
-					},
-					{
-						title:"缺陷管理",
-						id: "03",
-						code:"protection-zone",
-						active:false
-					},
-					{
-						title:"全面检测报告",
-						id: "03",
-						code:"protection-zone",
-						active:false
-					},
-					{
-						title:"档案管理",
-						id: "03",
-						code:"protection-zone",
-						active:false
-					}
-				],
+				{
+					title: '消防设施台账',
+					id: '02',
+					code: 'view-check',
+					active: false
+				},
+				{
+					title: '维护保养',
+					id: '03',
+					code: 'main-taining',
+					active: true
+				},
+				{
+					title: '缺陷管理',
+					id: '03',
+					code: 'protection-zone',
+					active: false
+				},
+				{
+					title: '全面检测报告',
+					id: '03',
+					code: 'protection-zone',
+					active: false
+				},
+				{
+					title: '档案管理',
+					id: '03',
+					code: 'protection-zone',
+					active: false
+				}
+			],
+			alarmNode: ''
+		}
+	},
+	computed: {},
+	filters: {},
+	watch: {},
+	created() {
+		this.getOrganization()
+	},
+	mounted() {},
+	activited() {},
+	update() {},
+	beforeDestory() {},
+	methods: {
+		filterNode(value, data) {
+			if (!value) return true
+			return data.title.indexOf(value) !== -1
+		},
+		// 获取组织结构
+		async getOrganization() {
+			let result = await this.$_api.analyst.getOrganization({
+				iType: '1006003',
+				treeFlag: '2'
+			})
+			if (result.success) {
+				this.treeData = result.data
+			} else {
+				this.treeData = []
 			}
 		},
-		computed: {},
-		filters: {},
-		watch: {},
-		created() {
-			this.getOrganization()
-		},
-		mounted() {},
-		activited() {},
-		update() {},
-		beforeDestory() {},
-		methods: {
-			filterNode(value, data) {
-				if (!value) return true;
-				return data.title.indexOf(value) !== -1;
-			},
-			// 获取组织结构
-			async getOrganization() {
-				let result = await this.$_api.analyst.getOrganization({
-					iType: '1006003',
-					treeFlag:'2'
-				})
-				if (result.success) {
-					this.treeData = result.data
-				} else {
-					this.treeData = []
-				}
-			},
-			// 点击树节点
-			handleClickNode(data, node, root) {
-				// 更新当前模块单元id
-				this.$store.dispatch('updateUnitId',data.id)
 
-			},
+		// 点击树节点
+		handleClickNode(data, node, root) {
+			// 更新当前模块单元id
+			this.$store.dispatch('updateUnitId', data.id)
 		},
-		beforeRouteEnter(to, from, next) {
-			next()
+
+		// tab点击
+		tabChange(val) {
+			console.log(val, 'val')
+			this.tabList.forEach(item => {
+				item.active = false
+			})
+			tab.active = true
+			this.current = tab.code
 		},
-		beforeRouteUpdate(to, from, next) {
-			next()
+		getMethod(val) {
+			this.tabList.forEach(item => {
+				if (item.code == 'main-taining') {
+					item.active = true
+				} else {
+					item.active = false
+				}
+			})
+			this.current = 'main-taining'
+			let that = this
+			setTimeout(() => {
+				that.$refs.sunMethod.initView(val)
+			}, 100)
 		},
-		beforeRouteLeave(to, from, next) {
-			next()
-		}
+
+		receiveAlarm() {}
+	},
+
+	beforeRouteEnter(to, from, next) {
+		next()
+	},
+	beforeRouteUpdate(to, from, next) {
+		next()
+	},
+	beforeRouteLeave(to, from, next) {
+		next()
 	}
+}
 </script>
 <style lang="stylus" scoped>
-	.dev-ops{
-		margin 20px 20px 0 20px
-		height 830px;
+.dev-ops {
+  margin: 20px 20px 0 20px;
+  height: 830px;
+  overflow: hidden;
 
-		overflow hidden
-		.el-main{
-			padding-bottom: 0
-			margin-top -20px
-			.el-main-header{
-				min-height 50px
-				width: 100%;
-				left: 7px;
-				.el-row{
-					margin-top 12px
-					margin-bottom  12px
-					.fire-header-sub-title{
-						font-size 14px
-						color white
-						margin 36px
-						cursor pointer
+  .el-main {
+    padding-bottom: 0;
+    margin-top: -20px;
 
-					}
+    .el-main-header {
+      min-height: 50px;
+      width: 100%;
+      left: 7px;
 
-					.fire-header-title{
-						color #37a8ff
-						font-size 16px
-						margin 36px
-						cursor pointer
+      .el-row {
+        margin-top: 12px;
+        margin-bottom: 12px;
 
+        .fire-header-sub-title {
+          font-size: 14px;
+          color: white;
+          margin: 36px;
+          cursor: pointer;
+        }
 
-					}
-					.fire-header-active{
-						color #f6ce69
-					}
-					.point{
-						position: relative
-						left 2.5%
-						margin-right 10px
+        .fire-header-title {
+          color: #37a8ff;
+          font-size: 16px;
+          margin: 36px;
+          cursor: pointer;
+        }
 
-					}
-				}
-				position relative
-				background: #062964;
-				border: 0.04444rem solid #044e90;
-				border-radius 4px
+        .fire-header-active {
+          color: #f6ce69;
+        }
 
-			}
-			.el-main-content{
-				margin-top 10px;
-				height 750px
-				width: 100%;
-				position relative
-			}
+        .point {
+          position: relative;
+          left: 2.5%;
+          margin-right: 10px;
+        }
+      }
 
-		}
+      position: relative;
+		background: #062964;
+		border: 0.04444rem solid #044e90;
+      border-radius: 4px;
+    }
 
-
-	}
-
+    .el-main-content {
+      margin-top: 10px;
+      height: 750px;
+      width: 100%;
+      position: relative;
+    }
+  }
+}
 </style>

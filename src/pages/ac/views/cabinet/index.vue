@@ -1,23 +1,23 @@
 <template>
-  <div class="anti-theft">
+  <div class="cabinet">
     <!-- <transition name="v" mode="out-in"> -->
     <component v-bind:is="current"></component>
     <!-- </transition> -->
   </div>
 </template>
 <script>
-import antiTheftTable from '@ac/views/common/view-table'
-import antiTheftCustomization from './customization.vue'
+import cabinetTable from '@ac/views/common/view-table'
+import cabinetCustomization from './customization.vue'
 export default {
-	name: 'anti-theft',
+	name: 'cabinet',
 	components: {
-		'anti-theft-table': antiTheftTable,
-		'anti-theft-customization': antiTheftCustomization
+		'cabinet-customization': cabinetCustomization,
+		'cabinet-table': cabinetTable
 	},
 	props: {},
 	data() {
 		return {
-			current: 'anti-theft-customization'
+			current: 'cabinet-customization'
 		}
 	},
 	computed: {},
@@ -41,7 +41,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.anti-theft {
+.cabinet {
   height: 100%;
   /* background: #fa0; */
 }

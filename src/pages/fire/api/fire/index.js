@@ -8,5 +8,20 @@ export default {
 			method: 'post',
 			data: {}
 		})
+	},
+	getMaintenance() {
+		return axios.request({
+			url: 'fire/manage/unitList',
+			method: 'get',
+		})
+	},
+
+	getfindPlanRecord(params) {
+		return axios.request({
+			headers: {'Content-Type': 'application/json'},
+			url: 'fire/manage/findPlanRecord',
+			method: 'post',
+			data: JSON.stringify(params)
+		})
 	}
 }

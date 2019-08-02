@@ -1,44 +1,46 @@
 <template>
-	<div class="core-clamp-customization">
-		<div class="rcu" v-for="(item, index, idx) in rcuList" :key="index">
-			<div class="content">
-				<ul class="x-wrap">
-					<li class="x-item" v-for="(ctem, i) in item" :key="i">
-						<div class="title">
-							<p>{{ i }}</p>
-							<p>相</p>
-						</div>
-						<div class="clamp">
-							<div class="info">
-								<div class="history-btn" @click="getHistory(ctem.tx)"></div>
-								<img src="~@ac/assets/img/core-clamp/clamp.png" />
-								<p>夹件电流</p>
-							</div>
-							<div class="value">
-								<ul>
-									<li>值(mA)</li>
-									<li>{{ ctem.tx.fvalue }}</li>
-								</ul>
-							</div>
-						</div>
-						<div class="electric">
-							<div class="info">
-								<div class="history-btn" @click="getHistory(ctem.jj)"></div>
-								<img src="~@ac/assets/img/core-clamp/electric.png" />
-								<p>铁芯电流</p>
-							</div>
-							<div class="value">
-								<ul>
-									<li>值(mA)</li>
-									<li>{{ ctem.jj.fvalue }}</li>
-								</ul>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+  <div class="core-clamp-customization">
+    <div class="rcu" v-for="(item, index, idx) in rcuList" :key="index">
+      <div class="item-title">{{ idx + 1 + "号主变" }}</div>
+      <div class="content">
+        <ul class="x-wrap">
+          <li class="x-item" v-for="(ctem, i) in item" :key="i">
+            <div class="title">
+              <p>{{ i }}</p>
+              <p>相</p>
+            </div>
+            <div class="clamp">
+              <div class="info">
+                <div class="history-btn" @click="getHistory(ctem.tx)"></div>
+                <img src="~@ac/assets/img/core-clamp/clamp.png" />
+                <p>夹件电流</p>
+              </div>
+              <div class="value">
+                <ul>
+                  <li>值(mA)</li>
+                  <li>{{ ctem.tx.fvalue }}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="electric">
+              <div class="info">
+                <div class="history-btn" @click="getHistory(ctem.jj)"></div>
+                <img src="~@ac/assets/img/core-clamp/electric.png" />
+                <p>铁芯电流</p>
+              </div>
+              <div class="value">
+                <ul>
+                  <li>值(mA)</li>
+                  <li>{{ ctem.jj.fvalue }}</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal>
+  </div>
 </template>
 <script>
 import { findComponentUpward } from '@/libs/assist'
@@ -49,7 +51,11 @@ export default {
 	props: {},
 	data() {
 		return {
-			rcuList: []
+			rcuList: [],
+			historyModal: false,
+			chartTitle: '',
+			unit: '',
+			nodeId: ''
 		}
 	},
 	computed: {},
@@ -124,25 +130,29 @@ export default {
 				})
 			})
 			this.rcuList = arr
+			console.log(this.rcuList)
 		},
 		// 历史数据
 		getHistory(info) {
-			console.log(info);
-			console.log(this)
-			console.log(findComponentUpward(this.$children, 'view-table'))
-			return
+			this.nodeId = info.eNodeId
+			this.chartTitle = info.equName + ' - ' + info.nodeName
+			this.unit = info.vcUnit
 			this.historyModal = true
-			this.chartUnit = info.vcUnit
-			this.chartTitle = info.nodeName + '历史数据'
-			let params = {
-				startTime: moment()
-					.subtract(24, 'hours')
-					.unix(),
-				endTime: moment().unix(),
-				eNodeId: info.eNodeId
-			}
-			this.currentHistoryParams = params
-			
+			// console.log(info)
+			// console.log(this)
+			// console.log(findComponentUpward(this.$children, 'view-table'))
+			// return
+			// this.historyModal = true
+			// this.chartUnit = info.vcUnit
+			// this.chartTitle = info.nodeName + '历史数据'
+			// let params = {
+			// 	startTime: moment()
+			// 		.subtract(24, 'hours')
+			// 		.unix(),
+			// 	endTime: moment().unix(),
+			// 	eNodeId: info.eNodeId
+			// }
+			// this.currentHistoryParams = params
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -158,184 +168,232 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .core-clamp-customization {
+  width: calc(100% - 20px);
+  height: 100%;
+  background: url('~@/assets/img/common/bg-border.png') no-repeat;
+  background-size: 100% 100%;
+  padding: 25px 30px 25px 40px;
 
-	.rcu {
-		float: left;
-		width: 520px;
-		height: 100%;
-		// margin: 0 5px;
+  .rcu {
+    float: left;
+    width: 33%;
+    height: 100%;
+    border: 1px solid #0173bb;
+    margin-right: 5px;
 
-		.content {
-			// padding: 0 10px;
+    .item-title {
+      width: 100%;
+      height: 30px;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 30px;
+      text-align: center;
+      background-color: rgba(36, 64, 88, 1);
+      border: 1px solid #26636c;
+      margin-bottom: 5px;
+    }
 
-			.x-wrap {
-				list-style: none;
+    // margin: 0 5px;
+    .content {
+      // padding: 0 10px;
+      .x-wrap {
+        list-style: none;
 
-				.x-item {
-					margin-bottom: 25px;
-					overflow: hidden;
-					> div {
-						float: left;
-					}
-					.title {
-						width: 50px;
-						height: 208px;
-						// background: #122a3c;
-						color: #fff;
-						border: 1px solid #26636c;
-						box-sizing: border-box;
-						p {
-							text-align: center;
-							font-size: 20px;
-						}
-						p:nth-of-type(1) {
-							margin-top: 78px;
-						}
-					}
-					.clamp {
-						width: 228px;
-						height: 208px;
-						box-sizing: border-box;
-						.info {
-							position: relative;
-							width: 100%;
-							height: 140px;
-							border-top: 1px solid #26636c;
-							border-right: 1px solid #26636c;
-							border-bottom: 1px solid #26636c;
-							text-align: center;
-							.history-btn {
-								width: 30px;
-								height: 30px;
-								background: #fa0;
-								background: url("~@ac/assets/img/core-clamp/history.png") no-repeat;
-								background-size: 30px 30px;
-								border-radius: 50%;
-								position: absolute;
-								right: 5px;
-								top: 5px;
-								cursor: pointer;
-							}
-							img {
-								width: 80px;
-								height: 80px;
-								margin-top: 15px;
-							}
-							p {
-								margin-top: 2px;
-								font-size: 22px;
-								color: #fff;
-							}
-						}
-						.value {
-							width: 100%;
-							height: 68px;
-							border-right: 1px solid #26636c;
-							border-bottom: 1px solid #26636c;
-							// background: #1b2938;
-							ul {
-								list-style: none;
-								overflow: hidden;
-								li {
-									width: 81px;
-									height: 37px;
-									float: left;
-									margin: 15px 16px;
-								}
-								li:nth-of-type(1) {
-									margin: 15px 18px;
-									font-size: 24px;
-									color: #fff;
-									text-align: center;
-									line-height: 37px;
-								}
-								li:nth-of-type(2) {
-									width: 90px;
-									height: 42px;
-									margin: 12px 1px;
-									background: #0f0d0e;
-									font-family: DS-DIGI;
-									font-size: 40px;
-									line-height: 42px;
-									color: #49ff01;
-									text-align: center;
-								}
-							}
-						}
-					}
-					.electric {
-						width: 228px;
-						height: 208px;
-						box-sizing: border-box;
-						.info {
-							position: relative;
-							width: 100%;
-							height: 140px;
-							border-top: 1px solid #26636c;
-							border-right: 1px solid #26636c;
-							border-bottom: 1px solid #26636c;
-							text-align: center;
-							.history-btn {
-								width: 30px;
-								height: 30px;
-								background: #fa0;
-								background: url("~@ac/assets/img/core-clamp/history.png") no-repeat;
-								background-size: 30px 30px;
-								border-radius: 50%;
-								position: absolute;
-								right: 5px;
-								top: 5px;
-								cursor: pointer;
-							}
-							img {
-								width: 80px;
-								height: 80px;
-								margin-top: 15px;
-							}
-							p {
-								margin-top: 2px;
-								font-size: 22px;
-								color: #fff;
-							}
-						}
-						.value {
-							width: 100%;
-							height: 68px;
-							border-right: 1px solid #26636c;
-							border-bottom: 1px solid #26636c;
-							ul {
-								list-style: none;
-								overflow: hidden;
-								li {
-									width: 81px;
-									height: 37px;
-									float: left;
-									margin: 15px 16px;
-								}
-								li:nth-of-type(1) {
-									margin: 15px 18px;
-									font-size: 24px;
-									color: #fff;
-									text-align: center;
-									line-height: 37px;
-								}
-								li:nth-of-type(2) {
-									width: 90px;
-									height: 42px;
-									margin: 12px 1px;
-									background: #0f0d0e;
-									font-family: 'DS-DIGI';
-									font-size: 40px;
-									line-height: 42px;
-									color: #49ff01;
-									text-align: center;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+        .x-item {
+          margin-bottom: 10px;
+          overflow: hidden;
+          margin-left: 10px;
+
+          > div {
+            float: left;
+          }
+
+          .title {
+            width: 50px;
+            height: 190px;
+            background-color: rgba(36, 64, 88, 0.7);
+            color: #fff;
+            border: 1px solid #26636c;
+            box-sizing: border-box;
+
+            p {
+              text-align: center;
+              font-size: 20px;
+            }
+
+            p:nth-of-type(1) {
+              margin-top: 78px;
+            }
+          }
+
+          .clamp {
+            width: calc(50% - 30px);
+            height: 190px;
+            box-sizing: border-box;
+            background-color: rgba(36, 64, 88, 0.48);
+
+            .info {
+              position: relative;
+              width: 100%;
+              height: 130px;
+              border-top: 1px solid #26636c;
+              border-right: 1px solid #26636c;
+              border-bottom: 1px solid #26636c;
+              text-align: center;
+
+              .history-btn {
+                width: 30px;
+                height: 30px;
+                background: #fa0;
+                background: url('~@ac/assets/img/core-clamp/history.png') no-repeat;
+                background-size: 30px 30px;
+                border-radius: 50%;
+                position: absolute;
+                right: 5px;
+                top: 5px;
+                cursor: pointer;
+              }
+
+              img {
+                width: 70px;
+                height: 70px;
+                margin-top: 15px;
+              }
+
+              p {
+                margin-top: 2px;
+                font-size: 22px;
+                color: #fff;
+              }
+            }
+
+            .value {
+              width: 100%;
+              height: 60px;
+              border-right: 1px solid #26636c;
+              border-bottom: 1px solid #26636c;
+
+              // background: #1b2938;
+              ul {
+                list-style: none;
+                overflow: hidden;
+
+                li {
+                  width: 81px;
+                  height: 37px;
+                  float: left;
+                  margin: 10px 13px;
+                  border-radius:5px;
+                }
+
+                li:nth-of-type(1) {
+                  margin: 10px 13px;
+                  font-size: 24px;
+                  color: #fff;
+                  text-align: center;
+                  line-height: 37px;
+                }
+
+                li:nth-of-type(2) {
+                  width: 90px;
+                  height: 42px;
+                  margin: 10px 1px;
+                  background: #0f0d0e;
+                  font-family: DS-DIGI;
+                  font-size: 40px;
+                  line-height: 42px;
+                  color: #49ff01;
+                  text-align: center;
+                }
+              }
+            }
+          }
+
+          .electric {
+            width: calc(50% - 30px);
+            height: 190px;
+            box-sizing: border-box;
+            background-color: rgba(36, 64, 88, 0.48);
+
+            .info {
+              position: relative;
+              width: 100%;
+              height: 130px;
+              border-top: 1px solid #26636c;
+              border-right: 1px solid #26636c;
+              border-bottom: 1px solid #26636c;
+              text-align: center;
+
+              .history-btn {
+                width: 30px;
+                height: 30px;
+                background: #fa0;
+                background: url('~@ac/assets/img/core-clamp/history.png') no-repeat;
+                background-size: 30px 30px;
+                border-radius: 50%;
+                position: absolute;
+                right: 5px;
+                top: 5px;
+                cursor: pointer;
+              }
+
+              img {
+                width: 70px;
+                height: 70px;
+                margin-top: 15px;
+              }
+
+              p {
+                margin-top: 2px;
+                font-size: 22px;
+                color: #fff;
+              }
+            }
+
+            .value {
+              width: 100%;
+              height: 60px;
+              border-right: 1px solid #26636c;
+              border-bottom: 1px solid #26636c;
+
+              ul {
+                list-style: none;
+                overflow: hidden;
+
+                li {
+                  width: 81px;
+                  height: 37px;
+                  float: left;
+                  margin: 15px 13px;
+                  border-radius:5px;
+                }
+
+                li:nth-of-type(1) {
+                  margin: 10px 13px;
+                  font-size: 24px;
+                  color: #fff;
+                  text-align: center;
+                  line-height: 37px;
+                }
+
+                li:nth-of-type(2) {
+                  width: 90px;
+                  height: 42px;
+                  margin: 10px 1px;
+                  background: #0f0d0e;
+                  font-family: 'DS-DIGI';
+                  font-size: 40px;
+                  line-height: 42px;
+                  color: #49ff01;
+                  text-align: center;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 </style>

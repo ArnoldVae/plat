@@ -247,7 +247,7 @@
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
-            }, 
+            },
             {
                 "title": "表格",
                 "name": "table",
@@ -263,7 +263,55 @@
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
-            }, 
+            },
+            {
+                "title": "表格",
+                "name": "table",
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "typeId": 2031,
+        "name": "hgis-monitor",
+        "mode": [
+            {
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
+            },
+            {
+                "title": "表格",
+                "name": "table",
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "typeId": 2032,
+        "name": "breaker-gas-monitor",
+        "mode": [
+            {
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
+            },
+            {
+                "title": "表格",
+                "name": "table",
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "typeId": 2033,
+        "name": "cabinet",
+        "mode": [
+            {
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
+            },
             {
                 "title": "表格",
                 "name": "table",

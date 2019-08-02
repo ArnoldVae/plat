@@ -33,28 +33,28 @@
 					<Row style="margin-left: 50px">
 						<Col :span="8" v-for="(value, index) in this.maintenancePlan.firstRow" :key="index">
 							<p>
-								<img :src="value.imgSrc" alt="" /><span>{{ value.title }}{{value.label}}</span>
+								<img :src="value.imgSrc" alt="" /><span>{{ value.title }}{{ value.data }}</span>
 							</p>
 						</Col>
 					</Row>
 					<Row style="margin-left: 50px">
 						<Col :span="8" v-for="(value, index) in this.maintenancePlan.secondRow" :key="index">
 							<p>
-								<img :src="value.imgSrc" alt="" /><span>{{ value.title }}</span>
+								<img :src="value.imgSrc" alt="" /><span>{{ value.title }}{{ value.data }}</span>
 							</p>
 						</Col>
 					</Row>
 					<Row style="margin-left: 50px">
 						<Col :span="8" v-for="(value, index) in this.maintenancePlan.thirdRow" :key="index">
 							<p>
-								<img :src="value.imgSrc" alt="" /><span>{{ value.title }}</span>
+								<img :src="value.imgSrc" alt="" /><span>{{ value.title }}{{ value.data }}</span>
 							</p>
 						</Col>
 					</Row>
 					<Row style="margin-left: 50px">
 						<Col :span="8" v-for="(value, index) in this.maintenancePlan.fourthRow" :key="index">
 							<p>
-								<img :src="value.imgSrc" alt="" /><span>{{ value.title }}</span>
+								<img :src="value.imgSrc" alt="" /><span>{{ value.title }}{{ value.data }}</span>
 							</p>
 						</Col>
 					</Row>
@@ -63,7 +63,7 @@
 					<Row style="margin-left: 50px">
 						<Col :span="10" v-for="(value, index) in this.implement.firstRow" :key="index">
 							<p>
-								<img :src="value.imgSrc" alt="" /><span>{{ value.title }}</span>
+								<img :src="value.imgSrc" alt="" /><span>{{ value.title }}{{ value.data }}</span>
 							</p>
 						</Col>
 					</Row>
@@ -71,7 +71,7 @@
 						<Col :span="10" v-for="(value, index) in this.implement.secondRow" :key="index">
 							<p>
 								<img :src="value.imgSrc" alt="" /><span
-									>{{ value.title
+									>{{ value.title }}{{ value.data
 									}}<img
 										class="rectangleImg"
 										src="../../assets/img/alarm-now/alarmBoxBg.png"
@@ -82,12 +82,16 @@
 					</Row>
 					<Row style="margin-left: 50px">
 						<Col :span="10" v-for="(value, index) in this.implement.thirdRow" :key="index">
-							<p><img :src="value.imgSrc" alt="" /><span>{{value.title}}</span></p>
+							<p>
+								<img :src="value.imgSrc" alt="" /><span>{{ value.title }}{{ value.data }}</span>
+							</p>
 						</Col>
 					</Row>
 					<Row style="margin-left: 50px">
 						<Col :span="10" v-for="(value, index) in this.implement.thirdRow" :key="index">
-							<p><img :src="value.imgSrc" alt="" /><span>{{value.title}}</span></p>
+							<p>
+								<img :src="value.imgSrc" alt="" /><span>{{ value.title }}{{ value.data }}</span>
+							</p>
 						</Col>
 					</Row>
 				</div>
@@ -102,44 +106,60 @@
 import { maintenancePlanData, implement } from './maintenancePlanData'
 export default {
 	name: 'dialogs',
+	props: {
+		dialogVisible: {
+			type: Boolean,
+			default: true
+		}
+	},
 	data() {
 		return {
 			maintenancePlan: maintenancePlanData(),
 			implement: implement(),
-			ds: 'dsadsa',
-			dialogVisible: true
+			ds: 'dsadsa'
+		}
+	},
+	watch: {
+		dialogVisible: function(val) {
+			if (val === true) {
+				this.$nextTick(() => {
+					let doc = null
+					let docEl = null
+					doc = document.getElementsByClassName('vertical2')[0]
+					docEl = doc.getElementsByClassName('el-step__icon-inner')
+					docEl[0].innerHTML = '07-04'
+					docEl[1].innerHTML = '07-05'
+					docEl[2].innerHTML = ''
+
+					let docTitle = doc.getElementsByClassName('el-step__title')
+					docTitle[0].innerHTML = '<span>维保计划</span><p class="circular"></p><p class="line"></p>'
+					docTitle[1].innerHTML = '<span>开始执行</span><p class="circular"></p><p class="line"></p>'
+					docTitle[2].innerHTML = '<span>开工会</span><p class="circular"></p><p class="line"></p>'
+				})
+			}
 		}
 	},
 	mounted() {
 		this.getFindPlanRecord()
-		// 修改原生dom
-		this.$nextTick(() => {
-			let doc = document.getElementsByClassName('vertical2')[0]
-			let docEl = doc.getElementsByClassName('el-step__icon-inner')
-
-			docEl[0].innerHTML = '07-04'
-			docEl[1].innerHTML = '07-05'
-			docEl[2].innerHTML = ''
-
-			let docTitle = doc.getElementsByClassName('el-step__title')
-			docTitle[0].innerHTML = '<span>维保计划</span><p class="circular"></p><p class="line"></p>'
-			docTitle[1].innerHTML = '<span>开始执行</span><p class="circular"></p><p class="line"></p>'
-			docTitle[2].innerHTML = '<span>开工会</span><p class="circular"></p><p class="line"></p>'
-		})
 	},
 	methods: {
 		async getFindPlanRecord() {
 			let a = await this.$_api.getFindPlanRecord.getFindPlanRecord()
 			console.log(a)
-			// this.maintenancePlan.firstRow[0].label='fdsafasf';
-			// this.maintenancePlan.firstRow.forEach((data)=>{
-			// 	console.log(data)
-			// })
-			for(let item in this.maintenancePlan){
-				console.log(this.maintenancePlan[item])
+			let t = a.data[0]
+			for (let item in this.maintenancePlan) {
+				for (let val of this.maintenancePlan[item]) {
+					for (let da in t) {
+						if (val.label === da) {
+							val.data = t[da]
+						}
+					}
+				}
 			}
 		},
-		handleClose() {}
+		handleClose() {
+			this.$emit('handleClose', false)
+		}
 	}
 }
 </script>

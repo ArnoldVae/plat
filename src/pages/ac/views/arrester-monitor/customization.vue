@@ -4,15 +4,14 @@
   </div>
 </template>
 <script>
-
 import { findComponentUpward } from '@/libs/assist'
 export default {
 	name: 'arrester-monitor-customization',
-	components: {  },
+	components: {},
 	props: {},
 	data() {
 		return {
-			unitId: this.$store.getters.unitId,
+			unitId: this.$store.getters.unitId
 		}
 	},
 	computed: {
@@ -33,14 +32,24 @@ export default {
 		}
 	},
 	created() {
-
+		this.getDevList()
 	},
 	mounted() {},
 	activited() {},
 	update() {},
 	beforeDestory() {},
 	methods: {
-	
+		getDevList() {
+			let params = {
+				devTypeId: this.activeDeviceTypeId,
+				isPage: 1,
+				isFindNodes: 1,
+				unitId: this.unitId
+			}
+			this.$_api.humiture.getDevList(params).then(res => {
+				console.log(res)
+			})
+		}
 	},
 	beforeRouteEnter(to, from, next) {
 		next()

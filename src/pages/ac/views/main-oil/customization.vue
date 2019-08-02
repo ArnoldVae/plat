@@ -39,15 +39,17 @@
         </div>
       </div>
     </div>-->
-    <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal>
+    <charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
+    <!-- <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal> -->
   </div>
 </template>
 <script>
 import qs from 'qs'
 import moment from 'moment'
+import charts from './charts'
 export default {
 	name: 'main-oil-customization',
-	components: {},
+	components: { charts },
 	props: {},
 	data() {
 		return {
@@ -349,6 +351,9 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  background: url('~@/assets/img/common/bg-border.png') no-repeat;
+  background-size: 100% 100%;
+  padding: 25px 50px 25px 50px;
 
   .oil-main-item {
     width: 33%;
@@ -363,15 +368,14 @@ export default {
       font-weight: 700;
       line-height: 30px;
       text-align: center;
-      background-color: rgba(36, 64, 88, 0.48);
-      margin-bottom: 9px;
+      background-color: rgba(36, 64, 88, 1);
       border: 1px solid #26636c;
     }
 
     .child-item-wrap {
       width: 100%;
       height: 31%;
-      margin-bottom: 5px;
+      margin-bottom: 9px;
       display: flex;
 
       .child-item-title {
@@ -392,7 +396,7 @@ export default {
         flex-wrap: wrap;
         justify-content: flex-start;
         align-items: center;
-        background: #141a26;
+        background-color: rgba(36, 64, 88, 0.48);
         color: #fff;
         border: 1px solid #26636c;
         position: relative;
@@ -413,7 +417,7 @@ export default {
         }
 
         .detail {
-          width: 32%;
+          width: 33%;
           display: flex;
           // flex-direction: column;
           // justify-content: center;
@@ -470,24 +474,29 @@ export default {
             margin-left: 5px;
 
             :nth-child(1) {
-              // font-size: px2rem(28);
-              font-family: 'DS-DIGI';
-              text-align: center;
               color: #48f702;
               background: #000;
+              border-radius: 5px;
               width: 90px;
+              height: 30px;
+              margin-top: 5px;
+              line-height: 30px;
+              text-align: center;
 
               :nth-of-type(1) {
-                font-size: 24px;
+                font-family: 'DS-DIGI';
+                font-size: 22px;
               }
 
               :nth-of-type(2) {
+                font-family: 'Microsoft YaHei';
                 font-size: 14px;
               }
             }
 
             :nth-child(2) {
               font-size: 16px;
+              color: #fff;
             }
           }
         }

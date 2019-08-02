@@ -407,8 +407,8 @@ export default {
 		.station {
 			width: 313px;
 			height: 890px;
-			background: url('~@/assets/img/common/side-bg.png') no-repeat;
-			background-size: 313px 890px;
+			// background: url('~@/assets/img/common/side-bg.png') no-repeat;
+			// background-size: 313px 890px;
 			padding: 0 10px;
 			margin: 0 10px;
 

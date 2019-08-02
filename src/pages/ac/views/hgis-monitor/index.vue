@@ -1,23 +1,23 @@
 <template>
-  <div class="anti-theft">
+  <div class="hgis-monitor">
     <!-- <transition name="v" mode="out-in"> -->
     <component v-bind:is="current"></component>
     <!-- </transition> -->
   </div>
 </template>
 <script>
-import antiTheftTable from '@ac/views/common/view-table'
-import antiTheftCustomization from './customization.vue'
+import hgisMonitorTable from '@ac/views/common/view-table'
+import hgisMonitorCustomization from './customization.vue'
 export default {
-	name: 'anti-theft',
+	name: 'hgis-monitor',
 	components: {
-		'anti-theft-table': antiTheftTable,
-		'anti-theft-customization': antiTheftCustomization
+		'hgis-monitor-customization': hgisMonitorCustomization,
+		'hgis-monitor-table': hgisMonitorTable
 	},
 	props: {},
 	data() {
 		return {
-			current: 'anti-theft-customization'
+			current: 'hgis-monitor-customization'
 		}
 	},
 	computed: {},
@@ -41,7 +41,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.anti-theft {
+.hgis-monitor {
   height: 100%;
   /* background: #fa0; */
 }
