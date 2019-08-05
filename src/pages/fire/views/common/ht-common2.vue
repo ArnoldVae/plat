@@ -198,8 +198,8 @@
         padding:8px 20px;
     }
     .fireControlHt {
-        margin-left 30px
-        width: 90%;
+        margin-left 20px
+        width: 100%;
         height: 700px;
         position: relative;
     }
