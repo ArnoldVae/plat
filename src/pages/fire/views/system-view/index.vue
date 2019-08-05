@@ -723,7 +723,6 @@ export default {
           font-size: 16px;
           text-indent: 20px;
           margin-bottom: 20px;
-
           >span {
             float: left;
             width: 200px;
