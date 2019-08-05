@@ -1,7 +1,7 @@
 // 开发模式
 var $_development = {
 	request: {
-		location: "http://172.26.1.109:8080",
+		location: "http://172.26.1.233:8085",
 		javaModule: "dsa5200"
 	},
 	video: {

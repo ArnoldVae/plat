@@ -1,7 +1,7 @@
 <template>
   <div class="systemView">
     <el-container>
-      <el-aside width="62%">
+      <el-aside width="67%">
         <div class="map">
           <div class="border-lt"></div>
           <div class="border-rb"></div>
@@ -89,12 +89,14 @@
                     <div class="r1">
                       <div class="r1-btn">
                         <span class="font-time color-light-green">{{i.totalCount}}</span>
-                      </div>设备数
+                      </div>
+                      <span class="r1-span">设备数</span>
                     </div>
                     <div class="r1">
                       <div class="r1-btn">
                         <span class="color-red font-time">{{i.alarmCount}}</span>
-                      </div>异常数
+                      </div>
+                      <span  class="r1-span">异常数</span>
                     </div>
                   </div>
                 </div>
@@ -662,18 +664,18 @@ export default {
           .elMain-bottom-Item-single {
             margin-bottom: 6px;
             height: 100px;
-            width: 280px;
+            width: 240px;
             padding-bottom: 4px;
             background: url('../../assets/img/system-view/设备统计背景框.png');
             background-size: 100% 100%;
-
             .left {
               height: 99px;
-              width: 72px;
+              width: 64px;
               text-align: center;
               float: left;
               padding-top: 8px;
               margin-left: 7px;
+              font-size 14px
 
               img {
                 margin: 4px 0 4px 0px;
@@ -684,15 +686,17 @@ export default {
               padding: 20px 10px;
               height: 80px;
               float: left;
-
               .r1 {
                 margin-right: 10px;
-                width: 80px;
+                width: 64px;
                 float: left;
                 text-align: center;
+                .r1-span{
+                  margin-left 12px
+                }
 
                 .r1-btn {
-                  width: 80px;
+                  width: 64px;
                   height: 32px;
                   margin-left: 8px;
                   line-height: 32px;
@@ -739,7 +743,6 @@ export default {
             line-height: 30px;
             text-indent: 25px;
             color: #fe0000;
-            cursor: pointer;
             background: url('../../assets/img/system-view/w1.png');
             background-size: 100% 100%;
             -moz-background-size: 100% 100%;
@@ -754,7 +757,6 @@ export default {
             text-indent: 25px;
             margin-right: 10px;
             color: #ffd36a;
-            cursor:pointer;
             background: url('../../assets/img/system-view/w2.png');
             background-size: 100% 100%;
             -moz-background-size: 100% 100%;

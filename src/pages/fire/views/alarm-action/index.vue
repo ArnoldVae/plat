@@ -672,10 +672,8 @@
                         width: 240px;
                         background: url('~@fire/assets/img/alarm-now/nowAlarmbg.png') no-repeat;
                         background-size: 100% 100%;
-
                         ul li {
                          color: white
-
                         .icon {
                             margin: 0 20px;
                             color: #ff0f2e;
