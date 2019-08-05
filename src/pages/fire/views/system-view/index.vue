@@ -444,13 +444,13 @@ export default {
 }
 
 .elMain-footer-bg1 {
-  background: url('../../assets/img/system-view/预警图例ffd36a.png');
+  background: url('../../assets/img/system-view/warning2.png');
   background-size: 100% 100%;
   -moz-background-size: 100% 100%;
 }
 
 .elMain-footer-bg2 {
-  background: url('../../assets/img/system-view/报警图例fe0000.png');
+  background: url('../../assets/img/system-view/warning.png');
   background-size: 100% 100%;
   -moz-background-size: 100% 100%;
 }
@@ -741,7 +741,7 @@ export default {
             text-indent: 25px;
             color: #fe0000;
             cursor: pointer;
-            background: url('../../assets/img/system-view/报警图例fe0000.png');
+            background: url('../../assets/img/system-view/w1.png');
             background-size: 100% 100%;
             -moz-background-size: 100% 100%;
           }
@@ -756,7 +756,7 @@ export default {
             margin-right: 10px;
             color: #ffd36a;
             cursor:pointer;
-            background: url('../../assets/img/system-view/预警图例ffd36a.png');
+            background: url('../../assets/img/system-view/w2.png');
             background-size: 100% 100%;
             -moz-background-size: 100% 100%;
           }
