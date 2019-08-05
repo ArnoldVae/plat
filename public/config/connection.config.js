@@ -17,7 +17,7 @@ var $_development = {
 }
 var $_production = {
 	request: {
-		location: "http://172.26.1.149:8085",
+		location: "http://26.47.189.184:8085",
 		javaModule: "dsa5200"
 	},
 	video: {

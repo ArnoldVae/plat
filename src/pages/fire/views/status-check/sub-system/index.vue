@@ -4,8 +4,8 @@
             <el-aside width="72%">
                 <div class="sub-system-top">
                     <div class="sub-system-top-item left">
-                        <img src="../../../assets/img/status/spw.png" width="420px" alt="" v-show="showFlag">
-                        <ocx-video :videoConfig="videoConfig" v-show="!showFlag"></ocx-video>
+                        <img src="../../../assets/img/status/spw.png" width="420px" alt="">
+<!--                        <ocx-video :videoConfig="videoConfig"></ocx-video>-->
                     </div>
                     <div class="sub-system-top-item right">
                         <el-row>
@@ -28,7 +28,22 @@
                     </div>
                 </div>
                 <div class="sub-system-bottom">
-                    <htCommon ref="htCommon"></htCommon>
+                    <ul class="sub-system-bottom-left">
+                        <li><div>系统信息：</div></li>
+                        <li><div>名称：</div><div class="even">泡沫灭火装置</div></li>
+                        <li><div>厂家：</div><div class="odd">xxxx有限公司</div></li>
+                        <li><div>型号：</div><div class="even">PWZ-7000</div>
+                        <li><div>投运日期：</div><div class="odd">2019-07-30</div></li>
+                        <li><div>存储介质：</div><div class="even">氮气</div></li>
+                        <li><div>灭火剂充装量：</div><div class="odd">7000L</div></li>
+                        <li><div>灭火剂类别：</div><div class="even">高倍合成型泡沫</div></li>
+                    </ul>
+                    <ul class="sub-system-bottom-right">
+                        <li><div>维保信息：</div></li>
+                        <li><div>维保单位：</div><div class="even">xxxx有限公司</div></li>
+                        <li><div>联系电话：</div></li>
+                        <li><div>备注信息：</div></li>
+                    </ul>
                 </div>
             </el-aside>
             <el-main>
@@ -90,7 +105,6 @@
         props: {},
         data() {
             return {
-                showFlag:false,
                 videoConfig: {
                    	isAutoPlay: true,
 					serviceInfo: '1$22.46.34.114$6800$admin$admin',
@@ -119,7 +133,9 @@
                 },
             },
         },
-        created() {},
+        created() {
+            console.log(new Date())
+        },
         mounted() {
             this.init()
         },
@@ -217,12 +233,6 @@
              */
 
             showSysDetail(item){
-                console.log(item)
-                if(item.vcName.indexOf('水喷雾')>-1){
-                    this.showFlag=true
-                }else {
-                    this.showFlag=false
-                }
                 this.getLightItem(item)
                 this.getHtMap(item)
             }
@@ -326,9 +336,77 @@
                     height 260px
                     width: 94%;
                     margin-left: 4%;
-                    background url("~@/assets/img/common/footer.png")
-                    background-size:100% 100%
-                    -moz-background-size:100% 100%
+                    display flex
+                    .sub-system-bottom-left{
+                        height 90%
+                        width 40%
+                        margin-top 30px
+                        margin-left 80px
+                        background url("~@/assets/img/common/footer.png")
+                        background-size:100% 100%
+                        -moz-background-size:100% 100%
+                        display flex
+                        flex-direction column
+                        justify-content flex-start
+                        align-items center
+                        >li{
+                            &:nth-of-type(1){
+                                margin-left -15px
+                            }
+                            color #fff
+                            width 100%
+                            height 6%
+                            margin-top 12px
+                            .even{
+                                color #ffd36a;
+                            }
+                            .odd{
+                                color #49ff01; 
+                            }
+                            >div{
+                                width 120px
+                                height 20px
+                                float left
+                                margin-left 40px
+                            }
+                            
+                        }
+                    }
+                    .sub-system-bottom-right{
+                        height 90%
+                        width 40%
+                        margin-top 30px
+                        margin-left 40px
+                        font-size 16px
+                        background url("~@/assets/img/common/footer.png")
+                        background-size:100% 100%
+                        -moz-background-size:100% 100%
+                        display flex
+                        flex-direction column
+                        justify-content flex-start
+                        align-items center
+                        >li{
+                            &:nth-of-type(1){
+                                margin-left -15px
+                            }
+                            color #fff
+                            width 80%
+                            height 6%
+                            margin-top 12px
+                            .even{
+                                color #ffd36a;
+                            }
+                            .odd{
+                                color #49ff01; 
+                            }
+                            >div{
+                                width 120px
+                                height 20px
+                                float left
+                                
+                            }
+                        }
+                    }
                 }
             }
             .el-main{
