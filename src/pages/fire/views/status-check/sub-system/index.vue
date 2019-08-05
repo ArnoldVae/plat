@@ -4,8 +4,8 @@
             <el-aside width="72%">
                 <div class="sub-system-top">
                     <div class="sub-system-top-item left">
-                        <img src="../../../assets/img/status/spw.png" width="420px" alt="">
-<!--                        <ocx-video :videoConfig="videoConfig"></ocx-video>-->
+                        <img v-show="showFlag" src="../../../assets/img/status/spw.png" width="420px" alt="">
+                        <ocx-video  v-show="!showFlag" :videoConfig="videoConfig"></ocx-video>
                     </div>
                     <div class="sub-system-top-item right">
                         <el-row>
@@ -105,18 +105,20 @@
         props: {},
         data() {
             return {
-                videoConfig: {
+                showFlag:false,//显示视频或者图片判断标志
+                videoConfig: {//视频配置信息
                    	isAutoPlay: true,
 					serviceInfo: '1$22.46.34.114$6800$admin$admin',
 					deviceInfo: '2|22.46.34.114:37782|admin:admin123|1',
 					hideTool: true
                 },
                 getId:"",
-                current: 'fireControl-customization',
+                // 定义声明装置光子牌列表对象
                 resultData:{
                     dev:{},
                     data:[]
                 },
+                // 定义声明装置列表对象
                 subMenuList:[]
             }
         },
@@ -144,6 +146,7 @@
         beforeDestory() {},
         methods: {
             init() {
+                //获取子系统装置列表
                 this.getSubMenu()
             },
             //从地图跳转初始化函数
@@ -159,7 +162,6 @@
             },
             //获取流程图接口
             async getHtMap(item) {
-
                 this.getId=item&&item.UnitID?item.UnitID:'192fe4cec3ec4d3fb81c0d05f82bde41'
                 let result = await this.$_api.statusCheck.getHtMap({
                     unitId:this.getId,
@@ -196,8 +198,8 @@
 
                 })
                 if (result.success){
-                    console.log(result)
                     result.data.forEach((i)=>{
+                        //处理如果装置存在子菜单则控制显示样式
                         i.showSubFlag=false
                     })
                     this.subMenuList=result.data
@@ -233,6 +235,8 @@
              */
 
             showSysDetail(item){
+                //处理水喷雾逻辑（水喷雾显示图片，其他显示视频）
+                this.showFlag=item.subSystemId==90010014?true:false
                 this.getLightItem(item)
                 this.getHtMap(item)
             }
