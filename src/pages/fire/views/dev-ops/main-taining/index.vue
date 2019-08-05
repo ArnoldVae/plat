@@ -16,6 +16,7 @@
         <el-form-item label="时间段:">
           <el-select v-model="search.timeQuantum" placeholder>
             <el-option label="自定义" :value="nullValue"></el-option>
+            <el-option label="三天内" value="threeDay"></el-option>
             <el-option label="本周" value="week"></el-option>
             <el-option label="本月" value="month"></el-option>
             <el-option label="本年" value="year"></el-option>
@@ -43,8 +44,8 @@
 
         <el-form-item class="taining-button">
           <el-button class="blue-btn" @click="searchInfo" type="text">查&nbsp找</el-button>
-          <el-button class="yellow-btn" @click="leadTo" type="text">导&nbsp入</el-button>
-          <el-button class="yellow-btn" @click="exportInfo" type="text">导&nbsp出</el-button>
+<!--          <el-button class="yellow-btn" @click="leadTo" type="text">导&nbsp入</el-button>-->
+<!--          <el-button class="yellow-btn" @click="exportInfo" type="text">导&nbsp出</el-button>-->
         </el-form-item>
       </el-form>
       <!-- table -->
@@ -52,7 +53,7 @@
         <el-table
           :header-cell-style="{background:'none'}"
           :data="maintainData"
-          style="width: 100%;margin-top:3%"
+          style="width: 100%;"
         >
           <el-table-column prop="mtcName" align="center" label="维保单位"></el-table-column>
           <el-table-column prop="unitName" align="center" label="变电站"></el-table-column>
@@ -102,6 +103,10 @@ export default {
 			maintainData: []
 		}
 	},
+    mounted(){
+	  console.log(this.getThisWeek(this.getTargetDate(0,0,-3)))
+
+    },
 
 	created() {
 		this.init()
@@ -112,25 +117,31 @@ export default {
       'search.timeQuantum'(val) {
         switch (val) {
           case 'week':
-            const endw = new Date()
-            const startw = new Date()
-            startw.setTime(startw.getTime() - 3600 * 1000 * 24 * 7)
+            // const endw =this.getThisWeek(new Date())[this.getThisWeek(new Date()).length-1].getTime()
+            const endw =new Date()
+            const startw =this.getThisWeek(new Date())[0].getTime()
+            // startw.setTime(startw.getTime() - 3600 * 1000 * 24 * 7)
             this.search.starTime = startw
             this.search.endTime = endw
             break
           case 'month':
+            const dayNo=1-(new Date().getDate());
             const endm = new Date()
-            const startm = new Date()
-            startm.setTime(startm.getTime() - 3600 * 1000 * 24 * 30)
+            const startm = this.getTargetDate(0,0,dayNo).getTime()
             this.search.starTime = startm
             this.search.endTime = endm
             break
           case 'year':
-            const endy = new Date()
-            const starty = new Date()
-            starty.setTime(starty.getTime() - 3600 * 1000 * 24 * 365)
+            const endy = new Date(),nowDay=1-(new Date().getDate()),nowMonth=0-(new Date().getMonth())
+            const starty = this.getTargetDate(0,nowMonth,nowDay)
             this.search.starTime = starty
             this.search.endTime = endy
+            break
+          case 'threeDay':
+            const endy1 = new Date()
+            const starty1 = this.getTargetDate(0,0,-2)
+            this.search.starTime = starty1
+            this.search.endTime = endy1
             break
           case null:
             this.search.starTime = ''
@@ -166,8 +177,28 @@ export default {
 			}
 		},
 		leadTo() {},
-		exportInfo() {}
+		exportInfo() {},
+        getThisWeek(currentTime){
+          var currentDate = new Date(currentTime)
+          var timesStamp = currentDate.getTime();
+          var currenDay = currentDate.getDay();
+          var dates = [];
+          for (var i = 0; i < 7; i++) {
+            dates.push(new Date(timesStamp + 24 * 60 * 60 * 1000 * (i - (currenDay + 6) % 7)));
+            // dates.push(new Date(timesStamp + 24 * 60 * 60 * 1000 * (i - (currenDay + 6) % 7)).toLocaleDateString().replace(/\//g, '-'));
+          }
+          return dates
+        },
+      getTargetDate(oF,oM,oD){
+		  let _date=new Date();
+		  _date.setFullYear(_date.getFullYear()+oF);
+		  _date.setMonth(_date.getMonth()+oM);
+		  _date.setDate(_date.getDate()+oD);
+		  return _date
+
+      }
 	}
+
 }
 </script>
 
