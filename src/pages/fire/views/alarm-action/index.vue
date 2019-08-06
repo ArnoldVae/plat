@@ -2,7 +2,7 @@
 
     <div class="alarm-now">
         <div class='noAlarm' v-show="alarmHide"></div>
-<!--        当前页面-->
+        <!--        当前页面-->
         <div class="alarmList" v-show="comfireAlarm">
             <div class="alarmNow-title">当前报警信息</div>
             <div class="alarm-now-header">
@@ -84,7 +84,7 @@
                 </div>
             </div>
         </div>
-<!--        确定页面-->
+        <!--        确定页面-->
         <div class="alarmPlanBox" v-if="confirHide">
             <div class="close" @click="close()"></div>
             <div class="title">
@@ -223,17 +223,36 @@
                     }
                 ],
                 alarmDetail: {},
-                labelList: [],
+                labelList: [
+                    {
+                        unitName: '500kV东善桥变电站'
+                    },
+                    {
+                        unitName: '1号主变防护区'
+                    },
+                    {
+                        unitName: '1#烟感探测器报警'
+                    }
+                ],
                 //chart
                 envChart: null,
-                timeData: [],
-                chartData: [],
-                chartData2: [],
+                timeData: ["2019-07-25 07:08", "2019-07-25 07:16", "2019-07-25 07:23", "2019-07-25 07:30", "2019-07-25 07:45", "2019-07-25 07:50", "2019-07-25 07:55", "2019-07-25 08:08", "2019-07-25 08:16", "2019-07-25 08:20"],
+                chartData: ["30", '32.2', '34', '33.5', '34', '34.1', '33.9', '33.8', '33.2', '32.3'],
+                chartData2: ['35', '34', '33.2', '33.1', '33.5', '31.3', '31.4', '35', '34.6', '34.2'],
                 categorName: ['温度', '湿度'],
                 weatherImg: require('@/assets/img/common/sun.png'),
                 weatherList: [
+                    {icon: require('@fire/assets/img/alarm-now/wendu.png'),  name: '温度:', value: '34'},
+                    {icon: require('@fire/assets/img/alarm-now/fengsu.png'),  name: '风速:', value: '4'},
+                    {icon: require('@fire/assets/img/alarm-now/shidu.png'), name: '湿度:', value: '65'},
+                    {icon: require('@fire/assets/img/alarm-now/fengxiang.png'), name: '风向:', value: '东南'}
                 ],
                 alarmListInfo: [
+                    {name: '防护区:', value: '1号主变防护区'},
+                    {name: '断电信号:', value: '断开'},
+                    {name: '设备名称:', value: '1#烟感探测器'},
+                    {name: '报警节点:', value: '1#烟感探测器报警'},
+                    {name: '报警时间:', value: '2019-7-22 10:00'}
                 ],
                 alarmHide: false,
                 confirHide: false,
@@ -243,10 +262,25 @@
                 untiID: this.$store.getters.unitId,
                 protectAreaId: '',
                 htInfoList: [
+                    {
+                        name: '火情点最近灭火器设备',
+                        value: [{listName: '装置类型', listValue: '泡沫灭火器'}, {listName: '装置数量', listValue: '8'}]
+                    },
+                    {
+                        name: '火情点最近灭火器设备',
+                        value: [
+                            {listName: '装置类型', listValue: '泡沫灭火器'},
+                            {listName: '装置数量', listValue: '20'}
+                        ]
+                    }
                 ],
                 disposeList: [
+                    {con: '变压器发生火灾时，优先（自动）启动固定灭火系统进行灭火'},
+                    {con: '若变压器固定自动灭火系统未自动启动，到达现场的运维人员应立即汇报当值调度和有关领导并拨打119火灾报警电话。'},
+                    {con: '断开着火变压器各侧断路器；必要时应将该变压器附近电力设备停电。变压器转冷备用状态，切断直流控制电源、交流控制电源、交流风扇电源等。'},
+                    {con: '现场运维人员需将变压器固定自动灭火系统（自动化小室、保护室等处）控制装置控制由自动切换手动，进行远方启动灭火，若远方启动无法成功，则穿戴个人防护用品后在装置现场紧急启动。'},
+                    {con: '待政府消防队到达火场时，运维人员应立即与消救援队负责人取得联系并交代失火设备现状和运行设备状态，然后协助政府消防队灭火。'},
                 ],
-                //定义声明控制charts显示入参arr1为温度，arr2为湿度，arr3为时间轴
                 idListObj: {
                     arr1: [],
                     arr2: [],
