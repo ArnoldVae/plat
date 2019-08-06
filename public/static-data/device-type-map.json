@@ -1,9 +1,7 @@
-[
-    {
+[{
         "typeId": 1014,
         "name": "humiture",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -18,8 +16,7 @@
     {
         "typeId": 2,
         "name": "accumulator",
-        "mode": [
-            {
+        "mode": [{
                 "title": "表格",
                 "name": "table",
                 "icon": "table"
@@ -34,8 +31,7 @@
     {
         "typeId": 1011,
         "name": "water-soaking",
-        "mode": [
-            {
+        "mode": [{
                 "title": "平面图",
                 "name": "ichnography",
                 "icon": "picture"
@@ -50,8 +46,7 @@
     {
         "typeId": 1044,
         "name": "video",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -66,8 +61,7 @@
     {
         "typeId": 1025,
         "name": "anti-theft",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -82,8 +76,7 @@
     {
         "typeId": 1020,
         "name": "intelligent-lighting",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -98,8 +91,7 @@
     {
         "typeId": 1046,
         "name": "ozone",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -114,8 +106,7 @@
     {
         "typeId": 1016,
         "name": "vrv",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -130,8 +121,7 @@
     {
         "typeId": 1012,
         "name": "water-level",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -146,8 +136,7 @@
     {
         "typeId": 1037,
         "name": "fireControl",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -162,8 +151,7 @@
     {
         "typeId": 1018,
         "name": "sf6-monitor",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -178,8 +166,7 @@
     {
         "typeId": 1024,
         "name": "securityControl",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -194,8 +181,7 @@
     {
         "typeId": 1045,
         "name": "battery-monitor",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -210,8 +196,7 @@
     {
         "typeId": 2030,
         "name": "main-oil",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -226,6 +211,21 @@
     {
         "typeId": 1002,
         "name": "core-clamp",
+        "mode": [{
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
+            },
+            {
+                "title": "表格",
+                "name": "table",
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "typeId": 1003,
+        "name": "arrester-monitor",
         "mode": [
             {
                 "title": "定制化",
@@ -242,8 +242,7 @@
     {
         "typeId": 1010,
         "name": "micro-weather",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -258,8 +257,7 @@
     {
         "typeId": 2031,
         "name": "hgis-monitor",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -274,8 +272,7 @@
     {
         "typeId": 2032,
         "name": "breaker-gas-monitor",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -290,6 +287,36 @@
     {
         "typeId": 2033,
         "name": "cabinet",
+        "mode": [{
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
+            },
+            {
+                "title": "表格",
+                "name": "table",
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "typeId": 1022,
+        "name": "electronic-fence-control",
+        "mode": [{
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
+            },
+            {
+                "title": "表格",
+                "name": "table",
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "typeId": 2021,
+        "name": "terminal-box",
         "mode": [
             {
                 "title": "定制化",
@@ -303,4 +330,5 @@
             }
         ]
     }
+
 ]

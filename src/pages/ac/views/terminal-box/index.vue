@@ -1,21 +1,21 @@
 <template>
-	<div class="fireControl">
+	<div class="terminal-box">
 		<component v-bind:is="current"></component>
 	</div>
 </template>
 <script>
-import fireControlTable from '@ac/views/common/view-table'
-import fireControlCustomization from './customization.vue'
+import terminalBoxTable from '@ac/views/common/view-table'
+import terminalBoxCustomization from './customization.vue'
 export default {
-	name: 'fireControl',
+	name: 'terminal-box',
 	components: {
-		'fireControl-table': fireControlTable,
-		'fireControl-customization': fireControlCustomization
+		'terminal-box-table': terminalBoxTable,
+		'terminal-box-customization': terminalBoxCustomization
 	},
 	props: {},
 	data() {
 		return {
-			current: 'fireControl-customization'
+			current: 'terminal-box-customization'
 		}
 	},
 	computed: {},
@@ -39,7 +39,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.fireControl {
+.terminal-box {
 	height: 100%;
 }
 </style>

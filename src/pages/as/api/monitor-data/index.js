@@ -98,5 +98,13 @@ export default {
 			method: 'post',
 			data
 		})
+	},
+	//获取巡检任务单数据
+	getInspectionTaskTableData( params ) {
+		return axios.request({
+			url: '/astask/findAsTypeNodes',
+			method: 'post',
+			data: params
+		})
 	}
 }

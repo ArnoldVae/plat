@@ -10,16 +10,18 @@
         <template v-for="(item, index) in listData">
           <li :key="index">
             <div class="list-item-left">
-              <div :class="{ ddmg: item.ddg, ddmk: item.ddk, mjg: item.mjg, mjk: item.mjk }"></div>
+              <!-- <div :class="{ ddmg: item.ddg, ddmk: item.ddk, mjg: item.mjg, mjk: item.mjk }"></div> -->
+              <img v-if="item.fvalue == 1" src="../../assets/img/anti-theft/mjk.png" />
+              <img v-else src="../../assets/img/anti-theft/mjg.png" />
             </div>
             <div class="list-item-right">
-              <span>{{ item.equName }}</span>
+              <span>{{ item.vcName }}</span>
               <div class="list-item-btn">
                 <span
                   v-for="(ite, idx) in item.btnArr"
                   :key="idx"
                   @click="handleClick(item, ite)"
-                >{{ ite.name }}</span>
+                >{{ ite.btnTitle }}</span>
               </div>
             </div>
           </li>
@@ -41,127 +43,205 @@
 </template>
 <script>
 import ocxVideo from '@/components/native/video/OcxVideo'
+import { findComponentUpward } from '@/libs/assist'
 export default {
 	name: 'anti-theft-customization',
 	components: { ocxVideo },
 	props: {},
 	data() {
 		return {
+			unitId: this.$store.getters.unitId,
+			topicArr: ['qif/zf/app/', 'qif/zf/app/control/'],
+			topicStr: '',
+			guids: [],
 			modalShow: false,
 			tipShow: false,
 			accessData: [],
-			listData: [],
+      listData: [],
+      devItem:{},
+			nodeData: {},
+			lightingFlag: 'open',
 			videoConfig: {
-				isAutoPlay: false,
-				serviceInfo: '1$22.46.34.114$6800$admin$admin',
-				deviceInfo: '',
+				isAutoPlay: true,
+				// serviceInfo: '1$172.26.1.128$6800$admin$admin',
+				// deviceInfo: '2|172.26.1.28:37777|admin:admin123|0',
+				serviceInfo: '1$153.3.56.162$6800$admin$admin',
+				deviceInfo: '64bae7e19e3011e9ac508cec4b8f5477',
 				hideTool: true
 			}
 		}
 	},
-	computed: {},
-	filters: {},
-	watch: {},
-	created() {
-		this.gerEqList()
+	computed: {
+		getunitId: function() {
+			return this.$store.getters.unitId
+		},
+		activeDeviceTypeId() {
+			return findComponentUpward(this, 'intelligent').currentTypeId
+		}
 	},
-	mounted() {},
+	filters: {},
+	watch: {
+		getunitId: {
+			handler(newValue) {
+				this.unitId = newValue
+				this.topicStr = this.topicArr[0] + this.unitId
+			}
+		}
+	},
+	created() {
+		this.getVideoServe()
+		this.getEqList()
+	},
+	mounted() {
+		this.getMqtt()
+	},
 	activited() {},
 	update() {},
 	beforeDestory() {},
 	methods: {
-		gerEqList() {
-			//获取门禁列表
-			// this.$api.AssistCenter.findSystemNode({
-			// 	stationId: this.stationId,
-			// 	subSystemId: findComponentUpward(this, 'mainc').subSystemId,
-			// 	equName: '',
-			// 	typeId: '',
-			// 	rows: 1000,
-			// 	page: 1
-			// }).then(res => {
-			this.$_api.getStaticData('./simulation-data/anti-theft.json').then(res => {
-				console.log(res)
-				// if (res.ret == 0) {
-				//默认播放列表第一个的视频
-				// if (res.rows.length === 0) {
-				// 	return
-				// }
-				this.accessData = res.data.rows
-				//遍历找出所有设备
-				let eqpList = []
-				this.accessData.map(item => {
-					if (!eqpList.includes(item.equId)) {
-						eqpList.push(item.equId)
+		//获取列表
+		getEqList() {
+			let params = {
+				devTypeId: this.activeDeviceTypeId,
+				isPage: 1,
+				isFindNodes: 1,
+				unitId: this.unitId
+			}
+			this.$_api.antiTheft.getDevList(params).then(res => {
+				res.data.lists.forEach(item => {
+					item.btnArr = []
+					if (item.devNodesList && item.devNodesList.length > 0) {
+						item.devNodesList.forEach(element => {
+							element.btnTitle = ''
+							if (element.nodeType == 3 || (element.nodeType == 4 && element.vcValueDesc)) {
+								item.ctrlNodeId = element.nodeId
+								element.btnTitle = element.vcValueDesc.split(' ')[1]
+								item.btnArr.push(element)
+							}
+							if (element.nodeType == 2) {
+								item.fvalue = element.fvalue
+							}
+						})
 					}
 				})
-
-				let doorList = [],
-					tempObj = { btnArr: [] }
-				let flag = false //用来判断是否有状态节点
-
-				eqpList.map((eqp, index) => {
-					tempObj = { btnArr: [] }
-					flag = false
-					this.accessData.map((node, index) => {
-						if (node.equId === eqp) {
-							//当前节点为状态节点，则直接绑定在列表上
-							tempObj.equName = node.equName
-							if (node.functionId === '1') {
-								tempObj.nodeid = node.nodeId
-								// console.log(node.linkUrl);
-								tempObj.linkUrl = node.linkUrl
-								flag = true
-
-								//图片和设备状态匹配
-								if (node.fvalue == 0 && node.iParam1 == 1) {
-									tempObj.ddg = true
-								} else if (node.fvalue == 1 && node.iParam1 == 1) {
-									tempObj.ddk = true
-								} else if (node.fvalue == 0 && node.iParam1 == null) {
-									tempObj.mjg = true
-								} else if (node.fvalue == 1 && node.iParam1 == null) {
-									tempObj.mjk = true
-								}
-							} else if (node.functionId === '2') {
-								//控制节点，则作为生成按钮使用
-								if (node.valueDesc) {
-									let splitArr = node.valueDesc.split(' ')
-									tempObj.btnArr.push({
-										controlNodeid: node.nodeId,
-										name: splitArr[1],
-										value: splitArr[0]
-									})
-								}
-							}
-						}
-
-						//遍历完一个设备，保存到数组中
-						if (index === this.accessData.length - 1) {
-							if (tempObj.btnArr.length > 0) {
-								flag === false ? (tempObj.mjg = true) : ''
-								doorList.push(tempObj)
-							}
-						}
-					})
-				})
-				this.listData = doorList
-
-				// }
+				this.listData = res.data.lists
+				this.getFirstVideo(this.listData)
 			})
 		},
+		//获取第一条视频
+		getFirstVideo(data) {
+			for (let i = 0; i < data.length; i++) {
+				if (data[i].devNodesList && data[i].devNodesList.length > 0 && !!data[i].devNodesList[0].vcParam1) {
+					this.videoConfig.deviceInfo = data[i].devNodesList[0].vcParam1
+					break
+				}
+			}
+		},
+		//获取流媒体服务
+		getVideoServe() {
+			this.$_api.antiTheft.getVideoServe().then(res => {
+				if (res.code == 200 && res.data) {
+					// this.videoConfig.serviceInfo = res.data.ServiceID
+					this.videoConfig.serviceInfo = res.data.vc_Address
+				}
+			})
+		},
+		//点击控制按钮
 		handleClick(item, ite) {
+      this.devItem = item
+			this.nodeData = JSON.parse(JSON.stringify(ite))
 			this.modalShow = true
-			console.log(item)
-			console.log(ite)
 		},
+		//弹窗确认
 		handleConfirm() {
-			console.log('确认')
-			// this.tipShow = !this.tipShow
-			this.$ocxMessage.info('命令下发成功')
+			let nowDate = new Date().getTime()
+			let startTime = Math.ceil(nowDate / 1000)
+			let guid = this.guid()
+			this.guids.push(guid)
+			let params = {
+				cmd: '1003',
+				type: 'req',
+				serial: guid,
+				time: startTime,
+				nodes: [
+					{
+						devid: this.nodeData.devId,
+						nodeid: this.nodeData.nodeId,
+						value: this.nodeData.fvalue
+					}
+				]
+			}
+			this.topicStr = this.topicArr[1] + this.unitId
+			//下发控制命令
+      this.$_mqtt.publish(this.topicStr, JSON.stringify(params), { qos: 0, retain: false })
+      //判断当前节点是否有视频 有就切换视频
+			if (
+				this.devItem.devNodesList &&
+				this.devItem.devNodesList.length > 0 &&
+				!!this.devItem.devNodesList[0].vcParam1
+			) {
+				this.videoConfig.deviceInfo = this.devItem.devNodesList[0].vcParam1
+			}
 		},
+		//弹窗取消
 		handleCancel() {
-			console.log('取消')
+		},
+		//生成guId
+		guid() {
+			return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+				let r = (Math.random() * 16) | 0,
+					v = c == 'x' ? r : (r & 0x3) | 0x8
+				return v.toString(16)
+			})
+		},
+		//实时数据回调
+		getMqtt() {
+			this.topicStr = this.topicArr[0] + this.unitId
+			console.log(this.topicStr)
+			this.topicStr2 = this.topicArr[1] + this.unitId
+			this.$_listen(this.$options.name, (topic, message, packet) => {
+				if (topic == this.topicStr || topic == this.topicStr2) {
+					let msgData = JSON.parse(message.toString())
+					if (msgData.cmd == 1001) {
+						console.log(msgData)
+						this.listData.forEach(element => {
+							element.devNodesList.forEach(item => {
+								if (msgData.nodeid == item.nodeId) {
+									if (item.nodeType == 3 || item.nodeType == 4) {
+										item.fvalue = msgData.value
+										if (
+											item.vcValueDesc.split(' ')[1] == '开门' ||
+											item.vcValueDesc.split(' ')[1] == '关门'
+										) {
+											element.fvalue = msgData.value
+										}
+									}
+								}
+							})
+						})
+					} else if (msgData.cmd == 1003) {
+						console.log(JSON.stringify(msgData))
+						this.guids.forEach(item => {
+							if (item == msgData.serial) {
+								this.$ocxMessage.info('命令下发成功')
+							}
+						})
+					} else if (msgData.cmd == 1004) {
+						console.log(JSON.stringify(msgData))
+
+						this.guids.forEach((item, index) => {
+							if (item == msgData.serial) {
+								if (msgData.result == 0) {
+									this.$ocxMessage.success('命令执行成功')
+									this.guids.splice(index, 1)
+								} else {
+									this.$ocxMessage.error('命令执行失败')
+								}
+							}
+						})
+					}
+				}
+			})
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -222,7 +302,7 @@ export default {
       width: 100%;
       height: 100%;
       overflow: auto;
-      padding-left: 20px;
+      padding-left: 10px;
       padding-top: 20px;
       background-color: rgba(12, 27, 58, 0.7);
 
@@ -230,11 +310,11 @@ export default {
         float: left;
         list-style: none;
         display: flex;
-        width: calc(50% - 15px);
-        height: 130px;
+        width: calc(50% - 10px);
+        height: 120px;
         border: 2px solid #26636c;
         margin-bottom: 20px;
-        margin-right: 10px;
+        margin-right: 5px;
         border-radius: 5px;
         background-color: rgba(12, 27, 58, 0.7);
 
@@ -247,29 +327,10 @@ export default {
           border-right: 2px solid #26636c;
           background: url('~@ac/assets/img/anti-theft/boxbg.png');
 
-          > div {
-            width: 60%;
-            height: 46%;
-          }
-
-          .ddmg {
-            background: url('~@ac/assets/img/anti-theft/mjddg.png') no-repeat;
-            background-size: 100% 100%;
-          }
-
-          .ddmk {
-            background: url('~@ac/assets/img/anti-theft/mjddk.png') no-repeat;
-            background-size: 100% 100%;
-          }
-
-          .mjk {
-            background: url('~@ac/assets/img/anti-theft/mjk.png') no-repeat;
-            background-size: 100% 100%;
-          }
-
-          .mjg {
-            background: url('~@ac/assets/img/anti-theft/mjg.png') no-repeat;
-            background-size: 100% 100%;
+          img {
+            display: block;
+            width: 80%;
+            height: 50%;
           }
         }
 
@@ -299,12 +360,11 @@ export default {
               color: #0ef6ff;
               background: url('../../assets/img/intelligent-lighting/btnBg.png');
               background-size: 100% 100%;
-              padding: 2px 15px;
+              cursor: pointer;
+              height: 30px;
+              line-height: 30px;
+              padding: 0 10px;
               margin-bottom: 4px;
-
-              &:hover {
-                cursor: pointer;
-              }
             }
           }
         }

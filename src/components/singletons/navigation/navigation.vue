@@ -247,7 +247,7 @@ export default {
 				margin-left: 15px;
 				width: 195px;
 				height: 85px;
-				background: url('/img/login-title.png') no-repeat;
+				background: url('/dsa5200web/img/login-title.png') no-repeat;
 				background-size: 195px 85px;
 				/* color: #40a3e9; */
 

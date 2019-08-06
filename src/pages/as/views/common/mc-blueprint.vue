@@ -55,28 +55,31 @@ export default {
 			deep: true
 		},
 		mqttData(data) {
-			console.log(data)
 			if (data.cmd == 2103) {
 				this.deviceid = data.taskfrate.deviceid
 				let tag = global.dataModel.getDataByTag(this.deviceid)
 				//给图元添加下方文字
-				tag.setStyle('note', tag._name)
-				tag.setStyle('note.background', 'transparent')
-				tag.setStyle('note.border.color', 'transparent')
-				tag.setStyle('note.position', 31)
-				tag.setStyle('note.offset.y', 16)
-				//添加动画
-				this.animation()
+				if (tag != undefined) {
+					tag.setStyle('label', tag._name)
+					tag.setStyle('label.color', '#fff')
+					// tag.setStyle('label.font', '10px sans-serif')
+					tag.setStyle('label.position', 31)
+					tag.setStyle('label.toggleable', false)
+					//添加动画
+					this.animation()
+				}
 			} else if (data.cmd == 2104) {
 				if (this.deviceid != '') {
 					let tag = global.dataModel.getDataByTag(this.deviceid)
-					//删除图元下方文字
-					tag.setStyle('note', null)
-					//删除动画
-					tag.setAnimation(null)
-					//重置图元宽高
-					tag._width = this.iWidth
-					tag._height = this.iHeight
+					if (tag != undefined) {
+						//删除图元下方文字
+						tag.setStyle('label', null)
+						//删除动画
+						tag.setAnimation(null)
+						//重置图元宽高
+						tag._width = this.iWidth
+						tag._height = this.iHeight
+					}
 				}
 			}
 		}
@@ -125,23 +128,31 @@ export default {
 					eData = e.data,
 					part = e.part,
 					event = e.event
-					//判断当前节点是否有动画
+				//判断当前节点是否有动画
 				if (eData && !eData._animation) {
-
 					if (eType == 'onEnter') {
 						if (e.data.a('vc_SourceID')) {
 							//添加图元下文字
-							eData.setStyle('note', eData._name)
-							eData.setStyle('note.background', 'transparent')
-							eData.setStyle('note.border.color', 'transparent')
-							eData.setStyle('note.position', 31)
-							eData.setStyle('note.offset.y', 16)
+							eData.setStyle('label', eData._name)
+							eData.setStyle('label.color', '#fff')
+							// eData.setStyle('label.font', '10px sans-serif')
+							eData.setStyle('label.position', 31)
+							eData.setStyle('label.toggleable', false)
 						}
 					}
 					if (eType == 'onLeave') {
 						if (e.data.a('vc_SourceID')) {
 							//删除图元下文字
-							eData.setStyle('note', null)
+							eData.setStyle('label', null)
+						}
+					}
+				}
+
+				if (eData && eData._animation) {
+					if (eType == 'clickData') {
+						if (e.data.a('vc_SourceID')) {
+							let targetTag = eData.getTag()
+							this.$emit('getDevId', targetTag)
 						}
 					}
 				}
@@ -183,26 +194,24 @@ export default {
 								node.s('label', '')
 								this.dataModel.add(node)
 
-								let blinkTask = {
-									interval: 300,
-									action: function(data) {
-										// console.log(data.a('alarmLevel'));
-										if (data.a('alarmLevel') > 0) {
-											data.a('blink.visible', !data.a('blink.visible'))
-										} else {
-											data.a('blink.visible', false)
-										}
-									}
-								}
-								this.dataModel.addScheduleTask(blinkTask)
+								// let blinkTask = {
+								// 	interval: 300,
+								// 	action: function(data) {
+								// 		// console.log(data.a('alarmLevel'));
+								// 		if (data.a('alarmLevel') > 0) {
+								// 			data.a('blink.visible', !data.a('blink.visible'))
+								// 		} else {
+								// 			data.a('blink.visible', false)
+								// 		}
+								// 	}
+								// }
+								// this.dataModel.addScheduleTask(blinkTask)
 							}, 1000)
 						})
 				}
 			})
 		},
 		animation() {
-			//06ce3d8f30c14e988ec7a079dc0d5c16
-			//f50098a19a5d438ab697ed4bcca6f8e3
 			// 动画
 			//===========================================================================================
 			let tag = global.dataModel.getDataByTag(this.deviceid)
@@ -246,9 +255,9 @@ export default {
 	
 	<style lang="stylus" scoped>
 	.mc-blueprint {
-	  width: 100%;
-	  height: 100%;
-	  position: relative;
+		width: 100%;
+		height: 100%;
+		position: relative;
 	}
 </style>
 	

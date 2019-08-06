@@ -10,8 +10,8 @@ import 'iview/dist/styles/iview.css'
 Vue.use(iView)
 
 // ElementUI 按需
-import { Select, Input, Table, Option,Button,TableColumn , Tree,Form,FormItem,Radio,RadioGroup,Checkbox,CheckboxGroup} from 'element-ui'
-const ElementUI = [Table, Select, Input, Option,Button,TableColumn,Tree,Form,FormItem,Radio,RadioGroup,Checkbox,CheckboxGroup]
+import { Select, Input, Table, Option,Button,TableColumn , Tree,Form,FormItem,Radio,RadioGroup,Checkbox,CheckboxGroup,Progress,Loading} from 'element-ui'
+const ElementUI = [Table, Select, Input, Option,Button,TableColumn,Tree,Form,FormItem,Radio,RadioGroup,Checkbox,CheckboxGroup,Progress,Loading]
 
 // ElementDev 按需
 import { elFilterTree } from '@/components/element-dev'

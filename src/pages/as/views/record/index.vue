@@ -45,16 +45,16 @@
         :header-cell-style="tableHeaderColor"
         style="width: 100%"
       >
-        <el-table-column label="计划" align="center" width="270">
+        <el-table-column label="计划" align="center" width="230">
           <template slot-scope="scope">{{ scope.row.planName }}</template>
         </el-table-column>
-        <el-table-column label="任务" align="center" width="270">
+        <el-table-column label="任务" align="center" width="230">
           <template slot-scope="scope">{{ scope.row.taskName }}</template>
         </el-table-column>
         <el-table-column align="center" label="任务类型" width="140">
           <template slot-scope="scope">{{ scope.row.taskType }}</template>
         </el-table-column>
-        <el-table-column align="center" label="状态" width="140">
+        <el-table-column align="center" label="状态" width="100">
           <template slot-scope="scope">{{ scope.row.iStatusName }}</template>
         </el-table-column>
         <el-table-column align="center" label="启动原因" width="140">
@@ -63,19 +63,19 @@
         <el-table-column align="center" label="结束原因" width="140">
           <template slot-scope="scope">{{ scope.row.iStopReason }}</template>
         </el-table-column>
-        <el-table-column align="center" label="启动时间" width="210">
+        <el-table-column align="center" label="启动时间" width="170">
           <template slot-scope="scope">{{ scope.row.iStartTime }}</template>
         </el-table-column>
-        <el-table-column align="center" label="结束时间" width="210">
+        <el-table-column align="center" label="结束时间" width="170">
           <template slot-scope="scope">{{ scope.row.iStopTime }}</template>
         </el-table-column>
-        <el-table-column align="center" label="报警条数" width="120">
+        <el-table-column align="center" label="报警条数" width="100">
           <template slot-scope="scope">{{ scope.row.alarmNum }}</template>
         </el-table-column>
-        <el-table-column align="center" label="操作人" width="150">
+        <el-table-column align="center" label="操作人" width="120">
           <template slot-scope="scope">{{ scope.row.userId }}</template>
         </el-table-column>
-        <el-table-column prop align="center" label="操作">
+        <el-table-column prop align="center" label="操作" width='180' fixed="right">
           <template slot-scope="scope">
             <span
               class="operation detail"
@@ -103,6 +103,7 @@
 </template>
 <script>
 import moment from 'moment'
+import {mapGetters} from 'vuex'
 export default {
   name: 'report',
   components: {},
@@ -113,8 +114,8 @@ export default {
       inspectionRecordList: [], //任务记录列表
       timeOptions: [
         {
-          value: '0',
-          label: '今天'
+          value: '1',
+          label: '一天'
         },
         {
           value: '3',
@@ -149,25 +150,36 @@ export default {
           label: '无报警'
         }
       ],
-      value: '今天',
+      value: '1',
       value2: '',
       value3: '',
       unitId: '', //变电站id
       iIsAlarm: '', //是否报警
       iStatus: '', //任务状态
-      dateId: '', //时间
+      dateId: '1', //时间
       pageSize: 10,//每页显示条数
       currentPage: 1,//当前页码
       total: 0
     }
   },
-  computed: {},
-  filters: {},
-  watch: {},
-  created() {
-    this.unitId = this.$route.params.stationId
-    // console.log(this.$route)
+  computed: {
+    stationId(){
+      return this.$store.getters.stationId
+    }
   },
+  filters: {},
+  watch: {
+     stationId: {
+      handler(val) {
+        if (val) {
+          this.unitId = val
+          this.getList();
+        }
+      },
+      immediate: true
+    }
+  },
+  created() {},
   mounted() {
     this.getList()
   },
@@ -191,7 +203,7 @@ export default {
     // 修改table header的背景色
     tableHeaderColor({ row, column, rowIndex, columnIndex }) {
       if (rowIndex === 0) {
-        return 'background:#161c38;color: #3299ff;font-weight: 500;'
+        return 'background:rgba(35,40,66,.2);color: #3299ff;font-weight: 500;'
       }
     },
     //获取记录列表
@@ -199,11 +211,11 @@ export default {
       var ctx = this
       ctx.axios
         .getRecordList({
-          // unitId: '666',
-          // iIsAlarm: ctx.iIsAlarm,
-          // iStatus: ctx.iStatus,
-          // dateId: ctx.dateId
-          "unitId":"42389edde72d41f4bcd978b574eefbae","iIsAlarm":"","iStatus":"","dateId":"50",
+          unitId: ctx.unitId,
+          iIsAlarm: ctx.iIsAlarm,
+          iStatus: ctx.iStatus,
+          dateId: ctx.dateId,
+          // "unitId":"42389edde72d41f4bcd978b574eefbae","iIsAlarm":"","iStatus":"","dateId":"50",
 					currentPage: ctx.currentPage,
 					pageSize: ctx.pageSize	
         })
@@ -216,7 +228,6 @@ export default {
             }
             this.inspectionRecordList = res.data.data.lists
             this.total = res.data.data.page.totalNum;
-            // console.log(this.inspectionRecordList, 'aa')
           }
         })
         .catch(err => {
@@ -272,7 +283,7 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .report {
-  width: 1920px;
+  width: 1590px;
   height: 1080px;
   background: url('~@/assets/img/navigation/background.png') no-repeat;
   background-size: 100% 1080px;
@@ -304,9 +315,11 @@ export default {
 
   .list {
     height: 750px;
-    overflow: auto;
-    .el-table {
+    width: 1590px;
+    /deep/.el-table {
       background: none;
+      width: 1980px;
+      overflow: auto;
 
       /deep/tr {
         background: none;
@@ -393,6 +406,22 @@ label {
   font-size: 16px;
 }
 
+/deep/::-webkit-scrollbar {
+  width: 0.17778rem;
+  height: 0.57778rem;
+}
+
+/deep/.el-table__fixed-right::before, .el-table__fixed::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0.04444rem;
+  background: none;
+  z-index: 4;
+}
+
 /deep/.el-select .el-input__inner {
   height: 34px;
 }
@@ -408,11 +437,14 @@ label {
   height: 0px;
 }
 
+/deep/.el-table__body tr.hover-row>td{
+  background: none;
+}
 /deep/.el-table td, /deep/.el-table th.is-leaf {
   border: none;
 }
 
-/deep/.el-table tbody tr:hover>td {
+/deep/.el-table tbody tr:hover>td{
   background: none;
 }
 </style>

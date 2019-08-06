@@ -3,7 +3,7 @@
 		<!-- 头部 -->
 		<div class="monitor-top">
 			<!-- 左边 -->
-			<div class="monitor-left">
+			<!-- <div class="monitor-left">
 				<el-filter-tree
 					placeholder="输入关键字进行过滤"
 					v-model="filterText"
@@ -15,7 +15,7 @@
 					highlight-current
 					@node-click="handleClickNode"
 				></el-filter-tree>
-			</div>
+      </div>-->
 			<!-- 右边 -->
 			<div class="monitor-right">
 				<div class="right-top">
@@ -23,67 +23,82 @@
 					<div class="nInspection">
 						<span>
 							当前巡检区域：
-							<i @click="handleDeviceSelected">请选择巡检区域</i>
+							<i @click="handleDeviceSelected" ref="area">请选择巡检区域</i>
 						</span>
 					</div>
 					<div class="inspection-map">
 						<!-- <Tabs :animated="false" type="card" @on-click="handelTabCkick"> -->
 						<!-- <Tab-pane label="室内巡检图"> -->
 						<div class="entity">
-							<monitorCurrent :unitId="stationId"></monitorCurrent>
+							<monitorCurrent :unitId="stationId" @getDevIdFromHt="getDevIdFromHt"></monitorCurrent>
 						</div>
 						<!-- </Tab-pane> -->
 						<!-- <Tab-pane label="场地巡检图">
 								<div class="entity">
 									<monitorCurrent :unitId='stationId'></monitorCurrent>
 								</div>
-              </Tab-pane>-->
-            <!-- </Tabs> -->
-          </div>
-          <!-- 视频 -->
-          <div class="video">
-            <div class="videoTitle">
-              <span
-                v-for="(item, index) in tableList"
-                :key="index"
-                :class="tabIdx === index ? 'spanActive' : ''"
-                @click="selectTab(item, index)"
-              >{{ item.vcName }}</span>
-            </div>
-            <div class="videoBox">
-              <!-- 边角 -->
-              <div class="border-lt"></div>
-              <div class="border-rb"></div>
-              <div class="video1">
-                <cvideo :videoConfig="video1"></cvideo>
-              </div>
-              <div class="video2">
-                <cvideo :videoConfig="video2"></cvideo>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="right-bottom">
-          <!-- 底部tab切换 -->
-          <div class="tab-bar">
-            <Tabs :animated="false" type="card">
-              <!-- 实时信息 -->
-              <Tab-pane label="实时信息">
-                <div class="list-content">
-                  <el-table
-                    :data="realTimeInfo"
-                    style="width: 100%"
-                    height="160"
-                    :row-style="tableRowStyle"
-                    :header-cell-style="tableHeaderColor"
-                    @row-click='handleTimeInfoModal'
-                  >
-                    <el-table-column prop="time" label="时间" align="center" width="180"></el-table-column>
-                    <el-table-column prop="name" label="点位" align="center" width="180"></el-table-column>
-                    <el-table-column prop="address" align="center" label="数据来源"></el-table-column>
-                    <el-table-column prop="address" align="center" label="识别结果"></el-table-column>
-                    <el-table-column prop="alarmlevel" align="center" label="报警等级"></el-table-column>
-                    <!-- <el-table-column align="center" label="操作">
+            </Tab-pane>-->
+						<!-- </Tabs> -->
+					</div>
+					<!-- 视频 -->
+					<div class="video">
+						<div class="videoTitle">
+							<span
+								v-for="(item, index) in tableList"
+								:key="index"
+								:class="tabIdx === index ? 'spanActive' : ''"
+								@click="selectTab(item, index)"
+								>{{ item.vcName }}</span
+							>
+						</div>
+						<div class="videoBox">
+							<!-- 边角 -->
+							<div class="border-lt"></div>
+							<div class="border-rb"></div>
+							<div class="video1">
+								<cvideo :videoConfig="video1"></cvideo>
+							</div>
+							<div class="video2">
+								<cvideo :videoConfig="video2"></cvideo>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="right-bottom">
+					<!-- 底部tab切换 -->
+					<div class="tab-bar">
+						<Tabs :animated="false" type="card">
+							<!-- 实时信息 -->
+							<Tab-pane label="实时信息">
+								<div class="list-content">
+									<el-table
+										:data="realTimeInfo"
+										style="width: 100%"
+										height="160"
+										:row-style="tableRowStyle"
+										:header-cell-style="tableHeaderColor"
+										@row-click="handleTimeInfoModal"
+									>
+										<el-table-column
+											prop="date"
+											label="时间"
+											align="center"
+											width="180"
+										></el-table-column>
+										<el-table-column prop="name" label="点位" align="center"></el-table-column>
+										<el-table-column
+											prop="address"
+											align="center"
+											label="数据来源"
+											width="150"
+										></el-table-column>
+										<el-table-column
+											prop="address"
+											align="center"
+											label="识别结果"
+											width="150"
+										></el-table-column>
+										<!-- <el-table-column align="center" label="操作">
                       <template slot-scope="scope">
                         <el-button
                           class="operation"
@@ -92,27 +107,47 @@
                           size="small"
                         >查看</el-button>
                       </template>
-                    </el-table-column> -->
-                  </el-table>
-                </div>
-              </Tab-pane>
-              <!-- 实时报警 -->
-              <Tab-pane label="实时报警">
-                <div class="list-content">
-                  <el-table
-                    :data="tableData"
-                    style="width: 100%"
-                    height="160"
-                    :row-style="tableRowStyle"
-                    :header-cell-style="tableHeaderColor"
-                    @row-click='handleAlarmModal'
-                  >
-                    <el-table-column prop="date" label="时间" align="center" width="180"></el-table-column>
-                    <el-table-column prop="name" label="点位" align="center"></el-table-column>
-                    <el-table-column prop="address" align="center" label="数据来源" width="150"></el-table-column>
-                    <el-table-column prop="address" align="center" label="识别结果" width="150"></el-table-column>
-                    <el-table-column prop="alarm" align="center" label="报警等级" width="120"></el-table-column>
-                    <!-- <el-table-column align="center" label="操作">
+                    </el-table-column>-->
+									</el-table>
+								</div>
+							</Tab-pane>
+							<!-- 实时报警 -->
+							<Tab-pane label="实时报警">
+								<div class="list-content">
+									<el-table
+										:data="tableData"
+										style="width: 100%"
+										height="160"
+										:row-style="tableRowStyle"
+										:header-cell-style="tableHeaderColor"
+										@row-click="handleAlarmModal"
+									>
+										<el-table-column
+											prop="date"
+											label="时间"
+											align="center"
+											width="180"
+										></el-table-column>
+										<el-table-column prop="name" label="点位" align="center"></el-table-column>
+										<el-table-column
+											prop="address"
+											align="center"
+											label="数据来源"
+											width="150"
+										></el-table-column>
+										<el-table-column
+											prop="address"
+											align="center"
+											label="识别结果"
+											width="150"
+										></el-table-column>
+										<el-table-column
+											prop="alarm"
+											align="center"
+											label="报警等级"
+											width="120"
+										></el-table-column>
+										<!-- <el-table-column align="center" label="操作">
                       <template slot-scope="scope">
                         <el-button
                           class="operation"
@@ -121,70 +156,74 @@
                           size="small"
                         >查看</el-button>
                       </template>
-                    </el-table-column> -->
-                  </el-table>
-                </div>
-              </Tab-pane>
-            </Tabs>
-          </div>
-          <div class="env">
-            <!-- 站端环境 -->
-            <div class="station-env">
-              <p>站端环境</p>
-              <div class="content">
-                <i></i>
-                温度：
-                <span>{{ temperature }}</span>
-              </div>
-              <div class="content">
-                <i></i>
-                湿度：
-                <span>{{ humidity }}</span>
-              </div>
-              <div class="content">
-                <i></i>
-                风速：
-                <span>{{ windSpeed }}</span>
-              </div>
-            </div>
-            <!-- 机器人状态 -->
-            <div class="robot-status">
-              <p>设备运行状态</p>
-              <div class="content">
-                <i></i>
-                <p>室外机器人：</p>
-                <span>停止</span>
-              </div>
-              <div class="content">
-                <i></i>
-                <p>室内机器人：</p>
-                <span>停止</span>
-              </div>
-              <div class="content">
-                <i></i>
-                <p>轨道机器人：</p>
-                <span>停止</span>
-              </div>
-              <div class="content">
-                <i></i>
-                <p>高清视频：</p>
-                <span>停止</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- 底部 -->
-    <div class="monitor-bottom">
-      <statistics></statistics>
-    </div>
-    <!-- 报警模态框 -->
-    <ocx-modal title="Title" v-model="alarmRecordFlag" :width="1600" :mask-closable="false">
-      <!-- 报警详情 -->
-      <div class="alarm-detail">
-        <!-- 详细信息 -->
-        <div class="detail-info">
+                    </el-table-column>-->
+									</el-table>
+								</div>
+							</Tab-pane>
+						</Tabs>
+					</div>
+					<div class="env">
+						<!-- 站端环境 -->
+						<div class="station-env">
+							<p>站端环境</p>
+							<div class="env-flex">
+								<div class="content">
+									<i></i>
+									温度：
+									<span>{{ temperature }}</span>
+								</div>
+								<div class="content">
+									<i></i>
+									湿度：
+									<span>{{ humidity }}</span>
+								</div>
+								<div class="content">
+									<i></i>
+									风速：
+									<span>{{ windSpeed }}</span>
+								</div>
+							</div>
+						</div>
+						<!-- 机器人状态 -->
+						<div class="robot-status">
+							<p>设备运行状态</p>
+							<div class="env-flex">
+								<div class="content">
+									<i></i>
+									<p>室外机器人：</p>
+									<span>停止</span>
+								</div>
+								<div class="content">
+									<i></i>
+									<p>室内机器人：</p>
+									<span>停止</span>
+								</div>
+								<div class="content">
+									<i></i>
+									<p>轨道机器人：</p>
+									<span>停止</span>
+								</div>
+								<div class="content">
+									<i></i>
+									<p>高清视频：</p>
+									<span>停止</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 底部 -->
+		<div class="monitor-bottom">
+			<statistics></statistics>
+		</div>
+		<!-- 报警模态框 -->
+		<!--<ocx-modal title="Title" v-model="alarmRecordFlag" :width="1600" :mask-closable="false">-->
+		<!-- 报警详情 -->
+		<!--<div class="alarm-detail">-->
+		<!-- 详细信息 -->
+		<!--<div class="detail-info">
           <div class="datawrap">
             <span class="name">
               <i></i>运维班
@@ -285,10 +324,20 @@
           </div>
         </div>
       </div>
-    </ocx-modal>
+    </ocx-modal>-->
+		<ocx-modal v-model="alarmRecordFlag" :width="1000" footer-hide>
+			<div class="alarm-detail">
+				<img class="img-content" src alt />
+				<div class="result">识别结果:</div>
+				<div class="btn-group">
+					<input type="button" class="btn confirm" value="确定" @click="closeModal" />
+					<input type="button" class="btn cancel" value="取消" @click="closeModal" />
+				</div>
+			</div>
+		</ocx-modal>
 
 		<!-- 实时信息详情弹框 -->
-		<ocx-modal v-model="timeInfoFlag" :width="1600" :mask-closable="false">
+		<!--<ocx-modal v-model="timeInfoFlag" :width="1600" :mask-closable="false">
 			<div class="time-info">
 				<div class="modal-img">
 					<img class="img-content" src alt />
@@ -297,45 +346,63 @@
 			<div class="line-map">
 				<div class="chart" ref="chart1"></div>
 			</div>
+    </ocx-modal>-->
+		<ocx-modal v-model="timeInfoFlag" :width="1000" footer-hide>
+			<div class="alarm-detail">
+				<img class="img-content" src alt />
+				<div class="result">识别结果:</div>
+				<div class="btn-group">
+					<input type="button" class="btn confirm" value="确定" @click="closeModal" />
+					<input type="button" class="btn cancel" value="取消" @click="closeModal" />
+				</div>
+			</div>
 		</ocx-modal>
 
-    <!-- 选择设备弹框 -->
-    <ocx-modal v-model="selectDeviceFlag" :width="1600" :mask-closable="false" footer-hide>
-      <div class="inspection-type">
-        <div class="select-type">
-          <el-form ref="form" :model="form" label-width="120px">
-            <el-form-item label="巡检类型">
-              <el-radio-group v-model="form.inspection" @change="handleSelectInspType">
-                <el-radio
-                  :label="item.typeCode"
-                  v-for="item in inspectionType"
-                  :key="item.id"
-                >{{item.typeName}}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-form>
-        </div>
-        <div class="sub-type" v-show="form.inspection == 165">
-          <el-form ref="subTypeForm" :model="specSubTypeForm" label-width="100px">
-            <el-form-item label=" ">
-              <el-radio-group v-model="specSubTypeForm.subType">
-                <el-radio
-                  :label="item.id"
-                  v-for="item in espInspSubType"
-                  :key="item.id"
-                >{{item.typeName}}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-form>
-        </div>
+		<!-- 选择设备弹框 -->
+		<ocx-modal
+			v-model="selectDeviceFlag"
+			:width="1600"
+			:mask-closable="false"
+			footer-hide
+			title="选择设备"
+			@on-cancel="cancel"
+		>
+			<div
+				class="inspection-type"
+				v-loading="isLoading"
+				element-loading-text="巡检资源加载中..."
+				element-loading-background="#061638"
+			>
+				<div class="select-type">
+					<el-form ref="form" :model="form" label-width="130px">
+						<el-form-item label="巡检类型">
+							<el-radio-group v-model="form.inspection" @change="handleSelectInspType">
+								<el-radio :label="item.typeCode" v-for="item in inspectionType" :key="item.id">{{
+									item.typeName
+								}}</el-radio>
+							</el-radio-group>
+						</el-form-item>
+					</el-form>
+				</div>
+				<div class="sub-type" v-show="form.inspection == 165">
+					<el-form ref="subTypeForm" :model="specSubTypeForm" label-width="100px">
+						<el-form-item label=" ">
+							<el-radio-group v-model="specSubTypeForm.subType">
+								<el-radio :label="item.id" v-for="item in espInspSubType" :key="item.id">{{
+									item.typeName
+								}}</el-radio>
+							</el-radio-group>
+						</el-form-item>
+					</el-form>
+				</div>
 
 				<div class="sub-type" v-show="form.inspection == 250">
 					<el-form ref="subTypeForm" :model="espSubTypeForm" label-width="100px">
 						<el-form-item label=" ">
 							<el-radio-group v-model="espSubTypeForm.subType">
-								<el-radio :label="item.id" v-for="item in specInspSubType" :key="item.id">{{
-									item.typeName
-								}}</el-radio>
+								<el-radio :label="item.id" v-for="item in specInspSubType" :key="item.id">
+									{{ item.typeName }}
+								</el-radio>
 							</el-radio-group>
 						</el-form-item>
 					</el-form>
@@ -351,9 +418,9 @@
 							>全部</el-checkbox
 						>
 						<el-checkbox-group v-model="checkedDeviceAreaList" @change="handleCheckedDeviceAreaListChange">
-							<el-checkbox v-for="item in deviceAreaList" :label="item" :key="item.id">{{
-								item.typeName
-							}}</el-checkbox>
+							<el-checkbox v-for="item in deviceAreaList" :label="item" :key="item.id">
+								{{ item.typeName }}
+							</el-checkbox>
 						</el-checkbox-group>
 					</div>
 				</div>
@@ -390,9 +457,9 @@
 							v-model="checkedRecognitionType"
 							@change="handleCheckedRecognitionTypeChange"
 						>
-							<el-checkbox v-for="item in recognitionType" :label="item" :key="item.id">{{
-								item.typeName
-							}}</el-checkbox>
+							<el-checkbox v-for="item in recognitionType" :label="item" :key="item.id">
+								{{ item.typeName }}
+							</el-checkbox>
 						</el-checkbox-group>
 					</div>
 				</div>
@@ -406,9 +473,9 @@
 							>全部</el-checkbox
 						>
 						<el-checkbox-group v-model="checkedMeterType" @change="handleCheckedMeterTypeChange">
-							<el-checkbox v-for="item in meterType" :label="item" :key="item.id">{{
-								item.typeName
-							}}</el-checkbox>
+							<el-checkbox v-for="item in meterType" :label="item" :key="item.id">
+								{{ item.typeName }}
+							</el-checkbox>
 						</el-checkbox-group>
 					</div>
 				</div>
@@ -422,9 +489,9 @@
 							>全部</el-checkbox
 						>
 						<el-checkbox-group v-model="checkedAppearanceType" @change="handleCheckedAppearanceTypeChange">
-							<el-checkbox v-for="item in appearanceType" :label="item" :key="item.id">{{
-								item.typeName
-							}}</el-checkbox>
+							<el-checkbox v-for="item in appearanceType" :label="item" :key="item.id">
+								{{ item.typeName }}
+							</el-checkbox>
 						</el-checkbox-group>
 					</div>
 				</div>
@@ -432,93 +499,126 @@
 					<!-- <div class="selected-num">
             当前已选择：
             <span></span>个测点
-          </div> -->
-          <div class="task-order">
-            <input type="button" value="巡检成票" class="btn" @click="inspectionAticketClick" />
-            <input type="button" value="取消" class="btn cancel" @click="cancel" />
-          </div>
-        </div>
-      </div>
-    </ocx-modal>
+          </div>-->
+					<div class="task-order">
+						<input type="button" value="巡检成票" class="btn" @click="inspectionAticketClick" />
+						<input type="button" value="取消" class="btn cancel" @click="cancel" />
+					</div>
+				</div>
+			</div>
+		</ocx-modal>
 
-    <!-- 巡检成票 -->
-    <ocx-modal
-      v-model="inspectionAticket"
-      :width="1600"
-      :mask-closable="false"
-      footer-hide
-      @on-cancel="closeInspectionTicket"
-    >
-      <div class="inspectionTicket">
-        <el-table
-          :data="inspectionAticketData"
-          max-height="600"
-          :span-method="objectSpanMethod"
-          :header-cell-style="{ background: '#161d38', color: '#3299ff' }"
-        >
-          <el-table-column prop="area" label="区域" align="center"></el-table-column>
-          <el-table-column prop="interval" label="子区域" align="center"></el-table-column>
-          <el-table-column prop="devTitle" label="设备" align="center"></el-table-column>
-          <el-table-column prop="dian" label="巡检点位" align="center"></el-table-column>
-          <el-table-column label="室外机器人" align="center" width="122">
-            <template slot-scope="scope">
-              <img
-                src="../../assets/img/common/dui.png"
-                alt
-                style="width: 15px;height: 15px;"
-                v-show="scope.row.outR"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="高清视频" align="center" width="120">
-            <template slot-scope="scope">
-              <img
-                src="../../assets/img/common/dui.png"
-                alt
-                style="width: 15px;height: 15px;"
-                v-show="scope.row.video"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="室内机器人" align="center" width="122">
-            <template slot-scope="scope">
-              <img
-                src="../../assets/img/common/dui.png"
-                alt
-                style="width: 15px;height: 15px;"
-                v-show="scope.row.doorR"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="智辅系统" align="center" width="120">
-            <template slot-scope="scope">
-              <img
-                src="../../assets/img/common/dui.png"
-                alt
-                style="width: 15px;height: 15px;"
-                v-show="scope.row.zhifu"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="无人机" align="center" width="120">
-            <template slot-scope="scope">
-              <img
-                src="../../assets/img/common/dui.png"
-                alt
-                style="width: 15px;height: 15px;"
-                v-show="scope.row.wuren"
-              />
-            </template>
-          </el-table-column>
-        </el-table>
-        <!-- 底部 按钮 -->
-        <div class="modalFooterBtn">
-          <input type="button" value="执行任务" class="btn" @click='executeTaskClick' />
-          <input type="button" value="取消" class="btn cancel" @click='closeInspectionTicket' />
-        </div>
-      </div>
-    </ocx-modal>
-  </div>
+		<!-- 巡检成票 -->
+		<ocx-modal
+			v-model="inspectionAticket"
+			:width="1600"
+			:mask-closable="false"
+			footer-hide
+			@on-cancel="closeInspectionTicket"
+			:title="inspectionAticketModalTitle"
+		>
+			<div class="inspectionTicket">
+				<div class="devIdBox" v-show="devOrInspec">
+					<div class="devIdB">
+						<el-progress :text-inside="true" :stroke-width="26" :percentage="15.6"></el-progress>
+					</div>
+					<div class="devIdB">
+						<span>本次巡检包含目标128个，已完成20个，剩余108个</span>
+					</div>
+					<div class="devIdB">
+						<div>
+							<i style="background: #0098ff;"></i>
+							<span>正常</span>
+						</div>
+						<div>
+							<i style="background: red;"></i>
+							<span>报警</span>
+						</div>
+						<div>
+							<i style=";background: #fff902;"></i>
+							<span>跳过</span>
+						</div>
+					</div>
+				</div>
+				<el-table
+					ref="inspecAticketTable"
+					:data="inspectionAticketData"
+					max-height="650"
+					:span-method="objectSpanMethod"
+					:header-cell-style="{ background: '#161d38', color: '#3299ff' }"
+					@cell-click="rowCliCk"
+					id="ticketTables"
+				>
+					<el-table-column prop="mainArea" label="区域" align="center"></el-table-column>
+					<el-table-column prop="subArea" label="间隔" align="center"></el-table-column>
+					<el-table-column prop="devName" label="设备" align="center"></el-table-column>
+					<el-table-column prop="phase" label="相位" align="center"></el-table-column>
+					<el-table-column prop="nodeName" label="巡检点位" align="center"></el-table-column>
+					<el-table-column :label="'室外 \n 机器人'" align="center" width="90">
+						<template slot-scope="scope">
+							<img
+								src="../../assets/img/common/dui.png"
+								alt
+								style="width: 15px;height: 15px;"
+								v-show="scope.row.outdoor_ground"
+							/>
+						</template>
+					</el-table-column>
+					<el-table-column :label="'高清 \n 视频'" align="center" width="90">
+						<template slot-scope="scope">
+							<img
+								src="../../assets/img/common/dui.png"
+								alt
+								style="width: 15px;height: 15px;"
+								v-show="scope.row.camera"
+							/>
+						</template>
+					</el-table-column>
+					<el-table-column :label="'室内 \n 机器人'" align="center" width="90">
+						<template slot-scope="scope">
+							<img
+								src="../../assets/img/common/dui.png"
+								alt
+								style="width: 15px;height: 15px;"
+								v-show="scope.row.indoor"
+							/>
+						</template>
+					</el-table-column>
+					<el-table-column :label="'智辅 \n 系统'" align="center" width="90">
+						<template slot-scope="scope">
+							<img
+								src="../../assets/img/common/dui.png"
+								alt
+								style="width: 15px;height: 15px;"
+								v-show="scope.row.zhifu"
+							/>
+						</template>
+					</el-table-column>
+					<el-table-column label="无人机" align="center" width="90">
+						<template slot-scope="scope">
+							<img
+								src="../../assets/img/common/dui.png"
+								alt
+								style="width: 15px;height: 15px;"
+								v-show="scope.row.uav"
+							/>
+						</template>
+					</el-table-column>
+					<el-table-column label="执行记录" align="center" width="105" v-if="devOrInspec"></el-table-column>
+					<el-table-column label="操作" align="center" width="105" v-if="devOrInspec">
+						<template slot-scope="scope">
+							<span style="cursor: pointer;">查看详情</span>
+						</template>
+					</el-table-column>
+				</el-table>
+				<!-- 底部 按钮 -->
+				<div class="modalFooterBtn">
+					<input type="button" value="执行任务" class="btn" @click="executeTaskClick" />
+					<input type="button" value="取消" class="btn cancel" @click="closeInspectionTicket" />
+				</div>
+			</div>
+		</ocx-modal>
+	</div>
 </template>
 <script>
 import cvideo from '@/components/native/video/OcxVideo'
@@ -541,115 +641,96 @@ export default {
 			checkedDeviceType: [], //默认选中设备类型
 			checkedAppearanceType: [], //默认选中设备外观类型
 
-			isIndeterminate: true,
-			isMeterType: true,
-			isRecognitionType: true,
-			isdeviceAreaList: true,
-			isDeviceType: true,
-			isAppearanceType: true,
+			isMeterType: false,
+			isRecognitionType: false,
+			isdeviceAreaList: false,
+			isDeviceType: false,
+			isAppearanceType: false,
 
-      axios: this.$_api.monitorData,
-      // 任务相关
-      currentTaskInfo: null, // 当前活动的 任务
-      typeTaskList: [], // 类型列表
-      areaTaskList: [
-        {
-          AreaID: '19f279a9d206423dad8cdb724f32026e',
-          ParentAreaID: '0',
-          StationID: '42389edde72d41f4bcd978b574eefbae',
-          SvgID: null,
-          T3DID: null,
-          i_AreaMainType: 150001,
-          i_AreaType: null,
-          i_Flag: null,
-          i_PowerLevel: null,
-          i_SortID: 1,
-          i_SubsystemID: null,
-          vc_Code: null,
-          vc_Memo: null,
-          vc_Name: '1号主变设备区'
-        },
-        {
-          AreaID: '833039f918e744389468b61670599b13',
-          ParentAreaID: '0',
-          StationID: '42389edde72d41f4bcd978b574eefbae',
-          SvgID: null,
-          T3DID: null,
-          i_AreaMainType: 150001,
-          i_AreaType: null,
-          i_Flag: null,
-          i_PowerLevel: null,
-          i_SortID: 2,
-          i_SubsystemID: null,
-          vc_Code: null,
-          vc_Memo: null,
-          vc_Name: '2号主变设备区'
-        },
-        {
-          AreaID: '51a0f2f8ae3b4ef0b3c2291b486829fc',
-          ParentAreaID: '0',
-          StationID: '42389edde72d41f4bcd978b574eefbae',
-          SvgID: null,
-          T3DID: null,
-          i_AreaMainType: 150001,
-          i_AreaType: null,
-          i_Flag: null,
-          i_PowerLevel: null,
-          i_SortID: 3,
-          i_SubsystemID: null,
-          vc_Code: null,
-          vc_Memo: null,
-          vc_Name: '3号主变设备区'
-        }
-      ], // 区域列表
-      delTaskConfimShow: false,
-      topicArr: ['qif/xj/app/data/'],
-      topicStr: '',
-      msg: '',
-      alarmRecordFlag: false, //实时报警弹框开关
-      timeInfoFlag: false, //实时信息弹框开关
-      tableData: [
-        {
-          date: '2019-05-02 00:00:00',
-          name: '一号主变设备区-1号主变220kv侧A相避雷器-阻性电流',
-          address: '智辅系统',
-          alarm: '一级'
-        },
-        {
-          date: '2019-05-04 12:00:00',
-          name: '二号主变设备区-1号主变220kv侧A相避雷器-阻性电流',
-          address: '智辅系统',
-          alarm: '一级'
-        },
-        {
-          date: '2019-05-01 14:00:00',
-          name: '三号主变设备区-1号主变220kv侧A相避雷器-阻性电流',
-          address: '智辅系统',
-          alarm: '一级'
-        },
-        {
-          date: '2019-05-03 15:00:00',
-          name: '四号主变设备区-1号主变220kv侧A相避雷器-阻性电流',
-          address: '智辅系统',
-          alarm: '三级'
-        }
-      ],
-      realTimeInfo: [], //实时信息列表
-      // 保存stationId
-      stationId: '',
-      // 视频tab头
-      tabIdx: -1,
-      typeCode: '',
-      tableList: [],
-      tabFirstData: [],
-      inspectionType: [],
-      specInspSubType: [],//专项巡检子类型表
-      espInspSubType: [],//特殊巡检子类型表
-      deviceAreaList: [],//设备区域表
-      deviceType: [],//设备类型表
-      recognitionType: [],//识别类型表
-      meterType: [],//表计类型
-      appearanceType: [],//设备外观类型
+			//选中的数据
+			selectAreaList: [], //设备区域
+			selectDevType: [], //设备类型
+			selectRegType: [], //识别类型
+			selectAppearanceType: [], //外观类型
+			selectMeterType: [], //表计类型
+
+			axios: this.$_api.monitorData,
+			// 任务相关
+			currentTaskInfo: null, // 当前活动的 任务
+			typeTaskList: [], // 类型列表
+			areaTaskList: [
+				{
+					AreaID: '19f279a9d206423dad8cdb724f32026e',
+					ParentAreaID: '0',
+					StationID: '42389edde72d41f4bcd978b574eefbae',
+					SvgID: null,
+					T3DID: null,
+					i_AreaMainType: 150001,
+					i_AreaType: null,
+					i_Flag: null,
+					i_PowerLevel: null,
+					i_SortID: 1,
+					i_SubsystemID: null,
+					vc_Code: null,
+					vc_Memo: null,
+					vc_Name: '1号主变设备区'
+				},
+				{
+					AreaID: '833039f918e744389468b61670599b13',
+					ParentAreaID: '0',
+					StationID: '42389edde72d41f4bcd978b574eefbae',
+					SvgID: null,
+					T3DID: null,
+					i_AreaMainType: 150001,
+					i_AreaType: null,
+					i_Flag: null,
+					i_PowerLevel: null,
+					i_SortID: 2,
+					i_SubsystemID: null,
+					vc_Code: null,
+					vc_Memo: null,
+					vc_Name: '2号主变设备区'
+				},
+				{
+					AreaID: '51a0f2f8ae3b4ef0b3c2291b486829fc',
+					ParentAreaID: '0',
+					StationID: '42389edde72d41f4bcd978b574eefbae',
+					SvgID: null,
+					T3DID: null,
+					i_AreaMainType: 150001,
+					i_AreaType: null,
+					i_Flag: null,
+					i_PowerLevel: null,
+					i_SortID: 3,
+					i_SubsystemID: null,
+					vc_Code: null,
+					vc_Memo: null,
+					vc_Name: '3号主变设备区'
+				}
+			], // 区域列表
+			delTaskConfimShow: false,
+			topicArr: ['qif/xj/app/data/'],
+			topicStr: '',
+			msg: '',
+			alarmRecordFlag: false, //实时报警弹框开关
+			timeInfoFlag: false, //实时信息弹框开关
+			tableData: [],
+			realTimeInfo: [], //实时信息列表
+			// 保存stationId
+			stationId: '',
+			// 视频tab头
+			tabIdx: -1,
+			typeCode: '70100001',
+			tableList: [],
+			tabFirstData: [],
+			inspectionType: [],
+			specInspSubType: [], //专项巡检子类型表
+			espInspSubType: [], //特殊巡检子类型表
+			deviceAreaList: [], //设备区域表
+			deviceType: [], //设备类型表
+			recognitionType: [], //识别类型表
+			meterType: [], //表计类型
+			appearanceType: [], //设备外观类型
 
 			//巡检类型
 			form: {
@@ -748,42 +829,11 @@ export default {
 			windSpeed: '', //风速
 			selectDeviceFlag: false, //选择设备弹框开关
 			inspectionAticket: false, //巡检成票弹框开关
-			inspectionAticketData: [
-				//巡检成票表格数据
-				{
-					area: '某区域',
-					interval: '某间隔',
-					devTitle: '1号主变A避雷器',
-					dian: '1',
-					outR: true,
-					video: false,
-					doorR: false,
-					zhifu: false,
-					wuren: false
-				},
-				{
-					area: '某区域',
-					interval: '某间隔',
-					devTitle: '1号主变A避雷器',
-					dian: '2',
-					outR: true,
-					video: false,
-					doorR: false,
-					zhifu: false,
-					wuren: false
-				},
-				{
-					area: '某区域',
-					interval: '某间隔',
-					devTitle: '1号主变A避雷器',
-					dian: '3',
-					outR: true,
-					video: false,
-					doorR: false,
-					zhifu: false,
-					wuren: false
-				}
-			]
+			inspectionAticketData: [], //巡检成票表格数据
+			inspectionAticketModalTitle: '巡检任务单',
+			devOrInspec: false,
+			isLoading: false,
+			borBottom: false //巡检成票弹框表格底部线
 		}
 	},
 	computed: {},
@@ -805,30 +855,56 @@ export default {
 		this.findAsAreaData()
 		this.getNuitTreeData()
 		this.getStationInfo()
-		this.getDeviceType()
 	},
 	mounted() {
-		//console.log(this.$route.params.stationId) //变电站id
-		let _this = this
-		_this.subscribe(_this.topicStr)
-		this.$_mqtt.on('message', function(topic, message, packet) {
+		this.subscribe(this.topicStr)
+		this.$_listen('inspectionmonitor', (topic, message, packet) => {
 			let data = ''
 			let dataObj = []
-			dataObj = message
-			//转码
-			dataObj.forEach(item => {
-				data += String.fromCharCode(item)
-			})
-			if (topic == _this.topicStr) {
-				let msgData = JSON.parse(data)
-				if (msgData.cmd == 2001) {
-					msgData.time = moment(msgData.time * 1000).format('YYYY-MM-DD hh:mm:ss')
-					_this.realTimeInfo.unshift(msgData)
-					console.log(_this.realTimeInfo, 'timeinfo')
-					// 如果长度超过一百 就删除最初的一个数据
-					if (_this.realTimeInfo.length > 100) {
-						_this.realTimeInfo.shift()
+			// dataObj = message
+			// //转码
+			// dataObj.forEach(item => {
+			// 	data += String.fromCharCode(item)
+			// })
+			data = message.toString()
+			let msgData = JSON.parse(data)
+			if (topic == this.topicStr) {
+				//巡检结果
+				if (msgData.cmd === '2104') {
+					if (msgData.cmd == 2001) {
+						msgData.time = moment(msgData.time * 1000).format('YYYY-MM-DD hh:mm:ss')
+						this.realTimeInfo.unshift(msgData)
+						console.log(_this.realTimeInfo, 'timeinfo')
+						// 如果长度超过一百 就删除最初的一个数据
+						if (this.realTimeInfo.length > 100) {
+							this.realTimeInfo.shift()
+						}
 					}
+				} else if (msgData.cmd === '2106') {
+					//任务增加返回
+					let taskid = msgData.taskinfo.taskid
+					let planid = msgData.taskinfo.planid
+					let result = msgData.taskinfo.result
+
+					//下发任务开始执行
+					let param = {
+						cmd: '2201',
+						type: 'req',
+						srcid: '',
+						serial: '',
+						unitid: this.stationId,
+						time: new Date().getTime() / 1000,
+						tasks: {
+							control: 'start',
+							serviceid: '',
+							planid: planid,
+							taskid: taskid,
+							userid: 'admin',
+							type: ''
+						}
+					}
+
+					this.$_mqtt.publish(this.topicArr[0] + this.stationId, JSON.stringify(param))
 				}
 			}
 		}),
@@ -839,6 +915,28 @@ export default {
 	update() {},
 	beforeDestory() {},
 	methods: {
+		//获取设备ID
+		getDevIdFromHt(devId) {
+			if (devId) {
+				this.devOrInspec = true
+				this.inspectionAticket = true
+				if (this.$refs['inspecAticketTable']) {
+					let targetTrIndex = this.inspectionAticketData.findIndex(node => {
+						return node.devId == devIds
+					})
+					this.$nextTick(() => {
+						let targetTr = document.querySelectorAll('#ticketTables .el-table__body-wrapper tr')[
+							targetTrIndex
+						]
+						console.log(targetTr)
+						let targetTable = document.querySelector('#ticketTables .el-table__body-wrapper')
+						if (targetTr && targetTable) {
+							targetTable.scrollTop = targetTr.offsetTop
+						}
+					})
+				}
+			}
+		},
 		//选择巡检类型
 		handleSelectInspType(val) {
 			this.typeCode = val
@@ -846,130 +944,203 @@ export default {
 		},
 		getDeviceType() {
 			var ctx = this
-			ctx.axios
-				.getInspectionType({
-					typeCode: ctx.typeCode,
-					// unitId: ctx.stationId
-					unitId: '192fe4cec3ec4d3fb81c0d05f82bde41'
-				})
-				.then(res => {
-					console.log(res.data, 'res')
-					var data = res.data
-					if (res.code == 200) {
-						ctx.inspectionType = data.asType1List
-						ctx.espInspSubType = data.asType1List3
-						ctx.specInspSubType = data.asType1List2
-						ctx.deviceAreaList = data.asDevAreaList
-						ctx.meterType = data.asMeterType1List
-						ctx.recognitionType = data.asDiscernTypeList
-						ctx.deviceType = data.asDevTypeList
-						ctx.appearanceType = data.asOutwardList
-						ctx.deviceAreaList.map(item => {
-							if (item.vcFlag) {
-								ctx.checkedDeviceAreaList.push(item)
+			;(ctx.isMeterType = false),
+				(ctx.isRecognitionType = false),
+				(ctx.isdeviceAreaList = false),
+				(ctx.isDeviceType = false),
+				(ctx.isAppearanceType = false),
+				(ctx.checkedMeterType = []),
+				(ctx.checkedRecognitionType = []),
+				(ctx.checkedDeviceAreaList = []),
+				(ctx.checkedDeviceType = []),
+				(ctx.checkedAppearanceType = []),
+				ctx.axios
+					.getInspectionType({
+						typeCode: ctx.typeCode,
+						unitId: ctx.stationId
+						// unitId: '192fe4cec3ec4d3fb81c0d05f82bde41'
+					})
+					.then(res => {
+						//console.log(res.data, 'res')
+						var data = res.data
+						if (res.code == 200) {
+							ctx.inspectionType = data.asType1List
+							ctx.espInspSubType = data.asType1List3
+							ctx.specInspSubType = data.asType1List2
+							ctx.deviceAreaList = data.asDevAreaList
+							ctx.meterType = data.asMeterType1List
+							ctx.recognitionType = data.asDiscernTypeList
+							ctx.deviceType = data.asDevTypeList
+							ctx.appearanceType = data.asOutwardList
+							ctx.deviceAreaList.map(item => {
+								if (item.vcFlag) {
+									ctx.checkedDeviceAreaList.push(item)
+								}
+							})
+							if (ctx.checkedDeviceAreaList.length == data.asDevAreaList.length) {
+								ctx.checkdeviceAreaListAll = true
+							} else {
+								ctx.checkdeviceAreaListAll = false
 							}
-						})
-						ctx.deviceType.map(item => {
-							if (item.vcFlag) {
-								ctx.checkedDeviceType.push(item)
+							ctx.deviceType.map(item => {
+								if (item.vcFlag) {
+									ctx.checkedDeviceType.push(item)
+								}
+							})
+							if (ctx.checkedDeviceType.length == data.asDevTypeList.length) {
+								ctx.checkedDeviceTypeAll = true
+							} else {
+								ctx.checkedDeviceTypeAll = false
 							}
-						})
-						ctx.recognitionType.map(item => {
-							if (item.vcFlag) {
-								ctx.checkedRecognitionType.push(item)
+							ctx.recognitionType.map(item => {
+								if (item.vcFlag) {
+									ctx.checkedRecognitionType.push(item)
+								}
+							})
+							if (ctx.checkedRecognitionType.length == data.asDiscernTypeList.length) {
+								ctx.checkRecognitionTypeAll = true
+							} else {
+								ctx.checkRecognitionTypeAll = false
 							}
-						})
-						ctx.meterType.map(item => {
-							if (item.vcFlag) {
-								ctx.checkedMeterType.push(item)
+							ctx.meterType.map(item => {
+								if (item.vcFlag) {
+									ctx.checkedMeterType.push(item)
+								}
+							})
+							if (ctx.checkedMeterType.length == data.asMeterType1List.length) {
+								ctx.checkMeterTypeAll = true
+							} else {
+								ctx.checkMeterTypeAll = false
 							}
-						})
-						ctx.appearanceType.map(item => {
-							if (item.vcFlag) {
-								ctx.checkedAppearanceType.push(item)
+							ctx.appearanceType.map(item => {
+								if (item.vcFlag) {
+									ctx.checkedAppearanceType.push(item)
+								}
+							})
+							if (ctx.checkedAppearanceType.length == data.asOutwardList.length) {
+								ctx.checkedAppearanceTypeAll = true
+							} else {
+								ctx.checkedAppearanceTypeAll = false
 							}
-						})
-					}
-				})
-				.catch(err => {
-					console.log(err)
-				})
+						}
+					})
+					.catch(err => {
+						console.log(err)
+					})
 		},
 		//点击取消按钮关闭选择设备区域弹框
 		cancel() {
 			this.selectDeviceFlag = false
+			this.isLoading = false
 		},
-
 		//点击巡检成票按钮
 		inspectionAticketClick() {
-			this.selectDeviceFlag = false
-			this.inspectionAticket = true
+			this.isLoading = true
+			let param = {
+				"unitId": this.$store.getters.stationId,
+				//asDevAreaList: this.selectAreaList,
+				"devTypeId": this.selectDevType,
+				"intRecogType":this.selectRegType,
+				"intSurfaceType": this.selectAppearanceType,
+				"intMeterType": this.selectMeterType
+			}
+			this.axios.getInspectionTaskTableData(param).then(res => {
+				if (res.code == 200) {
+					this.inspectionAticketData = res.data
+					this.devOrInspec = false
+					this.selectDeviceFlag = false
+					this.inspectionAticket = true
+					this.isLoading = false
+				}
+			})
 		},
 
 		//点击请选择巡检区域
 		handleDeviceSelected() {
 			this.selectDeviceFlag = true
+			this.getDeviceType()
 		},
 
 		//全选表计类型
 		handleCheckAllMeterTypeChange(val) {
 			this.checkedMeterType = val ? this.meterType : []
 			this.isMeterType = false
+			if (val == true) {
+				this.selectMeterType = this.meterType
+			}
 		},
 		//全选识别类型
 		handleCheckAllRecognitionTypeChange(val) {
 			this.checkedRecognitionType = val ? this.recognitionType : []
 			this.isRecognitionType = false
+			if (val == true) {
+				this.selectRegType = this.recognitionType
+			}
 		},
 		//全选设备区域
 		handleCheckAllDeviceAreaListChange(val) {
+			console.log(val, 'val')
 			this.checkedDeviceAreaList = val ? this.deviceAreaList : []
 			this.isdeviceAreaList = false
+			if (val == true) {
+				this.selectAreaList = this.deviceAreaList
+			}
 		},
 		//全选设备类型
 		handleCheckDeviceTypeAllChange(val) {
 			this.checkedDeviceType = val ? this.deviceType : []
 			this.isDeviceType = false
+			if (val == true) {
+				this.selectDevType = this.deviceType
+			}
 		},
 		//全选设备外观类型
 		handleCheckAppearanceTypeAllChange(val) {
 			this.checkedAppearanceType = val ? this.appearanceType : []
 			this.isAppearanceType = false
+			if (val == true) {
+				this.selectAppearanceType = this.appearanceType
+			}
 		},
 		//选择设备外观类型
 		handleCheckedAppearanceTypeChange(value) {
 			console.log(value, '设备外观类型')
 			let checkedCount = value.length
 			this.checkedAppearanceTypeAll = checkedCount === this.appearanceType.length
-			this.isAppearanceType = checkedCount > 0 && checkedCount < this.appearanceType.length
+			// this.isAppearanceType = checkedCount > 0 && checkedCount < this.appearanceType.length
+			this.selectAppearanceType = value
 		},
 		//选择设备类型
 		handleCheckedDeviceTypeChange(value) {
 			console.log(value, '设备类型')
 			let checkedCount = value.length
 			this.checkedDeviceTypeAll = checkedCount === this.deviceType.length
-			this.isDeviceType = checkedCount > 0 && checkedCount < this.deviceType.length
+			// this.isDeviceType = checkedCount > 0 && checkedCount < this.deviceType.length
+			this.selectDevType = value
 		},
 		//选择设备区域
 		handleCheckedDeviceAreaListChange(value) {
 			console.log(value, '区域')
 			let checkedCount = value.length
 			this.checkdeviceAreaListAll = checkedCount === this.deviceAreaList.length
-			this.isdeviceAreaList = checkedCount > 0 && checkedCount < this.deviceAreaList.length
+			// this.isdeviceAreaList = checkedCount > 0 && checkedCount < this.deviceAreaList.length
+			this.selectAreaList = value
 		},
 		//选择表计类型
 		handleCheckedMeterTypeChange(value) {
 			console.log(value, '表计')
 			let checkedCount = value.length
 			this.checkMeterTypeAll = checkedCount === this.meterType.length
-			this.isMeterType = checkedCount > 0 && checkedCount < this.meterType.length
+			// this.isMeterType = checkedCount > 0 && checkedCount < this.meterType.length
+			this.selectMeterType = value
 		},
 		//选择识别类型
 		handleCheckedRecognitionTypeChange(value) {
 			console.log(value, '识别')
 			let checkedCount = value.length
 			this.checkRecognitionTypeAll = checkedCount === this.recognitionType.length
-			this.isRecognitionType = checkedCount > 0 && checkedCount < this.recognitionType.length
+			// this.isRecognitionType = checkedCount > 0 && checkedCount < this.recognitionType.length
+			this.selectRegType = value
 		},
 		_forEach: function(data, isTrue, callback) {
 			var arr = []
@@ -1021,8 +1192,9 @@ export default {
 		},
 		//合并单元格的方法
 		objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+			//console.log( row )
 			if (columnIndex === 0) {
-				const _row = this.desData('area', this.inspectionAticketData)[rowIndex]
+				const _row = this.desData('mainArea', this.inspectionAticketData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
 					rowspan: _row,
@@ -1030,7 +1202,7 @@ export default {
 				}
 			}
 			if (columnIndex === 1) {
-				const _row = this.desData('interval', this.inspectionAticketData)[rowIndex]
+				const _row = this.desData('subArea', this.inspectionAticketData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
 					rowspan: _row,
@@ -1038,7 +1210,15 @@ export default {
 				}
 			}
 			if (columnIndex == 2) {
-				const _row = this.desData('devTitle', this.inspectionAticketData)[rowIndex]
+				const _row = this.desData('devName', this.inspectionAticketData)[rowIndex]
+				const _col = _row > 0 ? 1 : 0
+				return {
+					rowspan: _row,
+					colspan: _col
+				}
+			}
+			if (columnIndex == 3 && row.phase != '') {
+				const _row = this.desData('phase', this.inspectionAticketData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
 					rowspan: _row,
@@ -1065,6 +1245,21 @@ export default {
 				}
 			})
 			return spanArr
+		},
+		//点击巡检任务单某一行
+		rowCliCk(row, column) {
+			let str = column.label.substring(0, 2)
+			if (str == '室外') {
+				row.outdoor_ground = !row.outdoor_ground
+			} else if (str == '室内') {
+				row.indoor = !row.ndoor
+			} else if (str == '高清') {
+				row.camera = !row.camera
+			} else if (str == '智辅') {
+				row.zhifu = !row.zhifu
+			} else if (str == '无人') {
+				row.uav = !row.uav
+			}
 		},
 		handleReachBottom() {
 			return new Promise(resolve => {
@@ -1093,15 +1288,21 @@ export default {
 		// 修改table header的背景色
 		tableHeaderColor({ row, column, rowIndex, columnIndex }) {
 			if (rowIndex === 0) {
-				return 'background:#161c38;color: #3299ff;font-weight: 500;'
+				return 'background:rgba(35,40,66,.2);color: #3299ff;font-weight: 500;'
 			}
+		},
+		//关闭模态框
+		closeModal() {
+			this.alarmRecordFlag = false
+			this.timeInfoFlag = false
 		},
 		getTabs() {
 			this.$_api.monitorData
-				.getTitleData({
-					unitId: '42389edde72d41f4bcd978b574eefbae'
-				}) //测试传固定id
-				// this.$_api.monitorData.getTitleData({unitId:this.stationId})
+			// .getTitleData({
+			// 	unitId: '42389edde72d41f4bcd978b574eefbae'
+			// }) //测试传固定id
+			this.$_api.monitorData
+				.getTitleData({ unitId: this.stationId })
 				.then(res => {
 					if (res.success) {
 						this.tableList = res.data
@@ -1140,79 +1341,104 @@ export default {
 		},
 		//点击 执行任务 按钮
 		executeTaskClick() {
-			console.log('666')
+			this.$refs['area'].innerHTML = this.selectAreaList.length
+				? this.selectAreaList[0].typeName
+				: '请选择巡检区域'
+			// console.log('666')
+			let data = {
+				cmd: '2202',
+				type: 'req',
+				srcid: '',
+				destid: '',
+				serial: '',
+				unitid: this.stationId,
+				time: new Date().getTime() / 1000,
+				tasknode: [
+					{
+						nodeid: '1',
+						sortid: '0'
+					},
+					{
+						nodeid: '2',
+						sortid: '0'
+					}
+				]
+			}
+			//通过mqtt下发新增任务指令
+			this.$_mqtt.publish(this.topicArr[0] + this.stationId, JSON.stringify(data))
+			this.inspectionAticket = false
 		},
 		//关闭巡检任务单弹框
 		closeInspectionTicket() {
 			this.inspectionAticket = false
 		},
-    //tabs切换
-    handelTabCkick(name) {
-      console.log(name)
-    },
-    //发送获取巡检区域请求
-    findAsAreaData() {
-      this.axios
-        .findAsArea({
-          unitid: this.stationId
-        })
-        .then(res => {
-          if (res.code == 200) {
-            this.areaInspectionList = res.data
-          }
-        })
-    },
-    //获取站端信息
-    getStationInfo() {
-      var ctx = this
-      ctx.$_api.monitorData
-        .getStationInfo({
-          unitID: this.stationId
-        })
-        .then(res => {
-          var data = res.data
-          for (let i = 0, len = data.length; i < len; i++) {
-            if (data[i].type == 1) {
-              ctx.temperature = data[i].value ? data[i].value + '℃' : '--'
-            } else if (data[i].type == 2) {
-              ctx.humidity = data[i].value ? data[i].value + '%' : '--'
-            } else if (data[i].type == 3) {
-              ctx.windSpeed = data[i].value ? data[i].value + 'm/s' : '--'
-            }
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    //获取变电站数数据
-    getNuitTreeData() {
-      this.axios.getUnitTreeData({ iFlag: 1 }).then(res => {
-        if (res.code == 200) {
-          this.unitTreeData = res.data
-        }
-      })
-    },
-    filterNode(value, data) {
-      if (!value) return true
-      return data.title.indexOf(value) !== -1
-    },
-    // 点击树节点
-    handleClickNode(data, node, root) {
-      // 更新当前模块单元id
-      //this.$store.commit('UPDATE_UNITID', data.id)
-      // console.log(this.$store.getters.unitId)
-    }
-  },
-  beforeRouteEnter(to, from, next) {
-    next()
-  },
-  beforeRouteUpdate(to, from, next) {
-    next()
-  },
-  beforeRouteLeave(to, from, next) {
-    next()
-  }
+		//tabs切换
+		handelTabCkick(name) {
+			console.log(name)
+		},
+		//发送获取巡检区域请求
+		findAsAreaData() {
+			// this.axios
+			//   .findAsArea({
+			//     unitid: this.stationId
+			//   })
+			//   .then(res => {
+			//     if (res.code == 200) {
+			//       this.areaInspectionList = res.data
+			//     }
+			//   })
+		},
+		//获取站端信息
+		getStationInfo() {
+			var ctx = this
+			ctx.$_api.monitorData
+				.getStationInfo({
+					unitID: this.stationId
+				})
+				.then(res => {
+					var data = res.data
+					for (let i = 0, len = data.length; i < len; i++) {
+						if (data[i].type == 1) {
+							ctx.temperature = data[i].value ? data[i].value + '℃' : '--'
+						} else if (data[i].type == 2) {
+							ctx.humidity = data[i].value ? data[i].value + '%' : '--'
+						} else if (data[i].type == 3) {
+							ctx.windSpeed = data[i].value ? data[i].value + 'm/s' : '--'
+						}
+					}
+				})
+				.catch(err => {
+					console.log(err)
+				})
+		},
+		//获取变电站数数据
+		getNuitTreeData() {
+			this.axios.getUnitTreeData({ iFlag: 1 }).then(res => {
+				if (res.code == 200) {
+					this.unitTreeData = res.data
+				}
+			})
+		},
+		filterNode(value, data) {
+			if (!value) return true
+			return data.title.indexOf(value) !== -1
+		},
+		// 点击树节点
+		handleClickNode(data, node, root) {
+			// 更新当前模块单元id
+			//this.$store.commit('UPDATE_UNITID', data.id)
+			// console.log(this.$store.getters.unitId)
+		}
+	},
+	beforeRouteEnter(to, from, next) {
+		next()
+	},
+	beforeRouteUpdate(to, from, next) {
+		next()
+	},
+	beforeRouteLeave(to, from, next) {
+		next()
+	}
 }
 </script>
 <style lang="stylus" scoped>
@@ -1382,7 +1608,7 @@ export default {
 
     .monitor-right {
       float: left;
-      width: 85%;
+      width: 100%;
       height: 100%;
       background: url('~@/assets/img/common/bg-border.png') no-repeat center;
       background-size: 95% 100%;
@@ -1449,6 +1675,7 @@ export default {
           .videoTitle {
             width: 100%;
             margin-bottom: 10px;
+            margin-top: -38px;
 
             span {
               display: inline-block;
@@ -1495,7 +1722,7 @@ export default {
 
             .video1, .video2 {
               width: 100%;
-              height: 250px;
+              height: 271px;
             }
 
             .video1 {
@@ -1563,10 +1790,37 @@ export default {
           margin: 10px 0 0 10px;
           border: 1px solid #063765;
 
+          .env-flex {
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            .content {
+              height: 30px;
+              font-size: 20px;
+              line-height: 30px;
+              color: #fff;
+
+              i {
+                display: inline-block;
+                width: 17px;
+                height: 17px;
+                margin: -2px 6px;
+              }
+
+              p {
+                display: inline-block;
+                width: 140px;
+              }
+            }
+          }
+
           p {
             width: 120px;
             height: 30px;
-            font: 100 22px / 30px '';
+            font-size: 20px;
+            line-height: 30px;
             color: #fff;
           }
 
@@ -1574,25 +1828,6 @@ export default {
             display: inline-block;
             color: #49ff01;
             font-size: 20px;
-          }
-
-          .content {
-            height: 30px;
-            font: 100 22px / 30px '';
-            color: #fff;
-            margin: 8px 0;
-
-            i {
-              display: inline-block;
-              width: 17px;
-              height: 17px;
-              margin: -2px 6px;
-            }
-
-            p {
-              display: inline-block;
-              width: 140px;
-            }
           }
 
           .station-env {
@@ -1619,7 +1854,8 @@ export default {
         .robot-status {
           float: left;
           width: 56%;
-          p{
+
+          p {
             width: 160px;
           }
 
@@ -1650,9 +1886,48 @@ export default {
 
 .alarm-detail {
   width: 100%;
-  height: 900px;
-  background: url('../../assets/img/common/bg.png') no-repeat center;
+  height: 700px;
+  // background: url('../../assets/img/common/bg.png') no-repeat center;
   background-size: 100% 100%;
+
+  .img-content {
+    width: 800px;
+    height: 500px;
+    margin: 60px 0 0 90px;
+  }
+
+  .result {
+    margin: 20px 0 0 50px;
+    font-size: 20px;
+    line-height: 30px;
+    height: 30px;
+  }
+
+  .btn-group {
+    height: 40px;
+
+    .btn {
+      width: 150px;
+      height: 40px;
+      background: url('../../../../assets/img/common/bg540.png') no-repeat center;
+      background-size: 100% 100%;
+      border-radius: 3px;
+      text-align: center;
+      margin: 5px;
+      border: 0;
+      color: #fff902;
+      font: 100 20px / 40px '';
+      cursor: pointer;
+    }
+
+    .confirm {
+      margin-left: 590px;
+    }
+
+    .cancel {
+      color: #fff;
+    }
+  }
 
   .detail-info {
     float: left;
@@ -1748,20 +2023,25 @@ export default {
 .inspectionTicket {
   height: 800px;
   padding-top: 20px;
-  background: url('~@/assets/img/common/bg-border.png') no-repeat;
+  // background: url('~@/assets/img/common/bg-border.png') no-repeat;
   background-size: 100% 100%;
-  overflow: hidden;
 
   /deep/.el-table {
-    margin-left: 50px;
-    width: calc(100% - 100px);
+    margin-left: 30px;
+    width: calc(100% - 60px);
     border-collapse: collapse !important;
+    border: 1px solid #0098ff;
+    border-bottom: 2px solid #0098ff;
 
     /deep/td, /deep/th.is-leaf {
-      border: 1px solid #0098ff !important;
+      border: 2px solid #0098ff !important;
       font-size: 20px;
       color: #fff;
     }
+  }
+
+  /deep/.el-table__body-wrapper {
+    position: relative;
   }
 
   .modalFooterBtn {
@@ -1771,11 +2051,11 @@ export default {
     // margin-top: 20px;
     position: absolute;
     right: 50px;
-    bottom: 60px;
+    bottom: 30px;
 
     .btn {
-      width: 130px;
-      height: 30px;
+      width: 150px;
+      height: 40px;
       background: url('../../../../assets/img/common/bg540.png') no-repeat center;
       background-size: 100% 100%;
       border-radius: 3px;
@@ -1783,7 +2063,7 @@ export default {
       margin: 5px;
       border: 0;
       color: #fff902;
-      font: 100 16px / 30px '';
+      font: 100 20px / 40px '';
       cursor: pointer;
     }
 
@@ -1791,10 +2071,51 @@ export default {
       color: #fff;
     }
   }
+
+  .devIdBox {
+    display: flex;
+  }
+
+  .devIdB:nth-of-type(1) {
+    width: 660px;
+    height: 50px;
+    padding-left: 30px;
+  }
+
+  .devIdB:nth-of-type(2) {
+    width: 635px;
+    height: 50px;
+    padding-left: 20px;
+  }
+
+  .devIdB:nth-of-type(3) {
+    width: 270px;
+    height: 50px;
+    display: flex;
+
+    div {
+      width: 85px;
+      display: flex;
+    }
+
+    i {
+      margin-top: 5px;
+      width: 20px;
+      height: 20px;
+      display: block;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    span {
+      margin-right: 15px;
+    }
+  }
 }
 
 .time-info {
   width: 100%;
+  height: 100%;
 
   .modal-img {
     height: 400px;
@@ -1824,7 +2145,7 @@ export default {
 
 .inspection-type {
   height: 900px;
-  background: url('~@/assets/img/common/bg-border.png') no-repeat;
+  // background: url('~@/assets/img/common/bg-border.png') no-repeat;
   background-size: 100% 100%;
   overflow: hidden;
 
@@ -1845,11 +2166,11 @@ export default {
     }
 
     /deep/.el-radio__label {
-      font-size: 18px;
+      font-size: 20px;
     }
 
     /deep/.el-form-item__label {
-      font-size: 18px;
+      font-size: 20px;
     }
   }
 
@@ -1860,17 +2181,12 @@ export default {
     margin-left: 52px;
 
     /deep/.el-form-item__label, .el-radio {
-      font: 100 14px / 40px '';
+      font: 100 20px / 40px '';
       color: #35a2ff;
-    }
-
-    /deep/.el-radio__label {
-      font-size: 14px;
     }
   }
 
   .list-con {
-    overflow: auto;
     margin: 30px 0;
     height: 100px;
 
@@ -1878,7 +2194,8 @@ export default {
       float: left;
       width: 150px;
       height: 30px;
-      font: 100 18px / 30px '';
+      font-size: 20px;
+      line-height: 30px;
       color: #8fd8fe;
       margin: 20px 0 0 74px;
     }
@@ -1890,19 +2207,28 @@ export default {
       /deep/.el-checkbox {
         float: left;
         margin-top: 20px;
+        width: 212px;
       }
 
       /deep/.el-checkbox-group {
         float: left;
-        margin-left: 20px;
-        width: 1080px;
+        margin-left: 117px;
+        margin-top: -49px;
+        height: 100px;
+        overflow: auto;
+        width: 1230px;
       }
     }
 
     /deep/.el-checkbox__label {
-      font: 100 18px / 30px '';
+      font-size: 20px;
+      line-height: 30px;
       color: #8fd8fe;
     }
+  }
+
+  .list-con:nth-child(odd) {
+    background: #0d1841;
   }
 
   .type-bottom {
@@ -1926,8 +2252,8 @@ export default {
     margin: 15px 70px 0 0;
 
     .btn {
-      width: 130px;
-      height: 30px;
+      width: 150px;
+      height: 40px;
       background: url('~@/assets/img/common/bg540.png') no-repeat;
       background-size: 100% 100%;
       text-align: center;
@@ -1935,12 +2261,29 @@ export default {
       cursor: pointer;
       border: 0;
       color: #d8c50e;
-      font: 100 16px / 30px '';
+      font: 100 20px / 40px '';
     }
-    .cancel{
+
+    .cancel {
       color: #fff;
     }
   }
+}
+
+/deep/.el-checkbox__inner::after {
+  box-sizing: content-box;
+  content: '';
+  border: 0.1544rem solid #FFF;
+  border-left: 0;
+  border-top: 0;
+  height: 0.32111rem;
+  left: 0.17778rem;
+  position: absolute;
+  top: 1px;
+  transform: rotate(45deg) scaleY(0);
+  width: 0.14333rem;
+  transition: transform 0.15s ease-in 0.05s;
+  transform-origin: center;
 }
 
 /deep/.ivu-tabs-bar {
@@ -1949,6 +2292,12 @@ export default {
 
 /deep/.ivu-modal {
   top: 0;
+}
+
+/deep/.el-checkbox__inner {
+  width: 16px;
+  height: 16px;
+  margin-top: -5px;
 }
 
 /deep/.ivu-modal-content {
@@ -1985,5 +2334,31 @@ export default {
 
 /deep/.el-table th, /deep/.el-table tr {
   background: none;
+}
+
+/deep/.el-table .cell {
+  white-space: pre-line;
+}
+
+/deep/.ivu-modal {
+  /deep/.ivu-modal-body {
+    padding-top: 0 !important;
+  }
+
+  /deep/.ivu-modal-header {
+    padding-left: 45px !important;
+
+    /deep/.ivu-modal-header-inner {
+      font-size: 23px !important;
+    }
+  }
+}
+
+/deep/.el-progress-bar__outer {
+  background: #062056;
+}
+
+/deep/.el-loading-text {
+  font-size: 36px;
 }
 </style>

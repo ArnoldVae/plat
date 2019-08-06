@@ -484,11 +484,12 @@ export default {
         line-height: 45px;
         // border: 1px solid #fff;
         border: 1px solid #3ea1aa;
-        background-color: #0d2e43;
+        background-color: #0c2d5f;
       }
 
       .active {
-        background: linear-gradient(#0d2e43, #0381b9);
+        background: rgba(15,33,69,0.7);
+		color: #ffd36a;
       }
     }
 
@@ -501,12 +502,13 @@ export default {
     .search-ipt {
       width: 280px;
       height: 40px;
+	  color: #c0baab;
       margin-bottom: 10px;
-      background-color: #fff;
+      background-color: #0b265c;
       outline: none;
       border-radius: 4px;
       padding-left: 10px;
-      border: none;
+      border: 1px solid #3789c9;
     }
 
     img {
@@ -714,15 +716,15 @@ export default {
 .ivu-menu-vertical .ivu-menu-item {
   padding: 14px 0;
   color: #fff;
-  // background: #1b2938;
-  background: #232b33;
+//   background: #1b2938;
+//   background: #232b33;
   margin-bottom: 10px;
   border: 1px solid transparent;
   text-align: left;
   padding-left: 10px;
 
   &:hover {
-    background: #434750;
+    background: #0e2e51;
   }
 
   p {

@@ -8,7 +8,7 @@
             "fvalue": 15.51,
             "iParam1": 1,
             "vcUnit": "mA",
-            "eNodeId": "e15a4d5b4dea4f5285426668cf9a132d",
+            "eNodeId": "6cb2c1b6f48146208794985d0f099948",
             "vcName": "3号主变本体A相夹件",
             "vcValueDesc": null
         },
@@ -18,7 +18,7 @@
             "fvalue": 70.77,
             "iParam1": 0,
             "vcUnit": "mA",
-            "eNodeId": "46d1631d9fc24ab7a9cac84a0af16555",
+            "eNodeId": "bdd2a11fe8944aa5b7ea4fb4b9513458",
             "vcName": "3号主变本体A相铁芯",
             "vcValueDesc": null
         },
@@ -28,7 +28,7 @@
             "fvalue": 14.4,
             "iParam1": 1,
             "vcUnit": "mA",
-            "eNodeId": "24aa05ae0cae40778d295efa2442350c",
+            "eNodeId": "6cb2c1b6f48146208794985d0f099948",
             "vcName": "3号主变本体B相夹件",
             "vcValueDesc": null
         },
@@ -38,7 +38,7 @@
             "fvalue": 66.55,
             "iParam1": 0,
             "vcUnit": "mA",
-            "eNodeId": "638e2272854b4339a4196f8397a129d5",
+            "eNodeId": "bdd2a11fe8944aa5b7ea4fb4b9513458",
             "vcName": "3号主变本体B相铁芯",
             "vcValueDesc": null
         },
@@ -48,7 +48,7 @@
             "fvalue": 15.52,
             "iParam1": 1,
             "vcUnit": "mA",
-            "eNodeId": "f65334bbf4a74b24a69276c945aff86e",
+            "eNodeId": "6cb2c1b6f48146208794985d0f099948",
             "vcName": "3号主变本体C相夹件",
             "vcValueDesc": null
         },
@@ -58,7 +58,7 @@
             "fvalue": 65.02,
             "iParam1": 0,
             "vcUnit": "mA",
-            "eNodeId": "d8347238feb042e28a0408fc89a18341",
+            "eNodeId": "bdd2a11fe8944aa5b7ea4fb4b9513458",
             "vcName": "3号主变本体C相铁芯",
             "vcValueDesc": null
         }
@@ -70,7 +70,7 @@
             "fvalue": 15.24,
             "iParam1": 1,
             "vcUnit": "mA",
-            "eNodeId": "117cd63d75624f7a89b1169f28218b64",
+            "eNodeId": "85364f0c8ecc4119958d33c1bc653e51",
             "vcName": "2号主变本体A相夹件",
             "vcValueDesc": null
         },
@@ -80,7 +80,7 @@
             "fvalue": 68.07,
             "iParam1": 0,
             "vcUnit": "mA",
-            "eNodeId": "95cbe3a5054e4eeb8429625e33c9f981",
+            "eNodeId": "f1aa0f12ac9e41db884095f66de7086f",
             "vcName": "2号主变本体A相铁芯",
             "vcValueDesc": null
         },
@@ -90,7 +90,7 @@
             "fvalue": 14.56,
             "iParam1": 1,
             "vcUnit": "mA",
-            "eNodeId": "e954b0dc193e4707b8b25c655c862c1c",
+            "eNodeId": "85364f0c8ecc4119958d33c1bc653e51",
             "vcName": "2号主变本体B相夹件",
             "vcValueDesc": null
         },
@@ -100,7 +100,7 @@
             "fvalue": 68.13,
             "iParam1": 0,
             "vcUnit": "mA",
-            "eNodeId": "937bc2b8871d4ec5b6fa1a19fcb182ed",
+            "eNodeId": "f1aa0f12ac9e41db884095f66de7086f",
             "vcName": "2号主变本体B相铁芯",
             "vcValueDesc": null
         },
@@ -110,7 +110,7 @@
             "fvalue": 15.21,
             "iParam1": 1,
             "vcUnit": "mA",
-            "eNodeId": "9c5ad6d376d54c1cb94cce0314066828",
+            "eNodeId": "85364f0c8ecc4119958d33c1bc653e51",
             "vcName": "2号主变本体C相夹件",
             "vcValueDesc": null
         },
@@ -120,7 +120,7 @@
             "fvalue": 66.84,
             "iParam1": 0,
             "vcUnit": "mA",
-            "eNodeId": "6678586d5dbd46beabb886f38adaacbe",
+            "eNodeId": "f1aa0f12ac9e41db884095f66de7086f",
             "vcName": "2号主变本体C相铁芯",
             "vcValueDesc": null
         }
@@ -132,7 +132,7 @@
             "fvalue": 15.31,
             "iParam1": 1,
             "vcUnit": "mA",
-            "eNodeId": "c8f629ddbdec4d619a316606f5b8a3f1",
+            "eNodeId": "c8b50dbe8d8040148937961b68c8a042",
             "vcName": "1号主变本体A相夹件",
             "vcValueDesc": null
         },
@@ -142,7 +142,7 @@
             "fvalue": 67.89,
             "iParam1": 0,
             "vcUnit": "mA",
-            "eNodeId": "08bcb9b4b3254e5387e5dfa0b58d06c4",
+            "eNodeId": "a12067ea799647c28415df90ceff3da1",
             "vcName": "1号主变本体A相铁芯",
             "vcValueDesc": null
         },
@@ -152,7 +152,7 @@
             "fvalue": 14.93,
             "iParam1": 1,
             "vcUnit": "mA",
-            "eNodeId": "380a61d9d43248ebbad6d19773fb8c0e",
+            "eNodeId": "c8b50dbe8d8040148937961b68c8a042",
             "vcName": "1号主变本体B相夹件",
             "vcValueDesc": null
         },
@@ -162,7 +162,7 @@
             "fvalue": 65.72,
             "iParam1": 0,
             "vcUnit": "mA",
-            "eNodeId": "74f4e4e4a44348c1842c1f95002a4770",
+            "eNodeId": "a12067ea799647c28415df90ceff3da1",
             "vcName": "1号主变本体B相铁芯",
             "vcValueDesc": null
         },
@@ -172,7 +172,7 @@
             "fvalue": 15.67,
             "iParam1": 1,
             "vcUnit": "mA",
-            "eNodeId": "d801b91c257b403282bae46676d825a7",
+            "eNodeId": "c8b50dbe8d8040148937961b68c8a042",
             "vcName": "1号主变本体C相夹件",
             "vcValueDesc": null
         },
@@ -182,7 +182,7 @@
             "fvalue": 66.69,
             "iParam1": 0,
             "vcUnit": "mA",
-            "eNodeId": "e450d89c31c04bcc8e333a63d1ed3c76",
+            "eNodeId": "a12067ea799647c28415df90ceff3da1",
             "vcName": "1号主变本体C相铁芯",
             "vcValueDesc": null
         }

@@ -51,7 +51,38 @@ export default {
 	created() {
 		this.getDevList(false)
 	},
-	mounted() {},
+	mounted() {
+		this.topicStr = this.topicArr[0] + this.unitId
+		console.log(this.topicStr)
+		//实时数据回调
+		const _this = this
+		// this.$_mqtt.on('message', function(topic, message, packet) {
+		this.$_listen(this.$options.name, (topic, message, packet) => {
+			//如果推送上来的数据的topic和订阅的topic一致
+			if (topic == _this.topicStr) {
+				//将json字符串转为数组
+				let msgData = JSON.parse(message.toString())
+				if (msgData.cmd == 1001) {
+					_this.chartsList.forEach(element => {
+						if (msgData.nodeid == element.nodeId) {
+							element.fvalue = msgData.value
+							//并且更新发生变化的设备的历史数据echarts
+							let nowDate = new Date().getTime()
+							let endTime = Math.ceil(nowDate / 1000)
+							let startTime = endTime - 604800
+							let param = {
+								nodeId: msgData.nodeid,
+								startTime: startTime,
+								endTime: endTime
+							}
+							//调用历史数据接口
+							_this.getChartsData(param, element.id, element.unit, element.nodeName)
+						}
+					})
+				}
+			}
+		})
+	},
 	activited() {},
 	update() {},
 	beforeDestory() {},
@@ -65,10 +96,10 @@ export default {
 				isFindNodes: 1,
 				unitId: this.unitId
 			}
-			this.$_api.sf6Monitor.getDevList(params).then(res => {
+			this.$_api.microWeather.getDevList(params).then(res => {
 				for (let i = 0; i < res.data.lists[1].devNodesList.length; i++) {
 					if (res.data.lists[1].devNodesList[i].vcName != '风向') {
-						this.chartsList.push(res.data.lists[1].devNodesList[i])	
+						this.chartsList.push(res.data.lists[1].devNodesList[i])
 					}
 				}
 				this.getCharts()
@@ -119,7 +150,7 @@ export default {
 		},
 		//调用历史数据接口
 		getChartsData(param, id, unit, name) {
-			this.$_api.sf6Monitor.getChart(param).then(res => {
+			this.$_api.microWeather.getChart(param).then(res => {
 				if (res.code == 200 && res.data) {
 					let tempList = []
 					let timeList = []

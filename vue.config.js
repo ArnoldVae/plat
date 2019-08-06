@@ -29,7 +29,11 @@ module.exports = {
 	//默认情况下，生成的静态资源在它们的文件名中包含了 hash 以便更好的控制缓存。如果你无法使用 Vue CLI 生成的 index HTML，你可以通过将这个选项设为 false 来关闭文件名哈希。
 	filenameHashing: true,
 
-	publicPath: './',
+	// publicPath: './',
+
+	publicPath: '/dsa5200web/',
+
+	// publicPath: process.env.NODE_ENV === 'production' ? '' : '/',
 
 	outputDir,
 
@@ -80,7 +84,7 @@ module.exports = {
 		}
 	},
 
-	configureWebpack: config => {
+	/*configureWebpack: config => {
 		if (process.env.NODE_ENV === 'production') {
 			return {
 				plugins: [
@@ -96,5 +100,5 @@ module.exports = {
 				]
 			}
 		}
-	}
+	}*/
 }

@@ -46,7 +46,7 @@
 <script>
 import { findComponentUpward } from '@/libs/assist'
 import moment from 'moment'
-import charts from '../main-oil/charts'
+import charts from '../main-oil/charts1'
 export default {
 	name: 'core-clamp-customization',
 	components: { charts },

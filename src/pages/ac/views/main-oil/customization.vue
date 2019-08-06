@@ -7,46 +7,31 @@
           class="child-item-title"
         >{{childindex == 0 ? 'A相' : childindex == 1 ? 'B相' : childindex == 2 ? 'C相' : ''}}</div>
         <div class="child-item-detail">
-          <!-- <div class="icon"></div> -->
-          <div v-for="(detailitem,idx) in childitem" class="detail" :key="idx">
+          <div v-for="(detailitem,idx) in childitem.devNodesList" class="detail" :key="idx">
             <div
               @click="showHistoryHandler(detailitem)"
               :class="['detail-img',detailitem.className]"
             ></div>
             <div class="detail-content">
-              <!-- <span>`${{detailitem.fvalue}}{{detailitem.vcUnit}}`</span> -->
               <div>
                 <span>{{detailitem.fvalue}}</span>
                 <span>{{detailitem.vcUnit}}</span>
               </div>
-              <span>{{detailitem.nodeName}}</span>
+              <span>{{detailitem.vcName}}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- <div class="historyModal" v-show="historyModal">
-      <div class="modal-title">
-        {{chartTitle}}
-        <span class="closeModal" @click="closeHistoryModal">×</span>
-      </div>
-      <div class="history-select-time">
-      </div>
-      <div class="modal-ctnBox">
-        <div class="modal-ctn">
-          <div id="historyChart" ref="historyChart"></div>
-        </div>
-      </div>
-    </div>-->
     <charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
-    <!-- <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal> -->
   </div>
 </template>
 <script>
 import qs from 'qs'
 import moment from 'moment'
 import charts from './charts'
+import { findComponentUpward } from '@/libs/assist'
 export default {
 	name: 'main-oil-customization',
 	components: { charts },
@@ -54,22 +39,13 @@ export default {
 	data() {
 		return {
 			unitId: this.$store.getters.unitId,
+			topicArr: ['qif/zf/app/'],
+			topicStr: '',
 			dataList: [],
-			topic: 'qif/service/realdata/rcu/',
 			historyModal: false,
 			chartTitle: '',
 			nodeId: '',
-			unit: '',
-			xData: [],
-			yData: [],
-			chart: null,
-			chartTimeOptions: [
-				{ title: '一天', key: 'oneDay' },
-				{ title: '三天', key: 'Trid' },
-				{ title: '一周', key: 'aWeek' }
-			],
-			currentTime: 'oneDay',
-			currentHistoryParams: null
+			unit: ''
 		}
 	},
 	computed: {
@@ -85,245 +61,98 @@ export default {
 		getunitId: {
 			handler(newValue) {
 				this.unitId = newValue
-				// this.topicStr = this.topicArr[0] + this.unitId
+				this.topicStr = this.topicArr[0] + this.unitId
 			}
 		}
 	},
-	created() {},
+	created() {
+		this.getDevList()
+	},
 	mounted() {
-		// this.chart = this.$_echarts.init(this.$refs['historyChart'])
-		this.getOilList()
+		this.topicStr = this.topicArr[0] + this.unitId
+		console.log(this.topicStr)
+		//实时数据回调
+		const _this = this
+		// this.$_mqtt.on('message', function(topic, message, packet) {
+		this.$_listen(this.$options.name, (topic, message, packet) => {
+			//如果推送上来的数据的topic和订阅的topic一致
+			if (topic == _this.topicStr) {
+				//将json字符串转为数组
+				let msgData = JSON.parse(message.toString())
+				if (msgData.cmd == 1001) {
+					console.log(msgData)
+					for(let i = 0; i< this.dataList.length; i++){
+						this.dataList[i].forEach(item=>{
+							item.devNodesList.forEach(element=>{
+								if(element.nodeId == msgData.nodeid){
+									element.fvalue = msgData.value
+								}
+							})
+						})
+						}
+				}
+			}
+		})
 	},
 	activited() {},
 	update() {},
 	beforeDestory() {},
 	methods: {
-		getOilList() {
-			// this.$api.AssistCenter.findSystemNode({
-			// 	stationId: this.getStationId,
-			// 	subSystemId: 8,
-			// 	equName: '',
-			// 	typeId: 35,
-			// 	rows: 1000,
-			// 	page: 1
-			// }).then(res => {
-			this.$_api.getStaticData('./simulation-data/main-oil.json').then(res => {
-				let dataList = [[[], [], []], [[], [], []], [[], [], []]]
-				res.data.rows.map(item => {
-					item.nodeName = item.nodeName.substring(6, item.nodeName.length)
-
-					if (item.nodeName.indexOf('一氧化碳') > -1) {
-						item.className = 'co'
-					} else if (item.nodeName.indexOf('乙炔值') > -1) {
-						item.className = 'c2h2'
-					} else if (item.nodeName.indexOf('乙烯') > -1) {
-						item.className = 'c2h4'
-					} else if (item.nodeName.indexOf('乙烷') > -1) {
-						item.className = 'c2o6'
-					} else if (item.nodeName.indexOf('二氧化碳') > -1) {
-						item.className = 'co2'
-					} else if (item.nodeName.indexOf('总烃值') > -1) {
-						item.className = 'cxhy'
-					} else if (item.nodeName.indexOf('氢气') > -1) {
-						item.className = 'h2'
-					} else if (item.nodeName.indexOf('甲烷') > -1) {
-						item.className = 'ch4'
-					}
-
-					switch (item.iParam2) {
-						case '1001':
-							dataList[0][0].push(item)
-							break
-						case '1002':
-							dataList[0][1].push(item)
-							break
-						case '1003':
-							dataList[0][2].push(item)
-							break
-						case '2001':
-							dataList[1][0].push(item)
-							break
-						case '2002':
-							dataList[1][1].push(item)
-							break
-						case '2003':
-							dataList[1][2].push(item)
-							break
-						case '3001':
-							dataList[2][0].push(item)
-							break
-						case '3002':
-							dataList[2][1].push(item)
-							break
-						case '3003':
-							dataList[2][2].push(item)
-							break
+		getDevList(DevID) {
+			let params = {
+				devTypeId: this.activeDeviceTypeId,
+				isPage: 1,
+				isFindNodes: 1,
+				unitId: this.unitId
+			}
+			this.$_api.mainOil.getDevList(params).then(res => {
+				let dataList = [[], [], []]
+				res.data.lists.forEach(item => {
+					if (item.vcName.indexOf('1号主变') != -1 || item.vcName.indexOf('一号主变') != -1) {
+						item.devNodesList.forEach(element => {
+							element.className = this.setClass(element)
+						})
+						dataList[0].push(item)
+					} else if (item.vcName.indexOf('2号主变') != -1 || item.vcName.indexOf('二号主变') != -1) {
+						item.devNodesList.forEach(element => {
+							element.className = this.setClass(element)
+						})
+						dataList[1].push(item)
+					} else if (item.vcName.indexOf('3号主变') != -1 || item.vcName.indexOf('三号主变') != -1) {
+						item.devNodesList.forEach(element => {
+							element.className = this.setClass(element)
+						})
+						dataList[2].push(item)
 					}
 				})
 				this.dataList = dataList
 			})
 		},
-		getTitle(index) {
-			return index + 1 + '号主变'
+		setClass(data) {
+			if (data.vcName.indexOf('一氧化碳') > -1) {
+				return 'co'
+			} else if (data.vcName.indexOf('乙炔值') > -1) {
+				return 'c2h2'
+			} else if (data.vcName.indexOf('乙烯') > -1) {
+				return 'c2h4'
+			} else if (data.vcName.indexOf('乙烷') > -1) {
+				return 'c2o6'
+			} else if (data.vcName.indexOf('二氧化碳') > -1) {
+				return 'co2'
+			} else if (data.vcName.indexOf('总烃值') > -1) {
+				return 'cxhy'
+			} else if (data.vcName.indexOf('氢气') > -1) {
+				return 'h2'
+			} else if (data.vcName.indexOf('甲烷') > -1) {
+				return 'ch4'
+			}
 		},
 		showHistoryHandler(node) {
-			// console.log(node)
+			console.log(node)
 			this.nodeId = node.nodeId
 			this.unit = node.vcUnit
-			this.chartTitle = node.equName + ' - ' + node.nodeName
+			this.chartTitle = node.vcName + '历史数据'
 			this.historyModal = true
-
-			// this.historyModal = true
-			// this.chartTitle = node.nodeName + '历史数据'
-
-			// let params = {
-			// 	startTime: moment()
-			// 		.subtract(24, 'hours')
-			// 		.unix(),
-			// 	endTime: moment().unix(),
-			// 	eNodeId: node.nodeId
-			// }
-
-			// this.currentHistoryParams = params
-			// this.drawChart(params)
-		},
-		drawChart(params) {
-			/* 请求数据接口 */
-			this.$api.dsqIntelligent
-				.getHistory(qs.stringify(params))
-				.then(res => {
-					if (res.ret == '0') {
-						let xData = [],
-							yData = []
-						res.data.forEach(item => {
-							xData.push(moment(item.dataTime * 1000).format('MM-DD HH:mm'))
-							yData.push(item.fValue)
-						})
-
-						const htmlFontSize = parseFloat(getComputedStyle(window.document.documentElement)['font-size'])
-						const option = {
-							title: {
-								text: `单位：µL/L`,
-								textStyle: {
-									color: '#fff',
-									// fontFamily: "DS-DIGI",
-									fontSize: 0.2 * htmlFontSize
-								},
-								align: 'center'
-							},
-							xAxis: {
-								type: 'category',
-								boundaryGap: false,
-								data: xData,
-								axisLine: {
-									lineStyle: {
-										color: '#fff',
-										width: 2
-									}
-								},
-								axisLabel: {
-									color: '#fff',
-									show: true,
-									textStyle: {
-										fontSize: htmlFontSize * 0.2
-									}
-								}
-							},
-							yAxis: {
-								// name: node.nodeName + "(µL/L)",
-								type: 'value',
-								axisLine: {
-									lineStyle: {
-										color: '#fff',
-										width: 2
-									}
-								},
-								splitLine: {
-									show: false
-								},
-								nameTextStyle: {
-									fontSize: 0.22 * htmlFontSize
-								},
-								axisLabel: {
-									textStyle: {
-										color: '#fff',
-										fontSize: 0.22 * htmlFontSize
-									}
-								}
-							},
-							tooltip: {
-								trigger: 'axis',
-								// formatter(params) {
-								//     let  x = params[0].value == 0 ? '正常' : '触发';
-								//     let y = params[0].name;
-								//     return '时间：' + y + '<br />' + '水浸状态：' + x ;
-								// },
-								// axisPointer: {
-								//     label: {
-								//         backgroundColor: "#08304a"
-								//     }
-								// },
-								textStyle: {
-									fontSize: htmlFontSize * 0.2
-								}
-							},
-							series: [
-								{
-									name: this.chartTitle,
-									data: yData,
-									type: 'line',
-									smooth: true,
-									symbol: 'none',
-									connectNulls: true,
-									lineStyle: {
-										color: 'yellow',
-										width: 3
-									}
-								}
-							],
-							grid: {
-								top: '10%',
-								left: '5%',
-								right: '8%',
-								bottom: '5%',
-								containLabel: true
-							},
-							dataZoom: [
-								{
-									type: 'inside',
-									minValueSpan: 7,
-									minSpan: 20,
-									start: 90,
-									end: 100
-								},
-								{
-									showDetail: false,
-									height: 0.15 * htmlFontSize,
-									bottom: 0
-									// borderColor: "rgba(1,37,59,0.5)",
-									// backgroundColor: "rgba(1,37,59,0.5)",
-									// dataBackgroundColor: "rgba(47,126,181,0.9)",
-									// fillerColor: "rgba(1,138,225,0.5)",
-									// handleColor: "rgba(1,37,59,0.8)"
-									// borderColor: "transparent",
-									// backgroundColor: "transparent",
-									// dataBackgroundColor: "transparent",
-									// fillerColor: "transparent",
-									// handleColor: "transparent"
-								}
-							]
-						}
-						this.chart.setOption(option)
-						this.chart.resize()
-
-						window.onresize = () => {
-							this.chart.resize()
-						}
-					}
-				})
-				.catch(error => {
-					console.log(error)
-				})
 		},
 		closeHistoryModal() {
 			this.historyModal = false

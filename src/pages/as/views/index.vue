@@ -175,10 +175,10 @@ export default {
 			selectTimeIdx: -1,
       // 巡检统计相关数据
       alarmLevelData:{
-        critical:10,
-        normal:10,
-        serious:10,
-        earlyWarning:50
+        critical:0,
+        normal:0,
+        serious:0,
+        earlyWarning:0
       },
       alarmComfirmData:{
         makeSure:20,
@@ -192,7 +192,7 @@ export default {
       comfirmShow:true,
       equipmentShow:true,
       // 巡检装备相关数据
-      equipmentTotal:1030,
+      equipmentTotal:0,
       gq:{
         video:0,
         online:0,
@@ -297,6 +297,9 @@ export default {
           stationId: val.id,
           vcName: val.label
         }
+      });
+      this.$store.commit('CHANGE_STATION',{
+         stationId:val.id
       })
     }
 

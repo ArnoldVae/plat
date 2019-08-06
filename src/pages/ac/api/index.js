@@ -10,6 +10,9 @@ import intelligentLightin from './intelligent-lighting'
 import sf6Monitor from './sf6-monitor'
 import batteryMonitor from './battery-monitor'
 import mapApi from './mapApi'
+import microWeather from './micro-weather'
+import antiTheft from './anti-theft'
+import mainOil from './main-oil'
 
 export default {
     getStaticData,
@@ -21,5 +24,8 @@ export default {
     intelligentLightin,
     sf6Monitor,
     batteryMonitor,
-    mapApi
+    mapApi,
+    microWeather,
+    antiTheft,
+    mainOil
 }

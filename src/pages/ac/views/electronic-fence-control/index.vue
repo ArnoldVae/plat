@@ -1,21 +1,21 @@
 <template>
-	<div class="fireControl">
+	<div class="electronic-fence-control">
 		<component v-bind:is="current"></component>
 	</div>
 </template>
 <script>
-import fireControlTable from '@ac/views/common/view-table'
-import fireControlCustomization from './customization.vue'
+import electronicFenceControlTable from '@ac/views/common/view-table'
+import electronicFenceControlCustomization from './customization.vue'
 export default {
-	name: 'fireControl',
+	name: 'electronic-fence-control',
 	components: {
-		'fireControl-table': fireControlTable,
-		'fireControl-customization': fireControlCustomization
+		'electronic-fence-control-table': electronicFenceControlTable,
+		'electronic-fence-control-customization': electronicFenceControlCustomization
 	},
 	props: {},
 	data() {
 		return {
-			current: 'fireControl-customization'
+			current: 'electronic-fence-control-customization'
 		}
 	},
 	computed: {},
@@ -39,7 +39,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.fireControl {
+.electronic-fence-control {
 	height: 100%;
 }
 </style>

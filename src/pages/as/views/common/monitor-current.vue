@@ -1,6 +1,6 @@
 <template>
   <div class="monitor-current">
-    <!-- <div class="current-top">
+    <div class="current-top" v-on:mousedown="mousedown" v-on:mousemove="mousemove" v-on:mouseup="mouseup">
       <span v-for="(item, index) in list"
             :key="index"
             v-show="item.vcUrl.length != 0"
@@ -8,13 +8,14 @@
             @click="but(item)">{{
 				item.vcName
 			}}</span>
-    </div> -->
+    </div> 
     <div class="current-center">
       <mcBlueprint :blueprintUrl="blueprintUrl"
                    :blueprintObj="blueprintObj"
                    :primitiveNodes="primitiveNodes"
                    :unitId="unitId"
-                   :mqttData="mqttData" />
+                   :mqttData="mqttData"
+					@getDevId='getDevId'/>
     </div>
   </div>
 </template>
@@ -39,9 +40,9 @@ export default {
 			primitiveNodes: [], //图元节点数组
 			list: [],
 			pitchOn: '',
-			topicArr: ['qif/xj/app/'],
+			topicArr: 'qif/xj/app/',
 			topicStr: '',
-			mqttData: {}
+			mqttData: {},
 		}
 	},
 	computed: {},
@@ -51,7 +52,7 @@ export default {
 		this.getData()
 	},
 	mounted() {
-		this.topicStr = this.topicArr[0] + this.unitId
+		this.topicStr = this.topicArr + this.unitId
 		this.subscribe(this.topicStr)
 		//实时数据回调
 		const _this = this
@@ -65,10 +66,9 @@ export default {
 				data = data + String.fromCharCode(item)
 			})
 			data = JSON.parse(data)
-			
-		// 	//如果推送上来的数据的topic和订阅的topic一致qif/zf/app/192fe4cec3ec4d3fb81c0d05f82bde41
+
+			// 	//如果推送上来的数据的topic和订阅的topic一致qif/zf/app/192fe4cec3ec4d3fb81c0d05f82bde41
 			if (data.cmd == 2103 || data.cmd == 2104) {
-				console.log(data)
 				_this.mqttData = data
 			}
 		})
@@ -77,15 +77,29 @@ export default {
 	update() {},
 	beforeDestory() {},
 	methods: {
+		//鼠标按下事件
+		mousedown(e) {
+			e.preventDefault()
+			// console.log('mousedown--mousedown--mousedown--mousedown')
+			// var disX = ev.clientX - oDiv.offsetLeft
+			// var disY = ev.clientY - oDiv.offsetTop
+		},
+		//鼠标移动事件
+		mousemove(e) {},
+		//鼠标松开事件
+		mouseup(e) {
+			e.preventDefault()
+			// console.log('mouseup--mouseup--mouseup--mouseup')
+		},
 		subscribe(topicArr) {
 			// this.$_mqtt.connected
 			if (true) {
-				this.$_mqtt.unsubscribe('qif/xj/app/data/57fdad1317b04c5e87374c6567521114', err => {
+				this.$_mqtt.unsubscribe(topicArr, err => {
 					if (err) {
 						console.log('取消MQTT订阅失败')
 					} else {
 						console.log('取消MQTT订阅成功')
-						this.$_mqtt.subscribe('qif/xj/app/data/57fdad1317b04c5e87374c6567521114', err => {
+						this.$_mqtt.subscribe(topicArr, err => {
 							if (err) {
 								console.log('订阅失败!')
 							} else {
@@ -119,7 +133,6 @@ export default {
 		},
 		//获取图纸信息
 		getData() {
-			console.log(this.unitId)
 			let params = {
 				unitId: this.unitId,
 				iSubType: '10100006'
@@ -128,14 +141,15 @@ export default {
 				if (res.code == 200) {
 					this.list = res.data
 					if (res.data.length) {
-						res.data.map(item => {
+						for (let i = 0; i < res.data.length; i++) {
+							let item = res.data[i]
 							if (item.vcUrl.length) {
 								this.blueprintObj = item
 								this.blueprintUrl = item.vcUrl
 								this.pitchOn = item.pageId
 								return
 							}
-						})
+						}
 					}
 				}
 			})
@@ -147,6 +161,10 @@ export default {
 				unitId: this.unitId
 			}
 			this.axios.getMCFind(params).then(res => {})
+		},
+		//获取设备id
+		getDevId( devId ) {
+			this.$emit( 'getDevIdFromHt' , devId )
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -163,34 +181,44 @@ export default {
 
 <style lang="stylus" scoped>
 .monitor-current {
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
 
-  .current-top {
-    height: 34px;
+	.current-top {
+		height: 30px;
+		width: calc(100% - 30px);
+		// display: flex;
+		overflow-x: auto;
+		overflow-y: hidden;
+		white-space: nowrap;
 
-    .onBut {
-      color: #ffe06d;
-    }
+		.onBut {
+			color: #ffe06d;
+		}
 
-    >span {
-      color: #8fd8fe;
-      display: inline-block;
-      margin-left: 11px;
-      text-align: center;
-      font-size: 14px;
-      height: 28px;
-      line-height: 28px;
-      padding: 0 5px;
-      border: 1px solid #0173bb;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-  }
+		>span {
+			background: url('../../../../assets/img/common/bg540.png') no-repeat center;
+			background-size: 100% 100%;
+			border-radius: 3px;
+			text-align: center;
+			margin: 2px 10px;
+			padding: 10px 10px;
+			font: 100 20px / 40px '';
+			cursor: pointer;
+			color: #fff;
+			min-width: 200px;
+			font-size: 18px;
+			display: inline-block;
+			height: 30px;
+			line-height: 10px;
+			border: 1px solid #0173bb;
+			white-space: nowrap;
+		}
+	}
 
-  .current-center {
-    width: 100%;
-    height: 535px;
-  }
+	.current-center {
+		width: 100%;
+		height: 505px;
+	}
 }
 </style>
