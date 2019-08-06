@@ -1,13 +1,15 @@
 <template>
     <div class="main-check">
         主监考
+        <sys></sys>
     </div>
 </template>
 <script>
-
+    import  sys from "../../views"
     export default {
         name: 'mainCheck',
         components: {
+            sys
 
         },
         props: {},

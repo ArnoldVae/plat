@@ -18,9 +18,9 @@ if (process.env.NODE_ENV == 'development') {
 
 let outputDir = ''
 if (projectname == 'index') {
-	outputDir = 'dist/'
+	outputDir = 'dsa5200web/'
 } else {
-	outputDir = 'dist/' + projectname
+	outputDir = 'dsa5200web/' + projectname
 }
 
 module.exports = {

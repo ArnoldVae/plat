@@ -388,7 +388,7 @@ export default {
 					flex-wrap: wrap;
 					cursor: initial;
 
-					background: #0a102c;
+					background: #0b255a;
 
 					.more-menu-item {
 						font-size: 16px;

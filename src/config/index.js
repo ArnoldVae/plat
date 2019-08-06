@@ -9,3 +9,6 @@ import '@/assets/style/transition.css'
 
 // 字体文件
 import '@/assets/font/font.css'
+
+// 引用外部静态资源前缀地址
+import '@/assets/style/resource.path.config.styl'
