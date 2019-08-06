@@ -163,12 +163,12 @@ export default {
     getStepsDetail() {
       var ctx = this;
       ctx.axios.getStepDetail({
-        // unitId: ctx.unitId,
-        // taskId: ctx.taskId,
-        // recordId: ctx.recordId
-        "taskId": "8fe3d8d377b94521a26b185196971aa5",
-        "unitId": "42389edde72d41f4bcd978b574eefbae",
-        "recordId": "0099b7fd47134c648c2e33b3ada4bef3"
+        unitId: ctx.unitId,
+        taskId: ctx.taskId,
+        recordId: ctx.recordId
+        // "taskId": "8fe3d8d377b94521a26b185196971aa5",
+        // "unitId": "42389edde72d41f4bcd978b574eefbae",
+        // "recordId": "0099b7fd47134c648c2e33b3ada4bef3"
       }).then(res => {
         // console.log(res, 'step')
         var data = res.data;

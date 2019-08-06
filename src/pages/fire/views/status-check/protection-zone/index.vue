@@ -249,17 +249,17 @@
                 let result = await this.$_api.statusCheck.getTemDetail({
                     unitId:item.unitId,
                     areaId:item.protectAreaId,
-                    devTypeId:"1014"
+                    devTypeId:"1010"
 
                 })
                 if (result.success){
                     if(result.data.length>0){
                        result.data.forEach((item)=>{
-                           if(item.functioinId==190){
+                           if(item.functioinId==156){
                                this.temData.mechine=item.fValue
                                this.getTemCharts(item.nodeId,item.functioinId)
                            }
-                           if(item.functioinId==191){
+                           if(item.functioinId==157){
                                this.temData.env=item.fValue
                                this.getTemCharts(item.nodeId,item.functioinId)
                            }
@@ -301,7 +301,7 @@
                     result.data.forEach((i)=>{
                         newArr.push(i.f_Value)
                     })
-                    if(target==190){
+                    if(target==156){
                         this.getList.arr1=newArr
                     }else {
                         this.getList.arr2=newArr

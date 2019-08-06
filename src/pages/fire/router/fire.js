@@ -21,5 +21,13 @@ export default [
 				component: () => import('@ac/views/notFind')
 			}
 		]
+	},
+	{
+		path: '/main',
+		name: 'main',
+		meta: {
+			title: '主监控'
+		},
+		component: () => import('@fire/views/main-check')
 	}
 ]
