@@ -1,92 +1,101 @@
 <template>
-  <div class="systemView">
-    <div class="mian-taining">
-      <el-form :inline="true" size="mini" :model="search">
-        <el-form-item label="开始日期:">
-          <el-date-picker
-            popper-class="dateDrop"
-            suffix-icon="el-icon-date"
-            v-model="search.starTime"
-            type="date"
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item label="结束日期:">
-          <el-date-picker v-model="search.endTime" type="date"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="时间段:">
-          <el-select v-model="search.timeQuantum" placeholder>
-            <el-option label="自定义" :value="nullValue"></el-option>
-            <el-option label="三天内" value="threeDay"></el-option>
-            <el-option label="本周" value="week"></el-option>
-            <el-option label="本月" value="month"></el-option>
-            <el-option label="本年" value="year"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="维保单位:">
-          <el-select v-model="search.maintenanceUnit" placeholder>
-            <el-option label="全部" value="nullValue"></el-option>
-            <el-option
-              v-for="item in maintenanceUnits"
-              :key="item.MtcCoID"
-              :label="item.vc_Name"
-              :value="item.MtcCoID"
-            ></el-option>
-          </el-select>
-        </el-form-item>
+	<div class="mian-taining">
+		<el-form :inline="true" size="mini" :model="search">
+			<el-form-item label="开始日期:">
+				<el-date-picker
+					v-model="search.starTime"
+					@change="opoentime"
+					value-format="timestamp"
+					type="date"
+				></el-date-picker>
+			</el-form-item>
+			<el-form-item label="结束日期:">
+				<el-date-picker
+					v-model="search.endTime"
+					@change="opoentime"
+					value-format="timestamp"
+					type="date"
+				></el-date-picker>
+			</el-form-item>
+			<el-form-item label="时间段:">
+				<el-select v-model="search.timeQuantum" @change="opoentimeB" placeholder>
+					<el-option label="自定义" :value="nullValue"></el-option>
+					<el-option label="三天内" value="threeDay"></el-option>
+					<el-option label="本周" value="week"></el-option>
+					<el-option label="本月" value="month"></el-option>
+					<el-option label="本年" value="year"></el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item label="维保单位:">
+				<el-select v-model="search.maintenanceUnit" placeholder>
+					<el-option label="全部" value="nullValue"></el-option>
+					<el-option
+						v-for="item in maintenanceUnits"
+						:key="item.mtcCoId"
+						:label="item.vcFileFullName"
+						:value="item.mtcCoId"
+					></el-option>
+				</el-select>
+			</el-form-item>
 
-        <el-form-item label="状态:">
-          <el-checkbox-group v-model="search.stute">
-            <el-checkbox v-for="i in stutes" :key="i.id" :label="i.id">{{i.name}}</el-checkbox>
-            <!-- <el-checkbox label="1">正在执行</el-checkbox>
-            <el-checkbox label="2">已结束</el-checkbox>-->
-          </el-checkbox-group>
-        </el-form-item>
+			<el-form-item label="状态:" class="item-zt">
+				<el-checkbox-group v-model="search.stute">
+					<el-checkbox v-for="i in stutes" :key="i.id" :label="i.id">{{i.name}}</el-checkbox>
+					<!-- <el-checkbox label="1">正在执行</el-checkbox>
+					<el-checkbox label="2">已结束</el-checkbox>-->
+				</el-checkbox-group>
+			</el-form-item>
 
-        <el-form-item class="taining-button">
-          <el-button class="blue-btn" @click="searchInfo" type="text">查&nbsp找</el-button>
-<!--          <el-button class="yellow-btn" @click="leadTo" type="text">导&nbsp入</el-button>-->
-<!--          <el-button class="yellow-btn" @click="exportInfo" type="text">导&nbsp出</el-button>-->
-        </el-form-item>
-      </el-form>
-      <!-- table -->
-      <div>
-        <el-table
-          :header-cell-style="{background:'none'}"
-          :data="maintainData"
-          style="width: 100%;"
-        >
-          <el-table-column prop="mtcName" align="center" label="维保单位"></el-table-column>
-          <el-table-column prop="unitName" align="center" label="变电站"></el-table-column>
-          <el-table-column prop="vc_Context" align="center" label="维护内容" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="i_BeginTime" align="center" label="计划开始时间"></el-table-column>
-          <el-table-column prop="i_EndTime" align="center" label="计划结束时间"></el-table-column>
-          <el-table-column prop="vc_PowerOffScene" align="center" label="停电场所"></el-table-column>
-          <el-table-column prop="vc_PowerLevel" align="center" label="电压等级"></el-table-column>
-          <el-table-column prop="vc_People" align="center" label="负责人"></el-table-column>
-          <el-table-column prop="vc_Telephone" align="center" label="联系电话"></el-table-column>
-          <el-table-column prop="date" align="center" label="当前状态">
-            <template slot-scope="scope">
-              <span v-if="scope.row.iStatus=='未执行'" style="color:red;">{{scope.row.iStatus}}</span>
-              <span v-if="scope.row.iStatus=='正在执行'" style="color:green;">{{scope.row.iStatus}}</span>
-              <span v-if="scope.row.iStatus=='已结束'" style="color:blue;">{{scope.row.iStatus}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="执行" align="center" width="250">
-            <template>
-              <div>
-                <el-button class="blue-btn" @click="searchInfo" size="mini" type="text">查看详情</el-button>
-                <el-button class="yellow-btn" @click="searchInfo" size="mini" type="text">导出</el-button>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-    </div>
-  </div>
+			<!-- <el-button class="blue-btn" style=" line-height: 21PX;" @click="searchInfo" type="text">查&nbsp找</el-button> -->
+			<el-form-item class="taining-button">
+				<el-button class="blue-btn" v-if="searchIS" @click="searchInfo" type="text">查&nbsp找</el-button>
+				<el-button class="blue-btn" v-if="!searchIS" @click="searchInfos" type="text">查&nbsp找</el-button>
+				<el-button class="yellow-btn" @click="leadTo" type="text">导&nbsp入</el-button>
+				<el-button class="yellow-btn" @click="exportInfo" type="text">导&nbsp出</el-button>
+			</el-form-item>
+		</el-form>
+		<!-- table -->
+		<div>
+			<el-table
+				:header-cell-style="{background:'none'}"
+				:row-style="tableColor"
+				:data="maintainData"
+				style="width: 100%;"
+			>
+				<el-table-column prop="coName" align="center" label="维保单位"></el-table-column>
+				<el-table-column prop="unitName" align="center" label="变电站"></el-table-column>
+				<el-table-column prop="context" align="center" label="维护内容" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="beginTime" align="center" label="计划开始时间"></el-table-column>
+				<el-table-column prop="endTime" align="center" label="计划结束时间"></el-table-column>
+				<el-table-column prop="vc_PowerOffScene" align="center" label="停电场所"></el-table-column>
+				<el-table-column prop="vc_PowerLevel" align="center" label="电压等级"></el-table-column>
+				<el-table-column prop="presetName" align="center" label="负责人"></el-table-column>
+				<el-table-column prop="telePhone" align="center" label="联系电话"></el-table-column>
+				<el-table-column prop="status" align="center" label="当前状态">
+					<!-- <template slot-scope="scope">
+						<span v-if="scope.row.status=='未执行'" style="color:red;">{{scope.row.status}}</span>
+						<span v-if="scope.row.status=='正在执行'" style="color:green;">{{scope.row.status}}</span>
+						<span v-if="scope.row.status=='已结束'" style="color:blue;">{{scope.row.status}}</span>
+					</template>-->
+				</el-table-column>
+				<el-table-column label="执行" align="center" width="250">
+					<template slot-scope="scope">
+						<div>
+							<el-button class="blue-btn" @click="infoModals(scope.row)" size="mini" type="text">查看详情</el-button>
+							<!-- <el-button class="yellow-btn" @click="searchInfo" size="mini" type="text">导出</el-button> -->
+						</div>
+					</template>
+				</el-table-column>
+			</el-table>
+		</div>
+		<infoModal :dialogVisible="modalShow" :delitail="detileData" @handleClose="handleClose"></infoModal>
+	</div>
 </template>
 <script>
+import infoModal from '../dialog'
 export default {
 	name: 'mian-taining',
+	components: { infoModal },
 	data() {
 		return {
 			nullValue: null,
@@ -98,15 +107,20 @@ export default {
 				maintenanceUnit: '',
 				stute: []
 			},
+			searchb: {
+				starTime: '',
+				endTime: ''
+			},
+
 			stutes: [{ id: 0, name: '未执行' }, { id: 1, name: '正在执行' }, { id: 2, name: '已结束' }],
 			maintenanceUnits: [],
-			maintainData: []
+			maintainData: [],
+			modalShow: false,
+			detileData: '',
+			searchIS: false
 		}
 	},
-    mounted(){
-	  console.log(this.getThisWeek(this.getTargetDate(0,0,-3)))
-
-    },
+	mounted() {},
 
 	created() {
 		this.init()
@@ -114,55 +128,101 @@ export default {
 	},
 
 	watch: {
-      'search.timeQuantum'(val) {
-        switch (val) {
-          case 'week':
-            // const endw =this.getThisWeek(new Date())[this.getThisWeek(new Date()).length-1].getTime()
-            const endw =new Date()
-            const startw =this.getThisWeek(new Date())[0].getTime()
-            // startw.setTime(startw.getTime() - 3600 * 1000 * 24 * 7)
-            this.search.starTime = startw
-            this.search.endTime = endw
-            break
-          case 'month':
-            const dayNo=1-(new Date().getDate());
-            const endm = new Date()
-            const startm = this.getTargetDate(0,0,dayNo).getTime()
-            this.search.starTime = startm
-            this.search.endTime = endm
-            break
-          case 'year':
-            const endy = new Date(),nowDay=1-(new Date().getDate()),nowMonth=0-(new Date().getMonth())
-            const starty = this.getTargetDate(0,nowMonth,nowDay)
-            this.search.starTime = starty
-            this.search.endTime = endy
-            break
-          case 'threeDay':
-            const endy1 = new Date()
-            const starty1 = this.getTargetDate(0,0,-2)
-            this.search.starTime = starty1
-            this.search.endTime = endy1
-            break
-          case null:
-            this.search.starTime = ''
-            this.search.endTime = ''
-            break
-          default:
-            break
-        }
-      }
-    },
+		'search.timeQuantum'(val) {
+			switch (val) {
+				case 'week':
+					// const endw =this.getThisWeek(new Date())[this.getThisWeek(new Date()).length-1].getTime()
+					const endw = new Date()
+					const startw = this.getThisWeek(new Date())[0].getTime()
+					// startw.setTime(startw.getTime() - 3600 * 1000 * 24 * 7)
+					this.search.starTime = Date.parse(new Date(startw))
+					this.search.endTime = endw.getTime()
+
+					this.searchb.starTime =
+						Date.parse(new Date(startw))
+							.toString()
+							.substring(0, 10) * 1
+					this.searchb.endTime =
+						endw
+							.getTime()
+							.toString()
+							.substring(0, 10) * 1
+					break
+				case 'month':
+					const dayNo = 1 - new Date().getDate()
+					const endm = new Date()
+					const startm = this.getTargetDate(0, 0, dayNo).getTime()
+					this.search.starTime = Date.parse(new Date(startm))
+					this.search.endTime = endm
+					this.searchb.starTime =
+						Date.parse(new Date(startm))
+							.toString()
+							.substring(0, 10) * 1
+					this.searchb.endTime =
+						endm
+							.getTime()
+							.toString()
+							.substring(0, 10) * 1
+					break
+				case 'year':
+					const endy = new Date(),
+						nowDay = 1 - new Date().getDate(),
+						nowMonth = 0 - new Date().getMonth()
+					const starty = this.getTargetDate(0, nowMonth, nowDay)
+					this.search.starTime = Date.parse(new Date(starty))
+					this.search.endTime = endy
+					this.searchb.starTime =
+						Date.parse(new Date(starty))
+							.toString()
+							.substring(0, 10) * 1
+					this.searchb.endTime =
+						endy
+							.getTime()
+							.toString()
+							.substring(0, 10) * 1
+					break
+				case 'threeDay':
+					const endy1 = new Date()
+					const starty1 = this.getTargetDate(0, 0, -2)
+
+					this.search.starTime = Date.parse(new Date(starty1))
+					this.search.endTime = endy1
+
+					this.searchb.starTime =
+						Date.parse(new Date(starty1))
+							.toString()
+							.substring(0, 10) * 1
+					this.searchb.endTime =
+						endy1
+							.getTime()
+							.toString()
+							.substring(0, 10) * 1
+					break
+				case null:
+					this.search.starTime = ''
+					this.search.endTime = ''
+					break
+				default:
+					break
+			}
+		}
+	},
 	methods: {
 		async init() {
 			let result = await this.$_api.maintaining.getMaintenance()
 			if (result.success) {
-				console.log(result.data, 'ssssss')
 				this.maintenanceUnits = result.data
 			} else {
 				// this.maintainData = []
 			}
 		},
 
+		opoentime() {
+			this.searchIS = true
+		},
+		opoentimeB() {
+			this.searchIS = false
+		},
 		async searchInfo() {
 			let res = await this.$_api.maintaining.getfindPlanRecord({
 				startTime: this.search.starTime,
@@ -170,42 +230,81 @@ export default {
 				mtcCoID: this.search.maintenanceUnit,
 				iStatus: this.search.stute
 			})
-			if (res.success) {
-				this.maintainData = res.data
+			if (res.code == '200') {
+				this.maintainData = res.data.list
+			} else {
+				this.maintainData = []
+			}
+		},
+
+		async searchInfos() {
+			let res = await this.$_api.maintaining.getfindPlanRecord({
+				startTime: this.searchb.starTime,
+				endTime: this.searchb.endTime,
+				mtcCoID: this.search.maintenanceUnit,
+				iStatus: this.search.stute
+			})
+			if (res.code == '200') {
+				this.maintainData = res.data.list
 			} else {
 				this.maintainData = []
 			}
 		},
 		leadTo() {},
 		exportInfo() {},
-        getThisWeek(currentTime){
-          var currentDate = new Date(currentTime)
-          var timesStamp = currentDate.getTime();
-          var currenDay = currentDate.getDay();
-          var dates = [];
-          for (var i = 0; i < 7; i++) {
-            dates.push(new Date(timesStamp + 24 * 60 * 60 * 1000 * (i - (currenDay + 6) % 7)));
-            // dates.push(new Date(timesStamp + 24 * 60 * 60 * 1000 * (i - (currenDay + 6) % 7)).toLocaleDateString().replace(/\//g, '-'));
-          }
-          return dates
-        },
-      getTargetDate(oF,oM,oD){
-		  let _date=new Date();
-		  _date.setFullYear(_date.getFullYear()+oF);
-		  _date.setMonth(_date.getMonth()+oM);
-		  _date.setDate(_date.getDate()+oD);
-		  return _date
-
-      }
+		getThisWeek(currentTime) {
+			var currentDate = new Date(currentTime)
+			var timesStamp = currentDate.getTime()
+			var currenDay = currentDate.getDay()
+			var dates = []
+			for (var i = 0; i < 7; i++) {
+				dates.push(new Date(timesStamp + 24 * 60 * 60 * 1000 * (i - ((currenDay + 6) % 7))))
+				// dates.push(new Date(timesStamp + 24 * 60 * 60 * 1000 * (i - (currenDay + 6) % 7)).toLocaleDateString().replace(/\//g, '-'));
+			}
+			return dates
+		},
+		getTargetDate(oF, oM, oD) {
+			let _date = new Date()
+			_date.setFullYear(_date.getFullYear() + oF)
+			_date.setMonth(_date.getMonth() + oM)
+			_date.setDate(_date.getDate() + oD)
+			return _date
+		},
+		tableColor({ row, column, rowIndex, columnIndex }) {
+			let index = rowIndex
+			if (index % 2 != 0) {
+				return 'background-color: #29455a;'
+			}else {
+				return 'background-color: #132332;'
+			}
+		},
+		infoModals(row) {
+			this.detileData = row.mtcPlanId
+			this.modalShow = true
+		},
+		handleClose() {
+			this.modalShow = false
+		}
 	}
-
 }
 </script>
 
 <style lang="stylus">
+@import './input.css';
+
 .mian-taining {
-  padding: 1.66667rem;
-  margin-top -20px
+  // padding: 1.66667rem;
+  width: 100%;
+  height: 100%;
+  margin-top: 5px;
+  padding: 0 50px;
+  background-color: #141a26;
+  overflow: hidden;
+
+  /deep/.el-form--inline {
+    margin-top: 10px;
+    // margin-left 50px;
+  }
 
   /deep/.el-popper[x-placement^=bottom] {
     margin-top: 0.53333rem;
@@ -215,27 +314,51 @@ export default {
   }
 
   /deep/.el-date-picker {
-    background: #1A587F;
+    background: #1A587F !important;
+  }
+
+  /deep/.el-picker-panel, el-date-picker, el-popper {
+    background: #1A587F !important;
   }
 
   .el-form--inline {
     /deep/.el-form-item__label {
       color: #6292B2;
+      font-size: 36PX;
     }
 
     .el-input {
       width: 145px;
+
       /deep/.el-input__inner {
-        border: none;
+        border: 1PX solid #0c4e75;
+		  background:#11344A;
       }
     }
-
 
     .el-select {
       /deep/.el-input__inner {
-        border: none;
+        border: 1PX solid #0c4e75;
       }
     }
+  }
+
+  /deep/.el-form-item__label {
+    color: #FFFFFF !important;
+  }
+
+  // .el-input__prefix {
+  // right: 0;
+  // transition: all 0.3s;
+  // }
+  .el-checkbox__label {
+    color: #ffffff;
+    font-size: 36PX;
+  }
+
+  /deep/.el-checkbox__inner {
+    background: transparent;
+    border: 1PX solid #0c4e75;
   }
 
   .el-table, .el-table__expanded-cell {
@@ -244,8 +367,16 @@ export default {
 
   el-table th, .el-table tr {
     background-color: transparent;
+    font-size: 36PX;
   }
-
+	.has-gutter{
+		background transparent;
+		background:url("../../../assets/img/tainingTitle.png")
+	}
+	/*.has-gutter tr{*/
+		/*background:transparent*/
+		/*background :url("../../../assets/i")*/
+	//}
   .el-table__row {
     color: white;
   }
@@ -259,30 +390,53 @@ export default {
   }
 
   .el-table::before { // 去掉最下面的那一条线
-    height: 0px;
+    height: 0;
   }
 
   .el-table {
     /deep/.has-gutter {
-
-      height: 0px;
-      color: #1589F2;
+      height: 0;
+      // color: #1589F2;
+      color: #fff;
+      background-color: #0a3449;
+      border-bottom: 0;
     }
   }
 
   .blue-btn {
+	  color:#FFFFFF;
     width: 3.8rem;
-    background: url('~@fire/assets/img/alarm-now/comfim.png') no-repeat;
+    font-size: 36PX;
+    background: url('~@fire/assets/img/comfim.png') no-repeat;
     background-size: 100% 100%;
   }
 
   .yellow-btn {
     width: 3.8rem;
     color: #F6CE69;
-    background: url('~@fire/assets/img/alarm-now/fasle.png') no-repeat;
+    font-size: 36PX;
+    background: url('~@fire/assets/img/import.png') no-repeat;
     background-size: 100% 100%;
     margin-left: 15px;
   }
+
+  .item-zt {
+    width: 790PX;
+    // padding-left: 30PX;
+  }
+
+  .taining-button {
+    float: right;
+  }
+}
+
+/deep/.el-picker-panel {
+  background-color: #1A587F !important;
+}
+
+/deep/.el-table__body-wrapper {
+  margin-top: -20px;
 }
 </style>
+
 

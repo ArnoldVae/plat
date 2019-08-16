@@ -135,7 +135,7 @@
     },
     {
         "typeId": 1037,
-        "name": "fireControl",
+        "name": "fire-control",
         "mode": [{
                 "title": "定制化",
                 "name": "customization",
@@ -165,7 +165,7 @@
     },
     {
         "typeId": 1024,
-        "name": "securityControl",
+        "name": "security-control",
         "mode": [{
                 "title": "定制化",
                 "name": "customization",
@@ -226,8 +226,7 @@
     {
         "typeId": 1003,
         "name": "arrester-monitor",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
@@ -317,8 +316,7 @@
     {
         "typeId": 2021,
         "name": "terminal-box",
-        "mode": [
-            {
+        "mode": [{
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"

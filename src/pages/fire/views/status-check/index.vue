@@ -1,7 +1,7 @@
 <template>
 	<div class="statusCheck">
 		<el-container>
-			<el-aside width="260px">
+			<el-aside width="15%">
 				<el-filter-tree
 						placeholder="输入关键字进行过滤"
 						v-model="filterText"
@@ -40,7 +40,6 @@
 	import viewCheck from './view-check'
 	import protectionZone from './protection-zone'
 	export default {
-
 		name: 'statusCheck',
 		components: {
 			"sub-system":subSystem,
@@ -119,7 +118,7 @@
                 this.$_listen('firecontrolAllAlarm',(topic,msg,pack)=>{
                     let msgJson = JSON.parse(msg.toString());
                     // console.log(msgJson);
-                    if(msgJson.cmd === '1002'){ //报警的上传数据
+                    if(msgJson.cmd === '3002'){ //报警的上传数据
                         this.$emit('receiveAlarm','alarm-action',msgJson.unitid);
                     }
                 })
@@ -189,8 +188,9 @@
 		height 100%
 		width 98%
 		.el-aside{
-
-			height 800px
+			background #141a26
+			height 960px
+		
 			.el-tree{
 				background none;
 				color white
@@ -203,7 +203,7 @@
 			.el-main-header{
 				min-height 50px
 				width: 100%;
-				left: 7px;
+				// left: 7px;
 				.el-row{
 					margin-top 12px
 					margin-bottom  12px
@@ -246,7 +246,7 @@
 
 				position relative
 
-				background url("../../assets/img/hull.png")
+				// background url("../../assets/img/hull.png")
 				background-size:100% 100%
 				-moz-background-size:100% 100%
 			}

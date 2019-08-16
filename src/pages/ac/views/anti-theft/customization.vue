@@ -344,6 +344,7 @@ export default {
 
           > span {
             font-size: 16px;
+			text-align center;
           }
 
           .list-item-btn {
@@ -363,7 +364,7 @@ export default {
               cursor: pointer;
               height: 30px;
               line-height: 30px;
-              padding: 0 10px;
+              padding: 0 17px;
               margin-bottom: 4px;
             }
           }

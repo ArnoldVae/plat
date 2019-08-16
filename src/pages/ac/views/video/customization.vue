@@ -77,6 +77,9 @@ export default {
 		return {
 			unitId: this.$store.getters.unitId,
 			videoShow: true,
+			topicArr: ['qif/zf/app/', 'qif/zf/app/control/'],
+			topicStr: '',
+			guids: [],
 			active: '',
 			lxTime: 0, //轮巡间隔
 			lxStatus: '开始轮巡',

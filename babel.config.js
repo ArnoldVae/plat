@@ -18,6 +18,16 @@ module.exports = {
 		[
 			'component',
 			{
+				libraryName: '@/components/native-ui',
+				libDir: 'components',
+				styleLibraryName: 'theme-default',
+				ext: '.styl'
+			},
+			'@/components/native-ui'
+		],
+		[
+			'component',
+			{
 				libraryName: '@/components/business',
 				libDir: './',
 				style: false

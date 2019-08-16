@@ -1,7 +1,8 @@
 const test = {
 	state: {
 		unitId: '',
-		stationId:''
+		stationId:'',
+		traFlag:false
 	},
 	mutations: {
 		UPDATE_UNITID: (state, id) => {
@@ -11,12 +12,19 @@ const test = {
 		STATIONID:(state, id) =>{
 
 			state.stationId=id
+		},
+		MENUFLAG:(state,flag)=>{
+			console.log(flag)
+			state.traFlag=flag
 		}
 	},
 	actions: {
 		updateUnitId({commit},keywords){
 			commit("UPDATE_UNITID", keywords)
-		}
+		},
+        changeMenu({commit},keywords){
+            commit("MENUFLAG", keywords)
+        }
 
 	}
 }

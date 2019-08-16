@@ -9,7 +9,6 @@ import store from '@index/store'
 import 'iview/dist/styles/iview.css'
 Vue.use(iView)*/
 
-
 // ElementUI 按需
 import { Tree ,Table,TableColumn} from 'element-ui'
 const ElementUI = [Tree,Table,TableColumn]
@@ -41,12 +40,10 @@ Vue.prototype.$_listen = listen
  * 多模块相同集中配置
  * rem响应设置 样式重置 基本过渡效果 字体文件
  */
+window.moduleWidth = $_indexModuleWidth
 require('@/config')
 
 Vue.config.productionTip = false
-
-// let foo = require ('../../../public/config/test.js')
-// console.log(foo)
 
 new Vue({
 	router,

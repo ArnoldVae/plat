@@ -1,21 +1,21 @@
 <template>
-	<div class="securityControl">
+	<div class="fire-control">
 		<component v-bind:is="current"></component>
 	</div>
 </template>
 <script>
-import securityControlTable from '@ac/views/common/view-table'
-import securityControlCustomization from './customization.vue'
+import fireControlTable from '@ac/views/common/view-table'
+import fireControlCustomization from './customization.vue'
 export default {
-	name: 'securityControl',
+	name: 'fire-control',
 	components: {
-		'securityControl-table': securityControlTable,
-		'securityControl-customization': securityControlCustomization
+		'fire-control-table': fireControlTable,
+		'fire-control-customization': fireControlCustomization
 	},
 	props: {},
 	data() {
 		return {
-			current: 'securityControl-customization'
+			current: 'fire-control-customization'
 		}
 	},
 	computed: {},
@@ -39,7 +39,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.securityControl {
+.fire-control {
 	height: 100%;
 }
 </style>

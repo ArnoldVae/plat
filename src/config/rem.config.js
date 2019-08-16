@@ -15,11 +15,17 @@ function setRem() {
 // 初始化
 setRem()
 // 改变窗口大小时重新设置 rem
-window.onload = window.onresize = document.onresize = function() {
+let tid = null
+window.addEventListener("resize", function() {
+	clearTimeout(tid); //防止执行两次
+	tid = setTimeout(setRem, 300);
+}, false);
+
+/*window.onload = window.onresize = document.onresize = function() {
 	setTimeout(() => {
 		setRem()
 	}, 300)
-}
+}*/
 
 /** 这个文件用来动态的给根目录html设置fontSize
  * 在main的js内引入这个文件

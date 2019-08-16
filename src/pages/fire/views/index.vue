@@ -3,20 +3,19 @@
         <!--		<div class="fire-header">-->
         <!--			<navigation :menuData="test" title="智能消防管理平台" :alarm="99" > </navigation>-->
         <!--		</div>-->
-        <div class="fire-nav">
+<!--        <div class="fire-nav">-->
 
-            <div class="fire-header-title" :class="{'fire-header-active': tab.active==true}" @click="tabChange(tab)"
-                 v-for="(tab,index) in tabList" :key="index">{{tab.title}}
-            </div>
-        </div>
+<!--            <div class="fire-header-title" :class="{'fire-header-active': tab.active==true}" @click="tabChange(tab)"-->
+<!--                 v-for="(tab,index) in tabList" :key="index">{{tab.title}}-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="fire-content">
-            <keep-alive  include="statusCheck">
+            <keep-alive  include="systemView">
                 <component v-bind:is="current" ref="test" @transfer="getMethod" :node="alarmNode"
                            @receiveAlarm="receiveAlarm" @switchWarning="switchWarning"></component>
             </keep-alive>
 
         </div>
-        <statistics class='statisBottom'></statistics>
     </div>
 </template>
 <script>
@@ -82,7 +81,7 @@
                     //     id: '06'
                     // }
                 ],
-                alaramTopic: 'qif/xf/app/alarm/',
+                alaramTopic: 'qif/fire/app/alarm/',
                 topicArr: [], //mqtt 需要订阅的topic
                 alarmNode: '',
                 stationId: ''
@@ -153,10 +152,12 @@
             //获取所有接入消防的站
             getAllstation() {
                 this.$_api.systemView.getAllStation({iType: 10060003}).then(res => {
+                    debugger
                     if (res.success) {
                         res.data.map((val, index, arr) => {
-                            this.topicArr.push(this.alaramTopic + '[' + val.unitId + ']')
+                            this.topicArr.push(this.alaramTopic  + val.unitId)
                         })
+                        this.$store.dispatch('updateUnitId',res.data[0].unitId)
                         //订阅所有消防站点报警的topic
                         console.log(this.topicArr);
                         this.subscribe(this.topicArr);
@@ -165,7 +166,8 @@
             },
             //订阅topic
             subscribe(topic) {
-                this.$_mqtt.unsubscribe(topic, err => {
+                console.log(topic[0])
+                this.$_mqtt.unsubscribe(topic[0], err => {
                     if (err) {
                         console.log('取消智慧消防订阅失败')
                     } else {
@@ -209,7 +211,7 @@
 
 
     .fire {
-        width: 1920px;
+        width: 100%;
         height: 100%;
         margin-top -1px
         background: url('~@/assets/img/navigation/background.png') no-repeat;

@@ -77,5 +77,12 @@ export default {
 			method: 'post',
 			data: JSON.stringify(params)
 		})
-	}
+	},
+getHtNode(params){
+	return axios.request({
+		url: 'htp/find_htp_nodesDev',
+		method: 'post',
+		data: params
+	})
+},
 }

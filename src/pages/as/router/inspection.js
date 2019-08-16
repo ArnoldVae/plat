@@ -32,8 +32,7 @@ export default [
 					title: '404'
 				},
 				component: () => import('@ac/views/notFind')
-      },
-      
+			},
 		]
 	}
 ]

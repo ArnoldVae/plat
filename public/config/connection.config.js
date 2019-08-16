@@ -1,8 +1,12 @@
 // 开发模式
 var $_development = {
-	request: {
-		location: "http://172.26.1.149:8085",
+	javaRequest: {
+		location: "http://172.26.1.109:8080",
 		javaModule: "dsa5200"
+	},
+	netRequest: {
+		location: "http://172.26.1.147:8021",
+		netModule: ""
 	},
 	video: {
 		location: "172.26.1.152:8888"
@@ -15,10 +19,15 @@ var $_development = {
 		password: 'qif123.,'
 	}
 }
+// 生产模式
 var $_production = {
-	request: {
+	javaRequest: {
 		location: "http://26.47.189.184:8085",
 		javaModule: "dsa5200"
+	},
+	netRequest: {
+		location: "http://172.26.1.149:8085",
+		netModule: "dsa5200"
 	},
 	video: {
 		location: "172.26.1.152:8888"

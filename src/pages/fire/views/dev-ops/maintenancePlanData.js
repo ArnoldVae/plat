@@ -4,19 +4,19 @@ export function maintenancePlanData() {
 			{
 				title: '运维班：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'mtcName',
+				label: 'orgName',
 				data: ''
 			},
 			{
 				title: '维保内容：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'vc_Context',
+				label: 'context',
 				data: ''
 			},
 			{
 				title: '停电场所：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'mtcName',
+				label: 'vc_PowerOffScene',
 				data: ''
 			}
 		],
@@ -30,7 +30,7 @@ export function maintenancePlanData() {
 			{
 				title: '负责人员：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'vc_People',
+				label: 'presetName',
 				data: ''
 			},
 			{
@@ -50,13 +50,13 @@ export function maintenancePlanData() {
 			{
 				title: '计划开始日期：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'i_BeginTime',
+				label: 'beginTime',
 				data: ''
 			},
 			{
 				title: '当前状态：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'iStatus',
+				label: 'status',
 				data: ''
 			}
 		],
@@ -64,19 +64,19 @@ export function maintenancePlanData() {
 			{
 				title: '维保单位：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'mtcName',
+				label: 'coName',
 				data: ''
 			},
 			{
 				title: '计划结束日期：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'i_EndTime',
+				label: 'endTime',
 				data: ''
 			},
 			{
 				title: '联系电话：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'vc_Telephone',
+				label: 'telePhone',
 				data: ''
 			}
 		]
@@ -89,13 +89,13 @@ export function implement() {
 			{
 				title: '开始时间：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'vc_PowerOffScene',
+				label: 'iBeginTime',
 				data: ''
 			},
 			{
 				title: '其他人员：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'vc_PowerOffScene',
+				label: 'userName',
 				data: ''
 			}
 		],
@@ -103,14 +103,15 @@ export function implement() {
 			{
 				title: '持票负责人：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'vc_PowerOffScene',
+				label: 'people',
+				bool: false,
 				data: ''
 			},
 			{
 				title: '工作票照片：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
 				bool: true,
-				label: 'vc_PowerOffScene',
+				label: 'pictureMtc',
 				data: ''
 			}
 		],
@@ -118,7 +119,7 @@ export function implement() {
 			{
 				title: '开工时位置：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'vc_PowerOffScene',
+				label: 'unitName',
 				data: ''
 			}
 		],
@@ -126,8 +127,22 @@ export function implement() {
 			{
 				title: '工作票号：',
 				imgSrc: 'pack/img/90010019.097afca2.png',
-				label: 'vc_PowerOffScene',
+				label: 'workTicketNum',
 				data: ''
+			}
+		],
+		imgs:[
+			{
+				label: 'workFinisheMediaFile',
+				data:'',
+			},
+			{
+				label: 'workStartMediaFile',
+				data:'',
+			},
+			{
+				label: 'workTicketPic',
+				data:'',
 			}
 		]
 	}

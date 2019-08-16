@@ -292,7 +292,9 @@ export default {
         .today-st {
           color: #fff;
           height: 140px;
-          background: rgba(11, 24, 54, 0.5);
+          // background: rgba(11, 24, 54, 0.5);
+          background: url('~@ac/assets/img/overview/today-st.png') no-repeat;
+          background-size: 100% 140px;
           padding-top: 15px;
 
           .title {
@@ -421,7 +423,9 @@ export default {
         .access {
           margin-top: 18px;
           height: 380px;
-          background: rgba(11, 24, 54, 0.5);
+          // background: rgba(11, 24, 54, 0.5);
+          background: url('~@ac/assets/img/overview/access.png') no-repeat;
+          background-size: 100% 380px;
           padding-top: 15px;
           color: #fff;
 
@@ -557,7 +561,9 @@ export default {
           margin-top: 14px;
           padding-top: 15px;
           height: 285px;
-          background: rgba(11, 24, 54, 0.5);
+          // background: rgba(11, 24, 54, 0.5);
+          background: url('~@ac/assets/img/overview/alarming-trend.png') no-repeat;
+          background-size: 100% 285px;
           color: #fff;
 
           .title {

@@ -1,0 +1,12 @@
+.el-picker-panel{
+    background-color: #1A587F !important;
+  }
+  .el-date-table td span{
+      color: #fff;
+  }
+  .el-date-table th{
+      color: #fff;
+  }
+  .el-date-picker__header-label {
+      color: #fff !important;
+  }

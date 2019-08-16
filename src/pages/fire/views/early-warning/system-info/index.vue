@@ -198,7 +198,7 @@
                 this.$_listen('firecontrolAllAlarm',(topic,msg,pack)=>{
                     let msgJson = JSON.parse(msg.toString());
                     // console.log(msgJson);
-                    if(msgJson.cmd === '1002'){ //报警的上传数据
+                    if(msgJson.cmd === '3002'){ //报警的上传数据
                         this.$emit('receiveAlarm','alarm-action',msgJson.unitid);
                     }
                 })

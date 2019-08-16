@@ -11,7 +11,6 @@ let echarts = require('echarts')
 import iView from 'iview/dist/iview.min.js'
 import 'iview/dist/styles/iview.css'
 Vue.use(iView)
-
 require('echarts/lib/chart/pie')
 require('echarts/lib/component/legendScroll')
 require('echarts/lib/component/tooltip')
@@ -93,11 +92,14 @@ const Singletons = [sideMenu, horMenu, crumbs, statistics]
 //树
 import { elFilterTree } from '@/components/element-dev'
 const ElementDev = [elFilterTree]
+//  iviewDev 按需
+import { ocxModal, ocxMessage } from '@/components/iview-dev'
+const iviewDev = [ocxModal, ocxMessage]
 // 捆绑注册
 function* register(name) {
 	Vue.use(name)
 }
-;[...ElementUI, ...Singletons, ...ElementDev].forEach(component => register(component).next())
+;[...ElementUI, ...Singletons, ...ElementDev,...iviewDev].forEach(component => register(component).next())
 
 // 挂载api
 import api from '@fire/api'
@@ -112,12 +114,13 @@ import { client, listen } from '@/config/mqtt'
 Vue.prototype.$_mqtt = client
 Vue.prototype.$_listen = listen
 
+
 /**
  * 多模块相同集中配置
  * rem响应设置 样式重置 基本过渡效果 字体文件
  */
+window.moduleWidth = $_fireModuleWidth
 require('@/config')
-
 Vue.config.productionTip = false
 
 new Vue({

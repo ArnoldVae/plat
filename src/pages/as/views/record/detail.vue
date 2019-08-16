@@ -256,7 +256,7 @@ export default {
       margin-left: 300px;
       border: 1px solid #3bacf3;
       font: 100 18px / 30px '';
-      box-shadow: 2px 1px 3px #3e9589;
+      box-shadow: 2px 1px 2px #3e9589;
       position: relative;
       top: 80px;
       display:flex;

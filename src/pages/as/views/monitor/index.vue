@@ -2,43 +2,223 @@
 	<div class="monitor">
 		<!-- 头部 -->
 		<div class="monitor-top">
-			<!-- 左边 -->
-			<!-- <div class="monitor-left">
-				<el-filter-tree
-					placeholder="输入关键字进行过滤"
-					v-model="filterText"
-					ref="elFilterTree"
-					:data="unitTreeData"
-					:props="defaultProps"
-					default-expand-all
-					:filter-node-method="filterNode"
-					highlight-current
-					@node-click="handleClickNode"
-				></el-filter-tree>
-      </div>-->
 			<!-- 右边 -->
 			<div class="monitor-right">
 				<div class="right-top">
-					<!-- 巡检图 -->
-					<div class="nInspection">
-						<span>
-							当前巡检区域：
-							<i @click="handleDeviceSelected" ref="area">请选择巡检区域</i>
-						</span>
-					</div>
 					<div class="inspection-map">
-						<!-- <Tabs :animated="false" type="card" @on-click="handelTabCkick"> -->
-						<!-- <Tab-pane label="室内巡检图"> -->
-						<div class="entity">
-							<monitorCurrent :unitId="stationId" @getDevIdFromHt="getDevIdFromHt"></monitorCurrent>
+						<div class="content-left">
+							<div class="left-top">
+								<Tabs :animated="false" type="card" v-model="tabsUnfoldArr"> 
+									<Tab-pane label="临时特巡">
+										<Collapse>
+											<Panel name="1">
+												巡检区域
+												<ul slot="content" class="inspection-area">
+													<li>
+														<div></div>泱泱大中华
+													</li><li>
+														<div></div>泱泱大中华
+													</li><li>
+														<div></div>泱泱大中华
+													</li><li>
+														<div></div>泱泱大中华
+													</li><li>
+														<div></div>泱泱大中华
+													</li><li>
+														<div></div>泱泱大中华
+													</li>
+													
+												</ul>
+											</Panel>
+											<Panel name="2">
+												巡检类型
+												<ul slot="content" class="inspection-area">
+													<li>
+														<div></div>例行巡视
+													</li><li>
+														<div></div>全面巡视
+													</li>
+													
+												</ul>
+											</Panel>
+											
+										</Collapse>
+									</Tab-pane>
+									<Tab-pane label="预置巡检">
+									
+									</Tab-pane>
+								</Tabs>
+							</div>
+							<div class="left-bottom">
+								<input type="button" value="巡检成票" class="bottom-btn"/>
+								<input type="button" value="执行任务" class="bottom-btn"/>
+							</div>
 						</div>
-						<!-- </Tab-pane> -->
-						<!-- <Tab-pane label="场地巡检图">
-								<div class="entity">
-									<monitorCurrent :unitId='stationId'></monitorCurrent>
-								</div>
-            </Tab-pane>-->
-						<!-- </Tabs> -->
+						<div class="content-right">
+							<div class="progress-box">
+								<Progress :percent="25" stroke-color='#00c6ff' hide-info/>
+								<span>已巡：</span><p style="color:#49ff01;fontSize:14">28个</p>
+								<span>未巡：</span><p style="color:#ff2501;fontSize:14">100个</p>
+							</div>
+							<Tabs :animated="false" type="card"> 
+								<Tab-pane label="巡检总览">
+									
+								</Tab-pane>
+								<Tab-pane label="巡检任务单">
+									<div class="table-explain">
+										本次巡检共包含目标128个，其中：
+										<span>27</span>
+										<span>36</span>
+										<span>58</span>
+										<span>36</span>
+										<span>25</span>
+									</div>
+									<el-table
+										ref="inspecAticketTable"
+										:data="inspectionAticketData"
+										max-height="428"
+										:span-method="objectSpanMethod"
+										:header-cell-style="{ background: '#0d2a68', color: '#2c87e6' , fontSize: '14px' }"
+										
+									><!-- @cell-click="rowCliCk" -->
+										<el-table-column prop="mainArea" label="区域" align="center" width="80"></el-table-column>
+										<el-table-column prop="subArea" label="间隔" align="center" width="80"></el-table-column>
+										<el-table-column prop="devName" label="设备" align="center" width="80"></el-table-column>
+										<el-table-column prop="nodeName" label="巡检点位" align="center"></el-table-column>
+										<el-table-column :label="'室外 \n 机器人'" align="center" width="50">
+											<template slot-scope="scope">
+												<img
+													src="../../assets/img/common/dui.png"
+													alt
+													style="width: 15px;height: 15px;"
+													v-show="scope.row.outdoor_ground"
+												/>	
+											</template>
+										</el-table-column>
+										<el-table-column :label="'高清 \n 视频'" align="center" width="50">
+											<template slot-scope="scope">
+												<img
+													src="../../assets/img/common/dui.png"
+													alt
+													style="width: 15px;height: 15px;"
+													v-show="scope.row.camera"
+												/>
+											</template>
+										</el-table-column>
+										<el-table-column :label="'室内 \n 机器人'" align="center" width="50">
+											<template slot-scope="scope">
+												<img
+													src="../../assets/img/common/dui.png"
+													alt
+													style="width: 15px;height: 15px;"
+													v-show="scope.row.indoor"
+												/>
+											</template>
+										</el-table-column>
+										<el-table-column :label="'智辅 \n 系统'" align="center" width="50">
+											<template slot-scope="scope">
+												<img
+													src="../../assets/img/common/dui.png"
+													alt
+													style="width: 15px;height: 15px;"
+													v-show="scope.row.zhifu"
+												/>
+											</template>
+										</el-table-column>
+										<el-table-column label="无人机" align="center" width="50">
+											<template slot-scope="scope">
+												<img
+													src="../../assets/img/common/dui.png"
+													alt
+													style="width: 15px;height: 15px;"
+													v-show="scope.row.uav"
+												/>
+											</template>
+										</el-table-column>
+									</el-table>
+								</Tab-pane>
+							</Tabs>
+							
+						</div>
+						<div class="content-bottom">
+							<!-- 底部tab切换 -->
+							<div class="tab-bar">
+								<Tabs :animated="false" type="card">
+									<!-- 实时信息 -->
+									<Tab-pane label="实时信息">
+										<div class="list-content">
+											<el-table
+												:data="realTimeInfo"
+												style="width: 100%,back"
+												height="160"
+												:row-style="tableRowStyle"
+												:header-cell-style="tableHeaderColor"
+												@row-click="handleTimeInfoModal"
+											>
+												<el-table-column
+													prop="date"
+													label="时间"
+													align="center"
+													width="180"
+												></el-table-column>
+												<el-table-column prop="name" label="点位" align="center"></el-table-column>
+												<el-table-column
+													prop="address"
+													align="center"
+													label="数据来源"
+													width="150"
+												></el-table-column>
+												<el-table-column
+													prop="address"
+													align="center"
+													label="识别结果"
+													width="150"
+												></el-table-column>
+											</el-table>
+										</div>
+									</Tab-pane>
+									<!-- 设备报警 -->
+									<Tab-pane label="设备报警">
+										<div class="list-content">
+											<el-table
+												:data="tableData"
+												style="width: 100%"
+												height="160"
+												:row-style="tableRowStyle"
+												:header-cell-style="tableHeaderColor"
+												@row-click="handleAlarmModal"
+											>
+												<el-table-column
+													prop="date"
+													label="时间"
+													align="center"
+													width="180"
+												></el-table-column>
+												<el-table-column prop="name" label="点位" align="center"></el-table-column>
+												<el-table-column
+													prop="address"
+													align="center"
+													label="数据来源"
+													width="150"
+												></el-table-column>
+												<el-table-column
+													prop="address"
+													align="center"
+													label="识别结果"
+													width="150"
+												></el-table-column>
+												<el-table-column
+													prop="alarm"
+													align="center"
+													label="报警等级"
+													width="120"
+												></el-table-column>
+											</el-table>
+										</div>
+									</Tab-pane>
+								</Tabs>
+							</div>
+						</div>
 					</div>
 					<!-- 视频 -->
 					<div class="video">
@@ -61,270 +241,62 @@
 							<div class="video2">
 								<cvideo :videoConfig="video2"></cvideo>
 							</div>
-						</div>
-					</div>
-				</div>
-				<div class="right-bottom">
-					<!-- 底部tab切换 -->
-					<div class="tab-bar">
-						<Tabs :animated="false" type="card">
-							<!-- 实时信息 -->
-							<Tab-pane label="实时信息">
-								<div class="list-content">
-									<el-table
-										:data="realTimeInfo"
-										style="width: 100%"
-										height="160"
-										:row-style="tableRowStyle"
-										:header-cell-style="tableHeaderColor"
-										@row-click="handleTimeInfoModal"
-									>
-										<el-table-column
-											prop="date"
-											label="时间"
-											align="center"
-											width="180"
-										></el-table-column>
-										<el-table-column prop="name" label="点位" align="center"></el-table-column>
-										<el-table-column
-											prop="address"
-											align="center"
-											label="数据来源"
-											width="150"
-										></el-table-column>
-										<el-table-column
-											prop="address"
-											align="center"
-											label="识别结果"
-											width="150"
-										></el-table-column>
-										<!-- <el-table-column align="center" label="操作">
-                      <template slot-scope="scope">
-                        <el-button
-                          class="operation"
-                          @click="handleTimeInfoModal(scope.row)"
-                          type="text"
-                          size="small"
-                        >查看</el-button>
-                      </template>
-                    </el-table-column>-->
-									</el-table>
+							<div class="env">
+								<!-- 站端环境 -->
+								<div class="station-env">
+									<p>站端环境</p>
+									<div class="env-flex">
+										<div class="content">
+											<i></i>
+											温度：
+											<span>{{ temperature }}</span>
+										</div>
+										<div class="content">
+											<i></i>
+											湿度：
+											<span>{{ humidity }}</span>
+										</div>
+										<div class="content">
+											<i></i>
+											风速：
+											<span>{{ windSpeed }}</span>
+										</div>
+									</div>
 								</div>
-							</Tab-pane>
-							<!-- 实时报警 -->
-							<Tab-pane label="实时报警">
-								<div class="list-content">
-									<el-table
-										:data="tableData"
-										style="width: 100%"
-										height="160"
-										:row-style="tableRowStyle"
-										:header-cell-style="tableHeaderColor"
-										@row-click="handleAlarmModal"
-									>
-										<el-table-column
-											prop="date"
-											label="时间"
-											align="center"
-											width="180"
-										></el-table-column>
-										<el-table-column prop="name" label="点位" align="center"></el-table-column>
-										<el-table-column
-											prop="address"
-											align="center"
-											label="数据来源"
-											width="150"
-										></el-table-column>
-										<el-table-column
-											prop="address"
-											align="center"
-											label="识别结果"
-											width="150"
-										></el-table-column>
-										<el-table-column
-											prop="alarm"
-											align="center"
-											label="报警等级"
-											width="120"
-										></el-table-column>
-										<!-- <el-table-column align="center" label="操作">
-                      <template slot-scope="scope">
-                        <el-button
-                          class="operation"
-                          @click="handleAlarmModal(scope.row)"
-                          type="text"
-                          size="small"
-                        >查看</el-button>
-                      </template>
-                    </el-table-column>-->
-									</el-table>
-								</div>
-							</Tab-pane>
-						</Tabs>
-					</div>
-					<div class="env">
-						<!-- 站端环境 -->
-						<div class="station-env">
-							<p>站端环境</p>
-							<div class="env-flex">
-								<div class="content">
-									<i></i>
-									温度：
-									<span>{{ temperature }}</span>
-								</div>
-								<div class="content">
-									<i></i>
-									湿度：
-									<span>{{ humidity }}</span>
-								</div>
-								<div class="content">
-									<i></i>
-									风速：
-									<span>{{ windSpeed }}</span>
+								<!-- 机器人状态 -->
+								<div class="robot-status">
+									<p>设备运行状态</p>
+									<div class="env-flex">
+										<div class="content">
+											<i></i>
+											<p>室外机器人：</p>
+											<span>停止</span>
+										</div>
+										<div class="content">
+											<i></i>
+											<p>室内机器人：</p>
+											<span>停止</span>
+										</div>
+										<div class="content">
+											<i></i>
+											<p>轨道机器人：</p>
+											<span>停止</span>
+										</div>
+										<div class="content">
+											<i></i>
+											<p>高清视频：</p>
+											<span>停止</span>
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
-						<!-- 机器人状态 -->
-						<div class="robot-status">
-							<p>设备运行状态</p>
-							<div class="env-flex">
-								<div class="content">
-									<i></i>
-									<p>室外机器人：</p>
-									<span>停止</span>
-								</div>
-								<div class="content">
-									<i></i>
-									<p>室内机器人：</p>
-									<span>停止</span>
-								</div>
-								<div class="content">
-									<i></i>
-									<p>轨道机器人：</p>
-									<span>停止</span>
-								</div>
-								<div class="content">
-									<i></i>
-									<p>高清视频：</p>
-									<span>停止</span>
-								</div>
-							</div>
-						</div>
+						</div> 
 					</div>
 				</div>
+				
 			</div>
 		</div>
-		<!-- 底部 -->
-		<div class="monitor-bottom">
-			<statistics></statistics>
-		</div>
-		<!-- 报警模态框 -->
-		<!--<ocx-modal title="Title" v-model="alarmRecordFlag" :width="1600" :mask-closable="false">-->
-		<!-- 报警详情 -->
-		<!--<div class="alarm-detail">-->
-		<!-- 详细信息 -->
-		<!--<div class="detail-info">
-          <div class="datawrap">
-            <span class="name">
-              <i></i>运维班
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-          <div class="datawrap">
-            <span class="name">
-              <i></i>变电站
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-          <div class="datawrap">
-            <span class="name">
-              <i></i>区域
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-          <div class="datawrap">
-            <span class="name">
-              <i></i>间隔
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-          <div class="datawrap">
-            <span class="name">
-              <i></i>设备
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-          <div class="datawrap">
-            <span class="name">
-              <i></i>设备小类
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-          <div class="datawrap">
-            <span class="name">
-              <i></i>部位
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-          <div class="datawrap">
-            <span class="name">
-              <i></i>识别类型
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-          <div class="datawrap">
-            <span class="name">
-              <i></i>标记类型
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-          <div class="datawrap">
-            <span class="name">
-              <i></i>发热类型
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-          <div class="datawrap">
-            <span class="name">
-              <i></i>巡检结果
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-          <div class="datawrap">
-            <span class="name">
-              <i></i>数据来源
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-          <div class="datawrap">
-            <span class="name">
-              <i></i>报告级别
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-          <div class="datawrap">
-            <span class="name">
-              <i></i>报告类型
-            </span>
-            <span class="content">殷巷运维班</span>
-          </div>
-        </div>
-        <div class="map-video">
-          <div class="video"></div>
-          <div class="map">
-            <div class="map-content">
-              <div class="chart" ref="chart2"></div>
-            </div>
-            <div class="modal-btn-group">
-              <div class="btn">历史数据</div>
-              <div class="btn">确认报警</div>
-              <div class="btn">误报</div>
-              <div class="btn">跟踪</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ocx-modal>-->
+
 		<ocx-modal v-model="alarmRecordFlag" :width="1000" footer-hide>
 			<div class="alarm-detail">
 				<img class="img-content" src alt />
@@ -335,18 +307,6 @@
 				</div>
 			</div>
 		</ocx-modal>
-
-		<!-- 实时信息详情弹框 -->
-		<!--<ocx-modal v-model="timeInfoFlag" :width="1600" :mask-closable="false">
-			<div class="time-info">
-				<div class="modal-img">
-					<img class="img-content" src alt />
-				</div>
-			</div>
-			<div class="line-map">
-				<div class="chart" ref="chart1"></div>
-			</div>
-    </ocx-modal>-->
 		<ocx-modal v-model="timeInfoFlag" :width="1000" footer-hide>
 			<div class="alarm-detail">
 				<img class="img-content" src alt />
@@ -829,11 +789,26 @@ export default {
 			windSpeed: '', //风速
 			selectDeviceFlag: false, //选择设备弹框开关
 			inspectionAticket: false, //巡检成票弹框开关
-			inspectionAticketData: [], //巡检成票表格数据
+			//巡检成票表格数据
+			inspectionAticketData: [
+				{mainArea:'区域1' , subArea: '间隔1' , 'devName': '变压器1' , nodeName: 'A相' , 'outdoor_ground': true},
+				{mainArea:'区域1' , subArea: '间隔1' , 'devName': '变压器1' , nodeName: 'A相' , 'outdoor_ground': true},
+				{mainArea:'区域1' , subArea: '间隔1' , 'devName': '变压器1' , nodeName: 'A相' , 'outdoor_ground': true},
+				{mainArea:'区域1' , subArea: '间隔1' , 'devName': '变压器1' , nodeName: 'A相' , 'outdoor_ground': true},
+				{mainArea:'区域2' , subArea: '间隔2' , 'devName': '变压器2' , nodeName: 'A相' , 'outdoor_ground': true},
+				{mainArea:'区域2' , subArea: '间隔2' , 'devName': '变压器2' , nodeName: 'A相' , 'outdoor_ground': true},
+				{mainArea:'区域2' , subArea: '间隔2' , 'devName': '变压器2' , nodeName: 'A相' , 'outdoor_ground': true},
+				{mainArea:'区域2' , subArea: '间隔2' , 'devName': '变压器2' , nodeName: 'A相' , 'outdoor_ground': true},
+				{mainArea:'区域3' , subArea: '间隔3' , 'devName': '变压器3' , nodeName: 'A相' , 'outdoor_ground': true},
+				{mainArea:'区域3' , subArea: '间隔3' , 'devName': '变压器3' , nodeName: 'A相' , 'outdoor_ground': true},
+				{mainArea:'区域3' , subArea: '间隔3' , 'devName': '变压器3' , nodeName: 'A相' , 'outdoor_ground': true},
+				{mainArea:'区域3' , subArea: '间隔3' , 'devName': '变压器3' , nodeName: 'A相' , 'outdoor_ground': true},
+			], 
 			inspectionAticketModalTitle: '巡检任务单',
 			devOrInspec: false,
 			isLoading: false,
-			borBottom: false //巡检成票弹框表格底部线
+			borBottom: false ,//巡检成票弹框表格底部线
+			//tabsUnfoldArr: []
 		}
 	},
 	computed: {},
@@ -848,6 +823,11 @@ export default {
 		monitorCurrent
 	},
 	created() {
+		this.axios.getInspectionAreaData({
+			UnitID:this.stationId
+		}).then( res=>{
+			console.log( res )
+		})
 		this.stationId = this.$route.params.stationId
 		this.topicStr = this.topicArr[0] + this.stationId
 		this.getTabs()
@@ -1038,15 +1018,15 @@ export default {
 			this.isLoading = true
 			let param = {
 				"unitId": this.$store.getters.stationId,
-				//asDevAreaList: this.selectAreaList,
-				"devTypeId": this.selectDevType,
-				"intRecogType":this.selectRegType,
-				"intSurfaceType": this.selectAppearanceType,
-				"intMeterType": this.selectMeterType
+				// asDevAreaList: this.selectAreaList ? this.selectAreaList : this.checkedDeviceAreaList,
+				"devTypeId": this.selectDevType ? this.selectDevType : this.checkedDeviceType,
+				"intRecogType" :this.selectRegType ? this.selectRegType : this.checkedRecognitionType,
+				"intSurfaceType": this.selectAppearanceType ? this.selectAppearanceType : this.checkedAppearanceType,
+				"intMeterType": this.selectMeterType ? this.selectMeterType : this.checkedMeterType
 			}
 			this.axios.getInspectionTaskTableData(param).then(res => {
 				if (res.code == 200) {
-					this.inspectionAticketData = res.data
+          this.inspectionAticketData = res.data
 					this.devOrInspec = false
 					this.selectDeviceFlag = false
 					this.inspectionAticket = true
@@ -1288,7 +1268,7 @@ export default {
 		// 修改table header的背景色
 		tableHeaderColor({ row, column, rowIndex, columnIndex }) {
 			if (rowIndex === 0) {
-				return 'background:rgba(35,40,66,.2);color: #3299ff;font-weight: 500;'
+				return 'background:rgba(17,46,107,.8);color: #3094f8;font-weight: 500;'
 			}
 		},
 		//关闭模态框
@@ -1444,7 +1424,7 @@ export default {
 <style lang="stylus" scoped>
 .monitor {
   width: 100%;
-  height: 100%;
+  height: 1070px;
 
   .taskGroupImg {
     width: 20px;
@@ -1611,11 +1591,11 @@ export default {
       width: 100%;
       height: 100%;
       background: url('~@/assets/img/common/bg-border.png') no-repeat center;
-      background-size: 95% 100%;
+      background-size: 100% 100%;
 
       .right-top {
         width: 100%;
-        height: 73%;
+        height: 100%;
 
         .nInspection {
           padding: 13px;
@@ -1634,42 +1614,284 @@ export default {
 
         .inspection-map {
           float: left;
-          width: 65%;
-          height: 90%;
-          border: 1px solid #063765;
-          margin-left: 87px;
+          width: 1115px;
+          height: 530px;
+          //border: 1px solid #063765;
+		  margin-top: 20px;
+          margin-left: 40px;
 
-          // margin-top: 15px;
+			.content-left{
+				width: 223px;
+				height: 530px;
+				border: 1px solid #064886;
+				float: left;
+				padding-top: 7px;
+				.left-top{
+					width: 220px;
+					height: 480px;
+					
+					/deep/.ivu-tabs-bar {
+					  .ivu-tabs-tab {
+						width: 90px;
+						text-align: center;
+						background: url('~@/assets/img/common/bg540.png') no-repeat;
+						background-size: 100% 100%;
+						color: #fff;
+						border: none;
+						margin-left: 12px;
+					  }
+					
+					  .ivu-tabs-tab-active {
+						color: #ffd36a;
+					  }
+					}
+					
+					.ivu-collapse{
+						background: none;
+						border: none;
+					}
+					/deep/.ivu-collapse-content{
+						background: none;
+						.ivu-collapse-content-box{
+							padding: 0 ;
+						}
+					}
+					/deep/.ivu-collapse-header{
+						border-bottom: none;
+						color:#90d9ff;
+						i{
+							color: #fff
+						}
+					}
+					.ivu-collapse-item{
+						border-top: none;
+					}
+					
+					.inspection-area{
+						div{
+							display: inline-block;
+							width:10px;
+							height: 10px;
+							background: #5990fe;
+							border-radius: 10px;
+							margin-right: 5px;
+						}
+						
+						li{
+							color: #e9ebee;
+							font-size: 14px;
+							line-height: 30px;
+							margin-left: 20px;
+							cursor: pointer;
+						}
+						
+					}
+					
+				}
+				
+				
+				.left-bottom {
+					width: 220px;
+					height: 50px;
+					.bottom-btn{
+						background: url('~@/assets/img/common/bg17.png') no-repeat; 
+						background-size: 100% 100%;
+						width: 90px;
+						height: 30px;
+						border-radius: 3px;
+						text-align: center;
+						margin-left: 14px;
+						border: 0;
+						color: #e9ebee;
+						//color: #fff902;
+						//font-size: 12px;
+						cursor: pointer;
+					}
+				}
+				
+				
+			}
+			
+			.content-right{
+				width: 880px;
+				height: 530px;
+				border: 1px solid #064886;
+				float: left;
+				margin-left: 5px;
+				padding-top: 7px;
+				
+				/deep/.ivu-tabs-bar {
+					margin-bottom: 0;
+				  .ivu-tabs-tab {
+					width: 115px;
+					text-align: center;
+					background: url('~@/assets/img/common/bg540.png') no-repeat;
+					background-size: 100% 100%;
+					color: #fff;
+					border: none;
+					margin-left: 12px;
+				  }
+				
+				  .ivu-tabs-tab-active {
+					color: #ffd36a;
+				  }
+				}
+				
+				/deep/.el-table {
+				  margin-left: 10px;
+				  margin-top: 6px;
+				  width: calc(100% - 20px);
+				  border-collapse: collapse !important;
+				  border: 1px solid #0098ff;
+				  //border-bottom: 1px solid #0098ff;
+				  /deep/th{
+					  padding: 0 ;
+				  }
+				  
+				  /deep/.cell{
+					  padding: 0;
+				  }
+				
+				  /deep/td, /deep/th.is-leaf {
+				    border: 1px solid #0098ff !important;
+				    font-size: 14px;
+				    color: #fff;
+				  }
+				  
+				  /deep/td{
+					  height: 50px;
+				  }
+				  
+				}
+				
+				.table-explain{
+					margin-left: 10px;
+					width: calc(100% - 20px);
+					height: 34px;
+					background: #062159;
+					//opacity: 0.2;
+					margin-top: 4px;
+					border: 1px solid #053d79;
+					color: #ffffff;
+					font-size: 14px;
+					line-height: 34px;
+					padding-left: 10px;
+					
+					span{
+						float: right;
+						width: 50px;
+						height: 34px;
+						text-align: center;
+					}
+					
+				}
+				
+				.progress-box{
+					width: 580px;
+					height: 30px;
+					background: #062157;
+					position: absolute;
+					right: 475px;
+					/deep/.ivu-progress-inner{
+						background-color: #051535;
+					}
+					/deep/.ivu-progress-inner{
+						border-radius: 0;
+					}
+					/deep/.ivu-progress-bg{
+						border-radius: 0;
+					}
+					.ivu-progress{
+						width: 370px;
+						margin-top: 4px;
+						margin-left: 18px;
+					}
+					span{
+						margin-left: 15px;
+						color: #ffffff;
+					}
+					p{
+						display: inline-block;
+					}
+					
+				}
+				
+			}
+			
+			.content-bottom {
+				width: 1115px;
+				height: 245px;
+				float: left;
+				margin-top: 10px;
+				
+			  .tab-bar {
+			    float: left;
+			    height: 260px;
+			    width: 100%;
+			    background: url('../../assets/img/monitor/bigBg2.png') no-repeat;
+			    background-size: 100% 100%;
+			
+			    /deep/.ivu-tabs-bar {
+			      margin: 10px 0 0 10px;
+			
+			      .ivu-tabs-tab {
+			        width: 76%;
+			        text-align: center;
+			        background: url('~@/assets/img/common/bg540.png') no-repeat;
+			        background-size: 100% 100%;
+			        color: #fff;
+			        border: none;
+			      }
+			
+			      .ivu-tabs-tab-active {
+			        color: #ffd36a;
+			      }
+			    }
+			
+			    .list-content {
+			      height: 165px;
+			      width: 98%;
+			      margin: 0 auto;
+				  margin-top: 5px;
+				  
+			    }
+			
+			    .operation {
+			      width: 48px;
+			      height: 26px;
+			      text-align: center;
+			      line-height: 8px;
+			      color: #6298bb;
+			      background: url('~@/assets/img/common/bg17.png') no-repeat;
+			      background-size: 100% 100%;
+			    }
+			
+			    /deep/.el-table td, /deep/.el-table th {
+			      padding: 7px 0;
+			    }
+			  }
+			
+			  
+			
+			  
+			}
+			
+		  
           .entity {
             width: 100%;
             height: 100%;
-            // background: pink;
+			background: pink;
             margin: 10px;
           }
 
-          /deep/.ivu-tabs-bar {
-            margin: 10px 0 0 10px;
-
-            .ivu-tabs-tab {
-              width: 70%;
-              text-align: center;
-              background: url('~@/assets/img/common/bg540.png') no-repeat;
-              background-size: 100% 100%;
-              color: #fff;
-              border: none;
-            }
-
-            .ivu-tabs-tab-active {
-              color: #ffd36a;
-            }
-          }
+          
         }
 
         .video {
           float: left;
-          width: 24%;
-          height: 90%;
-          // margin-top: 40px;
+          width: 410px;
+          height: 100%;
+          margin-top: 60px;
           margin-left: 10px;
 
           .videoTitle {
@@ -1721,165 +1943,128 @@ export default {
             }
 
             .video1, .video2 {
-              width: 100%;
-              height: 271px;
+              width: 400px;
+              height: 240px;
+			  
+			  .ocxVideo{
+				  width: 400px;
+			  }
+			  
             }
 
             .video1 {
               margin-bottom: 12px;
             }
+			
+			.env {
+			  //float: left;
+			  width: 100%;
+			  height: 250px;
+			  margin: 10px 0 0 10px;
+			  border: 1px solid #063765;
+			  padding-left: 10px;
+			  padding-top: 10px;
+			
+			  .env-flex {
+			    height: 180px;
+			    display: flex;
+			    flex-direction: column;
+			    justify-content: space-around;
+				margin-top: 25px;
+			
+			    .content {
+			      height: 30px;
+			      font-size: 20px;
+			      line-height: 30px;
+			      color: #fff;
+			
+			      i {
+			        display: inline-block;
+			        width: 17px;
+			        height: 17px;
+			        margin: -2px 6px;
+			      }
+			
+			      p {
+			        display: inline-block;
+			        width: 140px;
+			      }
+			    }
+			  }
+			
+			  p {
+			    width: 120px;
+			    height: 30px;
+			    font-size: 20px;
+			    line-height: 30px;
+			    color: #fff;
+			  }
+			
+			  span {
+			    display: inline-block;
+			    color: #49ff01;
+			    font-size: 20px;
+			  }
+				
+				.robot-status {
+				  float: left;
+				  width: 56%;
+				
+				  p {
+				    width: 160px;
+				  }
+				
+				  .content:nth-of-type(1) i {
+				    background: url('../../assets/img/monitor/robot-out.png') no-repeat center;
+				    background-size: 100% 100%;
+				  }
+				
+				  .content:nth-of-type(2) i {
+				    background: url('../../assets/img/monitor/robot-in.png') no-repeat center;
+				    background-size: 100% 100%;
+				  }
+				
+				  .content:nth-of-type(3) i {
+				    background: url('../../assets/img/monitor/robot-pathway.png') no-repeat center;
+				    background-size: 100% 100%;
+				  }
+				
+				  .content:nth-of-type(4) i {
+				    background: url('../../assets/img/monitor/video.png') no-repeat center;
+				    background-size: 100% 100%;
+				  }
+				}
+				
+			  .station-env {
+			    float: left;
+			    width: 44%;
+				
+				p{
+					margin-left: 15px;
+				}
+				
+			    .content:nth-of-type(1) i {
+			      background: url('../../assets/img/monitor/temperature.png') no-repeat center;
+			      background-size: 100% 100%;
+			    }
+			
+			    .content:nth-of-type(2) i {
+			      background: url('../../assets/img/monitor/humidity.png') no-repeat center;
+			      background-size: 100% 100%;
+			    }
+			
+			    .content:nth-of-type(3) i {
+			      background: url('../../assets/img/monitor/wind-speed.png') no-repeat center;
+			      background-size: 100% 100%;
+			    }
+			  }
+			}
+			
           }
         }
       }
 
-      .right-bottom {
-        width: 100%;
-        margin-top: -17px;
-        height: 228px;
-
-        .tab-bar {
-          float: left;
-          height: 96%;
-          width: 65%;
-          margin-left: 87px;
-          background: url('../../assets/img/monitor/bigBg2.png') no-repeat;
-          background-size: 100% 100%;
-
-          /deep/.ivu-tabs-bar {
-            margin: 10px 0 0 10px;
-
-            .ivu-tabs-tab {
-              width: 76%;
-              text-align: center;
-              background: url('~@/assets/img/common/bg540.png') no-repeat;
-              background-size: 100% 100%;
-              color: #fff;
-              border: none;
-            }
-
-            .ivu-tabs-tab-active {
-              color: #ffd36a;
-            }
-          }
-
-          .list-content {
-            height: 165px;
-            width: 95%;
-            margin: 0 auto;
-          }
-
-          .operation {
-            width: 48px;
-            height: 26px;
-            text-align: center;
-            line-height: 8px;
-            color: #6298bb;
-            background: url('~@/assets/img/common/bg17.png') no-repeat;
-            background-size: 100% 100%;
-          }
-
-          /deep/.el-table td, /deep/.el-table th {
-            padding: 7px 0;
-          }
-        }
-
-        .env {
-          float: left;
-          width: 24%;
-          height: 89%;
-          margin: 10px 0 0 10px;
-          border: 1px solid #063765;
-
-          .env-flex {
-            height: 180px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-
-            .content {
-              height: 30px;
-              font-size: 20px;
-              line-height: 30px;
-              color: #fff;
-
-              i {
-                display: inline-block;
-                width: 17px;
-                height: 17px;
-                margin: -2px 6px;
-              }
-
-              p {
-                display: inline-block;
-                width: 140px;
-              }
-            }
-          }
-
-          p {
-            width: 120px;
-            height: 30px;
-            font-size: 20px;
-            line-height: 30px;
-            color: #fff;
-          }
-
-          span {
-            display: inline-block;
-            color: #49ff01;
-            font-size: 20px;
-          }
-
-          .station-env {
-            float: left;
-            width: 44%;
-
-            .content:nth-of-type(1) i {
-              background: url('../../assets/img/monitor/temperature.png') no-repeat center;
-              background-size: 100% 100%;
-            }
-
-            .content:nth-of-type(2) i {
-              background: url('../../assets/img/monitor/humidity.png') no-repeat center;
-              background-size: 100% 100%;
-            }
-
-            .content:nth-of-type(3) i {
-              background: url('../../assets/img/monitor/wind-speed.png') no-repeat center;
-              background-size: 100% 100%;
-            }
-          }
-        }
-
-        .robot-status {
-          float: left;
-          width: 56%;
-
-          p {
-            width: 160px;
-          }
-
-          .content:nth-of-type(1) i {
-            background: url('../../assets/img/monitor/robot-out.png') no-repeat center;
-            background-size: 100% 100%;
-          }
-
-          .content:nth-of-type(2) i {
-            background: url('../../assets/img/monitor/robot-in.png') no-repeat center;
-            background-size: 100% 100%;
-          }
-
-          .content:nth-of-type(3) i {
-            background: url('../../assets/img/monitor/robot-pathway.png') no-repeat center;
-            background-size: 100% 100%;
-          }
-
-          .content:nth-of-type(4) i {
-            background: url('../../assets/img/monitor/video.png') no-repeat center;
-            background-size: 100% 100%;
-          }
-        }
-      }
+      
     }
   }
 }
@@ -2312,6 +2497,10 @@ export default {
 /deep/.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab {
   border-radius: 5px;
 }
+
+/deep/.el-table_3_column_10,/deep/.el-table_3_column_11{
+  vertical-align: top;
+} 
 
 /deep/.el-table::before {
   left: 0;

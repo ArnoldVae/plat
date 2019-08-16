@@ -23,16 +23,28 @@ if (projectname == 'index') {
 	outputDir = 'dsa5200web/' + projectname
 }
 
+// 加载静态路径基址
+function getStaticBaseUrl() {
+	let staticBaseUrl = ''
+	if (process.env.NODE_ENV == 'development') {
+		staticBaseUrl = '~@/assets/style/static-base-url.dev.config.styl'
+	}
+	if (process.env.NODE_ENV == 'production') {
+		staticBaseUrl = '~@/assets/style/static-base-url.pro.config.styl'
+	}
+	return staticBaseUrl
+}
+
 module.exports = {
 	// 兼容低版本浏览器依赖包（只处理当前包语言）
 	transpileDependencies: ['webpack-dev-server/client'],
 	//默认情况下，生成的静态资源在它们的文件名中包含了 hash 以便更好的控制缓存。如果你无法使用 Vue CLI 生成的 index HTML，你可以通过将这个选项设为 false 来关闭文件名哈希。
 	filenameHashing: true,
 
-	// publicPath: './',
+	publicPath: './',
 
-	publicPath: '/dsa5200web/',
-
+	// 因为是多模块，如果加上子模块的打包文件会同一指向出错
+	// publicPath: '/dsa5200web/',
 	// publicPath: process.env.NODE_ENV === 'production' ? '' : '/',
 
 	outputDir,
@@ -70,7 +82,11 @@ module.exports = {
 		loaderOptions: {
 			less: {
 				javascriptEnabled: true
-			}
+			},
+			stylus: {
+				// 引用外部静态资源前缀地址
+                import: getStaticBaseUrl(),
+            }
 		},
 		extract: false
 	},

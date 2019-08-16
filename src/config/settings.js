@@ -16,9 +16,13 @@ export default {
 	/**
 	 * @description api请求基础路径
 	 */
-	baseUrl: {
-		dev: `${$_development.request.location}/${$_development.request.javaModule}`,
-		pro: `${$_production.request.location}/${$_production.request.javaModule}`
+	javaBaseUrl: {
+		dev: `${$_development.javaRequest.location}/${$_development.javaRequest.javaModule}`,
+		pro: `${$_production.javaRequest.location}/${$_production.javaRequest.javaModule}`
+	},
+	netBaseUrl: {
+		dev: `${$_development.netRequest.location}/${$_development.netRequest.netModule}`,
+		pro: `${$_production.netRequest.location}/${$_production.netRequest.netModule}`
 	}
 	/**
 	 * @description 默认打开的首页的路由name值，默认为home

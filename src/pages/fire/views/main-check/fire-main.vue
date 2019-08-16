@@ -189,7 +189,7 @@
 
 
     .fire {
-        width: 1920px;
+        width: 100%;
         height: 100%;
         margin-top -1px
         background: url('~@/assets/img/navigation/background.png') no-repeat;

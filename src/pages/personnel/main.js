@@ -108,6 +108,7 @@ Vue.prototype.$_listen = listen
  * 多模块相同集中配置
  * rem响应设置 样式重置 基本过渡效果 字体文件
  */
+window.moduleWidth = $_personnelModuleWidth
 require('@/config')
 
 Vue.config.productionTip = false

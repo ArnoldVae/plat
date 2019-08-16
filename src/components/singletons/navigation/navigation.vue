@@ -4,8 +4,8 @@
 			<div class="logo clearfix">
 				<div class="icon fl"></div>
 				<div class="info fl">
-					<!-- <div class="chinese">国家电网</div> -->
-					<!-- <div class="english">STATE GRID</div> -->
+					<div class="chinese">{{ mainLogTitle }}</div>
+					<div class="english">{{ mainLogTitleEn }}</div>
 				</div>
 			</div>
 			<div class="headline">{{ title }}</div>
@@ -19,10 +19,10 @@
 			</div>
 		</div>
 		<div class="body">
-			<!-- <div @click="visible = true" class="sub-login">
-				<div class="chinese">国网江苏省电力有限公司</div>
-				<div class="english">STATE GRID JIANGSU ELECTRIC POWER CO.,LTD.</div>
-			</div> -->
+			<div @click="visible = true" class="sub-login">
+				<div class="chinese">{{ subLogTitle }}</div>
+				<div class="english">{{ subLogTitleEn }}</div>
+			</div>
 			<div class="menu">
 				<template v-for="(item,index) in showMenuData">
 					<div
@@ -88,6 +88,22 @@ export default {
 		menuData: {
 			type: Array,
 			default: []
+		},
+		mainLogTitle: {
+			type: String,
+			default: '国家电网'
+		},
+		mainLogTitleEn: {
+			type: String,
+			default: 'STATE GRID'
+		},
+		subLogTitle: {
+			type: String,
+			default: '国网江苏省电力有限公司'
+		},
+		subLogTitleEn: {
+			type: String,
+			default: 'STATE GRID JIANGSU ELECTRIC POWER CO.,LTD.'
 		}
 	},
 	data() {
@@ -224,6 +240,7 @@ export default {
 	/* background: #000d16; */
 	width: 100%;
 	height: 140px;
+	// background: var(--test-color);
 
 	.header {
 		width: 100%;
@@ -234,7 +251,7 @@ export default {
 		.logo {
 			position: absolute;
 			top: 33px;
-			left: 22px;
+			left: 15px;
 
 			.icon {
 				width: 40px;
@@ -245,23 +262,27 @@ export default {
 
 			.info {
 				margin-left: 15px;
-				width: 195px;
-				height: 85px;
-				background: url('/dsa5200web/img/login-title.png') no-repeat;
-				background-size: 195px 85px;
-				/* color: #40a3e9; */
+				// width: 195px;
+				// height: 85px;
+				// background: url(prefixUrl'img/log-desc.png') no-repeat;
+				// background-size: 195px 85px;
+				color: #40a3e9; 
 
-				/* .chinese {
-					letter-spacing:5px;
+				.chinese {
+					letter-spacing:3px;
 					font-size: 24px;
 					line-height: 24px;
 				}
 
 				.english {
 					margin-top: 2px;
-					letter-spacing:4.5px;
+					letter-spacing:4px;
+					position: relative;
+					/* left: -11px; */
 					font-size: 12px;
-				} */
+					/* font-size: 10px; */
+					/* -webkit-transform: scale(0.8); */
+				} 
 			}
 		}
 
@@ -334,22 +355,26 @@ export default {
 		color: #0af;
 
 		.sub-login {
-			padding-left: 76px;
+			position: relative;
+			top: 8px;
+			padding-left: 71px;
 			color: #40a3e9;
 			.chinese {
-				letter-spacing:1px;
+				letter-spacing:2px;
 				font-size: 18px;
 				line-height: 24px;
 			}
 
 			.english {
-				letter-spacing:0px;
-				font-size: 9px;
+				letter-spacing:-1px;
+				font-size: 12px;
 			}
 		}
 
 		.menu {
-			margin-left: 320px;
+			position: absolute;
+			left: 340px;
+			/* margin-left: 320px; */
 			display: flex;
 			> div.menu-item {
 				font-size: 16px;

@@ -723,7 +723,7 @@ export default {
 	padding-right: 20px;
 	
 	/deep/ .el-loading-mask {
-		background-color: rgb(9, 15, 44);
+		background-color: #0e224c;
 	}
 
 	/deep/ .table-wrap {

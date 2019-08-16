@@ -1,23 +1,26 @@
 <template>
-  <div class="monitor-current">
-    <div class="current-top" v-on:mousedown="mousedown" v-on:mousemove="mousemove" v-on:mouseup="mouseup">
-      <span v-for="(item, index) in list"
-            :key="index"
-            v-show="item.vcUrl.length != 0"
-            :class="{ onBut: pitchOn == item.pageId }"
-            @click="but(item)">{{
-				item.vcName
-			}}</span>
-    </div> 
-    <div class="current-center">
-      <mcBlueprint :blueprintUrl="blueprintUrl"
-                   :blueprintObj="blueprintObj"
-                   :primitiveNodes="primitiveNodes"
-                   :unitId="unitId"
-                   :mqttData="mqttData"
-					@getDevId='getDevId'/>
-    </div>
-  </div>
+	<div class="monitor-current">
+		<div class="current-top" v-on:mousedown="mousedown" v-on:mousemove="mousemove" v-on:mouseup="mouseup">
+			<span
+				v-for="(item, index) in list"
+				:key="index"
+				v-show="item.vcUrl.length != 0"
+				:class="{ onBut: pitchOn == item.pageId }"
+				@click="but(item)"
+				>{{ item.vcName }}</span
+			>
+		</div>
+		<div class="current-center">
+			<mcBlueprint
+				:blueprintUrl="blueprintUrl"
+				:blueprintObj="blueprintObj"
+				:primitiveNodes="primitiveNodes"
+				:unitId="unitId"
+				:mqttData="mqttData"
+				@getDevId="getDevId"
+			/>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -42,7 +45,7 @@ export default {
 			pitchOn: '',
 			topicArr: 'qif/xj/app/',
 			topicStr: '',
-			mqttData: {},
+			mqttData: {}
 		}
 	},
 	computed: {},
@@ -163,8 +166,8 @@ export default {
 			this.axios.getMCFind(params).then(res => {})
 		},
 		//获取设备id
-		getDevId( devId ) {
-			this.$emit( 'getDevIdFromHt' , devId )
+		getDevId(devId) {
+			this.$emit('getDevIdFromHt', devId)
 		}
 	},
 	beforeRouteEnter(to, from, next) {

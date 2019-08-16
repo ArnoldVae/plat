@@ -338,7 +338,6 @@ export default {
 			myChart.resize()
 		},
 		strToymd(time) {
-			// 遍历时间 处理格式
 			let date = new Date(time * 1000)
 			let Y = date.getFullYear() + '-'
 			let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'

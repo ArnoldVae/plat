@@ -21,7 +21,7 @@
               v-for="item in menuData"
               :key="item.id"
               @click="changeView(item.view,item.id)"
-              :class="{'changeStyle': item.id == currentIndex,'grey': item.id == 3 || item.id == 4 || item.id == 5}"
+              :class="{'changeStyle': item.id == currentIndex,'grey': item.id == 3 || item.id == 4 || item.id == 5,'banner': item.id == 3 || item.id == 4 || item.id == 5}"
             >{{item.name}}</li>
           </ul>
         </div>
@@ -29,6 +29,9 @@
         <el-button class="back" type="primary" @click="goback" size="mini">返回</el-button>
       </div>
       <component :is="currentView" class="component-view"></component>
+    </div>
+    <div class="inspection-bottom">
+      <statistics></statistics>
     </div>
   </div>
 </template>
@@ -166,14 +169,16 @@ export default {
   background-size: 100% 1080px;
   display: flex;
   justify-content: space-between;
+  position: relative;
 
   .tree-container {
-    width: 310px;
+    width: 290px;
     height: 100%;
+	  margin: 0 10px
   }
 
   .inspection-content {
-    width: 1590px;
+    width: 1610px;
 
     .inspection-header {
       height: 40px;
@@ -222,6 +227,12 @@ export default {
       }
     }
   }
+  .inspection-bottom{
+    position: absolute;
+    bottom: 144px;
+    left: 0;
+    width: 100%;
+  }
 }
 
 .changeStyle {
@@ -229,6 +240,10 @@ export default {
   background url("~@/assets/img/navigation/menu2.png")
   background-size: 100% 100%
   -moz-background-size: 100% 100%
+}
+
+.banner{
+   pointer-events: none;
 }
 
 .grey {

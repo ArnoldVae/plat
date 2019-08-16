@@ -20,8 +20,9 @@
 			    <div v-if="data.type == 10070002" class="team"></div>
 			    <div v-if="data.type == 1" class="substation"></div>
 			    <div v-if="data.type == 2" class="circuit"></div>
-				{{ data.title }}
-			  	</span>
+			    <span>
+			    	{{ data.title }}
+			    </span>
 			</span>
 			
 		</el-tree>

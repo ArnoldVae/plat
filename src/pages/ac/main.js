@@ -10,8 +10,8 @@ import 'iview/dist/styles/iview.css'
 Vue.use(iView)
 
 // ElementUI 按需
-import { Loading, Scrollbar, Input, Tree, Table, TableColumn, Option,Tag, Select,Button as eButton, ButtonGroup as eButtonGroup, Popover } from 'element-ui'
-const ElementUI = [Loading, Scrollbar, Input, Tree, Table, Select,Option,TableColumn, Tag, Popover]
+import { Loading, Scrollbar, Input, Tree, Table, TableColumn, Option, Tag, Select, Button as eButton, ButtonGroup as eButtonGroup, Popover } from 'element-ui'
+const ElementUI = [Loading, Scrollbar, Input, Tree, Table, Select, Option, TableColumn, Tag, Popover]
 ElementUI.push(eButton)
 ElementUI.push(eButtonGroup)
 
@@ -35,11 +35,15 @@ const iviewDev = [ocxModal, ocxMessage]
 import { acHistoryModal } from '@/components/business'
 const Business = [acHistoryModal]
 
+// NativeUI 原生组件库
+import { chart } from '@/components/native-ui'
+const NativeUI = [chart]
+
 // 捆绑注册
 function* register(name) {
 	Vue.use(name)
 }
-;[...ElementUI, ...Antd, ...Singletons, ...ElementDev, ...iviewDev, ...Business].forEach(component => register(component).next())
+;[...ElementUI, ...Antd, ...Singletons, ...ElementDev, ...iviewDev, ...Business, ...NativeUI].forEach(component => register(component).next())
 
 // 挂载api
 import api from '@ac/api'
@@ -62,6 +66,7 @@ Vue.prototype.$_echarts = echarts
  * 多模块相同集中配置
  * rem响应设置 样式重置 基本过渡效果 字体文件
  */
+window.moduleWidth = $_acModuleWidth
 require('@/config')
 
 Vue.config.productionTip = false

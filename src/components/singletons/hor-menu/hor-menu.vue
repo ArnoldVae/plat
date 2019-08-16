@@ -58,7 +58,7 @@ export default {
 }
 .hor-menu {
 	display: flex;
-	width: 1570px;
+	width: 1593px;
 	height: 46px;
 	background: url('~@/assets/img/common/tabs-bg.png') no-repeat;
 	background-size: 1590px 46px;

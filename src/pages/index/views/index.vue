@@ -3,7 +3,16 @@
     <!-- 加载状态 -->
     <a-spin size="large" :spinning="spinning">
       <!-- 单例导航头与侧边栏 -->
-      <navigation :menuData="menuData" title="智能辅助物联网平台" :alarm="99" @handleSelectMenu="selectMenu"></navigation>
+      <navigation
+	      :menuData="menuData" 
+	      :mainLogTitle="mainLogTitle"
+	      :mainLogTitleEn="mainLogTitleEn"
+	      :subLogTitle="subLogTitle"
+	      :subLogTitleEn="subLogTitleEn"
+	      :title="title" 
+	      :alarm="99" 
+	      @handleSelectMenu="selectMenu">
+      </navigation>
       <div class="iframe-view-wrap">
         <!-- <div v-show="maskLoading" class="mask"></div> -->
         <!-- <iframe
@@ -66,6 +75,11 @@ export default {
 			],
 			selectMenuIndex: 0,
 			frameSrcArr: [], //存放iframe src，初始全部为空
+			title: '变电信息综合处理系统',
+			mainLogTitle: '国家电网',
+			mainLogTitleEn: 'STATE GRID',
+			subLogTitle: '国网江苏省电力有限公司',
+			subLogTitleEn: 'STATE GRID JIANGSU ELECTRIC POWER CO.,LTD.'
 		}
 	},
 	computed: {},
@@ -73,6 +87,11 @@ export default {
 	watch: {},
 	created() {
 		this.getPageModule()
+		this.getSystemParameter()
+		this.getMainLogTitle()
+		this.getMainLogTitleEn()
+		this.getSubLogTitle()
+		this.getSubLogTitleEn()
 	},
 	mounted() {},
 	activited() {},
@@ -81,7 +100,7 @@ export default {
 	methods: {
 		async getPageModule() {
 			let result = await this.$_api.navigation.getPageModule()
-			console.log(result)
+			// console.log(result)
 			if (result.success) {
 				// this.menuData = result.data
 				//遍历数据，改变src指向
@@ -92,6 +111,81 @@ export default {
 				this.menuData = result.data
 			} else {
 				this.menuData = []
+			}
+		},
+		// 获取系统参数
+		async getSystemParameter() {
+			try {
+				let result = await this.$_api.navigation.getSystemParameter({
+					vcKey: 'appName'
+				})
+				if (result.success) {
+					this.title = result.data.lists[0]['vcValue']
+				} else {
+					// this.title = ''
+				}
+			} catch(e) {
+				console.error(e)
+			}
+		},
+		// getMainLogTitle
+		async getMainLogTitle() {
+			try {
+				let result = await this.$_api.navigation.getSystemParameter({
+					vcKey: 'logoMainTitle'
+				})
+				if (result.success) {
+					this.mainLogTitle = result.data.lists[0]['vcValue']
+				} else {
+					// this.title = ''
+				}
+			} catch(e) {
+				console.error(e);
+			}
+		},
+		// getMainLogTitleEn
+		async getMainLogTitleEn() {
+			try {
+				let result = await this.$_api.navigation.getSystemParameter({
+					vcKey: 'logoMainTitle_En'
+				})
+				if (result.success) {
+					this.mainLogTitleEn = result.data.lists[0]['vcValue']
+				} else {
+					// this.title = ''
+				}
+			} catch(e) {
+				console.error(e);
+			}
+		},
+		// getSubLogTitle
+		async getSubLogTitle() {
+			try {
+				let result = await this.$_api.navigation.getSystemParameter({
+					vcKey: 'logoSubTitle'
+				})
+				if (result.success) {
+					this.subLogTitle = result.data.lists[0]['vcValue']
+				} else {
+					// this.title = ''
+				}
+			} catch(e) {
+				console.error(e);
+			}
+		},
+		// getSubLogTitleEn
+		async getSubLogTitleEn() {
+			try {
+				let result = await this.$_api.navigation.getSystemParameter({
+					vcKey: 'logoSubTitle_En'
+				})
+				if (result.success) {
+					this.subLogTitleEn = result.data.lists[0]['vcValue']
+				} else {
+					// this.title = ''
+				}
+			} catch(e) {
+				console.error(e);
 			}
 		},
 		//选择菜单项

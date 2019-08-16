@@ -1,97 +1,104 @@
 <template>
-  <div class="intelligent">
-    <div class="body">
-      <!-- 变电站树区域 -->
-      <div class="station">
-        <el-filter-tree
-          placeholder="输入关键字进行过滤"
-          v-model="filterText"
-          ref="elFilterTree"
-          :data="data"
-          :props="defaultProps"
-          default-expand-all
-          :filter-node-method="filterNode"
-          highlight-current
-          @node-click="handleClickNode"
-          :current-node-key="$store.getters.unitId"
-          node-key="id"
-        ></el-filter-tree>
-      </div>
-      <div class="container">
-        <hor-menu
-          :data="menuData"
-          :currentSystemId="currentSystemId"
-          @handleSelectSideMenu="handleSelectSideMenu"
-          @handleGoBack="handleGoBack"
-        ></hor-menu>
+	<div class="intelligent">
+		<div class="body">
+			<!-- 变电站树区域 -->
+			<div class="station">
+				<el-filter-tree
+					placeholder="输入关键字进行过滤"
+					v-model="filterText"
+					ref="elFilterTree"
+					:data="data"
+					:props="defaultProps"
+					default-expand-all
+					:filter-node-method="filterNode"
+					highlight-current
+					@node-click="handleClickNode"
+					:current-node-key="$store.getters.unitId"
+					node-key="id"
+				></el-filter-tree>
+			</div>
+			<div class="container">
+				<hor-menu
+					:data="menuData"
+					:currentSystemId="currentSystemId"
+					@handleSelectSideMenu="handleSelectSideMenu"
+					@handleGoBack="handleGoBack"
+				></hor-menu>
 
-        <div class="content">
-          <!-- <transition name="fade" mode="out-in"> -->
-          <div v-if="typeList.length != 1 && cardReset" class="card">
-            <el-scrollbar v-if="typeList.length != 1">
-              <div
-                v-for="(item, index) in typeList"
-                :key="item.devTypeId"
-                @click="handleSelectCard(item, index)"
-                class="card-item"
-                :class="{ current: currentTypeId == item.devTypeId }"
-              >
-                <div class="line"></div>
-                <div class="type">
-                  <!-- ~@ac/assets/img/device-type/空调-0.png -->
-                  <!-- <div 
-											class="icon" 
-											:style="{ background: `url( ${require(`@ac/assets/img/device-type/${'空调'}-${currentTypeId == item.devTypeId?1:0}.png`)} )` }"
-                  ></div>-->
-                  <div class="name">{{ item.vcName }}</div>
-                </div>
-                <div class="info">
-                  <div class="total">
-                    总：
-                    <span :style="{ color: '#44e908' }">{{ item.devCount }}</span>
-                  </div>
-                  <div class="alarm">
-                    报警：
-                    <span :style="{ color: '#ff291e' }">{{ item.alarmCount }}</span>
-                  </div>
-                  <div class="normal">
-                    故障：
-                    <span :style="{ color: '#ffa01e' }">0</span>
-                  </div>
-                </div>
-              </div>
-            </el-scrollbar>
-          </div>
-          <!-- </transition> -->
+				<div class="content">
+					<!-- <transition name="fade" mode="out-in"> -->
+					<div v-if="typeList.length != 1 && cardReset" class="card">
+						<el-scrollbar v-if="typeList.length != 1">
+							<div
+								v-for="(item, index) in typeList"
+								:key="item.devTypeId"
+								@click="handleSelectCard(item, index)"
+								class="card-item"
+								:class="{ current: currentTypeId == item.devTypeId }"
+							>
+								<!-- <div class="line"></div> -->
+								<div class="type">
+									<!-- ~@ac/assets/img/device-type/空调-0.png -->
+									<!-- <div 
+										class="icon" 
+										:style="{ background: `url( ${require(`@ac/assets/img/device-type/${'空调'}-${currentTypeId == item.devTypeId?1:0}.png`)} )` }"
+									                  					></div> -->
+									<div class="name">{{ item.vcName }}</div>
+								</div>
+								<!-- ## -->
+								<div class="info">
+									<div class="total">
+										<div :style="{ color: '#44e908' }" class="number">{{ item.devCount }}</div>
+										<div class="desc">
+											总
+										</div>
+									</div>
+									<div class="alarm">
+										<div :style="{ color: '#ff291e' }" class="number">{{ item.alarmCount }}</div>
+										<div class="desc">
+											报警
+										</div>
+									</div>
+									<div class="normal">
+										<div :style="{ color: '#ffa01e' }" class="number">0</div>
+										<div class="desc">
+											故障
+										</div>
+									</div>
+								</div>
+							</div>
+						</el-scrollbar>
+					</div>
+					<!-- </transition> -->
 
-          <!-- view 区域 -->
-          <div class="router-view-wrap">
-            <!-- <transition name="fade" mode="out-in"> -->
-            <router-view
-              @hook:mounted="initDisplayMode"
-              ref="view"
-              class="view"
-              :class="{ full: typeList.length == 1 }"
-            ></router-view>
-            <!-- </transition> -->
-            <div class="style">
-              <!-- v-if="currentModeList.length != 1" -->
-              <a-button-group v-show="buttonGroupShow">
-                <a-button
-                  v-for="(mode, index) in currentModeList"
-                  :key="mode.typeId"
-                  @click="handleChangeDisplayMode(mode, index)"
-                  :icon="mode.icon"
-                  :class="{ current: currentModeIndex == index }"
-                ></a-button>
-              </a-button-group>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <statistics></statistics>
-  </div>
+					<!-- view 区域 -->
+					<div class="router-view-wrap">
+						<!-- <transition name="fade" mode="out-in"> -->
+						<router-view
+							@hook:mounted="initDisplayMode"
+							ref="view"
+							class="view"
+							:class="{ full: typeList.length == 1 }"
+						></router-view>
+						<!-- </transition> -->
+						<div class="style">
+							<!-- v-if="currentModeList.length != 1" -->
+							<a-button-group v-show="buttonGroupShow">
+								<a-button
+									v-for="(mode, index) in currentModeList"
+									:key="mode.typeId"
+									@click="handleChangeDisplayMode(mode, index)"
+									:icon="mode.icon"
+									:class="{ current: currentModeIndex == index }"
+								></a-button>
+							</a-button-group>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<statistics></statistics>
+	</div>
 </template>
 <script>
 export default {
@@ -234,7 +241,8 @@ export default {
 		// 获取子系统
 		async getSubsystemByUnitId() {
 			let result = await this.$_api.frame.getSubsystemByUnitId({
-				unitId: this.$store.getters.unitId
+				unitId: this.$store.getters.unitId,
+				type: 10060001
 			})
 			if (result.success) {
 				this.menuData = result.data
@@ -309,6 +317,7 @@ export default {
 			return name
 		},
 		async handleSelectCard(item) {
+
 			this.currentTypeId = item.devTypeId
 			// await this.getDeviceInfo()
 
@@ -355,11 +364,10 @@ export default {
 		},
 		// 点击树节点
 		handleClickNode(data, node, root) {
-
 			// 更新当前模块单元id
 			this.$store.commit('UPDATE_UNITID', data.id)
 			// console.log(this.$store.getters.unitId)
-			
+
 			// 如果匹配到最根级则返回
 			if (data.id == this.data[0]['id']) {
 				this.handleGoBack()
@@ -411,7 +419,7 @@ export default {
     display: flex;
 
     .station {
-      width: 313px;
+      width: 290px;
       height: 890px;
       // background: url('~@/assets/img/common/side-bg.png') no-repeat;
       // background-size: 313px 890px;
@@ -426,7 +434,7 @@ export default {
     }
 
     .container {
-      width: 1590px;
+      width: 1613px;
 
       .content {
         margin-top: 13px;
@@ -434,38 +442,40 @@ export default {
         height: 880px;
 
         .card {
-          width: 1570px;
+          width: 1593px;
           display: flex;
           // background: #0c1b3b;
-          background-color: rgba(12, 27, 59, 0.3);
+          // background-color: rgba(12, 27, 59, 0.3);
           border-radius: 5px;
-          padding-left: 5px;
-          padding-right: 5px;
+          // padding-left: 5px;
+          // padding-right: 5px;
 
           /* margin-bottom: 12px; */
           .card-item {
-            min-width: 250px;
+            min-width: 190px;
             height: 94px;
             /* background: #0c1b3b; */
-            /* background: url('~@ac/assets/img/content/card.png') no-repeat; */
-            /* background-size: 250px 94px; */
-            /* margin-right: 15px; */
+            background: url('~@ac/assets/img/content/bg.png') no-repeat; 
+             background-size: 190px 94px; 
+             margin-right: 10px; 
             cursor: pointer;
             position: relative;
-            padding-left: 35px;
+            // padding-left: 35px;
 
-            .line {
+            /*.line {
               position: absolute;
               right: 0;
               top: 22px;
               width: 2px;
               height: 55px;
               background: #3299ff;
-            }
+            }*/
 
             .type {
               display: flex;
-              margin-top: 20px;
+              justify-content: center;
+              margin-top: 9px;
+              /* text-align: center; */
 
               .icon {
                 width: 18px;
@@ -477,13 +487,16 @@ export default {
 
               .name {
                 margin-left: 5px;
-                color: #3299ff;
+                color: #fff;
+                font-size: 16px;
+
               }
             }
 
             &.current {
-              /* background: url('~@ac/assets/img/content/card-active.png') no-repeat; */
-              background-color: rgba(15, 33, 69, 0.7);
+               background: url('~@ac/assets/img/content/bg-active.png') no-repeat; 
+               background-size: 190px 94px; 
+              	// background-color: rgba(15, 33, 69, 0.7);
 
               .type .name {
                 color: #ffd36a;
@@ -491,21 +504,59 @@ export default {
 
               /* background-size: 250px 94px; */
             }
-
+			/* ## */
             .info {
               display: flex;
+              /* justify-content: space-around; */
               color: #fff;
-              margin-top: 17px;
+              /* margin-top: 17px; */
+              font-family: 'DS-DIGI';
+              padding: 0 10px;
+              
 
               .total {
-                margin-right: 15px;
+              	width: 33.33%
+                /* margin-right: 15px; */
+                .number {
+					font-size: 25px;
+					text-align: center;
+                }
+                .desc {
+					font-size: 16px;
+					text-align: center;
+                }
               }
 
               .alarm {
-                margin-right: 15px;
+              	width: 33.33%
+                /* margin-right: 15px; */
+                .number {
+					font-size: 25px;
+					text-align: center;
+                }
+                .desc {
+					font-size: 16px;
+					text-align: center;
+                }
               }
 
               .normal {
+              	width: 33.33%
+              	.number {
+                	font-size: 25px;
+                	text-align: center;
+                }
+                .desc {
+					font-size: 16px;
+					text-align: center;
+                }
+              }
+              .number {
+              	position: relative;
+              	top: 7px;
+              }
+              .desc {
+              	margin-top: 2px;
               }
             }
           }

@@ -1,6 +1,5 @@
 <template>
-  <div ref="blueprint"
-       class="mc-blueprint"></div>
+	<div ref="blueprint" class="mc-blueprint"></div>
 </template>
 <script>
 export default {
@@ -252,12 +251,11 @@ export default {
 	}
 }
 </script>
-	
-	<style lang="stylus" scoped>
-	.mc-blueprint {
-		width: 100%;
-		height: 100%;
-		position: relative;
-	}
+
+<style lang="stylus" scoped>
+.mc-blueprint {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
 </style>
-	

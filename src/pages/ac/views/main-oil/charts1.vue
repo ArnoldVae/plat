@@ -1,7 +1,7 @@
 <template>
   <div class="ac-history-modal">
     <ocx-modal
-      :styles="{ top: '0px' }"
+      :styles="{ top: '100px' }"
       title="历史记录"
       :mask="false"
       @on-cancel="handleCloseHistoryModal"
@@ -125,9 +125,9 @@ export default {
 					textStyle: {
 						color: '#fff',
 						fontWeight: 400,
-						fontSize: 22
+						fontSize: 18
 					},
-					left: 100,
+					left: 30,
 					top: 0
 				},
 				tooltip: {
@@ -291,7 +291,7 @@ export default {
 
             #charts {
               width: 100%;
-              height: 100%;
+              height: calc(100% - 50px);
             }
           }
         }

@@ -1,4 +1,5 @@
 import axios from '@/config/api.request'
+import axiosNet from '@/config/api.request.net'
 export default {
 	//获取预置巡检列表
 	getPresetInspection(params) {
@@ -35,7 +36,7 @@ export default {
 	//获取变电站数据
 	getUnitTreeData(params) {
 		return axios.request({
-			url: 'org/find_tree',
+			url: 'tree/findOrgTree',
 			method: 'post',
 			data: params
 		})
@@ -106,5 +107,17 @@ export default {
 			method: 'post',
 			data: params
 		})
+	},
+	
+	
+	
+	//获取临时特巡  巡检区域数据
+	getInspectionAreaData( params ) {
+		return axiosNet.request({
+			url: '/As/GetAreaList',
+			method: 'post',
+			data: params
+		})
 	}
+	
 }

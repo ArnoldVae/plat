@@ -3,17 +3,18 @@
         <el-container>
             <el-aside width="72%">
 <!--                <htCommon ref="htCommon"></htCommon>-->
-                <component v-bind:is="htCommon"  ref="htCommon"></component>
+                <component v-bind:is="htCommon"  ref="htCommon" ></component>
 <!--                <div ref="view-main" style="margin-right: 100px">-->
 
 <!--                </div>-->
 
             </el-aside>
+
             <el-main>
                 <div class="view-check-items">
                     <el-row>
-                        <el-col :span="10">
-                            视图列表：
+                        <el-col :span="10" class="menu-bar">
+                            视图列表
                         </el-col>
                     </el-row>
                     <div class="search-item">
@@ -125,7 +126,7 @@
             },
 
             async getCharts(item) {
-                this.getId=item&&item.id?item.id:'192fe4cec3ec4d3fb81c0d05f82bde41'
+                this.getId=this.$store.getters.unitId||"192fe4cec3ec4d3fb81c0d05f82bde41"
                 let result = await this.$_api.statusCheck.getSubCharts({
                     unitId:this.getId,
                     subIdsStr:'1007'
@@ -136,7 +137,7 @@
             },
             getNode() {
                 let params = {
-                    unitId: 'f2ed1e939e6a4c8d84cc2bf0bf2503af',
+                    unitId: this.$store.getters.unitId||"192fe4cec3ec4d3fb81c0d05f82bde41" ,
                     pageId: '5d0a793e8f0e407cb23a089ff0bc2e53'
                 }
                 this.$_api.statusCheck
@@ -191,29 +192,52 @@
 </script>
 
 <style lang="stylus" scoped>
+// 定义主视图高度
+$view-height= 898px;
     .view-check{
         width 100%
         margin 0
         padding 0
         height 670px
         .el-container{
+        display :flex;
+          justify-content: space-between;
             .el-aside{
-
+                  height $view-height
+                  background: #141A26;
+                    border: 1px solid #D3DEE6;
             }
             .el-main{
-                overflow hidden
+                overflow hidden;
+                padding 0 0 0 10px;
+                .menu-bar{
+                         background url("../../../assets/img/main/lan.png");
+                         background-repeat: no-repeat;
+                          font-weight: bold
+                           font-size 18px;
+                          height 30px;
+                         line-height: 30px;
+                         
+                          width:  100%;
+                          background-size:100% 100%;
+                        -moz-background-size:100% 100%;
+                        text-align center;
+                        color black
+                    }
+
                 .view-check-items{
-                    width 90%
-                    height 700px
+                    width 100%
+                    height $view-height
                     border-radius 5px
-                    background: rgba(54,105,134,0.1);
+                    background: #141A26;
+                    border: 1px solid #D3DEE6;
 
                     .el-row{
                         color white
                         height 40px
                         line-height 40px
                         font-size 17px
-                        padding-left 24px
+                       
                         .tool-text{
                             font-size 15px
                             text-align right
@@ -228,8 +252,7 @@
 
                     }
                     .search-item{
-
-
+                    padding:0 10px 0 30px;
                         .el-row{
                             .el-col{
                                 font-size 15px

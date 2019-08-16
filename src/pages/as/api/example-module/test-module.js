@@ -2,13 +2,13 @@ import axios from '@/config/api.request'
 
 export default {
 	// 获取组织树信息
-	getOrgTreeInfo(params) {
-		return axios.request({
-			url: 'org/find_tree',
-			method: 'post',
-			data: JSON.stringify(params)
-		})
-	},
+	// getOrgTreeInfo(params) {
+	// 	return axios.request({
+	// 		url: 'org/find_tree',
+	// 		method: 'post',
+	// 		data: JSON.stringify(params)
+	// 	})
+	// },
 	// 获取设备类型树信息
 	getDeviceTypeTreeInfo(params) {
 		return axios.request({

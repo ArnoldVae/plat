@@ -17,6 +17,10 @@ export default {
 		},
 		mqttData: {
 			type: Object
+		},
+		isNodeClick: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
@@ -54,9 +58,8 @@ export default {
 			// tag.a('alarmLevel', val.level)
 
 			//设备不唯一时可用
-			this.dataModel.toDatas(function(data){
-				if(data.getTag() == val.nodeid)
-				data.a('alarmLevel', val.level)
+			this.dataModel.toDatas(function(data) {
+				if (data.getTag() == val.nodeid) data.a('alarmLevel', val.level)
 			})
 		}
 	},
@@ -105,8 +108,11 @@ export default {
 					part = e.part,
 					event = e.event
 				if (eType === 'clickData') {
-					if (e.data.a('vc_SourceID')) {
-						let targetTag = eData.getTag()
+					if (e.data.a('vc_SourceID') != undefined) {
+						if (this.isNodeClick && this.isNodeClick == true) {
+							// let targetTag = eData.getTag()
+							this.$emit('htClick', e.data)
+						}
 					}
 				}
 			})
@@ -169,8 +175,9 @@ export default {
 
 <style lang="stylus" scoped>
 .blueprintHt {
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 16px);
+  height: calc(100% - 10px);
+  margin: 0 8px;
   position: relative;
 }
 </style>

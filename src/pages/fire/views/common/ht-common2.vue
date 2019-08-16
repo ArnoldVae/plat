@@ -163,9 +163,9 @@
                 graphView.setSelectableFunc(() => {
                     return false;
                 });
-                graphView.adjustZoom = () => {
-                    return 1;
-                };
+                // graphView.adjustZoom = () => {
+                //     return 1;
+                // };
                 //添加背景
                 localHt.Default.setImage(
                     "mapBg",
@@ -199,8 +199,9 @@
     }
     .fireControlHt {
         margin-left 20px
-        width: 100%;
-        height: 700px;
+        margin-top 20px
+        width: 98%;
+        height: 730px;
         position: relative;
     }
 </style>

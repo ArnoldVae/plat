@@ -32,5 +32,12 @@ export default {
 			method: 'post',
 			data: JSON.stringify(param)
 		})
+	},
+	getJR(param){
+        return axios.request({
+            url: 'fire/main/find_unit_num',
+            method: 'post',
+            data: JSON.stringify(param)
+        })
 	}
 }

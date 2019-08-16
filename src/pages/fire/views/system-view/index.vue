@@ -1,5 +1,5 @@
 <template>
-    <div class="systemView">
+    <div :class="[pageType ? 'newSystemView' : '', 'systemView']">
         <el-container>
             <el-aside width="67%">
                 <div class="map">
@@ -17,25 +17,31 @@
             </el-aside>
             <el-main>
                 <div class="elMain-top">
-                    <h2 class="elMain-top-title">接入情况:</h2>
+                    <div v-if="systemType"  class="elMain-top-top" >
+                        <img src="../../assets/img/main/lan.png" alt>
+                    </div>
+                    <h2 class="elMain-top-title" :class="[systemType ? 'black' : 'fff' ]">接入情况</h2>
                     <div class="elMian-top-ele">
                         <img src="@/assets/img/common/rcu-220kV.png" alt/>
                         <p>变电站</p>
                     </div>
                     <div class="elMain-top-count">
-                        <p class="color-dark-yellow font-time">{{this.eleCount.length}}</p>
+                        <p class="color-dark-yellow font-time">{{this.allEleCount}}</p>
                         <p class="color-white">总</p>
                     </div>
                     <div class="elMain-top-btn">
                         <div class="elMain-top-btnone">
-                            <span class="font-time">{{this.eleCount.length}}</span>
+                            <span class="font-time">{{this.eleCount}}</span>
                         </div>
                         已接入
                     </div>
                 </div>
                 <div class="elMain-bottom">
+                     <div  v-if="systemType" class="elMain-top-top">
+                        <img src="../../assets/img/main/lan.png" alt>
+                    </div>
                     <div class="elMain-bottom-Item">
-                        <div class="elMain-bottom-title">灭火装置:</div>
+                        <div class="elMain-bottom-title" :class="[systemType ? 'black' : 'fff' ]">灭火装置</div>
                         <el-row>
                             <el-col :span="12" v-for="(i,index) in fireList" :key="index">
                                 <div class="elMain-bottom-Item-single">
@@ -84,7 +90,7 @@
                                                     alt
                                             />
                                         </div>
-                                        {{i.vcName}}
+                                       <span style="color: white">{{i.vcName}}</span>
                                     </div>
                                     <div class="right">
                                         <div class="r1">
@@ -106,19 +112,33 @@
                     </div>
                 </div>
                 <div class="elMain-footer">
-                    <div class="elMain-footer-title">
-                        <span>实时报警:</span>
-                        <div class="elMain-footer-btn1">
-                            <span>报警</span>
-                        </div>
-                        <div class="elMain-footer-btn2">
-                            <span>预警</span>
-                        </div>
+                     <div  v-if="systemType" class="elMain-top-top">
+                        <img src="../../assets/img/main/lan.png" alt>
                     </div>
+                    <!--<div class="elMain-footer-title">-->
+                        <!--<span >实时报警:</span>-->
+                        <!--<div class="elMain-footer-btn1">-->
+                            <!--<span @click="test()">报警</span>-->
+                        <!--</div>-->
+                        <!--<div class="elMain-footer-btn2">-->
+                            <!--<span>预警</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="elMain-footer-title" :class="[systemType ? 'black' : 'fff' ]">
+                        实时报警
+                    </div>
+                    <!--<div class="elMain-footer-title2">-->
+                        <!--<div class="elMain-footer-btn1">-->
+                            <!--<span>报警</span>-->
+                        <!--</div>-->
+                        <!--<div class="elMain-footer-btn2">-->
+                            <!--<span>预警</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="elMain-footer-sysItems">
                         <div
                                 class="system-item"
-                                :class="[index>0? 'elMain-footer-bg2':'elMain-footer-bg1']"
+                                :class="[index>-1? 'elMain-footer-bg2':'elMain-footer-bg1']"
                                 v-for="(item,index) in sysLists"
                                 :key="index"
                                 @click="clickBtn(item)"
@@ -126,19 +146,19 @@
                             <ul>
                                 <li class="itemDetails">
                                     <span class="color-red">●</span>
-                                    <span class="color-white">{{item.name1}}</span>
+                                    <span class="color-white">{{item.unitName}}</span>
                                 </li>
                                 <li class="itemDetails">
                                     <span class="color-red">●</span>
-                                    <span class="color-white">{{item.name2}}</span>
+                                    <span class="color-white">{{item.devName}}</span>
                                 </li>
                                 <li class="itemDetails">
                                     <span class="color-red">●</span>
-                                    <span class="color-white">{{item.name3}}</span>
+                                    <span class="color-white">{{item.areaName}}</span>
                                 </li>
                                 <li class="itemDetails">
                                     <span class="color-red">●</span>
-                                    <span class="color-white">{{item.name4}}</span>
+                                    <span class="color-white">{{item.time}}</span>
                                 </li>
                             </ul>
                         </div>
@@ -152,13 +172,19 @@
     // 地图使用的指令
     import {center} from '@/directives/directive.js'
     import mapComponent from '@/components/native/mapComponent/mapComponent'
+    import moment from 'moment'
+
 
     export default {
         name: 'systemView',
         components: {
             mapComponent
         },
-        props: {},
+        props: {
+            pageType:{
+                type:String
+            }
+        },
 
         data() {
             return {
@@ -167,8 +193,10 @@
                     zoom: 10,
                     scrollWheelZoom: true,
                     minZoom: 8,
-                    maxZoom: 15
+                    maxZoom: 15,
+                    
                 },
+                systemType : this.pageType,
                 // 地图相关数据
                 rcu35: require('@/assets/img/common/rcu-35kV.png'),
                 rcu110: require('@/assets/img/common/rcu-110kV.png'),
@@ -229,34 +257,6 @@
                     }
                 ],
                 sysLists: [
-                    {
-                        name1: '500kv东善桥变电站',
-                        name2: '26#烟感探测器报警',
-                        name3: '1号主变防护区',
-                        name4: '2019-07-30 14:20:30',
-                        name5: 'alarm-action'
-                    },
-                    {
-                        name1: '500kv东善桥变电站',
-                        name2: '26#烟感探测器报警',
-                        name3: '1号主变防护区',
-                        name4: '2019-07-30 14:20:30',
-                        name5: 'alarm-action'
-                    },
-                    {
-                        name1: '500kv东善桥变电站',
-                        name2: '26#烟感探测器报警',
-                        name3: '1号主变防护区',
-                        name4: '2019-07-30 14:20:30',
-                        name5: 'alarm-action'
-                    },
-                    {
-                        name1: '500kv东善桥变电站',
-                        name2: '26#烟感探测器报警',
-                        name3: '1号主变防护区',
-                        name4: '2019-07-30 14:20:30',
-                        name5: 'alarm-action'
-                    }
                 ],
                 orgOptions: [],
                 fireList: [],
@@ -273,19 +273,26 @@
                         param: {iType: 10060003}
                     }
                 },
-                eleCount: [] //获取消防模块接口下面的所有变电站
+                eleCount: '' ,//获取消防模块接口下面的所有变电站
+                allEleCount:''
             }
         },
-        computed: {},
+        computed: {
+        },
         filters: {},
-        watch: {},
+        watch: {
+
+        },
         created() {
+
         },
         mounted() {
             // this.getFireItem()
             this.getSubFireItem()
             this.registerMQTT()
             this.getAllStation() //已接入变电站
+
+
         },
         activited() {
         },
@@ -356,10 +363,13 @@
 
             //获取消防模块接口下面的所有变电站
             async getAllStation() {
-                let result = await this.$_api.systemView.getAllStation({
+                let result = await this.$_api.systemView.getJR({
                     iType: 10060003
                 })
-                if (result.success) this.eleCount = result.data
+                if (result.success) {
+                    this.eleCount = result.data.count
+                    this.allEleCount = result.data.num
+                }
             },
 
             // val为点击地图传过来的数据  跳转状态监视
@@ -370,13 +380,28 @@
             clickBtn(val) {
                 this.$emit('switchWarning', val)
             },
+//            获取推送信息
             registerMQTT() {
                 this.$_listen('firecontrolAllAlarm', (topic, msg, pack) => {
+                    debugger
+
                     let msgJson = JSON.parse(msg.toString())
                     console.log(msgJson)
-                    if (msgJson.cmd === '1002') {
+                    debugger
+
+                    if (msgJson.cmd === '3002') {
                         //报警的上传数据
-                        console.log(msgJson.unitid)
+//                        日期格式化
+                        if(msgJson.level=='0'){
+                            this.sysLists.forEach((item,index)=>{
+                                if(item.alarmid==msgJson.alarmid){
+                                this.sysLists.splice(index,1)
+                                }
+                            })
+                            return false
+                        }
+                        msgJson.time=moment(Number(msgJson.time) * 1000).format('YYYY-MM-DD hh:mm:ss')
+                        this.sysLists.unshift(msgJson);
 
                         //右上角消防统计报警数增加
                         this.paraData.map((item, index, arr) => {
@@ -390,6 +415,10 @@
                         })
                         this.$refs.map.changeAlarmNum(msgJson.unitid)
                         this.$emit('receiveAlarm', 'alarm-action', msgJson.unitid)
+                        if(this.pageType){
+                            this.$store.dispatch('changeMenu',true)
+                            this.$emit('changeFlag',true)
+                        }
                     }
                 })
             }
@@ -410,6 +439,19 @@
 </script>
 
 <style lang="stylus">
+    .newystemview{
+        background none
+        padding 0 !important
+        margin 0 !important
+        width 100%
+
+    }
+    .fff{
+        color #ffff
+    }
+    .black{
+        color black
+    }
     .shape-icon {
         font-size: 36px;
         margin-right: 10px;
@@ -497,18 +539,21 @@
     }
 </style>
 <style lang="stylus">
+    .backNone{
+        background none !important
+    }
+
     .rich .rich-badge {
         top: 6px;
         left: 65%;
     }
 
     .systemView {
-        margin: 0.88889rem 0.88889rem 0 0.88889rem;
         height: 100%;
-        width: 98%;
-        background: url('../../assets/img/hull.png');
-        background-size: 100% 100%;
-        -moz-background-size: 100% 100%;
+        width: 100%;
+        margin-left 0.88889rem
+        background: url('~@/assets/img/common/bg-border.png') no-repeat;
+        background-size: 83.6rem 38.88889rem;
 
         .el-container {
             padding-top: 16px;
@@ -552,14 +597,23 @@
 
             .el-main {
                 padding: 11px 0 0 0;
+                overflow hidden
 
                 .elMain-top {
-                    background-color: #fff;
+                    background: rgba(11,24,54,0.5);
                     width: 100%;
-                    background: url('../../assets/img/system-view/变电站统计bg.png');
-                    background-size: 100% 100%;
                     height: 100px;
                     overflow: hidden;
+                    position relative
+                    .elMain-top-top{
+                        position absolute
+                        top 0
+                        z-index 0
+                    }
+                    .elMain-top-top>img{
+                        width:100%
+                         
+                    }
 
                     .elMian-top-ele {
                         width: 80px;
@@ -567,6 +621,7 @@
                         margin-left: 50px;
                         float: left;
                         margin-top: -5px;
+                        
 
                         > img {
                             width 70px
@@ -589,11 +644,13 @@
                     }
 
                     .elMain-top-title {
-                        color: white;
+                        text-align center
                         height: 26px;
-                        line-height: 26px;
-                        font-size: 16px;
+                        font-size: 0.65rem;
                         padding-left: 24px;
+                        position relative
+                        z-index 2
+                        font-weight 600
                     }
 
                     .elMain-top-btn {
@@ -617,7 +674,6 @@
                             }
                         }
                     }
-
                     .item {
                         width: 50%;
                         float: left;
@@ -651,20 +707,36 @@
                     background: url('../../assets/img/system-view/设备统计bg.png');
                     background-size: 100% 100%;
                     height: 260px;
+                    position relative
+                   
+                    
+                    .elMain-top-top{
+                        position absolute
+                        top 0
+                        z-index 0
+                    }
+                    .elMain-top-top>img{
+                        width 100%
+                    }
+                    
+
 
                     .elMain-bottom-Item {
                         height: 250px;
                         overflow: auto;
-                        margin-top: 10px;
+                        margin-top: 0px;
                         margin-left: 24px;
-                        color: white;
-                        font-size: 16px;
-
+                        
                         .elMain-bottom-title {
                             width: 280px;
-                            height: 40px;
-                            color: #fff;
-                            line-height: 40px;
+                            font-size: 0.65rem;
+                            display inline-bloack
+                            margin 0 auto
+                            text-align center
+                            position relative
+                            z-index 1px
+                            font-weight 600
+
                         }
 
                         .elMain-bottom-Item-single {
@@ -672,7 +744,7 @@
                             height: 100px;
                             width: 240px;
                             padding-bottom: 4px;
-                            background: url('../../assets/img/system-view/设备统计背景框.png');
+                            background: url('../../assets/img/system-view/bg1.png');
                             background-size: 100% 100%;
 
                             .left {
@@ -702,6 +774,10 @@
 
                                     .r1-span {
                                         margin-left 12px
+                                        font-size 14px
+
+                                        color white
+
                                     }
 
                                     .r1-btn {
@@ -727,15 +803,27 @@
                     background: url('../../assets/img/system-view/实时报警bg.png');
                     background-size: 100% 100%;
                     height: 405px;
+                    position relative;
+
+                    .elMain-top-top{
+                            position absolute
+                            top 0
+                            z-index 0
+                        }
+                        .elMain-top-top>img{
+                            width 100%
+                        }
 
                     .elMain-footer-title {
                         height: 50px;
                         width: 100%;
-                        color: #fff;
-                        line-height: 50px;
-                        font-size: 16px;
+                        font-size: 0.65rem;
                         text-indent: 20px;
                         margin-bottom: 20px;
+                        text-align center
+                        position relative
+                        z-index 1
+                        font-weight 600
 
                         > span {
                             float: left;
@@ -743,8 +831,14 @@
                             height: 50px;
                             margin-top: 6px;
                         }
+                    }
 
-                        .elMain-footer-btn1 {
+                    .elMain-footer-title2{
+                        position relative
+                        top 30px;
+                    }
+
+                     .elMain-footer-btn1 {
                             float: right;
                             width: 80px;
                             height: 30px;
@@ -756,6 +850,9 @@
                             background: url('../../assets/img/system-view/w1.png');
                             background-size: 100% 100%;
                             -moz-background-size: 100% 100%;
+                            position relative
+                            top -75px;
+
                         }
 
                         .elMain-footer-btn2 {
@@ -770,13 +867,16 @@
                             background: url('../../assets/img/system-view/w2.png');
                             background-size: 100% 100%;
                             -moz-background-size: 100% 100%;
+                            position relative
+                            top -75px;
                         }
-                    }
 
                     .elMain-footer-sysItems {
                         width: 100%;
                         height: 320px;
                         overflow: auto;
+                        position relative
+                        top -40px;
 
                         .system-item {
                             width: 90%;

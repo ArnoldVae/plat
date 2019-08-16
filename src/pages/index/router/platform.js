@@ -5,7 +5,7 @@ export default [
 		name: 'platform',
 		// redirect: '/platform',
 		meta: {
-			title: '5200'
+			title: '变电信息综合处理系统'
 		},
 		component: () => import('@index/views')
 	}
