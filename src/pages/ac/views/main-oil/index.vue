@@ -1,9 +1,9 @@
 <template>
-  <div class="main-oil">
-    <!-- <transition name="v" mode="out-in"> -->
-    <component v-bind:is="current"></component>
-    <!-- </transition> -->
-  </div>
+	<div class="main-oil">
+		<!-- <transition name="v" mode="out-in"> -->
+		<component v-bind:is="current"></component>
+		<!-- </transition> -->
+	</div>
 </template>
 <script>
 import mainOilTable from '@ac/views/common/view-table'
@@ -12,7 +12,7 @@ export default {
 	name: 'main-oil',
 	components: {
 		'main-oil-customization': mainOilCustomization,
-		'main-oil-table': mainOilTable,
+		'main-oil-table': mainOilTable
 	},
 	props: {},
 	data() {

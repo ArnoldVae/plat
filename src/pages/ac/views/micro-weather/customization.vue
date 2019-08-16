@@ -3,20 +3,15 @@
 		<div class="center-bg">
 			<span>微气象</span>
 		</div>
-		<Select
-			class="decSelect"
-			v-model="devNameItem"
-			style="width:200px"
-			@on-change="changeDev(devNameItem)"
-		>
+		<Select class="decSelect" v-model="devNameItem" style="width:200px" @on-change="changeDev(devNameItem)">
 			<Option v-for="item in devNameList" :value="item.value" :key="item.value">{{ item.label }}</Option>
 		</Select>
-		<span class="logo" :class="item.class" v-for="(item,index) in chartsList" :key="index">
+		<span class="logo" :class="item.class" v-for="(item, index) in chartsList" :key="index">
 			<img :src="item.src" alt />
-			<p>{{item.vcName}}</p>
+			<p>{{ item.vcName }}</p>
 			<p>
-				<i>{{item.fvalue}}</i>
-				&nbsp;{{item.vcUnit}}
+				<i>{{ item.fvalue }}</i>
+				&nbsp;{{ item.vcUnit }}
 			</p>
 		</span>
 		<div v-for="ite in chartsList" :key="ite.id" class="chart" :class="ite.id" :id="ite.id"></div>
@@ -70,6 +65,7 @@ export default {
 			if (topic == _this.topicStr) {
 				//将json字符串转为数组
 				let msgData = JSON.parse(message.toString())
+				console.log(msgData)
 				if (msgData.cmd == 1001) {
 					_this.chartsList.forEach(element => {
 						if (msgData.nodeid == element.nodeId) {
@@ -95,60 +91,6 @@ export default {
 	update() {},
 	beforeDestory() {},
 	methods: {
-		// getDevList(DevID) {
-		// 	this.$_api.getStaticData('./simulation-data/micro-weather.json').then(res => {
-		// getDevList(DevID) {
-		// 	let params = {
-		// 		devTypeId: this.activeDeviceTypeId,
-		// 		isPage: 1,
-		// 		isFindNodes: 1,
-		// 		unitId: this.unitId
-		// 	}
-		// 	this.$_api.microWeather.getDevList(params).then(res => {
-		// 		if (res.data.lists.length > 0 && res.data.lists[1].devNodesList) {
-		// 			this.chartsList = []
-		// 			for (let i = 0; i < res.data.lists[1].devNodesList.length; i++) {
-		// 				if (res.data.lists[1].devNodesList[i].vcName != '风向') {
-		// 					this.chartsList.push(res.data.lists[1].devNodesList[i])
-		// 				}
-		// 			}
-		// 			if (!DevID) {
-		// 				res.data.lists.forEach(item => {
-		// 					item.label = item.vcName
-		// 					item.value = item.devId
-		// 				})
-		// 				this.devNameList = res.data.lists
-		// 				// this.chartsList = devList
-		// 				console.log(this.devNameList)
-		// 				this.devNameItem = this.devNameList.length > 0 ? this.devNameList[0].value : ''
-		// 				this.getCharts()
-		// 			} else {
-		// 				this.chartsList = []
-		// 				// console.log(res)
-		// 				res.data.lists.forEach(item => {
-		// 					if (item.devId == DevID) {
-		// 						for (let i = 0; i < item.devNodesList.length; i++) {
-		// 							if (item.devNodesList[i].nodeType != 2) {
-		// 								this.chartsList.push(item.devNodesList[i])
-		// 							}
-		// 						}
-		// 						this.getCharts()
-		// 					}
-		// 				})
-		// 			}
-		// 		}
-		// if (res.data.lists.length == 0) {
-		// 	this.chartsList = [
-		// 		{ vcName: '暂无数据' },
-		// 		{ vcName: '暂无数据' },
-		// 		{ vcName: '暂无数据' },
-		// 		{ vcName: '暂无数据' },
-		// 		{ vcName: '暂无数据' }
-		// 	]
-		// 	this.getCharts()
-		// }
-		// })
-		// },
 		getDevList(DevID) {
 			let params = {
 				devTypeId: this.activeDeviceTypeId,
@@ -156,47 +98,60 @@ export default {
 				isFindNodes: 1,
 				unitId: this.unitId
 			}
-			this.$_api.microWeather.getDevList(params).then(res => {
-				if (res.code == 200) {
-					// console.log(res)
-					if (res.data.lists && res.data.lists.length > 0) {
-						let devList = []
-						for (let i = 0; i < res.data.lists[0].devNodesList.length; i++) {
-							// if (res.data.lists[0].devNodesList[i].nodeType != 2) {
-							if (res.data.lists[0].devNodesList[i].functionCode != 1010.0009) {
-								devList.push(res.data.lists[0].devNodesList[i])
+			this.$_api.microWeather
+				.getDevList(params)
+				.then(res => {
+					if (res.code == 200) {
+						// console.log(res)
+						if (res.data.lists && res.data.lists.length > 0) {
+							let devList = []
+							for (let i = 0; i < res.data.lists[0].devNodesList.length; i++) {
+								// if (res.data.lists[0].devNodesList[i].nodeType != 2) {
+								if (res.data.lists[0].devNodesList[i].functionCode != 1010.0009) {
+									devList.push(res.data.lists[0].devNodesList[i])
+								}
+							}
+							// console.log(devList)
+							if (!DevID) {
+								res.data.lists.forEach(item => {
+									item.label = item.vcName
+									item.value = item.devId
+								})
+								this.devNameList = res.data.lists
+								this.chartsList = devList
+								this.devNameItem = this.devNameList.length > 0 ? this.devNameList[0].value : ''
+								this.getCharts(true)
+							} else {
+								this.chartsList = []
+								// console.log(res)
+								res.data.lists.forEach(item => {
+									if (item.devId == DevID) {
+										for (let i = 0; i < item.devNodesList.length; i++) {
+											// if (item.devNodesList[i].nodeType != 2) {
+											if (item.devNodesList[i].functionCode != 1010.0009) {
+												this.chartsList.push(item.devNodesList[i])
+											}
+										}
+										this.getCharts(true)
+									}
+								})
 							}
 						}
-						console.log(devList)
-						if (!DevID) {
-							res.data.lists.forEach(item => {
-								item.label = item.vcName
-								item.value = item.devId
-							})
-							this.devNameList = res.data.lists
-							this.chartsList = devList
-							this.devNameItem = this.devNameList.length > 0 ? this.devNameList[0].value : ''
-							this.getCharts()
-						} else {
-							this.chartsList = []
-							// console.log(res)
-							res.data.lists.forEach(item => {
-								if (item.devId == DevID) {
-									for (let i = 0; i < item.devNodesList.length; i++) {
-										// if (item.devNodesList[i].nodeType != 2) {
-										if (item.devNodesList[i].functionCode != 1010.0009) {
-											this.chartsList.push(item.devNodesList[i])
-										}
-									}
-									this.getCharts()
-								}
-							})
-						}
 					}
-				}
-			})
+				})
+				.catch(error => {
+					this.$Message.error(error.response.data.msg)
+					this.chartsList = [
+						{ vcName: '暂无数据' },
+						{ vcName: '暂无数据' },
+						{ vcName: '暂无数据' },
+						{ vcName: '暂无数据' },
+						{ vcName: '暂无数据' }
+					]
+					this.getCharts(false)
+				})
 		},
-		getCharts() {
+		getCharts(flag) {
 			//为请求历史数据折线图准备时间戳
 			let nowDate = new Date().getTime()
 			let endTime = Math.ceil(nowDate / 1000)
@@ -221,11 +176,11 @@ export default {
 						? imgArr.wd
 						: item.vcName.indexOf('湿度') != -1
 						? imgArr.sd
-						: item.vcName.indexOf('风速')!= -1
+						: item.vcName.indexOf('风速') != -1
 						? imgArr.fx
-						: item.vcName.indexOf('风向')!= -1
+						: item.vcName.indexOf('风向') != -1
 						? imgArr.fx
-						: item.vcName.indexOf('气压')!= -1
+						: item.vcName.indexOf('气压') != -1
 						? imgArr.yl
 						: imgArr.mfzyl
 				let param = {
@@ -233,7 +188,9 @@ export default {
 					startTime: startTime,
 					endTime: endTime
 				}
-				this.getChartsData(param, item.id, item.vcUnit, item.vcName)
+				if (flag) {
+					this.getChartsData(param, item.id, item.vcUnit, item.vcName)
+				}
 			})
 		},
 
@@ -247,7 +204,7 @@ export default {
 			return arr
 		},
 		changeDev(devNameItem) {
-			console.log(devNameItem)
+			// console.log(devNameItem)
 			this.getDevList(devNameItem)
 		},
 		//调用历史数据接口
@@ -403,7 +360,7 @@ export default {
 	}
 }
 </script>
-<style lang='stylus' scoped>
+<style lang="stylus" scoped>
 .micro-weather-customization {
   width: calc(100% - 20px);
   height: 100%;

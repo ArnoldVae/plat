@@ -1,39 +1,45 @@
 <template>
-  <div class="inspection">
-    <div class="tree-container">
-      <el-filter-tree
-        placeholder="输入关键字进行过滤"
-        v-model="filterText"
-        ref="elFilterTree"
-        :data="unitTreeData"
-        :props="defaultProps"
-        default-expand-all
-        :filter-node-method="filterNode"
-        highlight-current
-        @node-click="handleClickNode"
-      ></el-filter-tree>
-    </div>
-    <div class="inspection-content">
-      <div class="inspection-header">
-        <div class="header-rt">
-          <ul>
-            <li
-              v-for="item in menuData"
-              :key="item.id"
-              @click="changeView(item.view,item.id)"
-              :class="{'changeStyle': item.id == currentIndex,'grey': item.id == 3 || item.id == 4 || item.id == 5,'banner': item.id == 3 || item.id == 4 || item.id == 5}"
-            >{{item.name}}</li>
-          </ul>
-        </div>
-        <!-- <span class="back" @click="goback()"><Icon type="arrow-left-a" :size="10" color="#90d9ff"></Icon>返回</span> -->
-        <el-button class="back" type="primary" @click="goback" size="mini">返回</el-button>
-      </div>
-      <component :is="currentView" class="component-view"></component>
-    </div>
-    <div class="inspection-bottom">
+	<div class="inspection">
+		<div class="tree-container">
+			<el-filter-tree
+				placeholder="输入关键字进行过滤"
+				v-model="filterText"
+				ref="elFilterTree"
+				:data="unitTreeData"
+				:props="defaultProps"
+				default-expand-all
+				:filter-node-method="filterNode"
+				highlight-current
+				@node-click="handleClickNode"
+			></el-filter-tree>
+		</div>
+		<div class="inspection-content">
+			<div class="inspection-header">
+				<div class="header-rt">
+					<ul>
+						<li
+							v-for="item in menuData"
+							:key="item.id"
+							@click="changeView(item.view, item.id)"
+							:class="{
+								changeStyle: item.id == currentIndex,
+								grey: item.id == 3 || item.id == 4 || item.id == 5,
+								banner: item.id == 3 || item.id == 4 || item.id == 5
+							}"
+						>
+							{{ item.name }}
+						</li>
+					</ul>
+				</div>
+				<!-- <span class="back" @click="goback()"><Icon type="arrow-left-a" :size="10" color="#90d9ff"></Icon>返回</span> -->
+				<el-button class="back" type="primary" @click="goback" size="mini">返回</el-button>
+			</div>
+			<component :is="currentView" class="component-view"></component>
+		</div>
+		<!-- <div class="inspection-bottom">
       <statistics></statistics>
-    </div>
-  </div>
+    </div> -->
+	</div>
 </template>
 <script>
 import monitor from './monitor'

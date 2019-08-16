@@ -1,26 +1,26 @@
 <template>
-  <div>
-    <div ref="view-main" id="main" class="fireControlHt"></div>
-    <div class="btnBox">
-      <div class="btnTitle">图例:</div>
-      <div class="btnCon">
-        <div class="btnConItem">
-          <div>
-			  <img src="../../assets/img/elec-fire/opticalBg.png" alt>
-		  </div>
-          <div class="con" @click="optical()">光纤测温</div>
-        </div>
-        <div class="btnConItem">
-         <div> <img src="../../assets/img/elec-fire/fireDan.png" alt></div>
-          <div class="con" @click="fieDanClick()">灭火弹</div>
-        </div>
-        <div class="btnConItem">
-         <div> <img src="../../assets/img/elec-fire/fireQi.png" alt></div>
-          <div class="con" @click="fireQiClick()">探火管</div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div>
+		<div ref="view-main" id="main" class="fireControlHt"></div>
+		<div class="btnBox">
+			<div class="btnTitle">图例:</div>
+			<div class="btnCon">
+				<div class="btnConItem">
+					<div>
+						<img src="../../assets/img/elec-fire/opticalBg.png" alt />
+					</div>
+					<div class="con" @click="optical()">光纤测温</div>
+				</div>
+				<div class="btnConItem">
+					<div><img src="../../assets/img/elec-fire/fireDan.png" alt /></div>
+					<div class="con" @click="fieDanClick()">灭火弹</div>
+				</div>
+				<div class="btnConItem">
+					<div><img src="../../assets/img/elec-fire/fireQi.png" alt /></div>
+					<div class="con" @click="fireQiClick()">探火管</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 <script>
 export default {
@@ -37,7 +37,7 @@ export default {
 	},
 	created() {},
 	mounted() {
-		this.init();
+		this.init()
 		// this.optical()
 	},
 	props: {
@@ -129,122 +129,119 @@ export default {
 			this.$_api.statusCheck.getHtNode(params).then(res => {
 				// console.log(res)
 				if (res.code == 200) {
-					if(res.data.length>0){
+					if (res.data.length > 0) {
 						this.cableNodes = res.data
-					this.cableNodes.length && this.cableNodes.map(item => {
-							setTimeout(() => {
-								let node = new this.localHt.Node()
-								node.setImage('ht/storage/symbols/txtIcon.json')
-								node.setTag(item.vcSourceId)
-								node.setId(item.vcSourceId)
-								node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
-								node.setName(item.vcName)
-								// node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
-								node.setSize(10, 10)
-								node.setStyle('interactive', true)
-								node.a('vc_SourceID', item.vcSourceId)
-								node.a('vc_Path', item.vcPath)
-								node.a('i_NodeType', item.iNodeType)
-								node.a('pageId', this.cableObj.pageId)
-								node.setLayer(1)
-								node.s('label', '')
-								// node.s({
-								// 	'color':'#fff'
-								// })
-								this.dataModel.add(node)
-								this.dataModel.each(data => {
-									let valueNum = item.devNodes.length > 0 ? item.devNodes[0] : '--'
-									data.a('value', valueNum)
-								})
-							}, 800)
-						})
+						this.cableNodes.length &&
+							this.cableNodes.map(item => {
+								setTimeout(() => {
+									let node = new this.localHt.Node()
+									node.setImage('ht/storage/symbols/txtIcon.json')
+									node.setTag(item.vcSourceId)
+									node.setId(item.vcSourceId)
+									node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
+									node.setName(item.vcName)
+									// node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
+									node.setSize(10, 10)
+									node.setStyle('interactive', true)
+									node.a('vc_SourceID', item.vcSourceId)
+									node.a('vc_Path', item.vcPath)
+									node.a('i_NodeType', item.iNodeType)
+									node.a('pageId', this.cableObj.pageId)
+									node.setLayer(1)
+									node.s('label', '')
+									// node.s({
+									// 	'color':'#fff'
+									// })
+									this.dataModel.add(node)
+									this.dataModel.each(data => {
+										let valueNum = item.devNodes.length > 0 ? item.devNodes[0] : '--'
+										data.a('value', valueNum)
+									})
+								}, 800)
+							})
 					}
 				}
 			})
 		},
 
-//光纤点击
-optical(){
-    // debugger
-    // console.log(1111);
-    this.dataModel.each( data =>{
-        if(data.getTag()=='sy-bg-02'){
-            // console.log(data);
-            if(data.getStyle('2d.visible')==false){
-                let num =0
-                let opticalClear=setInterval(()=>{
-                    num++
-                    if(num%2==0){
-                        data.setStyle('2d.visible',true)
-                    }else{
-                        data.setStyle('2d.visible',false)
-                    }
-                    if(num==4){
-                        clearInterval(opticalClear)
-                        data.setStyle('2d.visible',true)
-                    }
-                },500)
-                // data.setStyle('2d.visible',true)
-            }else{
-                data.setStyle('2d.visible',false)
-            }
-
-        }
-    })
-},
-//灭火弹
-fieDanClick(){
-    this.dataModel.each( data =>{
-        if(data.getTag()=='sy-bg-03'){
-            if(data.getStyle('2d.visible')==false){
-                let num =0
-                let fieDanClear=setInterval(()=>{
-                    num++
-                    if(num%2==0){
-                        data.setStyle('2d.visible',true)
-                    }else{
-                        data.setStyle('2d.visible',false)
-                    }
-                    if(num==4){
-                        clearInterval(fieDanClear)
-                        data.setStyle('2d.visible',true)
-                    }
-                },500)
-            }else{
-                data.setStyle('2d.visible',false)
-            }
-
-        }
-    })
-},
-//探管
-fireQiClick(){
-    this.dataModel.each( data =>{
-        if(data.getTag()=='sy-bg-01'){
-            // console.log(data);
-            if(data.getStyle('2d.visible')==false){
-                let num =0
-                let fireQiClear=setInterval(()=>{
-                    num++
-                    if(num%2==0){
-                        data.setStyle('2d.visible',true)
-                    }else{
-                        data.setStyle('2d.visible',false)
-                    }
-                    if(num==4){
-                        clearInterval(fireQiClear)
-                        data.setStyle('2d.visible',true)
-                    }
-                },500)
-            }else{
-                data.setStyle('2d.visible',false)
-            }
-
-        }
-    })
-}
-
-}
+		//光纤点击
+		optical() {
+			// debugger
+			// console.log(1111);
+			this.dataModel.each(data => {
+				if (data.getTag() == 'sy-bg-02') {
+					// console.log(data);
+					if (data.getStyle('2d.visible') == false) {
+						let num = 0
+						let opticalClear = setInterval(() => {
+							num++
+							if (num % 2 == 0) {
+								data.setStyle('2d.visible', true)
+							} else {
+								data.setStyle('2d.visible', false)
+							}
+							if (num == 4) {
+								clearInterval(opticalClear)
+								data.setStyle('2d.visible', true)
+							}
+						}, 500)
+						// data.setStyle('2d.visible',true)
+					} else {
+						data.setStyle('2d.visible', false)
+					}
+				}
+			})
+		},
+		//灭火弹
+		fieDanClick() {
+			this.dataModel.each(data => {
+				if (data.getTag() == 'sy-bg-03') {
+					if (data.getStyle('2d.visible') == false) {
+						let num = 0
+						let fieDanClear = setInterval(() => {
+							num++
+							if (num % 2 == 0) {
+								data.setStyle('2d.visible', true)
+							} else {
+								data.setStyle('2d.visible', false)
+							}
+							if (num == 4) {
+								clearInterval(fieDanClear)
+								data.setStyle('2d.visible', true)
+							}
+						}, 500)
+					} else {
+						data.setStyle('2d.visible', false)
+					}
+				}
+			})
+		},
+		//探管
+		fireQiClick() {
+			this.dataModel.each(data => {
+				if (data.getTag() == 'sy-bg-01') {
+					// console.log(data);
+					if (data.getStyle('2d.visible') == false) {
+						let num = 0
+						let fireQiClear = setInterval(() => {
+							num++
+							if (num % 2 == 0) {
+								data.setStyle('2d.visible', true)
+							} else {
+								data.setStyle('2d.visible', false)
+							}
+							if (num == 4) {
+								clearInterval(fireQiClear)
+								data.setStyle('2d.visible', true)
+							}
+						}, 500)
+					} else {
+						data.setStyle('2d.visible', false)
+					}
+				}
+			})
+		}
+	}
 }
 </script>
 
@@ -284,5 +281,3 @@ fireQiClick(){
   }
 }
 </style>
-
-

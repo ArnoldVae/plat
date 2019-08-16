@@ -40,7 +40,7 @@
 
 			<el-form-item label="状态:" class="item-zt">
 				<el-checkbox-group v-model="search.stute">
-					<el-checkbox v-for="i in stutes" :key="i.id" :label="i.id">{{i.name}}</el-checkbox>
+					<el-checkbox v-for="i in stutes" :key="i.id" :label="i.id">{{ i.name }}</el-checkbox>
 					<!-- <el-checkbox label="1">正在执行</el-checkbox>
 					<el-checkbox label="2">已结束</el-checkbox>-->
 				</el-checkbox-group>
@@ -57,7 +57,7 @@
 		<!-- table -->
 		<div>
 			<el-table
-				:header-cell-style="{background:'none'}"
+				:header-cell-style="{ background: 'none' }"
 				:row-style="tableColor"
 				:data="maintainData"
 				style="width: 100%;"
@@ -81,7 +81,9 @@
 				<el-table-column label="执行" align="center" width="250">
 					<template slot-scope="scope">
 						<div>
-							<el-button class="blue-btn" @click="infoModals(scope.row)" size="mini" type="text">查看详情</el-button>
+							<el-button class="blue-btn" @click="infoModals(scope.row)" size="mini" type="text"
+								>查看详情</el-button
+							>
 							<!-- <el-button class="yellow-btn" @click="searchInfo" size="mini" type="text">导出</el-button> -->
 						</div>
 					</template>
@@ -274,7 +276,7 @@ export default {
 			let index = rowIndex
 			if (index % 2 != 0) {
 				return 'background-color: #29455a;'
-			}else {
+			} else {
 				return 'background-color: #132332;'
 			}
 		},
@@ -438,5 +440,3 @@ export default {
   margin-top: -20px;
 }
 </style>
-
-

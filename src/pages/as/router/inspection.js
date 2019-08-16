@@ -3,11 +3,11 @@ export default [
 	{
 		path: '/',
 		redirect: '/inspection'
-  },
-  {
-    path: '/recordDetail',
-    name: 'detail',
-    component: ()=> import('@as/views/record/detail')
+	},
+	{
+		path: '/recordDetail',
+		name: 'detail',
+		component: () => import('@as/views/record/detail')
 	},
 	{
 		path: '/inspection-content',
@@ -15,7 +15,7 @@ export default [
 		meta: {
 			title: '立体巡检'
 		},
-		component: ()=> import('@as/views/inspection-content.vue')
+		component: () => import('@as/views/inspection-content.vue')
 	},
 	{
 		path: '/inspection',
@@ -32,7 +32,7 @@ export default [
 					title: '404'
 				},
 				component: () => import('@ac/views/notFind')
-			},
+			}
 		]
 	}
 ]

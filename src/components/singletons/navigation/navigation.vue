@@ -12,7 +12,7 @@
 			<div class="action">
 				<div class="setting"></div>
 				<div class="message">
-					<i v-show="alarm > 0">{{ alarm }}</i>
+					<!-- <i v-show="alarm > 0">{{ alarm }}</i> -->
 				</div>
 				<div class="user"></div>
 				<div class="name">{{ userName }}</div>
@@ -24,10 +24,10 @@
 				<div class="english">{{ subLogTitleEn }}</div>
 			</div>
 			<div class="menu">
-				<template v-for="(item,index) in showMenuData">
+				<template v-for="(item, index) in showMenuData">
 					<div
 						:key="item.moduleId"
-						@click="handleSelectMenu(item,index)"
+						@click="handleSelectMenu(item, index)"
 						class="menu-item"
 						:class="{ active: current == item.moduleId }"
 					>
@@ -185,7 +185,7 @@ export default {
 				this.showMenuData.pop()
 			}
 			// 默认选中第一个
-			this.handleSelectMenu(this.showMenuData[0],0)
+			this.handleSelectMenu(this.showMenuData[0], 0)
 		},
 		/*handleSelectMenu(item) {
 			this.$router.push({ name: 'platform', params: { module: item.location }})
@@ -195,10 +195,10 @@ export default {
 			this.current = item.id
 			this.$emit('handleSelectMenu', item)
 		},*/
-		handleSelectMenu(item,index) {
+		handleSelectMenu(item, index) {
 			this.moreMenuIsShow = false
 			this.current = item.moduleId
-			this.$emit('handleSelectMenu', item,index)
+			this.$emit('handleSelectMenu', item, index)
 		},
 		getMenuDataByLocation(location) {
 			let MenuItem = {}
@@ -266,7 +266,7 @@ export default {
 				// height: 85px;
 				// background: url(prefixUrl'img/log-desc.png') no-repeat;
 				// background-size: 195px 85px;
-				color: #40a3e9; 
+				color: #40a3e9;
 
 				.chinese {
 					letter-spacing:3px;
@@ -282,7 +282,7 @@ export default {
 					font-size: 12px;
 					/* font-size: 10px; */
 					/* -webkit-transform: scale(0.8); */
-				} 
+				}
 			}
 		}
 

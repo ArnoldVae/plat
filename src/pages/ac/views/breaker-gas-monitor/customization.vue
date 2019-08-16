@@ -1,23 +1,23 @@
 <template>
-  <div class="breaker-gas-monitor-customization">
-    <div class="pressure_main_item" v-for="(pressureItem,index) in pressureList" :key="index">
-      <div class="item-title">{{pressureItem.tilte}}</div>
-      <div class="item_con" v-for="(itemChildren,idx) in pressureItem " :key="idx">
-        <div class="item_detail" v-for="(items,idxs) in itemChildren" :key="idxs">
-          <div :class="['item_img',items.className]" @click="showHistory(items)"></div>
-          <div class="item_concent">
-            <div>
-              <span>{{items.fvalue}}</span>
-              <span>{{items.vcUnit}}</span>
-            </div>
-            <span>{{items.nodeName}}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-	 <!-- <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal> -->
-	 <charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
-  </div>
+	<div class="breaker-gas-monitor-customization">
+		<div class="pressure_main_item" v-for="(pressureItem, index) in pressureList" :key="index">
+			<div class="item-title">{{ pressureItem.tilte }}</div>
+			<div class="item_con" v-for="(itemChildren, idx) in pressureItem" :key="idx">
+				<div class="item_detail" v-for="(items, idxs) in itemChildren" :key="idxs">
+					<div :class="['item_img', items.className]" @click="showHistory(items)"></div>
+					<div class="item_concent">
+						<div>
+							<span>{{ items.fvalue }}</span>
+							<span>{{ items.vcUnit }}</span>
+						</div>
+						<span>{{ items.nodeName }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal> -->
+		<charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
+	</div>
 </template>
 <script>
 import qs from 'qs'
@@ -25,7 +25,7 @@ import moment from 'moment'
 import charts from '../main-oil/charts1'
 export default {
 	name: 'breaker-gas-monitor-customization',
-	components: {charts},
+	components: { charts },
 	props: {},
 	data() {
 		return {
@@ -159,7 +159,7 @@ export default {
 	}
 }
 </script>
-<style lang='stylus' scoped>
+<style lang="stylus" scoped>
 .breaker-gas-monitor-customization {
   width: calc(100% - 20px);
   height: 100%;

@@ -5,8 +5,11 @@
 				<div class="table-wrap">
 					<!-- 表格 -->
 					<el-table
-					highlight-current-row @current-change="handleCurrentChange"
-					:data="tableData" height="500">
+						highlight-current-row
+						@current-change="handleCurrentChange"
+						:data="tableData"
+						height="500"
+					>
 						<el-table-column label="设备" align="center">
 							<template slot-scope="scope">
 								<i class="el-icon-timer"></i>
@@ -20,17 +23,27 @@
 						</el-table-column>
 						<el-table-column label="视频" align="center">
 							<template slot-scope="scope">
-								<el-button icon="el-icon-video-camera" size="mini" @click="handlePlayVideo( scope.row )"></el-button>
+								<el-button
+									icon="el-icon-video-camera"
+									size="mini"
+									@click="handlePlayVideo(scope.row)"
+								></el-button>
 							</template>
 						</el-table-column>
 					</el-table>
 
 					<!-- 分页 -->
 					<div class="page-wrap">
-						<Page 
-						@on-change="handleChangePage"
-						@on-page-size-change="handleChangeSize"
-						:total="total" :current="currentPage" :page-size="pageSize" show-sizer show-elevator show-total />
+						<Page
+							@on-change="handleChangePage"
+							@on-page-size-change="handleChangeSize"
+							:total="total"
+							:current="currentPage"
+							:page-size="pageSize"
+							show-sizer
+							show-elevator
+							show-total
+						/>
 					</div>
 				</div>
 			</div>
@@ -89,10 +102,10 @@ export default {
 					containLabel: true
 				},
 				xAxis: {
-			        type: 'category',
-			        boundaryGap: false,
-			        data: [],
-			        axisLine: {
+					type: 'category',
+					boundaryGap: false,
+					data: [],
+					axisLine: {
 						show: false
 					},
 					axisLabel: {
@@ -100,10 +113,10 @@ export default {
 							color: '#fff'
 						}
 					}
-			    },
-			    yAxis: {
-			        type: 'value',
-			        axisLine: {
+				},
+				yAxis: {
+					type: 'value',
+					axisLine: {
 						show: false
 					},
 					splitLine: {
@@ -116,15 +129,17 @@ export default {
 							color: '#fff'
 						}
 					}
-			    },
-			    series: [{
-			        data: [1, 3, 4, 3, 3, 1, 7],
-			        type: 'line',
-			        areaStyle: {},
-			        symbol: 'none',
-					areaStyle: { normal: { color: '#0f335f' } }, //折线区域背景色
-					lineStyle: { normal: { color: '#04a3ff' } }, //折线颜色
-			    }]
+				},
+				series: [
+					{
+						data: [1, 3, 4, 3, 3, 1, 7],
+						type: 'line',
+						areaStyle: {},
+						symbol: 'none',
+						areaStyle: { normal: { color: '#0f335f' } }, //折线区域背景色
+						lineStyle: { normal: { color: '#04a3ff' } } //折线颜色
+					}
+				]
 			},
 			nodeId: '',
 			axisLabelData: [],
@@ -145,7 +160,7 @@ export default {
 		nodeId: {
 			handler() {
 				console.log('更新历史数据')
-			
+
 				this.getHistoryByNodeId()
 			}
 		}
@@ -169,7 +184,7 @@ export default {
 				devTypeId: this.activeDeviceTypeId,
 				page: {
 					currentPage: this.currentPage,
-					pageSize: this.pageSize	
+					pageSize: this.pageSize
 				}
 			})
 			if (result.success) {
@@ -192,11 +207,11 @@ export default {
 		},
 		handlePlayVideo(row) {
 			let videoLinkArr = []
-			row.linkDevInfo.forEach( node => {
+			row.linkDevInfo.forEach(node => {
 				videoLinkArr.push(node.vc_Params1)
 			})
 			let firstUrl = ''
-			let firstUrlIndex = videoLinkArr.findIndex( url => {
+			let firstUrlIndex = videoLinkArr.findIndex(url => {
 				return url
 			})
 			firstUrl = videoLinkArr[firstUrlIndex]
@@ -209,7 +224,7 @@ export default {
 		},
 		handleCurrentChange(row) {
 			console.log(row)
-			
+
 			this.formatstr = row.vc_Unit
 			this.nodeTitle = `${row.devName}设备 ${row.nodeName}节点 状态分布`
 			this.nodeId = row.NodeID
@@ -217,7 +232,7 @@ export default {
 		// 获取设备节点历史数据
 		async getHistoryByNodeId() {
 			let current = new Date().getTime()
-        	let start = parseInt( (current - (1 * 3600 * 24 * 1000)) / 1000 )
+			let start = parseInt((current - 1 * 3600 * 24 * 1000) / 1000)
 			let result = await this.$_api.frame.getHistoryByNodeId({
 				// startTime: start,
 				startTime: start,
@@ -228,7 +243,6 @@ export default {
 				this.echartsLoad(result.data)
 				this.echartsUpdate()
 			} else {
-
 			}
 		},
 		// 处理Echarts数据
@@ -375,8 +389,7 @@ export default {
 				]
 			}
 			this.$_echarts.init(this.$refs['water-level-chart']).setOption(option)
-		},
-		
+		}
 	},
 	beforeRouteEnter(to, from, next) {
 		next()
@@ -398,9 +411,9 @@ export default {
 	background: url('~@/assets/img/common/bg-border.png') no-repeat;
 	background-size: 1572px 100%;
 	padding: 30px 52px;
-	// overflow: auto; 
+	// overflow: auto;
 	// overflow: hidden;
-	
+
 	.header {
 		width: 100%;
 		height: 369px;

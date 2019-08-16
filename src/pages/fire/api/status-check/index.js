@@ -25,14 +25,14 @@ export default {
 			data: params
 		})
 	},
-	getSubCharts(params){
+	getSubCharts(params) {
 		return axios.request({
 			url: 'htp/find_htp_age',
 			method: 'post',
 			data: params
 		})
 	},
-	getHtFind(params){
+	getHtFind(params) {
 		return axios.request({
 			url: 'htp/find_htp_nodes',
 			method: 'post',
@@ -55,34 +55,34 @@ export default {
 			data: JSON.stringify(params)
 		})
 	},
-//	获取设备温度
-	getTemDetail(params){
+	//	获取设备温度
+	getTemDetail(params) {
 		return axios.request({
 			url: 'fire/area/find_dev_node',
 			method: 'post',
 			data: JSON.stringify(params)
 		})
 	},
-//	获取温度折现图
-	getTemCharts(params){
+	//	获取温度折现图
+	getTemCharts(params) {
 		return axios.request({
 			url: 'dev_info/findDevHistoryData',
 			method: 'post',
 			data: JSON.stringify(params)
 		})
 	},
-	getAreaVideo(params){
+	getAreaVideo(params) {
 		return axios.request({
 			url: 'fire/area/find_protectarea_dev_video',
 			method: 'post',
 			data: JSON.stringify(params)
 		})
 	},
-getHtNode(params){
-	return axios.request({
-		url: 'htp/find_htp_nodesDev',
-		method: 'post',
-		data: params
-	})
-},
+	getHtNode(params) {
+		return axios.request({
+			url: 'htp/find_htp_nodesDev',
+			method: 'post',
+			data: params
+		})
+	}
 }

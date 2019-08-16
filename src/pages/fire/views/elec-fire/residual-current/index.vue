@@ -1,12 +1,13 @@
 <template>
 	<div class="residual-current">
 		<el-aside width="100%">
-			<component 
-            v-bind:is="htCommon" 
-            ref="htCommon"
-            :residualUrl='residualUrl'
-            :mqttData='mqttData'
-            :residualObj='residualObj'></component>
+			<component
+				v-bind:is="htCommon"
+				ref="htCommon"
+				:residualUrl="residualUrl"
+				:mqttData="mqttData"
+				:residualObj="residualObj"
+			></component>
 		</el-aside>
 	</div>
 </template>
@@ -21,17 +22,17 @@ export default {
 	props: {},
 	data() {
 		return {
-            unitId:'8177a787a28b4f86a103fac9a023db05',
+			unitId: '8177a787a28b4f86a103fac9a023db05',
 			current: 'fireControl-customization',
 			resultData: {
 				dev: {},
 				data: []
-            },
-            topicArr: 'qif/zf/app/',
-            topicStr: '',
-            residualUrl:'',
-            mqttData:{},
-            residualObj:{},
+			},
+			topicArr: 'qif/zf/app/',
+			topicStr: '',
+			residualUrl: '',
+			mqttData: {},
+			residualObj: {},
 			getId: '',
 			htCommon: 'htCommon'
 		}
@@ -40,15 +41,15 @@ export default {
 	filters: {},
 	watch: {},
 	created() {
-      this.getHtMap()  
-    },
+		this.getHtMap()
+	},
 	mounted() {
-        this.topicStr = this.topicArr + this.unitId
-        // this.topicStr = this.topicArr 
-        this.subscribe(this.topicStr)
-        this.$_listen('residualCurrent',(topic,message,packet) =>{
-            // console.log(JSON.parse(message.toString()))
-            let data = ''
+		this.topicStr = this.topicArr + this.unitId
+		// this.topicStr = this.topicArr
+		this.subscribe(this.topicStr)
+		this.$_listen('residualCurrent', (topic, message, packet) => {
+			// console.log(JSON.parse(message.toString()))
+			let data = ''
 			let dataobj = []
 			dataobj = message
 			dataobj.forEach(item => {
@@ -61,8 +62,8 @@ export default {
 			if (data.cmd == 1001) {
 				this.mqttData = data
 			}
-        })
-    },
+		})
+	},
 	activited() {},
 	update() {},
 	beforeDestory() {},
@@ -107,8 +108,8 @@ export default {
 		showHtMap(item) {
 			console.log(item)
 			this.$refs.htCommon.init(item.vcUrl)
-        },
-        subscribe(topicArr) {
+		},
+		subscribe(topicArr) {
 			// console.log(topicArr);
 			if (this.$_mqtt.connected) {
 				this.$_mqtt.unsubscribe(topicArr, err => {
@@ -128,30 +129,29 @@ export default {
 			} else {
 				console.log('MQTT连接失败')
 			}
-        },
-        //获取图纸接口
-        getHtMap(){
-           let params ={
-               unitId:this.united,
-               iSubType: '10100009'
-           } 
-           this.$_api.statusCheck.getSubCharts(params).then(res=>{
-            //    console.log(res)
-               if(res.code==200){
-                   if(res.data.length){
-                       for(let i=0; i<res.data.length; i++){
-                           let item = res.data[i]
+		},
+		//获取图纸接口
+		getHtMap() {
+			let params = {
+				unitId: this.united,
+				iSubType: '10100009'
+			}
+			this.$_api.statusCheck.getSubCharts(params).then(res => {
+				//    console.log(res)
+				if (res.code == 200) {
+					if (res.data.length) {
+						for (let i = 0; i < res.data.length; i++) {
+							let item = res.data[i]
 							if (item.vcUrl.length) {
-                                this.residualObj=item
+								this.residualObj = item
 								this.residualUrl = item.vcUrl
 								// return
 							}
-                       }
-                   }
-               }
-           })
-        }
-
+						}
+					}
+				}
+			})
+		}
 	},
 	beforeRouteEnter(to, from, next) {
 		next()

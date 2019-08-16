@@ -1,21 +1,20 @@
 <template>
 	<div class="personnel">
 		<component v-bind:is="current"></component>
-
 	</div>
 </template>
 <script>
-	import personManage from "./personManage"
+import personManage from './personManage'
 
 export default {
 	name: 'personnel',
 	components: {
-		"person-manage": personManage
+		'person-manage': personManage
 	},
 	props: {},
 	data() {
 		return {
-			current:'person-manage',
+			current: 'person-manage'
 		}
 	},
 	computed: {},

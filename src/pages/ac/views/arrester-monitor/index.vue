@@ -1,9 +1,9 @@
 <template>
-  <div class="arrester-monitor">
-    <!-- <transition name="v" mode="out-in"> -->
-    <component v-bind:is="current"></component>
-    <!-- </transition> -->
-  </div>
+	<div class="arrester-monitor">
+		<!-- <transition name="v" mode="out-in"> -->
+		<component v-bind:is="current"></component>
+		<!-- </transition> -->
+	</div>
 </template>
 <script>
 import arresterTable from '@ac/views/common/view-table'
@@ -12,7 +12,7 @@ export default {
 	name: 'arrester-monitor',
 	components: {
 		'arrester-monitor-customization': arresterCustomization,
-		'arrester-monitor-table': arresterTable,
+		'arrester-monitor-table': arresterTable
 	},
 	props: {},
 	data() {

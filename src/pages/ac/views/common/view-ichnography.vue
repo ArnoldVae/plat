@@ -1,6 +1,5 @@
 <template>
-  <div ref="blueprint"
-       class="blueprintHt"></div>
+	<div ref="blueprint" class="blueprintHt"></div>
 </template>
 <script>
 export default {
@@ -38,7 +37,6 @@ export default {
 	watch: {
 		blueprintUrl(url) {
 			this.dataModel.clear()
-
 			var el = this.$refs['blueprint']
 			var childs = el.childNodes
 			for (var i = childs.length - 1; i >= 0; i--) {
@@ -88,25 +86,27 @@ export default {
 				// console.log("移动" + data);
 				return false
 			})
+
+			//判断是否有图纸路径
 			if (!this.blueprintUrl.length) return
-			if (process.env.NODE_ENV == 'production') {
-				var http = `${$_production.request.location}/${$_production.request.javaModule}${this.blueprintUrl}`
-			}
-			if (process.env.NODE_ENV == 'development') {
-				var http = `${$_development.request.location}/${$_development.request.javaModule}${this.blueprintUrl}`
-			}
 
-			ht.Default.xhrLoad(http, res => {
-				let json = ht.Default.parse(res)
-				dataModel.deserialize(json)
-				graphView.fitContent(true)
-			})
-
+			this.axios
+				.getHtControl(this.blueprintUrl)
+				.then(res => {
+					let json = ht.Default.parse(res)
+					dataModel.deserialize(json)
+					graphView.fitContent(true)
+				})
+				.catch(err => {
+					this.$ocxMessage.error('图纸丢失！！！')
+				})
+			//监听交互事件
 			graphView.mi(e => {
 				let eType = e.kind,
 					eData = e.data,
 					part = e.part,
 					event = e.event
+
 				if (eType === 'clickData') {
 					if (e.data.a('vc_SourceID') != undefined) {
 						if (this.isNodeClick && this.isNodeClick == true) {
@@ -132,14 +132,16 @@ export default {
 					primitiveNodes.length &&
 						primitiveNodes.map(item => {
 							setTimeout(() => {
+								//创建ht node节点
 								let node = new this.localHt.Node()
-								node.setImage(item.vcPath)
-								node.setTag(item.vcSourceId)
-								node.setId(item.nodeId)
-								node.setPosition(parseFloat(item.fPageX), parseFloat(item.fPageY))
-								node.setName(item.vcName)
-								node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
-								node.a('vc_SourceID', item.vcSourceId)
+								node.setImage(item.vcPath) //设置图片
+								node.setTag(item.vcSourceId) //设置tag标签名称
+								node.setId(item.nodeId) //设置id
+								node.setPosition(parseFloat(item.fPageX), parseFloat(item.fPageY)) //设置位置
+								node.setRotation(item.fPageZ ? parseFloat(item.fPageZ) : 0) //设置旋转角度
+								node.setName(item.vcName) //设置名称
+								node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight)) //设置大小
+								node.a('vc_SourceID', item.vcSourceId) //设置自定义内容
 								node.a('vc_Path', item.vcPath)
 								node.a('i_NodeType', item.iNodeType)
 								node.a('pageId', this.pageId)
@@ -149,7 +151,7 @@ export default {
 								node.a('iParam3', item.iParam3)
 								node.setLayer(1)
 								node.s('label', '')
-								this.dataModel.add(node)
+								this.dataModel.add(node) //添加到ht模型里面
 							}, 1000)
 						})
 				}
@@ -167,7 +169,7 @@ export default {
 					}
 				}
 			}
-			this.dataModel.addScheduleTask(blinkTask)
+			this.dataModel.addScheduleTask(blinkTask) //添加调度的对象
 		}
 	}
 }

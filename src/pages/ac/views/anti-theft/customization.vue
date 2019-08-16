@@ -1,34 +1,32 @@
 <template>
-  <div class="anti-theft-customization">
-    <div class="left-video">
-      <div class="ft"></div>
-      <div class="rb"></div>
-      <ocxVideo :videoConfig="videoConfig"></ocxVideo>
-    </div>
-    <div class="right-list">
-      <ul>
-        <template v-for="(item, index) in listData">
-          <li :key="index">
-            <div class="list-item-left">
-              <!-- <div :class="{ ddmg: item.ddg, ddmk: item.ddk, mjg: item.mjg, mjk: item.mjk }"></div> -->
-              <img v-if="item.fvalue == 1" src="../../assets/img/anti-theft/mjk.png" />
-              <img v-else src="../../assets/img/anti-theft/mjg.png" />
-            </div>
-            <div class="list-item-right">
-              <span>{{ item.vcName }}</span>
-              <div class="list-item-btn">
-                <span
-                  v-for="(ite, idx) in item.btnArr"
-                  :key="idx"
-                  @click="handleClick(item, ite)"
-                >{{ ite.btnTitle }}</span>
-              </div>
-            </div>
-          </li>
-        </template>
-      </ul>
-    </div>
-    <!-- <confirm-modal
+	<div class="anti-theft-customization">
+		<div class="left-video">
+			<div class="ft"></div>
+			<div class="rb"></div>
+			<ocxVideo :videoConfig="videoConfig"></ocxVideo>
+		</div>
+		<div class="right-list">
+			<ul>
+				<template v-for="(item, index) in listData">
+					<li :key="index">
+						<div class="list-item-left">
+							<!-- <div :class="{ ddmg: item.ddg, ddmk: item.ddk, mjg: item.mjg, mjk: item.mjk }"></div> -->
+							<img v-if="item.fvalue == 1" src="../../assets/img/anti-theft/mjk.png" />
+							<img v-else src="../../assets/img/anti-theft/mjg.png" />
+						</div>
+						<div class="list-item-right">
+							<span>{{ item.vcName }}</span>
+							<div class="list-item-btn">
+								<span v-for="(ite, idx) in item.btnArr" :key="idx" @click="handleClick(item, ite)">{{
+									ite.btnTitle
+								}}</span>
+							</div>
+						</div>
+					</li>
+				</template>
+			</ul>
+		</div>
+		<!-- <confirm-modal
 			title="提醒"
 			text="确认执行该操作？"
 			v-model="modalShow"
@@ -36,10 +34,10 @@
 			@on-cacel="handleCancel"
 		></confirm-modal>
     <tool-tip createIframe v-model="tipShow" type="success" title="命令下发成功"></tool-tip>-->
-    <ocx-modal title="提醒" v-model="modalShow" @on-ok="handleConfirm" @on-cacel="handleCancel">
-      <p>确认执行该操作？</p>
-    </ocx-modal>
-  </div>
+		<ocx-modal title="提醒" v-model="modalShow" @on-ok="handleConfirm" @on-cacel="handleCancel">
+			<p>确认执行该操作？</p>
+		</ocx-modal>
+	</div>
 </template>
 <script>
 import ocxVideo from '@/components/native/video/OcxVideo'
@@ -57,8 +55,8 @@ export default {
 			modalShow: false,
 			tipShow: false,
 			accessData: [],
-      listData: [],
-      devItem:{},
+			listData: [],
+			devItem: {},
 			nodeData: {},
 			lightingFlag: 'open',
 			videoConfig: {
@@ -148,7 +146,7 @@ export default {
 		},
 		//点击控制按钮
 		handleClick(item, ite) {
-      this.devItem = item
+			this.devItem = item
 			this.nodeData = JSON.parse(JSON.stringify(ite))
 			this.modalShow = true
 		},
@@ -173,8 +171,8 @@ export default {
 			}
 			this.topicStr = this.topicArr[1] + this.unitId
 			//下发控制命令
-      this.$_mqtt.publish(this.topicStr, JSON.stringify(params), { qos: 0, retain: false })
-      //判断当前节点是否有视频 有就切换视频
+			this.$_mqtt.publish(this.topicStr, JSON.stringify(params), { qos: 0, retain: false })
+			//判断当前节点是否有视频 有就切换视频
 			if (
 				this.devItem.devNodesList &&
 				this.devItem.devNodesList.length > 0 &&
@@ -184,8 +182,7 @@ export default {
 			}
 		},
 		//弹窗取消
-		handleCancel() {
-		},
+		handleCancel() {},
 		//生成guId
 		guid() {
 			return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -358,13 +355,15 @@ export default {
 
             > span {
               display: inline-block;
+			  min-width 60px;
               color: #0ef6ff;
               background: url('../../assets/img/intelligent-lighting/btnBg.png');
               background-size: 100% 100%;
               cursor: pointer;
               height: 30px;
               line-height: 30px;
-              padding: 0 17px;
+			  text-align center;
+              padding: 0 10px;
               margin-bottom: 4px;
             }
           }

@@ -1,7 +1,7 @@
 // 开发模式
 var $_development = {
 	javaRequest: {
-		location: "http://172.26.1.109:8080",
+		location: "http://172.26.1.149:8085",
 		javaModule: "dsa5200"
 	},
 	netRequest: {
@@ -22,7 +22,7 @@ var $_development = {
 // 生产模式
 var $_production = {
 	javaRequest: {
-		location: "http://26.47.189.184:8085",
+		location: "http://172.26.1.110:8080",
 		javaModule: "dsa5200"
 	},
 	netRequest: {

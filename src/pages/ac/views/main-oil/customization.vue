@@ -1,31 +1,31 @@
 <template>
-  <div class="main-oil-customization">
-    <div class="oil-main-item" v-for="(mainitem,index) in dataList" :key="index">
-      <div class="item-title">{{index+1}}号主变</div>
-      <div v-for="(childitem,childindex) in mainitem" class="child-item-wrap" :key="childindex">
-        <div
-          class="child-item-title"
-        >{{childindex == 0 ? 'A相' : childindex == 1 ? 'B相' : childindex == 2 ? 'C相' : ''}}</div>
-        <div class="child-item-detail">
-          <div v-for="(detailitem,idx) in childitem.devNodesList" class="detail" :key="idx">
-            <div
-              @click="showHistoryHandler(detailitem)"
-              :class="['detail-img',detailitem.className]"
-            ></div>
-            <div class="detail-content">
-              <div>
-                <span>{{detailitem.fvalue}}</span>
-                <span>{{detailitem.vcUnit}}</span>
-              </div>
-              <span>{{detailitem.vcName}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+	<div class="main-oil-customization">
+		<div class="oil-main-item" v-for="(mainitem, index) in dataList" :key="index">
+			<div class="item-title">{{ index + 1 }}号主变</div>
+			<div v-for="(childitem, childindex) in mainitem" class="child-item-wrap" :key="childindex">
+				<div class="child-item-title">
+					{{ childindex == 0 ? 'A相' : childindex == 1 ? 'B相' : childindex == 2 ? 'C相' : '' }}
+				</div>
+				<div class="child-item-detail">
+					<div v-for="(detailitem, idx) in childitem.devNodesList" class="detail" :key="idx">
+						<div
+							@click="showHistoryHandler(detailitem)"
+							:class="['detail-img', detailitem.className]"
+						></div>
+						<div class="detail-content">
+							<div>
+								<span>{{ detailitem.fvalue }}</span>
+								<span>{{ detailitem.vcUnit }}</span>
+							</div>
+							<span>{{ detailitem.vcName }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
-  </div>
+		<charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
+	</div>
 </template>
 <script>
 import qs from 'qs'
@@ -81,15 +81,15 @@ export default {
 				let msgData = JSON.parse(message.toString())
 				if (msgData.cmd == 1001) {
 					console.log(msgData)
-					for(let i = 0; i< this.dataList.length; i++){
-						this.dataList[i].forEach(item=>{
-							item.devNodesList.forEach(element=>{
-								if(element.nodeId == msgData.nodeid){
+					for (let i = 0; i < this.dataList.length; i++) {
+						this.dataList[i].forEach(item => {
+							item.devNodesList.forEach(element => {
+								if (element.nodeId == msgData.nodeid) {
 									element.fvalue = msgData.value
 								}
 							})
 						})
-						}
+					}
 				}
 			}
 		})
@@ -173,7 +173,7 @@ export default {
 	}
 }
 </script>
-<style lang='stylus' scoped>
+<style lang="stylus" scoped>
 .main-oil-customization {
   width: calc(100% - 20px);
   height: 100%;

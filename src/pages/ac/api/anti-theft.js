@@ -16,5 +16,5 @@ export default {
 			method: 'post',
 			data: JSON.stringify(params)
 		})
-	},
+	}
 }

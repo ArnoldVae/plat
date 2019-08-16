@@ -1,47 +1,47 @@
 <template>
-  <div class="core-clamp-customization">
-    <div class="rcu" v-for="(item, index, idx) in rcuList" :key="index">
-      <div class="item-title">{{ idx + 1 + "号主变" }}</div>
-      <div class="content">
-        <ul class="x-wrap">
-          <li class="x-item" v-for="(ctem, i) in item" :key="i">
-            <div class="title">
-              <p>{{ i }}</p>
-              <p>相</p>
-            </div>
-            <div class="clamp">
-              <div class="info">
-                <div class="history-btn" @click="getHistory(ctem.tx)"></div>
-                <img src="~@ac/assets/img/core-clamp/clamp.png" />
-                <p>夹件电流</p>
-              </div>
-              <div class="value">
-                <ul>
-                  <li>值(mA)</li>
-                  <li>{{ ctem.tx.fvalue }}</li>
-                </ul>
-              </div>
-            </div>
-            <div class="electric">
-              <div class="info">
-                <div class="history-btn" @click="getHistory(ctem.jj)"></div>
-                <img src="~@ac/assets/img/core-clamp/electric.png" />
-                <p>铁芯电流</p>
-              </div>
-              <div class="value">
-                <ul>
-                  <li>值(mA)</li>
-                  <li>{{ ctem.jj.fvalue }}</li>
-                </ul>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <!-- <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal> -->
-    <charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
-  </div>
+	<div class="core-clamp-customization">
+		<div class="rcu" v-for="(item, index, idx) in rcuList" :key="index">
+			<div class="item-title">{{ idx + 1 + '号主变' }}</div>
+			<div class="content">
+				<ul class="x-wrap">
+					<li class="x-item" v-for="(ctem, i) in item" :key="i">
+						<div class="title">
+							<p>{{ i }}</p>
+							<p>相</p>
+						</div>
+						<div class="clamp">
+							<div class="info">
+								<div class="history-btn" @click="getHistory(ctem.tx)"></div>
+								<img src="~@ac/assets/img/core-clamp/clamp.png" />
+								<p>夹件电流</p>
+							</div>
+							<div class="value">
+								<ul>
+									<li>值(mA)</li>
+									<li>{{ ctem.tx.fvalue }}</li>
+								</ul>
+							</div>
+						</div>
+						<div class="electric">
+							<div class="info">
+								<div class="history-btn" @click="getHistory(ctem.jj)"></div>
+								<img src="~@ac/assets/img/core-clamp/electric.png" />
+								<p>铁芯电流</p>
+							</div>
+							<div class="value">
+								<ul>
+									<li>值(mA)</li>
+									<li>{{ ctem.jj.fvalue }}</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal> -->
+		<charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
+	</div>
 </template>
 <script>
 import { findComponentUpward } from '@/libs/assist'

@@ -45,7 +45,6 @@
 									                  					></div> -->
 									<div class="name">{{ item.vcName }}</div>
 								</div>
-								<!-- ## -->
 								<div class="info">
 									<div class="total">
 										<div :style="{ color: '#44e908' }" class="number">{{ item.devCount }}</div>
@@ -250,6 +249,10 @@ export default {
 				this.menuData = []
 			}
 		},
+		// 展示有数量的设备类型
+		handleGetEffectiveData(data) {
+			return data.filter(item => item.devCount > 0)
+		},
 		// 获取设备类型
 		async getDeviceTypeBySubsystemId() {
 			let result = await this.$_api.frame.getDeviceTypeBySubsystemId({
@@ -257,7 +260,7 @@ export default {
 				unitId: this.$store.getters.unitId
 			})
 			if (result.success) {
-				this.typeList = result.data
+				this.typeList = this.handleGetEffectiveData(result.data)
 			} else {
 				this.typeList = []
 			}
@@ -317,7 +320,6 @@ export default {
 			return name
 		},
 		async handleSelectCard(item) {
-
 			this.currentTypeId = item.devTypeId
 			// await this.getDeviceInfo()
 
@@ -455,9 +457,9 @@ export default {
             min-width: 190px;
             height: 94px;
             /* background: #0c1b3b; */
-            background: url('~@ac/assets/img/content/bg.png') no-repeat; 
-             background-size: 190px 94px; 
-             margin-right: 10px; 
+            background: url('~@ac/assets/img/content/bg.png') no-repeat;
+             background-size: 190px 94px;
+             margin-right: 10px;
             cursor: pointer;
             position: relative;
             // padding-left: 35px;
@@ -494,8 +496,8 @@ export default {
             }
 
             &.current {
-               background: url('~@ac/assets/img/content/bg-active.png') no-repeat; 
-               background-size: 190px 94px; 
+               background: url('~@ac/assets/img/content/bg-active.png') no-repeat;
+               background-size: 190px 94px;
               	// background-color: rgba(15, 33, 69, 0.7);
 
               .type .name {
@@ -504,7 +506,6 @@ export default {
 
               /* background-size: 250px 94px; */
             }
-			/* ## */
             .info {
               display: flex;
               /* justify-content: space-around; */
@@ -512,7 +513,7 @@ export default {
               /* margin-top: 17px; */
               font-family: 'DS-DIGI';
               padding: 0 10px;
-              
+
 
               .total {
               	width: 33.33%

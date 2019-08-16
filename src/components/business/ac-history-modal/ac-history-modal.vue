@@ -47,21 +47,21 @@ export default {
 	components: {},
 	props: {
 		value: {
-            type: Boolean,
-            default: false
-        },
+			type: Boolean,
+			default: false
+		},
 		subTitle: {
-            type: String,
-            default: ''
-        },
-        nodeId: {
-        	type: String,
-            default: ''
-        },
-        unit: {
-        	type: String,
-            default: ''
-        }
+			type: String,
+			default: ''
+		},
+		nodeId: {
+			type: String,
+			default: ''
+		},
+		unit: {
+			type: String,
+			default: ''
+		}
 	},
 	data() {
 		const validateDate = (rule, value, callback) => {
@@ -88,7 +88,7 @@ export default {
 			series: [],
 			nodeStateHistory: [],
 			zStart: 0,
-			formatstr: '',
+			formatstr: ''
 		}
 	},
 	computed: {},
@@ -104,7 +104,7 @@ export default {
 				}
 			},
 			immediate: true
-		},
+		}
 	},
 	created() {},
 	mounted() {
@@ -133,7 +133,6 @@ export default {
 			this.formatstr = ''
 		},
 		async handleViewHistory() {
-
 			// console.log(row)
 			// this.nodeTitle = `${row.devName}设备 ${row.nodeName}节点 状态分布`
 
@@ -337,7 +336,7 @@ export default {
 			}
 
 			EchartsDom.setOption(option)
-		},
+		}
 	},
 	beforeRouteEnter(to, from, next) {
 		next()

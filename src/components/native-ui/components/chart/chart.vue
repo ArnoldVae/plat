@@ -13,7 +13,11 @@ export default {
 	data() {
 		return {
 			// 动态生成id, 保证多个可以挂载
-			chartId: 'id-' + Math.random().toString(16).substr(2, 8),
+			chartId:
+				'id-' +
+				Math.random()
+					.toString(16)
+					.substr(2, 8),
 			timerId: null
 		}
 	},

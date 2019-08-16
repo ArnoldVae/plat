@@ -1,22 +1,24 @@
 <template>
-  <div class="security-control-customization">
-
-    <div class="securityControl-center">
-      <div class="securityControl-top"
-           v-if="list.length > 1">
-        <span v-for="(item,index) in list"
-              :key="index"
-              v-show="item.vcUrl.length != 0"
-              :class="{onBut:pitchOn == item.pageId}"
-              @click="but(item)">{{item.vcName}}</span>
-      </div>
-      <htBlueprint :blueprintUrl="blueprintUrl"
-                   :blueprintObj="blueprintObj"
-                   :primitiveNodes="primitiveNodes"
-                   :mqttData="mqttData" />
-    </div>
-  </div>
-
+	<div class="security-control-customization">
+		<div class="securityControl-center">
+			<div class="securityControl-top" v-if="list.length > 1">
+				<span
+					v-for="(item, index) in list"
+					:key="index"
+					v-show="item.vcUrl.length != 0"
+					:class="{ onBut: pitchOn == item.pageId }"
+					@click="but(item)"
+					>{{ item.vcName }}</span
+				>
+			</div>
+			<htBlueprint
+				:blueprintUrl="blueprintUrl"
+				:blueprintObj="blueprintObj"
+				:primitiveNodes="primitiveNodes"
+				:mqttData="mqttData"
+			/>
+		</div>
+	</div>
 </template>
 <script>
 import htBlueprint from '../common/view-ichnography'
@@ -143,10 +145,10 @@ export default {
 
   .securityControl-center {
     width: calc(100% - 20px);
-    height: 100% ;
+    height: 100%;
     background-image: url('~@/assets/img/common/bg-border.png');
     background-size: 100% 100%;
-    padding: 30px;
+    padding: 15px 30px 30px;
 
     .securityControl-top {
       height: 34px;

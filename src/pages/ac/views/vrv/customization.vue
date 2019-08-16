@@ -7,8 +7,10 @@
 						<div class="header">
 							<div class="left">
 								<div class="status">
-									<div :class="['icon-off',{'icon-on': getStatus(item)}]"></div>
-									<div :class="['name-off',{'name-on': getStatus(item)}]">{{ getStatus(item)?'开启':'关闭' }}</div>
+									<div :class="['icon-off', { 'icon-on': getStatus(item) }]"></div>
+									<div :class="['name-off', { 'name-on': getStatus(item) }]">
+										{{ getStatus(item) ? '开启' : '关闭' }}
+									</div>
 								</div>
 								<div class="mode">
 									<div :class="`${getMode(item)[0]}`"></div>
@@ -16,7 +18,10 @@
 								</div>
 							</div>
 							<div class="center">
-								<div :class="['vrv-off',{'vrv-on': getStatus(item)}]" @click="handleToggle(item, devIndex)"></div>
+								<div
+									:class="['vrv-off', { 'vrv-on': getStatus(item) }]"
+									@click="handleToggle(item, devIndex)"
+								></div>
 							</div>
 							<div class="right">
 								<div class="temp">
@@ -35,11 +40,12 @@
 								<div class="fbtn-wrap">
 									<el-scrollbar style="height:100%">
 										<!-- :class="{current: coolId == citem.id}"  -->
-										<div class="btn-item"
-											v-for="(citem,index) in getFunList(item, '制冷')"
+										<div
+											class="btn-item"
+											v-for="(citem, index) in getFunList(item, '制冷')"
 											:key="citem.id"
 											@click="handleControlVRV(citem, item, devIndex)"
-											:class="{disabled: citem.disable}"
+											:class="{ disabled: citem.disable }"
 										>
 											{{ citem.label }}
 										</div>
@@ -50,11 +56,12 @@
 								<div class="icon"></div>
 								<div class="fbtn-wrap">
 									<el-scrollbar style="height:100%">
-										<div class="btn-item"
-											v-for="(citem,index) in getFunList(item, '制热')"
+										<div
+											class="btn-item"
+											v-for="(citem, index) in getFunList(item, '制热')"
 											:key="citem.id"
 											@click="handleControlVRV(citem, item, devIndex)"
-											:class="{disabled: citem.disable}"
+											:class="{ disabled: citem.disable }"
 										>
 											{{ citem.label }}
 										</div>
@@ -65,11 +72,12 @@
 								<div class="icon"></div>
 								<div class="fbtn-wrap">
 									<el-scrollbar style="height:100%">
-										<div class="btn-item"
-											v-for="(citem,index) in getFunList(item, '除湿')"
+										<div
+											class="btn-item"
+											v-for="(citem, index) in getFunList(item, '除湿')"
 											:key="citem.id"
 											@click="handleControlVRV(citem, item, devIndex)"
-											:class="{disabled: citem.disable}"
+											:class="{ disabled: citem.disable }"
 										>
 											{{ citem.label }}
 										</div>
@@ -96,7 +104,7 @@ export default {
 			deviceData: [],
 			coolId: '',
 			vrvIsOn: false,
-			guidList: ['111222','333444','555666']
+			guidList: ['111222', '333444', '555666']
 		}
 	},
 	computed: {
@@ -131,31 +139,30 @@ export default {
 				// 数据转换
 				let oMessage = JSON.parse(message.toString())
 				// 实时数据
-				if ( oMessage.cmd == '1001' && oMessage.unitid == this.$store.getters.unitId ) {
+				if (oMessage.cmd == '1001' && oMessage.unitid == this.$store.getters.unitId) {
 					console.log('空调-实时数据', oMessage)
 					// 处理空调实时消息
 					this.handleRealMessage(oMessage)
 				}
 				// 实时结果
-				if ( oMessage.cmd == '1004' && this.guidList.indexOf(oMessage.serial) != -1) {
+				if (oMessage.cmd == '1004' && this.guidList.indexOf(oMessage.serial) != -1) {
 					console.log('空调-实时结果', oMessage)
 					// 处理控制结果解析
 					this.handleRealResult(oMessage)
 				}
-				
+
 				// 报警数据
-				
 			})
 		},
 		// 实时数据
 		handleRealMessage(msg) {
 			// let targetDevice = {}
-			this.deviceData.forEach( device => {
+			this.deviceData.forEach(device => {
 				// console.log(msg.devid)
 				// console.log(device.devId)
 				// console.log(msg.devid == device.devId)
 				if (msg.devid == device.devId) {
-					device.devNodesList.forEach( node => {
+					device.devNodesList.forEach(node => {
 						// console.log(node.nodeId)
 						// console.log(msg.nodeid)
 						// console.log(node.nodeId == msg.nodeid)
@@ -173,11 +180,11 @@ export default {
 		// 实时结果
 		handleRealResult(msg) {
 			if (msg.result == '1') {
-				this.$ocxMessage.info('操作成功');
+				this.$ocxMessage.info('操作成功')
 			} else {
-				this.$ocxMessage.info('操作失败');
+				this.$ocxMessage.info('操作失败')
 			}
-			let guidIndex = this.guidList.findIndex( item => {
+			let guidIndex = this.guidList.findIndex(item => {
 				return item == msg.serial
 			})
 			// 清除guid标识
@@ -186,7 +193,7 @@ export default {
 		// 获取温度信息
 		getTemperature(vrv) {
 			let temperature = ''
-			vrv.devNodesList.map( item => {
+			vrv.devNodesList.map(item => {
 				if (item.functionCode == '1016.0006') {
 					temperature = item.desc
 				}
@@ -196,7 +203,7 @@ export default {
 		// 获取湿度信息
 		getHumidity(vrv) {
 			let humidity = ''
-			vrv.devNodesList.map( item => {
+			vrv.devNodesList.map(item => {
 				if (item.functionCode == '1016.0007') {
 					humidity = item.desc
 				}
@@ -207,10 +214,9 @@ export default {
 		getFunList(vrv, text) {
 			let descInfo = ''
 			let nodeInfo = {}
-			vrv.devNodesList.map( item => {
+			vrv.devNodesList.map(item => {
 				if (item.vcName.indexOf(text) != -1 && item.vcValueDesc != '') {
-					descInfo = item.vcValueDesc,
-					nodeInfo = item
+					;(descInfo = item.vcValueDesc), (nodeInfo = item)
 				}
 			})
 			let fValueList = []
@@ -233,42 +239,42 @@ export default {
 			let temp = [
 				{
 					id: 1,
-					label: "16℃",
+					label: '16℃',
 					value: 1,
 					nodeInfo: {},
 					disable: true
 				},
 				{
 					id: 2,
-					label: "18℃",
+					label: '18℃',
 					value: 2,
 					nodeInfo: {},
 					disable: true
 				},
 				{
 					id: 3,
-					label: "20℃",
+					label: '20℃',
 					value: 3,
 					nodeInfo: {},
 					disable: true
 				},
 				{
 					id: 4,
-					label: "22℃",
+					label: '22℃',
 					value: 4,
 					nodeInfo: {},
 					disable: true
 				},
 				{
 					id: 5,
-					label: "24℃",
+					label: '24℃',
 					value: 5,
 					nodeInfo: {},
 					disable: true
 				},
 				{
 					id: 6,
-					label: "26℃",
+					label: '26℃',
 					value: 6,
 					nodeInfo: {},
 					disable: true
@@ -279,20 +285,19 @@ export default {
 			} else {
 				return fValueList
 			}
-			
 		},
 		// 获取空调状态信息
 		getStatus(vrv) {
 			let status = false
 			let statusCode = null
-			vrv.devNodesList.map( item => {
+			vrv.devNodesList.map(item => {
 				if (item.functionCode == '1016.0001') {
 					statusCode = item.fvalue
 				}
 			})
 
 			// console.log(statusCode)
-			
+
 			if (statusCode == 1) {
 				return true
 			} else {
@@ -302,7 +307,7 @@ export default {
 		// 控制空调开关
 		handleToggle(devInfo, index) {
 			// console.log(devInfo)
-			let nodeIndex = devInfo.devNodesList.findIndex( item => {
+			let nodeIndex = devInfo.devNodesList.findIndex(item => {
 				return item.functionCode == '1016.0001'
 			})
 			if (nodeIndex == -1) {
@@ -320,10 +325,11 @@ export default {
 			}
 
 			function guid() {
-			    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-			        return v.toString(16);
-			    });
+				return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+					var r = (Math.random() * 16) | 0,
+						v = c == 'x' ? r : (r & 0x3) | 0x8
+					return v.toString(16)
+				})
 			}
 			let currentGuid = guid()
 			// 智辅 mqtt 控制命令报文
@@ -334,7 +340,7 @@ export default {
 				serial: currentGuid,
 				time: parseInt(new Date().getTime() / 1000),
 				nodes: [
-					{	
+					{
 						devid: devInfo.devId,
 						nodeid: this.deviceData[index]['devNodesList'][nodeIndex]['nodeId'],
 						value: sendVal
@@ -343,34 +349,37 @@ export default {
 			}
 			console.log('下发数据', message)
 			// console.log(`qif/zf/app/control/${this.$store.getters.unitId}`)
-			this.$_mqtt.publish(`qif/zf/app/control/${this.$store.getters.unitId}`, JSON.stringify(message), { qos: 0, retain: false })
+			this.$_mqtt.publish(`qif/zf/app/control/${this.$store.getters.unitId}`, JSON.stringify(message), {
+				qos: 0,
+				retain: false
+			})
 			// 追加标识id
 			this.guidList.push(currentGuid)
-			
+
 			// this.vrvIsOn = !this.vrvIsOn
 		},
 		// 获取空调当前模式
 		getMode(vrv) {
 			let mode = ''
 			let statusCode = null
-			vrv.devNodesList.map( item => {
+			vrv.devNodesList.map(item => {
 				if (item.functionCode == '1016.0002') {
 					statusCode = item.fvalue
 				}
 			})
 
 			if (statusCode == 0) {
-				return ['mode-cool','制冷']
-			} else if (statusCode == 1){
-				return ['mode-heating','制热']
+				return ['mode-cool', '制冷']
+			} else if (statusCode == 1) {
+				return ['mode-heating', '制热']
 			} else if (statusCode == 2) {
-				return ['','通风']
+				return ['', '通风']
 			} else if (statusCode == 3) {
-				return ['mode-dehumidify','除湿']
-			} else if (statusCode == 4){
-				return ['','自动']
+				return ['mode-dehumidify', '除湿']
+			} else if (statusCode == 4) {
+				return ['', '自动']
 			} else {
-				return ['','模式无']
+				return ['', '模式无']
 			}
 		},
 		// 控制空调功能
@@ -397,10 +406,11 @@ export default {
 				this.$set(this.deviceData[devIndex]['devNodesList'][nodeIndex], 'fvalue', 4)
 			}*/
 			function guid() {
-			    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-			        return v.toString(16);
-			    });
+				return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+					var r = (Math.random() * 16) | 0,
+						v = c == 'x' ? r : (r & 0x3) | 0x8
+					return v.toString(16)
+				})
 			}
 			let currentGuid = guid()
 			// 智辅 mqtt 控制命令报文
@@ -411,7 +421,7 @@ export default {
 				serial: currentGuid,
 				time: parseInt(new Date().getTime() / 1000),
 				nodes: [
-					{	
+					{
 						devid: devInfo.devId,
 						nodeid: nodeInfo.nodeInfo.nodeId,
 						value: nodeInfo.value
@@ -419,7 +429,10 @@ export default {
 				]
 			}
 			console.log('空调按钮命令', message)
-			this.$_mqtt.publish(`qif/zf/app/control/${this.$store.getters.unitId}`, JSON.stringify(message), { qos: 0, retain: false })
+			this.$_mqtt.publish(`qif/zf/app/control/${this.$store.getters.unitId}`, JSON.stringify(message), {
+				qos: 0,
+				retain: false
+			})
 			// 追加标识id
 			this.guidList.push(currentGuid)
 		},
@@ -445,7 +458,7 @@ export default {
 				isPage: 0,
 				isFindNodes: 1
 			})
-			
+
 			if (result.success) {
 				this.deviceData = result.data.lists
 				console.log('空调设备信息', this.deviceData)
@@ -474,7 +487,7 @@ export default {
 	/* padding: 30px 52px; */
 	/* overflow: auto; */
 	overflow: hidden;
-	
+
 	.vrv-item-wrap {
 		width: 1470px;
 		height: 630px;
@@ -683,7 +696,7 @@ export default {
 									overflow-x: hidden !important;
 								}
 							}
-							
+
 							/deep/ .el-scrollbar__wrap {
 								overflow-y: scroll !important;
 							}
@@ -763,17 +776,17 @@ export default {
 							/* display: flex; */
 							/* flex-wrap: wrap; */
 							/* overflow: auto; */
-							
+
 							/deep/ .el-scrollbar {
 								/deep/ .el-scrollbar__wrap {
 									overflow-x: hidden !important;
 								}
 							}
-							
+
 							/deep/ .el-scrollbar__wrap {
 								overflow-y: scroll !important;
 							}
-							
+
 							/deep/ .el-scrollbar__thumb {
 								background-color: #2cbfdf !important;
 								&:hover {
@@ -849,17 +862,17 @@ export default {
 							/* display: flex; */
 							/* flex-wrap: wrap; */
 							/* overflow: auto; */
-								
+
 							/deep/ .el-scrollbar {
 								/deep/ .el-scrollbar__wrap {
 									overflow-x: hidden !important;
 								}
 							}
-							
+
 							/deep/ .el-scrollbar__wrap {
 								overflow-y: scroll !important;
 							}
-								
+
 							/deep/ .el-scrollbar__thumb {
 								background-color: #2cbfdf !important;
 								&:hover {
@@ -886,7 +899,7 @@ export default {
 								align-items: center;
 								color: #fff;
 								cursor: pointer;
-								
+
 
 								&.current {
 									background: #fa0;
@@ -921,6 +934,6 @@ export default {
 			}
 		}
 	}
-	
+
 }
 </style>

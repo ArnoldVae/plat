@@ -1,20 +1,20 @@
 <template>
-  <div class="humiture-customization">
-    <div class="humiture-top">
-      <ul style="height:100%">
-        <!-- <el-scrollbar style="height:100%"> -->
-        <li
-          v-for="(item,index) in devList"
-          :key="index"
-          @click="handleListClick(index, item)"
-          :class="{ active: item.isActive }"
-        >
-          <div class="li-left">
-            <img src="../../assets/img/humiture/tempLogo.png" alt />
-            <div class="li-title">{{item.vcName}}</div>
-          </div>
-          <div class="li-right">
-            <!-- <div class="li-wd">
+	<div class="humiture-customization">
+		<div class="humiture-top">
+			<ul style="height:100%">
+				<!-- <el-scrollbar style="height:100%"> -->
+				<li
+					v-for="(item, index) in devList"
+					:key="index"
+					@click="handleListClick(index, item)"
+					:class="{ active: item.isActive }"
+				>
+					<div class="li-left">
+						<img src="../../assets/img/humiture/tempLogo.png" alt />
+						<div class="li-title">{{ item.vcName }}</div>
+					</div>
+					<div class="li-right">
+						<!-- <div class="li-wd">
               温度:
               <i
                 class="li-value"
@@ -27,24 +27,23 @@
               <i class="li-value">{{item.sdValue}}</i>
               <b>{{item.sdUnit}}</b>
             </div>-->
-            <div class="li-wd" v-for="items in item.devNodesList" :key="items.nodeId">
-              {{items.title}}:
-              <i
-                class="li-value"
-                :class="{ 'height-wd': items.isHeitht, 'low-wd': items.isLow }"
-              >{{items.fvalue}}</i>
-              <b>{{items.vcUnit}}</b>
-            </div>
-          </div>
-        </li>
-        <!-- </el-scrollbar> -->
-      </ul>
-    </div>
-    <div class="humiture-bottom">
-      <div class="chartTitle">{{devName}}&nbsp;&nbsp;&nbsp;温度</div>
-      <div id="chart"></div>
-    </div>
-  </div>
+						<div class="li-wd" v-for="items in item.devNodesList" :key="items.nodeId">
+							{{ items.title }}:
+							<i class="li-value" :class="{ 'height-wd': items.isHeitht, 'low-wd': items.isLow }">{{
+								items.fvalue
+							}}</i>
+							<b>{{ items.vcUnit }}</b>
+						</div>
+					</div>
+				</li>
+				<!-- </el-scrollbar> -->
+			</ul>
+		</div>
+		<div class="humiture-bottom">
+			<div class="chartTitle">{{ devName }}&nbsp;&nbsp;&nbsp;温度</div>
+			<div id="chart"></div>
+		</div>
+	</div>
 </template>
 <script>
 import { findComponentUpward } from '@/libs/assist'
@@ -360,7 +359,7 @@ export default {
 	}
 }
 </script>
-<style lang='stylus' scoped>
+<style lang="stylus" scoped>
 .humiture-customization {
   width: calc(100% - 20px);
   height: 100%;

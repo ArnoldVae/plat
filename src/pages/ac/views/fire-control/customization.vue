@@ -1,22 +1,25 @@
 <template>
-  <div class="fire-control-customization">
+	<div class="fire-control-customization">
+		<div class="fireControl-center">
+			<div class="fireControl-top" v-if="list.length > 1">
+				<span
+					v-for="(item, index) in list"
+					:key="index"
+					v-show="item.vcUrl.length != 0"
+					:class="{ onBut: pitchOn == item.pageId }"
+					@click="but(item)"
+					>{{ item.vcName }}</span
+				>
+			</div>
 
-    <div class="fireControl-center">
-      <div class="fireControl-top"
-           v-if="list.length > 1">
-        <span v-for="(item, index) in list"
-              :key="index"
-              v-show="item.vcUrl.length != 0"
-              :class="{ onBut: pitchOn == item.pageId }"
-              @click="but(item)">{{ item.vcName }}</span>
-      </div>
-
-      <htBlueprint :blueprintUrl="blueprintUrl"
-                   :blueprintObj="blueprintObj"
-                   :primitiveNodes="primitiveNodes"
-                   :mqttData="mqttData" />
-    </div>
-  </div>
+			<htBlueprint
+				:blueprintUrl="blueprintUrl"
+				:blueprintObj="blueprintObj"
+				:primitiveNodes="primitiveNodes"
+				:mqttData="mqttData"
+			/>
+		</div>
+	</div>
 </template>
 <script>
 import htBlueprint from '../common/view-ichnography'
@@ -44,7 +47,7 @@ export default {
 		this.getData()
 	},
 	mounted() {
-		// this.topicStr = this.topicArr[0] + this.unitId
+		this.topicStr = this.topicArr[0] + this.unitId
 		// this.subscribe(this.topicStr)
 		//实时数据回调
 		const _this = this
@@ -62,11 +65,11 @@ export default {
 			// 	if (topic == _this.topicStr) {
 			//   console.log(data)
 			// 	}
-			console.log(data)
-			let val = JSON.parse(data)
-			if (val.type == 'req' && val.cmd == '1002') {
-				console.log(val)
-				_this.mqttData = val
+			if (topic == _this.topicStr) {
+				let val = JSON.parse(data)
+				if (val.type == 'req' && val.cmd == '1002') {
+					_this.mqttData = val
+				}
 			}
 		})
 	},
@@ -144,36 +147,34 @@ export default {
   width: 100%;
   height: 100%;
 
-  
-
   .fireControl-center {
     width: calc(100% - 20px);
     height: 100%;
     background-image: url('~@/assets/img/common/bg-border.png');
     background-size: 100% 100%;
-    padding: 30px;
+    padding: 15px 30px 30px;
 
-	.fireControl-top {
-    height: 34px;
+    .fireControl-top {
+      height: 34px;
 
-    .onBut {
-      color: #ffe06d;
+      .onBut {
+        color: #ffe06d;
+      }
+
+      >span {
+        color: #8fd8fe;
+        display: inline-block;
+        margin-left: 11px;
+        text-align: center;
+        font-size: 14px;
+        height: 28px;
+        line-height: 28px;
+        padding: 0 5px;
+        border: 1px solid #0173bb;
+        border-radius: 3px;
+        cursor: pointer;
+      }
     }
-
-    >span {
-      color: #8fd8fe;
-      display: inline-block;
-      margin-left: 11px;
-      text-align: center;
-      font-size: 14px;
-      height: 28px;
-      line-height: 28px;
-      padding: 0 5px;
-      border: 1px solid #0173bb;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-  }
   }
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <div class="anti-theft">
-    <!-- <transition name="v" mode="out-in"> -->
-    <component v-bind:is="current"></component>
-    <!-- </transition> -->
-  </div>
+	<div class="anti-theft">
+		<!-- <transition name="v" mode="out-in"> -->
+		<component v-bind:is="current"></component>
+		<!-- </transition> -->
+	</div>
 </template>
 <script>
 import antiTheftTable from '@ac/views/common/view-table'

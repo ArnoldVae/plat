@@ -73,10 +73,10 @@ export default {
 			method: 'post',
 			data: params
 		})
-  },
-  
-  //获取巡检类型
-  getInspectionType(params) {
+	},
+
+	//获取巡检类型
+	getInspectionType(params) {
 		return axios.request({
 			url: 'astask/findAsTypeLists',
 			method: 'post',
@@ -101,9 +101,27 @@ export default {
 		})
 	},
 	//获取巡检任务单数据
-	getInspectionTaskTableData( params ) {
+	getInspectionTaskTableData(params) {
 		return axios.request({
 			url: '/astask/findAsTypeNodes',
+			method: 'post',
+			data: params
+		})
+	},
+
+	//获取临时特巡  巡检区域数据
+	getInspectionAreaData(params) {
+		return axiosNet.request({
+			url: '/As/GetAreaList',
+			method: 'post',
+			data: params
+		})
+	},
+
+	//获取巡检任务单数据
+	getInspectionWorkOrderData( params ) {
+		return axiosNet.request({
+			url: '/as/GetAsTaskNodeByTree?vc_Code=2000.0001',
 			method: 'post',
 			data: params
 		})
@@ -111,13 +129,21 @@ export default {
 	
 	
 	
-	//获取临时特巡  巡检区域数据
-	getInspectionAreaData( params ) {
-		return axiosNet.request({
-			url: '/As/GetAreaList',
+	
+	// 获取下一级节点
+	getNextNode(params) {
+		return axios.request({
+			url: 'bll/bll_firstlist',
+			method: 'post',
+			data: params
+		})
+	},
+	// 获取设备信息
+	getDeviceInfo(params) {
+		return axios.request({
+			url: 'dev_info/get',
 			method: 'post',
 			data: params
 		})
 	}
-	
 }

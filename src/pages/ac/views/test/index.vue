@@ -35,7 +35,7 @@ export default {
 	props: {},
 	data() {
 		return {
-			current: 'ocx-modal-test',
+			current: 'ocx-modal-test'
 		}
 	},
 	computed: {},

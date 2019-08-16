@@ -10,16 +10,16 @@ import 'iview/dist/styles/iview.css'
 Vue.use(iView)*/
 
 // ElementUI 按需
-import { Tree ,Table,TableColumn} from 'element-ui'
-const ElementUI = [Tree,Table,TableColumn]
+import { Tree, Table, TableColumn } from 'element-ui'
+const ElementUI = [Tree, Table, TableColumn]
 
 // Antd 按需
 import { Drawer, Spin } from 'ant-design-vue'
 const Antd = [Drawer, Spin]
 
 // Singletons(单例组件库) 按需
-import { navigation ,statistics} from '@/components/singletons'
-const Singletons = [navigation,statistics]
+import { navigation, statistics } from '@/components/singletons'
+const Singletons = [navigation, statistics]
 
 // 捆绑注册
 function* register(name) {

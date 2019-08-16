@@ -10,9 +10,8 @@ import inspectionIndex from './inspectionIndex/inspectionIndex'
 export default {
 	getStaticData,
 
-  exampleModule,
-  monitorData,
-  recordData,
+	exampleModule,
+	monitorData,
+	recordData,
 	inspectionIndex
-
 }

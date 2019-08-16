@@ -1,80 +1,81 @@
 <template>
-  <div class="alarm-now">
-    <div class="alarmContainer" v-if="alarmHide">
-      <div class="container-left">
-        <div class="alarm-now-header">
-          <div class="alarm-now-header-items">
-            <div
-              class="alarm-now-header-item"
-              v-for="(item,index) in labelList"
-              :key="index"
-              @click="showItemDetail(item)"
-            >
-              <ul>
-                <li>
-                  <span class="icon">●</span>
-                  <span>{{item.unitName}}</span>
-                </li>
-                <li>
-                  <span class="icon">●</span>
-                  <span>{{item.araeName}}</span>
-                </li>
-                <li>
-                  <span class="icon">●</span>
-                  <span>{{item.devName}}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="alarm-now-video">
-          <div class="alarm-now-video-item" v-for="(videoItem,index) in videoConfig" :key="index">
-            <OcxVideo :videoConfig="videoItem"></OcxVideo>
-          </div>
-        </div>
-        <div class="alarm-now-chart">
-          <div class="chart-container" ref="envChart"></div>
-        </div>
-
-      </div>
-        <div class="container-right">
-            <div class="infoWarp-top">
-                <div class="title">站内气象:</div>
-                <div class="weather">
-                    <img :src="weatherImg" alt="">
-                </div>
-                <div class="weatherInfo">
-                    <ul>
-                        <li v-for="(item,index) in weatherList" :key=index>
-                            <div class="icon">
-                                <img :src="item.icon" alt="">
-                            </div>
-                            <div class="name">{{item.name}}</div>
-                            <div class="value">{{item.value}}</div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="infoWarp-bottom">
-                <div class="alarmInfo-box">
-                    <div class="title">报警信息:</div>
-                    <div class="info-wrap">
-                        <ul>
-                            <li v-for="(infoItem,index) in alarmListInfo" :key="index">
-                                <div class="name">{{infoItem.name}}</div>
-                                <div :class="['value' ,index%2==0 ?'valueColor1':'valueColor2']" >{{infoItem.value}}</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="alarm-btn">
-                    <button class="btn confirm" @click="alarmShow()">确定</button>
-                    <button class="btn false">误报</button>
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
+	<div class="alarm-now">
+		<div class="alarmContainer" v-if="alarmHide">
+			<div class="container-left">
+				<div class="alarm-now-header">
+					<div class="alarm-now-header-items">
+						<div
+							class="alarm-now-header-item"
+							v-for="(item, index) in labelList"
+							:key="index"
+							@click="showItemDetail(item)"
+						>
+							<ul>
+								<li>
+									<span class="icon">●</span>
+									<span>{{ item.unitName }}</span>
+								</li>
+								<li>
+									<span class="icon">●</span>
+									<span>{{ item.araeName }}</span>
+								</li>
+								<li>
+									<span class="icon">●</span>
+									<span>{{ item.devName }}</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="alarm-now-video">
+					<div class="alarm-now-video-item" v-for="(videoItem, index) in videoConfig" :key="index">
+						<OcxVideo :videoConfig="videoItem"></OcxVideo>
+					</div>
+				</div>
+				<div class="alarm-now-chart">
+					<div class="chart-container" ref="envChart"></div>
+				</div>
+			</div>
+			<div class="container-right">
+				<div class="infoWarp-top">
+					<div class="title">站内气象:</div>
+					<div class="weather">
+						<img :src="weatherImg" alt="" />
+					</div>
+					<div class="weatherInfo">
+						<ul>
+							<li v-for="(item, index) in weatherList" :key="index">
+								<div class="icon">
+									<img :src="item.icon" alt="" />
+								</div>
+								<div class="name">{{ item.name }}</div>
+								<div class="value">{{ item.value }}</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="infoWarp-bottom">
+					<div class="alarmInfo-box">
+						<div class="title">报警信息:</div>
+						<div class="info-wrap">
+							<ul>
+								<li v-for="(infoItem, index) in alarmListInfo" :key="index">
+									<div class="name">{{ infoItem.name }}</div>
+									<div :class="['value', index % 2 == 0 ? 'valueColor1' : 'valueColor2']">
+										{{ infoItem.value }}
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="alarm-btn">
+						<button class="btn confirm" @click="alarmShow()">确定</button>
+						<button class="btn false">误报</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -118,22 +119,22 @@ export default {
 			//chart
 			envChart: null,
 			timeData: [1, 2, 3, 4, 5, 6],
-      chartData: [22, 33, 44, 55, 66, 77],
-      weatherImg:require('@/assets/img/common/sun.png'),
-      weatherList:[
-          {icon:require('@fire/assets/img/alarm-now/wendu.png'),name:"温度:",value:'10℃'},
-          {icon:require('@fire/assets/img/alarm-now/fengsu.png'),name:"风速:",value:'4m/s'},
-          {icon:require('@fire/assets/img/alarm-now/shidu.png'),name:"湿度:",value:'65%'},
-          {icon:require('@fire/assets/img/alarm-now/fengxiang.png'),name:"风向:",value:'东南'},
-      ],
-      alarmListInfo:[
-          {name:'防护区:',value:'1号主变防护区'},
-          {name:'断电信号:',value:'断开'},
-          {name:'设备名称:',value:'1#烟感探测器'},
-          {name:'报警节点:',value:'1#烟感探测器报警'},
-          {name:'报警时间:',value:'2019-7-22 10:00'},
-      ],
-      alarmHide:true
+			chartData: [22, 33, 44, 55, 66, 77],
+			weatherImg: require('@/assets/img/common/sun.png'),
+			weatherList: [
+				{ icon: require('@fire/assets/img/alarm-now/wendu.png'), name: '温度:', value: '10℃' },
+				{ icon: require('@fire/assets/img/alarm-now/fengsu.png'), name: '风速:', value: '4m/s' },
+				{ icon: require('@fire/assets/img/alarm-now/shidu.png'), name: '湿度:', value: '65%' },
+				{ icon: require('@fire/assets/img/alarm-now/fengxiang.png'), name: '风向:', value: '东南' }
+			],
+			alarmListInfo: [
+				{ name: '防护区:', value: '1号主变防护区' },
+				{ name: '断电信号:', value: '断开' },
+				{ name: '设备名称:', value: '1#烟感探测器' },
+				{ name: '报警节点:', value: '1#烟感探测器报警' },
+				{ name: '报警时间:', value: '2019-7-22 10:00' }
+			],
+			alarmHide: true
 		}
 	},
 	computed: {},
@@ -283,11 +284,10 @@ export default {
 				]
 			}
 			this.envChart.setOption(option)
-    },
-    alarmShow(){
-        this.alarmHide=false
-    }
-
+		},
+		alarmShow() {
+			this.alarmHide = false
+		}
 	},
 	beforeRouteEnter(to, from, next) {
 		next()

@@ -10,26 +10,13 @@
 			<!-- <div class="video-wrap">
 				<ocx-video :videoConfig="videoConfig"></ocx-video>
 			</div> -->
-			<ocx-modal
-				v-model="ocxModel"
-		        title="标题"
-		        scrollable
-		        :mask="true"
-		        :closable="false"
-		        :mask-closable="true"
-		    >
-		        <p>内容区域部分</p>
-		        <p>内容区域部分</p>
-		        <p>内容区域部分</p>
+			<ocx-modal v-model="ocxModel" title="标题" scrollable :mask="true" :closable="false" :mask-closable="true">
+				<p>内容区域部分</p>
+				<p>内容区域部分</p>
+				<p>内容区域部分</p>
 			</ocx-modal>
 
-			<ac-history-modal
-				v-model="historyModel"
-				:node-id="nodeId"
-				sub-title="子标题"
-				unit="%"
-	    	>
-	    	</ac-history-modal>
+			<ac-history-modal v-model="historyModel" :node-id="nodeId" sub-title="子标题" unit="%"> </ac-history-modal>
 		</div>
 	</div>
 </template>
@@ -66,17 +53,17 @@ export default {
 		handleTestInsOcxMessage() {
 			// 提示框 success warning error loading
 			this.$ocxMessage.info({
-	        	content: '提示消息',
-	        	duration: 3
-	        })
+				content: '提示消息',
+				duration: 3
+			})
 		},
 		handleTestOcxModal() {
 			this.ocxModel = true
 		},
 		handleTestInsOcxModal() {
 			// 确认框 info success warning error confirm
-	        this.$ocxModal.confirm({
-	            title: '警告',
+			this.$ocxModal.confirm({
+				title: '警告',
 				content: '确认删除吗？',
 				onOk: () => {
 					console.log('确认')
@@ -84,7 +71,7 @@ export default {
 				onCancel: () => {
 					console.log('取消')
 				}
-	        })
+			})
 		},
 		handleTestHistoryModal() {
 			this.historyModel = true
@@ -110,7 +97,7 @@ export default {
 
 		.ivu-btn {
 			margin: 10px;
-		}	
+		}
 	}
 	.container {
 		.video-wrap {

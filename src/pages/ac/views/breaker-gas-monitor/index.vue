@@ -1,9 +1,9 @@
 <template>
-  <div class="breaker-gas-monitor">
-    <!-- <transition name="v" mode="out-in"> -->
-    <component v-bind:is="current"></component>
-    <!-- </transition> -->
-  </div>
+	<div class="breaker-gas-monitor">
+		<!-- <transition name="v" mode="out-in"> -->
+		<component v-bind:is="current"></component>
+		<!-- </transition> -->
+	</div>
 </template>
 <script>
 import breakerGasMonitorCustomization from './customization.vue'

@@ -10,8 +10,42 @@ import 'iview/dist/styles/iview.css'
 Vue.use(iView)
 
 // ElementUI 按需
-import { Select, Input, Table, Option,Button,TableColumn , Tree,Form,FormItem,Radio,RadioGroup,Checkbox,CheckboxGroup,Progress,Loading} from 'element-ui'
-const ElementUI = [Table, Select, Input, Option,Button,TableColumn,Tree,Form,FormItem,Radio,RadioGroup,Checkbox,CheckboxGroup,Progress,Loading]
+import {
+	Select,
+	Input,
+	Table,
+	Option,
+	Button,
+	TableColumn,
+	Tree,
+	Form,
+	FormItem,
+	Radio,
+	RadioGroup,
+	Checkbox,
+	CheckboxGroup,
+	Progress,
+	Loading,
+	Scrollbar
+} from 'element-ui'
+const ElementUI = [
+	Table,
+	Select,
+	Input,
+	Option,
+	Button,
+	TableColumn,
+	Tree,
+	Form,
+	FormItem,
+	Radio,
+	RadioGroup,
+	Checkbox,
+	CheckboxGroup,
+	Progress,
+	Loading,
+	Scrollbar
+]
 
 // ElementDev 按需
 import { elFilterTree } from '@/components/element-dev'
@@ -30,8 +64,10 @@ import { ocxModal, ocxMessage } from '@/components/iview-dev'
 const iviewDev = [ocxModal, ocxMessage]
 
 // 捆绑注册
-function* register(name) { Vue.use(name) }
-[ ...ElementUI,...ElementDev,...iviewDev].forEach( component => register(component).next() )
+function* register(name) {
+	Vue.use(name)
+}
+;[...ElementUI, ...ElementDev, ...iviewDev].forEach(component => register(component).next())
 
 // 全局引用map组件
 import BaiduMap from '../../components/native/gismap/index'

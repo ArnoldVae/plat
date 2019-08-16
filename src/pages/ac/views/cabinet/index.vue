@@ -1,9 +1,9 @@
 <template>
-  <div class="cabinet">
-    <!-- <transition name="v" mode="out-in"> -->
-    <component v-bind:is="current"></component>
-    <!-- </transition> -->
-  </div>
+	<div class="cabinet">
+		<!-- <transition name="v" mode="out-in"> -->
+		<component v-bind:is="current"></component>
+		<!-- </transition> -->
+	</div>
 </template>
 <script>
 import cabinetTable from '@ac/views/common/view-table'

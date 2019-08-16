@@ -1,7 +1,7 @@
 import { setTimeout } from 'timers'
 // 基准大小
 // const baseSize = 22.5
-const baseSize = 1920 / (1024 / 12)
+const baseSize = moduleWidth / (1024 / 12)
 // 设置 rem 函数
 
 function setRem() {
@@ -16,10 +16,14 @@ function setRem() {
 setRem()
 // 改变窗口大小时重新设置 rem
 let tid = null
-window.addEventListener("resize", function() {
-	clearTimeout(tid); //防止执行两次
-	tid = setTimeout(setRem, 300);
-}, false);
+window.addEventListener(
+	'resize',
+	function() {
+		clearTimeout(tid) //防止执行两次
+		tid = setTimeout(setRem, 300)
+	},
+	false
+)
 
 /*window.onload = window.onresize = document.onresize = function() {
 	setTimeout(() => {

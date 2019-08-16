@@ -1,26 +1,21 @@
 <template>
-  <div class="sf6-monitor-customization">
-    <div class="center-bg">
-      <span>SF6</span>
-    </div>
-    <Select
-      class="decSelect"
-      v-model="devNameItem"
-      style="width:200px"
-      @on-change="changeDev(devNameItem)"
-    >
-      <Option v-for="item in devNameList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-    </Select>
-    <span class="logo" :class="item.class" v-for="(item,index) in chartsList" :key="index">
-      <img :src="item.src" alt />
-      <p>{{item.vcName}}</p>
-      <p>
-        <i>{{item.fvalue}}</i>
-        &nbsp;{{item.vcUnit}}
-      </p>
-    </span>
-    <div v-for="ite in chartsList" :key="ite.id" class="chart" :class="ite.id" :id="ite.id"></div>
-  </div>
+	<div class="sf6-monitor-customization">
+		<div class="center-bg">
+			<span>SF6</span>
+		</div>
+		<Select class="decSelect" v-model="devNameItem" style="width:200px" @on-change="changeDev(devNameItem)">
+			<Option v-for="item in devNameList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+		</Select>
+		<span class="logo" :class="item.class" v-for="(item, index) in chartsList" :key="index">
+			<img :src="item.src" alt />
+			<p>{{ item.vcName }}</p>
+			<p>
+				<i>{{ item.fvalue }}</i>
+				&nbsp;{{ item.vcUnit }}
+			</p>
+		</span>
+		<div v-for="ite in chartsList" :key="ite.id" class="chart" :class="ite.id" :id="ite.id"></div>
+	</div>
 </template>
 <script>
 import { findComponentUpward } from '@/libs/assist'

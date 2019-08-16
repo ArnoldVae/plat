@@ -1,15 +1,17 @@
 <template>
-  <div class="battery-monitor">
-    <!-- <transition name="v" mode="out-in"> -->
-    <component v-bind:is="current"></component>
-    <!-- </transition> -->
-  </div>
+	<div class="battery-monitor">
+		<!-- <transition name="v" mode="out-in"> -->
+		<component v-bind:is="current"></component>
+		<!-- </transition> -->
+	</div>
 </template>
 <script>
+import batteryTable from '@ac/views/common/view-table'
 import batteryCustomization from './customization.vue'
 export default {
 	name: 'battery-monitor',
 	components: {
+		'battery-monitor-table': batteryTable,
 		'battery-monitor-customization': batteryCustomization
 	},
 	props: {},

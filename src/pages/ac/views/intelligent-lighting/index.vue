@@ -1,9 +1,9 @@
 <template>
-  <div class="intelligent-lighting">
-    <!-- <transition name="v" mode="out-in"> -->
-    <component v-bind:is="current"></component>
-    <!-- </transition> -->
-  </div>
+	<div class="intelligent-lighting">
+		<!-- <transition name="v" mode="out-in"> -->
+		<component v-bind:is="current"></component>
+		<!-- </transition> -->
+	</div>
 </template>
 <script>
 import intelligentLightingTable from '@ac/views/common/view-table'

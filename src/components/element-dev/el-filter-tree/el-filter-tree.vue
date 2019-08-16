@@ -1,30 +1,22 @@
 <template>
 	<div class="el-filter-tree">
-		<el-input
-			v-bind="$attrs"
-			v-on="$listeners"
-		>
+		<el-input v-bind="$attrs" v-on="$listeners">
 			<template v-for="sl in Object.keys(this.$slots)" :slot="sl">
 				<slot :name="sl"></slot>
 			</template>
 		</el-input>
 
-		<el-tree
-			v-bind="$attrs"
-			v-on="$listeners"
-			ref="el-tree"
-		>
-			<span class="custom-tree-node"  slot-scope="{ node, data }">
-			    <div v-if="data.type == 10070001" class="company"></div>
-			    <div v-if="data.type == 0" class="station"></div>
-			    <div v-if="data.type == 10070002" class="team"></div>
-			    <div v-if="data.type == 1" class="substation"></div>
-			    <div v-if="data.type == 2" class="circuit"></div>
-			    <span>
-			    	{{ data.title }}
-			    </span>
+		<el-tree v-bind="$attrs" v-on="$listeners" ref="el-tree">
+			<span class="custom-tree-node" slot-scope="{ node, data }">
+				<div v-if="data.type == 10070001" class="company"></div>
+				<div v-if="data.type == 0" class="station"></div>
+				<div v-if="data.type == 10070002" class="team"></div>
+				<div v-if="data.type == 1" class="substation"></div>
+				<div v-if="data.type == 2" class="circuit"></div>
+				<span>
+					{{ data.title }}
+				</span>
 			</span>
-			
 		</el-tree>
 	</div>
 </template>
@@ -38,17 +30,13 @@ export default {
 	},
 	computed: {},
 	filters: {},
-	watch: {
-
-	},
+	watch: {},
 	created() {},
 	mounted() {},
 	activited() {},
 	update() {},
 	beforeDestory() {},
-	methods: {
-		
-	},
+	methods: {},
 	beforeRouteEnter(to, from, next) {
 		next()
 	},

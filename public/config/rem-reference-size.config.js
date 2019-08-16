@@ -16,3 +16,6 @@ var $_fireModuleWidth = 1920
 
 // 人员模块
 var $_personnelModuleWidth = 1920
+
+// 视频模块
+var $_videoModuleWidth = 1920

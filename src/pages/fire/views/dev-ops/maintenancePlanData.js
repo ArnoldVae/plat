@@ -131,18 +131,18 @@ export function implement() {
 				data: ''
 			}
 		],
-		imgs:[
+		imgs: [
 			{
 				label: 'workFinisheMediaFile',
-				data:'',
+				data: ''
 			},
 			{
 				label: 'workStartMediaFile',
-				data:'',
+				data: ''
 			},
 			{
 				label: 'workTicketPic',
-				data:'',
+				data: ''
 			}
 		]
 	}

@@ -22,7 +22,7 @@
 				<div class="number">1.6%</div>
 			</div>
 		</div>
-		<div class="right-info">
+		<div class="right-info" v-if="false">
 			<div class="security" v-for="item in statisticsInfo">
 				<div class="name">{{ item.name }}：</div>
 				<div class="number">{{ item.count }}</div>

@@ -41,15 +41,14 @@ import {
 	Step,
 	Timeline,
 	TimelineItem,
-	Form,     //表单元素
+	Form, //表单元素
 	FormItem,
 	DatePicker, //时间选择器
 	Checkbox,
 	CheckboxButton,
 	CheckboxGroup, //多选
 	Table, //Table表格
-	TableColumn,
-
+	TableColumn
 } from 'element-ui'
 const ElementUI = [
 	Tree,
@@ -72,15 +71,14 @@ const ElementUI = [
 	Step,
 	Timeline,
 	TimelineItem,
-	Form,     //表单元素
+	Form, //表单元素
 	FormItem,
 	DatePicker, //时间选择器
 	Checkbox,
 	CheckboxButton,
 	CheckboxGroup, //多选
 	Table, //Table表格
-	TableColumn,
-
+	TableColumn
 ]
 
 // Antd 按需
@@ -99,7 +97,7 @@ const iviewDev = [ocxModal, ocxMessage]
 function* register(name) {
 	Vue.use(name)
 }
-;[...ElementUI, ...Singletons, ...ElementDev,...iviewDev].forEach(component => register(component).next())
+;[...ElementUI, ...Singletons, ...ElementDev, ...iviewDev].forEach(component => register(component).next())
 
 // 挂载api
 import api from '@fire/api'
@@ -113,7 +111,6 @@ Vue.use(BaiduMap)
 import { client, listen } from '@/config/mqtt'
 Vue.prototype.$_mqtt = client
 Vue.prototype.$_listen = listen
-
 
 /**
  * 多模块相同集中配置

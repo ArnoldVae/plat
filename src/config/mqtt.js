@@ -43,46 +43,43 @@ client.on('connect', () => {
 
 	// 统一处理分发
 	client.on('message', (topic, message, packet) => {
-        trigger(topic, message, packet)
-    })
-
+		trigger(topic, message, packet)
+	})
 })
 
 // 错误
-client.on('error', (err) => {
+client.on('error', err => {
 	console.log('MQTT出错了！:' + err)
 	client.end()
 })
 
 //关闭连接
 client.on('end', () => {
-    console.log('MQTT连接结束');
+	console.log('MQTT连接结束')
 })
 
 //监听离线
 client.on('offline', function() {
-    console.log('MQTT已离线');
+	console.log('MQTT已离线')
 })
 
 //重连
 client.on('reconnect', function() {
-    console.log('MQTT正在重连');
+	console.log('MQTT正在重连')
 })
 
-
-
 // 事件订阅
-let messageQueue = {};
+let messageQueue = {}
 let listen = (key, fn) => {
-    if (!messageQueue[key]) {
-        messageQueue[key] = [];
-    }
-    messageQueue[key] = fn;
+	if (!messageQueue[key]) {
+		messageQueue[key] = []
+	}
+	messageQueue[key] = fn
 }
 let trigger = (topic, message, packet) => {
-    Object.keys(messageQueue).map((key) => {
-        messageQueue[key].apply(this, [topic, message, packet]);
-    })
+	Object.keys(messageQueue).map(key => {
+		messageQueue[key].apply(this, [topic, message, packet])
+	})
 }
 
 export { client, listen }

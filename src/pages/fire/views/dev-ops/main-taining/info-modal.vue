@@ -1,9 +1,10 @@
 <template>
-<div class="info"> <Modal v-model="modal1" width="1700" :styles="{top: '60px'}">
-    <div class="info-content"></div>
-    <div slot="footer"></div>
-  </Modal></div>
- 
+	<div class="info">
+		<Modal v-model="modal1" width="1700" :styles="{ top: '60px' }">
+			<div class="info-content"></div>
+			<div slot="footer"></div>
+		</Modal>
+	</div>
 </template>
 <script>
 export default {
@@ -35,4 +36,3 @@ background-color: #141a26;
 	border 0px;
 }
 </style>
-

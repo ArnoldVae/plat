@@ -328,8 +328,8 @@ export default {
 				.then(getMapCss())
 				.then(initMap)
 		},
-		centerAndZoom(){
-			let center = this.getCenterPoint();
+		centerAndZoom() {
+			let center = this.getCenterPoint()
 		}
 	},
 	beforeCreate() {

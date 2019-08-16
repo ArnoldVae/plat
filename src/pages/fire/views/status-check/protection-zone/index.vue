@@ -24,22 +24,28 @@
 						<el-col :span="10" class="menu-bar">防护区列表</el-col>
 					</el-row>
 					<div class="search-item">
-						<el-row v-for="(item,index) in subMenuList" :key="index" style="background: #1A2836;margin-bottom: 20PX;width: 95%;">
+						<el-row
+							v-for="(item, index) in subMenuList"
+							:key="index"
+							style="background: #1A2836;margin-bottom: 20PX;width: 95%;"
+						>
 							<el-col :span="12">
 								<span>
 									<span class="color-green">●</span>
-									{{item.vcName}}
+									{{ item.vcName }}
 								</span>
 							</el-col>
 							<el-col :span="12" class="item-btn">
-								<el-button style="position:relative; top: -5PX" size="mini" @click="getTemDetail(item)">查看</el-button>
+								<el-button style="position:relative; top: -5PX" size="mini" @click="getTemDetail(item)"
+									>查看</el-button
+								>
 							</el-col>
 						</el-row>
 					</div>
 				</div>
 				<div class="protection-zone-items-bottom">
 					<el-row>
-						<el-col :span="24" class="menu-bar">{{temData.name}}</el-col>
+						<el-col :span="24" class="menu-bar">{{ temData.name }}</el-col>
 					</el-row>
 					<div class="search-item">
 						<div style="padding-left:24px;">
@@ -50,7 +56,7 @@
 									</span>
 								</el-col>
 								<el-col :span="12" class="item-btn">
-									<span class="font-time color-light-green">{{temData.mechine}}</span>
+									<span class="font-time color-light-green">{{ temData.mechine }}</span>
 									<span class="color-light-green">%</span>
 								</el-col>
 							</el-row>
@@ -62,7 +68,7 @@
 									</span>
 								</el-col>
 								<el-col :span="12" class="item-btn">
-									<span class="font-time color-light-green">{{temData.env}}</span>
+									<span class="font-time color-light-green">{{ temData.env }}</span>
 									<span class="color-light-green">℃</span>
 								</el-col>
 							</el-row>
@@ -88,21 +94,21 @@ export default {
 			getList: {
 				arr1: [],
 				arr2: [],
-				arr3:[]
+				arr3: []
 			},
-            videoConfigList:[
-                {
-                    isAutoPlay: true,
-                    serviceInfo: '1$22.46.34.114$6800$admin$admin',
-                    deviceInfo: '1|22.46.34.114:8001|admin:admin123|1',
-                    hideTool: true
-                },
-                {
-                    isAutoPlay: true,
-                    serviceInfo: '1$22.46.34.114$6800$admin$admin',
-                    deviceInfo: '1|22.46.34.114:8001|admin:admin123|1',
-                    hideTool: true
-                }
+			videoConfigList: [
+				{
+					isAutoPlay: true,
+					serviceInfo: '1$22.46.34.114$6800$admin$admin',
+					deviceInfo: '1|22.46.34.114:8001|admin:admin123|1',
+					hideTool: true
+				},
+				{
+					isAutoPlay: true,
+					serviceInfo: '1$22.46.34.114$6800$admin$admin',
+					deviceInfo: '1|22.46.34.114:8001|admin:admin123|1',
+					hideTool: true
+				}
 			],
 			videoConfig: {
 				isAutoPlay: true,
@@ -272,7 +278,7 @@ export default {
 					right: 10,
 					textStyle: {
 						color: '#fff',
-						fontSize:33
+						fontSize: 33
 					}
 				},
 				color: ['#47b2fe', '#5d6040'],
@@ -331,7 +337,7 @@ export default {
 					},
 					textStyle: {
 						color: '#85c9ee',
-						fontSize:33
+						fontSize: 33
 					}
 				},
 				series: [
@@ -390,7 +396,7 @@ export default {
 						minValueSpan: 7,
 						minSpan: 20,
 						start: 50,
-						end: 100,
+						end: 100
 					},
 					{
 						showDetail: false,
@@ -449,14 +455,14 @@ export default {
 				subIdsStr: ''
 			})
 			if (result.success) {
-			    result.data.forEach((item,index)=>{
-			        if(item.protectAreaId=='7da53a9e3ce24c2b8b6ed8edde8c0c83'){
-                        result.data.splice(index,1)
+				result.data.forEach((item, index) => {
+					if (item.protectAreaId == '7da53a9e3ce24c2b8b6ed8edde8c0c83') {
+						result.data.splice(index, 1)
 					}
 				})
-				result.data.forEach((item,index)=>{
-			        if(item.protectAreaId=='d8b03d6100ba4ccd8fc07f4b8734e099'){
-                        result.data.splice(index,1)
+				result.data.forEach((item, index) => {
+					if (item.protectAreaId == 'd8b03d6100ba4ccd8fc07f4b8734e099') {
+						result.data.splice(index, 1)
 					}
 				})
 				this.subMenuList = result.data
@@ -465,7 +471,6 @@ export default {
 				this.getAreaVideo(this.subMenuList[0])
 				// //    调用tem温度设备
 				this.getTemDetail(this.subMenuList[0])
-
 			}
 		},
 		/**
@@ -511,14 +516,13 @@ export default {
 				protectAreaId: item.protectAreaId
 			})
 			if (result.success) {
-			    console.log('视频出')
-			    console.log(result)
-				if(result.data&&result.data.length>0){
-					this.videoConfig.deviceInfo=result.data[0].devId
+				console.log('视频出')
+				console.log(result)
+				if (result.data && result.data.length > 0) {
+					this.videoConfig.deviceInfo = result.data[0].devId
 					console.log(this.videoConfig)
-					this.videoConfig1.deviceInfo=result.data[1].devId
+					this.videoConfig1.deviceInfo = result.data[1].devId
 				}
-
 			}
 		},
 		/**
@@ -532,7 +536,8 @@ export default {
 				endTime: Math.round(new Date().getTime() / 1000)
 			})
 			if (result.success) {
-				const newArr = [], dateArr=[]
+				const newArr = [],
+					dateArr = []
 				result.data.forEach(i => {
 					newArr.push(i.f_Value)
 					dateArr.push(moment(i.i_DataTime * 1000).format('YYYY-MM-DD hh:mm:ss'))
@@ -569,7 +574,7 @@ export default {
 	color: #32e611;
 }
 .font-size-14 {
-	font-size: 36PX;
+	font-size: 36px;
 }
 </style>
 

@@ -7,9 +7,7 @@ const test = {
 			state.unitId = id
 		}
 	},
-	actions: {
-
-	}
+	actions: {}
 }
 
 export default test

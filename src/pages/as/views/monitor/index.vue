@@ -8,50 +8,34 @@
 					<div class="inspection-map">
 						<div class="content-left">
 							<div class="left-top">
-								<Tabs :animated="false" type="card" v-model="tabsUnfoldArr"> 
-									<Tab-pane label="临时特巡">
-										<Collapse>
-											<Panel name="1">
-												巡检区域
-												<ul slot="content" class="inspection-area">
-													<li>
-														<div></div>泱泱大中华
-													</li><li>
-														<div></div>泱泱大中华
-													</li><li>
-														<div></div>泱泱大中华
-													</li><li>
-														<div></div>泱泱大中华
-													</li><li>
-														<div></div>泱泱大中华
-													</li><li>
-														<div></div>泱泱大中华
-													</li>
-													
-												</ul>
-											</Panel>
-											<Panel name="2">
-												巡检类型
-												<ul slot="content" class="inspection-area">
-													<li>
-														<div></div>例行巡视
-													</li><li>
-														<div></div>全面巡视
-													</li>
-													
-												</ul>
-											</Panel>
-											
-										</Collapse>
-									</Tab-pane>
-									<Tab-pane label="预置巡检">
-									
-									</Tab-pane>
-								</Tabs>
+								<p>
+									预置巡检任务
+								</p>
+								<ul>
+									<li><div></div>1号主变区域</li>
+									<li><div></div>2号主变区域</li>
+									<li><div></div>3号主变区域</li>
+									<li><div></div>500KV区域</li>
+								</ul>
 							</div>
-							<div class="left-bottom">
-								<input type="button" value="巡检成票" class="bottom-btn"/>
-								<input type="button" value="执行任务" class="bottom-btn"/>
+							<div class="left-bottom-btn">
+								<input type="button" value="巡检成票" class="bottom-btn">
+								<input type="button" value="执行任务" class="bottom-btn" @click="treeData"/>
+								<input type="button" value="停止任务" class="bottom-btn"/>
+							</div>
+							<div class="left-bottom-state">
+								<p>
+									<i></i>空闲
+								</p>
+								<p>
+									<i></i>正常运行
+								</p>
+								<p>
+									<i></i>暂停
+								</p>
+								<p>
+									<i></i>异常停止
+								</p>
 							</div>
 						</div>
 						<div class="content-right">
@@ -74,28 +58,28 @@
 										<span>25</span>
 									</div>
 									<el-table
-										ref="inspecAticketTable"
+										ref="inspectionTaskTableData"
 										:data="inspectionAticketData"
 										max-height="428"
 										:span-method="objectSpanMethod"
 										:header-cell-style="{ background: '#0d2a68', color: '#2c87e6' , fontSize: '14px' }"
 										
 									><!-- @cell-click="rowCliCk" -->
-										<el-table-column prop="mainArea" label="区域" align="center" width="80"></el-table-column>
-										<el-table-column prop="subArea" label="间隔" align="center" width="80"></el-table-column>
-										<el-table-column prop="devName" label="设备" align="center" width="80"></el-table-column>
-										<el-table-column prop="nodeName" label="巡检点位" align="center"></el-table-column>
-										<el-table-column :label="'室外 \n 机器人'" align="center" width="50">
+										<el-table-column prop="area" label="区域" align="center" width="80"></el-table-column>
+										<el-table-column prop="interval" label="间隔" align="center" width="80"></el-table-column>
+										<el-table-column prop="dev" label="设备" align="center" width="80"></el-table-column>
+										<el-table-column prop="node" label="巡检点位" align="center"></el-table-column>
+										<el-table-column v-for="( item , index ) in workOrderTableHeaderData" :key=index :label="item.r_vc_Name" align="center" width="50">
 											<template slot-scope="scope">
 												<img
 													src="../../assets/img/common/dui.png"
 													alt
 													style="width: 15px;height: 15px;"
-													v-show="scope.row.outdoor_ground"
+													v-if=""
 												/>	
 											</template>
 										</el-table-column>
-										<el-table-column :label="'高清 \n 视频'" align="center" width="50">
+										<!-- <el-table-column :label="'高清 \n 视频'" align="center" width="50">
 											<template slot-scope="scope">
 												<img
 													src="../../assets/img/common/dui.png"
@@ -133,6 +117,11 @@
 													style="width: 15px;height: 15px;"
 													v-show="scope.row.uav"
 												/>
+											</template>
+										</el-table-column> -->
+										<el-table-column label="状态" align="center" width="50">
+											<template slot-scope="scope">
+												
 											</template>
 										</el-table-column>
 									</el-table>
@@ -578,6 +567,29 @@
 				</div>
 			</div>
 		</ocx-modal>
+		
+		<ocx-modal
+			v-model="treeModal"
+			:width='600'
+			:mask-closable="false"
+		>
+			<div style="height: 700px;overflow-y: auto;">
+				<el-tree
+					class="profession-tree"
+					:data="treeModalData"
+					:props="defaultPropsOther"
+					lazy
+					:load="loadNode"
+					empty-text="暂无数据"
+					element-loading-text="数据加载中..."
+					:indent="24"
+					:highlight-current="true"
+				></el-tree>		
+			</div>
+				
+			
+		</ocx-modal>
+		
 	</div>
 </template>
 <script>
@@ -781,7 +793,7 @@ export default {
 			unitTreeData: [],
 			defaultProps: {
 				children: 'children',
-				label: 'label'
+				label: 'vcName'
 			},
 			filterText: '',
 			temperature: '', //温度
@@ -790,25 +802,24 @@ export default {
 			selectDeviceFlag: false, //选择设备弹框开关
 			inspectionAticket: false, //巡检成票弹框开关
 			//巡检成票表格数据
-			inspectionAticketData: [
-				{mainArea:'区域1' , subArea: '间隔1' , 'devName': '变压器1' , nodeName: 'A相' , 'outdoor_ground': true},
-				{mainArea:'区域1' , subArea: '间隔1' , 'devName': '变压器1' , nodeName: 'A相' , 'outdoor_ground': true},
-				{mainArea:'区域1' , subArea: '间隔1' , 'devName': '变压器1' , nodeName: 'A相' , 'outdoor_ground': true},
-				{mainArea:'区域1' , subArea: '间隔1' , 'devName': '变压器1' , nodeName: 'A相' , 'outdoor_ground': true},
-				{mainArea:'区域2' , subArea: '间隔2' , 'devName': '变压器2' , nodeName: 'A相' , 'outdoor_ground': true},
-				{mainArea:'区域2' , subArea: '间隔2' , 'devName': '变压器2' , nodeName: 'A相' , 'outdoor_ground': true},
-				{mainArea:'区域2' , subArea: '间隔2' , 'devName': '变压器2' , nodeName: 'A相' , 'outdoor_ground': true},
-				{mainArea:'区域2' , subArea: '间隔2' , 'devName': '变压器2' , nodeName: 'A相' , 'outdoor_ground': true},
-				{mainArea:'区域3' , subArea: '间隔3' , 'devName': '变压器3' , nodeName: 'A相' , 'outdoor_ground': true},
-				{mainArea:'区域3' , subArea: '间隔3' , 'devName': '变压器3' , nodeName: 'A相' , 'outdoor_ground': true},
-				{mainArea:'区域3' , subArea: '间隔3' , 'devName': '变压器3' , nodeName: 'A相' , 'outdoor_ground': true},
-				{mainArea:'区域3' , subArea: '间隔3' , 'devName': '变压器3' , nodeName: 'A相' , 'outdoor_ground': true},
-			], 
+			inspectionAticketData: [], 
 			inspectionAticketModalTitle: '巡检任务单',
 			devOrInspec: false,
 			isLoading: false,
 			borBottom: false ,//巡检成票弹框表格底部线
-			//tabsUnfoldArr: []
+			
+			workOrderTableHeaderData: [],//巡检任务单表头
+			inspectionTaskTableData: [],//巡检任务单表数据
+			
+			//临时功能
+			treeModal: false,
+			defaultPropsOther: {
+				children: 'children',
+				label: 'vcName',
+				isLeaf: 'leaf'
+			},
+			treeModalData: [],
+			nextTreeData: []
 		}
 	},
 	computed: {},
@@ -823,11 +834,6 @@ export default {
 		monitorCurrent
 	},
 	created() {
-		this.axios.getInspectionAreaData({
-			UnitID:this.stationId
-		}).then( res=>{
-			console.log( res )
-		})
 		this.stationId = this.$route.params.stationId
 		this.topicStr = this.topicArr[0] + this.stationId
 		this.getTabs()
@@ -888,13 +894,74 @@ export default {
 				}
 			}
 		}),
-			this.$_echarts.init(this.$refs['chart1']).setOption(this.option)
-		this.$_echarts.init(this.$refs['chart2']).setOption(this.option)
+		// 	this.$_echarts.init(this.$refs['chart1']).setOption(this.option)
+		// this.$_echarts.init(this.$refs['chart2']).setOption(this.option)
+		
+		
+		this.axios.getInspectionWorkOrderData().then( res=> {
+			this.workOrderTableHeaderData = res.data.asRobots
+			this.inspectionTaskTableData = res.data.asTaskNodes
+		})
+		
 	},
 	activited() {},
 	update() {},
 	beforeDestory() {},
 	methods: {
+		
+	    treeData() {
+			this.treeModal = true
+		},
+		
+		loadNode(node, resolve){
+			console.log(node)
+			if(node.level === 0){
+				this.getNextNode(0).then(res=>{
+					resolve(res)
+				})
+			}else if( node.level > 0 && node.level < 4 ){
+				this.getNextNode(node.data.treeId).then(res=>{
+					resolve(res)
+				})
+			}else if( node.level === 4 ) {
+				this.getDevNextNode(node.data.bindId).then(res=>{
+					resolve(res)
+				})
+			}
+		},
+		getNextNode(nodeid) {
+			return new Promise((resolve,reject)=>{
+				this.axios.getNextNode({
+					parentId: nodeid,
+					unitId: this.stationId
+				}).then( res=> {
+					if( res.code == 200 ) {
+						// this.treeModalData = res.data
+						resolve(res.data)
+					}
+				})
+				.catch(error=>{
+					reject(error);
+				})
+			})
+		},
+		getDevNextNode( nodeid ) {
+			return new Promise((resolve,reject)=>{
+				this.axios.getDeviceInfo({
+					devId: nodeid
+				}).then( res=> {
+					if( res.code == 200 ) {
+						res.data.devNodesList.forEach( item => {
+							item.leaf = true
+						})
+						resolve(res.data.devNodesList)
+					}
+				})
+				.catch(error=>{
+					reject(error);
+				})
+			})
+		},
 		//获取设备ID
 		getDevIdFromHt(devId) {
 			if (devId) {
@@ -1622,13 +1689,47 @@ export default {
 
 			.content-left{
 				width: 223px;
-				height: 530px;
+				height: 575px;
 				border: 1px solid #064886;
 				float: left;
-				padding-top: 7px;
+				//padding-top: 7px;
 				.left-top{
 					width: 220px;
-					height: 480px;
+					height: 408px;
+					
+					p{
+						font-size: 16px;
+						color: #fff;
+						margin: 10px 0 0 17px;
+					}
+					
+					ul li{
+						margin: 20px 0 15px 35px;
+						font-size: 14px;
+						color: #fff;
+						
+						div{
+							display: inline-block;
+							width:14px;
+							height: 14px;
+							background: #5990fe;
+							border-radius: 10px;
+							margin-right: 12px;
+						}
+					}
+					
+					ul li:nth-of-type(1) div{
+						background: #ec4764;
+					}
+					ul li:nth-of-type(2) div{
+						background: #d59f1e;
+					}
+					ul li:nth-of-type(3) div{
+						background: #5990fe;
+					}
+					ul li:nth-of-type(4) div{
+						background: #58b229;
+					}
 					
 					/deep/.ivu-tabs-bar {
 					  .ivu-tabs-tab {
@@ -1690,31 +1791,67 @@ export default {
 				}
 				
 				
-				.left-bottom {
+				.left-bottom-btn {
 					width: 220px;
-					height: 50px;
+					height: 80px;
+					margin-top: 5px;
 					.bottom-btn{
 						background: url('~@/assets/img/common/bg17.png') no-repeat; 
 						background-size: 100% 100%;
 						width: 90px;
 						height: 30px;
-						border-radius: 3px;
+						border-radius: 2px;
 						text-align: center;
 						margin-left: 14px;
 						border: 0;
 						color: #e9ebee;
-						//color: #fff902;
-						//font-size: 12px;
 						cursor: pointer;
 					}
 				}
+				.left-bottom-btn .bottom-btn:nth-of-type(1){
+					width: 195px;
+					margin-bottom: 10px;
+					border-radius: 0px;
+				}
 				
-				
+				.left-bottom-state{
+					width: 220px;
+					height: 70px;
+					background: #092252;
+					
+					p{
+						float: left;
+						font-size: 14px;
+						color: #fff;
+						margin: 10px 0 0 27px;
+						line-height: 20px;
+						i{
+							width: 14px;
+							height: 14px;
+							display: inline-block;
+							border-radius: 50%;
+							margin-right: 14px;
+						}
+					}
+					p:nth-of-type(1) i{
+						background: #58b229;
+					}
+					p:nth-of-type(2) i{
+						background: #5990fe;
+					}
+					p:nth-of-type(3) i{
+						background: #d59f1e;
+					}
+					p:nth-of-type(4) i{
+						background: #ec4764;
+					}
+					
+				}
 			}
 			
 			.content-right{
 				width: 880px;
-				height: 530px;
+				height: 575px;
 				border: 1px solid #064886;
 				float: left;
 				margin-left: 5px;
@@ -1820,13 +1957,13 @@ export default {
 			
 			.content-bottom {
 				width: 1115px;
-				height: 245px;
+				height: 210px;
 				float: left;
 				margin-top: 10px;
 				
 			  .tab-bar {
 			    float: left;
-			    height: 260px;
+			    height: 210px;
 			    width: 100%;
 			    background: url('../../assets/img/monitor/bigBg2.png') no-repeat;
 			    background-size: 100% 100%;

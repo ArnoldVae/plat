@@ -3,9 +3,7 @@
 		<div class="action">
 			<Button type="info">其他测试</Button>
 		</div>
-		<div class="container">
-			
-		</div>
+		<div class="container"></div>
 	</div>
 </template>
 <script>

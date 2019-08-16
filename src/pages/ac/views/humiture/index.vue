@@ -1,7 +1,7 @@
 <template>
 	<div class="humiture">
 		<!-- <transition name="v" mode="out-in"> -->
-			<component v-bind:is="current"></component>
+		<component v-bind:is="current"></component>
 		<!-- </transition> -->
 	</div>
 </template>

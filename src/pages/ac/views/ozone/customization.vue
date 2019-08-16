@@ -1,44 +1,42 @@
 <template>
-  <div class="ozone-customization">
-    <!-- <div class="ozone-nodeName">
+	<div class="ozone-customization">
+		<!-- <div class="ozone-nodeName">
       <span v-for="(item, index) in data"
             :key="index">{{ item.nodeName }}</span>
     </div> -->
-    <div class="ozone-top">
-      <div class="ozone-tl">
+		<div class="ozone-top">
+			<div class="ozone-tl">
+				<!-- <el-scrollbar style="height: 100%"> -->
+				<div
+					class="ozone-topLeft"
+					v-for="(item, index) in data"
+					:key="index"
+					@click="getDev(item)"
+					:class="{ isCharts: item.NodeID == deviceData.NodeID }"
+				>
+					<b></b>
+					{{ item.devName }}臭氧浓度：
+					<span class="ozoneNum"
+						>{{ item.f_Value != null ? item.f_Value : '--' }}&nbsp;{{ item.vc_Unit }}</span
+					>
+				</div>
+				<!-- </el-scrollbar>	 -->
+			</div>
+			<div class="ozone-topRight">
+				<span @click="getData(1)" :class="{ isCharts: isTime == '1' }">当天</span>
+				<span @click="getData(3)" :class="{ isCharts: isTime == '3' }">三天</span>
+				<span @click="getData(7)" :class="{ isCharts: isTime == '7' }">一周</span>
+			</div>
+		</div>
 
-        <!-- <el-scrollbar style="height: 100%"> -->
-        <div class="ozone-topLeft"
-             v-for="(item, index) in data"
-             :key="index"
-             @click="getDev(item)"
-			 :class="{isCharts: item.NodeID == deviceData.NodeID}"
-			 >
-          <b></b>
-          {{ item.devName }}臭氧浓度：
-          <span class="ozoneNum">{{ item.f_Value != null ? item.f_Value : '--' }}&nbsp;{{item.vc_Unit}}</span>
-        </div>
-        <!-- </el-scrollbar>	 -->
-      </div>
-      <div class="ozone-topRight">
-        <span @click="getData(1)"
-              :class="{ isCharts: isTime == '1' }">当天</span>
-        <span @click="getData(3)"
-              :class="{ isCharts: isTime == '3' }">三天</span>
-        <span @click="getData(7)"
-              :class="{ isCharts: isTime == '7' }">一周</span>
-      </div>
-    </div>
-
-    <div class="ozone-center"
-         ref="ozone-charts"></div>
-    <!-- <div class="ozone-bottom">
+		<div class="ozone-center" ref="ozone-charts"></div>
+		<!-- <div class="ozone-bottom">
       <span @click="changeCharts(1)"
             :class="{isCharts:isCharts}">图形化</span>
       <span @click="changeCharts(0)"
             :class="{isCharts:!isCharts}">列表</span>
     </div> -->
-  </div>
+	</div>
 </template>
 <script>
 export default {
@@ -59,7 +57,7 @@ export default {
 			isTime: 3,
 			devTypeId: 1046,
 			topicArr: ['qif/zf/app/'],
-			topicStr: '',
+			topicStr: ''
 		}
 	},
 	computed: {},
@@ -70,8 +68,8 @@ export default {
 				this.charts()
 			}
 		},
-		deviceData(val){
-			console.log(val);
+		deviceData(val) {
+			console.log(val)
 			this.getData(this.isTime)
 		}
 	},
@@ -83,7 +81,7 @@ export default {
 
 		this.topicStr = this.topicArr[0] + this.unitId
 		// console.log(this.topicStr);
-		
+
 		//实时数据回调
 		const _this = this
 		// this.$_mqtt.on('message', function(topic, message, packet) {
@@ -93,7 +91,7 @@ export default {
 				let msgData = JSON.parse(message.toString())
 				if (msgData.cmd == 1001) {
 					_this.data.map(item => {
-						if(item.NodeID == msgData.nodeid){
+						if (item.NodeID == msgData.nodeid) {
 							item.f_Value = msgData.desc
 						}
 					})
@@ -187,7 +185,7 @@ export default {
 
 		//点击设备
 		getDev(dev) {
-			this.deviceData = dev;
+			this.deviceData = dev
 		},
 
 		charts() {

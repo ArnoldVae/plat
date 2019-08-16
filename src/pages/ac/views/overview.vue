@@ -1,95 +1,94 @@
 <template>
-  <div class="overview">
-    <div class="content">
-      <div class="body">
-        <div class="map" @click="handleToHome">
-          <div class="border-lt"></div>
-          <div class="border-rb"></div>
-          <div class="mapBox">
-            <mapComponent
-              @clickRcuImg="clickRcuImg"
-              :moduleNames="'intelligentMap'"
-            ></mapComponent>
-          </div>
-        </div>
-        <div class="info">
-          <div class="today-st">
-            <div class="title">今日概况</div>
-            <div class="content">
-              <div class="early-warning">
-                <div class="icon"></div>
-                <div class="name">预警</div>
-                <div class="number">0</div>
-              </div>
-              <div class="line"></div>
-              <div class="alarm">
-                <div class="icon"></div>
-                <div class="name">报警</div>
-                <div class="number">{{ alarm }}</div>
-              </div>
-              <div class="line"></div>
-              <div class="fault">
-                <div class="icon"></div>
-                <div class="name">故障</div>
-                <div class="number">0</div>
-              </div>
-              <div class="line"></div>
-              <div class="online">
-                <div class="icon"></div>
-                <div class="name">在线</div>
-                <div class="number">{{ online }}</div>
-              </div>
-            </div>
-          </div>
+	<div class="overview">
+		<div class="content">
+			<div class="body">
+				<div class="map" @click="handleToHome">
+					<div class="border-lt"></div>
+					<div class="border-rb"></div>
+					<div class="mapBox">
+						<mapComponent @clickRcuImg="clickRcuImg" :moduleNames="'intelligentMap'"></mapComponent>
+					</div>
+				</div>
+				<div class="info">
+					<div class="today-st">
+						<div class="title">今日概况</div>
+						<div class="content">
+							<div class="early-warning">
+								<div class="icon"></div>
+								<div class="name">预警</div>
+								<div class="number">0</div>
+							</div>
+							<div class="line"></div>
+							<div class="alarm">
+								<div class="icon"></div>
+								<div class="name">报警</div>
+								<div class="number">{{ alarm }}</div>
+							</div>
+							<div class="line"></div>
+							<div class="fault">
+								<div class="icon"></div>
+								<div class="name">故障</div>
+								<div class="number">0</div>
+							</div>
+							<div class="line"></div>
+							<div class="online">
+								<div class="icon"></div>
+								<div class="name">在线</div>
+								<div class="number">{{ online }}</div>
+							</div>
+						</div>
+					</div>
 
-          <div class="access">
-            <div class="header">
-              <div class="left">接入情况</div>
-              <div class="right">
-                <div class="name">站所总</div>
-                <div class="number">{{ rcuAmount }}</div>
-              </div>
-            </div>
-            <div class="content-wrap">
-              <template v-for="item in accessList">
-                <div class="content-item">
-                  <div class="rcu">
-                    <div
-                      class="icon"
-                      :style="{ background: `url( ${require(`@/assets/img/common/rcu-500kV.png`)} )` }"
-                    ></div>
-                    <div class="name">{{ item.name }}</div>
-                  </div>
+					<div class="access">
+						<div class="header">
+							<div class="left">接入情况</div>
+							<div class="right">
+								<div class="name">站所总</div>
+								<div class="number">{{ rcuAmount }}</div>
+							</div>
+						</div>
+						<div class="content-wrap">
+							<template v-for="item in accessList">
+								<div class="content-item">
+									<div class="rcu">
+										<div
+											class="icon"
+											:style="{
+												background: `url( ${require(`@/assets/img/common/rcu-500kV.png`)} )`
+											}"
+										></div>
+										<div class="name">{{ item.name }}</div>
+									</div>
 
-                  <div class="amount">
-                    <div class="number">{{ item.count }}</div>
-                    <div class="name">总</div>
-                  </div>
-                  <div class="cover">
-                    <div class="icon">{{ item.realCount }}</div>
-                    <div class="name">已覆盖</div>
-                  </div>
-                  <div class="coverage-rate">
-                    <div class="top">
-                      <div class="icon">{{ item.coverage }}</div>
-                      <!-- <div class="text">%</div> -->
-                    </div>
-                    <div class="name">覆盖率</div>
-                  </div>
-                </div>
-              </template>
-            </div>
-          </div>
+									<div class="amount">
+										<div class="number">{{ item.count }}</div>
+										<div class="name">总</div>
+									</div>
+									<div class="cover">
+										<div class="icon">{{ item.realCount }}</div>
+										<div class="name">已覆盖</div>
+									</div>
+									<div class="coverage-rate">
+										<div class="top">
+											<div class="icon">{{ item.coverage }}</div>
+											<!-- <div class="text">%</div> -->
+										</div>
+										<div class="name">覆盖率</div>
+									</div>
+								</div>
+							</template>
+						</div>
+					</div>
 
-          <div class="alarming-trend">
-            <div class="title">一周报警态势</div>
-            <div class="chart" ref="chart"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <statistics></statistics>
-  </div>
+					<div class="alarming-trend">
+						<div class="title">一周报警态势</div>
+						<div class="chart" ref="chart"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<statistics></statistics>
+	</div>
 </template>
 <script>
 import { center } from '@/directives/directive.js'
@@ -164,7 +163,7 @@ export default {
 			alarm: 0,
 			online: 0,
 			accessList: [],
-			rcuAmount: 0,
+			rcuAmount: 0
 			// javainterface: {
 			// 	allStation: {
 			// 		subModuleName: 'intelligentMap',

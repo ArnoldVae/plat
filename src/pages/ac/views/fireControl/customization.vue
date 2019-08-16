@@ -1,19 +1,24 @@
 <template>
-  <div class="fireControl">
-    <div class="fireControl-top">
-      <span v-for="(item, index) in list"
-            :key="index"
-            v-show="item.vcUrl.length != 0"
-            :class="{ onBut: pitchOn == item.pageId }"
-            @click="but(item)">{{ item.vcName }}</span>
-    </div>
-    <div class="fireControl-center">
-      <htBlueprint :blueprintUrl="blueprintUrl"
-                   :blueprintObj="blueprintObj"
-                   :primitiveNodes="primitiveNodes"
-                   :mqttData="mqttData" />
-    </div>
-  </div>
+	<div class="fireControl">
+		<div class="fireControl-top">
+			<span
+				v-for="(item, index) in list"
+				:key="index"
+				v-show="item.vcUrl.length != 0"
+				:class="{ onBut: pitchOn == item.pageId }"
+				@click="but(item)"
+				>{{ item.vcName }}</span
+			>
+		</div>
+		<div class="fireControl-center">
+			<htBlueprint
+				:blueprintUrl="blueprintUrl"
+				:blueprintObj="blueprintObj"
+				:primitiveNodes="primitiveNodes"
+				:mqttData="mqttData"
+			/>
+		</div>
+	</div>
 </template>
 <script>
 import htBlueprint from '../common/view-ichnography'

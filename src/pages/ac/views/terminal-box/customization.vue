@@ -1,52 +1,46 @@
 <template>
-  <div class="terminal-box-customization">
-    <div class="terminal-box-customization-top"
-         v-if="list.length > 1">
-      <span v-for="(item, index) in list"
-            :key="index"
-            v-show="item.vcUrl.length != 0"
-            :class="{ onBut: pitchOn == item.pageId }"
-            @click="but(item)">{{ item.vcName }}</span>
-    </div>
+	<div class="terminal-box-customization">
+		<div class="infoBox" v-if="blueprintUrl.length">
+			<div class="info-lf">图例统计</div>
+			<div class="info-rt">
+				<div class="row1 zc">
+					正常
+					<div class="txt_box"><span class="num_txt">66</span>个</div>
+				</div>
+				<div class="row2 lx">
+					离线
+					<div class="txt_box"><span class="num_txt">0</span>个</div>
+				</div>
+				<div class="row3 bj">
+					报警
+					<div class="txt_box"><span class="num_txt">0</span>个</div>
+				</div>
+			</div>
+		</div>
 
-    <div class="infoBox"
-         v-if="blueprintUrl.length">
-      <div class="info-lf">图例统计</div>
-      <div class="info-rt">
-        <div class="row1 zc">
-          正常
-          <div class="txt_box">
-            <span class="num_txt">66</span>个
-          </div>
-        </div>
-        <div class="row2 lx">
-          离线
-          <div class="txt_box">
-            <span class="num_txt">0</span>个
-          </div>
-        </div>
-        <div class="row3 bj">
-          报警
-          <div class="txt_box">
-            <span class="num_txt">0</span>个
-          </div>
-        </div>
-      </div>
-    </div>
+		<div class="terminal-box-customization-center">
+			<div class="terminal-box-customization-top" v-if="list.length > 1">
+				<span
+					v-for="(item, index) in list"
+					:key="index"
+					v-show="item.vcUrl.length != 0"
+					:class="{ onBut: pitchOn == item.pageId }"
+					@click="but(item)"
+					>{{ item.vcName }}</span
+				>
+			</div>
 
-    <div class="terminal-box-customization-center">
-      <htBlueprint :blueprintUrl="blueprintUrl"
-                   :blueprintObj="blueprintObj"
-                   :primitiveNodes="primitiveNodes"
-                   :mqttData="mqttData"
-                   @htClick="htClick"
-                   :isNodeClick="true" />
-    </div>
-    <charts v-model="historyModal"
-            :node-id="nodeId"
-            :sub-title="chartTitle"
-            :unit="unit"></charts>
-  </div>
+			<htBlueprint
+				:blueprintUrl="blueprintUrl"
+				:blueprintObj="blueprintObj"
+				:primitiveNodes="primitiveNodes"
+				:mqttData="mqttData"
+				@htClick="htClick"
+				:isNodeClick="true"
+			/>
+		</div>
+		<charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
+	</div>
 </template>
 <script>
 import htBlueprint from '../common/view-ichnography'
@@ -80,7 +74,7 @@ export default {
 		this.getData()
 	},
 	mounted() {
-		// this.topicStr = this.topicArr[0] + this.unitId
+		this.topicStr = this.topicArr[0] + this.unitId
 		// this.subscribe(this.topicStr)
 		//实时数据回调
 		const _this = this
@@ -98,18 +92,17 @@ export default {
 			// 	if (topic == _this.topicStr) {
 			//   console.log(data)
 			// 	}
-			console.log(data)
-			let val = JSON.parse(data)
-			if (val.type == 'req' && val.cmd == '1002') {
-				console.log(val)
-				_this.mqttData = val
+			if (topic == _this.topicStr) {
+				let val = JSON.parse(data)
+				if (val.type == 'req' && val.cmd == '1002') {
+					_this.mqttData = val
+				}
 			}
 		})
 	},
 	methods: {
 		//图纸节点点击回调
 		htClick(data) {
-			console.log(data)
 			this.historyModal = true
 			this.nodeId = data._tag
 			this.chartTitle = data._name
@@ -127,7 +120,7 @@ export default {
 		getData() {
 			let params = {
 				unitId: this.unitId,
-				iSubType: '10100007'
+				iSubType: '10100011'
 			}
 			this.axios.getHtDrawing(params).then(res => {
 				if (res.code == 200) {
@@ -187,28 +180,6 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-
-  .terminal-box-customization-top {
-    height: 34px;
-
-    .onBut {
-      color: #ffe06d;
-    }
-
-    >span {
-      color: #8fd8fe;
-      display: inline-block;
-      margin-left: 11px;
-      text-align: center;
-      font-size: 14px;
-      height: 28px;
-      line-height: 28px;
-      padding: 0 5px;
-      border: 1px solid #0173bb;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-  }
 
   .infoBox {
     width: 250px;
@@ -287,10 +258,32 @@ export default {
 
   .terminal-box-customization-center {
     width: calc(100% - 20px);
-    height: calc(100% - 34px);
+    height: 100%;
     background-image: url('~@/assets/img/common/bg-border.png');
     background-size: 100% 100%;
-    padding: 30px;
+    padding: 15px 30px 30px;
+
+    .terminal-box-customization-top {
+      height: 34px;
+
+      .onBut {
+        color: #ffe06d;
+      }
+
+      >span {
+        color: #8fd8fe;
+        display: inline-block;
+        margin-left: 11px;
+        text-align: center;
+        font-size: 14px;
+        height: 28px;
+        line-height: 28px;
+        padding: 0 5px;
+        border: 1px solid #0173bb;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+    }
   }
 }
 </style>
