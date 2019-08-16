@@ -146,7 +146,7 @@ export default {
 								node.s('label', '')
 								this.dataModel.add(node)
 								this.dataModel.each(data => {
-									let valueNum = item.devNodes.length > 0 ? item.devNodes[0] : '0.6'
+									let valueNum = item.devNodes.length > 0 ? item.devNodes[0] : '--'
 									data.a('value', valueNum)
 									// if(data.getTag()=='12e1638920ca4ce0a5ace94d87e005eb'){
 									// 	// console.log(data)
