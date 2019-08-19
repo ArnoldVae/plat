@@ -254,7 +254,7 @@ export default {
   }
 
   .detail-content {
-    height: 78%;
+    height: 910px;
     width: 95%;
     margin: 0 auto;
     position: relative;
@@ -300,7 +300,7 @@ export default {
           width: 10px;
           height: 10px;
           border-radius: 50%;
-          margin: 0 5px;
+          margin: 2px 5px;
         }
 
         .inspect {
@@ -324,6 +324,7 @@ export default {
         }
 
         .txt {
+          display: inline-block;
           margin: 0 5px;
         }
       }
@@ -370,10 +371,10 @@ export default {
     }
 
     .steps {
-      height: 600px;
+      height: 693px;
       width: 1590px;
       overflow: auto;
-      margin: 20px 0 0 171px;
+      margin: 10px 0 0 171px;
       position: relative;
 
       .steps-content {
@@ -381,7 +382,7 @@ export default {
         height: 130px;
         position: relative;
         z-index: 100;
-        margin-top: 16px;
+        margin-top: 10px;
 
         .circle-out {
           position: relative;
@@ -405,8 +406,8 @@ export default {
           .bd-top {
             position: absolute;
             width: 1px;
-            height: 50px;
-            top: -49px;
+            height: 36px;
+            top: -36px;
             left: 50px;
             background: #b0ffff;
           }
@@ -559,7 +560,7 @@ export default {
           height: 28px;
           font: 100 16px / 28px '';
           color: #9decfa;
-          top: 82px;
+          top: 70px;
           left: 100px;
           text-align: center;
         }
@@ -612,6 +613,11 @@ export default {
         width: 6px;
         height: 0;
         border-radius: 3px;
+    }
+    ::-webkit-scrollbar-corner, ::-webkit-scrollbar-thumb {
+      background: rgba(36, 64, 88, 0.48);
+      border-radius: 3px;
+      height: 100px;
     }
 
       /deep/.el-scrollbar__thumb {

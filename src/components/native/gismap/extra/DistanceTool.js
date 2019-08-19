@@ -753,8 +753,12 @@ const ____factory = function() {
 		 * @type {Json}
 		 */
 		this._styles = {
-			BMapLib_diso: `height:17px;width:5px;position:absolute;background:url(${global.mapconfig.home}/images/dis_box_01.gif) no-repeat left top`,
-			BMapLib_disi: `color:#7a7a7a;position:absolute;left:5px;padding:0 4px 1px 0;line-height:17px;background:url(${global.mapconfig.home}/images/dis_box_01.gif) no-repeat right top`,
+			BMapLib_diso: `height:17px;width:5px;position:absolute;background:url(${
+				global.mapconfig.home
+			}/images/dis_box_01.gif) no-repeat left top`,
+			BMapLib_disi: `color:#7a7a7a;position:absolute;left:5px;padding:0 4px 1px 0;line-height:17px;background:url(${
+				global.mapconfig.home
+			}/images/dis_box_01.gif) no-repeat right top`,
 			BMapLib_disBoxDis: 'color:#ff6319;font-weight:bold'
 		}
 
@@ -1697,7 +1701,9 @@ const ____factory = function() {
 		 * @type {String}
 		 */
 		_html: function() {
-			return `<div style='background:transparent url(${global.mapconfig.home}/images/blank.gif);position:absolute;left:0;top:0;width:100%;height:100%;z-index:1000' unselectable='on'></div>`
+			return `<div style='background:transparent url(${
+				global.mapconfig.home
+			}/images/blank.gif);position:absolute;left:0;top:0;width:100%;height:100%;z-index:1000' unselectable='on'></div>`
 		},
 
 		/**

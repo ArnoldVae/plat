@@ -5,7 +5,7 @@ var $_development = {
 		javaModule: "dsa5200"
 	},
 	netRequest: {
-		location: "http://172.26.1.147:8021",
+		location: "http://172.26.1.128:8011",
 		netModule: ""
 	},
 	video: {
