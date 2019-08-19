@@ -1,7 +1,7 @@
 <template>
 	<div class="platform">
 		<!-- 加载状态 -->
-		<a-spin size="large" :spinning="spinning">
+	
 			<!-- 单例导航头与侧边栏 -->
 			<navigation
 				:menuData="menuData"
@@ -14,6 +14,7 @@
 				@handleSelectMenu="selectMenu"
 			>
 			</navigation>
+				<a-spin size="large" :spinning="spinning">
 			<div class="iframe-view-wrap">
 				<!-- <div v-show="maskLoading" class="mask"></div> -->
 				<!-- <iframe

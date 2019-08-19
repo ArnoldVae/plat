@@ -10,7 +10,9 @@
 				default-expand-all
 				:filter-node-method="filterNode"
 				highlight-current
+        node-key="id"
 				@node-click="handleClickNode"
+        :current-node-key="$store.getters.stationId"
 			></el-filter-tree>
 		</div>
 		<div class="inspection-content">
@@ -118,7 +120,7 @@ export default {
 		this.getNuitTreeData()
 	},
 	mounted() {
-		// this.changeView(monitor,1)
+    // this.changeView(monitor,1)
 	},
 	activited() {},
 	update() {},
@@ -149,6 +151,7 @@ export default {
 		},
 		// 点击树节点
 		handleClickNode(data, node, root) {
+      console.log(data);
 			// 更新当前模块单元id
 			this.$store.commit('CHANGE_STATION', {
 				stationId: data.id

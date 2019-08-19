@@ -317,7 +317,7 @@ export default {
   background-size: 100% 1080px;
   .report-view{
     width: 100%;
-    height: 825px;
+    height: 860px;
     overflow: hidden;
     background: url('~@/assets/img/common/bg-border.png') no-repeat;
     background-size: 100% 100%;
@@ -387,8 +387,8 @@ export default {
       cursor: pointer;
       color: #3299ff;
       width: 80px;
-      height: 30px;
-      line-height: 30px;
+      height: 1.4rem;
+      line-height: 1.4rem;
     }
     .detail{
       background: url(../../assets/img/record/detail.png) no-repeat;

@@ -66,7 +66,8 @@ export default {
 		.el-tree-node__content {
 			height: 50px;
 			&:hover {
-				background-color: #142c5d!important;
+				background-color: #0757b1b3 !important;
+				color: #fa0 !important;
 			}
 
 			.custom-tree-node {
@@ -98,12 +99,14 @@ export default {
 			}
 		}
 		.el-tree-node:focus>.el-tree-node__content {
-			background-color: #142c5d!important;
+			background-color: #0757b1b3 !important;
+			color: #fa0 !important;
 		}
 
 		.el-tree-node.is-current.is-focusable {
 			.el-tree-node__content {
-				background-color: #142c5d!important;
+				background-color: #0757b1b3 !important;
+				color: #fa0 !important;
 			}
 		}
 	}

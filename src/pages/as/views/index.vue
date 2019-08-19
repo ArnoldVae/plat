@@ -331,7 +331,7 @@ export default {
 		// _this.createPie(_this.comfirmChart,comfirmColor,comfirmData);
 
 		// 调用巡检设备统计chart方法
-		_this.$_api_api.inspectionIndex
+		_this.$_api.inspectionIndex
 			.getEquipData()
 			.then(res => {
 				if (res.success) {
@@ -388,9 +388,9 @@ export default {
     .mapContainer {
       margin-left: 20px;
       // width: 1775px;
-      // height: 829px;
+      height: 910px;
       background: url('~@/assets/img/common/bg-border.png') no-repeat;
-      background-size: 1881px 875px;
+      background-size: 1881px 100%;
       padding: 27px 56px 31px 50px;
       display: flex;
 
@@ -398,7 +398,7 @@ export default {
         // margin-top: 10px;
         // margin-left: 5px;
         width: 1180px;
-        height: 819px;
+        height: 870px;
         background: #333;
         position: relative;
 
@@ -415,7 +415,7 @@ export default {
         .border-rb {
           position: absolute;
           bottom: -7px;
-          right: -7px;
+          right: -19px;
           width: 35px;
           height: 30px;
           background: url('~@/assets/img/common/border-rb.png') no-repeat;
@@ -451,7 +451,7 @@ export default {
         }
 
         .inspStatistics {
-          // height: 32%;
+          height: 380px;
           .selectTimeBox {
             position: absolute;
             right: 4px;
@@ -665,7 +665,8 @@ export default {
 
         .equipStatistics {
           width :100%;
-          margin-top:20px;
+          margin-top:15px;
+          padding-bottom: 12px;
           .equipmentBox {
             width :100%;
             height : calc(100% - 47px);
