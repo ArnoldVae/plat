@@ -76,7 +76,6 @@ module.exports = {
 			.set('@fire', resolve('src/pages/fire')) // 消防
 			.set('@index', resolve('src/pages/index')) // 框架
 			.set('@personnel', resolve('src/pages/personnel')) // 人员管理
-			.set('@video', resolve('src/pages/video')) // 视频模块
 	},
 
 	css: {
@@ -86,8 +85,8 @@ module.exports = {
 			},
 			stylus: {
 				// 引用外部静态资源前缀地址
-				import: getStaticBaseUrl()
-			}
+                import: getStaticBaseUrl(),
+            }
 		},
 		extract: false
 	},
@@ -99,7 +98,7 @@ module.exports = {
 			openAnalyzer: false,
 			analyzerPort: 5201
 		}
-	}
+	},
 
 	/*configureWebpack: config => {
 		if (process.env.NODE_ENV === 'production') {

@@ -36,7 +36,7 @@
 								class="card-item"
 								:class="{ current: currentTypeId == item.devTypeId }"
 							>
-								<!-- <div class="line"></div> -->
+								<div class="line"></div>
 								<div class="type">
 									<!-- ~@ac/assets/img/device-type/空调-0.png -->
 									<!-- <div 
@@ -47,22 +47,16 @@
 								</div>
 								<div class="info">
 									<div class="total">
-										<div :style="{ color: '#44e908' }" class="number">{{ item.devCount }}</div>
-										<div class="desc">
-											总
-										</div>
+										总：
+										<span :style="{ color: '#44e908' }">{{ item.devCount }}</span>
 									</div>
 									<div class="alarm">
-										<div :style="{ color: '#ff291e' }" class="number">{{ item.alarmCount }}</div>
-										<div class="desc">
-											报警
-										</div>
+										报警：
+										<span :style="{ color: '#ff291e' }">{{ item.alarmCount }}</span>
 									</div>
 									<div class="normal">
-										<div :style="{ color: '#ffa01e' }" class="number">0</div>
-										<div class="desc">
-											故障
-										</div>
+										故障：
+										<span :style="{ color: '#ffa01e' }">0</span>
 									</div>
 								</div>
 							</div>
@@ -249,10 +243,6 @@ export default {
 				this.menuData = []
 			}
 		},
-		// 展示有数量的设备类型
-		handleGetEffectiveData(data) {
-			return data.filter(item => item.devCount > 0)
-		},
 		// 获取设备类型
 		async getDeviceTypeBySubsystemId() {
 			let result = await this.$_api.frame.getDeviceTypeBySubsystemId({
@@ -260,7 +250,7 @@ export default {
 				unitId: this.$store.getters.unitId
 			})
 			if (result.success) {
-				this.typeList = this.handleGetEffectiveData(result.data)
+				this.typeList = result.data
 			} else {
 				this.typeList = []
 			}
@@ -320,6 +310,7 @@ export default {
 			return name
 		},
 		async handleSelectCard(item) {
+
 			this.currentTypeId = item.devTypeId
 			// await this.getDeviceInfo()
 
@@ -421,7 +412,7 @@ export default {
     display: flex;
 
     .station {
-      width: 290px;
+      width: 313px;
       height: 890px;
       // background: url('~@/assets/img/common/side-bg.png') no-repeat;
       // background-size: 313px 890px;
@@ -436,7 +427,7 @@ export default {
     }
 
     .container {
-      width: 1613px;
+      width: 1590px;
 
       .content {
         margin-top: 13px;
@@ -444,40 +435,38 @@ export default {
         height: 880px;
 
         .card {
-          width: 1593px;
+          width: 1570px;
           display: flex;
           // background: #0c1b3b;
-          // background-color: rgba(12, 27, 59, 0.3);
+          background-color: rgba(12, 27, 59, 0.3);
           border-radius: 5px;
-          // padding-left: 5px;
-          // padding-right: 5px;
+          padding-left: 5px;
+          padding-right: 5px;
 
           /* margin-bottom: 12px; */
           .card-item {
-            min-width: 190px;
+            min-width: 250px;
             height: 94px;
             /* background: #0c1b3b; */
-            background: url('~@ac/assets/img/content/bg.png') no-repeat;
-             background-size: 190px 94px;
-             margin-right: 10px;
+            /* background: url('~@ac/assets/img/content/card.png') no-repeat; */
+            /* background-size: 250px 94px; */
+            /* margin-right: 15px; */
             cursor: pointer;
             position: relative;
-            // padding-left: 35px;
+            padding-left: 35px;
 
-            /*.line {
+            .line {
               position: absolute;
               right: 0;
               top: 22px;
               width: 2px;
               height: 55px;
               background: #3299ff;
-            }*/
+            }
 
             .type {
               display: flex;
-              justify-content: center;
-              margin-top: 9px;
-              /* text-align: center; */
+              margin-top: 20px;
 
               .icon {
                 width: 18px;
@@ -489,16 +478,13 @@ export default {
 
               .name {
                 margin-left: 5px;
-                color: #fff;
-                font-size: 16px;
-
+                color: #3299ff;
               }
             }
 
             &.current {
-               background: url('~@ac/assets/img/content/bg-active.png') no-repeat;
-               background-size: 190px 94px;
-              	// background-color: rgba(15, 33, 69, 0.7);
+              /* background: url('~@ac/assets/img/content/card-active.png') no-repeat; */
+              background-color: rgba(15, 33, 69, 0.7);
 
               .type .name {
                 color: #ffd36a;
@@ -506,58 +492,21 @@ export default {
 
               /* background-size: 250px 94px; */
             }
+
             .info {
               display: flex;
-              /* justify-content: space-around; */
               color: #fff;
-              /* margin-top: 17px; */
-              font-family: 'DS-DIGI';
-              padding: 0 10px;
-
+              margin-top: 17px;
 
               .total {
-              	width: 33.33%
-                /* margin-right: 15px; */
-                .number {
-					font-size: 25px;
-					text-align: center;
-                }
-                .desc {
-					font-size: 16px;
-					text-align: center;
-                }
+                margin-right: 15px;
               }
 
               .alarm {
-              	width: 33.33%
-                /* margin-right: 15px; */
-                .number {
-					font-size: 25px;
-					text-align: center;
-                }
-                .desc {
-					font-size: 16px;
-					text-align: center;
-                }
+                margin-right: 15px;
               }
 
               .normal {
-              	width: 33.33%
-              	.number {
-                	font-size: 25px;
-                	text-align: center;
-                }
-                .desc {
-					font-size: 16px;
-					text-align: center;
-                }
-              }
-              .number {
-              	position: relative;
-              	top: 7px;
-              }
-              .desc {
-              	margin-top: 2px;
               }
             }
           }

@@ -1,6 +1,6 @@
 import elFilterTree from './el-filter-tree'
 
-const components = [elFilterTree]
+const components = [ elFilterTree ]
 
 const install = function(Vue) {
 	if (install.installed) return

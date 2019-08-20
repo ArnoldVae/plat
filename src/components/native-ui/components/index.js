@@ -1,6 +1,6 @@
 import chart from './chart'
 
-const components = [chart]
+const components = [ chart ]
 
 const install = function(Vue) {
 	if (install.installed) return

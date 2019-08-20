@@ -108,16 +108,18 @@ export default {
 			})
 			if (!this.cablelUrl.length) return
 			if (process.env.NODE_ENV == 'production') {
-				var http = `${$_production.request.location}/${$_production.request.javaModule}${this.cablelUrl}`
+				var http = `${$_production.javaRequest.location}/${$_production.javaRequest.javaModule}${this.cablelUrl}`
 			}
 			if (process.env.NODE_ENV == 'development') {
-				var http = `${$_development.request.location}/${$_development.request.javaModule}${this.cablelUrl}`
+				var http = `${$_development.javaRequest.location}/${$_development.javaRequest.javaModule}${this.cablelUrl}`
 			}
 			ht.Default.xhrLoad(http, res => {
 				let json = ht.Default.parse(res)
-				// console.log(json);
 				dataModel.deserialize(json)
-				graphView.fitContent(true)
+				// graphView.fitContent(true)
+				// graphView.adjustZoom(20)
+				// console.log(graphView.getLogicalPoint(event))
+				graphView.setZoom(12,true,{x:310,y:415})
 			})
 			this.getNode()
 		},
@@ -141,12 +143,13 @@ export default {
 									node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
 									node.setName(item.vcName)
 									// node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
-									node.setSize(10, 10)
+									node.setSize(40, 20)
 									node.setStyle('interactive', true)
 									node.a('vc_SourceID', item.vcSourceId)
 									node.a('vc_Path', item.vcPath)
 									node.a('i_NodeType', item.iNodeType)
 									node.a('pageId', this.cableObj.pageId)
+									node.a('devtypeId',item.devNodes[0].devTypeId)
 									node.setLayer(1)
 									node.s('label', '')
 									// node.s({
@@ -154,7 +157,8 @@ export default {
 									// })
 									this.dataModel.add(node)
 									this.dataModel.each(data => {
-										let valueNum = item.devNodes.length > 0 ? item.devNodes[0] : '--'
+										console.log(item.devNodes[0].f_Value)
+										let valueNum = item.devNodes[0].f_Value !=null ? item.devNodes[0].f_Value : '---'
 										data.a('value', valueNum)
 									})
 								}, 800)
@@ -176,9 +180,9 @@ export default {
 						let opticalClear = setInterval(() => {
 							num++
 							if (num % 2 == 0) {
-								data.setStyle('2d.visible', true)
-							} else {
 								data.setStyle('2d.visible', false)
+							} else {
+								data.setStyle('2d.visible', true)
 							}
 							if (num == 4) {
 								clearInterval(opticalClear)
@@ -201,9 +205,9 @@ export default {
 						let fieDanClear = setInterval(() => {
 							num++
 							if (num % 2 == 0) {
-								data.setStyle('2d.visible', true)
-							} else {
 								data.setStyle('2d.visible', false)
+							} else {
+								data.setStyle('2d.visible', true)
 							}
 							if (num == 4) {
 								clearInterval(fieDanClear)
@@ -226,9 +230,9 @@ export default {
 						let fireQiClear = setInterval(() => {
 							num++
 							if (num % 2 == 0) {
-								data.setStyle('2d.visible', true)
-							} else {
 								data.setStyle('2d.visible', false)
+							} else {
+								data.setStyle('2d.visible', true)
 							}
 							if (num == 4) {
 								clearInterval(fireQiClear)
@@ -264,7 +268,7 @@ export default {
 .btnBox {
   position: absolute;
   bottom: 120px;
-  right: 10px;
+  right: -40px;
   width: 300px;
   height: 50px;
   color #fff;

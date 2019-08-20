@@ -1,5 +1,4 @@
 import axios from '@/config/api.request'
-import axiosNet from '@/config/api.request.net'
 export default {
 	//获取预置巡检列表
 	getPresetInspection(params) {
@@ -73,10 +72,10 @@ export default {
 			method: 'post',
 			data: params
 		})
-	},
-
-	//获取巡检类型
-	getInspectionType(params) {
+  },
+  
+  //获取巡检类型
+  getInspectionType(params) {
 		return axios.request({
 			url: 'astask/findAsTypeLists',
 			method: 'post',
@@ -101,46 +100,11 @@ export default {
 		})
 	},
 	//获取巡检任务单数据
-	getInspectionTaskTableData(params) {
+	getInspectionTaskTableData( params ) {
 		return axios.request({
 			url: '/astask/findAsTypeNodes',
 			method: 'post',
 			data: params
 		})
-	},
-
-	// 获取下一级节点
-	getNextNode(params) {
-		return axios.request({
-			url: 'bll/bll_firstlist',
-			method: 'post',
-			data: params
-		})
-	},
-	// 获取设备信息
-	getDeviceInfo(params) {
-		return axios.request({
-			url: 'dev_info/get',
-			method: 'post',
-			data: params
-		})
-	},
-
-	//获取巡检任务单数据
-	getInspectionWorkOrderData(params) {
-		return axiosNet.request({
-			url: '/as/GetAsTaskNodeByTree?vc_Code=2000.0001',
-			method: 'post',
-			data: params
-		})
-	},
-	//获取预置巡检数据
-	getPresetInspectionInfo( params ) {
-		return axiosNet.request({
-			url: '/as/GetAsTask?i_PatrolType=1&&UnitID=8177a787a28b4f86a103fac9a023db05',
-			method: 'post',
-			data: params
-		})
 	}
-	
 }

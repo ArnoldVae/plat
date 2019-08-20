@@ -8,10 +8,11 @@
 	.st2{display:inline;fill:none;stroke:#49E2FC;stroke-width:2;stroke-miterlimit:10;}
 	.st3{fill:#FFFFFF;}
 	.st4{font-family:'MicrosoftYaHei';}
-	.st5{font-size:24px;}
+	.st5{font-size:30px;}
 	.st6{font-family:'AdobeSongStd-Light-GBpc-EUC-H';}
 	.st7{font-size:22px;}
-	.st8{font-size:18px;}
+	.st8{font-size:26px;}
+	.st9{font-size:24px;}
 </style>
 <g id="图层_4" class="st0">
 	<rect class="st1" width="2247" height="1080"/>
@@ -78,24 +79,24 @@
 	<rect x="847.7" y="660" class="st2" width="47" height="28"/>
 	<rect x="71" y="84" class="st2" width="253" height="51"/>
 </g>
-<text transform="matrix(1 0 0 1 140 67.3342)" class="st3 st4 st5">总剩余电流</text>
+<text transform="matrix(1 0 0 1 120 67.3342)" class="st3 st4 st5">总剩余电流</text>
 <text transform="matrix(1 0 0 1 301 70.3341)" class="st3 st6 st7"> </text>
-<text transform="matrix(1 0 0 1 140.4277 170.9341)" class="st3 st4 st8">1#站用变剩余</text>
-<text transform="matrix(1 0 0 1 167.9277 192.7341)" class="st3 st4 st8"> 电流</text>
-<text transform="matrix(1 0 0 1 140.4277 451.9341)" class="st3 st4 st8">0#站用变剩余</text>
-<text transform="matrix(1 0 0 1 167.9277 468.7341)" class="st3 st4 st8"> 电流</text>
-<text transform="matrix(1 0 0 1 153.4277 737.9341)" class="st3 st4 st8">2#站用变剩余</text>
-<text transform="matrix(1 0 0 1 180.9277 754.7341)" class="st3 st4 st8"> 电流</text>
-<text transform="matrix(1 0 0 1 1819.2653 330.9253)" class="st3 st4 st8">长电缆剩</text>
-<text transform="matrix(1 0 0 1 1828.2653 350.3256)" class="st3 st4 st8">余电流</text>
-<text transform="matrix(1 0 0 1 1837.2653 369.7253)" class="st3 st4 st8">合成</text>
-<text transform="matrix(1 0 0 1 1913.4902 324.9253)" class="st3 st4 st8">长电缆剩</text>
-<text transform="matrix(1 0 0 1 1922.4902 344.3256)" class="st3 st4 st8">余电流</text>
-<text transform="matrix(1 0 0 1 1931.4902 363.7253)" class="st3 st4 st8">合成</text>
-<text transform="matrix(1 0 0 1 1604.7653 807.9253)" class="st3 st4 st8">长电缆剩</text>
-<text transform="matrix(1 0 0 1 1613.7653 827.3257)" class="st3 st4 st8">余电流</text>
-<text transform="matrix(1 0 0 1 1622.7653 846.7253)" class="st3 st4 st8">合成</text>
-<text transform="matrix(1 0 0 1 1710.0824 807.9253)" class="st3 st4 st8">长电缆剩</text>
-<text transform="matrix(1 0 0 1 1719.0824 827.3257)" class="st3 st4 st8">余电流</text>
-<text transform="matrix(1 0 0 1 1728.0824 846.7253)" class="st3 st4 st8">合成</text>
+<text transform="matrix(1 0 0 1 110.4277 150.9341)" class="st3 st4 st8">1#站用变剩余</text>
+<text transform="matrix(1 0 0 1 160.9277 183.7341)" class="st3 st4 st8"> 电流</text>
+<text transform="matrix(1 0 0 1 100.4277 431.9341)" class="st3 st4 st8">0#站用变剩余</text>
+<text transform="matrix(1 0 0 1 147.9277 468.7341)" class="st3 st4 st8"> 电流</text>
+<text transform="matrix(1 0 0 1 93.4277 707.9341)" class="st3 st4 st8">2#站用变剩余</text>
+<text transform="matrix(1 0 0 1 140.9277 742.7341)" class="st3 st4 st8"> 电流</text>
+<text transform="matrix(1 0 0 1 1803.2653 330.9253)" class="st3 st4 st9">长电缆剩</text>
+<text transform="matrix(1 0 0 1 1812.2653 360.3256)" class="st3 st4 st9">余电流</text>
+<text transform="matrix(1 0 0 1 1821.2653 389.7253)" class="st3 st4 st9">合成</text>
+<text transform="matrix(1 0 0 1 1913.4902 324.9253)" class="st3 st4 st9">长电缆剩</text>
+<text transform="matrix(1 0 0 1 1922.4902 354.3256)" class="st3 st4 st9">余电流</text>
+<text transform="matrix(1 0 0 1 1931.4902 383.7253)" class="st3 st4 st9">合成</text>
+<text transform="matrix(1 0 0 1 1593.7653 767.9253)" class="st3 st4 st9">长电缆剩</text>
+<text transform="matrix(1 0 0 1 1605.7653 797.3257)" class="st3 st4 st9">余电流</text>
+<text transform="matrix(1 0 0 1 1617.7653 826.7253)" class="st3 st4 st9">合成</text>
+<text transform="matrix(1 0 0 1 1699.0824 767.9253)" class="st3 st4 st9">长电缆剩</text>
+<text transform="matrix(1 0 0 1 1708.0824 797.3257)" class="st3 st4 st9">余电流</text>
+<text transform="matrix(1 0 0 1 1717.0824 826.7253)" class="st3 st4 st9">合成</text>
 </svg>

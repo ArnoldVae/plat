@@ -1,5 +1,7 @@
 <template>
-	<div ref="blueprint" class="blueprintHt"></div>
+  <div ref="blueprint"
+       class="blueprintHt">
+  </div>
 </template>
 <script>
 export default {
@@ -193,3 +195,5 @@ export default {
   position: relative;
 }
 </style>
+
+

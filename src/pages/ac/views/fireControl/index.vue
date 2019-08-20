@@ -1,18 +1,22 @@
 <template>
-	<div class="other-test">
-		<div class="action">
-			<Button type="info">其他测试</Button>
-		</div>
-		<div class="container"></div>
+	<div class="fireControl">
+		<component v-bind:is="current"></component>
 	</div>
 </template>
 <script>
+import fireControlTable from '@ac/views/common/view-table'
+import fireControlCustomization from './customization.vue'
 export default {
-	name: 'other-test',
-	components: {},
+	name: 'fireControl',
+	components: {
+		'fireControl-table': fireControlTable,
+		'fireControl-customization': fireControlCustomization
+	},
 	props: {},
 	data() {
-		return {}
+		return {
+			current: 'fireControl-customization'
+		}
 	},
 	computed: {},
 	filters: {},
@@ -20,7 +24,6 @@ export default {
 	created() {},
 	mounted() {},
 	activited() {},
-	beforeUpdate() {},
 	update() {},
 	beforeDestory() {},
 	methods: {},
@@ -36,17 +39,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.other-test {
-	.action {
-		display: flex;
-		justify-content: center;
-
-		.ivu-btn {
-			margin: 10px;
-		}
-	}
-	.container {
-
-	}
+.fireControl {
+	height: 100%;
 }
 </style>

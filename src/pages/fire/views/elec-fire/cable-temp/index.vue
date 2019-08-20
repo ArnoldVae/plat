@@ -1,15 +1,15 @@
 <template>
-	<div class="cable-temp">
-		<el-aside width="100%">
-			<component
-				v-bind:is="htCommon"
-				ref="htCommon"
-				:cableObj="cableObj"
-				:cablelUrl="cablelUrl"
-				:mqttData="mqttData"
-			></component>
-		</el-aside>
-	</div>
+  <div class="cable-temp">
+    <el-aside width="100%">
+      <component 
+      v-bind:is="htCommon" 
+      ref="htCommon"
+      :cableObj='cableObj'
+      :cablelUrl='cablelUrl'
+	  :mqttData='mqttData'
+      ></component>
+    </el-aside>
+  </div>
 </template>
 
 <script>
@@ -23,32 +23,32 @@ export default {
 	data() {
 		return {
 			current: 'fireControl-customization',
-			unitId: '8177a787a28b4f86a103fac9a023db05',
+			unitId:'8177a787a28b4f86a103fac9a023db05',
 			resultData: {
 				dev: {},
 				data: []
 			},
 			getId: '',
 			topicArr: 'qif/zf/app/',
-			htCommon: 'htCommon',
-			cableObj: {},
-			cablelUrl: '',
-			mqttData: {}
+            htCommon: 'htCommon',
+            cableObj:{},
+			cablelUrl:'',
+			mqttData:{}
 		}
 	},
 	computed: {},
 	filters: {},
 	watch: {},
 	created() {
-		this.getHtMap()
+		this.getHtMap()  
 	},
 	mounted() {
-		this.topicStr = this.topicArr + this.unitId
-		// this.topicStr = this.topicArr
-		this.subscribe(this.topicStr)
-		this.$_listen('cableTemp', (topic, message, packet) => {
-			// console.log(JSON.parse(message.toString()))
-			let data = ''
+		 this.topicStr = this.topicArr + this.unitId
+        // this.topicStr = this.topicArr 
+        this.subscribe(this.topicStr)
+        this.$_listen('cableTemp',(topic,message,packet) =>{
+            // console.log(JSON.parse(message.toString()))
+            let data = ''
 			let dataobj = []
 			dataobj = message
 			dataobj.forEach(item => {
@@ -61,33 +61,33 @@ export default {
 			if (data.cmd == 1001) {
 				this.mqttData = data
 			}
-		})
+        })
 	},
 	activited() {},
 	update() {},
 	beforeDestory() {},
 	methods: {
 		//获取图纸接口
-		getHtMap() {
-			let params = {
-				unitId: this.united,
-				iSubType: '10100008'
-			}
-			this.$_api.statusCheck.getSubCharts(params).then(res => {
-				//    console.log(res)
-				if (res.code == 200) {
-					if (res.data.length) {
-						for (let i = 0; i < res.data.length; i++) {
-							let item = res.data[i]
+        getHtMap(){
+           let params ={
+               unitId:this.united,
+               iSubType: '10100008'
+           } 
+           this.$_api.statusCheck.getSubCharts(params).then(res=>{
+            //    console.log(res)
+               if(res.code==200){
+                   if(res.data.length){
+                       for(let i=0; i<res.data.length; i++){
+                           let item = res.data[i]
 							if (item.vcUrl.length) {
-								this.cableObj = item
+                                this.cableObj=item
 								this.cablelUrl = item.vcUrl
 								// return
 							}
-						}
-					}
-				}
-			})
+                       }
+                   }
+               }
+           })
 		},
 		subscribe(topicArr) {
 			// console.log(topicArr);
@@ -109,7 +109,7 @@ export default {
 			} else {
 				console.log('MQTT连接失败')
 			}
-		}
+        },
 	},
 	beforeRouteEnter(to, from, next) {
 		next()

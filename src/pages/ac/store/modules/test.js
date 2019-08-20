@@ -43,7 +43,11 @@ const test = {
 		},
 		async actionB({ dispatch, commit }) {
 			await dispatch('actionA') // 等待 actionA 完成
-			commit('SUB_HANDLE', { a: 2, b: 3 }, await dispatch('subHandle', { a: 2, b: 3 }))
+			commit(
+				'SUB_HANDLE',
+				{ a: 2, b: 3 },
+				await dispatch('subHandle', { a: 2, b: 3 })
+			)
 		}
 	}
 	// 引用状态的标识方法 ==> 抽离出去

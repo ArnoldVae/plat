@@ -1,18 +1,14 @@
 // 开发模式
 var $_development = {
 	javaRequest: {
-		location: "http://172.26.1.149:8085",
+		location: "http://26.47.189.184:8081",
 		javaModule: "dsa5200"
-	},
-	netRequest: {
-		location: "http://172.26.1.128:8011",
-		netModule: ""
 	},
 	video: {
 		location: "172.26.1.152:8888"
 	},
 	mqtt: {
-		host: "172.26.1.233",
+		host: "26.47.189.184",
 		port: "8083",
 		path: "mqtt",
 		username: 'qif',
@@ -21,19 +17,15 @@ var $_development = {
 }
 // 生产模式
 var $_production = {
-	javaRequest: {
-		location: "http://172.26.1.110:8080",
+    javaRequest: {
+		location: "http://26.47.189.184:8081",
 		javaModule: "dsa5200"
-	},
-	netRequest: {
-		location: "http://172.26.1.149:8085",
-		netModule: "dsa5200"
 	},
 	video: {
 		location: "172.26.1.152:8888"
 	},
 	mqtt: {
-		host: "172.26.1.18",
+		host: "26.47.189.184",
 		port: "8083",
 		path: "mqtt",
 		username: 'qif',

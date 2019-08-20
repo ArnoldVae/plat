@@ -2,15 +2,16 @@ import FilterTree from './filter-tree'
 import ocxModal from './ocx-modal'
 import ocxMessage from './ocx-message/ocx-message.js'
 
+
 const components = [FilterTree, ocxMessage]
 
 const install = function(Vue) {
 	components.forEach(component => {
 		Vue.component(component.name, component)
 	})
-	Vue.prototype.$ocxMessage = ocxMessage
+	Vue.prototype.$ocxMessage = ocxMessage;
 	Vue.component('ocx-modal', ocxModal)
-	Vue.prototype.$ocxModal = ocxModal
+	Vue.prototype.$ocxModal = ocxModal;
 }
 
 if (typeof window !== 'undefined' && window.Vue) {

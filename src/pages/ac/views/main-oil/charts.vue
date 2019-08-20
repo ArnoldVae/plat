@@ -1,30 +1,30 @@
 <template>
-	<div class="ac-history-modal">
-		<ocx-modal
-			:styles="{ top: '0px' }"
-			title="历史记录"
-			:mask="false"
-			@on-cancel="handleCloseHistoryModal"
-			class="historyModal-wrap"
-			:value="value"
-			scrollable
-			v-bind="$attrs"
-			v-on="$listeners"
-		>
-			<div class="modal-content">
-				<div class="btn-box">
-					<RadioGroup v-model="button4" type="button" size="large">
-						<Radio label="一天"></Radio>
-						<Radio label="三天"></Radio>
-						<Radio label="一周"></Radio>
-					</RadioGroup>
-				</div>
-				<div id="charts"></div>
-			</div>
+  <div class="ac-history-modal">
+    <ocx-modal
+      :styles="{ top: '0px' }"
+      title="历史记录"
+      :mask="false"
+      @on-cancel="handleCloseHistoryModal"
+      class="historyModal-wrap"
+      :value="value"
+      scrollable
+      v-bind="$attrs"
+      v-on="$listeners"
+    >
+      <div class="modal-content">
+        <div class="btn-box">
+          <RadioGroup v-model="button4" type="button" size="large">
+            <Radio label="一天"></Radio>
+            <Radio label="三天"></Radio>
+            <Radio label="一周"></Radio>
+          </RadioGroup>
+        </div>
+        <div id="charts"></div>
+      </div>
 
-			<div slot="footer"></div>
-		</ocx-modal>
-	</div>
+      <div slot="footer"></div>
+    </ocx-modal>
+  </div>
 </template>
 <script>
 import { setTimeout } from 'timers'
@@ -220,7 +220,7 @@ export default {
 					{
 						showDetail: true,
 						height: 15,
-						bottom: 50,
+                        bottom:50,
 						borderColor: 'rgba(1,37,59,0.5)',
 						backgroundColor: 'rgba(1,37,59,0.5)',
 						dataBackgroundColor: 'rgba(47,126,181,0.9)',

@@ -78,6 +78,7 @@ export default {
 		},
 		play() {
 			const _this = this
+			// debugger
 			if (!!_this.videoConfig.serviceInfo && !!_this.videoConfig.deviceInfo) {
 				try {
 					let _result = _this.videoOutput.PlatformOCXRealPlay(

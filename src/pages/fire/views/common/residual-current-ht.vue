@@ -58,7 +58,7 @@ export default {
 			this.init()
 		},
 		mqttData(data) {
-			// console.log(data)/
+			console.log(data)
 			if (data.cmd == 1001) {
 				this.deviceid = data.devid
 				this.nodeValue = data.value
@@ -100,16 +100,16 @@ export default {
 
 			if (!this.residualUrl.length) return
 			if (process.env.NODE_ENV == 'production') {
-				var http = `${$_production.request.location}/${$_production.request.javaModule}${this.residualUrl}`
+				var http = `${$_production.javaRequest.location}/${$_production.javaRequest.javaModule}${this.residualUrl}`
 			}
 			if (process.env.NODE_ENV == 'development') {
-				var http = `${$_development.request.location}/${$_development.request.javaModule}${this.residualUrl}`
+				var http = `${$_development.javaRequest.location}/${$_development.javaRequest.javaModule}${this.residualUrl}`
 			}
 			ht.Default.xhrLoad(http, res => {
 				let json = ht.Default.parse(res)
 				dataModel.deserialize(json)
 				graphView.fitContent(true)
-				// graphView.setZoom(6,true,{x:0,y:0})
+				// graphView.setZoom(4.5,true,{x:0,y:0})
 			})
 			this.getNode()
 		},
@@ -132,12 +132,18 @@ export default {
 								node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
 								node.setName(item.vcName)
 								// node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
-								node.setSize(10, 10)
+								node.setSize(40, 20)
 								node.setStyle('interactive', true)
+								//  node.setStyle('border.color', '#40A3FC');
+								// node.setStyle('border.width', 1);
+								// node.setStyle('border.padding',1);
+								// node.setStyle('border.type', 'rect');
 								node.a('vc_SourceID', item.vcSourceId)
 								node.a('vc_Path', item.vcPath)
 								node.a('i_NodeType', item.iNodeType)
 								node.a('pageId', this.residualObj.pageId)
+								node.a('devtypeId',item.devNodes[0].devTypeId);
+								
 								// node.a('sort', item.iOrder)
 								// node.a('iParam1', item.iParam1)
 								// node.a('iParam2', item.iParam2)
@@ -146,7 +152,7 @@ export default {
 								node.s('label', '')
 								this.dataModel.add(node)
 								this.dataModel.each(data => {
-									let valueNum = item.devNodes.length > 0 ? item.devNodes[0] : '--'
+									let valueNum = item.devNodes[0].f_Value !=null ? item.devNodes[0].f_Value : '---'
 									data.a('value', valueNum)
 									// if(data.getTag()=='12e1638920ca4ce0a5ace94d87e005eb'){
 									// 	// console.log(data)
@@ -160,15 +166,24 @@ export default {
 		//剩余电流的点击 显示与隐藏
 		residueDian() {
 			this.dataModel.each(data => {
-				if (data.getName() != undefined) {
-					if (data.getName().indexOf('剩余电流') > 0) {
-						if (data.getStyle('2d.visible') == true) {
+				if(data.a('devtypeId')==1080){
+					console.log(data)
+					if (data.getStyle('2d.visible') == true) {
 							data.setStyle('2d.visible', false)
 						} else {
 							data.setStyle('2d.visible', true)
 						}
-					}
 				}
+				// if (data.getName() != undefined) {
+				// 	if (data.getName().indexOf('剩余电流')>0 ) {
+				// 		// data.a('value','12')
+				// 		if (data.getStyle('2d.visible') == true) {
+				// 			data.setStyle('2d.visible', false)
+				// 		} else {
+				// 			data.setStyle('2d.visible', true)
+				// 		}
+				// 	}
+				// }
 				if (data.getTag() == 'sy-bg-shengyu') {
 					if (data.getStyle('2d.visible') == true) {
 						data.setStyle('2d.visible', false)
@@ -181,15 +196,24 @@ export default {
 		//铠装电流的点击 显示与隐藏
 		kaiDian() {
 			this.dataModel.each(data => {
-				if (data.getName() != undefined) {
-					if (data.getName().indexOf('铠装电流') > 0) {
-						if (data.getStyle('2d.visible') == true) {
+				if(data.a('devtypeId')==1082){
+					console.log(data)
+					if (data.getStyle('2d.visible') == true) {
 							data.setStyle('2d.visible', false)
 						} else {
 							data.setStyle('2d.visible', true)
 						}
-					}
 				}
+				// if (data.getName() != undefined) {
+				// 	if (data.getName().indexOf('铠接地电流') > 0) {
+				// 		console.log(data)
+				// 		if (data.getStyle('2d.visible') == true) {
+				// 			data.setStyle('2d.visible', false)
+				// 		} else {
+				// 			data.setStyle('2d.visible', true)
+				// 		}
+				// 	}
+				// }
 				if (data.getTag() == 'sy-bg-kai') {
 					if (data.getStyle('2d.visible') == true) {
 						data.setStyle('2d.visible', false)
@@ -221,8 +245,8 @@ export default {
 
 .btnBox {
   position: absolute;
-  bottom: 50px;
-  right: 30px;
+  bottom 0;
+  right: 0px;
   width: 200px;
   height: 150px;
   color: #fff;

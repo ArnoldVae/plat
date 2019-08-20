@@ -196,14 +196,14 @@ export default [
 				},
 				component: () => import('@ac/views/electronic-fence-control')
 			},
-			{
-				path: 'security-control',
-				name: 'security-control',
-				meta: {
-					title: '双鉴'
-				},
-				component: () => import('@ac/views/security-control')
-			}
+            {
+                path: 'security-control',
+                name: 'security-control',
+                meta: {
+                    title: '双鉴'
+                },
+                component: () => import('@ac/views/security-control')
+            }
 		]
 	}
 ]

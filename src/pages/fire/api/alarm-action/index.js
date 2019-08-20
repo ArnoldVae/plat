@@ -10,15 +10,16 @@ export default {
 		})
 	},
 	// 报警联动列表查询
-	getAlarmList(params) {
+	getAlarmList(params){
 		return axios.request({
 			url: 'fire/alarm/find_list',
 			method: 'post',
 			data: JSON.stringify(params)
 		})
+
 	},
 	// 报警联动列表详情查询
-	getAlarmData(params) {
+	getAlarmData(params){
 		return axios.request({
 			url: 'fire/alarm/find_data',
 			method: 'post',
@@ -26,7 +27,7 @@ export default {
 		})
 	},
 	//站内天气
-	getAreaData(params) {
+	getAreaData(params){
 		return axios.request({
 			url: 'fire/area/find_dev_node',
 			method: 'post',
@@ -34,7 +35,7 @@ export default {
 		})
 	},
 	//报警视频
-	getVideoData(params) {
+	getVideoData(params){
 		return axios.request({
 			url: 'fire/area/find_protectarea_dev_video',
 			method: 'post',
@@ -42,7 +43,7 @@ export default {
 		})
 	},
 	//echars图
-	getEchartData(params) {
+	getEchartData(params){
 		return axios.request({
 			url: 'dev_info/findDevHistoryData',
 			method: 'post',
@@ -57,8 +58,8 @@ export default {
 			data: JSON.stringify(params)
 		})
 	},
-	//	获取预案信息
-	getReserve(params) {
+//	获取预案信息
+	getReserve(params){
 		return axios.request({
 			url: 'fire/alarm/reserve',
 			method: 'post',

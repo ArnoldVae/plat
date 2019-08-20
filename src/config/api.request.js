@@ -1,7 +1,7 @@
 import HttpRequest from './axios'
 import settings from './settings'
 
-const baseUrl = process.env.NODE_ENV === 'development' ? settings.javaBaseUrl.dev : settings.javaBaseUrl.pro
+const baseUrl = process.env.NODE_ENV === 'development' ? settings.baseUrl.dev : settings.baseUrl.pro
 
 // console.log(process.env.NODE_ENV)
 

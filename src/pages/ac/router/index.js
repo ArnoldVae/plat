@@ -7,14 +7,14 @@ import intelligent from './intelligent'
 import test from './test'
 
 const router = new Router({
-	routes: [...intelligent, ...test]
+    routes: [...intelligent, ...test]
 })
 router.beforeEach((to, from, next) => {
-	next()
+    next()
 })
 router.afterEach(to => {
-	if (to.meta.title) window.document.title = to.meta.title
-	window.scrollTo(0, 0)
+    if (to.meta.title) window.document.title = to.meta.title
+    window.scrollTo(0, 0)
 })
 
 export default router

@@ -1,23 +1,21 @@
 <template>
-	<div class="platform">
-		<!-- 加载状态 -->
-	
-			<!-- 单例导航头与侧边栏 -->
-			<navigation
-				:menuData="menuData"
-				:mainLogTitle="mainLogTitle"
-				:mainLogTitleEn="mainLogTitleEn"
-				:subLogTitle="subLogTitle"
-				:subLogTitleEn="subLogTitleEn"
-				:title="title"
-				:alarm="99"
-				@handleSelectMenu="selectMenu"
-			>
-			</navigation>
-				<a-spin size="large" :spinning="spinning">
-			<div class="iframe-view-wrap">
-				<!-- <div v-show="maskLoading" class="mask"></div> -->
-				<!-- <iframe
+  <div class="platform">
+    <!-- 加载状态 -->
+    <a-spin size="large" :spinning="spinning">
+      <!-- 单例导航头与侧边栏 -->
+      <navigation
+	      :menuData="menuData" 
+	      :mainLogTitle="mainLogTitle"
+	      :mainLogTitleEn="mainLogTitleEn"
+	      :subLogTitle="subLogTitle"
+	      :subLogTitleEn="subLogTitleEn"
+	      :title="title" 
+	      :alarm="99" 
+	      @handleSelectMenu="selectMenu">
+      </navigation>
+      <div class="iframe-view-wrap">
+        <!-- <div v-show="maskLoading" class="mask"></div> -->
+        <!-- <iframe
 					@load="iframeLoad"
 					v-if="iframeReset"
 					:src="location"
@@ -28,22 +26,22 @@
 					scrolling="no"
 				>
         </iframe>-->
-				<iframe
-					v-for="(item, index) in menuData"
-					:key="index"
-					class="iframw-view"
-					frameborder="0"
-					width="100%"
-					height="956"
-					scrolling="no"
-					:src="frameSrcArr[index]"
-					v-show="index === selectMenuIndex"
-					@load="iframeLoad(index)"
-					allowtransparency="true"
-				></iframe>
-			</div>
-		</a-spin>
-	</div>
+        <iframe
+          v-for="(item,index) in menuData"
+          :key="index"
+          class="iframw-view"
+          frameborder="0"
+          width="100%"
+          height="956"
+          scrolling="no"
+          :src="frameSrcArr[index]"
+          v-show="index===selectMenuIndex"
+          @load="iframeLoad(index)"
+		  allowtransparency="true"
+        ></iframe>
+      </div>
+    </a-spin>
+  </div>
 </template>
 <script>
 export default {
@@ -126,7 +124,7 @@ export default {
 				} else {
 					// this.title = ''
 				}
-			} catch (e) {
+			} catch(e) {
 				console.error(e)
 			}
 		},
@@ -141,8 +139,8 @@ export default {
 				} else {
 					// this.title = ''
 				}
-			} catch (e) {
-				console.error(e)
+			} catch(e) {
+				console.error(e);
 			}
 		},
 		// getMainLogTitleEn
@@ -156,8 +154,8 @@ export default {
 				} else {
 					// this.title = ''
 				}
-			} catch (e) {
-				console.error(e)
+			} catch(e) {
+				console.error(e);
 			}
 		},
 		// getSubLogTitle
@@ -171,8 +169,8 @@ export default {
 				} else {
 					// this.title = ''
 				}
-			} catch (e) {
-				console.error(e)
+			} catch(e) {
+				console.error(e);
 			}
 		},
 		// getSubLogTitleEn
@@ -186,8 +184,8 @@ export default {
 				} else {
 					// this.title = ''
 				}
-			} catch (e) {
-				console.error(e)
+			} catch(e) {
+				console.error(e);
 			}
 		},
 		//选择菜单项
@@ -212,15 +210,12 @@ export default {
 		//处理iframe src
 		handleIframeSrc(src) {
 			if (src && src.indexOf('http') != -1) {
-				return src
+				return src.vcExecuteObject
 			} else {
 				if (process.env.NODE_ENV == 'production') {
-					// 全路径
-					/*let pathname = window.location.pathname
+					let pathname = window.location.pathname
 					let folderPath = pathname.substring(0, pathname.lastIndexOf('/'))
-					return window.location.origin + folderPath + `/${src}`*/
-					// 自动补全路径
-					return src
+					return window.location.origin + folderPath + `/${src}`
 				}
 				if (src && process.env.NODE_ENV == 'development') {
 					let moduleName = src.split('/#')[0]

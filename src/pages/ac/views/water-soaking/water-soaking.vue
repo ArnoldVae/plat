@@ -1,11 +1,15 @@
 <template>
-	<div class="waterSoaking"></div>
+  <div class="waterSoaking">
+    
+  </div>
 </template>
 <script>
 export default {
 	data() {
-		return {}
-	}
+		return {
+		}
+	},
+
 }
 </script>
 
@@ -13,3 +17,5 @@ export default {
 
 }
 </style>
+
+

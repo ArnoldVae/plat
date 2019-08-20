@@ -1,17 +1,17 @@
 <template>
 	<div class="protectionZone">
-		<img src="../../assets/img/main/lan.png" style="width: 100%" alt="" />
+		<img src="../../assets/img/main/lan.png" style="width: 100%" alt="">
 		<span style="position: relative;top:-80px;left: 11%;font-size:1rem;color: #000000">消防设施维护保养记录表</span>
 		<div style="float: right;margin-right: 30px">
-			<el-button @click="isClick1" :class="{ action: isButton1 }" class="blueBtn" size="mini" type="text">{{
-				date
-			}}</el-button>
-			<el-button @click="isClick2" class="blueBtn" :class="{ action: isButton2 }" size="mini" type="text">{{
-				date - 1
-			}}</el-button>
-			<el-button @click="isClick3" class="blueBtn" :class="{ action: isButton3 }" size="mini" type="text">{{
-				date - 2
-			}}</el-button>
+		<el-button @click="isClick1" :class="{ action: isButton1 }" class="blueBtn" size="mini" type="text">{{
+			date
+		}}</el-button>
+		<el-button @click="isClick2" class="blueBtn" :class="{ action: isButton2 }" size="mini" type="text">{{
+			date - 1
+		}}</el-button>
+		<el-button @click="isClick3" class="blueBtn" :class="{ action: isButton3 }" size="mini" type="text">{{
+			date - 2
+		}}</el-button>
 		</div>
 	</div>
 </template>
@@ -55,7 +55,7 @@ export default {
 	width: 100%;
 	height: 100%;
 	background-color: #141a26;
-	border: 1px #ffffff solid;
+	border: 1px #FFFFFF solid;
 	text-align: center;
 }
 .action span {

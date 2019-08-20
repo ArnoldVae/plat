@@ -1,57 +1,69 @@
 <template>
-	<div class="video-customization">
-		<div class="rtCtn">
-			<!-- <div class="videoControl">
+  <div class="video-customization">
+    <div class="rtCtn">
+      <!-- <div class="videoControl">
       </div>-->
-			<div class="videoCtn-box">
-				<div class="ctnMain">
-					<div class="videoPanorama-ctnBox">
-						<div class="videoCtn">
-							<div
-								:class="
+      <div class="videoCtn-box">
+        <div class="ctnMain">
+          <div class="videoPanorama-ctnBox">
+            <div class="videoCtn">
+              <div
+                :class="
 									selectIdx == idx && playType == '视频'
 										? `videoItem layout-${videoLen} videoSelect`
 										: `videoItem layout-${videoLen}`
 								"
-								v-for="(item, idx) in videoComList"
-								:key="idx"
-							>
-								<!-- <VideoKurento :videoConfig="item" :isShowTool="false"></VideoKurento> -->
-								<!-- 播放视频窗口 -->
-								<ocxVideo :videoConfig="item" @setSelectIdx="selectIndex"></ocxVideo>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="lfCtn">
-			<div class="tabBox">
-				<!-- 选择 -->
-				<div class="inBox" @click="videoclickShow('场景')" :class="{ active: active == !videoShow }">场景</div>
-				<div class="inBox" @click="videoclickShow('视频')" :class="{ active: active == videoShow }">视频</div>
-			</div>
-			<div class="videoBox" v-show="videoShow">
-				<Menu :active-name="firstScene" width="auto" @on-select="selectMenu" ref="videoScene">
-					<MenuItem :name="item.sceneID" v-for="(item, idx) in sceneList" :key="idx">
-						<!-- <img :src="selectScene == item.sceneID ? iconCheck[item.iconName] : iconList[item.iconName]" alt=""> -->
-						<!-- <img :src="selectScene == item.sceneID ? checkIcon : defaultIcon" alt=""> -->
-						<p>{{ item.vcName }}</p>
-					</MenuItem>
-				</Menu>
-			</div>
-			<input type="text" v-model="search" class="search-ipt" placeholder="请输入搜索关键字" v-show="!videoShow" />
-			<div class="videoBox2" v-show="!videoShow">
-				<Menu width="auto" @on-select="selectMenuVideo" ref="video">
-					<MenuItem :name="item.videoPlayUrl || ''" v-for="(item, idx) in filterplayVideoList" :key="idx">
-						<!-- <img :src="selectScene == item.sceneID ? iconCheck[item.iconName] : iconList[item.iconName]" alt=""> -->
-						<!-- <img :src="selectScene == item.sceneID ? checkIcon : defaultIcon" alt=""> -->
-						<p>{{ item.vcName }}</p>
-					</MenuItem>
-				</Menu>
-			</div>
-		</div>
-	</div>
+                v-for="(item, idx) in videoComList"
+                :key="idx"
+              >
+                <!-- <VideoKurento :videoConfig="item" :isShowTool="false"></VideoKurento> -->
+                <ocxVideo :videoConfig="item" @setSelectIdx="selectIndex"></ocxVideo>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="lfCtn">
+      <div class="tabBox">
+        <div
+          class="inBox"
+          @click="videoclickShow('场景')"
+          :class="{ active: active == !videoShow }"
+        >场景</div>
+        <div class="inBox" @click="videoclickShow('视频')" :class="{ active: active == videoShow }">视频</div>
+      </div>
+      <div class="videoBox" v-show="videoShow">
+        <Menu :active-name="firstScene" width="auto" @on-select="selectMenu" ref="videoScene">
+          <MenuItem :name="item.sceneID" v-for="(item, idx) in sceneList" :key="idx">
+            <!-- <img :src="selectScene == item.sceneID ? iconCheck[item.iconName] : iconList[item.iconName]" alt=""> -->
+            <!-- <img :src="selectScene == item.sceneID ? checkIcon : defaultIcon" alt=""> -->
+            <p>{{ item.vcName }}</p>
+          </MenuItem>
+        </Menu>
+      </div>
+      <input
+        type="text"
+        v-model="search"
+        class="search-ipt"
+        placeholder="请输入搜索关键字"
+        v-show="!videoShow"
+      />
+      <div class="videoBox2" v-show="!videoShow">
+        <Menu width="auto" @on-select="selectMenuVideo" ref="video">
+          <MenuItem
+            :name="item.videoPlayUrl || ''"
+            v-for="(item, idx) in filterplayVideoList"
+            :key="idx"
+          >
+            <!-- <img :src="selectScene == item.sceneID ? iconCheck[item.iconName] : iconList[item.iconName]" alt=""> -->
+            <!-- <img :src="selectScene == item.sceneID ? checkIcon : defaultIcon" alt=""> -->
+            <p>{{ item.vcName }}</p>
+          </MenuItem>
+        </Menu>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import ocxVideo from '@/components/native/video/OcxVideo'
@@ -456,7 +468,7 @@ export default {
     // overflow-y: auto;
     // padding-top: 10px;
     padding-left: 10px;
-    overflow: hidden;
+	overflow:hidden;
 
     .tabBox {
       width: 100%;
@@ -479,8 +491,8 @@ export default {
       }
 
       .active {
-        background: rgba(15, 33, 69, 0.7);
-        color: #ffd36a;
+        background: rgba(15,33,69,0.7);
+		color: #ffd36a;
       }
     }
 
@@ -493,7 +505,7 @@ export default {
     .search-ipt {
       width: 280px;
       height: 40px;
-      color: #c0baab;
+	  color: #c0baab;
       margin-bottom: 10px;
       background-color: #0b265c;
       outline: none;
@@ -707,6 +719,8 @@ export default {
 .ivu-menu-vertical .ivu-menu-item {
   padding: 14px 0;
   color: #fff;
+//   background: #1b2938;
+//   background: #232b33;
   margin-bottom: 10px;
   border: 1px solid transparent;
   text-align: left;

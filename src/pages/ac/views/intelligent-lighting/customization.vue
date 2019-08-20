@@ -1,50 +1,49 @@
 <template>
-	<div class="intelligent-lighting-customization">
-		<div class="lighting-left">
-			<div class="ft"></div>
-			<div class="rb"></div>
-			<ocxVideo :videoConfig="videoConfig"></ocxVideo>
-		</div>
-		<div class="lighting-right">
-			<div class="lighting-list">
-				<div class="list-title">
-					<p>灯控设备开关</p>
-					<span>
-						总 :
-						<i>{{ total }}</i
-						>&nbsp;&nbsp;&nbsp;开 : <i>{{ openTotal }}</i
-						>&nbsp;&nbsp;&nbsp;关 :
-						<b>{{ offTotal }}</b>
-					</span>
-				</div>
-				<ul>
-					<li v-for="(item, index) in lightingList" :key="index">
-						<div class="li-left">
-							<img
-								v-if="item.fvalue == 1"
-								src="../../assets/img/intelligent-lighting/lamplight-open-s.png"
-							/>
-							<!-- <img
+  <div class="intelligent-lighting-customization">
+    <div class="lighting-left">
+      <div class="ft"></div>
+      <div class="rb"></div>
+      <ocxVideo :videoConfig="videoConfig"></ocxVideo>
+    </div>
+    <div class="lighting-right">
+      <div class="lighting-list">
+        <div class="list-title">
+          <p>灯控设备开关</p>
+          <span>
+            总 :
+            <i>{{total}}</i>&nbsp;&nbsp;&nbsp;开 :
+            <i>{{openTotal}}</i>&nbsp;&nbsp;&nbsp;关 :
+            <b>{{offTotal}}</b>
+          </span>
+        </div>
+        <ul>
+          <li v-for="(item,index) in lightingList" :key="index">
+            <div class="li-left">
+              <img
+                v-if="item.fvalue == 1"
+                src="../../assets/img/intelligent-lighting/lamplight-open-s.png"
+              />
+              <!-- <img
                 v-if="item.f_Value == 0"
                 src="../../assets/img/intelligent-lighting/lamplight-close-s.png"
               />-->
-							<img v-else src="../../assets/img/intelligent-lighting/lamplight-close-s.png" />
-						</div>
-						<div class="li-right">
-							<div class="li-title">{{ item.vcName }}</div>
-							<div class="li-btn">
-								<span @click="handleSwitch('open', item)">开</span>
-								<span @click="handleSwitch('off', item)" class="closeBtn">关</span>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<ocx-modal title="提醒" v-model="modalShow" @on-ok="handleConfirm" @on-cacel="handleCancel">
-			<p>确认执行该操作？</p>
-		</ocx-modal>
-	</div>
+              <img v-else src="../../assets/img/intelligent-lighting/lamplight-close-s.png" />
+            </div>
+            <div class="li-right">
+              <div class="li-title">{{item.vcName}}</div>
+              <div class="li-btn">
+                <span @click="handleSwitch('open',item)">开</span>
+                <span @click="handleSwitch('off',item)" class="closeBtn">关</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ocx-modal title="提醒" v-model="modalShow" @on-ok="handleConfirm" @on-cacel="handleCancel">
+      <p>确认执行该操作？</p>
+    </ocx-modal>
+  </div>
 </template>
 <script>
 import ocxVideo from '@/components/native/video/OcxVideo'
@@ -317,7 +316,7 @@ export default {
 	}
 }
 </script>
-<style lang="stylus" scoped>
+<style lang='stylus' scoped>
 * {
   margin: 0;
   padding: 0;

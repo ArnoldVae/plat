@@ -4,13 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build index && vue-cli-service build ac && vue-cli-service build as && vue-cli-service build fire && vue-cli-service build personnel && vue-cli-service build video",
+    "build": "vue-cli-service build index && vue-cli-service build ac && vue-cli-service build as && vue-cli-service build fire && vue-cli-service build personnel",
     "build-index": "vue-cli-service build index",
     "build-ac": "vue-cli-service build ac",
     "build-as": "vue-cli-service build as",
     "build-fire": "vue-cli-service build fire",
     "build-personnel": "vue-cli-service build personnel",
-    "build-video": "vue-cli-service build video",
     "lint": "vue-cli-service lint",
     "format": "prettier --write \"src/**/*.js\" \"src/**/*.vue\" \"src/**/*.json\"",
     "prettier": "prettier --write \"src/**/*.{md,css,less,scss,styl,js,vue,json}\""
@@ -44,7 +43,6 @@
     "babel-plugin-import": "^1.12.0",
     "compression-webpack-plugin": "^3.0.0",
     "eslint": "^5.16.0",
-    "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-vue": "^5.0.0",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",

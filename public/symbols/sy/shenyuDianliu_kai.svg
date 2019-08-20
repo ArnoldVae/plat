@@ -8,7 +8,7 @@
 	.st2{display:inline;fill:none;stroke:#49E2FC;stroke-width:2;stroke-miterlimit:10;}
 	.st3{fill:#FFFFFF;}
 	.st4{font-family:'MicrosoftYaHei';}
-	.st5{font-size:18px;}
+	.st5{font-size:24px;}
 </style>
 <g id="图层_4" class="st0">
 	<rect class="st1" width="2247" height="1080"/>
@@ -75,12 +75,12 @@
 	<rect x="847.7" y="660" class="st2" width="47" height="28"/>
 	<rect x="71" y="84" class="st2" width="253" height="51"/>
 </g>
-<text transform="matrix(1 0 0 1 1610.1049 330.9253)" class="st3 st4 st5">铠装接地</text>
-<text transform="matrix(1 0 0 1 1610.1049 355.3253)" class="st3 st4 st5">电流合成</text>
-<text transform="matrix(1 0 0 1 1717.0824 330.9253)" class="st3 st4 st5">铠装接地</text>
-<text transform="matrix(1 0 0 1 1717.0824 355.3253)" class="st3 st4 st5">电流合成</text>
-<text transform="matrix(1 0 0 1 1814.7653 807.9253)" class="st3 st4 st5">铠装接地</text>
-<text transform="matrix(1 0 0 1 1814.7653 832.3254)" class="st3 st4 st5">电流合成</text>
-<text transform="matrix(1 0 0 1 1922.0131 807.9253)" class="st3 st4 st5">铠装接地</text>
-<text transform="matrix(1 0 0 1 1922.0131 832.3254)" class="st3 st4 st5">电流合成</text>
+<text transform="matrix(1 0 0 1 1596.1049 330.9253)" class="st3 st4 st5">铠装接地</text>
+<text transform="matrix(1 0 0 1 1596.1049 365.3253)" class="st3 st4 st5">电流合成</text>
+<text transform="matrix(1 0 0 1 1706.0824 330.9253)" class="st3 st4 st5">铠装接地</text>
+<text transform="matrix(1 0 0 1 1706.0824 365.3253)" class="st3 st4 st5">电流合成</text>
+<text transform="matrix(1 0 0 1 1804.7653 767.9253)" class="st3 st4 st5">铠装接地</text>
+<text transform="matrix(1 0 0 1 1804.7653 802.3254)" class="st3 st4 st5">电流合成</text>
+<text transform="matrix(1 0 0 1 1922.0131 767.9253)" class="st3 st4 st5">铠装接地</text>
+<text transform="matrix(1 0 0 1 1922.0131 802.3254)" class="st3 st4 st5">电流合成</text>
 </svg>

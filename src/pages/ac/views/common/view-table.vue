@@ -78,13 +78,7 @@
 				/>
 			</div>
 		</div>
-		<ocx-modal
-			:mask="false"
-			title="提醒"
-			v-model="confirmModalShow"
-			@on-ok="confirmModalOk"
-			@on-cacel="confirmModalCacel"
-		>
+		<ocx-modal :mask="false" title="提醒" v-model="confirmModalShow" @on-ok="confirmModalOk" @on-cacel="confirmModalCacel">
 			<p>确认执行该操作？</p>
 		</ocx-modal>
 		<!-- 历史曲线 -->
@@ -364,7 +358,7 @@ export default {
 					this.tableData = result.data.lists
 					console.log(this.tableData)
 					this.total = result.data.page.totalNum
-
+	 
 					this.rowFn()
 
 					// this.tableReset = false
@@ -372,12 +366,13 @@ export default {
 					// this.$nextTick(() => {
 					// 	this.tableReset = true
 					// })
+
 				} else {
 					this.tableData = []
 					this.total = 0
 				}
 				this.loading = false
-			} catch (e) {
+			} catch(e) {
 				this.$ocxMessage.error(`${e}`)
 				this.loading = false
 			}
@@ -726,7 +721,7 @@ export default {
 	height: 100%;
 	overflow: auto;
 	padding-right: 20px;
-
+	
 	/deep/ .el-loading-mask {
 		background-color: #0e224c;
 	}
@@ -897,7 +892,7 @@ export default {
 								border-color: #194c82;
 							}
 						}
-
+						
 					}
 				}
 

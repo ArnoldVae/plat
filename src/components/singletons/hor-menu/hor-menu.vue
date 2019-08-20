@@ -1,11 +1,7 @@
 <template>
 	<div v-cloak class="hor-menu">
 		<div v-for="(item, index) in data" class="system-item" :key="item.subSystemId">
-			<div
-				@click="handleSelect(index, item)"
-				class="name"
-				:class="{ current: currentSystemId == item.subSystemId }"
-			>
+			<div @click="handleSelect(index, item)" class="name" :class="{ current: currentSystemId == item.subSystemId }">
 				{{ item.vcName }}
 			</div>
 		</div>
@@ -62,13 +58,13 @@ export default {
 }
 .hor-menu {
 	display: flex;
-	width: 1593px;
+	width: 1570px;
 	height: 46px;
 	background: url('~@/assets/img/common/tabs-bg.png') no-repeat;
 	background-size: 1590px 46px;
 	position: relative;
 	padding-right: 70px;
-
+	
 	> .system-item {
 		display: flex;
 		align-items: center;
@@ -84,7 +80,7 @@ export default {
 			}
 		}
 	}
-
+	
 	.go-back {
 		position: absolute;
 		right: 20px;

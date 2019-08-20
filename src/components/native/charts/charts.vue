@@ -1,7 +1,7 @@
 <template>
-	<div class="charts">
-		<div id="my-charts"></div>
-	</div>
+  <div class="charts">
+    <div id="my-charts"></div>
+  </div>
 </template>
 <script>
 export default {
@@ -233,7 +233,7 @@ export default {
 	}
 }
 </script>
-<style lang="stylus" scoped>
+<style lang='stylus' scoped>
 .charts {
   width: 100%;
   height: 100%;

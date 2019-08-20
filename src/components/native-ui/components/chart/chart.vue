@@ -13,11 +13,7 @@ export default {
 	data() {
 		return {
 			// 动态生成id, 保证多个可以挂载
-			chartId:
-				'id-' +
-				Math.random()
-					.toString(16)
-					.substr(2, 8),
+			chartId: 'id-' + Math.random().toString(16).substr(2, 8),
 			timerId: null
 		}
 	},
@@ -38,7 +34,7 @@ export default {
 		}
 	},
 	created() {
-		// console.log('chartId:', this.chartId)
+		console.log('chartId:', this.chartId)
 	},
 	mounted() {
 		this.init()
@@ -51,7 +47,6 @@ export default {
 	methods: {
 		// 渲染 chart
 		renderChart() {
-			this.chartIns.clear()
 			this.chartIns.setOption(this.option)
 			this.chartIns.resize()
 		},
@@ -90,7 +85,11 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .chart {
-	width: 100%;
-	height: 100%;
+	/* width: 100%; */
+	/* height: 100%; */
+
+	width: 500px;
+	height: 300px;
+
 }
 </style>

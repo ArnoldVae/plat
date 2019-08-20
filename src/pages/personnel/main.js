@@ -33,13 +33,13 @@ import {
 	TimeSelect, // 时间选择器组
 	TimePicker, // 时间选择器
 	Popover, // 弹出提示框
-	Radio, // 单选框
-	RadioGroup, // 单选框组
-	RadioButton, // 单选框按钮
-	Checkbox, // 复选框
-	CheckboxButton, // 复选框按钮
-	CheckboxGroup, // 复选框组
-	Switch, // 开关
+	Radio, // 单选框 
+	RadioGroup, // 单选框组 
+	RadioButton, // 单选框按钮 
+	Checkbox, // 复选框 
+	CheckboxButton, // 复选框按钮 
+	CheckboxGroup, // 复选框组 
+	Switch, // 开关 
 	Select, // 选择器
 	Row, // Layout 布局
 	Col, // Layout 布局
@@ -69,13 +69,13 @@ const ElementUI = [
 	TimeSelect, // 时间选择器组
 	TimePicker, // 时间选择器
 	Popover, // 弹出提示框
-	Radio, // 单选框
-	RadioGroup, // 单选框组
-	RadioButton, // 单选框按钮
-	Checkbox, // 复选框
-	CheckboxButton, // 复选框按钮
-	CheckboxGroup, // 复选框组
-	Switch, // 开关
+	Radio, // 单选框 
+	RadioGroup, // 单选框组 
+	RadioButton, // 单选框按钮 
+	Checkbox, // 复选框 
+	CheckboxButton, // 复选框按钮 
+	CheckboxGroup, // 复选框组 
+	Switch, // 开关 
 	Select, // 选择器
 	Row, // Layout 布局
 	Col, // Layout 布局
@@ -88,10 +88,8 @@ const ElementUI = [
 const Antd = [ A1, A2 ]*/
 
 // 捆绑注册
-function* register(name) {
-	Vue.use(name)
-}
-;[...ElementUI].forEach(component => register(component).next())
+function* register(name) { Vue.use(name) }
+[ ...ElementUI ].forEach( component => register(component).next() )
 
 import 'element-ui/lib/theme-chalk/index.css'
 

@@ -10,20 +10,7 @@ import 'iview/dist/styles/iview.css'
 Vue.use(iView)
 
 // ElementUI 按需
-import {
-	Loading,
-	Scrollbar,
-	Input,
-	Tree,
-	Table,
-	TableColumn,
-	Option,
-	Tag,
-	Select,
-	Button as eButton,
-	ButtonGroup as eButtonGroup,
-	Popover
-} from 'element-ui'
+import { Loading, Scrollbar, Input, Tree, Table, TableColumn, Option, Tag, Select, Button as eButton, ButtonGroup as eButtonGroup, Popover } from 'element-ui'
 const ElementUI = [Loading, Scrollbar, Input, Tree, Table, Select, Option, TableColumn, Tag, Popover]
 ElementUI.push(eButton)
 ElementUI.push(eButtonGroup)
@@ -56,9 +43,7 @@ const NativeUI = [chart]
 function* register(name) {
 	Vue.use(name)
 }
-;[...ElementUI, ...Antd, ...Singletons, ...ElementDev, ...iviewDev, ...Business, ...NativeUI].forEach(component =>
-	register(component).next()
-)
+;[...ElementUI, ...Antd, ...Singletons, ...ElementDev, ...iviewDev, ...Business, ...NativeUI].forEach(component => register(component).next())
 
 // 挂载api
 import api from '@ac/api'

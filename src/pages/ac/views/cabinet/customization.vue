@@ -1,45 +1,49 @@
 <template>
-	<div class="cabinet-customization">
-		<div class="cabinet-item" v-for="(cabinet, index) in list" :key="index">
-			<div class="item-title">{{ cabinet.equName }}</div>
-			<div class="cabinet-content-wrap">
-				<div class="cabinet-item-kj" v-if="getIsShow(cabinet, 'apollo')">
-					<div class="cabinet-item-kj-nodes">
-						<div class="cabinet-item-kj-node" v-for="(kjitem, kjIndex) in cabinet.apollo" :key="kjIndex">
-							<div @click="showHistoryHandler(kjitem)" class="cabinet-item-kj-node-icon"></div>
-							<div class="cabinet-item-kj-content">
-								<div>
-									<span>{{ kjitem.fvalue }}</span>
-									<span>{{ kjitem.vcUnit }}</span>
-								</div>
-								<div class="cabinet-item-kj-nodename">{{ kjitem.nodeName }}</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="cabinet-item-xl" v-if="getIsShow(cabinet, 'kk')">
-					<div class="cabinet-item-xl-eqps">
-						<div class="cabinet-item-xl-eqp" v-for="(eqp, index) in cabinet.kk" :key="index">
-							<div class="cabinet-item-xl-eqpname">{{ eqp[0].nodeName }}</div>
-							<div class="cabinet-item-xl-node-wrap">
-								<div v-for="(node, nindex) in eqp" class="cabinet-item-xl-node" :key="nindex">
-									<div class="cabinet-item-xl-nodevalue" @click="showHistoryHandler(node)">
-										<span>{{ node.fvalue }}</span>
-										<span>{{ node.vcUnit }}</span>
-									</div>
-									<div class="cabinet-item-xl-nodename">
-										<span>{{ node.nodeName }}</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal> -->
-		<charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
-	</div>
+  <div class="cabinet-customization">
+    <div class="cabinet-item" v-for="(cabinet,index) in list" :key="index">
+      <div class="item-title">{{cabinet.equName}}</div>
+      <div class="cabinet-content-wrap">
+        <div class="cabinet-item-kj" v-if="getIsShow(cabinet,'apollo')">
+          <div class="cabinet-item-kj-nodes">
+            <div
+              class="cabinet-item-kj-node"
+              v-for="(kjitem,kjIndex) in cabinet.apollo"
+              :key="kjIndex"
+            >
+              <div @click="showHistoryHandler(kjitem)" class="cabinet-item-kj-node-icon"></div>
+              <div class="cabinet-item-kj-content">
+                <div>
+                  <span>{{kjitem.fvalue}}</span>
+                  <span>{{kjitem.vcUnit}}</span>
+                </div>
+                <div class="cabinet-item-kj-nodename">{{kjitem.nodeName}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cabinet-item-xl" v-if="getIsShow(cabinet,'kk')">
+          <div class="cabinet-item-xl-eqps">
+            <div class="cabinet-item-xl-eqp" v-for="(eqp,index) in cabinet.kk" :key="index">
+              <div class="cabinet-item-xl-eqpname">{{eqp[0].nodeName}}</div>
+              <div class="cabinet-item-xl-node-wrap">
+                <div v-for="(node,nindex) in eqp" class="cabinet-item-xl-node" :key="nindex">
+                  <div class="cabinet-item-xl-nodevalue" @click="showHistoryHandler(node)">
+                    <span>{{node.fvalue}}</span>
+                    <span>{{node.vcUnit}}</span>
+                  </div>
+                  <div class="cabinet-item-xl-nodename">
+                    <span>{{node.nodeName}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal> -->
+    <charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
+  </div>
 </template>
 <script>
 import qs from 'qs'
@@ -104,10 +108,10 @@ export default {
 			this.$_api.getStaticData('./simulation-data/cabinet.json').then(res => {
 				// if (res.ret === '0') {
 				// console.log(res)
-				this.list = res.data.data
-				let testData = JSON.parse(JSON.stringify(res.data.data))
-				console.log(testData)
-
+        this.list = res.data.data
+        let testData = JSON.parse(JSON.stringify(res.data.data))
+        console.log(testData)
+        
 				// }
 			})
 		},
@@ -146,7 +150,7 @@ export default {
 	}
 }
 </script>
-<style lang="stylus" scoped>
+<style lang='stylus' scoped>
 .cabinet-customization {
   // width: calc(100% - 20px);
   // height: 100%;

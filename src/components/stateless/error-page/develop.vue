@@ -1,10 +1,10 @@
 <template>
-	<div class="develop">
-		<!-- <Alert type="warning">模块开发中...</Alert> -->
-		<Card style="width:350px">
-			<p>功能开发中,敬请期待...</p>
-		</Card>
-	</div>
+  <div class="develop">
+    <!-- <Alert type="warning">模块开发中...</Alert> -->
+    <Card style="width:350px">
+        <p>功能开发中,敬请期待...</p>
+    </Card>
+  </div>
 </template>
 <script>
 export default {
@@ -34,7 +34,7 @@ export default {
 	}
 }
 </script>
-<style lang="stylus" scoped>
+<style lang='stylus' scoped>
 .develop {
 .ivu-card-body{
     width 100%;

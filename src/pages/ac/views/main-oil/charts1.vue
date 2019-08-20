@@ -1,30 +1,30 @@
 <template>
-	<div class="ac-history-modal">
-		<ocx-modal
-			:styles="{ top: '100px' }"
-			title="历史记录"
-			:mask="false"
-			@on-cancel="handleCloseHistoryModal"
-			class="historyModal-wrap"
-			:value="value"
-			scrollable
-			v-bind="$attrs"
-			v-on="$listeners"
-		>
-			<div class="modal-content">
-				<div class="btn-box">
-					<RadioGroup v-model="button4" type="button" size="large">
-						<Radio label="一天"></Radio>
-						<Radio label="三天"></Radio>
-						<Radio label="一周"></Radio>
-					</RadioGroup>
-				</div>
-				<div id="charts"></div>
-			</div>
+  <div class="ac-history-modal">
+    <ocx-modal
+      :styles="{ top: '0px' }"
+      title="历史记录"
+      :mask="false"
+      @on-cancel="handleCloseHistoryModal"
+      class="historyModal-wrap"
+      :value="value"
+      scrollable
+      v-bind="$attrs"
+      v-on="$listeners"
+    >
+      <div class="modal-content">
+        <div class="btn-box">
+          <RadioGroup v-model="button4" type="button" size="large">
+            <Radio label="一天"></Radio>
+            <Radio label="三天"></Radio>
+            <Radio label="一周"></Radio>
+          </RadioGroup>
+        </div>
+        <div id="charts"></div>
+      </div>
 
-			<div slot="footer"></div>
-		</ocx-modal>
-	</div>
+      <div slot="footer"></div>
+    </ocx-modal>
+  </div>
 </template>
 <script>
 import { setTimeout } from 'timers'
@@ -125,9 +125,9 @@ export default {
 					textStyle: {
 						color: '#fff',
 						fontWeight: 400,
-						fontSize: 18
+						fontSize: 22
 					},
-					left: 30,
+					left: 100,
 					top: 0
 				},
 				tooltip: {
@@ -291,7 +291,7 @@ export default {
 
             #charts {
               width: 100%;
-              height: calc(100% - 50px);
+              height: 100%;
             }
           }
         }

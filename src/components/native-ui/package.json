@@ -5,11 +5,11 @@
 	"main": "components/index.js",
 	"dependencies": {},
 	"files": [
-		"components",
-		"example",
-		"directives",
-		"locale",
-		"mixins",
-		"utils"
-	]
+    	"components",
+    	"example",
+    	"directives",
+    	"locale",
+    	"mixins",
+    	"utils"
+  	]
 }

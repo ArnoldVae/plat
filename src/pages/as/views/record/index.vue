@@ -1,312 +1,284 @@
 <template>
-	<div class="report">
-		<div class="report-view">
-			<div class="search-bar">
-				<div class="search">
-					<label for>巡检时间：</label>
-					<el-select class="ipt" v-model="value" placeholder="请选择" @change="changeTimeHandle">
-						<el-option
-							v-for="item in timeOptions"
-							:key="item.value"
-							:label="item.label"
-							:value="item.value"
-						></el-option>
-					</el-select>
-				</div>
-				<div class="search">
-					<label for>任务状态：</label>
-					<el-select class="ipt" v-model="value2" placeholder="请选择" @change="changeStatusHandle">
-						<el-option
-							v-for="item in statusOptions"
-							:key="item.value"
-							:label="item.label"
-							:value="item.value"
-						></el-option>
-					</el-select>
-				</div>
-				<div class="search">
-					<label for>是否报警：</label>
-					<el-select class="ipt" v-model="value3" placeholder="请选择" @change="changeAlarmHandle">
-						<el-option
-							v-for="item in alarmOptions"
-							:key="item.value"
-							:label="item.label"
-							:value="item.value"
-						></el-option>
-					</el-select>
-				</div>
-				<el-button type="primary" class="btn searchbtn" @click="getList">查询</el-button>
-				<el-button type="primary" class="btn exportbtn" @click="exportList">导出</el-button>
-			</div>
-			<!-- 任务表 -->
-			<div class="list">
-				<el-table
-					:data="inspectionRecordList"
-					:row-style="tableRowStyle"
-					:header-cell-style="tableHeaderColor"
-					style="width: 100%"
-				>
-					<el-table-column label="计划" align="center" width="218">
-						<template slot-scope="scope">{{ scope.row.planName }}</template>
-					</el-table-column>
-					<el-table-column label="任务" align="center" width="210">
-						<template slot-scope="scope">{{ scope.row.taskName }}</template>
-					</el-table-column>
-					<el-table-column align="center" label="任务类型" width="76">
-						<template slot-scope="scope">{{ scope.row.taskType }}</template>
-					</el-table-column>
-					<el-table-column align="center" label="状态" width="82">
-						<template slot-scope="scope"
-							><span :class="{ abnormal: scope.row.iStatusName == '异常终止' }">{{
-								scope.row.iStatusName
-							}}</span></template
-						>
-					</el-table-column>
-					<el-table-column align="center" label="启动原因" width="102">
-						<template slot-scope="scope">{{ scope.row.iStartReason }}</template>
-					</el-table-column>
-					<el-table-column align="center" label="结束原因" width="100">
-						<template slot-scope="scope">{{ scope.row.iStopReason }}</template>
-					</el-table-column>
-					<el-table-column align="center" label="启动时间" width="170">
-						<template slot-scope="scope">{{ scope.row.iStartTime }}</template>
-					</el-table-column>
-					<el-table-column align="center" label="结束时间" width="170">
-						<template slot-scope="scope">{{ scope.row.iStopTime }}</template>
-					</el-table-column>
-					<el-table-column align="center" label="报警条数" width="102">
-						<template slot-scope="scope">{{ scope.row.alarmNum || '-' }}</template>
-					</el-table-column>
-					<el-table-column align="center" label="操作人" width="90">
-						<template slot-scope="scope">{{ scope.row.userId || '-' }}</template>
-					</el-table-column>
-					<el-table-column prop align="center" label="操作">
-						<template slot-scope="scope">
-							<span
-								class="operation detail"
-								@click="goDetail(scope.row.recordId, scope.row.unitId, scope.row.taskId)"
-								>详细</span
-							>
-							<span class="operation export" @click="exportRow(scope.row)">导出</span>
-						</template>
-					</el-table-column>
-				</el-table>
-			</div>
-			<!-- 分页 -->
-			<div class="page-wrap" v-show="this.inspectionRecordList.length > 0">
-				<Page
-					@on-change="handleChangePage"
-					@on-page-size-change="handleChangeSize"
-					:total="total"
-					:current="currentPage"
-					:page-size="pageSize"
-					show-sizer
-					show-elevator
-				/>
-			</div>
-		</div>
-	</div>
+  <div class="report">
+    <div class="search-bar">
+      <div class="search">
+        <label for>巡检时间：</label>
+        <el-select class="ipt" v-model="value" placeholder="请选择" @change="changeTimeHandle">
+          <el-option
+            v-for="item in timeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </div>
+      <div class="search">
+        <label for>任务状态：</label>
+        <el-select class="ipt" v-model="value2" placeholder="请选择" @change="changeStatusHandle">
+          <el-option
+            v-for="item in statusOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </div>
+      <div class="search">
+        <label for>是否报警：</label>
+        <el-select class="ipt" v-model="value3" placeholder="请选择" @change="changeAlarmHandle">
+          <el-option
+            v-for="item in alarmOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </div>
+      <el-button type="primary" class="btn" @click="getList">查询</el-button>
+      <el-button type="primary" class="btn" @click="exportList">导出</el-button>
+    </div>
+    <!-- 任务表 -->
+    <div class="list">
+      <el-table
+        :data="inspectionRecordList"
+        :row-style="tableRowStyle"
+        :header-cell-style="tableHeaderColor"
+        style="width: 100%"
+      >
+        <el-table-column label="计划" align="center" width="230">
+          <template slot-scope="scope">{{ scope.row.planName }}</template>
+        </el-table-column>
+        <el-table-column label="任务" align="center" width="230">
+          <template slot-scope="scope">{{ scope.row.taskName }}</template>
+        </el-table-column>
+        <el-table-column align="center" label="任务类型" width="140">
+          <template slot-scope="scope">{{ scope.row.taskType }}</template>
+        </el-table-column>
+        <el-table-column align="center" label="状态" width="100">
+          <template slot-scope="scope">{{ scope.row.iStatusName }}</template>
+        </el-table-column>
+        <el-table-column align="center" label="启动原因" width="140">
+          <template slot-scope="scope">{{ scope.row.iStartReason }}</template>
+        </el-table-column>
+        <el-table-column align="center" label="结束原因" width="140">
+          <template slot-scope="scope">{{ scope.row.iStopReason }}</template>
+        </el-table-column>
+        <el-table-column align="center" label="启动时间" width="170">
+          <template slot-scope="scope">{{ scope.row.iStartTime }}</template>
+        </el-table-column>
+        <el-table-column align="center" label="结束时间" width="170">
+          <template slot-scope="scope">{{ scope.row.iStopTime }}</template>
+        </el-table-column>
+        <el-table-column align="center" label="报警条数" width="100">
+          <template slot-scope="scope">{{ scope.row.alarmNum }}</template>
+        </el-table-column>
+        <el-table-column align="center" label="操作人" width="120">
+          <template slot-scope="scope">{{ scope.row.userId }}</template>
+        </el-table-column>
+        <el-table-column prop align="center" label="操作" width='180' fixed="right">
+          <template slot-scope="scope">
+            <span
+              class="operation detail"
+              @click="goDetail(scope.row.recordId,scope.row.unitId,scope.row.taskId)"
+            >详细</span>
+            <span style="margin: 0 5px;">|</span>
+            <span class="operation export">导出</span>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <!-- 分页 -->
+    <div class="page-wrap">
+      <Page
+        @on-change="handleChangePage"
+        @on-page-size-change="handleChangeSize"
+        :total="total"
+        :current=currentPage
+        :page-size=pageSize
+        show-sizer
+        show-elevator
+      />
+    </div>
+  </div>
 </template>
 <script>
 import moment from 'moment'
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 export default {
-	name: 'report',
-	components: {},
-	props: {},
-	data() {
-		return {
-			axios: this.$_api.recordData,
-			inspectionRecordList: [], //任务记录列表
-			timeOptions: [
-				{
-					value: '6',
-					label: '全部'
-				},
-				{
-					value: '1',
-					label: '一天'
-				},
-				{
-					value: '3',
-					label: '三天'
-				},
-				{
-					value: '7',
-					label: '一周'
-				}
-			],
-			statusOptions: [
-				{
-					value: '',
-					label: '全部'
-				},
-				{
-					value: '70140002',
-					label: '正常结束'
-				},
-				{
-					value: '70140001',
-					label: '正在执行'
-				},
-				{
-					value: '70140003',
-					label: '异常终止'
-				}
-			],
-			alarmOptions: [
-				{
-					value: '',
-					label: '全部'
-				},
-				{
-					value: '1',
-					label: '报警'
-				},
-				{
-					value: '0',
-					label: '无报警'
-				}
-			],
-			value: '6',
-			value2: '',
-			value3: '',
-			unitId: '', //变电站id
-			iIsAlarm: '', //是否报警
-			iStatus: '', //任务状态
-			dateId: '6', //时间
-			pageSize: 10, //每页显示条数
-			currentPage: 1, //当前页码
-			total: 0
-		}
-	},
-	computed: {
-		stationId() {
-			return this.$store.getters.stationId
-		}
-	},
-	filters: {},
-	watch: {
-		stationId: {
-			handler(val) {
-				if (val) {
-					this.unitId = val
-					this.getList()
-				}
-			},
-			immediate: true
-		}
-	},
-	created() {},
-	mounted() {
-		this.getList()
-	},
-	activited() {},
-	update() {},
-	beforeDestory() {},
-	methods: {
-		changeTimeHandle(value) {
-			this.dateId = value
-		},
-		changeStatusHandle(value) {
-			this.iStatus = value
-		},
-		changeAlarmHandle(value) {
-			this.iIsAlarm = value
-		},
-		// 修改table tr行的背景色
-		tableRowStyle({ row, rowIndex }) {
-			return 'color: #fff;'
-		},
-		// 修改table header的背景色
-		tableHeaderColor({ row, column, rowIndex, columnIndex }) {
-			if (rowIndex === 0) {
-				return 'background:rgba(35,40,66,.2);color: #3299ff;font-weight: 500;'
-			}
-		},
-		//获取记录列表
-		getList() {
-			var ctx = this
-			ctx.axios
-				.getRecordList({
-					unitId: ctx.unitId,
-					iIsAlarm: ctx.iIsAlarm,
-					iStatus: ctx.iStatus,
-					dateId: ctx.dateId,
-					// "unitId":"42389edde72d41f4bcd978b574eefbae","iIsAlarm":"","iStatus":"","dateId":"50",
+  name: 'report',
+  components: {},
+  props: {},
+  data() {
+    return {
+      axios: this.$_api.recordData,
+      inspectionRecordList: [], //任务记录列表
+      timeOptions: [
+        {
+          value: '1',
+          label: '一天'
+        },
+        {
+          value: '3',
+          label: '三天'
+        },
+        {
+          value: '7',
+          label: '一周'
+        }
+      ],
+      statusOptions: [
+        {
+          value: '70140001',
+          label: '空闲'
+        },
+        {
+          value: '70140002',
+          label: '正常运行'
+        },
+        {
+          value: '70140003',
+          label: '异常停止'
+        }
+      ],
+      alarmOptions: [
+        {
+          value: '1',
+          label: '报警'
+        },
+        {
+          value: '0',
+          label: '无报警'
+        }
+      ],
+      value: '1',
+      value2: '',
+      value3: '',
+      unitId: '', //变电站id
+      iIsAlarm: '', //是否报警
+      iStatus: '', //任务状态
+      dateId: '1', //时间
+      pageSize: 10,//每页显示条数
+      currentPage: 1,//当前页码
+      total: 0
+    }
+  },
+  computed: {
+    stationId(){
+      return this.$store.getters.stationId
+    }
+  },
+  filters: {},
+  watch: {
+     stationId: {
+      handler(val) {
+        if (val) {
+          this.unitId = val
+          this.getList();
+        }
+      },
+      immediate: true
+    }
+  },
+  created() {},
+  mounted() {
+    this.getList()
+  },
+  activited() { },
+  update() { },
+  beforeDestory() { },
+  methods: {
+    changeTimeHandle(value) {
+      this.dateId = value
+    },
+    changeStatusHandle(value) {
+      this.iStatus = value
+    },
+    changeAlarmHandle(value) {
+      this.iIsAlarm = value
+    },
+    // 修改table tr行的背景色
+    tableRowStyle({ row, rowIndex }) {
+      return 'color: #fff;'
+    },
+    // 修改table header的背景色
+    tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex === 0) {
+        return 'background:rgba(35,40,66,.2);color: #3299ff;font-weight: 500;'
+      }
+    },
+    //获取记录列表
+    getList() {
+      var ctx = this
+      ctx.axios
+        .getRecordList({
+          unitId: ctx.unitId,
+          iIsAlarm: ctx.iIsAlarm,
+          iStatus: ctx.iStatus,
+          dateId: ctx.dateId,
+          // "unitId":"42389edde72d41f4bcd978b574eefbae","iIsAlarm":"","iStatus":"","dateId":"50",
 					currentPage: ctx.currentPage,
-					pageSize: ctx.pageSize
-				})
-				.then(res => {
-					if (res.code == 200) {
-						let data = res.data.data.lists
-						for (let i = 0, len = data.length; i < len; i++) {
-							data[i].iStartTime = moment(data[i].iStartTime * 1000).format('YYYY-MM-DD hh:mm:ss')
-							data[i].iStopTime = moment(data[i].iStopTime * 1000).format('YYYY-MM-DD hh:mm:ss')
-						}
-						this.inspectionRecordList = res.data.data.lists
-						this.total = res.data.data.page.totalNum
-					}
-				})
-				.catch(err => {
-					console.log(err)
-				})
+					pageSize: ctx.pageSize	
+        })
+        .then(res => {
+          if (res.code == 200) {
+            let data = res.data.data.lists
+            for (let i = 0, len = data.length; i < len; i++) {
+              data[i].iStartTime = moment(data[i].iStartTime * 1000).format('YYYY-MM-DD hh:mm:ss')
+              data[i].iStopTime = moment(data[i].iStopTime * 1000).format('YYYY-MM-DD hh:mm:ss')
+            }
+            this.inspectionRecordList = res.data.data.lists
+            this.total = res.data.data.page.totalNum;
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    //详情
+    goDetail(recordId, unitId, taskId) {
+      this.$router.push({
+        name: 'detail',
+        params: {
+          recordId,
+          unitId,
+          taskId
+        }
+      })
+    },
+    //导出
+    exportList() {
+      var ctx = this
+      window.location.href = 'http://172.26.1.82:8080/dsa5200/report/export?unitId='
+        + '42389edde72d41f4bcd978b574eefbae'
+        + '&iIsAlarm='
+        + ctx.iIsAlarm
+        + '&iStatus='
+        + ctx.iStatus
+        + '&dateId='
+        + 40
+      //'http://172.26.1.82:8080/dsa5200/report/export?unitId=42389edde72d41f4bcd978b574eefbae&iIsAlarm=&iStatus=&dateId=40'
+    },
+    handleChangePage(page) {
+      console.log(page,'page')
+      this.currentPage = page
+      this.getList()
+    },
+    handleChangeSize(size) {
+      console.log(size,'size')
+      this.pageSize = size
+      this.getList()
+		
 		},
-		//详情
-		goDetail(recordId, unitId, taskId) {
-			this.$router.push({
-				name: 'detail',
-				params: {
-					recordId,
-					unitId,
-					taskId
-				}
-			})
-		},
-		//导出
-		exportList() {
-			var time = moment().format('YYYYMMDDhhmmss')
-			console.log(time)
-			window.location.href =
-				'http://172.26.1.82:8080/dsa5200/report/export?unitId=' +
-				this.unitId +
-				'&iIsAlarm=' +
-				this.iIsAlarm +
-				'&iStatus=' +
-				this.iStatus +
-				'&dateId=' +
-				this.dateId +
-				'&filename=' +
-				time
-			//'http://172.26.1.82:8080/dsa5200/report/export?unitId=42389edde72d41f4bcd978b574eefbae&iIsAlarm=&iStatus=&dateId=40'
-		},
-		//每行导出
-		exportRow(row) {
-			var time = moment().format('YYYYMMDDhhmmss')
-			window.location.href = 'http://172.26.1.147:8021/As/ExportTaskReport?RecordID=1613&filename=20190815.docx'
-			// window.location.href = 'http://172.26.1.147:8021/As/ExportTaskReport?RecordID='
-			// + row.recordId + '&filename=' + time + '.docx'
-		},
-		handleChangePage(page) {
-			console.log(page, 'page')
-			this.currentPage = page
-			this.getList()
-		},
-		handleChangeSize(size) {
-			console.log(size, 'size')
-			this.pageSize = size
-			this.getList()
-		}
-	},
-	beforeRouteEnter(to, from, next) {
-		next()
-	},
-	beforeRouteUpdate(to, from, next) {
-		next()
-	},
-	beforeRouteLeave(to, from, next) {
-		next()
-	}
+  },
+  beforeRouteEnter(to, from, next) {
+    next()
+  },
+  beforeRouteUpdate(to, from, next) {
+    next()
+  },
+  beforeRouteLeave(to, from, next) {
+    next()
+  }
 }
 </script>
 <style lang="stylus" scoped>
@@ -315,15 +287,8 @@ export default {
   height: 1080px;
   background: url('~@/assets/img/navigation/background.png') no-repeat;
   background-size: 100% 1080px;
-  .report-view{
-    width: 100%;
-    height: 860px;
-    overflow: hidden;
-    background: url('~@/assets/img/common/bg-border.png') no-repeat;
-    background-size: 100% 100%;
-  }
+
   .search-bar {
-    margin: 18px 0 0 40px;
     height: 50px;
 
     .search {
@@ -333,7 +298,7 @@ export default {
       margin: 5px 0 0 30px;
 
       .ipt {
-        width: 190px;
+        width: 240px;
         height: 100%;
       }
     }
@@ -345,33 +310,12 @@ export default {
       background-size: 100% 100%;
       color: #ffd36a;
       margin-left: 40px;
-      margin-top: 2px;
-      width: 80px;
-    }
-    .searchbtn{
-      background: url('../../assets/img/record/detail.png') no-repeat;
-      background-size: 100% 100%;
-      color: #fff;
-    }
-    .searchbtn:hover,.searchbtn:active{
-      background: url('../../assets/img/record/detail-hover.png') no-repeat;
-      background-size: 100% 100%;
-    }
-    .exportbtn{
-      background: url('../../assets/img/record/export.png') no-repeat;
-      background-size: 100% 100%;
-      color: #bca062;
-    }
-    .exportbtn:hover,.exportbtn:active{
-      background: url('../../assets/img/record/export-hover.png') no-repeat;
-      background-size: 100% 100%;
     }
   }
 
   .list {
-    height: 700px;
-    width: 1510px;
-    margin-left: 40px;
+    height: 750px;
+    width: 1590px;
     /deep/.el-table {
       background: none;
       width: 1980px;
@@ -386,32 +330,7 @@ export default {
       display: inline-block;
       cursor: pointer;
       color: #3299ff;
-      width: 80px;
-      height: 1.4rem;
-      line-height: 1.4rem;
     }
-    .detail{
-      background: url(../../assets/img/record/detail.png) no-repeat;
-      background-size: 100% 100%;
-      color: #fff;
-    }
-    .detail:hover,.detail:active{
-      background: url(../../assets/img/record/detail-hover.png) no-repeat;
-      background-size: 100% 100%;
-    }
-    .export{
-      background: url(../../assets/img/record/export.png) no-repeat;
-      background-size: 100% 100%;
-      color: #bca062;
-      margin-left: 8px;
-    }
-    .export:hover,.export.active{
-      background: url(../../assets/img/record/export-hover.png) no-repeat;
-      background-size: 100% 100%;
-    }
-  }
-  .abnormal{
-    color: #dfbd6d;
   }
   /deep/.page-wrap {
 			margin-top: 10px;
@@ -422,7 +341,7 @@ export default {
 				.ivu-page-total,
 	.ivu-page-prev a,
     .ivu-page-item a,
-    .ivu-page-next a,
+    .ivu-page-next a, 
     .ivu-page-item-jump-next::after,
     .ivu-page-item-jump-prev::after,
     .ivu-select-item,
@@ -437,11 +356,11 @@ export default {
     .ivu-select-selected-value {
         color: #47b2fe !important;
     }
-
+    
     /* 背景色 */
- 	.ivu-page-prev,
- 	.ivu-page-item,
- 	.ivu-page-next,
+ 	.ivu-page-prev, 
+ 	.ivu-page-item, 
+ 	.ivu-page-next, 
  	.ivu-select-selection,
  	.ivu-page-options-elevator input {
         // background: #000d16;
@@ -457,7 +376,7 @@ export default {
     .ivu-select-item-focus {
 	    background: #1f4f73;
 	}
-
+	
 	/* 边框色 */
 	.ivu-page-prev
 	.ivu-page-item,
@@ -483,15 +402,13 @@ export default {
 }
 
 label {
-  color: #93dcfe;
+  color: #79af9f;
   font-size: 16px;
 }
 
 /deep/::-webkit-scrollbar {
   width: 0.17778rem;
-  height: 6px;
-  border-radius: 3px;
-  background: #0173bb;
+  height: 0.57778rem;
 }
 
 /deep/.el-table__fixed-right::before, .el-table__fixed::before {
@@ -505,13 +422,8 @@ label {
   z-index: 4;
 }
 
-/deep/.el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
-  padding-left: 0;
-}
-
 /deep/.el-select .el-input__inner {
   height: 34px;
-  color: #fff;
 }
 
 /deep/ .el-table{

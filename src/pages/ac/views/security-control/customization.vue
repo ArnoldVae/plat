@@ -1,31 +1,27 @@
 <template>
-	<div class="security-control-customization">
-		<div class="securityControl-center">
-			<div class="securityControl-top" v-if="list.length > 1">
-				<span
-					v-for="(item, index) in list"
-					:key="index"
-					v-show="item.vcUrl.length != 0"
-					:class="{ onBut: pitchOn == item.pageId }"
-					@click="but(item)"
-					>{{ item.vcName }}</span
-				>
-			</div>
-			<htBlueprint
-				:blueprintUrl="blueprintUrl"
-				:blueprintObj="blueprintObj"
-				:primitiveNodes="primitiveNodes"
-				:mqttData="mqttData"
-			/>
-		</div>
-	</div>
+  <div class="security-control-customization">
+    <div class="securityControl-top" v-if="list.length > 1">
+      <span v-for="(item,index) in list"
+            :key="index"
+            v-show="item.vcUrl.length != 0"
+            :class="{onBut:pitchOn == item.pageId}"
+            @click="but(item)">{{item.vcName}}</span>
+    </div>
+    <div class="securityControl-center">
+      <htBlueprint :blueprintUrl="blueprintUrl"
+                   :blueprintObj="blueprintObj"
+                   :primitiveNodes="primitiveNodes"
+                   :mqttData="mqttData" />
+    </div>
+  </div>
+
 </template>
 <script>
 import htBlueprint from '../common/view-ichnography'
 export default {
 	name: 'security-control-customization',
 	components: {
-		htBlueprint: htBlueprint
+		htBlueprint: htBlueprint  
 	},
 	data() {
 		return {
@@ -58,13 +54,14 @@ export default {
 				//将推送的报文转码
 				data = data + String.fromCharCode(item)
 			})
-
+			
 			//如果推送上来的数据的topic和订阅的topic一致qif/zf/app/192fe4cec3ec4d3fb81c0d05f82bde41
 			if (topic == _this.topicStr) {
 				let val = JSON.parse(data)
 				if (val.type == 'req' && val.cmd == '1002') {
 					_this.mqttData = val
-					console.log(val)
+					console.log(val);
+					
 				}
 			}
 		})
@@ -143,34 +140,34 @@ export default {
   width: 100%;
   height: 100%;
 
+  .securityControl-top {
+    height: 34px;
+
+    .onBut {
+      color: #ffe06d;
+    }
+
+    >span {
+      color: #8fd8fe;
+      display: inline-block;
+      margin-left: 11px;
+      text-align: center;
+      font-size: 14px;
+      height: 28px;
+      line-height: 28px;
+      padding: 0 5px;
+      border: 1px solid #0173bb;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  }
+
   .securityControl-center {
     width: calc(100% - 20px);
-    height: 100%;
+    height: calc(100% - 34px);
     background-image: url('~@/assets/img/common/bg-border.png');
     background-size: 100% 100%;
-    padding: 15px 30px 30px;
-
-    .securityControl-top {
-      height: 34px;
-
-      .onBut {
-        color: #ffe06d;
-      }
-
-      >span {
-        color: #8fd8fe;
-        display: inline-block;
-        margin-left: 11px;
-        text-align: center;
-        font-size: 14px;
-        height: 28px;
-        line-height: 28px;
-        padding: 0 5px;
-        border: 1px solid #0173bb;
-        border-radius: 3px;
-        cursor: pointer;
-      }
-    }
+    padding: 30px;
   }
 }
 </style>

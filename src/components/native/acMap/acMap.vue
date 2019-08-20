@@ -1,16 +1,16 @@
 <template>
-	<div class="mapContanier">
-		<baidu-map class="map" v-bind="defaultMapConfig" @ready="mapSuccess">
-			<!-- 有角标版本 -->
-			<bm-rich-marker
-				@click="markerClick({ $event, item })"
-				v-bind="item"
-				v-for="item in markerList"
-				:key="item.unitId"
-			></bm-rich-marker>
+  <div class="mapContanier">
+    <baidu-map class="map" v-bind="defaultMapConfig" @ready="mapSuccess">
+      <!-- 有角标版本 -->
+      <bm-rich-marker
+        @click="markerClick({$event, item})"
+        v-bind="item"
+        v-for="item in markerList"
+        :key="item.unitId"
+      ></bm-rich-marker>
 
-			<!-- 无角标版本 -->
-			<!-- <bm-overlay
+      <!-- 无角标版本 -->
+      <!-- <bm-overlay
         @click="markerClick({$event, item})"
         v-bind="item"
         v-for="item in markerList"
@@ -30,90 +30,89 @@
           </div>
         </div>
       </bm-overlay>-->
-		</baidu-map>
-		<!-- 搜索站点悬浮框 -->
-		<div class="search-ctn">
-			<div class="selectOrg">
-				<el-select v-model="value" placeholder="请选择运维班" @change="selectOrg">
-					<el-option
-						v-for="item in orgOptions"
-						:key="item.value"
-						:label="item.label"
-						:value="item.value"
-					></el-option>
-				</el-select>
-			</div>
-			<div class="selectRcu">
-				<el-input v-model="rcuName" placeholder="请输入变电站或配电所" @change="inputSearch">
-					<i slot="suffix" class="el-icon-search" @click="inputSearch"></i>
-				</el-input>
-			</div>
-			<div class="selectLevel">
-				<span
-					v-for="(item, index) in levelArr"
-					:key="item.iVoltagelevelId"
-					@click="selectLevel(item.iVoltagelevelId, index)"
-					:class="selectLevelIdx === index ? 'levelSpanActive' : ''"
-					>{{ item.voltagelevelName }}</span
-				>
-			</div>
-			<div class="rcuTable">
-				<div class="thBox">
-					<div class="td1">运维班</div>
-					<div class="td2">{{ stationTitle }}</div>
-					<div class="td3">操作</div>
-				</div>
-				<div class="tableBox">
-					<table style="border-collapse:collapse;">
-						<tbody v-if="!noRcuSow">
-							<tr
-								:class="idx % 2 == 0 ? 'tabEven' : ''"
-								v-for="(item, idx) in tableData"
-								:key="item.unitId"
-							>
-								<td class="td1">{{ item.orgName }}</td>
-								<td class="td2">{{ item.vcName }}</td>
-								<td class="td3">
-									<i class="el-icon-location" @click="location(item)"></i>
-								</td>
-							</tr>
-						</tbody>
-						<div class="noRcuSow" v-if="noRcuSow">无匹配{{ stationTitle }}</div>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div class="legend" v-if="false">
-			<h3>图例</h3>
-			<div>
-				<img src="@/assets/img/common/rcu-500kV.png" alt />
-				<span>500kV变电站</span>
-			</div>
-			<div>
-				<img src="@/assets/img/common/rcu-220kV.png" alt />
-				<span>220kV变电站</span>
-			</div>
-			<div>
-				<img src="@/assets/img/common/rcu-110kV.png" alt />
-				<span>110kV变电站</span>
-			</div>
-		</div>
-		<div class="legend1" v-if="false">
-			<h3>图例</h3>
-			<div>
-				<img src="@/assets/img/common/pds-500kV.png" alt />
-				<span>500kV配电所</span>
-			</div>
-			<div>
-				<img src="@/assets/img/common/pds-220kV.png" alt />
-				<span>220kV配电所</span>
-			</div>
-			<div>
-				<img src="@/assets/img/common/pds-110kV.png" alt />
-				<span>110kV配电所</span>
-			</div>
-		</div>
-	</div>
+    </baidu-map>
+    <!-- 搜索站点悬浮框 -->
+    <div class="search-ctn">
+      <div class="selectOrg">
+        <el-select v-model="value" placeholder="请选择运维班" @change="selectOrg">
+          <el-option
+            v-for="item in orgOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </div>
+      <div class="selectRcu">
+        <el-input v-model="rcuName" placeholder="请输入变电站或配电所" @change="inputSearch">
+          <i slot="suffix" class="el-icon-search" @click="inputSearch"></i>
+        </el-input>
+      </div>
+      <div class="selectLevel">
+        <span
+          v-for="(item,index) in levelArr"
+          :key="item.iVoltagelevelId"
+          @click="selectLevel(item.iVoltagelevelId,index)"
+          :class="selectLevelIdx === index ? 'levelSpanActive' : ''"
+        >{{ item.voltagelevelName }}</span>
+      </div>
+      <div class="rcuTable">
+        <div class="thBox">
+          <div class="td1">运维班</div>
+          <div class="td2">{{stationTitle}}</div>
+          <div class="td3">操作</div>
+        </div>
+        <div class="tableBox">
+          <table style="border-collapse:collapse;">
+            <tbody v-if="!noRcuSow">
+              <tr
+                :class="idx % 2 == 0 ? 'tabEven' : ''"
+                v-for="(item,idx) in tableData"
+                :key="item.unitId"
+              >
+                <td class="td1">{{ item.orgName }}</td>
+                <td class="td2">{{ item.vcName }}</td>
+                <td class="td3">
+                  <i class="el-icon-location" @click="location(item)"></i>
+                </td>
+              </tr>
+            </tbody>
+            <div class="noRcuSow" v-if="noRcuSow">无匹配{{stationTitle}}</div>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="legend" v-if="false">
+      <h3>图例</h3>
+      <div>
+        <img src="@/assets/img/common/rcu-500kV.png" alt />
+        <span>500kV变电站</span>
+      </div>
+      <div>
+        <img src="@/assets/img/common/rcu-220kV.png" alt />
+        <span>220kV变电站</span>
+      </div>
+      <div>
+        <img src="@/assets/img/common/rcu-110kV.png" alt />
+        <span>110kV变电站</span>
+      </div>
+    </div>
+    <div class="legend1" v-if="false">
+      <h3>图例</h3>
+      <div>
+        <img src="@/assets/img/common/pds-500kV.png" alt />
+        <span>500kV配电所</span>
+      </div>
+      <div>
+        <img src="@/assets/img/common/pds-220kV.png" alt />
+        <span>220kV配电所</span>
+      </div>
+      <div>
+        <img src="@/assets/img/common/pds-110kV.png" alt />
+        <span>110kV配电所</span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -386,9 +385,7 @@ export default {
 									url:
 										item.iType == 2
 											? this.rcuJuggle(item.iVoltageLevelId, parseInt(item.isAlarm))
-											: item.iType == 3
-											? this.rcuJuggle1(item.iVoltageLevelId, parseInt(item.isAlarm))
-											: '',
+											:item.iType == 3? this.rcuJuggle1(item.iVoltageLevelId, parseInt(item.isAlarm)):'',
 									size: {
 										width: 70,
 										height: item.iType == 2 ? 55 : 30
@@ -461,7 +458,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang='stylus'>
 // 下拉选择样式修改
 .el-input__inner {
   background-color: rgba(9, 32, 47, 0.6);

@@ -15,17 +15,17 @@ import antiTheft from './anti-theft'
 import mainOil from './main-oil'
 
 export default {
-	getStaticData,
-	frame,
-	fireControl,
-	humiture,
-	ozone,
-	intelligentMap,
-	intelligentLightin,
-	sf6Monitor,
-	batteryMonitor,
-	mapApi,
-	microWeather,
-	antiTheft,
-	mainOil
+    getStaticData,
+    frame,
+    fireControl,
+    humiture,
+    ozone,
+    intelligentMap,
+    intelligentLightin,
+    sf6Monitor,
+    batteryMonitor,
+    mapApi,
+    microWeather,
+    antiTheft,
+    mainOil
 }

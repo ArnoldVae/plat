@@ -1,5 +1,5 @@
 <template>
-	<div :id="id" class="charts"></div>
+  <div :id="id" class="charts"></div>
 </template>
 <script>
 export default {
@@ -73,18 +73,18 @@ export default {
 			let maxArr = []
 			let minArr = []
 			let unit = this.options.unit
+			this.options.max = this.options.name == '电压' ? 2.28 : '0.4'
+			this.options.min = this.options.name == '电压' ? 2.23 : '0.3'
 			let dz = []
 			for (let i = 0; i < this.seriesData.length; i++) {
-				minArr.push(this.options.min)
-				maxArr.push(this.options.max)
+				minArr.push(this.options.max)
+				maxArr.push(this.options.min)
 				dz.push(0.35)
 			}
 			var myChart = this.$_echarts.init(document.getElementById(this.id))
 			var option = {
 				title: {
 					text: this.options.title,
-					top: 10,
-					left: 10,
 					textStyle: {
 						color: this.options.color,
 						fontSize: 16
@@ -103,9 +103,8 @@ export default {
 					axisLabel: {
 						color: '#85c9ee',
 						show: true,
-						interval: 7.5, //间隔几个出现一次标签
 						textStyle: {
-							fontSize: 14
+							fontSize: 16
 						}
 					}
 				},
@@ -124,7 +123,7 @@ export default {
 						color: '#85c9ee',
 						show: true,
 						textStyle: {
-							fontSize: 14
+							fontSize: 16
 						}
 					},
 					min: function(value) {
@@ -151,7 +150,7 @@ export default {
 					{
 						name: this.options.name,
 						type: 'bar',
-						data: this.options.name == '电压' ? this.seriesData : dz
+						data: this.options.name == '电压' ? this.seriesData:dz
 					},
 					{
 						name: this.options.min,
@@ -217,7 +216,7 @@ export default {
 	}
 }
 </script>
-<style lang="stylus" scoped>
+<style lang='stylus' scoped>
 .charts {
   width: 100%;
   height: 100%;

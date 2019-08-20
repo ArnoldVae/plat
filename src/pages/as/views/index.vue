@@ -1,61 +1,55 @@
 <template>
-	<div class="inspectionPage">
-		<div class="content">
-			<div class="mapContainer">
-				<div class="map">
-					<!-- 边角 -->
-					<div class="border-lt"></div>
-					<div class="border-rb"></div>
-					<!-- 地图实例部分 -->
-					<div class="mapBox">
-						<mapComponent @clickRcuImg="clickRcuImg" :moduleNames="'inspectionIndex'"></mapComponent>
-					</div>
-				</div>
-				<div class="right">
-					<div class="inspStatistics">
-						<div class="title">巡检统计：</div>
-						<div class="selectTimeBox">
-							<span @click="selectTime('month')" :class="selectTimeIdx === 1 ? 'spanActive' : ''"
-								>一月</span
-							>
-							<span @click="selectTime('week')" :class="selectTimeIdx === 2 ? 'spanActive' : ''"
-								>一周</span
-							>
-							<span @click="selectTime('day')" :class="selectTimeIdx === 3 ? 'spanActive' : ''"
-								>三天</span
-							>
-						</div>
-						<div class="inspChartContanier">
-							<div class="alarmLevel">
-								<div class="alarmLevelBox">
-									<div id="alarmLevelChart"></div>
-									<span class="levelText" v-if="levelShow">报警级别</span>
-								</div>
-								<div class="alarmLevelDetail">
-									<div class="critical">
-										<i></i>
-										<span>危急：</span>
-										<span>{{ alarmLevelData.critical }}</span>
-									</div>
-									<div class="normal">
-										<i></i>
-										<span>一般：</span>
-										<span>{{ alarmLevelData.normal }}</span>
-									</div>
-									<div class="serious">
-										<i></i>
-										<span>严重：</span>
-										<span>{{ alarmLevelData.serious }}</span>
-									</div>
-									<div class="earlyWarning">
-										<i></i>
-										<span>预警：</span>
-										<span>{{ alarmLevelData.earlyWarning }}</span>
-									</div>
-								</div>
-							</div>
+  <div class="inspectionPage">
+    <div class="content">
+      <div class="mapContainer">
+        <div class="map">
+          <!-- 边角 -->
+          <div class="border-lt"></div>
+          <div class="border-rb"></div>
+          <!-- 地图实例部分 -->
+          <div class="mapBox">
+            <mapComponent @clickRcuImg="clickRcuImg" :moduleNames="'inspectionIndex'"></mapComponent>
+          </div>
+        </div>
+        <div class="right">
+          <div class="inspStatistics">
+            <div class="title">巡检统计：</div>
+            <div class="selectTimeBox">
+              <span @click="selectTime('month')" :class="selectTimeIdx === 1 ? 'spanActive' : ''">一月</span>
+              <span @click="selectTime('week')" :class="selectTimeIdx === 2 ? 'spanActive' : ''">一周</span>
+              <span @click="selectTime('day')" :class="selectTimeIdx === 3 ? 'spanActive' : ''">三天</span>
+            </div>
+            <div class="inspChartContanier">
+              <div class="alarmLevel">
+                <div class="alarmLevelBox">
+                  <div id="alarmLevelChart"></div>
+                  <span class="levelText" v-if="levelShow">报警级别</span>
+                </div>
+                <div class="alarmLevelDetail">
+                  <div class="critical">
+                    <i></i>
+                    <span>危急：</span>
+                    <span>{{ alarmLevelData.critical }}</span>
+                  </div>
+                  <div class="normal">
+                    <i></i>
+                    <span>一般：</span>
+                    <span>{{ alarmLevelData.normal }}</span>
+                  </div>
+                  <div class="serious">
+                    <i></i>
+                    <span>严重：</span>
+                    <span>{{ alarmLevelData.serious }}</span>
+                  </div>
+                  <div class="earlyWarning">
+                    <i></i>
+                    <span>预警：</span>
+                    <span>{{ alarmLevelData.earlyWarning }}</span>
+                  </div>
+                </div>
+              </div>
 
-							<!-- <div class="alarmComfirm">
+              <!-- <div class="alarmComfirm">
                 <div class="alarmComfirmBox">
                   <div id="alarmComfirmChart"></div>
                   <span class="levelText" v-if="comfirmShow">报警确认</span>
@@ -73,84 +67,84 @@
                     </div>
                 </div>
               </div> -->
-						</div>
-					</div>
-					<div class="equipStatistics">
-						<div class="title">巡检装备统计：</div>
-						<div class="equipmentBox">
-							<div class="equipmentChartBox">
-								<div id="equipmentChart"></div>
-								<div class="equipText" v-if="equipmentShow">
-									<span>{{ equipmentTotal }}</span>
-									<span>装备总数</span>
-								</div>
-							</div>
+            </div>
+          </div>
+          <div class="equipStatistics">
+            <div class="title">巡检装备统计：</div>
+            <div class="equipmentBox">
+              <div class="equipmentChartBox">
+                <div id="equipmentChart"></div>
+                <div class="equipText" v-if="equipmentShow">
+                  <span>{{ equipmentTotal }}</span>
+                  <span>装备总数</span>
+                </div>
+              </div>
 
-							<div class="equipDetail">
-								<div class="detailLine">
-									<div class="firstDiv">
-										<i class="gqCls"></i>
-										<span class="whiteCls">高清视频：</span>
-										<span class="blueCls">{{ gq.video }}</span>
-									</div>
-									<div class="secondDiv">
-										<span class="whiteCls">在线：</span>
-										<span class="blueCls">{{ gq.online }}</span>
-									</div>
-									<div>
-										<span class="whiteCls">离线：</span>
-										<span class="yellowCls">{{ gq.offline }}</span>
-									</div>
-								</div>
-								<div class="detailLine">
-									<div class="firstDiv">
-										<i class="snCls"></i>
-										<span class="whiteCls">室内机器人：</span>
-										<span class="blueCls" style="color:#f6ff00">{{ snjqr.robot }}</span>
-									</div>
-									<div class="secondDiv">
-										<span class="whiteCls">在线：</span>
-										<span class="blueCls">{{ snjqr.online }}</span>
-									</div>
-									<div>
-										<span class="whiteCls">离线：</span>
-										<span class="yellowCls">{{ snjqr.offline }}</span>
-									</div>
-								</div>
-								<div class="detailLine">
-									<div class="firstDiv">
-										<i class="swCls"></i>
-										<span class="whiteCls">室外机器人：</span>
-										<span class="blueCls" style="color:#f13b2b">{{ swjqr.robot }}</span>
-									</div>
-									<div class="secondDiv">
-										<span class="whiteCls">在线：</span>
-										<span class="blueCls">{{ swjqr.online }}</span>
-									</div>
-									<div>
-										<span class="whiteCls">离线：</span>
-										<span class="yellowCls">{{ swjqr.offline }}</span>
-									</div>
-								</div>
-								<div class="detailLine">
-									<div class="firstDiv">
-										<i class="wrjCls"></i>
-										<span class="whiteCls">无人机：</span>
-										<span class="blueCls" style="color:#ff7800">{{ wrj.wrj }}</span>
-									</div>
-									<div class="secondDiv">
-										<span class="whiteCls">在线：</span>
-										<span class="blueCls">{{ wrj.online }}</span>
-									</div>
-									<div>
-										<span class="whiteCls">离线：</span>
-										<span class="yellowCls">{{ wrj.offline }}</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- <div class="realtimeAlarm">
+              <div class="equipDetail">
+                <div class="detailLine">
+                  <div class="firstDiv">
+                    <i class="gqCls"></i>
+                    <span class="whiteCls">高清视频：</span>
+                    <span class="blueCls">{{ gq.video }}</span>
+                  </div>
+                  <div class="secondDiv">
+                    <span class="whiteCls">在线：</span>
+                    <span class="blueCls">{{ gq.online }}</span>
+                  </div>
+                  <div>
+                    <span class="whiteCls">离线：</span>
+                    <span class="yellowCls">{{ gq.offline }}</span>
+                  </div>
+                </div>
+                <div class="detailLine">
+                  <div class="firstDiv">
+                    <i class="snCls"></i>
+                    <span class="whiteCls">室内机器人：</span>
+                    <span class="blueCls" style="color:#f6ff00">{{ snjqr.robot }}</span>
+                  </div>
+                  <div class="secondDiv">
+                    <span class="whiteCls">在线：</span>
+                    <span class="blueCls">{{ snjqr.online }}</span>
+                  </div>
+                  <div>
+                    <span class="whiteCls">离线：</span>
+                    <span class="yellowCls">{{ snjqr.offline }}</span>
+                  </div>
+                </div>
+                <div class="detailLine">
+                  <div class="firstDiv">
+                    <i class="swCls"></i>
+                    <span class="whiteCls">室外机器人：</span>
+                    <span class="blueCls"  style="color:#f13b2b">{{ swjqr.robot }}</span>
+                  </div>
+                  <div class="secondDiv">
+                    <span class="whiteCls">在线：</span>
+                    <span class="blueCls">{{ swjqr.online }}</span>
+                  </div>
+                  <div>
+                    <span class="whiteCls">离线：</span>
+                    <span class="yellowCls">{{ swjqr.offline }}</span>
+                  </div>
+                </div>
+                <div class="detailLine">
+                  <div class="firstDiv">
+                    <i class="wrjCls"></i>
+                    <span class="whiteCls">无人机：</span>
+                    <span class="blueCls" style="color:#ff7800">{{ wrj.wrj }}</span>
+                  </div>
+                  <div class="secondDiv">
+                    <span class="whiteCls">在线：</span>
+                    <span class="blueCls">{{ wrj.online }}</span>
+                  </div>
+                  <div>
+                    <span class="whiteCls">离线：</span>
+                    <span class="yellowCls">{{ wrj.offline }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="realtimeAlarm">
             <div class="title">实时报警：</div>
             <div class="realtimeAlarm-con">
               <div class="noAlarm" v-if="hasNoAlarm">暂无报警</div>
@@ -159,11 +153,11 @@
               </div>
             </div>
           </div> -->
-				</div>
-			</div>
-			<!-- <statistics></statistics> -->
-		</div>
-	</div>
+        </div>
+      </div>
+      <statistics></statistics>
+    </div>
+  </div>
 </template>
 <script>
 // 地图使用的指令
@@ -173,59 +167,59 @@ import mapComponent from '@/components/native/mapComponent/mapComponent'
 export default {
 	name: 'inspection',
 	components: {
-		mapComponent
-	},
+    mapComponent
+  },
 	props: {},
 	data() {
 		return {
 			selectTimeIdx: -1,
-			// 巡检统计相关数据
-			alarmLevelData: {
-				critical: 0,
-				normal: 0,
-				serious: 0,
-				earlyWarning: 0
-			},
-			alarmComfirmData: {
-				makeSure: 20,
-				noMakeSure: 30
-			},
-			// 3个饼图实例
-			levelChart: null,
-			comfirmChart: null,
-			equipmentChart: null,
-			levelShow: true,
-			comfirmShow: true,
-			equipmentShow: true,
-			// 巡检装备相关数据
-			equipmentTotal: 0,
-			gq: {
-				video: 0,
-				online: 0,
-				offline: 0
-			},
-			snjqr: {
-				robot: 0,
-				online: 0,
-				offline: 0
-			},
-			swjqr: {
-				robot: 0,
-				online: 0,
-				offline: 0
-			},
-			wrj: {
-				wrj: 0,
-				online: 0,
-				offline: 0
-			},
-			hasNoAlarm: true,
-			// mqtt订阅的topic
-			topicArr: []
+      // 巡检统计相关数据
+      alarmLevelData:{
+        critical:0,
+        normal:0,
+        serious:0,
+        earlyWarning:0
+      },
+      alarmComfirmData:{
+        makeSure:20,
+        noMakeSure:30
+      },
+      // 3个饼图实例
+      levelChart:null,
+      comfirmChart:null,
+      equipmentChart:null,
+      levelShow:true,
+      comfirmShow:true,
+      equipmentShow:true,
+      // 巡检装备相关数据
+      equipmentTotal:0,
+      gq:{
+        video:0,
+        online:0,
+        offline:0
+      },
+      snjqr:{
+        robot:0,
+        online:0,
+        offline:0
+      },
+      swjqr:{
+        robot:0,
+        online:0,
+        offline:0
+      },
+      wrj:{
+        wrj:0,
+        online:0,
+        offline:0
+      },
+      hasNoAlarm:true,
+      // mqtt订阅的topic
+      topicArr:[]
 		}
 	},
 	methods: {
-		// 巡检统计的时间按钮
+    // 巡检统计的时间按钮
 		selectTime(time) {
 			switch (time) {
 				case 'month':
@@ -238,135 +232,141 @@ export default {
 					this.selectTimeIdx = 3
 					break
 			}
-		},
-		createPie(chart, color, seriesData) {
-			const _this = this
-			let option = {
-				color: color,
-				tooltip: {
-					trigger: 'item',
-					formatter: '{b} : {c} ({d}%)'
-				},
-				series: [
-					{
-						type: 'pie',
-						radius: ['65%', '88%'],
-						center: ['50%', '50%'],
-						data: seriesData,
-						itemStyle: {
-							emphasis: {
-								shadowBlur: 10,
-								shadowOffsetX: 0,
-								shadowColor: 'rgba(0, 0, 0, 0.5)'
-							}
-						},
-						label: {
-							show: false
-						}
-					}
-				]
-			}
-			chart.setOption(option)
+    },
+    createPie (chart,color,seriesData){
+      const _this = this;
+      let option = {
+        color: color,
+        tooltip: {
+          trigger: "item",
+          formatter: "{b} : {c} ({d}%)"
+        },
+        series: [
+          {
+            type: "pie",
+            radius: ['65%', '88%'],
+            center: ["50%", "50%"],
+            data: seriesData,
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            },
+            label:{
+              show:false
+            }
+          }
+        ]
+      };
+      chart.setOption(option);
 
-			window.onresize = () => {
-				_this.levelChart.resize()
-				// _this.comfirmChart.resize();
-				_this.equipmentChart.resize()
-			}
+      window.onresize = () => {
+        _this.levelChart.resize();
+        // _this.comfirmChart.resize();
+        _this.equipmentChart.resize();
+      };
 
-			chart.on('mouseover', function(params) {
-				if (params.name.includes('统计')) {
-					_this.levelShow = false
-				} else if (params.name.includes('确认')) {
-					_this.comfirmShow = false
-				} else {
-					_this.equipmentShow = false
-				}
-			})
+      chart.on('mouseover',function(params){
+        if(params.name.includes("统计")){
+          _this.levelShow = false;
+        }else if(params.name.includes("确认")){
+          _this.comfirmShow = false;
+        }else{
+          _this.equipmentShow = false;
+        }
 
-			chart.on('mouseout', function(params) {
-				if (params.name.includes('统计')) {
-					_this.levelShow = true
-				} else if (params.name.includes('确认')) {
-					_this.comfirmShow = true
-				} else {
-					_this.equipmentShow = true
-				}
-			})
-		},
-		clickRcuImg(val) {
-			this.$router.push({
+      });
+
+      chart.on('mouseout',function(params){
+        if(params.name.includes("统计")){
+          _this.levelShow = true;
+        }else if(params.name.includes("确认")){
+          _this.comfirmShow = true;
+        }else{
+          _this.equipmentShow = true;
+        }
+
+      });
+    },
+    clickRcuImg(val) {
+      this.$router.push({
 				name: 'inspection-content',
-				params: {
-					stationId: val.id,
-					vcName: val.label
-				}
-			})
-			this.$store.commit('CHANGE_STATION', {
-				stationId: val.id
-			})
-		}
+        params: { 
+          stationId: val.id,
+          vcName: val.label
+        }
+      });
+      this.$store.commit('CHANGE_STATION',{
+         stationId:val.id
+      })
+    }
+
 	},
 	created() {},
 	mounted() {
-		const _this = this
-		_this.selectTime('month')
-		_this.levelChart = echarts.init(document.getElementById('alarmLevelChart'))
-		// _this.comfirmChart = echarts.init(document.getElementById("alarmComfirmChart"));
-		_this.equipmentChart = echarts.init(document.getElementById('equipmentChart'))
+    const _this = this;
+		_this.selectTime('month');
+    _this.levelChart = echarts.init(document.getElementById("alarmLevelChart"));
+    // _this.comfirmChart = echarts.init(document.getElementById("alarmComfirmChart"));
+    _this.equipmentChart = echarts.init(document.getElementById("equipmentChart"));
 
-		// 调用报警等级chart方法
-		let levelColor = ['#f13b2b', '#f6ff00', '#ff7800', '#00aeff']
-		let levelData = [
-			{ value: 0, name: '危急统计' },
-			{ value: 0, name: '一般统计' },
-			{ value: 0, name: '严重统计' },
-			{ value: 0, name: '预警统计' }
-		]
-		_this.createPie(_this.levelChart, levelColor, levelData)
+    // 调用报警等级chart方法
+    let levelColor = ['#f13b2b','#f6ff00','#ff7800','#00aeff'];
+    let levelData = [
+      {value:10, name:'危急统计'},
+      {value:10, name:'一般统计'},
+      {value:10, name:'严重统计'},
+      {value:50, name:'预警统计'}
+    ];
+    _this.createPie(_this.levelChart,levelColor,levelData);
 
-		// 调用报警确认chart方法
-		let comfirmColor = ['#ff7800', '#00aeff']
-		let comfirmData = [{ value: 20, name: '未确认' }, { value: 30, name: '已确认' }]
-		// _this.createPie(_this.comfirmChart,comfirmColor,comfirmData);
+    // 调用报警确认chart方法
+    let comfirmColor = ['#ff7800','#00aeff'];
+    let comfirmData = [
+      {value:20, name:'未确认'},
+      {value:30, name:'已确认'}
+    ];
+    // _this.createPie(_this.comfirmChart,comfirmColor,comfirmData);
+    
+    // 调用巡检设备统计chart方法
+    _this.$_api.inspectionIndex.getEquipData()
+    .then(res => {
+      if(res.success){
+        let equipmentColor = ['#00aeff','#f6ff00','#f13b2b','#ff7800'];
+        let equipmentData = [
+          {value:res.data.gq, name:'高清机器人'},
+          {value:res.data.innerRobotNum, name:'室内机器人'},
+          {value:res.data.outDoorRobotNum, name:'室外机器人'},
+          {value:res.data.wuRenJiNum, name:'无人机'},
+        ];
+        _this.createPie(_this.equipmentChart,equipmentColor,equipmentData);
+        _this.equipmentTotal = res.data.allDev;
+        // 高清
+        _this.gq.video = res.data.gqOnLine;
+        _this.gq.online = res.data.gqOnLine;
+        _this.gq.offline = res.data.gqOutLine;
+        // 室内机器人
+        _this.snjqr.robot = res.data.innerRobotNum;
+        _this.snjqr.online = res.data.innerOnLine;
+        _this.snjqr.offline = res.data.innerOutLine;
+        // 室外机器人
+        _this.swjqr.robot = res.data.outDoorRobotNum;
+        _this.swjqr.online = res.data.outDoorOnLine;
+        _this.swjqr.offline = res.data.outDoorOutLine;
+        // 无人机
+        _this.wrj.robot = res.data.wuRenJiNum;
+        _this.wrj.online = res.data.wuRenJiOnLine;
+        _this.wrj.offline = res.data.wuRenJiOutLine;
+      }else{
+        console.log(res.msg);
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    })
 
-		// 调用巡检设备统计chart方法
-		_this.$_api.inspectionIndex
-			.getEquipData()
-			.then(res => {
-				if (res.success) {
-					let equipmentColor = ['#00aeff', '#f6ff00', '#f13b2b', '#ff7800']
-					let equipmentData = [
-						{ value: res.data.gq, name: '高清机器人' },
-						{ value: res.data.innerRobotNum, name: '室内机器人' },
-						{ value: res.data.outDoorRobotNum, name: '室外机器人' },
-						{ value: res.data.wuRenJiNum, name: '无人机' }
-					]
-					_this.createPie(_this.equipmentChart, equipmentColor, equipmentData)
-					_this.equipmentTotal = res.data.allDev
-					// 高清
-					_this.gq.video = res.data.gqOnLine
-					_this.gq.online = res.data.gqOnLine
-					_this.gq.offline = res.data.gqOutLine
-					// 室内机器人
-					_this.snjqr.robot = res.data.innerRobotNum
-					_this.snjqr.online = res.data.innerOnLine
-					_this.snjqr.offline = res.data.innerOutLine
-					// 室外机器人
-					_this.swjqr.robot = res.data.outDoorRobotNum
-					_this.swjqr.online = res.data.outDoorOnLine
-					_this.swjqr.offline = res.data.outDoorOutLine
-					// 无人机
-					_this.wrj.robot = res.data.wuRenJiNum
-					_this.wrj.online = res.data.wuRenJiOnLine
-					_this.wrj.offline = res.data.wuRenJiOutLine
-				} else {
-					console.log(res.msg)
-				}
-			})
-			.catch(error => {
-				console.log(error)
-			})
 	},
 	watch: {},
 	computed: {},
@@ -376,7 +376,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-@import '~@/assets/font/font.css'
+@import '~@/assets/font/font.css' 
 .inspectionPage {
   width: 1920px;
   height: 100%;
@@ -388,9 +388,9 @@ export default {
     .mapContainer {
       margin-left: 20px;
       // width: 1775px;
-      height: 910px;
+      // height: 829px;
       background: url('~@/assets/img/common/bg-border.png') no-repeat;
-      background-size: 1881px 100%;
+      background-size: 1881px 875px;
       padding: 27px 56px 31px 50px;
       display: flex;
 
@@ -398,7 +398,7 @@ export default {
         // margin-top: 10px;
         // margin-left: 5px;
         width: 1180px;
-        height: 870px;
+        height: 819px;
         background: #333;
         position: relative;
 
@@ -415,7 +415,7 @@ export default {
         .border-rb {
           position: absolute;
           bottom: -7px;
-          right: -19px;
+          right: -7px;
           width: 35px;
           height: 30px;
           background: url('~@/assets/img/common/border-rb.png') no-repeat;
@@ -451,7 +451,7 @@ export default {
         }
 
         .inspStatistics {
-          height: 380px;
+          // height: 32%;
           .selectTimeBox {
             position: absolute;
             right: 4px;
@@ -484,14 +484,14 @@ export default {
               display:flex;
               flex-direction:column;
               align-items:center;
-
+              
               .alarmLevelBox {
                 width :100%;
                 height :180px;
                 position: relative;
                 #alarmLevelChart {
-                  width: 100%;
-                  height :90%;
+                  width: 100%; 
+                  height :90%; 
                 }
                 .levelText {
                   font-size :20px;
@@ -596,8 +596,8 @@ export default {
                 height :220px;
                 position: relative;
                 #alarmComfirmChart{
-                  width: 100%;
-                  height :100%;
+                  width: 100%; 
+                  height :100%; 
                   padding-top :26px;
                 }
                 .levelText {
@@ -665,8 +665,7 @@ export default {
 
         .equipStatistics {
           width :100%;
-          margin-top:15px;
-          padding-bottom: 12px;
+          margin-top:20px;
           .equipmentBox {
             width :100%;
             height : calc(100% - 47px);
@@ -739,14 +738,14 @@ export default {
                   .yellowCls {
                     color:#f6ff00;
                   }
-                }
+                } 
                 .firstDiv {
                   width :176px;
                 }
                 .secondDiv {
                   width :110px;
                 }
-
+                
               }
               .gqCls {
                 background-color :#00a7f5;

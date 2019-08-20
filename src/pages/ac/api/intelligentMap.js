@@ -50,5 +50,5 @@ export default {
 			method: 'post',
 			data: params
 		})
-	}
+	},
 }
