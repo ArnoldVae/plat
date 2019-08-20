@@ -441,7 +441,8 @@ export default {
 			let result = await this.$_api.frame.getNodesInfo({
 				unitId: this.$store.getters.unitId,
 				devTypeId: this.activeDeviceTypeId,
-				isPage: 1
+				isPage: 1,
+				findFlag: 0
 			})
 			// console.log('空调设备', result)
 			if (result.success) {

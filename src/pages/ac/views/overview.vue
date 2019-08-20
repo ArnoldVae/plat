@@ -243,9 +243,11 @@ export default {
     .body {
       margin-left: 20px;
       width: 1881px;
-      height: 887px;
+      // height: 887px;
+      height: 910px;
       background: url('~@/assets/img/common/bg-border.png') no-repeat;
-      background-size: 1881px 887px;
+      // background-size: 1881px 887px;
+      background-size: 1881px 910px;
       padding: 27px 56px 31px 50px;
       display: flex;
 

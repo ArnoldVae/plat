@@ -97,13 +97,12 @@ export default {
 				// console.log("移动" + data);
 				return false
 			})
-
 			if (!this.residualUrl.length) return
 			if (process.env.NODE_ENV == 'production') {
-				var http = `${$_production.request.location}/${$_production.request.javaModule}${this.residualUrl}`
+				var http = `${$_production.javaRequest.location}/${$_production.javaRequest.javaModule}${this.residualUrl}`
 			}
 			if (process.env.NODE_ENV == 'development') {
-				var http = `${$_development.request.location}/${$_development.request.javaModule}${this.residualUrl}`
+				var http = `${$_development.javaRequest.location}/${$_development.javaRequest.javaModule}${this.residualUrl}`
 			}
 			ht.Default.xhrLoad(http, res => {
 				let json = ht.Default.parse(res)

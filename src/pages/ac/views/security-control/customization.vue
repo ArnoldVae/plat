@@ -1,31 +1,35 @@
 <template>
-	<div class="security-control-customization">
-		<div class="securityControl-center">
-			<div class="securityControl-top" v-if="list.length > 1">
-				<span
-					v-for="(item, index) in list"
-					:key="index"
-					v-show="item.vcUrl.length != 0"
-					:class="{ onBut: pitchOn == item.pageId }"
-					@click="but(item)"
-					>{{ item.vcName }}</span
-				>
-			</div>
-			<htBlueprint
-				:blueprintUrl="blueprintUrl"
-				:blueprintObj="blueprintObj"
-				:primitiveNodes="primitiveNodes"
-				:mqttData="mqttData"
-			/>
-		</div>
-	</div>
+  <div class="security-control-customization">
+    <div class="securityControl-center">
+      <div class="securityControl-top"
+           v-if="list.length > 1">
+        <span v-for="(item, index) in list"
+              :key="index"
+              v-show="item.vcUrl.length != 0"
+              :class="{ onBut: pitchOn == item.pageId }"
+              @click="but(item)">{{ item.vcName }}</span>
+      </div>
+      <htBlueprint :blueprintUrl="blueprintUrl"
+                   :blueprintObj="blueprintObj"
+                   :primitiveNodes="primitiveNodes"
+                   :mqttData="mqttData"
+                   @htClick="htClick"
+                   :isNodeClick="true" />
+    </div>
+    <charts v-model="historyModal"
+            :node-id="nodeId"
+            :sub-title="chartTitle"
+            :unit="unit"></charts>
+  </div>
 </template>
 <script>
 import htBlueprint from '../common/view-ichnography'
+import charts from '../main-oil/charts1'
 export default {
 	name: 'security-control-customization',
 	components: {
-		htBlueprint: htBlueprint
+		htBlueprint: htBlueprint,
+		charts
 	},
 	data() {
 		return {
@@ -38,7 +42,11 @@ export default {
 			primitiveNodes: [],
 			topicArr: ['qif/zf/app/'],
 			topicStr: '',
-			mqttData: {}
+			mqttData: {},
+			historyModal: false,
+			nodeId: '',
+			chartTitle: '',
+			unit: ''
 		}
 	},
 	watch: {},
@@ -50,26 +58,45 @@ export default {
 		// this.subscribe(this.topicStr)
 		//实时数据回调
 		const _this = this
-		this.$_listen(this.$options.name, (topic, message, packet) => {
-			let data = ''
-			let dataobj = []
-			dataobj = message
-			dataobj.forEach(item => {
-				//将推送的报文转码
-				data = data + String.fromCharCode(item)
-			})
+		// this.$_listen(this.$options.name, (topic, message, packet) => {
+		// 	let data = ''
+		// 	let dataobj = []
+		// 	dataobj = message
+		// 	dataobj.forEach(item => {
+		// 		//将推送的报文转码
+		// 		data = data + String.fromCharCode(item)
+		// 	})
 
-			//如果推送上来的数据的topic和订阅的topic一致qif/zf/app/192fe4cec3ec4d3fb81c0d05f82bde41
+		// 	//如果推送上来的数据的topic和订阅的topic一致qif/zf/app/192fe4cec3ec4d3fb81c0d05f82bde41
+		// 	if (topic == _this.topicStr) {
+		// 		let val = JSON.parse(data)
+		// 		if (val.type == 'req' && val.cmd == '1002') {
+		// 			_this.mqttData = val
+		// 			console.log(val)
+		// 		}
+		// 	}
+		// })
+		this.$_listen(this.$options.name, (topic, message, packet) => {
+			//如果推送上来的数据的topic和订阅的topic一致
 			if (topic == _this.topicStr) {
-				let val = JSON.parse(data)
-				if (val.type == 'req' && val.cmd == '1002') {
-					_this.mqttData = val
-					console.log(val)
+				let msgData = JSON.parse(message.toString())
+				console.log(msgData)
+				if (msgData.type == 'req' && msgData.cmd == '1002') {
+					this.mqttData = msgData
 				}
+				
 			}
 		})
 	},
 	methods: {
+		//图纸节点点击回调
+		htClick(data) {
+			console.log(data)
+
+			this.historyModal = true
+			this.nodeId = data._tag
+			this.chartTitle = data._name
+		},
 		//图纸切换
 		but(val) {
 			if (val.vcUrl != this.blueprintUrl) {

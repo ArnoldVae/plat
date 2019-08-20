@@ -1,36 +1,13 @@
 <template>
 	<div class="inspectionTaskList">
 		<div class="inspectionTicket">
-			<!-- <div class="devIdBox" v-show="devOrInspec">
-				<div class="devIdB">
-					<el-progress :text-inside="true" :stroke-width="26" :percentage="15.6"></el-progress>
-				</div>
-				<div class="devIdB">
-					<span>本次巡检包含目标128个，已完成20个，剩余108个</span>
-				</div>
-				<div class="devIdB">
-					<div>
-						<i style="background: #0098ff;"></i>
-						<span>正常</span>
-					</div>
-					<div>
-						<i style="background: red;"></i>
-						<span>报警</span>
-					</div>
-					<div>
-						<i style=";background: #fff902;"></i>
-						<span>跳过</span>
-					</div>
-				</div>
-			</div> -->
-			<el-table :data="inspectionTaskTableData" max-height="600" :span-method="objectSpanMethod" :header-cell-style="{ background: '#0d2a68', color: '#2c87e6' , fontSize: '14px' }">
-				<!-- @cell-click="rowCliCk" -->
+			<el-table :data="modalInspectionTaskTableData" max-height="630" :span-method="objectSpanMethod" :header-cell-style="{ background: '#0d2a68', color: '#2c87e6' , fontSize: '14px' }">
 				<el-table-column prop="area" label="区域" align="center" width="80"></el-table-column>
 				<el-table-column prop="interval" label="间隔" align="center" width="80"></el-table-column>
 				<el-table-column prop="dev" label="设备" align="center" width="80"></el-table-column>
 				<el-table-column prop="node" label="巡检点位" align="center"></el-table-column>
-				<el-table-column v-for="( item , index ) in workOrderTableHeaderData" :key=index :label="inspectionTaskHeaderText( item )"
-				 align="center" width="50">
+				<el-table-column v-for="( item , index ) in modalWorkOrderTableHeaderData" :key=index :label="inspectionTaskHeaderText( item )"
+				 align="center" width="70">
 					<template slot-scope="scope">
 						<img src="../../assets/img/common/dui.png" alt style="width: 15px;height: 15px;" v-if="handelCheck( scope.row.robotIDS , item.robotID )" />
 					</template>
@@ -40,7 +17,7 @@
 			<!-- 底部 按钮 -->
 			<div class="modalFooterBtn">
 				<input type="button" value="执行任务" class="btn"/>
-				<input type="button" value="取消" class="btn"/>
+				<input type="button" value="取消" class="btn" @click="closeClick"/>
 			</div>
 		</div>
 	</div>
@@ -51,10 +28,10 @@ export default {
 	name: 'inspectionTaskList',
 	components: {},
 	props: {
-		inspectionTaskTableData: {
+		modalInspectionTaskTableData: {
 			type: Array
 		},
-		workOrderTableHeaderData: {
+		modalWorkOrderTableHeaderData: {
 			type: Array
 		}
 	},
@@ -76,7 +53,7 @@ export default {
 	methods: {
 		inspectionTaskHeaderText( info ) {
 			let str = ''
-			return str = info.r_vc_Name + '(' + info.count + ')'
+			return str = `${info.r_vc_Name} \n (${info.count})`
 		},
 		handelCheck(arr, id) {
 			if (arr.indexOf(id) == 0) {
@@ -86,7 +63,7 @@ export default {
 		//合并单元格的方法
 		objectSpanMethod({ row, column, rowIndex, columnIndex }) {
 			if (columnIndex === 0) {
-				const _row = this.desData('mainArea', this.inspectionTaskTableData)[rowIndex]
+				const _row = this.desData('mainArea', this.modalInspectionTaskTableData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
 					rowspan: _row,
@@ -94,7 +71,7 @@ export default {
 				}
 			}
 			if (columnIndex === 1) {
-				const _row = this.desData('subArea', this.inspectionTaskTableData)[rowIndex]
+				const _row = this.desData('subArea', this.modalInspectionTaskTableData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
 					rowspan: _row,
@@ -102,7 +79,7 @@ export default {
 				}
 			}
 			if (columnIndex == 2) {
-				const _row = this.desData('devName', this.inspectionTaskTableData)[rowIndex]
+				const _row = this.desData('devName', this.modalInspectionTaskTableData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
 					rowspan: _row,
@@ -144,6 +121,10 @@ export default {
 			} else if (str == '无人') {
 				row.uav = !row.uav
 			}
+		},
+		//点击取消按钮
+		closeClick() {
+			this.$emit( 'closeAddTaskNext' )
 		},
 		//点击 执行任务 按钮
 		executeTaskClick() {
@@ -222,6 +203,18 @@ export default {
 			}
 		
 		}
+		
+		/deep/.el-table{
+			// 滚动条的宽度
+			::-webkit-scrollbar {
+				width: 4px;
+				height: 10px;
+			}
+			// 滚动条的滑块
+			::-webkit-scrollbar-thumb {
+				background-color: #a1a3a9;
+			}
+		}
 
 		/deep/.el-table__body-wrapper {
 			position: relative;
@@ -241,7 +234,7 @@ export default {
 				text-align: center;
 				margin: 5px;
 				border: 0;
-				color: #fff902;
+				color: #fff;
 				font-size: 16px;
 				cursor: pointer;
 			}
@@ -249,6 +242,10 @@ export default {
 			.cancel {
 				color: #fff;
 			}
+			.btn:active{
+				color: #d8c50e;
+			}
+			
 		}
 
 		.devIdBox {

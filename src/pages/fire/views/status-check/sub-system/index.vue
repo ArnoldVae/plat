@@ -1,5 +1,5 @@
 <template>
-	<div class="sub-system">
+	<div :class="pageType? 'sub-system':'sub-system-5'">
 		<el-container>
 			<el-aside width="75%">
 				<div class="sub-system-top">
@@ -14,8 +14,8 @@
 							style="width: 1362PX;height:93%"
 						></ocx-video>
 					</div>
-					<div class="sub-system-top-item right">
-						<el-row style="height: 3.77778rem;">
+					<div class="sub-system-top-item right" >
+						<el-row style="height: 2.77778rem;">
 							<p class="menu-bar">运行参数</p>
 							<el-col :span="10" style="padding:0 20px">
 								<span>运行参数</span>
@@ -44,6 +44,7 @@
 				<div class="sub-system-bottom">
 					<ul class="sub-system-bottom-left">
 						<p class="menu-bar">系统信息</p>
+						<li class="system-info">系统信息</li>
 						<!-- <li><div >系统信息：</div></li> -->
 						<li>
 							<div>系统名称：</div>
@@ -76,6 +77,7 @@
 					</ul>
 					<ul class="sub-system-bottom-right">
 						<p class="menu-bar">维保信息</p>
+						<li class="maintenance-info">维保信息</li>
 						<!-- <li><div>维保信息：</div></li> -->
 						<li>
 							<div>维保单位：</div>
@@ -84,7 +86,7 @@
 							</div>
 						</li>
 						<li>
-							<div>联系人：</div>
+							<div> 联系人：</div>
 							<div class="odd">费成香</div>
 						</li>
 						<li>
@@ -93,7 +95,7 @@
 						</li>
 						<li>
 							<div>备注信息：</div>
-							<div class="odd"></div>
+							<div class="odd">-</div>
 						</li>
 					</ul>
 				</div>
@@ -101,8 +103,10 @@
 			<el-main style="position: relative;left: -0.5%">
 				<div class="sub-system-items">
 					<el-row>
-						<el-col :span="10" class="menu-bar">灭火装置列表</el-col>
+						<p class="menu-bar">灭火装置列表</p>
+						<el-col :span="10" class="miehuo">灭火装置列表：</el-col>
 					</el-row>
+
 					<div class="search-item">
 						<ul>
 							<li v-for="(item, index) in subMenuList" :key="index">
@@ -163,9 +167,15 @@ export default {
 	components: {
 		'ocx-video': ocxVideo
 	},
-	props: {},
+	props: {
+		pageTypeState:{
+			type: Boolean,
+			require: false
+		}
+	},
 	data() {
 		return {
+			pageType:true,//控制端口号5200和3200的切换
 			showFlag: true, //显示视频或者图片判断标志
 			videoConfig: {
 				//视频配置信息
@@ -198,6 +208,7 @@ export default {
 		}
 	},
 	created() {
+		this.pageType = this.pageTypeState
 		console.log(new Date())
 	},
 	mounted() {
@@ -213,6 +224,9 @@ export default {
 		},
 		//从地图跳转初始化函数
 		initSysView(item) {
+			//获取控制端口为5200时的样式状态开关
+			this.pageType = item.pageType
+
 			this.getLightItem(item)
 			this.getSubMenu(item)
 		},
@@ -465,6 +479,7 @@ export default {
                         }
                     }
                 }
+				
             }
 
             .sub-system-bottom {
@@ -563,6 +578,7 @@ export default {
                             float: left;
                         }
                     }
+					
                 }
             }
         }
@@ -626,6 +642,373 @@ export default {
 
                         .el-col {
                             font-size: 36PX;
+                        }
+
+                        .item-btn {
+                            text-align: right;
+                            padding-right: 10%;
+
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/deep/ .el-main-header {
+    padding-botton: 20PX;
+}
+</style>
+
+<style lang="stylus" scoped>
+.sub-system-5 {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    .menu-bar {
+		background: url('../../../assets/img/main/lan.png');
+        background-repeat: no-repeat;
+        font-weight: bold;
+        font-size: 44PX;
+        height: 30px;
+        line-height: 30px;
+        width: 100%;
+        background-size: 100% 100%;
+        -moz-background-size: 100% 100%;
+        text-align: center;
+        color: black;
+        display: none
+    }
+
+    .menu-bars {
+        background: url('../../../assets/img/main/lan.png');
+        background-repeat: no-repeat;
+        font-weight: bold;
+        font-size: 18px;
+        height: 30px;
+        line-height: 30px;
+        width: 1366PX;
+        background-size: 100% 100%;
+        -moz-background-size: 100% 100%;
+        text-align: center;
+        color: black;
+		display: none
+    }
+
+    .el-container {
+        display: flex;
+        justify-content: space-between;
+		height: 810px;
+		// width: 1593px;
+		background: url("~@/assets/img/common/wai.png")
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+        -moz-background-size: 100% 100%;
+        padding: 12px 33px 0 20px;
+
+        .el-aside {
+            /*background: #141A26;*/
+            /*height: 888px;*/
+            /*border: 1PX solid #D3DEE6;*/
+			overflow: hidden;
+			width: 78%;
+
+            .sub-system-top {
+                height: 510px;
+                display: flex;
+                margin: 5px 0;
+                justify-content: space-between;
+                margin: 0 10px;
+
+                .sub-system-top-item {
+                    // border: 1PX solid #D3DEE6;
+                    height: 920PX;
+                }
+
+                .left {
+                    // width: 1367PX;
+					width: 520px;
+                    // float left
+                    // margin-left 3%
+
+                    img {
+						width: 100%;
+                        margin: 34px 0 0 70px;
+                    }
+                }
+
+                .right {
+                    border-radius: 5px;
+                    // width: 46%;
+					// height 490px;
+					width: 456px;
+					height: 530px;
+                    font-size: 36PX;
+                    // background: #141A26;
+                    // border: 1PX solid #D3DEE6;
+					background: url("../../../assets/img/alarm-now/resoure.png")
+					background-repeat: no-repeat;
+					background-size: 100% 100%;
+                	-moz-background-size: 100% 100%;
+                    float: left;
+
+                    .el-row {
+                        color: white;
+                        height: 40px;
+                        line-height: 40px;
+                        font-size: 0.71111rem;
+
+                        padding 20px 0  0 20px;
+
+                        .tool-text {
+                            font-size: 15px;
+                            text-align: right;
+                            padding-right: 16px;
+
+                            .color-red {
+                                color: red;
+                            }
+
+                            .color-green {
+                                color: #32e611;
+                            }
+                        }
+                    }
+
+                    .item-list {
+                        height: 360px;
+                        overflow: hidden;
+						margin-left 0!important;
+                        .el-row {
+							padding: 0 0 0 20px;
+                            .el-col {
+                                .item-list-single {
+                                    text-align: center;
+                                    color: #90d9ff;
+                                    width: 136px;
+                                    font-size: 14px
+                                    background: rgba(54, 105, 134, 0.3);
+                                    margin-bottom: 8px;
+                                    border 1PX solid
+                                    // height 3.2rem
+									// height 50px;
+									// line-height 50px;
+									// padding 0 15px;
+                                }
+
+                                .item-list-single-err {
+                                    background: red;
+                                    color: white;
+                                }
+                            }
+                        }
+                    }
+                }
+				
+            }
+
+            .sub-system-bottom {
+                // height: 350px;
+                // width: 94%;
+                display: flex;
+                justify-content: space-between;
+                font-size: 36PX;
+
+                .sub-system-bottom-left {
+                    // height: 104%;
+                    // width: 67%;
+					width: 723px;
+					height 248px;
+                    font-size: 36PX;
+					margin: 22px 0 0 10px;
+                    // margin-left: 10px;
+                    // background: #141A26;
+                    // border: 1PX solid #D3DEE6;
+                    background url("~@/assets/img/common/bg-info.png") 
+					background-repeat: no-repeat;
+                    background-size: 100% 100%;
+                    -moz-background-size: 100% 100%;
+                    // display: flex;
+                    // flex-direction: column;
+                    // justify-content flex-start
+                    // align-items: center;
+
+                    > li {
+                        color: #90d9ff;
+                        // width: 50%;
+						font-size: 14px;
+						float: left;
+                        height: 6%;
+                        margin-top: 28PX;
+                        margin-right 40px;
+
+                        .even {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            width-space: nowrap;
+                            width: 220px;
+                            color: #ffd36a;
+                        }
+
+                        .odd {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            width-space: nowrap;
+                            color: #47b2fe;
+							float: left;
+							margin-left 0;
+                        }
+
+                        > div {
+                            // width: 450PX;
+                            height: 45PX;
+                            float: left;
+                            margin-left: 68px;
+                        }
+                    }
+
+					.system-info {
+						color: #fff;
+						width: 100%;
+						margin: 20px 0 0 40px;
+						font-size: 0.71111rem;
+					}
+                }
+
+                .sub-system-bottom-right {
+                    // height: 104%;
+                    // width: 59%;
+					width: 516px;
+					height: 248px;
+                    font-size: 36PX;
+					margin 22px 10px 0 10px;
+                    background: url("../../../assets/img/weibao.png")
+                    // background: #141A26;
+                    // border: 1PX solid #D3DEE6;
+					background-repeat: no-repeat;
+                    background-size: 100% 100%;
+                    -moz-background-size: 100% 100%;
+                    display: flex;
+                    flex-direction: column;
+                    // justify-content flex-start
+                    align-items: center;
+
+                    > li {
+                        color: #90d9ff;
+                        width: 80%;
+                        height: 6%;
+                        margin-top: 28PX;
+						font-size: 14px;
+
+                        .even {
+                            width: 220px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            width-space: nowrap;
+                            color: #ffd36a;
+                        }
+
+                        .odd {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            width-space: nowrap;
+                            color: #47b2fe;
+							float: left;
+							margin-left 0;
+                        }
+
+                        > div {
+                            // width: 450PX;
+                            height: 45PX;
+                            float: left;
+							// margin-left: 68px;
+                        }
+                    }
+
+					.maintenance-info {
+						color: #fff;
+						width: 100%;
+						margin: 20px 0 0 40px;
+						font-size: 0.71111rem;
+					}
+                }
+            }
+        }
+
+        .el-main {
+            padding: 0 0 0 10px;
+
+            .sub-system-items {
+                // width: 100%;
+                // height: 845px;
+				width: 358px;
+				height: 782px;
+                border-radius: 10px 0 0 0;
+				background: url("../../../assets/img/yunxing.png")
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+                -moz-background-size: 100% 100%;
+                // background: #141A26;
+                // border: 1PX solid #D3DEE6;
+                overflow: auto;
+
+                .el-row {
+                    color: white;
+
+                    font-size: 17px;
+
+                    .tool-text {
+                        font-size: 15px;
+                        text-align: right;
+
+                        .color-red {
+                            color: red;
+                        }
+
+                        .color-green {
+                            color: #32e611;
+                        }
+                    }
+
+					.miehuo {
+						margin 28px 0 0 24px;
+						font-size: 16px;
+					}
+                }
+
+                .search-item {
+                    margin-top: 16px;
+                    margin-left: 33px;
+                    padding-right 10px
+
+
+                    ul {
+                        li:hover {
+                            border: 1px #0E70AF solid;
+                            box-shadow: inset 0 0 20px #0E70AF;
+                        }
+                        li {
+                            cursor pointer
+                            color white
+					
+                            .el-button {
+                                background: none;
+                                border: 0.04444rem solid #00aaff;
+                                color: #37a8ff;
+								font-size: 12px;
+                            }
+                        }
+                    }
+
+                    .el-row {
+                        cursor: pointer;
+                        margin-bottom: 20PX;
+						// line-height 48px;
+                        .el-col {
+                            font-size: 14PX;
                         }
 
                         .item-btn {

@@ -1,28 +1,27 @@
 <template>
-	<div class="water-soaking-customization">
-		<div class="water-soaking-center">
-			<div class="water-soaking-top" v-if="list.length > 1">
-				<span
-					v-for="(item, index) in list"
-					:key="index"
-					v-show="item.vcUrl.length != 0"
-					:class="{ onBut: pitchOn == item.pageId }"
-					@click="but(item)"
-					>{{ item.vcName }}</span
-				>
-			</div>
+  <div class="water-soaking-customization">
+    <div class="water-soaking-center">
+      <div class="water-soaking-top"
+           v-if="list.length > 1">
+        <span v-for="(item, index) in list"
+              :key="index"
+              v-show="item.vcUrl.length != 0"
+              :class="{ onBut: pitchOn == item.pageId }"
+              @click="but(item)">{{ item.vcName }}</span>
+      </div>
 
-			<htBlueprint
-				:blueprintUrl="blueprintUrl"
-				:blueprintObj="blueprintObj"
-				:primitiveNodes="primitiveNodes"
-				@htClick="htClick"
-				:isNodeClick="true"
-				:mqttData="mqttData"
-			/>
-		</div>
-		<charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
-	</div>
+      <htBlueprint :blueprintUrl="blueprintUrl"
+                   :blueprintObj="blueprintObj"
+                   :primitiveNodes="primitiveNodes"
+                   @htClick="htClick"
+                   :isNodeClick="true"
+                   :mqttData="mqttData" />
+    </div>
+    <charts v-model="historyModal"
+            :node-id="nodeId"
+            :sub-title="chartTitle"
+            :unit="unit"></charts>
+  </div>
 </template>
 <script>
 import htBlueprint from '../common/view-ichnography'
@@ -48,7 +47,8 @@ export default {
 			historyModal: false,
 			nodeId: '',
 			chartTitle: '',
-			unit: ''
+			unit: '',
+			functionCode: "1011.0002"
 		}
 	},
 	watch: {},
@@ -58,40 +58,62 @@ export default {
 	mounted() {
 		this.topicStr = this.topicArr[0] + this.unitId
 		// this.subscribe(this.topicStr)
+		console.log(this.topicStr)
+
 		//实时数据回调
 		const _this = this
 
+		// this.$_listen(_this.$options.name, (topic, message, packet) => {
+		// 	// let data = ''
+		// 	// let dataobj = []
+		// 	// dataobj = message
+		// 	// dataobj.forEach(item => {
+		// 	// 	//将推送的报文转码
+		// 	// 	data = data + String.fromCharCode(item)
+		// 	// })
+		// 	console.log(message);
+
+		// 	let data = JSON.parse(message.toString())
+		// 	//如果推送上来的数据的topic和订阅的topic一致qif/zf/app/192fe4cec3ec4d3fb81c0d05f82bde41
+		// 	// 	if (topic == _this.topicStr) {
+		// 	//   console.log(data)
+		// 	// 	}
+		// 	console.log(123123);
+
+		// 	console.log(data);
+
+		// 	if (topic == _this.topicStr) {
+		// 		let val = JSON.parse(data)
+		// 		if (val.type == 'req' && val.cmd == '1002') {
+		// 			console.log(val)
+		// 			_this.mqttData = val
+		// 		}
+		// 	}
+		// })
 		this.$_listen(this.$options.name, (topic, message, packet) => {
-			let data = ''
-			let dataobj = []
-			dataobj = message
-			dataobj.forEach(item => {
-				//将推送的报文转码
-				data = data + String.fromCharCode(item)
-			})
-
-			//如果推送上来的数据的topic和订阅的topic一致qif/zf/app/192fe4cec3ec4d3fb81c0d05f82bde41
-			// 	if (topic == _this.topicStr) {
-			//   console.log(data)
-			// 	}
-
+			//如果推送上来的数据的topic和订阅的topic一致
 			if (topic == _this.topicStr) {
-				let val = JSON.parse(data)
-				if (val.type == 'req' && val.cmd == '1002') {
-					console.log(val)
-					_this.mqttData = val
+				let msgData = JSON.parse(message.toString())
+				console.log(msgData)
+				if (msgData.type == 'req' && msgData.cmd == '1002') {
+					this.mqttData = msgData
 				}
+				
 			}
 		})
 	},
 	methods: {
 		//图纸节点点击回调
-		htClick(data) {
-			console.log(data)
-
+		htClick(data, nodes) {
+			let index = nodes.findIndex(item => item.vcSourceId == data._tag)
+			let node = nodes[index]
+			let nodeIndex = node.devNodes.findIndex(val => val.functionCode == this.functionCode)
+			let devNode = node.devNodes[nodeIndex]
+			
 			this.historyModal = true
-			this.nodeId = data._tag
-			this.chartTitle = data._name
+			this.nodeId = devNode.NodeID
+			this.chartTitle = devNode.devName
+			this.unit = devNode.vc_Unit
 		},
 
 		//图纸切换

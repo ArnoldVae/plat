@@ -1,7 +1,7 @@
 <template>
-	<div class="statusCheck">
+	<div :class="pageType? 'statusCheck':'statusCheck-5'">
 		<el-container>
-			<el-aside width="15%">
+			<el-aside width="15%" :class="pageType? '':'el-aside-5'">
 				<el-filter-tree
 					placeholder="输入关键字进行过滤"
 					v-model="filterText"
@@ -33,7 +33,7 @@
 					</el-row>
 				</div>
 				<div class="el-main-content">
-					<component ref="sunMethod" v-bind:is="current"></component>
+					<component ref="sunMethod" v-bind:is="current" :pageTypeState="false"></component>
 				</div>
 			</el-main>
 		</el-container>
@@ -52,9 +52,15 @@ export default {
 		'view-check': viewCheck,
 		'protection-zone': protectionZone
 	},
-	props: {},
+	props: {
+		pageTypeState:{
+			type: Boolean,
+			require: false
+		}
+	},
 	data() {
 		return {
+			pageType:true,
 			filterText: '',
 			itemData: {},
 			treeData: trees.treeData,
@@ -107,7 +113,9 @@ export default {
 			}
 		}
 	},
-	created() {},
+	created() {
+		this.pageType = this.pageTypeState
+	},
 	mounted() {
 		console.log(this.$store)
 
@@ -169,6 +177,9 @@ export default {
 		},
 		markerList() {},
 		initView(item) {
+			//获取控制端口为5200时的样式状态开关
+			this.pageType = item.pageType
+			// console.log(item.pageType);
 			this.$refs.sunMethod.initSysView(item)
 		}
 	},
@@ -197,10 +208,12 @@ export default {
 			color white
 		}
 	}
+
 	.el-main{
            overflow hidden
            padding-bottom: 0
 		margin-top -20px
+		padding-top:13px;
 		.el-main-header{
 			min-height 50px
 			width: 100%;
@@ -219,11 +232,13 @@ export default {
 				.fire-header-title{
 					color #37a8ff
 					font-size 16px
-					margin 36px
+					margin-right  94px
 					cursor pointer
 
 
 				}
+
+
 				.fire-header-active{
 					color #f6ce69
 				}
@@ -236,6 +251,89 @@ export default {
 			}
 			position relative
 			background: #062964;
+			border: 0.04444rem solid #044e90;
+			border-radius 4px
+
+		}
+		.el-main-content{
+			margin-top 10px;
+			height 770px
+			width: 100%;
+
+			position relative
+
+			// background url("../../assets/img/hull.png")
+			background-size:100% 100%
+			-moz-background-size:100% 100%
+		}
+
+
+	}
+
+}
+</style>
+
+<style lang="stylus" scoped>
+.statusCheck-5 {
+	margin 20px  20px 0  20px
+	height 100%
+	width 98%
+	.el-aside{
+		// background #141a26
+		height 960px
+
+		.el-tree{
+			background none;
+			color white
+		}
+	}
+
+	.el-main{
+           overflow hidden
+           padding-bottom: 0
+		margin-top -20px
+		padding-top:13px;
+		.el-main-header{
+			min-height 50px
+			width: 100%;
+			// left: 7px;
+			.el-row{
+				margin-top 12px
+				margin-bottom  12px
+				.fire-header-sub-title{
+					font-size 14px
+					color white
+					margin 36px
+					cursor pointer
+
+				}
+
+				.fire-header-title{
+					color #37a8ff
+					font-size 16px
+					margin-right  94px
+					cursor pointer
+
+
+				}
+
+				.fire-header-title:first-child {
+					margin-left 50px
+				}
+				.fire-header-active{
+					color #f6ce69
+				}
+				.point{
+					position: relative
+					left 2.5%
+					margin-right 10px
+
+				}
+			}
+			position relative
+			// background: #062964;
+			background: url('../../assets/img/threemenu.png') no-repeat;
+			background-size: 100% 100%;
 			border: 0.04444rem solid #044e90;
 			border-radius 4px
 

@@ -3,12 +3,15 @@
 		<!--		<div class="fire-header">-->
 		<!--			<navigation :menuData="test" title="智能消防管理平台" :alarm="99" > </navigation>-->
 		<!--		</div>-->
-		<!--        <div class="fire-nav">-->
+		<div class="fire-nav" :style="current=='system-view'? 'display:none':'display:block'">
+			<div
+				class="fire-header-title"
+				:class="{'fire-header-active': tab.active==true}"
+				@click="tabChange(tab)"
+				v-for="(tab,index) in tabList" :key="index">{{tab.title}}
+			</div>
+		</div>
 
-		<!--            <div class="fire-header-title" :class="{'fire-header-active': tab.active==true}" @click="tabChange(tab)"-->
-		<!--                 v-for="(tab,index) in tabList" :key="index">{{tab.title}}-->
-		<!--            </div>-->
-		<!--        </div>-->
 		<div class="fire-content">
 			<keep-alive include="systemView">
 				<component
@@ -30,7 +33,9 @@ import earlyWarning from './early-warning'
 import alarmAction from './alarm-action'
 import analystData from './analyst-data/'
 import devOps from './dev-ops'
+
 import navigation from '../../../../src/components/singletons/navigation'
+import elecFire from'./elec-fire'
 
 export default {
 	name: 'fire',
@@ -39,6 +44,7 @@ export default {
 		'status-check': statusCheck,
 		'early-warning': earlyWarning,
 		'alarm-action': alarmAction,
+		'elec-fire': elecFire,
 		'dev-ops': devOps,
 		'analyst-data': analystData,
 		navigation
@@ -49,12 +55,12 @@ export default {
 			current: 'system-view',
 			test: [],
 			tabList: [
-				{
-					title: '系统总览',
-					id: '01',
-					code: 'system-view', //菜单对应code
-					active: true
-				},
+				// {
+				// 	title: '系统总览',
+				// 	id: '01',
+				// 	code: 'system-view', //菜单对应code
+				// 	active: true
+				// },
 				// {
 				//     title: '早期预警',
 				//     id: '03',
@@ -62,17 +68,25 @@ export default {
 				//     active: false
 				// },
 				{
-					title: '报警联动',
-					id: '04',
-					code: 'alarm-action',
-					active: false
-				},
-				{
 					title: '状态监视',
 					id: '02',
 					code: 'status-check',
 					active: false
 				},
+				{
+					title: '电缆防火',
+					id: '06',
+					code: 'elec-fire',
+					active: false
+				},
+
+				{
+					title: '报警联动',
+					id: '04',
+					code: 'alarm-action',
+					active: false
+				},
+
 				{
 					title: '运维管理',
 					id: '05',
@@ -209,56 +223,60 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-
-
 .fire {
-    width: 100%;
-    height: 100%;
-    margin-top -1px
-    background: url('~@/assets/img/navigation/background.png') no-repeat;
+  width: 100%;
+  height: 100%;
+  margin-top: -1px;
+  background: url('~@/assets/img/navigation/background.png') no-repeat;
 
-    .fire-header {
-        height 100px
-        margin-top 1px
-    }
+
+  .fire-header {
+    height: 100px;
+    margin-top: 1px;
+  }
+
+  background-size: 100% 100%;
+
+  .fire-nav {
+    top: 1px;
+    height: 45px;
+    width: 81.2%;
+    position: relative;
+    line-height: 45px;
+    left: 16.8%;
+    background: url('~@/assets/img/navigation/nav-menu.png');
     background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
 
-    .fire-nav {
-        top:1px
-        height 45px
-        width 71.9%
-        position relative
-        line-height 45px
-        left: 16%
-
-        background url("~@/assets/img/navigation/menu-long.png")
-        background-size: 100% 100%
-        -moz-background-size: 100% 100%
-
-        .fire-header-title {
-            color white
-            float left
-            width 230px
-            height 45px
-            line-height 45px
-            text-align center
-            font-size 16px
-            cursor pointer
-        }
-
-        .fire-header-active {
-            color #f6ce69
-            background url("~@/assets/img/navigation/menu2.png")
-            background-size: 100% 100%
-            -moz-background-size: 100% 100%
-        }
-
-        .back-page {
-            color #37a8ff
-            font-size 16px
-            cursor pointer
-            margin-left 47%
-        }
+    .fire-header-title {
+      color: #90d9ff;
+      float: left;
+    //   width: 230px;
+      height: 45px;
+      line-height: 45px;
+      text-align: center;
+      font-size: 16px;
+      cursor: pointer;
+	  margin-right: 94px;
     }
+
+	.fire-header-title:first-child {
+		margin-left 43px;
+	}
+
+    .fire-header-active {
+      color: #f6ce69;
+    //   background: url('~@/assets/img/navigation/menu2.png');
+    //   background-size: 100% 100%;
+    //   -moz-background-size: 100% 100%;
+    }
+
+    .back-page {
+      color: #37a8ff;
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: 47%;
+    }
+  }
 }
 </style>

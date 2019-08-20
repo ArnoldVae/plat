@@ -1,6 +1,6 @@
 <template>
-	<div class="arrester-monitor-customization">
-		<div class="arrester">
+	<div class="arrester-monitor-customization" >
+		<div class="arrester" v-loading="loading"  element-loading-background="rgba(7,49,135, 0)" >
 			<!-- 主变区域Start -->
 			<div class="main-content" v-for="main in mainList" :key="main.title">
 				<div class="title">{{ main.title }}</div>
@@ -100,7 +100,8 @@ export default {
 			historyModal: false,
 			chartTitle: '',
 			nodeId: '',
-			unit: ''
+			unit: '',
+			loading:false
 		}
 	},
 	computed: {
@@ -181,11 +182,15 @@ export default {
 				isFindNodes: 1,
 				unitId: this.unitId
 			}
+			this.loading = true
 			this.$_api.humiture.getDevList(params).then(res => {
 				if (res.code == 200 && res.data) {
 					this.mainDevList = JSON.parse(JSON.stringify(res.data.lists))
 					this.setMainList()
 				}
+				this.loading = false
+			}).catch(error=>{
+				this.loading = false
 			})
 		},
 		//处理设备接口返回的数据
@@ -215,6 +220,7 @@ export default {
 			mainList.forEach(item => {
 				this.mainList.push(this.getMainDev(item))
 			})
+			this.loading = false
 		},
 		//生成一个主变 且内部细分电压等级
 		getMainDev(array) {

@@ -129,17 +129,16 @@ export default {
 	//获取巡检任务单数据
 	getInspectionWorkOrderData(params) {
 		return axiosNet.request({
-			url: '/as/GetAsTaskNodeByTree?vc_Code=2000.0001',
+			url: `/as/GetAsTaskNodeByTree?${params}`,
 			method: 'post',
-			data: params
 		})
 	},
 	//获取预置巡检数据
 	getPresetInspectionInfo( params ) {
 		return axiosNet.request({
-			url: '/as/GetAsTask?i_PatrolType=1&&UnitID=8177a787a28b4f86a103fac9a023db05',
+			//url: '/as/GetAsTask?i_PatrolType=1&&UnitID=8177a787a28b4f86a103fac9a023db05',
+			url: `/as/GetAsTask?${params}`,
 			method: 'post',
-			data: params
 		})
 	}
 	

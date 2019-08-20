@@ -13,6 +13,7 @@ import mapApi from './mapApi'
 import microWeather from './micro-weather'
 import antiTheft from './anti-theft'
 import mainOil from './main-oil'
+import video from './video'
 
 export default {
 	getStaticData,
@@ -27,5 +28,6 @@ export default {
 	mapApi,
 	microWeather,
 	antiTheft,
-	mainOil
+	mainOil,
+	video
 }

@@ -195,6 +195,7 @@ export default [
 					title: '电子围栏'
 				},
 				component: () => import('@ac/views/electronic-fence-control')
+				// component: () => import('@ac/views/security-control')
 			},
 			{
 				path: 'security-control',

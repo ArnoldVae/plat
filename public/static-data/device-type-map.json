@@ -300,7 +300,7 @@
     },
     {
         "typeId": 1022,
-        "name": "electronic-fence-control",
+        "name": "security-control",
         "mode": [{
                 "title": "定制化",
                 "name": "customization",
@@ -327,6 +327,20 @@
                 "icon": "table"
             }
         ]
+    },
+    {
+        "typeId": 1023,
+        "name": "security-control",
+        "mode": [{
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
+            },
+            {
+                "title": "表格",
+                "name": "table",
+                "icon": "table"
+            }
+        ]
     }
-
 ]

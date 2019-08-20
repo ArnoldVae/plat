@@ -27,7 +27,8 @@ export default {
 			axios: this.$_api.fireControl,
 			localHt: null,
 			dataModel: null,
-			graphView: null
+			graphView: null,
+			findNodes: []
 		}
 	},
 	created() {},
@@ -111,7 +112,7 @@ export default {
 					if (e.data.a('vc_SourceID') != undefined) {
 						if (this.isNodeClick && this.isNodeClick == true) {
 							// let targetTag = eData.getTag()
-							this.$emit('htClick', e.data)
+							this.$emit('htClick', e.data, this.findNodes)
 						}
 					}
 				}
@@ -127,6 +128,9 @@ export default {
 			}
 			this.axios.getHtFind(params).then(res => {
 				if (res.code == 200) {
+					console.log(res.data);
+					this.findNodes = res.data
+					
 					let primitiveNodes = res.data
 
 					primitiveNodes.length &&

@@ -4,7 +4,8 @@ export default {
 	//获取图元节点
 	getHtFind(params) {
 		return axios.request({
-			url: 'htp/find_htp_nodes',
+			// url: 'htp/find_htp_nodes',
+			url: 'htp/find_htp_nodesDev',
 			method: 'post',
 			data: params
 		})

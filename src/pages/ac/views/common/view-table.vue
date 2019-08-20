@@ -129,12 +129,11 @@
 </template>
 <script>
 import { findComponentUpward } from '@/libs/assist'
-import confirmModal from '@/components/native/confirm-modal/confirm-modal'
 import { getDataType } from '@/libs/assist'
 import moment from 'moment'
 export default {
 	name: 'view-table',
-	components: { confirmModal },
+	components: {},
 	props: {},
 	data() {
 		const validateDate = (rule, value, callback) => {
@@ -355,7 +354,8 @@ export default {
 					page: {
 						currentPage: this.currentPage,
 						pageSize: this.pageSize
-					}
+					},
+					findFlag: 0
 				})
 				// console.log('获取所有设备信息', result)
 				if (result.success) {

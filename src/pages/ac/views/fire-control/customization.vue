@@ -52,24 +52,35 @@ export default {
 		//实时数据回调
 		const _this = this
 
-		this.$_listen(this.$options.name, (topic, message, packet) => {
-			let data = ''
-			let dataobj = []
-			dataobj = message
-			dataobj.forEach(item => {
-				//将推送的报文转码
-				data = data + String.fromCharCode(item)
-			})
+		// this.$_listen(this.$options.name, (topic, message, packet) => {
+		// 	let data = ''
+		// 	let dataobj = []
+		// 	dataobj = message
+		// 	dataobj.forEach(item => {
+		// 		//将推送的报文转码
+		// 		data = data + String.fromCharCode(item)
+		// 	})
 
-			//如果推送上来的数据的topic和订阅的topic一致qif/zf/app/192fe4cec3ec4d3fb81c0d05f82bde41
-			// 	if (topic == _this.topicStr) {
-			//   console.log(data)
-			// 	}
+		// 	//如果推送上来的数据的topic和订阅的topic一致qif/zf/app/192fe4cec3ec4d3fb81c0d05f82bde41
+		// 	// 	if (topic == _this.topicStr) {
+		// 	//   console.log(data)
+		// 	// 	}
+		// 	if (topic == _this.topicStr) {
+		// 		let val = JSON.parse(data)
+		// 		if (val.type == 'req' && val.cmd == '1002') {
+		// 			_this.mqttData = val
+		// 		}
+		// 	}
+		// })
+		this.$_listen(this.$options.name, (topic, message, packet) => {
+			//如果推送上来的数据的topic和订阅的topic一致
 			if (topic == _this.topicStr) {
-				let val = JSON.parse(data)
-				if (val.type == 'req' && val.cmd == '1002') {
-					_this.mqttData = val
+				let msgData = JSON.parse(message.toString())
+				console.log(msgData)
+				if (msgData.type == 'req' && msgData.cmd == '1002') {
+					this.mqttData = msgData
 				}
+				
 			}
 		})
 	},

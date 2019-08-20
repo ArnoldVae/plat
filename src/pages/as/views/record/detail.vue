@@ -58,9 +58,7 @@
 				<div class="steps">
 					<div class="steps-content" v-for="item in nodeList" :key="item.index">
 						<div class="circle-out skip-out" :style="{ background: item.outBgColor }">
-							<div class="circle-in skip-in" :style="{ background: item.inBgColor }">
-								{{ item.status }}
-							</div>
+							<div class="circle-in skip-in" :style="{ background: item.inBgColor }">{{ item.status }}</div>
 							<i class="bd-top"></i>
 							<i class="bd-bt"></i>
 						</div>
@@ -108,130 +106,130 @@
 <script>
 import moment from 'moment'
 export default {
-	name: 'detail',
-	components: {},
-	props: {},
-	data() {
-		return {
-			axios: this.$_api.recordData,
-			recordId: '',
-			taskId: '',
-			unitId: '',
-			taskName: '', //任务名称
-			startReason: '', //启动原因
-			stopReason: '', //停止原因
-			skipPoints: '', //跳过点数
-			failPoints: '', //失败点数
-			alarmPoints: '', //报警点数
-			normalPoints: '', //正常点数
-			viewPoints: '', //巡检点数
-			planTime: '', //计划时间
-			startTime: '', //开始时间
-			nodeList: [] //节点列表
-		}
-	},
-	computed: {},
-	filters: {},
-	watch: {},
-	created() {
-		// console.log(this.$route, 'route')
-		this.recordId = this.$route.params.recordId
-		this.taskId = this.$route.params.taskId
-		this.unitId = this.$route.params.unitId
-	},
-	mounted() {
-		this.getDetail()
-		this.getStepsDetail()
-	},
-	activited() {},
-	update() {},
-	beforeDestory() {},
-	methods: {
-		// 获取详情
-		getDetail() {
-			var ctx = this
-			ctx.axios
-				.getDetail({
-					recordId: ctx.recordId,
-					unitId: ctx.unitId,
-					taskId: ctx.taskId
-				})
-				.then(res => {
-					var data = res.data
-					// console.log(res, 'data')
-					ctx.taskName = data.taskName
-					ctx.startReason = data.startReason
-					ctx.stopReason = data.stopReason
-					ctx.skipPoints = data.skipPoints
-					ctx.failPoints = data.failPoints
-					ctx.alarmPoints = data.alarmPoints
-					ctx.normalPoints = data.normalPoints
-					ctx.viewPoints = data.viewPoints
-					ctx.startTime = moment(data.startTime * 1000).format('YYYY-MM-DD hh:mm:ss')
-				})
-				.catch(err => {
-					console.log(err)
-				})
-		},
-		//获取进度详情
-		getStepsDetail() {
-			var ctx = this
-			ctx.axios
-				.getStepDetail({
-					unitId: ctx.unitId,
-					taskId: ctx.taskId,
-					recordId: ctx.recordId
-					// "taskId": "8fe3d8d377b94521a26b185196971aa5",
-					// "unitId": "42389edde72d41f4bcd978b574eefbae",
-					// "recordId": "0099b7fd47134c648c2e33b3ada4bef3"
-				})
-				.then(res => {
-					// console.log(res, 'step')
-					var data = res.data
-					for (var i = 0, len = data.length; i < len; i++) {
-						if (data[i].iIsAlarm == 0) {
-							data[i].iIsAlarm = '正常'
-						} else if (data[i].iIsAlarm == 1) {
-							data[i].iIsAlarm = '报警'
-						}
-						if (data[i].iIsOverlap == null) {
-							data[i].status = '未到达'
-							data[i].outBgColor = '#6abfed'
-							data[i].inBgColor = '#1773a7'
-						} else if (data[i].iIsOverlap == 0) {
-							data[i].status = '已到达'
-							data[i].outBgColor = '#5ae8f8'
-							data[i].inBgColor = '#1895a3'
-						} else if (data[i].iIsOverlap == 1) {
-							data[i].status = '已跳过'
-							data[i].outBgColor = '#6aa4b0'
-							data[i].inBgColor = '#4f6570'
-						}
-						data[i].fHumidityData = data[i].fHumidityData ? data[i].fHumidityData + '%' : '--'
-						data[i].fTemperatureData = data[i].fTemperatureData ? data[i].fTemperatureData + '℃' : '--'
-						data[i].iUpdateTime = data[i].iUpdateTime
-							? moment(data[i].iUpdateTime).format('HH:mm:ss')
-							: '--'
-					}
-					ctx.nodeList = data
-				})
-				.catch(err => {
-					console.log(err)
-				})
-		},
-		goback() {
-			this.$router.go(-1)
-		}
-	},
-	beforeRouteEnter(to, from, next) {
-		next()
-	},
-	beforeRouteUpdate(to, from, next) {
-		next()
-	},
-	beforeRouteLeave(to, from, next) {
-		next()
-	}
+  name: 'detail',
+  components: {},
+  props: {},
+  data() {
+    return {
+      axios: this.$_api.recordData,
+      recordId: '',
+      taskId: '',
+      unitId: '',
+      taskName: '', //任务名称
+      startReason: '', //启动原因
+      stopReason: '', //停止原因
+      skipPoints: '', //跳过点数
+      failPoints: '', //失败点数
+      alarmPoints: '', //报警点数
+      normalPoints: '', //正常点数
+      viewPoints: '', //巡检点数
+      planTime: '', //计划时间
+      startTime: '', //开始时间
+      nodeList: [] //节点列表
+    }
+  },
+  computed: {},
+  filters: {},
+  watch: {},
+  created() {
+    // console.log(this.$route, 'route')
+    this.recordId = this.$route.params.recordId
+    this.taskId = this.$route.params.taskId
+    this.unitId = this.$route.params.unitId
+  },
+  mounted() {
+    this.getDetail()
+    this.getStepsDetail()
+  },
+  activited() { },
+  update() { },
+  beforeDestory() { },
+  methods: {
+    // 获取详情
+    getDetail() {
+      var ctx = this
+      ctx.axios
+        .getDetail({
+          recordId: ctx.recordId,
+          unitId: ctx.unitId,
+          taskId: ctx.taskId
+        })
+        .then(res => {
+          var data = res.data
+          // console.log(res, 'data')
+          ctx.taskName = data.taskName
+          ctx.startReason = data.startReason
+          ctx.stopReason = data.stopReason
+          ctx.skipPoints = data.skipPoints
+          ctx.failPoints = data.failPoints
+          ctx.alarmPoints = data.alarmPoints
+          ctx.normalPoints = data.normalPoints
+          ctx.viewPoints = data.viewPoints
+          ctx.startTime = moment(data.startTime * 1000).format('YYYY-MM-DD hh:mm:ss')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    //获取进度详情
+    getStepsDetail() {
+      var ctx = this
+      ctx.axios
+        .getStepDetail({
+          unitId: ctx.unitId,
+          taskId: ctx.taskId,
+          recordId: ctx.recordId
+          // "taskId": "8fe3d8d377b94521a26b185196971aa5",
+          // "unitId": "42389edde72d41f4bcd978b574eefbae",
+          // "recordId": "0099b7fd47134c648c2e33b3ada4bef3"
+        })
+        .then(res => {
+          // console.log(res, 'step')
+          var data = res.data
+          for (var i = 0, len = data.length; i < len; i++) {
+            if (data[i].iIsAlarm == 0) {
+              data[i].iIsAlarm = '正常'
+            } else if (data[i].iIsAlarm == 1) {
+              data[i].iIsAlarm = '报警'
+            }
+            if (data[i].iIsOverlap == null) {
+              data[i].status = '未到达'
+              data[i].outBgColor = '#6abfed'
+              data[i].inBgColor = '#1773a7'
+            } else if (data[i].iIsOverlap == 0) {
+              data[i].status = '已到达'
+              data[i].outBgColor = '#5ae8f8'
+              data[i].inBgColor = '#1895a3'
+            } else if (data[i].iIsOverlap == 1) {
+              data[i].status = '已跳过'
+              data[i].outBgColor = '#6aa4b0'
+              data[i].inBgColor = '#4f6570'
+            }
+            data[i].fHumidityData = data[i].fHumidityData ? data[i].fHumidityData + '%' : '--'
+            data[i].fTemperatureData = data[i].fTemperatureData ? data[i].fTemperatureData + '℃' : '--'
+            data[i].iUpdateTime = data[i].iUpdateTime
+              ? moment(data[i].iUpdateTime).format('HH:mm:ss')
+              : '--'
+          }
+          ctx.nodeList = data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    goback() {
+      this.$router.go(-1)
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    next()
+  },
+  beforeRouteUpdate(to, from, next) {
+    next()
+  },
+  beforeRouteLeave(to, from, next) {
+    next()
+  }
 }
 </script>
 <style lang="stylus" scoped>
@@ -598,35 +596,38 @@ export default {
       }
     }
   }
+
   /deep/.el-scrollbar__wrap {
-        overflow-y: hidden;
-        overflow-x: hidden;
-        margin-right: initial !important;
-        margin-bottom: initial !important;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin-right: initial !important;
+    margin-bottom: initial !important;
 
-        /deep/.el-scrollbar__view {
-          display: flex;
-        }
-      }
-      ::-webkit-scrollbar, ::-webkit-scrollbar:hover, ::-webkit-scrollbar-track {
-        background-color: #3299ff !important;
-        width: 6px;
-        height: 0;
-        border-radius: 3px;
+    /deep/.el-scrollbar__view {
+      display: flex;
     }
-    ::-webkit-scrollbar-corner, ::-webkit-scrollbar-thumb {
-      background: rgba(36, 64, 88, 0.48);
-      border-radius: 3px;
-      height: 100px;
+  }
+
+  ::-webkit-scrollbar, ::-webkit-scrollbar:hover, ::-webkit-scrollbar-track {
+    background-color: #3299ff !important;
+    width: 6px;
+    height: 0;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-corner, ::-webkit-scrollbar-thumb {
+    background: rgba(36, 64, 88, 0.48);
+    border-radius: 3px;
+    height: 100px;
+  }
+
+  /deep/.el-scrollbar__thumb {
+    border-radius: 3px;
+    background-color: #3299ff !important;
+
+    &:hover {
+      background-color: #3299ff !important;
     }
-
-      /deep/.el-scrollbar__thumb {
-        border-radius: 3px;
-        background-color: #3299ff !important;
-
-        &:hover {
-          background-color: #3299ff !important;
-        }
-      }
+  }
 }
 </style>

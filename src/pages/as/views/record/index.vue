@@ -56,11 +56,13 @@
 						<template slot-scope="scope">{{ scope.row.taskType }}</template>
 					</el-table-column>
 					<el-table-column align="center" label="状态" width="82">
-						<template slot-scope="scope"
-							><span :class="{ abnormal: scope.row.iStatusName == '异常终止' }">{{
+						<template slot-scope="scope">
+							<span :class="{ abnormal: scope.row.iStatusName == '异常终止' }">
+								{{
 								scope.row.iStatusName
-							}}</span></template
-						>
+								}}
+							</span>
+						</template>
 					</el-table-column>
 					<el-table-column align="center" label="启动原因" width="102">
 						<template slot-scope="scope">{{ scope.row.iStartReason }}</template>
@@ -85,8 +87,7 @@
 							<span
 								class="operation detail"
 								@click="goDetail(scope.row.recordId, scope.row.unitId, scope.row.taskId)"
-								>详细</span
-							>
+							>详细</span>
 							<span class="operation export" @click="exportRow(scope.row)">导出</span>
 						</template>
 					</el-table-column>
@@ -111,202 +112,202 @@
 import moment from 'moment'
 import { mapGetters } from 'vuex'
 export default {
-	name: 'report',
-	components: {},
-	props: {},
-	data() {
-		return {
-			axios: this.$_api.recordData,
-			inspectionRecordList: [], //任务记录列表
-			timeOptions: [
-				{
-					value: '6',
-					label: '全部'
-				},
-				{
-					value: '1',
-					label: '一天'
-				},
-				{
-					value: '3',
-					label: '三天'
-				},
-				{
-					value: '7',
-					label: '一周'
-				}
-			],
-			statusOptions: [
-				{
-					value: '',
-					label: '全部'
-				},
-				{
-					value: '70140002',
-					label: '正常结束'
-				},
-				{
-					value: '70140001',
-					label: '正在执行'
-				},
-				{
-					value: '70140003',
-					label: '异常终止'
-				}
-			],
-			alarmOptions: [
-				{
-					value: '',
-					label: '全部'
-				},
-				{
-					value: '1',
-					label: '报警'
-				},
-				{
-					value: '0',
-					label: '无报警'
-				}
-			],
-			value: '6',
-			value2: '',
-			value3: '',
-			unitId: '', //变电站id
-			iIsAlarm: '', //是否报警
-			iStatus: '', //任务状态
-			dateId: '6', //时间
-			pageSize: 10, //每页显示条数
-			currentPage: 1, //当前页码
-			total: 0
-		}
-	},
-	computed: {
-		stationId() {
-			return this.$store.getters.stationId
-		}
-	},
-	filters: {},
-	watch: {
-		stationId: {
-			handler(val) {
-				if (val) {
-					this.unitId = val
-					this.getList()
-				}
-			},
-			immediate: true
-		}
-	},
-	created() {},
-	mounted() {
-		this.getList()
-	},
-	activited() {},
-	update() {},
-	beforeDestory() {},
-	methods: {
-		changeTimeHandle(value) {
-			this.dateId = value
-		},
-		changeStatusHandle(value) {
-			this.iStatus = value
-		},
-		changeAlarmHandle(value) {
-			this.iIsAlarm = value
-		},
-		// 修改table tr行的背景色
-		tableRowStyle({ row, rowIndex }) {
-			return 'color: #fff;'
-		},
-		// 修改table header的背景色
-		tableHeaderColor({ row, column, rowIndex, columnIndex }) {
-			if (rowIndex === 0) {
-				return 'background:rgba(35,40,66,.2);color: #3299ff;font-weight: 500;'
-			}
-		},
-		//获取记录列表
-		getList() {
-			var ctx = this
-			ctx.axios
-				.getRecordList({
-					unitId: ctx.unitId,
-					iIsAlarm: ctx.iIsAlarm,
-					iStatus: ctx.iStatus,
-					dateId: ctx.dateId,
-					// "unitId":"42389edde72d41f4bcd978b574eefbae","iIsAlarm":"","iStatus":"","dateId":"50",
-					currentPage: ctx.currentPage,
-					pageSize: ctx.pageSize
-				})
-				.then(res => {
-					if (res.code == 200) {
-						let data = res.data.data.lists
-						for (let i = 0, len = data.length; i < len; i++) {
-							data[i].iStartTime = moment(data[i].iStartTime * 1000).format('YYYY-MM-DD hh:mm:ss')
-							data[i].iStopTime = moment(data[i].iStopTime * 1000).format('YYYY-MM-DD hh:mm:ss')
-						}
-						this.inspectionRecordList = res.data.data.lists
-						this.total = res.data.data.page.totalNum
-					}
-				})
-				.catch(err => {
-					console.log(err)
-				})
-		},
-		//详情
-		goDetail(recordId, unitId, taskId) {
-			this.$router.push({
-				name: 'detail',
-				params: {
-					recordId,
-					unitId,
-					taskId
-				}
-			})
-		},
-		//导出
-		exportList() {
-			var time = moment().format('YYYYMMDDhhmmss')
-			console.log(time)
-			window.location.href =
-				'http://172.26.1.82:8080/dsa5200/report/export?unitId=' +
-				this.unitId +
-				'&iIsAlarm=' +
-				this.iIsAlarm +
-				'&iStatus=' +
-				this.iStatus +
-				'&dateId=' +
-				this.dateId +
-				'&filename=' +
-				time
-			//'http://172.26.1.82:8080/dsa5200/report/export?unitId=42389edde72d41f4bcd978b574eefbae&iIsAlarm=&iStatus=&dateId=40'
-		},
-		//每行导出
-		exportRow(row) {
-			var time = moment().format('YYYYMMDDhhmmss')
-			window.location.href = 'http://172.26.1.147:8021/As/ExportTaskReport?RecordID=1613&filename=20190815.docx'
-			// window.location.href = 'http://172.26.1.147:8021/As/ExportTaskReport?RecordID='
-			// + row.recordId + '&filename=' + time + '.docx'
-		},
-		handleChangePage(page) {
-			console.log(page, 'page')
-			this.currentPage = page
-			this.getList()
-		},
-		handleChangeSize(size) {
-			console.log(size, 'size')
-			this.pageSize = size
-			this.getList()
-		}
-	},
-	beforeRouteEnter(to, from, next) {
-		next()
-	},
-	beforeRouteUpdate(to, from, next) {
-		next()
-	},
-	beforeRouteLeave(to, from, next) {
-		next()
-	}
+  name: 'report',
+  components: {},
+  props: {},
+  data() {
+    return {
+      axios: this.$_api.recordData,
+      inspectionRecordList: [], //任务记录列表
+      timeOptions: [
+        {
+          value: '6',
+          label: '全部'
+        },
+        {
+          value: '1',
+          label: '一天'
+        },
+        {
+          value: '3',
+          label: '三天'
+        },
+        {
+          value: '7',
+          label: '一周'
+        }
+      ],
+      statusOptions: [
+        {
+          value: '',
+          label: '全部'
+        },
+        {
+          value: '70140002',
+          label: '正常结束'
+        },
+        {
+          value: '70140001',
+          label: '正在执行'
+        },
+        {
+          value: '70140003',
+          label: '异常终止'
+        }
+      ],
+      alarmOptions: [
+        {
+          value: '',
+          label: '全部'
+        },
+        {
+          value: '1',
+          label: '报警'
+        },
+        {
+          value: '0',
+          label: '无报警'
+        }
+      ],
+      value: '6',
+      value2: '',
+      value3: '',
+      unitId: '', //变电站id
+      iIsAlarm: '', //是否报警
+      iStatus: '', //任务状态
+      dateId: '6', //时间
+      pageSize: 10, //每页显示条数
+      currentPage: 1, //当前页码
+      total: 0
+    }
+  },
+  computed: {
+    stationId() {
+      return this.$store.getters.stationId
+    }
+  },
+  filters: {},
+  watch: {
+    stationId: {
+      handler(val) {
+        if (val) {
+          this.unitId = val
+          this.getList()
+        }
+      },
+      immediate: true
+    }
+  },
+  created() { },
+  mounted() {
+    this.getList()
+  },
+  activited() { },
+  update() { },
+  beforeDestory() { },
+  methods: {
+    changeTimeHandle(value) {
+      this.dateId = value
+    },
+    changeStatusHandle(value) {
+      this.iStatus = value
+    },
+    changeAlarmHandle(value) {
+      this.iIsAlarm = value
+    },
+    // 修改table tr行的背景色
+    tableRowStyle({ row, rowIndex }) {
+      return 'color: #fff;'
+    },
+    // 修改table header的背景色
+    tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex === 0) {
+        return 'background:rgba(35,40,66,.2);color: #3299ff;font-weight: 500;'
+      }
+    },
+    //获取记录列表
+    getList() {
+      var ctx = this
+      ctx.axios
+        .getRecordList({
+          unitId: ctx.unitId,
+          iIsAlarm: ctx.iIsAlarm,
+          iStatus: ctx.iStatus,
+          dateId: ctx.dateId,
+          // "unitId":"42389edde72d41f4bcd978b574eefbae","iIsAlarm":"","iStatus":"","dateId":"50",
+          currentPage: ctx.currentPage,
+          pageSize: ctx.pageSize
+        })
+        .then(res => {
+          if (res.code == 200) {
+            let data = res.data.data.lists
+            for (let i = 0, len = data.length; i < len; i++) {
+              data[i].iStartTime = moment(data[i].iStartTime * 1000).format('YYYY-MM-DD hh:mm:ss')
+              data[i].iStopTime = moment(data[i].iStopTime * 1000).format('YYYY-MM-DD hh:mm:ss')
+            }
+            this.inspectionRecordList = res.data.data.lists
+            this.total = res.data.data.page.totalNum
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    //详情
+    goDetail(recordId, unitId, taskId) {
+      this.$router.push({
+        name: 'detail',
+        params: {
+          recordId,
+          unitId,
+          taskId
+        }
+      })
+    },
+    //导出
+    exportList() {
+      var time = moment().format('YYYYMMDDhhmmss')
+      console.log(time)
+      window.location.href =
+        'http://172.26.1.82:8080/dsa5200/report/export?unitId=' +
+        this.unitId +
+        '&iIsAlarm=' +
+        this.iIsAlarm +
+        '&iStatus=' +
+        this.iStatus +
+        '&dateId=' +
+        this.dateId +
+        '&filename=' +
+        time
+      //'http://172.26.1.82:8080/dsa5200/report/export?unitId=42389edde72d41f4bcd978b574eefbae&iIsAlarm=&iStatus=&dateId=40'
+    },
+    //每行导出
+    exportRow(row) {
+      var time = moment().format('YYYYMMDDhhmmss')
+      window.location.href = 'http://172.26.1.147:8021/As/ExportTaskReport?RecordID=1613&filename=20190815.docx'
+      // window.location.href = 'http://172.26.1.147:8021/As/ExportTaskReport?RecordID='
+      // + row.recordId + '&filename=' + time + '.docx'
+    },
+    handleChangePage(page) {
+      console.log(page, 'page')
+      this.currentPage = page
+      this.getList()
+    },
+    handleChangeSize(size) {
+      console.log(size, 'size')
+      this.pageSize = size
+      this.getList()
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    next()
+  },
+  beforeRouteUpdate(to, from, next) {
+    next()
+  },
+  beforeRouteLeave(to, from, next) {
+    next()
+  }
 }
 </script>
 <style lang="stylus" scoped>
@@ -315,13 +316,15 @@ export default {
   height: 1080px;
   background: url('~@/assets/img/navigation/background.png') no-repeat;
   background-size: 100% 1080px;
-  .report-view{
+
+  .report-view {
     width: 100%;
     height: 860px;
     overflow: hidden;
     background: url('~@/assets/img/common/bg-border.png') no-repeat;
     background-size: 100% 100%;
   }
+
   .search-bar {
     margin: 18px 0 0 40px;
     height: 50px;
@@ -348,21 +351,25 @@ export default {
       margin-top: 2px;
       width: 80px;
     }
-    .searchbtn{
+
+    .searchbtn {
       background: url('../../assets/img/record/detail.png') no-repeat;
       background-size: 100% 100%;
       color: #fff;
     }
-    .searchbtn:hover,.searchbtn:active{
+
+    .searchbtn:hover, .searchbtn:active {
       background: url('../../assets/img/record/detail-hover.png') no-repeat;
       background-size: 100% 100%;
     }
-    .exportbtn{
+
+    .exportbtn {
       background: url('../../assets/img/record/export.png') no-repeat;
       background-size: 100% 100%;
       color: #bca062;
     }
-    .exportbtn:hover,.exportbtn:active{
+
+    .exportbtn:hover, .exportbtn:active {
       background: url('../../assets/img/record/export-hover.png') no-repeat;
       background-size: 100% 100%;
     }
@@ -372,6 +379,7 @@ export default {
     height: 700px;
     width: 1510px;
     margin-left: 40px;
+
     /deep/.el-table {
       background: none;
       width: 1980px;
@@ -390,92 +398,82 @@ export default {
       height: 1.4rem;
       line-height: 1.4rem;
     }
-    .detail{
-      background: url(../../assets/img/record/detail.png) no-repeat;
+
+    .detail {
+      background: url('../../assets/img/record/detail.png') no-repeat;
       background-size: 100% 100%;
       color: #fff;
     }
-    .detail:hover,.detail:active{
-      background: url(../../assets/img/record/detail-hover.png) no-repeat;
+
+    .detail:hover, .detail:active {
+      background: url('../../assets/img/record/detail-hover.png') no-repeat;
       background-size: 100% 100%;
     }
-    .export{
-      background: url(../../assets/img/record/export.png) no-repeat;
+
+    .export {
+      background: url('../../assets/img/record/export.png') no-repeat;
       background-size: 100% 100%;
       color: #bca062;
       margin-left: 8px;
     }
-    .export:hover,.export.active{
-      background: url(../../assets/img/record/export-hover.png) no-repeat;
+
+    .export:hover, .export.active {
+      background: url('../../assets/img/record/export-hover.png') no-repeat;
       background-size: 100% 100%;
     }
   }
-  .abnormal{
+
+  .abnormal {
     color: #dfbd6d;
   }
+
   /deep/.page-wrap {
-			margin-top: 10px;
-			display: flex;
-			justify-content: center;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
 
-			.ivu-page {
-				.ivu-page-total,
-	.ivu-page-prev a,
-    .ivu-page-item a,
-    .ivu-page-next a,
-    .ivu-page-item-jump-next::after,
-    .ivu-page-item-jump-prev::after,
-    .ivu-select-item,
-    .ivu-page-options-elevator,
-    .ivu-page-options-elevator input {
-    	color: #73a6c3;
-    }
-    .ivu-page-disabled a {
-	    color: #444;
-	}
-    .ivu-page-item-active a,
-    .ivu-select-selected-value {
+    .ivu-page {
+      .ivu-page-total, .ivu-page-prev a, .ivu-page-item a, .ivu-page-next a, .ivu-page-item-jump-next::after, .ivu-page-item-jump-prev::after, .ivu-select-item, .ivu-page-options-elevator, .ivu-page-options-elevator input {
+        color: #73a6c3;
+      }
+
+      .ivu-page-disabled a {
+        color: #444;
+      }
+
+      .ivu-page-item-active a, .ivu-select-selected-value {
         color: #47b2fe !important;
-    }
+      }
 
-    /* 背景色 */
- 	.ivu-page-prev,
- 	.ivu-page-item,
- 	.ivu-page-next,
- 	.ivu-select-selection,
- 	.ivu-page-options-elevator input {
+      /* 背景色 */
+      .ivu-page-prev, .ivu-page-item, .ivu-page-next, .ivu-select-selection, .ivu-page-options-elevator input {
         // background: #000d16;
         background: transparent;
-    }
-    .ivu-select-dropdown {
-    	// background: #042234;
-    	background: transparent;
-    }
-    .ivu-select-item:hover {
-		background: #123854;
-	}
-    .ivu-select-item-focus {
-	    background: #1f4f73;
-	}
+      }
 
-	/* 边框色 */
-	.ivu-page-prev
-	.ivu-page-item,
-	.ivu-page-next,
-	.ivu-select-selection,
-	.ivu-page-options-elevator input {
-		border-color: #0f3047;
-	}
-	.ivu-page-prev:hover,
-	.ivu-page-item:hover,
-	.ivu-page-next:hover,
-	.ivu-select-selection:hover
-	.ivu-page-options-elevator input:hover,
-	.ivu-page-item-active {
-	    border-color: #2d8cf0 !important;
-	}
-			}
-		}
+      .ivu-select-dropdown {
+        // background: #042234;
+        background: transparent;
+      }
+
+      .ivu-select-item:hover {
+        background: #123854;
+      }
+
+      .ivu-select-item-focus {
+        background: #1f4f73;
+      }
+
+      /* 边框色 */
+      .ivu-page-prev, .ivu-page-item, .ivu-page-next, .ivu-select-selection, .ivu-page-options-elevator input {
+        border-color: #0f3047;
+      }
+
+      .ivu-page-prev:hover, .ivu-page-item:hover, .ivu-page-next:hover, .ivu-select-selection:hover, .ivu-page-options-elevator input:hover, .ivu-page-item-active {
+        border-color: #2d8cf0 !important;
+      }
+    }
+  }
 
   .txt {
     width: 300px;
@@ -514,8 +512,8 @@ label {
   color: #fff;
 }
 
-/deep/ .el-table{
-  font-size:16px;
+/deep/ .el-table {
+  font-size: 16px;
 }
 
 /deep/.el-table::before {
@@ -525,14 +523,15 @@ label {
   height: 0px;
 }
 
-/deep/.el-table__body tr.hover-row>td{
+/deep/.el-table__body tr.hover-row>td {
   background: none;
 }
+
 /deep/.el-table td, /deep/.el-table th.is-leaf {
   border: none;
 }
 
-/deep/.el-table tbody tr:hover>td{
+/deep/.el-table tbody tr:hover>td {
   background: none;
 }
 </style>

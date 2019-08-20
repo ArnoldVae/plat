@@ -8,6 +8,15 @@ export default [
 			title: '变电信息综合处理系统'
 		},
 		component: () => import('@index/views')
+	},
+	{
+		path: '/404',
+		name: '404',
+		// redirect: '/platform',
+		meta: {
+			title: '404'
+		},
+		component: () => import('@index/views/404')
 	}
 	/*{
 		path: '/platform/:module?',

@@ -10,9 +10,9 @@
 				default-expand-all
 				:filter-node-method="filterNode"
 				highlight-current
-        node-key="id"
+				node-key="id"
 				@node-click="handleClickNode"
-        :current-node-key="$store.getters.stationId"
+				:current-node-key="$store.getters.stationId"
 			></el-filter-tree>
 		</div>
 		<div class="inspection-content">
@@ -28,19 +28,20 @@
 								grey: item.id == 3 || item.id == 4 || item.id == 5,
 								banner: item.id == 3 || item.id == 4 || item.id == 5
 							}"
-						>
-							{{ item.name }}
-						</li>
+						>{{ item.name }}</li>
 					</ul>
 				</div>
 				<!-- <span class="back" @click="goback()"><Icon type="arrow-left-a" :size="10" color="#90d9ff"></Icon>返回</span> -->
-				<el-button class="back" type="primary" @click="goback" size="mini">返回</el-button>
+				<!-- <el-button class="back" type="primary" @click="goback" size="mini">返回</el-button> -->
+				<div class="back" @click="goback">
+					<span class="getBack"></span>返回上一页
+				</div>
 			</div>
 			<component :is="currentView" class="component-view"></component>
 		</div>
 		<!-- <div class="inspection-bottom">
       <statistics></statistics>
-    </div> -->
+		</div>-->
 	</div>
 </template>
 <script>
@@ -48,126 +49,126 @@ import monitor from './monitor'
 import record from './record'
 import { debuglog } from 'util'
 export default {
-	name: 'inspection-content',
-	components: {
-		monitor,
-		record
-	},
-	props: {},
-	data() {
-		return {
-			currentView: 'monitor',
-			currentIndex: 1,
-			vcName: '',
-			menuData: [
-				{
-					id: 1,
-					name: '巡检监控',
-					view: 'monitor'
-				},
-				{
-					id: 2,
-					name: '巡检记录',
-					view: 'record'
-				},
-				{
-					id: 3,
-					name: '状态跟踪',
-					view: 'record'
-				},
-				{
-					id: 4,
-					name: '故障检查',
-					view: 'record'
-				},
-				{
-					id: 5,
-					name: '任务管理',
-					view: 'record'
-				}
-			],
-			unitId: '',
-			filterText: '',
-			unitTreeData: [],
-			defaultProps: {
-				children: 'children',
-				label: 'label'
-			}
-		}
-	},
-	computed: {},
-	filters: {},
-	watch: {
-		vcName: {
-			handler(newName, oldName) {
-				// console.log(oldName,'old')
-				// console.log(newName,'new')
-				if (newName == undefined) {
-					this.currentView = 'record'
-					this.currentIndex = 2
-				}
-			},
-			immediate: true
-		},
-		filterText(val) {
-			this.$refs.elFilterTree.$refs['el-tree'].filter(val)
-		}
-	},
-	created() {
-		// console.log(this.$route.params.vcName)
-		this.vcName = this.$route.params.vcName
+  name: 'inspection-content',
+  components: {
+    monitor,
+    record
+  },
+  props: {},
+  data() {
+    return {
+      currentView: 'monitor',
+      currentIndex: 1,
+      vcName: '',
+      menuData: [
+        {
+          id: 1,
+          name: '巡检监控',
+          view: 'monitor'
+        },
+        {
+          id: 2,
+          name: '巡检记录',
+          view: 'record'
+        },
+        {
+          id: 3,
+          name: '状态跟踪',
+          view: 'record'
+        },
+        {
+          id: 4,
+          name: '故障检查',
+          view: 'record'
+        },
+        {
+          id: 5,
+          name: '任务管理',
+          view: 'record'
+        }
+      ],
+      unitId: '',
+      filterText: '',
+      unitTreeData: [],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
+    }
+  },
+  computed: {},
+  filters: {},
+  watch: {
+    vcName: {
+      handler(newName, oldName) {
+        // console.log(oldName,'old')
+        // console.log(newName,'new')
+        if (newName == undefined) {
+          this.currentView = 'record'
+          this.currentIndex = 2
+        }
+      },
+      immediate: true
+    },
+    filterText(val) {
+      this.$refs.elFilterTree.$refs['el-tree'].filter(val)
+    }
+  },
+  created() {
+    // console.log(this.$route.params.vcName)
+    this.vcName = this.$route.params.vcName
 
-		this.getNuitTreeData()
-	},
-	mounted() {
+    this.getNuitTreeData()
+  },
+  mounted() {
     // this.changeView(monitor,1)
-	},
-	activited() {},
-	update() {},
-	beforeDestory() {},
-	methods: {
-		//切换组件
-		changeView(data, index) {
-			this.currentView = data
-			this.currentIndex = index
-		},
-		//返回
-		goback() {
-			this.$router.go(-1)
-		},
-		//获取变电站数数据
-		getNuitTreeData() {
-			// this.$_api.getNuitTreeData()
-			this.$_api.monitorData.getUnitTreeData().then(res => {
-				if (res.code == 200) {
-					this.unitTreeData = res.data
-				}
-			})
-		},
-		//过滤树节点数据
-		filterNode(value, data) {
-			if (!value) return true
-			return data.title.indexOf(value) !== -1
-		},
-		// 点击树节点
-		handleClickNode(data, node, root) {
+  },
+  activited() { },
+  update() { },
+  beforeDestory() { },
+  methods: {
+    //切换组件
+    changeView(data, index) {
+      this.currentView = data
+      this.currentIndex = index
+    },
+    //返回
+    goback() {
+      this.$router.go(-1)
+    },
+    //获取变电站数数据
+    getNuitTreeData() {
+      // this.$_api.getNuitTreeData()
+      this.$_api.monitorData.getUnitTreeData().then(res => {
+        if (res.code == 200) {
+          this.unitTreeData = res.data
+        }
+      })
+    },
+    //过滤树节点数据
+    filterNode(value, data) {
+      if (!value) return true
+      return data.title.indexOf(value) !== -1
+    },
+    // 点击树节点
+    handleClickNode(data, node, root) {
       console.log(data);
-			// 更新当前模块单元id
-			this.$store.commit('CHANGE_STATION', {
-				stationId: data.id
-			})
-			// console.log(this.$store.getters.stationId,'vuex')
-		}
-	},
-	beforeRouteEnter(to, from, next) {
-		next()
-	},
-	beforeRouteUpdate(to, from, next) {
-		next()
-	},
-	beforeRouteLeave(to, from, next) {
-		next()
-	}
+      // 更新当前模块单元id
+      this.$store.commit('CHANGE_STATION', {
+        stationId: data.id
+      })
+      // console.log(this.$store.getters.stationId,'vuex')
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    next()
+  },
+  beforeRouteUpdate(to, from, next) {
+    next()
+  },
+  beforeRouteLeave(to, from, next) {
+    next()
+  }
 }
 </script>
 <style lang="stylus" scoped>
@@ -183,7 +184,7 @@ export default {
   .tree-container {
     width: 290px;
     height: 100%;
-	  margin: 0 10px
+    margin: 0 10px;
   }
 
   .inspection-content {
@@ -195,11 +196,27 @@ export default {
       position: relative;
 
       .back {
-        background: url('~@/assets/img/common/bg17.png') no-repeat;
-        background-size: 100% 100%;
+        // background: url('~@/assets/img/common/bg17.png') no-repeat;
+        // background-size: 100% 100%;
         position: absolute;
-        right: 90px;
-        top: 6px;
+        right: 50px;
+        top: 10px;
+				color: #90d9ff;
+				cursor: pointer;
+				
+				.getBack{
+					margin-left: 16px;
+					float: left;
+					width: 0; 
+					height: 0;
+					border-width: 8px;
+					border-style: solid;
+					border-color: transparent #90d9ff transparent transparent;
+					transform: rotate(0deg);
+					vertical-align: middle;
+					margin-right: 11px;
+					margin-top: 2px;
+				}
       }
 
       .header-lf {
@@ -212,14 +229,14 @@ export default {
 
       .header-rt {
         float: left;
-        margin-left: 25px;
+        margin-left: 45px;
         height: 100%;
         width: 1520px;
 
         ul {
           height: 100%;
           width: 100%;
-          background: url('~@/assets/img/navigation/menu-long.png');
+          background: url('../assets/img/common/secondary_ menu.png');
           background-size: 100% 100%;
           color: #fff;
 
@@ -234,9 +251,11 @@ export default {
           }
         }
       }
+
     }
   }
-  .inspection-bottom{
+
+  .inspection-bottom {
     position: absolute;
     bottom: 144px;
     left: 0;
@@ -246,13 +265,13 @@ export default {
 
 .changeStyle {
   color: #f6ce69;
-  background url("~@/assets/img/navigation/menu2.png")
-  background-size: 100% 100%
-  -moz-background-size: 100% 100%
+  //background: url('~@/assets/img/navigation/menu2.png');
+  background-size: 100% 100%;
+  -moz-background-size: 100% 100%;
 }
 
-.banner{
-   pointer-events: none;
+.banner {
+  pointer-events: none;
 }
 
 .grey {

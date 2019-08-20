@@ -3,10 +3,10 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-import testModule from './test-module'
+import videoSystem from './video-system'
 
 const router = new Router({
-	routes: [...testModule]
+	routes: [...videoSystem]
 })
 
 router.beforeEach((to, from, next) => {

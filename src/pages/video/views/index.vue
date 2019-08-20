@@ -1,21 +1,22 @@
 <template>
 	<!-- // 和指定的name相同 为了和其他组件标识不重复 -->
-	<div class="test-module">
+	<div class="video-module">
 		<!-- 主体区域 -->
 		<div class="body">
-			<p style="color: #fa0">test-module</p>
+			<videoSystem></videoSystem>	
 		</div>
 	</div>
 </template>
 <script>
 // 组件优先引入放置在上面
 // import collect from './collect.vue'
+import videoSystem from'./video-system'
 // 方法放置在下面
 // import { findComponentDownward } from '@/assets/utils/assist'
 export default {
 	// 必须有name
-	name: 'test-module',
-	components: {},
+	name: 'video-module',
+	components: {videoSystem},
 	props: {},
 	data() {
 		return {}
@@ -42,7 +43,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.test-module {
+.video-module {
 	// 这个样式在这里是必须的
 	width: 1920px;
   	height: 100%;
@@ -52,6 +53,7 @@ export default {
   	.body {
   		width: 100%;
     	height: 940px;
+		padding 10px;
   	}
 }
 </style>

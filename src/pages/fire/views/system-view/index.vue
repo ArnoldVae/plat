@@ -361,6 +361,8 @@ export default {
 
 		// val为点击地图传过来的数据  跳转状态监视
 		clickRcuImg(val) {
+			//用来切换端口为5200时的样式
+			val.pageType = false
 			this.$emit('transfer', val)
 		},
 		//跳转报警联动

@@ -2,7 +2,7 @@
 	<div class="video-customization">
 		<div class="rtCtn">
 			<!-- <div class="videoControl">
-      </div>-->
+			</div>-->
 			<div class="videoCtn-box">
 				<div class="ctnMain">
 					<div class="videoPanorama-ctnBox">
@@ -28,22 +28,32 @@
 		<div class="lfCtn">
 			<div class="tabBox">
 				<!-- 选择 -->
-				<div class="inBox" @click="videoclickShow('场景')" :class="{ active: active == !videoShow }">场景</div>
 				<div class="inBox" @click="videoclickShow('视频')" :class="{ active: active == videoShow }">视频</div>
+				<div class="inBox" @click="videoclickShow('场景')" :class="{ active: active == !videoShow }">场景</div>
 			</div>
 			<div class="videoBox" v-show="videoShow">
 				<Menu :active-name="firstScene" width="auto" @on-select="selectMenu" ref="videoScene">
-					<MenuItem :name="item.sceneID" v-for="(item, idx) in sceneList" :key="idx">
+					<MenuItem :name="item.sceneId" v-for="(item, idx) in sceneList" :key="idx">
 						<!-- <img :src="selectScene == item.sceneID ? iconCheck[item.iconName] : iconList[item.iconName]" alt=""> -->
 						<!-- <img :src="selectScene == item.sceneID ? checkIcon : defaultIcon" alt=""> -->
 						<p>{{ item.vcName }}</p>
 					</MenuItem>
 				</Menu>
 			</div>
-			<input type="text" v-model="search" class="search-ipt" placeholder="请输入搜索关键字" v-show="!videoShow" />
+			<input
+				type="text"
+				v-model="search"
+				class="search-ipt"
+				placeholder="请输入搜索关键字"
+				v-show="!videoShow"
+			/>
 			<div class="videoBox2" v-show="!videoShow">
 				<Menu width="auto" @on-select="selectMenuVideo" ref="video">
-					<MenuItem :name="item.videoPlayUrl || ''" v-for="(item, idx) in filterplayVideoList" :key="idx">
+					<MenuItem
+						:name="item.videoPlayUrl || ''"
+						v-for="(item, idx) in filterplayVideoList"
+						:key="idx"
+					>
 						<!-- <img :src="selectScene == item.sceneID ? iconCheck[item.iconName] : iconList[item.iconName]" alt=""> -->
 						<!-- <img :src="selectScene == item.sceneID ? checkIcon : defaultIcon" alt=""> -->
 						<p>{{ item.vcName }}</p>
@@ -64,7 +74,7 @@ export default {
 	data() {
 		return {
 			unitId: this.$store.getters.unitId,
-			videoShow: true,
+			videoShow: false,
 			topicArr: ['qif/zf/app/', 'qif/zf/app/control/'],
 			topicStr: '',
 			guids: [],
@@ -147,6 +157,8 @@ export default {
 			handler(newValue) {
 				this.unitId = newValue
 				this.topicStr = this.topicArr[0] + this.unitId
+				this.loadSceneList()
+				this.palyVideo()
 			}
 		},
 		//监听分屏数量变化
@@ -167,11 +179,12 @@ export default {
 		})
 	},
 	mounted() {
+		console.log(this.$_api)
 		const _this = this
 		// 初始化的时候，默认先加载每个视频容器
 		_this.setVideoScreen(_this.videoLen)
-		_this.loadSceneList(_this.$store.getters.stationId)
-		_this.palyVideo(_this.$store.getters.stationId)
+		_this.loadSceneList()
+		_this.palyVideo()
 		window.pqw_this = this
 	},
 	activited() {},
@@ -334,7 +347,7 @@ export default {
 				_this.lxStatus = '结束轮巡'
 			}
 		},
-		loadSceneList(params) {
+		loadSceneList() {
 			const _this = this
 			// _this.$api.dsqIntelligent
 			// 	.getSceneList(
@@ -343,9 +356,16 @@ export default {
 			// 		})
 			// 	)
 			// 	.then(res => {
-			_this.$_api.getStaticData('./simulation-data/video-scene.json').then(res => {
-				if (res.data.ret == 0 && res.data.data[0] != undefined) {
-					_this.sceneList = res.data.data
+			let params = {
+				currentPage: 1,
+				pageSize: 10000,
+				sceneOrgId: '',
+				unitId: this.unitId
+			}
+
+			this.$_api.video.getSceneList(params).then(res => {
+				if (res.code == 200 && res.data.lists[0] != undefined) {
+					_this.sceneList = res.data.lists
 					_this.sceneList.forEach(itemScene => {
 						switch (itemScene.type) {
 							case '130002':
@@ -375,29 +395,25 @@ export default {
 			})
 		},
 		//点击视频+列表播放
-		palyVideo(playId) {
+		palyVideo() {
 			const _this = this
-			// _this.$api.dsqIntelligent
-			// 	.getVideoList(
-			// 		qs.stringify({
-			// 			stationId: playId,
-			// 			smTypeId: 12,
-			// 			type: 1
-			// 		})
-			// 	)
-			// 	.then(res => {
-			_this.$_api.getStaticData('./simulation-data/video-playList.json').then(res => {
-				if (res.data.ret == 0) {
-					// console.log(res)
-					this.firstvideoPlayUrl = res.data.data[0].vc_Params1
-					res.data.data.forEach(item => {
-						// console.log(item);
-						if (!!item.vc_Params3 && _this.videoSeviceUrl == '') {
-							_this.videoSeviceUrl = item.vc_Params3
-							// console.log(_this.videoSeviceUrl);
+			let params = {
+				currentPage: 1,
+				devTypeId: 1044,
+				orgId: '',
+				pageSize: 10000,
+				unitId: this.unitId
+			}
+			this.$_api.video.getDevList(params).then(res => {
+				if (res.code == 200 && res.data) {
+					this.firstvideoPlayUrl = res.data.lists[0].vcParam1
+					res.data.lists.forEach(item => {
+						if (!!item.vcParam3 && _this.videoSeviceUrl == '') {
+							_this.videoSeviceUrl = item.vcParam3
 						}
 						_this.playVideoList.push({
-							videoPlayUrl: item.vc_Params1,
+							// videoPlayUrl: item.vcParam1,
+							videoPlayUrl: item.vcName,
 							vcName: item.vcName
 						})
 					})
@@ -486,7 +502,7 @@ export default {
 
     .videoBox, .videoBox2 {
       width: 100%;
-      height: calc(100% - 50px);
+      height: calc(100% - 120px);
       overflow-y: auto;
     }
 

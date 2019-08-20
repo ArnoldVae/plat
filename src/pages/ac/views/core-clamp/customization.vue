@@ -11,27 +11,27 @@
 						</div>
 						<div class="clamp">
 							<div class="info">
-								<div class="history-btn" @click="getHistory(ctem.tx)"></div>
+								<div class="history-btn" @click="getHistory(ctem.jj)"></div>
 								<img src="~@ac/assets/img/core-clamp/clamp.png" />
 								<p>夹件电流</p>
 							</div>
 							<div class="value">
 								<ul>
 									<li>值(mA)</li>
-									<li>{{ ctem.tx.fvalue }}</li>
+									<li>{{ ctem.jj.fvalue }}</li>
 								</ul>
 							</div>
 						</div>
 						<div class="electric">
 							<div class="info">
-								<div class="history-btn" @click="getHistory(ctem.jj)"></div>
+								<div class="history-btn" @click="getHistory(ctem.tx)"></div>
 								<img src="~@ac/assets/img/core-clamp/electric.png" />
 								<p>铁芯电流</p>
 							</div>
 							<div class="value">
 								<ul>
 									<li>值(mA)</li>
-									<li>{{ ctem.jj.fvalue }}</li>
+									<li>{{ ctem.tx.fvalue }}</li>
 								</ul>
 							</div>
 						</div>

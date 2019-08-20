@@ -27,15 +27,14 @@
 
 				<div class="content">
 					<!-- <transition name="fade" mode="out-in"> -->
-					<div v-if="typeList.length != 1 && cardReset" class="card">
-						<el-scrollbar v-if="typeList.length != 1">
-							<div
-								v-for="(item, index) in typeList"
+					<div v-if="typeList.length != 1 && cardReset" class="card" @mousewheel="scrollBar">
+						<!-- <el-scrollbar v-if="typeList.length != 1"> -->
+						<div class="item-box">
+								<div v-for="(item, index) in typeList"
 								:key="item.devTypeId"
 								@click="handleSelectCard(item, index)"
 								class="card-item"
-								:class="{ current: currentTypeId == item.devTypeId }"
-							>
+								:class="{ current: currentTypeId == item.devTypeId }">
 								<!-- <div class="line"></div> -->
 								<div class="type">
 									<!-- ~@ac/assets/img/device-type/空调-0.png -->
@@ -66,7 +65,8 @@
 									</div>
 								</div>
 							</div>
-						</el-scrollbar>
+						</div>
+						<!-- </el-scrollbar> -->
 					</div>
 					<!-- </transition> -->
 
@@ -96,7 +96,7 @@
 				</div>
 			</div>
 		</div>
-		<statistics></statistics>
+		<!-- <statistics></statistics> -->
 	</div>
 </template>
 <script>
@@ -394,6 +394,39 @@ export default {
 			} else {
 				console.log('智能辅助：MQTT连接失败')
 			}
+		},
+		//导航滚动
+		scrollBar(e) {
+			let odiv = document.querySelector('.item-box') //获取目标元素
+
+			let left =
+				odiv.style.transform == ''
+					? 0
+					: odiv.style.transform
+							.split('(')[1]
+							.split(')')[0]
+							.split('px')[0]
+			let children = odiv.children.length > 1 ? odiv.children.length - 1 : odiv.children.length
+			let width = (document.querySelector('.card-item').offsetWidth - 0) * children
+			let childrenWidth = odiv.children.length * (document.querySelector('.card-item').offsetWidth - 0 + 10)
+
+			if (e.deltaY < 0) {
+				left = left - 0 + 60
+				if (left > 0) {
+					console.log(left)
+					console.log('+')
+					left = 0
+				}
+				odiv.style.transform = 'translateX(' + left + 'px)'
+			} else {
+				if (childrenWidth > odiv.offsetWidth) {
+					left = left - 0 - 60
+					if (left < -(childrenWidth - odiv.offsetWidth - 15)) {
+						left = -(childrenWidth - odiv.offsetWidth - 15)
+					}
+					odiv.style.transform = 'translateX(' + left + 'px)'
+				}
+			}
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -416,13 +449,13 @@ export default {
 
   .body {
     width: 100%;
-    height: 890px;
+    height: 940px;
     // padding-top: 15px;
     display: flex;
 
     .station {
       width: 290px;
-      height: 890px;
+      height: 940px;
       // background: url('~@/assets/img/common/side-bg.png') no-repeat;
       // background-size: 313px 890px;
       padding: 0 10px;
@@ -430,7 +463,7 @@ export default {
 
       /* background: #0af; */
       /deep/ .el-tree {
-        height: 840px;
+        height: 890px;
         overflow: auto;
       }
     }
@@ -441,11 +474,12 @@ export default {
       .content {
         margin-top: 13px;
         width: 100%;
-        height: 880px;
+        height: 930px;
 
         .card {
           width: 1593px;
-          display: flex;
+        //   display: flex;
+		  overflow-x auto;
           // background: #0c1b3b;
           // background-color: rgba(12, 27, 59, 0.3);
           border-radius: 5px;
@@ -453,7 +487,10 @@ export default {
           // padding-right: 5px;
 
           /* margin-bottom: 12px; */
-          .card-item {
+		  .item-box{
+			  display: flex;
+			  transform: translateX(0);
+			   .card-item {
             min-width: 190px;
             height: 94px;
             /* background: #0c1b3b; */
@@ -519,7 +556,7 @@ export default {
               	width: 33.33%
                 /* margin-right: 15px; */
                 .number {
-					font-size: 25px;
+					font-size: 22px;
 					text-align: center;
                 }
                 .desc {
@@ -532,7 +569,7 @@ export default {
               	width: 33.33%
                 /* margin-right: 15px; */
                 .number {
-					font-size: 25px;
+					font-size: 22px;
 					text-align: center;
                 }
                 .desc {
@@ -544,7 +581,7 @@ export default {
               .normal {
               	width: 33.33%
               	.number {
-                	font-size: 25px;
+                	font-size: 22px;
                 	text-align: center;
                 }
                 .desc {
@@ -561,6 +598,8 @@ export default {
               }
             }
           }
+		  }
+         
         }
 
         .router-view-wrap {
@@ -571,10 +610,10 @@ export default {
             /* padding-top: 10px; */
             padding-bottom: 50px;
             width: 100%;
-            height: 745px;
+            height: 770px;
 
             &.full {
-              height: 849px;
+              height: 874px;
             }
           }
 

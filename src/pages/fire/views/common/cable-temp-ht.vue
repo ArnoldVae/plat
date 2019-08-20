@@ -108,10 +108,10 @@ export default {
 			})
 			if (!this.cablelUrl.length) return
 			if (process.env.NODE_ENV == 'production') {
-				var http = `${$_production.request.location}/${$_production.request.javaModule}${this.cablelUrl}`
+				var http = `${$_production.javaRequest.location}/${$_production.javaRequest.javaModule}${this.cablelUrl}`
 			}
 			if (process.env.NODE_ENV == 'development') {
-				var http = `${$_development.request.location}/${$_development.request.javaModule}${this.cablelUrl}`
+				var http = `${$_development.javaRequest.location}/${$_development.javaRequest.javaModule}${this.cablelUrl}`
 			}
 			ht.Default.xhrLoad(http, res => {
 				let json = ht.Default.parse(res)

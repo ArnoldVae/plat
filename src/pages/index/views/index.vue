@@ -73,6 +73,11 @@ export default {
 					moduleId: 5,
 					vcCaption: '智能消防',
 					vcExecuteObject: 'fire/#'
+				},
+				{
+					moduleId: 17,
+					vcCaption: '监测数据',
+					vcExecuteObject: '#/404'
 				}
 			],
 			selectMenuIndex: 0,

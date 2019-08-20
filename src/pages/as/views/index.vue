@@ -15,15 +15,9 @@
 					<div class="inspStatistics">
 						<div class="title">巡检统计：</div>
 						<div class="selectTimeBox">
-							<span @click="selectTime('month')" :class="selectTimeIdx === 1 ? 'spanActive' : ''"
-								>一月</span
-							>
-							<span @click="selectTime('week')" :class="selectTimeIdx === 2 ? 'spanActive' : ''"
-								>一周</span
-							>
-							<span @click="selectTime('day')" :class="selectTimeIdx === 3 ? 'spanActive' : ''"
-								>三天</span
-							>
+							<span @click="selectTime('month')" :class="selectTimeIdx === 1 ? 'spanActive' : ''">一月</span>
+							<span @click="selectTime('week')" :class="selectTimeIdx === 2 ? 'spanActive' : ''">一周</span>
+							<span @click="selectTime('day')" :class="selectTimeIdx === 3 ? 'spanActive' : ''">三天</span>
 						</div>
 						<div class="inspChartContanier">
 							<div class="alarmLevel">
@@ -72,7 +66,7 @@
                       <span>{{ alarmComfirmData.noMakeSure }}</span>
                     </div>
                 </div>
-              </div> -->
+							</div>-->
 						</div>
 					</div>
 					<div class="equipStatistics">
@@ -158,7 +152,7 @@
 
               </div>
             </div>
-          </div> -->
+					</div>-->
 				</div>
 			</div>
 			<!-- <statistics></statistics> -->
@@ -171,212 +165,213 @@ import { center } from '@/directives/directive.js'
 import echarts from 'echarts'
 import mapComponent from '@/components/native/mapComponent/mapComponent'
 export default {
-	name: 'inspection',
-	components: {
-		mapComponent
-	},
-	props: {},
-	data() {
-		return {
-			selectTimeIdx: -1,
-			// 巡检统计相关数据
-			alarmLevelData: {
-				critical: 0,
-				normal: 0,
-				serious: 0,
-				earlyWarning: 0
-			},
-			alarmComfirmData: {
-				makeSure: 20,
-				noMakeSure: 30
-			},
-			// 3个饼图实例
-			levelChart: null,
-			comfirmChart: null,
-			equipmentChart: null,
-			levelShow: true,
-			comfirmShow: true,
-			equipmentShow: true,
-			// 巡检装备相关数据
-			equipmentTotal: 0,
-			gq: {
-				video: 0,
-				online: 0,
-				offline: 0
-			},
-			snjqr: {
-				robot: 0,
-				online: 0,
-				offline: 0
-			},
-			swjqr: {
-				robot: 0,
-				online: 0,
-				offline: 0
-			},
-			wrj: {
-				wrj: 0,
-				online: 0,
-				offline: 0
-			},
-			hasNoAlarm: true,
-			// mqtt订阅的topic
-			topicArr: []
-		}
-	},
-	methods: {
-		// 巡检统计的时间按钮
-		selectTime(time) {
-			switch (time) {
-				case 'month':
-					this.selectTimeIdx = 1
-					break
-				case 'week':
-					this.selectTimeIdx = 2
-					break
-				case 'day':
-					this.selectTimeIdx = 3
-					break
-			}
-		},
-		createPie(chart, color, seriesData) {
-			const _this = this
-			let option = {
-				color: color,
-				tooltip: {
-					trigger: 'item',
-					formatter: '{b} : {c} ({d}%)'
-				},
-				series: [
-					{
-						type: 'pie',
-						radius: ['65%', '88%'],
-						center: ['50%', '50%'],
-						data: seriesData,
-						itemStyle: {
-							emphasis: {
-								shadowBlur: 10,
-								shadowOffsetX: 0,
-								shadowColor: 'rgba(0, 0, 0, 0.5)'
-							}
-						},
-						label: {
-							show: false
-						}
-					}
-				]
-			}
-			chart.setOption(option)
+  name: 'inspection',
+  components: {
+    mapComponent
+  },
+  props: {},
+  data() {
+    return {
+      selectTimeIdx: -1,
+      // 巡检统计相关数据
+      alarmLevelData: {
+        critical: 0,
+        normal: 0,
+        serious: 0,
+        earlyWarning: 0
+      },
+      alarmComfirmData: {
+        makeSure: 20,
+        noMakeSure: 30
+      },
+      // 3个饼图实例
+      levelChart: null,
+      comfirmChart: null,
+      equipmentChart: null,
+      levelShow: true,
+      comfirmShow: true,
+      equipmentShow: true,
+      // 巡检装备相关数据
+      equipmentTotal: 0,
+      gq: {
+        video: 0,
+        online: 0,
+        offline: 0
+      },
+      snjqr: {
+        robot: 0,
+        online: 0,
+        offline: 0
+      },
+      swjqr: {
+        robot: 0,
+        online: 0,
+        offline: 0
+      },
+      wrj: {
+        wrj: 0,
+        online: 0,
+        offline: 0
+      },
+      hasNoAlarm: true,
+      // mqtt订阅的topic
+      topicArr: []
+    }
+  },
+  methods: {
+    // 巡检统计的时间按钮
+    selectTime(time) {
+      switch (time) {
+        case 'month':
+          this.selectTimeIdx = 1
+          break
+        case 'week':
+          this.selectTimeIdx = 2
+          break
+        case 'day':
+          this.selectTimeIdx = 3
+          break
+      }
+    },
+    createPie(chart, color, seriesData) {
+      const _this = this
+      let option = {
+        color: color,
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b} : {c} ({d}%)'
+        },
+        series: [
+          {
+            type: 'pie',
+            radius: ['65%', '88%'],
+            center: ['50%', '50%'],
+            data: seriesData,
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            },
+            label: {
+              show: false
+            }
+          }
+        ]
+      }
+      chart.setOption(option)
 
-			window.onresize = () => {
-				_this.levelChart.resize()
-				// _this.comfirmChart.resize();
-				_this.equipmentChart.resize()
-			}
+      window.onresize = () => {
+        _this.levelChart.resize()
+        // _this.comfirmChart.resize();
+        _this.equipmentChart.resize()
+      }
 
-			chart.on('mouseover', function(params) {
-				if (params.name.includes('统计')) {
-					_this.levelShow = false
-				} else if (params.name.includes('确认')) {
-					_this.comfirmShow = false
-				} else {
-					_this.equipmentShow = false
-				}
-			})
+      chart.on('mouseover', function (params) {
+        if (params.name.includes('统计')) {
+          _this.levelShow = false
+        } else if (params.name.includes('确认')) {
+          _this.comfirmShow = false
+        } else {
+          _this.equipmentShow = false
+        }
+      })
 
-			chart.on('mouseout', function(params) {
-				if (params.name.includes('统计')) {
-					_this.levelShow = true
-				} else if (params.name.includes('确认')) {
-					_this.comfirmShow = true
-				} else {
-					_this.equipmentShow = true
-				}
-			})
-		},
-		clickRcuImg(val) {
-			this.$router.push({
-				name: 'inspection-content',
-				params: {
-					stationId: val.id,
-					vcName: val.label
-				}
-			})
-			this.$store.commit('CHANGE_STATION', {
-				stationId: val.id
-			})
-		}
-	},
-	created() {},
-	mounted() {
-		const _this = this
-		_this.selectTime('month')
-		_this.levelChart = echarts.init(document.getElementById('alarmLevelChart'))
-		// _this.comfirmChart = echarts.init(document.getElementById("alarmComfirmChart"));
-		_this.equipmentChart = echarts.init(document.getElementById('equipmentChart'))
+      chart.on('mouseout', function (params) {
+        if (params.name.includes('统计')) {
+          _this.levelShow = true
+        } else if (params.name.includes('确认')) {
+          _this.comfirmShow = true
+        } else {
+          _this.equipmentShow = true
+        }
+      })
+    },
+    clickRcuImg(val) {
+      this.$router.push({
+        name: 'inspection-content',
+        params: {
+          stationId: val.id,
+          vcName: val.label
+        }
+      })
+      this.$store.commit('CHANGE_STATION', {
+        stationId: val.id
+      })
+    }
+  },
+  created() { },
+  mounted() {
+    const _this = this
+    _this.selectTime('month')
+    _this.levelChart = echarts.init(document.getElementById('alarmLevelChart'))
+    // _this.comfirmChart = echarts.init(document.getElementById("alarmComfirmChart"));
+    _this.equipmentChart = echarts.init(document.getElementById('equipmentChart'))
 
-		// 调用报警等级chart方法
-		let levelColor = ['#f13b2b', '#f6ff00', '#ff7800', '#00aeff']
-		let levelData = [
-			{ value: 0, name: '危急统计' },
-			{ value: 0, name: '一般统计' },
-			{ value: 0, name: '严重统计' },
-			{ value: 0, name: '预警统计' }
-		]
-		_this.createPie(_this.levelChart, levelColor, levelData)
+    // 调用报警等级chart方法
+    let levelColor = ['#f13b2b', '#f6ff00', '#ff7800', '#00aeff']
+    let levelData = [
+      { value: 0, name: '危急统计' },
+      { value: 0, name: '一般统计' },
+      { value: 0, name: '严重统计' },
+      { value: 0, name: '预警统计' }
+    ]
+    _this.createPie(_this.levelChart, levelColor, levelData)
 
-		// 调用报警确认chart方法
-		let comfirmColor = ['#ff7800', '#00aeff']
-		let comfirmData = [{ value: 20, name: '未确认' }, { value: 30, name: '已确认' }]
-		// _this.createPie(_this.comfirmChart,comfirmColor,comfirmData);
+    // 调用报警确认chart方法
+    let comfirmColor = ['#ff7800', '#00aeff']
+    let comfirmData = [{ value: 20, name: '未确认' }, { value: 30, name: '已确认' }]
+    // _this.createPie(_this.comfirmChart,comfirmColor,comfirmData);
 
-		// 调用巡检设备统计chart方法
-		_this.$_api.inspectionIndex
-			.getEquipData()
-			.then(res => {
-				if (res.success) {
-					let equipmentColor = ['#00aeff', '#f6ff00', '#f13b2b', '#ff7800']
-					let equipmentData = [
-						{ value: res.data.gq, name: '高清机器人' },
-						{ value: res.data.innerRobotNum, name: '室内机器人' },
-						{ value: res.data.outDoorRobotNum, name: '室外机器人' },
-						{ value: res.data.wuRenJiNum, name: '无人机' }
-					]
-					_this.createPie(_this.equipmentChart, equipmentColor, equipmentData)
-					_this.equipmentTotal = res.data.allDev
-					// 高清
-					_this.gq.video = res.data.gqOnLine
-					_this.gq.online = res.data.gqOnLine
-					_this.gq.offline = res.data.gqOutLine
-					// 室内机器人
-					_this.snjqr.robot = res.data.innerRobotNum
-					_this.snjqr.online = res.data.innerOnLine
-					_this.snjqr.offline = res.data.innerOutLine
-					// 室外机器人
-					_this.swjqr.robot = res.data.outDoorRobotNum
-					_this.swjqr.online = res.data.outDoorOnLine
-					_this.swjqr.offline = res.data.outDoorOutLine
-					// 无人机
-					_this.wrj.robot = res.data.wuRenJiNum
-					_this.wrj.online = res.data.wuRenJiOnLine
-					_this.wrj.offline = res.data.wuRenJiOutLine
-				} else {
-					console.log(res.msg)
-				}
-			})
-			.catch(error => {
-				console.log(error)
-			})
-	},
-	watch: {},
-	computed: {},
-	directives: {
-		center
-	}
+    // 调用巡检设备统计chart方法
+    _this.$_api.inspectionIndex
+      .getEquipData()
+      .then(res => {
+        if (res.success) {
+          let equipmentColor = ['#00aeff', '#f6ff00', '#f13b2b', '#ff7800']
+          let equipmentData = [
+            { value: res.data.gq, name: '高清机器人' },
+            { value: res.data.innerRobotNum, name: '室内机器人' },
+            { value: res.data.outDoorRobotNum, name: '室外机器人' },
+            { value: res.data.wuRenJiNum, name: '无人机' }
+          ]
+          _this.createPie(_this.equipmentChart, equipmentColor, equipmentData)
+          _this.equipmentTotal = res.data.allDev
+          // 高清
+          _this.gq.video = res.data.gqOnLine
+          _this.gq.online = res.data.gqOnLine
+          _this.gq.offline = res.data.gqOutLine
+          // 室内机器人
+          _this.snjqr.robot = res.data.innerRobotNum
+          _this.snjqr.online = res.data.innerOnLine
+          _this.snjqr.offline = res.data.innerOutLine
+          // 室外机器人
+          _this.swjqr.robot = res.data.outDoorRobotNum
+          _this.swjqr.online = res.data.outDoorOnLine
+          _this.swjqr.offline = res.data.outDoorOutLine
+          // 无人机
+          _this.wrj.robot = res.data.wuRenJiNum
+          _this.wrj.online = res.data.wuRenJiOnLine
+          _this.wrj.offline = res.data.wuRenJiOutLine
+        } else {
+          console.log(res.msg)
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  },
+  watch: {},
+  computed: {},
+  directives: {
+    center
+  }
 }
 </script>
 <style lang="stylus">
-@import '~@/assets/font/font.css'
+@import '~@/assets/font/font.css';
+
 .inspectionPage {
   width: 1920px;
   height: 100%;
@@ -384,7 +379,8 @@ export default {
   background-size: 100% 1080px;
 
   .content {
-    height :938px;
+    height: 938px;
+
     .mapContainer {
       margin-left: 20px;
       // width: 1775px;
@@ -423,23 +419,23 @@ export default {
         }
 
         .mapBox {
-          width :100%;
-          height:100%;
+          width: 100%;
+          height: 100%;
         }
-
       }
 
       .right {
         margin-left: 20px;
         width: 610px;
+
         // display: flex;
         // flex-direction: column;
         // justify-content: space-between;
-
         .inspStatistics, .equipStatistics, .realtimeAlarm {
           width: 100%;
           background-color: rgba(10, 23, 54, 0.5);
           position: relative;
+
           .title {
             width: 100%;
             font-size: 18px;
@@ -452,10 +448,12 @@ export default {
 
         .inspStatistics {
           height: 380px;
+
           .selectTimeBox {
             position: absolute;
             right: 4px;
             top: 14px;
+
             span {
               display: inline-block;
               width: 62px;
@@ -468,194 +466,223 @@ export default {
               margin-right: 10px;
               cursor: pointer;
             }
+
             .spanActive {
               color: #ffd36a;
             }
           }
 
           .inspChartContanier {
-            width :100%;
-            height :100%;
-            display:flex;
-            flex-direction:row;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
             justify-content: space-between;
+
             .alarmLevel {
-              height :100%;
-              display:flex;
-              flex-direction:column;
-              align-items:center;
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
 
               .alarmLevelBox {
-                width :100%;
-                height :180px;
+                width: 100%;
+                height: 180px;
                 position: relative;
+
                 #alarmLevelChart {
                   width: 100%;
-                  height :90%;
+                  height: 90%;
                 }
+
                 .levelText {
-                  font-size :20px;
+                  font-size: 20px;
                   color: #fff;
                   position: absolute;
-                  left :50%;
+                  left: 50%;
                   top: 35%;
-                  transform : translateX(-50%);
+                  transform: translateX(-50%);
                 }
               }
+
               .alarmLevelDetail {
-                width:50%;
-                height : 110px;
-                color:#fff;
-                display:flex;
-                flex-wrap:wrap;
-                .critical,
-                .normal,
-                .serious,
-                .earlyWarning {
-                  float:left;
-                  width :140px;
-                  height :40px;
-                  line-height :40px;
-                  margin-right :4px;
+                width: 50%;
+                height: 110px;
+                color: #fff;
+                display: flex;
+                flex-wrap: wrap;
+
+                .critical, .normal, .serious, .earlyWarning {
+                  float: left;
+                  width: 140px;
+                  height: 40px;
+                  line-height: 40px;
+                  margin-right: 4px;
+
                   i {
-                    display :inline-block;
-                    width :16px;
-                    height :16px;
-                    vertical-align sub;
-                    border-radius :2px;
-                    margin-right :14px;
+                    display: inline-block;
+                    width: 16px;
+                    height: 16px;
+                    vertical-align: sub;
+                    border-radius: 2px;
+                    margin-right: 14px;
                   }
                 }
+
                 .critical {
                   i {
                     background-color: #b60711;
                   }
-                  span:nth-child(2){
-                    font-size :20px;
+
+                  span:nth-child(2) {
+                    font-size: 20px;
                   }
-                  span:nth-child(3){
-                    color:#b60711;
+
+                  span:nth-child(3) {
+                    color: #b60711;
                     font-family: 'DS-DIGI';
-                    font-size :30px;
-                    letter-spacing :2px;
-                    margin-left :4px;
+                    font-size: 30px;
+                    letter-spacing: 2px;
+                    margin-left: 4px;
                   }
                 }
+
                 .normal {
                   i {
                     background-color: #f6ff00;
                   }
-                  span:nth-child(2){
-                    font-size :20px;
+
+                  span:nth-child(2) {
+                    font-size: 20px;
                   }
-                  span:nth-child(3){
-                    color:#f6ff00;
+
+                  span:nth-child(3) {
+                    color: #f6ff00;
                     font-family: 'DS-DIGI';
-                    font-size :30px;
-                    letter-spacing :2px;
-                    margin-left :4px;
+                    font-size: 30px;
+                    letter-spacing: 2px;
+                    margin-left: 4px;
                   }
                 }
+
                 .serious {
                   i {
                     background-color: #b66912;
                   }
-                  span:nth-child(2){
-                    font-size :20px;
+
+                  span:nth-child(2) {
+                    font-size: 20px;
                   }
-                  span:nth-child(3){
-                    color:#b66912;
+
+                  span:nth-child(3) {
+                    color: #b66912;
                     font-family: 'DS-DIGI';
-                    font-size :30px;
-                    letter-spacing :1px;
-                    margin-left :4px;
+                    font-size: 30px;
+                    letter-spacing: 1px;
+                    margin-left: 4px;
                   }
                 }
+
                 .earlyWarning {
                   i {
                     background-color: #00aeff;
                   }
-                  span:nth-child(2){
-                    font-size :20px;
+
+                  span:nth-child(2) {
+                    font-size: 20px;
                   }
-                  span:nth-child(3){
-                    color:#00aeff;
+
+                  span:nth-child(3) {
+                    color: #00aeff;
                     font-family: 'DS-DIGI';
-                    font-size :30px;
-                    letter-spacing :1px;
-                    margin-left :4px;
+                    font-size: 30px;
+                    letter-spacing: 1px;
+                    margin-left: 4px;
                   }
                 }
               }
             }
+
             .alarmComfirm {
-              width :45%;
-              height :100%;
+              width: 45%;
+              height: 100%;
+
               .alarmComfirmBox {
-                width :100%;
-                height :220px;
+                width: 100%;
+                height: 220px;
                 position: relative;
-                #alarmComfirmChart{
+
+                #alarmComfirmChart {
                   width: 100%;
-                  height :100%;
-                  padding-top :26px;
+                  height: 100%;
+                  padding-top: 26px;
                 }
+
                 .levelText {
-                  font-size :16px;
+                  font-size: 16px;
                   color: #fff;
                   position: absolute;
-                  left :50%;
+                  left: 50%;
                   top: 50%;
-                  transform : translateX(-90%);
+                  transform: translateX(-90%);
                 }
               }
+
               .alarmComfirmDetail {
-                height : calc(100% - 220px);
-                padding : 12px 45px 0px;
-                color:#fff;
-                .makeSure,.noMakeSure {
-                  float:left;
-                  width :150px;
-                  height :40px;
-                  line-height :40px;
-                  margin-left :36px;
+                height: calc(100% - 220px);
+                padding: 12px 45px 0px;
+                color: #fff;
+
+                .makeSure, .noMakeSure {
+                  float: left;
+                  width: 150px;
+                  height: 40px;
+                  line-height: 40px;
+                  margin-left: 36px;
+
                   i {
-                    display :inline-block;
-                    width :16px;
-                    height :16px;
-                    vertical-align sub;
-                    border-radius :2px;
-                    margin-right :14px;
+                    display: inline-block;
+                    width: 16px;
+                    height: 16px;
+                    vertical-align: sub;
+                    border-radius: 2px;
+                    margin-right: 14px;
                   }
                 }
+
                 .makeSure {
                   i {
                     background-color: #f6ff00;
                   }
-                  span:nth-child(2){
-                    font-size :16px;
+
+                  span:nth-child(2) {
+                    font-size: 16px;
                   }
-                  span:nth-child(3){
-                    color:#f6ff00;
+
+                  span:nth-child(3) {
+                    color: #f6ff00;
                     font-family: 'DS-DIGI';
-                    font-size :22px;
-                    letter-spacing :2px;
-                    margin-left :4px;
+                    font-size: 22px;
+                    letter-spacing: 2px;
+                    margin-left: 4px;
                   }
                 }
+
                 .noMakeSure {
                   i {
                     background-color: #00aeff;
                   }
-                  span:nth-child(2){
-                    font-size :16px;
+
+                  span:nth-child(2) {
+                    font-size: 16px;
                   }
-                  span:nth-child(3){
-                    color:#00aeff;
+
+                  span:nth-child(3) {
+                    color: #00aeff;
                     font-family: 'DS-DIGI';
-                    font-size :22px;
-                    letter-spacing :2px;
-                    margin-left :4px;
+                    font-size: 22px;
+                    letter-spacing: 2px;
+                    margin-left: 4px;
                   }
                 }
               }
@@ -664,101 +691,118 @@ export default {
         }
 
         .equipStatistics {
-          width :100%;
-          margin-top:15px;
+          width: 100%;
+          margin-top: 15px;
           padding-bottom: 12px;
+
           .equipmentBox {
-            width :100%;
-            height : calc(100% - 47px);
+            width: 100%;
+            height: calc(100% - 47px);
             display: flex;
-            flex-direction : column;
-            align-items:center;
+            flex-direction: column;
+            align-items: center;
+
             // justify-content : space-between;
             .equipmentChartBox {
-              width :224px;
-              height:190px;
+              width: 224px;
+              height: 190px;
               position: relative;
+
               #equipmentChart {
-                width :224px;
-                height:100%;
+                width: 224px;
+                height: 100%;
               }
+
               .equipText {
-                position :absolute;
-                left:50%;
-                top:30%;
-                transform :translateX(-50%);
+                position: absolute;
+                left: 50%;
+                top: 30%;
+                transform: translateX(-50%);
                 display: flex;
-                flex-direction :column;
-                justify-content : space-between;
-                text-align :center;
-                color:#fff;
-                span:nth-child(1){
-                  font-family :'DS-DIGI';
-                  font-size :36px;
-                  letter-spacing :2px;
+                flex-direction: column;
+                justify-content: space-between;
+                text-align: center;
+                color: #fff;
+
+                span:nth-child(1) {
+                  font-family: 'DS-DIGI';
+                  font-size: 36px;
+                  letter-spacing: 2px;
                 }
-                span:nth-child(2){
-                  font-size :16px;
+
+                span:nth-child(2) {
+                  font-size: 16px;
                 }
               }
             }
+
             .equipDetail {
-              width :calc(100% - 200px);
+              width: calc(100% - 200px);
               // height:100%;
-              padding-top :30px;
+              padding-top: 30px;
+
               .detailLine {
-                width :100%;
-                height :50px;
-                line-height :50px;
-                padding-right :10px;
-                color:#fff;
+                width: 100%;
+                height: 50px;
+                line-height: 50px;
+                padding-right: 10px;
+                color: #fff;
                 display: flex;
-                flex-direction : row;
-                justify-content : flex-start;
+                flex-direction: row;
+                justify-content: flex-start;
+
                 >div {
                   i {
-                    display :inline-block;
-                    width :16px;
-                    height :16px;
-                    vertical-align sub;
-                    border-radius :2px;
-                    margin-right :10px;
+                    display: inline-block;
+                    width: 16px;
+                    height: 16px;
+                    vertical-align: sub;
+                    border-radius: 2px;
+                    margin-right: 10px;
                   }
+
                   .whiteCls {
-                    font-size : 20px;
+                    font-size: 20px;
                   }
-                  .blueCls,
-                  .yellowCls {
-                    font-family :'DS-DIGI';
-                    font-size : 30px;
-                    letter-spacing :2px;
+
+                  .blueCls, .yellowCls {
+                    font-family: 'DS-DIGI';
+                    font-size: 30px;
+                    letter-spacing: 2px;
                   }
+
                   .blueCls {
-                    color:#00aeff;
+                    color: #00aeff;
                   }
+
                   .yellowCls {
-                    color:#f6ff00;
+                    color: #f6ff00;
                   }
-                }
-                .firstDiv {
-                  width :176px;
-                }
-                .secondDiv {
-                  width :110px;
                 }
 
+                .firstDiv {
+                  width: 176px;
+                }
+
+                .secondDiv {
+                  width: 110px;
+                }
               }
+
               .gqCls {
-                background-color :#00a7f5;
+                background-color: #00a7f5;
               }
+
               .snCls {
-                background-color :#f6ff00;
+                background-color: #f6ff00;
               }
+
               .swCls {
-                background-color :#f13b2b;
+                background-color: #f13b2b;
               }
+
               .wrjCls {
-                background-color :#ff7800;
+                background-color: #ff7800;
               }
             }
           }
@@ -766,22 +810,25 @@ export default {
 
         .realtimeAlarm {
           height: 204px;
+
           .realtimeAlarm-con {
-            width : 100%;
+            width: 100%;
             height: calc(100% - 47px);
+
             // border 1px solid #000
             .noAlarm {
-              width :100%;
-              margin-top :50px;
-              color :#fff;
-              text-align :center;
-              font-size :20px;
-              letter-spacing :4px;
+              width: 100%;
+              margin-top: 50px;
+              color: #fff;
+              text-align: center;
+              font-size: 20px;
+              letter-spacing: 4px;
             }
+
             .hasAlarm {
-              width :100%;
-              height :100%;
-              border 1px solid #000;
+              width: 100%;
+              height: 100%;
+              border: 1px solid #000;
             }
           }
         }

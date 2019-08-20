@@ -19,8 +19,9 @@
 								</ul>
 							</div>
 							<div class="left-bottom-btn">
-								<input type="button" value="巡检成票" class="bottom-btn" @click="inspectionAticketBtn">
-								<input type="button" value="执行任务" class="bottom-btn" @click="treeData" />
+								<input type="button" value="巡检成票" class="bottom-btn" @click="inspectionAticketBtn"/>
+								<input type="button" value="新增任务" class="bottom-btn" @click='addTaskClick'/>
+								<input type="button" value="执行任务" class="bottom-btn" />
 								<input type="button" value="停止任务" class="bottom-btn" />
 							</div>
 							<div class="left-bottom-state">
@@ -36,13 +37,12 @@
 							<Tabs :animated="false" type="card" v-model='currentTab'>
 								<Tab-pane label="巡检总览" name='inspectionPandect'>
 									<div class="inspection-map">
-										<img src="../../../../assets/img/monitor/station-all-img.png" alt="">
+										<img src="../../assets/img/monitor/station-all-img.png" alt="">
 									</div>
 								</Tab-pane>
-								<Tab-pane label="巡检任务单" name='inspectionTask' v-loading="inspectionTaskTableDataLoad"
-								 element-loading-background="rgba(7, 42, 115)">
+								<Tab-pane label="巡检任务单" name='inspectionTask' v-loading="inspectionTaskTableDataLoad" element-loading-background="rgba(7, 42, 115)" :disabled='tabsDisable'>
 									<div class="progress-box">
-										<Progress :percent="32" stroke-color='#00c6ff' /><span>本次巡检共包含目标{{inspectionTarget}}个,已完成0个，剩余{{inspectionTarget}}个</span>
+										<Progress :percent="percentage" stroke-color='#00c6ff' /><span>本次巡检共包含目标{{inspectionTarget}}个,已完成0个，剩余{{inspectionTarget}}个</span>
 									</div>
 									<el-table :data="inspectionTaskTableData" max-height="520" :span-method="objectSpanMethod" :header-cell-style="{ background: '#0d2a68', color: '#2c87e6' , fontSize: '14px' }">
 										<!-- @cell-click="rowCliCk" -->
@@ -51,7 +51,7 @@
 										<el-table-column prop="dev" label="设备" align="center" width="80"></el-table-column>
 										<el-table-column prop="node" label="巡检点位" align="center"></el-table-column>
 										<el-table-column v-for="( item , index ) in workOrderTableHeaderData" :key=index :label="inspectionTaskHeaderText( item )"
-										 align="center" width="50">
+										 align="center" width="70">
 											<template slot-scope="scope">
 												<img src="../../assets/img/common/dui.png" alt style="width: 15px;height: 15px;" v-if="handelCheck( scope.row.robotIDS , item.robotID )" />
 											</template>
@@ -169,7 +169,8 @@
 
 			</div>
 		</div>
-
+		
+		<!-- 实时报警 -->
 		<ocx-modal v-model="alarmRecordFlag" :width="1000" footer-hide>
 			<div class="alarm-detail">
 				<img class="img-content" src alt />
@@ -200,15 +201,12 @@
 			</div>
 		</ocx-modal>
 		
-		<ocx-modal v-model="linshi" :width='1000' :mask-closable="false" footer-hide>
-			<inspectionTaskList :inspectionTaskTableData='inspectionTaskTableData' :workOrderTableHeaderData='workOrderTableHeaderData'></inspectionTaskList>
-		</ocx-modal>
 
-		<ocx-modal v-model="treeModal" :width='600' :mask-closable="false">
-			<div style="height: 700px;overflow-y: auto;">
-				<el-tree class="profession-tree" :data="treeModalData" :props="defaultPropsOther" lazy :load="loadNode" empty-text="暂无数据"
-				 element-loading-text="数据加载中..." :indent="24" :highlight-current="true"></el-tree>
-			</div>
+		<taskOrder v-if='addTask' @closeAddTask='closeAddTask' @inspectionAticketClick='inspectionAticketClick'></taskOrder>
+		
+		<ocx-modal v-model="addTaskNext" :width='1000' :mask-closable="false" footer-hide  @on-cancel="closeAddTaskNext">
+			<inspectionTaskList :modalInspectionTaskTableData='modalInspectionTaskTableData' :modalWorkOrderTableHeaderData='modalWorkOrderTableHeaderData'
+				v-loading="inspectionTaskListLoading" element-loading-text="巡检资源加载中..." element-loading-background="#061638" @closeAddTaskNext='closeAddTaskNext'></inspectionTaskList>
 		</ocx-modal>
 
 	</div>
@@ -218,6 +216,7 @@
 	import {debuglog} from 'util'
 	import monitorCurrent from '../common/monitor-current.vue'
 	import moment from 'moment'
+	import taskOrder from '../common/task-order.vue'
 	import inspectionTaskList from '../common/inspectionTaskList.vue'
 	export default {
 		name: 'monitor',
@@ -436,26 +435,24 @@
 
 				//预置巡检数组
 				presetInspectionArr: [],
-				recordIndex: -1,
+				recordIndex: 0,
 				affirmTicket: false,//巡检成票确认
+				presetInspectionTaskId: '',//任务id
 
 				//巡检总览、任务单相关
 				currentTab: 'inspectionPandect',
+				tabsDisable: true,//初始化时巡检任务单不可点
 				workOrderTableHeaderData: [], //巡检任务单表头
 				inspectionTaskTableData: [], //巡检任务单表数据
 				inspectionTarget: 0, //巡检目标总数
 				inspectionTaskTableDataLoad: false, //巡检任务单loading
-
-				//临时功能
-				treeModal: false,
-				defaultPropsOther: {
-					children: 'children',
-					label: 'vcName',
-					isLeaf: 'leaf'
-				},
-				treeModalData: [],
-				nextTreeData: [],
-				linshi: false,
+				percentage: 0,//已完成百分比
+				
+				addTask: false,
+				addTaskNext: false,
+				inspectionTaskListLoading: false,
+				modalWorkOrderTableHeaderData: [],
+				modalInspectionTaskTableData: [],
 			}
 		},
 		computed: {},
@@ -468,7 +465,8 @@
 		components: {
 			cvideo,
 			monitorCurrent,
-			inspectionTaskList
+			inspectionTaskList,
+			taskOrder
 		},
 		created() {
 			this.stationId = this.$route.params.stationId
@@ -542,34 +540,80 @@
 		update() {},
 		beforeDestory() {},
 		methods: {
-			//临时功能
-			treeData() {
-				this.treeModal = true
+			//点击新增任务
+			addTaskClick() {
+				this.addTask = true
 			},
-
-			//点击巡检成票
+			//关闭新增任务弹框
+			closeAddTask() {
+				this.addTask = false
+			},
+			//点击新增任务弹框的 巡检成票 按钮
+			inspectionAticketClick() {
+				this.addTask = false
+				this.addTaskNext = true
+				let addInfos = `TreeIDs=b189f2c0284647608e6a41355108e8ad`
+				this.inspectionTaskListLoading = true
+				this.axios.getInspectionWorkOrderData(addInfos).then(res => {
+					this.inspectionTaskListLoading = false
+					this.modalWorkOrderTableHeaderData = res.data.asRobots
+					this.modalInspectionTaskTableData = res.data.asTaskNodes
+				})
+				
+				// this.isLoading = true
+				// let param = {
+				// 	"unitId": this.$store.getters.stationId,
+				// 	// asDevAreaList: this.selectAreaList ? this.selectAreaList : this.checkedDeviceAreaList,
+				// 	"devTypeId": this.selectDevType ? this.selectDevType : this.checkedDeviceType,
+				// 	"intRecogType": this.selectRegType ? this.selectRegType : this.checkedRecognitionType,
+				// 	"intSurfaceType": this.selectAppearanceType ? this.selectAppearanceType : this.checkedAppearanceType,
+				// 	"intMeterType": this.selectMeterType ? this.selectMeterType : this.checkedMeterType
+				// }
+				// this.axios.getInspectionTaskTableData(param).then(res => {
+				// 	if (res.code == 200) {
+				// 		this.inspectionAticketData = res.data
+				// 		this.devOrInspec = false
+				// 		this.selectDeviceFlag = false
+				// 		this.inspectionAticket = true
+				// 		this.isLoading = false
+				// 	}
+				// })
+			},
+			//关闭新增任务 巡检成票 弹框
+			closeAddTaskNext() {
+				this.addTaskNext = false
+			},
+			//点击左侧 巡检成票
 			inspectionAticketBtn() {
+				//判断是否执行
 				this.affirmTicket = true
 			},
-			//执行巡检成票
+			//执行左侧 巡检成票
 			affirmTicketYes() {
-				this.currentTab = 'inspectionTask'
-				this.affirmTicket = false
-				this.inspectionTaskTableDataLoad = true
-				this.axios.getInspectionWorkOrderData().then(res => {
-					this.workOrderTableHeaderData = res.data.asRobots
-					this.inspectionTaskTableData = res.data.asTaskNodes
-					this.inspectionTarget = res.data.asTaskNodes.length
-					this.inspectionTaskTableDataLoad = false
-				})
+				if( this.presetInspectionTaskId == '' ) {
+					return
+				}else{
+					this.currentTab = 'inspectionTask'
+					this.affirmTicket = false
+					this.inspectionTaskTableDataLoad = true
+					let infos = `TaskID=${this.presetInspectionTaskId}&&UnitID=${this.stationId}`
+					this.axios.getInspectionWorkOrderData(infos).then(res => {
+						this.tabsDisable = false
+						this.workOrderTableHeaderData = res.data.asRobots
+						this.inspectionTaskTableData = res.data.asTaskNodes
+						this.inspectionTarget = res.data.asTaskNodes.length
+						this.inspectionTaskTableDataLoad = false
+					})
+				}
+				
 			},
-			//不执行巡检成票
+			//不执行左侧 巡检成票
 			affirmTicketNo() {
 				this.affirmTicket = false
 			},
 			inspectionTaskHeaderText( info ) {
 				let str = ''
-				return str = info.r_vc_Name + '(' + info.count + ')'
+				return str = `${info.r_vc_Name} \n (${info.count})`
 			},
 			//巡检任务单勾选功能
 			handelCheck(arr, id) {
@@ -577,66 +621,19 @@
 					return true
 				}
 			},
-			//业务树懒加载
-			loadNode(node, resolve) {
-				console.log(node)
-				if (node.level === 0) {
-					this.getNextNode(0).then(res => {
-						resolve(res)
-					})
-				} else if (node.level > 0 && node.level < 4) {
-					this.getNextNode(node.data.treeId).then(res => {
-						resolve(res)
-					})
-				} else if (node.level === 4) {
-					this.getDevNextNode(node.data.bindId).then(res => {
-						resolve(res)
-					})
-				}
-			},
-			getNextNode(nodeid) {
-				return new Promise((resolve, reject) => {
-					this.axios.getNextNode({
-							parentId: nodeid,
-							unitId: this.stationId
-						}).then(res => {
-							if (res.code == 200) {
-								// this.treeModalData = res.data
-								resolve(res.data)
-							}
-						})
-						.catch(error => {
-							reject(error);
-						})
-				})
-			},
-			getDevNextNode(nodeid) {
-				return new Promise((resolve, reject) => {
-					this.axios.getDeviceInfo({
-							devId: nodeid
-						}).then(res => {
-							if (res.code == 200) {
-								res.data.devNodesList.forEach(item => {
-									item.leaf = true
-								})
-								resolve(res.data.devNodesList)
-							}
-						})
-						.catch(error => {
-							reject(error);
-						})
-				})
-			},
 			//获取预置巡检数据
 			getPresetInspectionData() {
-				this.axios.getPresetInspectionInfo().then(res => {
+				let str = `i_PatrolType=1&&UnitID=${this.stationId}`
+				this.axios.getPresetInspectionInfo(str).then(res => {
 					this.presetInspectionArr = res.data
+					this.presetInspectionTaskId = res.data[0].id
 				})
 			},
 			//点击预置巡检
 			handelInspecClick(info,index) {
 				this.recordIndex = index
 				console.log( info )
+				this.presetInspectionTaskId = info.id
 			},
 
 			//获取设备ID
@@ -752,39 +749,7 @@
 						console.log(err)
 					})
 			},
-			//点击取消按钮关闭选择设备区域弹框
-			cancel() {
-				this.selectDeviceFlag = false
-				this.isLoading = false
-			},
-			//点击巡检成票按钮
-			inspectionAticketClick() {
-				this.isLoading = true
-				let param = {
-					"unitId": this.$store.getters.stationId,
-					// asDevAreaList: this.selectAreaList ? this.selectAreaList : this.checkedDeviceAreaList,
-					"devTypeId": this.selectDevType ? this.selectDevType : this.checkedDeviceType,
-					"intRecogType": this.selectRegType ? this.selectRegType : this.checkedRecognitionType,
-					"intSurfaceType": this.selectAppearanceType ? this.selectAppearanceType : this.checkedAppearanceType,
-					"intMeterType": this.selectMeterType ? this.selectMeterType : this.checkedMeterType
-				}
-				this.axios.getInspectionTaskTableData(param).then(res => {
-					if (res.code == 200) {
-						this.inspectionAticketData = res.data
-						this.devOrInspec = false
-						this.selectDeviceFlag = false
-						this.inspectionAticket = true
-						this.isLoading = false
-					}
-				})
-			},
-
-			//点击请选择巡检区域
-			handleDeviceSelected() {
-				this.selectDeviceFlag = true
-				this.getDeviceType()
-			},
-
+			
 			//全选表计类型
 			handleCheckAllMeterTypeChange(val) {
 				this.checkedMeterType = val ? this.meterType : []
@@ -1504,6 +1469,7 @@
 									border: 0;
 									color: #e9ebee;
 									cursor: pointer;
+									margin-bottom: 10px;
 								}
 
 								.bottom-btn:active {
@@ -1512,11 +1478,6 @@
 
 							}
 
-							.left-bottom-btn .bottom-btn:nth-of-type(1) {
-								width: 195px;
-								margin-bottom: 10px;
-								border-radius: 0px;
-							}
 
 							.left-bottom-state {
 								width: 220px;
@@ -1587,7 +1548,10 @@
 									color: #ffd36a;
 								}
 							}
-
+							/deep/.el-loading-mask{
+								margin-top: 0;
+								background: #072a73;
+							}
 							/deep/.el-table {
 								margin-left: 10px;
 								margin-top: 6px;
@@ -1673,6 +1637,18 @@
 									display: inline-block;
 								}
 
+							}
+							
+							/deep/.el-table{
+								// 滚动条的宽度
+								::-webkit-scrollbar {
+									width: 5px;
+									height: 10px;
+								}
+								// 滚动条的滑块
+								::-webkit-scrollbar-thumb {
+									background-color: #a1a3a9;
+								}
 							}
 
 						}
@@ -2338,7 +2314,7 @@
 	}
 
 	/deep/.el-loading-text {
-		font-size: 36px;
+		font-size: 20px;
 	}
 	
 	.modalFooterBtn {
@@ -2369,6 +2345,9 @@
 		/deep/.ivu-modal{	
 			top: 240px;
 		}
+	}
+	/deep/.el-loading-mask{
+		margin-top: 10px;
 	}
 	
 </style>
