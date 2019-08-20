@@ -4,7 +4,7 @@
             <img @click="changeVideo" src="../../assets/img/title.png" alt="">
             <span @click="changeVideo" >主设备监视</span>
             <video height="93.5%" width="100%" @click="play" class="video" v-if="!showFlag">
-                <source src="http://26.47.189.184:9000/1.mp4" type="video/mp4">
+                <source :src="$_fireVideoCofig.masterRecUrl" type="video/mp4">
             </video>
             <cvideo class="video" v-if="showFlag" :videoConfig="video1" style="height: 93.5%!important;width: 3630PX!important;"></cvideo>
         </div>
@@ -12,7 +12,7 @@
             <img @click="changeVideo"  src="../../assets/img/title.png" alt="">
             <span @click="changeVideo" >一键顺控主机</span>
             <video height="93.5%" width="100%" @click="play" class="video" v-if="!showFlag">
-                <source src="http://26.47.189.184:9000/2.mp4" type="video/mp4">
+                <source :src="$_fireVideoCofig.masterControlRecUrl" type="video/mp4">
             </video>
             <cvideo  v-if="showFlag" class="video" :videoConfig="video2" style="height: 93.5%!important;"></cvideo>
         </div>
@@ -20,7 +20,7 @@
             <img  @click="changeVideo" src="../../assets/img/title.png" alt="">
             <span @click="changeVideo" >一键顺控视频主机</span>
             <video height="93%.5" width="100%" @click="play" class="video" v-if="!showFlag">
-                <source src="http://26.47.189.184:9000/3.mp4" type="video/mp4">
+                <source :src="$_fireVideoCofig.masterControlVideoRecUrl" type="video/mp4">
             </video>
             <cvideo v-if="showFlag" class="video" :videoConfig="video3" style="height: 93.5%!important;"></cvideo>
         </div>
@@ -36,21 +36,21 @@
               doc:document.getElementsByClassName('video'),
               showFlag:true,
               video1:{
-                  deviceInfo: '2|22.46.34.114:37781|admin:admin123|28',
+                  deviceInfo: $_fireVideoCofig.masterDevURL,
                   isAutoPlay: true,
-                  serviceInfo: '1$22.46.34.114$6800$admin$admin',
+                  serviceInfo:  $_fireVideoCofig.masterSerURL,
                   hideTool: true
               },
               video2:{
-                  deviceInfo: '2|22.46.34.114:37781|admin:admin123|32',
+                  deviceInfo: $_fireVideoCofig.masterControlDevUrl,
                   isAutoPlay: true,
-                  serviceInfo: '1$22.46.34.114$6800$admin$admin',
+                  serviceInfo: $_fireVideoCofig.masterControlSerUrl,
                   hideTool: true
               },
               video3:{
-                  deviceInfo: '2|22.46.34.114:37779|admin:admin123|25',
+                  deviceInfo: $_fireVideoCofig.masterControlVideoDevUrl,
                   isAutoPlay: true,
-                  serviceInfo: '1$22.46.34.114$6800$admin$admin',
+                  serviceInfo: $_fireVideoCofig.masterControlVideoSerUrl,
                   hideTool: true
               }
           }

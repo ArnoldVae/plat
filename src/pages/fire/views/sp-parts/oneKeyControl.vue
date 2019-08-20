@@ -25,21 +25,21 @@
         data(){
             return{
                 video1:{
-                    deviceInfo: '2|22.46.34.114:37781|admin:admin123|27',
+                    deviceInfo: $_fireVideoCofig.masterDevUrl2,
                     isAutoPlay: true,
-                    serviceInfo: '1$22.46.34.114$6800$admin$admin',
+                    serviceInfo: $_fireVideoCofig.masterSerUrl2,
                     hideTool: true
                 },
                 video2:{
-                    deviceInfo: '2|22.46.34.114:37781|admin:admin123|30',
+                    deviceInfo:$_fireVideoCofig.twiceDevUrl,
                     isAutoPlay: true,
-                    serviceInfo: '1$22.46.34.114$6800$admin$admin',
+                    serviceInfo: $_fireVideoCofig.twiceSerUrl,
                     hideTool: true
                 },
                 video3:{
-                    deviceInfo: '2|22.46.34.114:37781|admin:admin123|29',
+                    deviceInfo: $_fireVideoCofig.netDevUrl,
                     isAutoPlay: true,
-                    serviceInfo: '1$22.46.34.114$6800$admin$admin',
+                    serviceInfo:$_fireVideoCofig.netSerUrl,
                     hideTool: true
                 }
             }

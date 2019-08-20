@@ -30,15 +30,15 @@
         data() {
             return {
                 video1: {
-                    deviceInfo: '2|22.46.34.114:37779|admin:admin123|31',
+                    deviceInfo: $_fireVideoCofig.masterDevURL3,
                     isAutoPlay: true,
-                    serviceInfo: '1$22.46.34.114$6800$admin$admin',
+                    serviceInfo: $_fireVideoCofig.masterSerURL3,
                     hideTool: true
                 },
                 video2: {
-                    deviceInfo: '2|22.46.34.114:37781|admin:admin123|28',
+                    deviceInfo: $_fireVideoCofig.proDevUrl,
                     isAutoPlay: true,
-                    serviceInfo: '1$22.46.34.114$6800$admin$admin',
+                    serviceInfo:  $_fireVideoCofig.proSerUrl,
                     hideTool: true
                 }
             }

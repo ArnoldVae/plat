@@ -134,6 +134,7 @@
 
         },
         mounted() {
+            console.log($_fireVideoCofig)
 
         },
         activited() {
