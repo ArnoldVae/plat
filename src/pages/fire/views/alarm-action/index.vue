@@ -11,8 +11,7 @@
                                 v-for="(item, index) in labelList"
                                 :class="item.selected ? 'alarm-now-header-item-selected' : 'alarm-now-header-item'"
                                 :key="index"
-                                @click="showItemDetail(item, '1')
-									changeColor(item)"
+                                @click="showItemDetail(item)"
                         >
                             <ul>
                                 <li>
