@@ -1,7 +1,7 @@
 <template>
 	<div :class="[pageType ? 'newSystemView' : '', 'systemView']">
 		<el-container>
-			<el-aside width="67%">
+			<el-aside width="66%">
 				<div class="map">
 					<div class="border-lt"></div>
 					<div class="border-rb"></div>
@@ -20,14 +20,14 @@
 					<div v-if="systemType" class="elMain-top-top">
 						<img src="../../assets/img/main/lan.png" alt />
 					</div>
-					<h2 class="elMain-top-title" :class="[systemType ? 'black' : 'fff']">接入情况</h2>
+					<h2 class="elMain-top-title fff">接入情况:</h2>
 					<div class="elMian-top-ele">
 						<img src="@/assets/img/common/rcu-220kV.png" alt />
 						<p>变电站</p>
 					</div>
 					<div class="elMain-top-count">
-						<p class="color-dark-yellow font-time">{{ this.allEleCount }}</p>
-						<p class="color-white">总</p>
+						<p class="color-dark-yellow font-time text-align-center">{{ this.allEleCount }}</p>
+						<p class="color-white text-align-center">总</p>
 					</div>
 					<div class="elMain-top-btn">
 						<div class="elMain-top-btnone">
@@ -40,8 +40,9 @@
 					<div v-if="systemType" class="elMain-top-top">
 						<img src="../../assets/img/main/lan.png" alt />
 					</div>
+					<div class="elMain-bottom-title" :class="[systemType ? 'black' : 'fff']">灭火装置:</div>
 					<div class="elMain-bottom-Item">
-						<div class="elMain-bottom-title" :class="[systemType ? 'black' : 'fff']">灭火装置</div>
+
 						<el-row>
 							<el-col :span="12" v-for="(i, index) in fireList" :key="index">
 								<div class="elMain-bottom-Item-single">
@@ -125,7 +126,7 @@
 					<!--</div>-->
 					<!--</div>-->
 					<div class="elMain-footer-title" :class="[systemType ? 'black' : 'fff']">
-						实时报警
+						实时报警:
 					</div>
 					<!--<div class="elMain-footer-title2">-->
 					<!--<div class="elMain-footer-btn1">-->
@@ -372,12 +373,7 @@ export default {
 		//            获取推送信息
 		registerMQTT() {
 			this.$_listen('firecontrolAllAlarm', (topic, msg, pack) => {
-				debugger
-
 				let msgJson = JSON.parse(msg.toString())
-				console.log(msgJson)
-				debugger
-
 				if (msgJson.cmd === '3002') {
 					//报警的上传数据
 					//                        日期格式化
@@ -428,6 +424,9 @@ export default {
 </script>
 
 <style lang="stylus">
+	.text-align-center{
+		text-align center
+	}
 .newystemview{
     background none
     padding 0 !important
@@ -582,11 +581,12 @@ export default {
 
         .el-main {
             padding: 11px 0 0 0;
-            overflow hidden
+
             .elMain-top {
-                background: rgba(11,24,54,0.5);
-                width: 100%;
-                height: 100px;
+				background: url('../../assets/img/system-view/bdz.png');
+				background-size: 100% 100%;
+                width: 94%;
+				height 5rem;
                 overflow: hidden;
                 position relative
                 .elMain-top-top{
@@ -624,17 +624,16 @@ export default {
                     height: 100%;
                     float: left;
                     margin-top: 15px;
-                    margin-left: 160px;
+                    margin-left: 5rem;
                 }
 
                 .elMain-top-title {
-                    text-align center
-                    height: 26px;
+					height 1.5rem;
                     font-size: 0.65rem;
                     padding-left: 24px;
                     position relative
                     z-index 2
-                    font-weight 600
+					top: 0.5rem
                 }
 
                 .elMain-top-btn {
@@ -642,7 +641,7 @@ export default {
                     height: 100%;
                     float: left;
                     margin-top: 15px;
-                    margin-left: 120px;
+                    margin-left: 5rem;
                     color: #fff;
                     text-align: center;
 
@@ -686,11 +685,11 @@ export default {
 
             .elMain-bottom {
                 background-color: #fff;
-                width: 100%;
+                width: 94%;
                 margin-top: 1%;
                 background: url('../../assets/img/system-view/设备统计bg.png');
                 background-size: 100% 100%;
-                height: 260px;
+                height: 300px;
                 position relative
 
 
@@ -702,7 +701,15 @@ export default {
                 .elMain-top-top>img{
                     width 100%
                 }
-
+				.elMain-bottom-title {
+					font-size: 0.65rem;
+					display inline-bloack
+					margin 0 auto
+					position relative
+					z-index 1px
+					top: 0.5rem;
+					margin-left 1.06667rem
+				}
 
 
                 .elMain-bottom-Item {
@@ -711,17 +718,10 @@ export default {
                     margin-top: 0px;
                     margin-left: 24px;
 
-                    .elMain-bottom-title {
-                        width: 280px;
-                        font-size: 0.65rem;
-                        display inline-bloack
-                        margin 0 auto
-                        text-align center
-                        position relative
-                        z-index 1px
-                        font-weight 600
 
-                    }
+					.el-row{
+						margin-top 1rem
+					}
 
                     .elMain-bottom-Item-single {
                         margin-bottom: 6px;
@@ -782,11 +782,11 @@ export default {
 
             .elMain-footer {
                 background-color: #fff;
-                width: 100%;
+                width: 94%;
                 margin-top: 1%;
                 background: url('../../assets/img/system-view/实时报警bg.png');
                 background-size: 100% 100%;
-                height: 405px;
+                height: 19rem;
                 position relative;
 
                 .elMain-top-top{
@@ -804,10 +804,9 @@ export default {
                     font-size: 0.65rem;
                     text-indent: 20px;
                     margin-bottom: 20px;
-                    text-align center
                     position relative
+					top: 0.5rem;
                     z-index 1
-                    font-weight 600
 
                     > span {
                         float: left;
