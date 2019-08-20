@@ -50,7 +50,14 @@
 export default {
 	name: 'inspectionTaskList',
 	components: {},
-	props: ['inspectionTaskTableData' , 'workOrderTableHeaderData'],
+	props: {
+		inspectionTaskTableData: {
+			type: Array
+		},
+		workOrderTableHeaderData: {
+			type: Array
+		}
+	},
 	data() {
 		return {
 			devOrInspec: false,

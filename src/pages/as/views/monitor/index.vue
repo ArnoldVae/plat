@@ -191,7 +191,7 @@
 			</div>
 		</ocx-modal>
 
-		<ocx-modal v-model="affirmTicket" :width='350' :mask-closable="false" footer-hide>
+		<ocx-modal v-model="affirmTicket" :width='350' :mask-closable="false" footer-hide class='affirm'>
 			<p style="padding-top: 10px;">确认</p>
 			<p style="margin-left: 30px;margin-top: 10px;margin-bottom: 30px;">是否执行巡检成票？</p>
 			<div class="modalFooterBtn">
@@ -2364,4 +2364,11 @@
 			color: #fff902;
 		}
 	}
+	
+	.affirm{
+		/deep/.ivu-modal{	
+			top: 240px;
+		}
+	}
+	
 </style>
