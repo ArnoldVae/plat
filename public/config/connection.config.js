@@ -18,7 +18,7 @@ var $_development = {
 // 生产模式
 var $_production = {
     javaRequest: {
-		location: "http://172.26.1.109:8081",
+		location: "http://26.47.189.184:8081",
 		javaModule: "dsa5200"
 	},
 	video: {
