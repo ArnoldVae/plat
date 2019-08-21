@@ -91,7 +91,6 @@
 	</div>
 </template>
 <script>
-import { center } from '@/directives/directive.js'
 import mapComponent from '@/components/native/acMap/acMap'
 export default {
 	name: 'overview',
@@ -182,6 +181,19 @@ export default {
 	mounted() {
 		this.$_echarts.init(this.$refs['chart']).setOption(this.option)
 	},
+  directives: {
+    'center': {
+      bind(el) {
+        el.style.marginLeft = `${-el.offsetWidth / 2}px`
+      },
+      inserted(el) {
+        el.style.marginLeft = `${-el.offsetWidth / 2}px`
+      },
+      update(el) {
+        el.style.marginLeft = `${-el.offsetWidth / 2}px`
+      }
+    }
+  },
 	activited() {},
 	update() {},
 	beforeDestory() {},

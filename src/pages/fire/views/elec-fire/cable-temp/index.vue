@@ -127,9 +127,9 @@ $view-height = 898px;
 
 .cable-temp {
   width: 100%;
-  height: 1700PX;
+  height: 100%;
   background-color: #141a26;
-  border: 4PX solid #d3dee6;
+  border: 4px solid #d3dee6;
 
   .el-aside {
   }

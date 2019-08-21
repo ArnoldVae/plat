@@ -10,6 +10,10 @@
 				<Icon type="md-pulse" />
 				封装Echarts测试
 			</MenuItem>
+			<MenuItem name="directive-test">
+				<Icon type="md-pulse" />
+				通用指令测试
+			</MenuItem>
 			<MenuItem name="other-test">
 				<Icon type="md-share-alt" />
 				其他测试
@@ -24,13 +28,15 @@
 <script>
 import ocxModalTest from './ocx-modal-test.vue'
 import chartTest from './chart-test.vue'
+import directiveTest from './directive-test.vue'
 import otherTest from './other-test.vue'
 export default {
 	name: 'test',
 	components: {
 		'ocx-modal-test': ocxModalTest,
 		'chart-test': chartTest,
-		'other-test': otherTest
+		'other-test': otherTest,
+		'directive-test': directiveTest
 	},
 	props: {},
 	data() {

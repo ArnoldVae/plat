@@ -14,7 +14,7 @@
 					<div><img src="../../assets/img/elec-fire/fireDan.png" alt /></div>
 					<div class="con" @click="fieDanClick()">灭火弹</div>
 				</div>
-				<div class="btnConItem">
+				<div class="btnConItem fireQ">
 					<div><img src="../../assets/img/elec-fire/fireQi.png" alt /></div>
 					<div class="con" @click="fireQiClick()">探火管</div>
 				</div>
@@ -73,10 +73,6 @@ export default {
 				if (tag != undefined) {
 					if (tag.getTag() == this.deviceid) {
 						tag.a('value', this.nodeValue)
-						// tag.setStyle('label.color', '#fff')
-						// tag.setStyle('label.font', '10px sans-serif')
-						// // tag.setStyle('label.position', 100)
-						// tag.setStyle('label.toggleable', false)
 					}
 				}
 			}
@@ -141,7 +137,7 @@ export default {
 									node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
 									node.setName(item.vcName)
 									// node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
-									node.setSize(10, 10)
+									node.setSize(40, 20)
 									node.setStyle('interactive', true)
 									node.a('vc_SourceID', item.vcSourceId)
 									node.a('vc_Path', item.vcPath)
@@ -154,10 +150,10 @@ export default {
 									// })
 									this.dataModel.add(node)
 									this.dataModel.each(data => {
-										let valueNum = item.devNodes.length > 0 ? item.devNodes[0] : '--'
+										let valueNum =  item.devNodes[0].f_Value !=null ? item.devNodes[0].f_Value : '---'
 										data.a('value', valueNum)
 									})
-								}, 800)
+								}, 100)
 							})
 					}
 				}
@@ -176,9 +172,9 @@ export default {
 						let opticalClear = setInterval(() => {
 							num++
 							if (num % 2 == 0) {
-								data.setStyle('2d.visible', true)
-							} else {
 								data.setStyle('2d.visible', false)
+							} else {
+								data.setStyle('2d.visible', true)
 							}
 							if (num == 4) {
 								clearInterval(opticalClear)
@@ -201,9 +197,9 @@ export default {
 						let fieDanClear = setInterval(() => {
 							num++
 							if (num % 2 == 0) {
-								data.setStyle('2d.visible', true)
-							} else {
 								data.setStyle('2d.visible', false)
+							} else {
+								data.setStyle('2d.visible', true)
 							}
 							if (num == 4) {
 								clearInterval(fieDanClear)
@@ -226,9 +222,9 @@ export default {
 						let fireQiClear = setInterval(() => {
 							num++
 							if (num % 2 == 0) {
-								data.setStyle('2d.visible', true)
-							} else {
 								data.setStyle('2d.visible', false)
+							} else {
+								data.setStyle('2d.visible', true)
 							}
 							if (num == 4) {
 								clearInterval(fireQiClear)
@@ -263,8 +259,8 @@ export default {
 
 .btnBox {
   position: absolute;
-  bottom: 120px;
-  right: 10px;
+  bottom: 170px;
+  right: -64px;
   width: 300px;
   height: 50px;
   color #fff;
@@ -277,6 +273,9 @@ export default {
 		.con{
 			margin-left 20px;
 		}
+	}
+	.fireQ{
+		margin-left 15px;
 	}
   }
 }

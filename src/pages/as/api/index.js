@@ -2,7 +2,7 @@
 import getStaticData from '@/config/axios.getStaticData'
 import monitorData from './monitor-data'
 import recordData from './record-data'
-
+import taskManageData from './taskManage-data'
 import exampleModule from './example-module' // 案例模块
 
 import inspectionIndex from './inspectionIndex/inspectionIndex'
@@ -13,5 +13,6 @@ export default {
 	exampleModule,
 	monitorData,
 	recordData,
-	inspectionIndex
+  inspectionIndex,
+  taskManageData
 }

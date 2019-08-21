@@ -106,7 +106,7 @@
 		</ElDialog>
 
 		<el-form class="formSize" :inline="true" size="mini" :model="search">
-			<el-form-item label="设备类型:" style="margin-right: 110px">
+			<el-form-item label="设备类型:" style="margin-right: 30px">
 				<el-select v-model="search.maintenanceUnit" placeholder>
 					<el-option label="全部" value="nullValue"></el-option>
 					<el-option
@@ -117,7 +117,7 @@
 					></el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="设备子类型:" style="margin-right: 110px">
+			<el-form-item label="设备子类型:" style="margin-right: 30px">
 				<el-select v-model="search.maintenanceUnit" placeholder>
 					<el-option label="全部" value="nullValue"></el-option>
 					<el-option
@@ -128,7 +128,7 @@
 					></el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="设备子系统:" style="margin-right: 110px">
+			<el-form-item label="设备子系统:" style="margin-right: 30px">
 				<el-select v-model="search.maintenanceUnit" placeholder>
 					<el-option label="全部" value="nullValue"></el-option>
 					<el-option
@@ -139,7 +139,7 @@
 					></el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="设备型式:" style="margin-right: 110px">
+			<el-form-item label="设备型式:" style="margin-right: 30px">
 				<el-select v-model="search.maintenanceUnit" placeholder>
 					<el-option label="全部" value="nullValue"></el-option>
 					<el-option
@@ -151,7 +151,7 @@
 				</el-select>
 			</el-form-item>
 			<br />
-			<el-form-item label="设备材质:" style="margin-right: 120px">
+			<el-form-item label="设备材质:" style="margin-right: 30px">
 				<el-select v-model="search.eqcaizhi" placeholder>
 					<el-option label="全部" value="nullValue"></el-option>
 					<el-option
@@ -163,7 +163,7 @@
 				</el-select>
 			</el-form-item>
 
-			<el-form-item label="设备状态:" label-width="200px">
+			<el-form-item label="设备状态:" style="margin-right: 35px; margin-left:18px" >
 				<el-select v-model="search.subTypes" placeholder>
 					<el-option label="全部" value="nullValue"></el-option>
 					<el-option
@@ -174,7 +174,7 @@
 					></el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="设备名称:" label-width="300px">
+			<el-form-item label="设备名称:" style="margin-right: 30px;margin-left:18px" >
 				<el-select v-model="search.subModelsh" placeholder>
 					<el-option label="全部" value="nullValue"></el-option>
 					<el-option
@@ -185,7 +185,7 @@
 					></el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="安装位置:" label-width="270px">
+			<el-form-item label="安装位置:" style="margin-right: 30px">
 				<el-select v-model="search.materias" placeholder>
 					<el-option label="全部" value="nullValue"></el-option>
 					<el-option
@@ -197,7 +197,7 @@
 				</el-select>
 			</el-form-item>
 
-			<el-form-item class="taining-button" style="position: relative;top:-70px">
+			<el-form-item class="taining-button" style="position: relative;top:-45px">
 				<div style="margin-bottom: 10px">
 					<el-button class="blue-btn" type="text" @click="searchItem()">查 询</el-button>
 					<el-button class="blue-btn" @click="leadTo" type="text">新 增</el-button>
@@ -211,9 +211,9 @@
 			</el-form-item>
 		</el-form>
 		<!-- table -->
-		<div>
+		<div class="table">
 			<el-table
-				:header-cell-style="{ background: 'none' }"
+				:header-cell-style="{ background: '#0d2351' }"
 				:data="maintainDatas"
 				:row-style="tableColor"
 				@selection-change="handleSelectionChange"
@@ -222,12 +222,7 @@
 				<el-table-column type="selection" width="55"></el-table-column>
 				<el-table-column prop="unit_name" align="center" label="变电站名称"></el-table-column>
 				<el-table-column prop="vc_Code" align="center" label="型号规格"></el-table-column>
-				<el-table-column
-					prop="dev_name"
-					align="center"
-					label="器材名称"
-					show-overflow-tooltip
-				></el-table-column>
+				<el-table-column prop="dev_name" align="center" label="器材名称" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="i_BeginTime" align="center" label="有效期"></el-table-column>
 				<el-table-column prop="vc_User" align="center" label="保管责任人"></el-table-column>
 				<!--<el-table-column prop="vc_Form" align="center" label="设备形式"></el-table-column>-->
@@ -375,9 +370,9 @@ export default {
 		tableColor({ row, column, rowIndex, columnIndex }) {
 			let index = rowIndex
 			if (index % 2 != 0) {
-				return 'background-color: #29455a;'
+				return 'background-color: transparent;'
 			} else {
-				return 'background-color: #132332;'
+				return 'background-color: transparent;'
 			}
 		},
 		async searchItem() {
@@ -432,7 +427,7 @@ export default {
 	height: 100%;
 	margin-top: 5px;
 	padding: 0 50px;
-	background-color: #141a26;
+	// background-color: #141a26;
 	overflow: hidden;
 
 
@@ -466,7 +461,7 @@ export default {
 		color: #ffffff;
 	}
 	/deep/ .el-form--inline {
-		margin-top: 10px;
+		margin-top: 20px;
 	}
 
 	/deep/ .el-popper[x-placement^=bottom] {
@@ -486,11 +481,11 @@ export default {
 
 	.el-form--inline {
 		.el-input {
-			width: 145px;
+			width: 150px;
 
 			/deep/ .el-input__inner {
-				border: 1PX solid #0c4e75;
-				background:#11344A;
+				border: 1PX solid #0d7ec5 !important;
+				background:#081e4d;
 			}
 		}
 
@@ -503,7 +498,7 @@ export default {
 	}
 
 	/deep/ .el-form-item__label {
-		color: #ffffff !important;
+		color: #78b8de !important;
 	}
 
 	.el-checkbox__label {
@@ -523,17 +518,24 @@ export default {
 		background-color: transparent;
 	}
 	.formSize label{
-		font-size 36PX
+		font-size 20px
+	}
+	.table{
+		border: 1px solid blue;
+		height:600px;
 	}
 	.el-table td div{
-		font-size:36PX
+		font-size:15px
 	}
 	.has-gutter{
 		background transparent;
 		background:url("../../../assets/img/tainingTitle.png")
 	}
 	.el-table th div{
-		font-size 36PX
+		font-size 18px;
+		color #3094f7;
+		font-weight 30;
+		
 	}
 
 	.el-table__row {
@@ -542,12 +544,15 @@ export default {
 
 	.el-table--enable-row-hover .el-table__body tr:hover > td {
 		background-color: #081437 !important;
+		cursor pointer
 	}
 
 	.el-table__row > td {
 		border: none;
 	}
-
+	 .el-table td, .el-table th.is-leaf{
+		 border-bottom:none;
+	 }
 	.el-table::before { // 去掉最下面的那一条线
 		height: 0px;
 	}
@@ -556,7 +561,7 @@ export default {
 		/deep/ .has-gutter {
 			height: 0px;
 			color: #fff;
-			background-color: #0a3449;
+			background-color: #0d2351;
 			border-bottom: 0px;
 		}
 	}
@@ -564,19 +569,19 @@ export default {
 	.blue-btn {
 		width: 3.8rem;
 		color #FFFFFF
-		background: url('~@fire/assets/img/comfim.png') no-repeat;
+		background: url('~@fire/assets/img/seach_blue.png') no-repeat;
 		background-size: 100% 100%;
 	}
 	.import-btn{
 		width: 3.8rem;
 		color: #F6CE69;
-		background: url('~@fire/assets/img/import.png') no-repeat;
+		background: url('~@fire/assets/img/seach_red.png') no-repeat;
 		background-size: 100% 100%;
 	}
 	.yellow-btn {
 		width: 3.8rem;
 		color: #FFFFFF;
-		background: url('~@fire/assets/img/fasle.png') no-repeat;
+		background: url('~@fire/assets/img/seach_yellow.png') no-repeat;
 		background-size: 100% 100%;
 		margin-left: 15px;
 	}
@@ -590,7 +595,7 @@ export default {
 		float: right;
 	}
 	.taining-button button{
-		font-size 36PX;
+		font-size 20px;
 	}
 }
 

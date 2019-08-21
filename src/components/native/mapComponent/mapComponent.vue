@@ -102,8 +102,6 @@
 </template>
 
 <script>
-// 地图使用的指令
-import { center } from '@/directives/directive.js'
 export default {
 	props: {
 		moduleNames: {
@@ -474,6 +472,19 @@ export default {
 			// this.mapSuccess();
 		}
 	},
+	directives: {
+		'center': {
+			bind(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			},
+			inserted(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			},
+			update(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			}
+		}
+	},
 	mounted() {
 		console.log(this.javainterface)
 		// this.init2()
@@ -501,9 +512,6 @@ export default {
 		//     // console.log(this.markerList);
 		//   // }
 		// })
-	},
-	directives: {
-		center
 	}
 }
 </script>

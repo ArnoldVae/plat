@@ -19,8 +19,8 @@
 								</ul>
 							</div>
 							<div class="left-bottom-btn">
-								<input type="button" value="巡检成票" class="bottom-btn" @click="inspectionAticketBtn"/>
 								<input type="button" value="新增任务" class="bottom-btn" @click='addTaskClick'/>
+								<input type="button" value="巡检成票" class="bottom-btn" @click="inspectionAticketBtn"/>
 								<input type="button" value="执行任务" class="bottom-btn" />
 								<input type="button" value="停止任务" class="bottom-btn" />
 							</div>
@@ -206,7 +206,7 @@
 		
 		<ocx-modal v-model="addTaskNext" :width='1000' :mask-closable="false" footer-hide  @on-cancel="closeAddTaskNext">
 			<inspectionTaskList :modalInspectionTaskTableData='modalInspectionTaskTableData' :modalWorkOrderTableHeaderData='modalWorkOrderTableHeaderData'
-				v-loading="inspectionTaskListLoading" element-loading-text="巡检资源加载中..." element-loading-background="#061638" @closeAddTaskNext='closeAddTaskNext'></inspectionTaskList>
+				v-loading="inspectionTaskListLoading" element-loading-text="巡检资源加载中..." element-loading-background="#061638" @closeAddTaskNext='closeAddTaskNext' @saveClick='saveClick'></inspectionTaskList>
 		</ocx-modal>
 
 	</div>
@@ -448,11 +448,13 @@
 				inspectionTaskTableDataLoad: false, //巡检任务单loading
 				percentage: 0,//已完成百分比
 				
+				//新增任务相关
 				addTask: false,
 				addTaskNext: false,
 				inspectionTaskListLoading: false,
 				modalWorkOrderTableHeaderData: [],
 				modalInspectionTaskTableData: [],
+				addTaskNodesArr: [],//勾选树的测点id数组
 			}
 		},
 		computed: {},
@@ -549,35 +551,55 @@
 				this.addTask = false
 			},
 			//点击新增任务弹框的 巡检成票 按钮
-			inspectionAticketClick() {
+			inspectionAticketClick( arr ) {
+				this.addTaskNodesArr = arr.join(',')
 				this.addTask = false
 				this.addTaskNext = true
-				let addInfos = `TreeIDs=b189f2c0284647608e6a41355108e8ad`
+				//let addInfos = `Nodes=${this.addTaskNodesArr}`
+				let addInfos = `Nodes=016cf78433f745c99fc38db402afd037,03721088658244ad88715a73707243a9`
+				
 				this.inspectionTaskListLoading = true
 				this.axios.getInspectionWorkOrderData(addInfos).then(res => {
 					this.inspectionTaskListLoading = false
 					this.modalWorkOrderTableHeaderData = res.data.asRobots
 					this.modalInspectionTaskTableData = res.data.asTaskNodes
 				})
-				
-				// this.isLoading = true
-				// let param = {
-				// 	"unitId": this.$store.getters.stationId,
-				// 	// asDevAreaList: this.selectAreaList ? this.selectAreaList : this.checkedDeviceAreaList,
-				// 	"devTypeId": this.selectDevType ? this.selectDevType : this.checkedDeviceType,
-				// 	"intRecogType": this.selectRegType ? this.selectRegType : this.checkedRecognitionType,
-				// 	"intSurfaceType": this.selectAppearanceType ? this.selectAppearanceType : this.checkedAppearanceType,
-				// 	"intMeterType": this.selectMeterType ? this.selectMeterType : this.checkedMeterType
-				// }
-				// this.axios.getInspectionTaskTableData(param).then(res => {
-				// 	if (res.code == 200) {
-				// 		this.inspectionAticketData = res.data
-				// 		this.devOrInspec = false
-				// 		this.selectDeviceFlag = false
-				// 		this.inspectionAticket = true
-				// 		this.isLoading = false
-				// 	}
+
+			},
+			//新增任务 保存 按钮
+			saveClick( name ) {
+				this.addTaskNext = false
+				this.getPresetInspectionData()
+				//临时功能
+				let obj = {
+					"cmd":"2202",
+					"type":"req",
+					"srcid":"",
+					"destid":"",
+					"serial":"",	
+					"time": "",
+					"task": {
+						"unitid": this.stationId,
+						"name": name,
+						"tasktype":"70100004",
+						"tasksubtype":"70110008",
+						"executetype":"70120100",
+						"executetime":"0000",
+						"startdate":"0000",
+						"stopdate":"0000",
+						"userid":"",
+						"tasknode": []
+					}
+				}
+				obj.time = (new Date()).valueOf()
+				// this.addTaskNodesArr.forEach( item => {
+				// 	obj.task.tasknode.push({
+				// 		"nodeid": item,
+				// 		"sortid":"0"
+				// 	})
 				// })
+				console.log( obj )
+				
 			},
 			//关闭新增任务 巡检成票 弹框
 			closeAddTaskNext() {
@@ -623,10 +645,10 @@
 			},
 			//获取预置巡检数据
 			getPresetInspectionData() {
-				let str = `i_PatrolType=1&&UnitID=${this.stationId}`
+				let str = `i_PatrolType=1&UnitID=${this.stationId}`
 				this.axios.getPresetInspectionInfo(str).then(res => {
-					this.presetInspectionArr = res.data
-					this.presetInspectionTaskId = res.data[0].id
+					this.presetInspectionArr = res.data.rows
+					this.presetInspectionTaskId = res.data.rows[0].id
 				})
 			},
 			//点击预置巡检
@@ -880,12 +902,7 @@
 				})
 			},
 			//合并单元格的方法
-			objectSpanMethod({
-				row,
-				column,
-				rowIndex,
-				columnIndex
-			}) {
+			objectSpanMethod({row,column,rowIndex,columnIndex}) {
 				//console.log( row )
 				if (columnIndex === 0) {
 					const _row = this.desData('mainArea', this.inspectionTaskTableData)[rowIndex]
@@ -931,21 +948,6 @@
 					}
 				})
 				return spanArr
-			},
-			//点击巡检任务单某一行
-			rowCliCk(row, column) {
-				let str = column.label.substring(0, 2)
-				if (str == '室外') {
-					row.outdoor_ground = !row.outdoor_ground
-				} else if (str == '室内') {
-					row.indoor = !row.ndoor
-				} else if (str == '高清') {
-					row.camera = !row.camera
-				} else if (str == '智辅') {
-					row.zhifu = !row.zhifu
-				} else if (str == '无人') {
-					row.uav = !row.uav
-				}
 			},
 			handleReachBottom() {
 				return new Promise(resolve => {

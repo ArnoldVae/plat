@@ -94,7 +94,7 @@
 				</el-table>
 			</div>
 			<!-- 分页 -->
-			<div class="page-wrap" v-show="this.inspectionRecordList.length > 0">
+			<div class="page-wrap" v-show="inspectionRecordList.length > 0">
 				<Page
 					@on-change="handleChangePage"
 					@on-page-size-change="handleChangeSize"

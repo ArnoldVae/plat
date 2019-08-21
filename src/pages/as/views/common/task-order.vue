@@ -4,7 +4,7 @@
 			<!-- 左侧的树 -->
 			<div class="main">
 				<div class="left-content">
-					<div class="select-type">
+					<!-- <div class="select-type">
 						<el-form ref="form" :model="form" label-width="130px">
 							<el-form-item label="巡检类型">
 								<el-radio-group v-model="form.inspection" @change="handleSelectInspType">
@@ -16,7 +16,7 @@
 								</el-radio-group>
 							</el-form-item>
 						</el-form>
-					</div>
+					</div> -->
 					<div class="sub-type" v-show="form.inspection == 165">
 						<el-form ref="subTypeForm" :model="specSubTypeForm" label-width="100px">
 							<el-form-item label=" ">
@@ -61,7 +61,7 @@
 								<el-checkbox v-for="item in deviceAreaList" :label="item" :key="item.id">{{ item.typeName }}</el-checkbox>
 							</el-checkbox-group>
 						</div>
-            <span @click="handleShowMore1(val1)" ref="more1">展开更多</span>
+            <span @click="handleShowMore1(val1)" ref="more1" v-if="deviceAreaList.length > 3">展开更多</span>
 					</div>
 					<div class="list-con" ref="list2">
 						<div class="title">设备类型：</div>
@@ -80,7 +80,7 @@
 								>{{ item.typeName }}</el-checkbox>
 							</el-checkbox-group>
 						</div>
-            <span @click="handleShowMore2(val2)" ref="more2">展开更多</span>
+            <span @click="handleShowMore2(val2)" ref="more2" v-if="deviceType.length > 3">展开更多</span>
 					</div>
 					<div class="list-con"  ref="list3">
 						<div class="title">识别类型：</div>
@@ -102,7 +102,7 @@
 								>{{ item.typeName }}</el-checkbox>
 							</el-checkbox-group>
 						</div>
-            <span @click="handleShowMore3(val3)" ref="more3">展开更多</span>
+            <span @click="handleShowMore3(val3)" ref="more3" v-if="recognitionType.length > 3">展开更多</span>
 					</div>
 					<div class="list-con" ref="list4">
 						<div class="title">表计类型：</div>
@@ -116,7 +116,7 @@
 								<el-checkbox v-for="item in meterType" :label="item" :key="item.id">{{ item.typeName }}</el-checkbox>
 							</el-checkbox-group>
 						</div>
-            <span @click="handleShowMore4(val4)" ref="more4">展开更多</span>
+            <span @click="handleShowMore4(val4)" ref="more4" v-if="meterType.length > 3">展开更多</span>
 					</div>
 					<div class="list-con" ref="list5">
 						<div class="title">设备外观类型：</div>
@@ -134,7 +134,7 @@
 								<el-checkbox v-for="item in appearanceType" :label="item" :key="item.id">{{ item.typeName }}</el-checkbox>
 							</el-checkbox-group>
 						</div>
-            <span @click="handleShowMore5(val5)" ref="more5">展开更多</span>
+            <span @click="handleShowMore5(val5)" ref="more5" v-if="appearanceType.length > 3">展开更多</span>
 					</div>
 				</div>
 				<div class="right-tree">
@@ -155,9 +155,12 @@
 						class="filter-tree"
 						:data="treeData"
 						:props="defaultProps"
-            show-checkbox
+						show-checkbox
 						:filter-node-method="filterNode"
 						ref="tree"
+            node-key="id"
+						@check-change="handleCheckChange"
+            @node-click="handleNodeClick"
 					></el-tree>
 				</div>
 			</div>
@@ -177,9 +180,11 @@ export default {
     return {
       selectTree: true,
       treeData: [],
+      treeDataStr:'',
+      treeSelectKeys:[],
       axios: this.$_api.monitorData,
       defaultProps: {
-        children: 'children',
+        // children: 'children',
         label: 'text'
       },
       filterText: '',
@@ -252,9 +257,9 @@ export default {
   },
   created() {
     this.getDeviceType()
-    this.$_api.getStaticData('./simulation-data/response.json').then(res => {
-      // console.log(res, '11');
+    this.$_api.getStaticData('./simulation-data/tree.json').then(res => {
       this.treeData = res.data
+      this.treeDataStr = JSON.stringify(res.data);
     })
   },
   mounted() { },
@@ -262,14 +267,41 @@ export default {
   update() { },
   beforeDestory() { },
   methods: {
+	_forEach: function(data, isTrue, callback) {
+		var arr = []
+		for (var i = 0; i < data.length; i++) {
+			arr.push(data[i])
+		}
+		while (arr.length) {
+			var _p = arr.shift()
+			if (callback(_p) == false) {
+				return
+			}
+			if (isTrue && _p.children) {
+				for (var j = _p.children.length - 1; j >= 0; j--) {
+					arr.unshift(_p.children[j])
+				}
+			}
+		}
+	},
+	handleCheckChange() {
+		let res = this.$refs.tree.getCheckedNodes()
+		this.transmitArr = res
+	},
     //关闭弹框
-			closeAddTask() {
-				this.$emit( 'closeAddTask' )
-			},
-			//点击巡检成票
-			inspectionAticketClick() {
-				this.$emit( 'inspectionAticketClick' )
-			},
+	closeAddTask() {
+		this.$emit( 'closeAddTask' )
+	},
+	//点击巡检成票
+	inspectionAticketClick() {
+		let nodesArr = []
+		this.transmitArr.forEach( item => {
+			if( item.type == 4 ) {
+				nodesArr.push( item.id )
+			}
+		})
+		this.$emit( 'inspectionAticketClick' , nodesArr )
+	},
     handleShowMore1(value){
       if(value == 0){
         this.$refs.list1.style.height = '200px'
@@ -364,7 +396,6 @@ export default {
           // unitId: '192fe4cec3ec4d3fb81c0d05f82bde41'
         })
         .then(res => {
-          //console.log(res.data, 'res')
           var data = res.data
           if (res.code == 200) {
             this.inspectionType = data.asType1List
@@ -448,6 +479,8 @@ export default {
       if (val == true) {
         this.selectMeterType = this.meterType
       }
+
+       this.filterByCondition();
     },
     //全选识别类型
     handleCheckAllRecognitionTypeChange(val) {
@@ -456,15 +489,16 @@ export default {
       if (val == true) {
         this.selectRegType = this.recognitionType
       }
+      this.filterByCondition();
     },
     //全选设备区域
     handleCheckAllDeviceAreaListChange(val) {
-      console.log(val, 'val')
       this.checkedDeviceAreaList = val ? this.deviceAreaList : []
       this.isdeviceAreaList = false
       if (val == true) {
         this.selectAreaList = this.deviceAreaList
       }
+      this.filterByCondition();
     },
     //全选设备类型
     handleCheckDeviceTypeAllChange(val) {
@@ -473,6 +507,7 @@ export default {
       if (val == true) {
         this.selectDevType = this.deviceType
       }
+      this.filterByCondition();
     },
     //全选设备外观类型
     handleCheckAppearanceTypeAllChange(val) {
@@ -481,47 +516,154 @@ export default {
       if (val == true) {
         this.selectAppearanceType = this.appearanceType
       }
+
+       this.filterByCondition();
     },
     //选择设备外观类型
     handleCheckedAppearanceTypeChange(value) {
-      console.log(value, '设备外观类型')
       let checkedCount = value.length
       this.checkedAppearanceTypeAll = checkedCount === this.appearanceType.length
       // this.isAppearanceType = checkedCount > 0 && checkedCount < this.appearanceType.length
       this.selectAppearanceType = value
+
+       this.filterByCondition();
     },
     //选择设备类型
     handleCheckedDeviceTypeChange(value) {
-      console.log(value, '设备类型')
       let checkedCount = value.length
       this.checkedDeviceTypeAll = checkedCount === this.deviceType.length
       // this.isDeviceType = checkedCount > 0 && checkedCount < this.deviceType.length
       this.selectDevType = value
+      console.log(value);
+      this.filterByCondition();
     },
     //选择设备区域
     handleCheckedDeviceAreaListChange(value) {
-      console.log(value, '区域')
       let checkedCount = value.length
       this.checkdeviceAreaListAll = checkedCount === this.deviceAreaList.length
       // this.isdeviceAreaList = checkedCount > 0 && checkedCount < this.deviceAreaList.length
       this.selectAreaList = value
+      this.filterByCondition();
+      
     },
     //选择表计类型
     handleCheckedMeterTypeChange(value) {
-      console.log(value, '表计')
       let checkedCount = value.length
       this.checkMeterTypeAll = checkedCount === this.meterType.length
       // this.isMeterType = checkedCount > 0 && checkedCount < this.meterType.length
       this.selectMeterType = value
+
+       this.filterByCondition();
     },
     //选择识别类型
     handleCheckedRecognitionTypeChange(value) {
-      console.log(value, '识别')
       let checkedCount = value.length
       this.checkRecognitionTypeAll = checkedCount === this.recognitionType.length
       // this.isRecognitionType = checkedCount > 0 && checkedCount < this.recognitionType.length
       this.selectRegType = value
+
+      this.filterByCondition();
     },
+    filterByCondition(){ //根据条件过滤树
+      //根据区域过滤
+      let tree = JSON.parse(this.treeDataStr);
+      // this.treeData = tree;
+     
+      let area = [];
+       this.selectAreaList.map(item=>[
+         area.push(item.typeCode)
+       ])
+
+      tree = tree.filter(item=>{
+         return item.type === 1 && area.includes(item.id)
+      })
+
+      //根据设备类型筛选
+      let deviceType = [];
+      this.selectDevType.map(item=>{
+        deviceType.push(item.typeCode);
+      })
+      if(deviceType.length > 0){
+        this.filterDevice(tree,deviceType);
+      }
+      
+      //根据节点属性判断
+      //识别类型
+      let regType=[]
+      this.selectRegType.map(item=>{
+        regType.push(item.typeCode);
+      })
+      if(regType.length > 0){
+        this.filterNode(tree,'a06',regType);
+      }
+      
+      //表计类型
+      let meterType=[]
+      this.selectMeterType.map(item=>{
+        meterType.push(item.typeCode);
+      })
+      if(meterType.length > 0){
+        this.filterNode(tree,'a07',meterType);
+      }
+
+       //设备外观类型
+      let appearanceType=[]
+      this.selectAppearanceType.map(item=>{
+        appearanceType.push(item.typeCode);
+      })
+      if(appearanceType.length > 0){
+        this.filterNode(tree,'a08',appearanceType);
+      }
+
+      this.treeData = tree;
+
+      this.treeSelectKeys.length = 0;
+      this.findNodes(tree);
+       console.log(this.treeSelectKeys);
+       if(this.treeSelectKeys.length > 0){
+          //  this.$refs.tree.setCheckedKeys(this.treeSelectNodes);
+       }
+     
+     
+
+    },
+    filterDevice (data,typeArr) {   //设备类型过滤
+      data.map(item => {
+        // 先找到设备的父级,再对设备进行过滤
+        if (item.children.length > 0) {
+          if (item.children[0].type === 2) {
+            item.children = item.children.filter(child => {
+              return typeArr.includes(child.devType)
+            })
+          } else if (item.type < 2) {
+            this.filterDevice(item.children,typeArr)
+          }
+        }
+      })
+    },
+    filterNode(data,attr,attrData){ //根据条件过滤节点
+       data.map(item => {
+        if(item.type === 2){
+           item.children = item.children.filter(child=>{
+             return attrData.includes(child[attr])
+           })
+        }else{
+          this.filterNode(item.children,attr,attrData);
+        }
+      })
+    },
+    findNodes(data){  //查找节点
+        data.map(item => {
+        if(item.type === 4){
+          this.treeSelectKeys.push(item.id);
+        }else{
+          this.findNodes(item.children);
+        }
+      })
+    },
+    handleNodeClick(node){
+      console.log(node);
+    }
   },
   beforeRouteEnter(to, from, next) {
     next()
@@ -647,11 +789,12 @@ export default {
   .right-tree {
     float: left;
     width: 385px;
+    height: 500px;
     margin-top: 30px;
     margin-left: 20px;
 
     /deep/.el-tree {
-      height: 500px;
+      height: 385px;
       width: 100%;
       overflow: auto;
       background: transparent;
@@ -736,7 +879,10 @@ export default {
 
 .el-tree-node:focus>.el-tree-node__content {
 			background-color: #0757b1b3 !important;
-			color: #fa0 !important;
+			// color: #fa0 !important;
+      .el-tree-node__label{
+        color: #fa0 !important;
+      }
 		}
 
 		.el-tree-node.is-current.is-focusable {

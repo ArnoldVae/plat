@@ -1,7 +1,7 @@
 <template>
 	<div :class="pageType? 'statusCheck':'statusCheck-5'">
 		<el-container>
-			<el-aside width="15%" :class="pageType? '':'el-aside-5'">
+			<el-aside width="15%" >
 				<el-filter-tree
 					placeholder="输入关键字进行过滤"
 					v-model="filterText"
@@ -33,7 +33,7 @@
 					</el-row>
 				</div>
 				<div class="el-main-content">
-					<component ref="sunMethod" v-bind:is="current" :pageTypeState="false"></component>
+					<component ref="sunMethod" v-bind:is="current" :pageType="pageType"></component>
 				</div>
 			</el-main>
 		</el-container>
@@ -53,14 +53,14 @@ export default {
 		'protection-zone': protectionZone
 	},
 	props: {
-		pageTypeState:{
-			type: Boolean,
-			require: false
-		}
+		// pageTypeState:{
+		// 	type: Boolean,
+		// 	require: false
+		// }
 	},
 	data() {
 		return {
-			pageType:true,
+			pageType:false,
 			filterText: '',
 			itemData: {},
 			treeData: trees.treeData,
@@ -76,12 +76,12 @@ export default {
 					code: 'sub-system', //菜单对应code
 					active: true
 				},
-				{
-					title: '电缆温度监测',
-					id: '02',
-					code: 'view-check',
-					active: false
-				},
+				// {
+				// 	title: '电缆温度监测',
+				// 	id: '02',
+				// 	code: 'view-check',
+				// 	active: false
+				// },
 				{
 					title: '防护区监视',
 					id: '03',
@@ -114,13 +114,14 @@ export default {
 		}
 	},
 	created() {
-		this.pageType = this.pageTypeState
+
 	},
 	mounted() {
 		console.log(this.$store)
 
 		this.getOrganization()
 		this.registerMQTT()
+
 	},
 	activited() {},
 	update() {},
@@ -179,6 +180,7 @@ export default {
 		initView(item) {
 			//获取控制端口为5200时的样式状态开关
 			this.pageType = item.pageType
+
 			// console.log(item.pageType);
 			this.$refs.sunMethod.initSysView(item)
 		}
@@ -281,13 +283,14 @@ export default {
 	.el-aside{
 		// background #141a26
 		height 960px
+		position relative
+		top -50px
 
 		.el-tree{
 			background none;
 			color white
 		}
 	}
-
 	.el-main{
            overflow hidden
            padding-bottom: 0

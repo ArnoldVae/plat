@@ -16,7 +16,7 @@
         "func": "attr@value",
         "value": "--"
       },
-      "color": "#fff",
+      "color": "#00FF00",
       "displayName": "值",
       "rect": [
         3.08031,

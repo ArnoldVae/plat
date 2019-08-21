@@ -171,7 +171,7 @@
 </template>
 <script>
 // 地图使用的指令
-import { center } from '@/directives/directive.js'
+import { mapCenter } from '@/directives/'
 import mapComponent from '@/components/native/mapComponent/mapComponent'
 import moment from 'moment'
 
@@ -373,7 +373,12 @@ export default {
 		//            获取推送信息
 		registerMQTT() {
 			this.$_listen('firecontrolAllAlarm', (topic, msg, pack) => {
+				// debugger
+
 				let msgJson = JSON.parse(msg.toString())
+				// console.log(msgJson)
+				// debugger
+
 				if (msgJson.cmd === '3002') {
 					//报警的上传数据
 					//                        日期格式化
@@ -418,7 +423,7 @@ export default {
 		next()
 	},
 	directives: {
-		center
+		mapCenter
 	}
 }
 </script>

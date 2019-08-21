@@ -1,4 +1,5 @@
-export const center = {
+export default {
+	name: 'map-center',
 	bind(el) {
 		el.style.marginLeft = `${-el.offsetWidth / 2}px`
 	},

@@ -1,7 +1,7 @@
 <template>
 	<div class="mian-taining">
 		<el-form :inline="true" size="mini" :model="search">
-			<el-form-item label="开始日期:">
+			<el-form-item label="开始日期:" style="margin-right:25px">
 				<el-date-picker
 					v-model="search.starTime"
 					@change="opoentime"
@@ -9,7 +9,7 @@
 					type="date"
 				></el-date-picker>
 			</el-form-item>
-			<el-form-item label="结束日期:">
+			<el-form-item label="结束日期:"  style="margin-right:25px">
 				<el-date-picker
 					v-model="search.endTime"
 					@change="opoentime"
@@ -17,7 +17,7 @@
 					type="date"
 				></el-date-picker>
 			</el-form-item>
-			<el-form-item label="时间段:">
+			<el-form-item label="时间段:"  style="margin-right:25px">
 				<el-select v-model="search.timeQuantum" @change="opoentimeB" placeholder>
 					<el-option label="自定义" :value="nullValue"></el-option>
 					<el-option label="三天内" value="threeDay"></el-option>
@@ -26,7 +26,7 @@
 					<el-option label="本年" value="year"></el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="维保单位:">
+			<el-form-item label="维保单位:"  style="margin-right:25px">
 				<el-select v-model="search.maintenanceUnit" placeholder>
 					<el-option label="全部" value="nullValue"></el-option>
 					<el-option
@@ -48,37 +48,38 @@
 
 			<!-- <el-button class="blue-btn" style=" line-height: 21PX;" @click="searchInfo" type="text">查&nbsp找</el-button> -->
 			<el-form-item class="taining-button">
-				<el-button class="blue-btn" v-if="searchIS" @click="searchInfo" type="text">查&nbsp找</el-button>
-				<el-button class="blue-btn" v-if="!searchIS" @click="searchInfos" type="text">查&nbsp找</el-button>
-				<el-button class="yellow-btn" @click="leadTo" type="text">导&nbsp入</el-button>
-				<el-button class="yellow-btn" @click="exportInfo" type="text">导&nbsp出</el-button>
+				<el-button class="blue-btn" v-if="searchIS" @click="searchInfo" type="text">查找</el-button>
+				<el-button class="blue-btn" v-if="!searchIS" @click="searchInfos" type="text">查找</el-button>
+				<el-button class="yellow-btn" @click="leadTo" type="text">导入</el-button>
+				<el-button class="yellow-btn" @click="exportInfo" type="text">导出</el-button>
 			</el-form-item>
 		</el-form>
 		<!-- table -->
 		<div>
 			<el-table
-				:header-cell-style="{ background: 'none' }"
+				:header-cell-style="{ background: '#0d2351' }"
 				:row-style="tableColor"
 				:data="maintainData"
 				style="width: 100%;"
 			>
-				<el-table-column prop="coName" align="center" label="维保单位"></el-table-column>
-				<el-table-column prop="unitName" align="center" label="变电站"></el-table-column>
-				<el-table-column prop="context" align="center" label="维护内容" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="beginTime" align="center" label="计划开始时间"></el-table-column>
-				<el-table-column prop="endTime" align="center" label="计划结束时间"></el-table-column>
-				<el-table-column prop="vc_PowerOffScene" align="center" label="停电场所"></el-table-column>
-				<el-table-column prop="vc_PowerLevel" align="center" label="电压等级"></el-table-column>
-				<el-table-column prop="presetName" align="center" label="负责人"></el-table-column>
-				<el-table-column prop="telePhone" align="center" label="联系电话"></el-table-column>
-				<el-table-column prop="status" align="center" label="当前状态">
+				<el-table-column prop="coName" align="center" label="维保单位" width='100'></el-table-column>
+				<el-table-column prop="unitName" align="center" label="变电站" width='130'></el-table-column>
+				<el-table-column prop="context" align="center" label="维护内容"  width='200' show-overflow-tooltip ></el-table-column>
+				<el-table-column prop="beginTime" align="center" label="计划开始时间" width='130'></el-table-column>
+				<el-table-column prop="endTime" align="center" label="计划结束时间" width='130'></el-table-column>
+				<el-table-column prop="vc_PowerOffScene" align="center" label="停电场所" width='100'></el-table-column>
+				<el-table-column prop="vc_PowerLevel" align="center" label="电压等级" width='100' ></el-table-column>
+				<el-table-column prop="presetName" align="center" label="负责人" width='100'></el-table-column>
+				<el-table-column prop="telePhone" align="center" label="联系电话" width='120'></el-table-column>
+				<el-table-column prop="presetName" align="center" label="负责人" width='100'></el-table-column>
+				<el-table-column prop="status" align="center" label="当前状态"  width='150'>
 					<!-- <template slot-scope="scope">
 						<span v-if="scope.row.status=='未执行'" style="color:red;">{{scope.row.status}}</span>
 						<span v-if="scope.row.status=='正在执行'" style="color:green;">{{scope.row.status}}</span>
 						<span v-if="scope.row.status=='已结束'" style="color:blue;">{{scope.row.status}}</span>
 					</template>-->
 				</el-table-column>
-				<el-table-column label="执行" align="center" width="250">
+				<el-table-column label="执行" align="center" width="130">
 					<template slot-scope="scope">
 						<div>
 							<el-button class="blue-btn" @click="infoModals(scope.row)" size="mini" type="text"
@@ -275,9 +276,9 @@ export default {
 		tableColor({ row, column, rowIndex, columnIndex }) {
 			let index = rowIndex
 			if (index % 2 != 0) {
-				return 'background-color: #29455a;'
+				return 'background-color: transparent;'
 			} else {
-				return 'background-color: #132332;'
+				return 'background-color: transparent;'
 			}
 		},
 		infoModals(row) {
@@ -300,11 +301,11 @@ export default {
   height: 100%;
   margin-top: 5px;
   padding: 0 50px;
-  background-color: #141a26;
+  // background-color: #141a26;
   overflow: hidden;
 
   /deep/.el-form--inline {
-    margin-top: 10px;
+    margin-top: 20px;
     // margin-left 50px;
   }
 
@@ -325,16 +326,15 @@ export default {
 
   .el-form--inline {
     /deep/.el-form-item__label {
-      color: #6292B2;
-      font-size: 36PX;
+      color: #90d9ff;
+      font-size: 18px;
     }
 
     .el-input {
-      width: 145px;
-
+      width: 170px;
       /deep/.el-input__inner {
-        border: 1PX solid #0c4e75;
-		  background:#11344A;
+        border: 1px solid #0d7ec5!important;
+		  background:#07225e;
       }
     }
 
@@ -345,14 +345,11 @@ export default {
     }
   }
 
-  /deep/.el-form-item__label {
-    color: #FFFFFF !important;
-  }
-
-  // .el-input__prefix {
-  // right: 0;
+  .el-input__prefix {
+  right: 0;
+	text-align :right;
   // transition: all 0.3s;
-  // }
+  }
   .el-checkbox__label {
     color: #ffffff;
     font-size: 36PX;
@@ -366,11 +363,19 @@ export default {
   .el-table, .el-table__expanded-cell {
     background-color: transparent;
   }
-
+	.el-table td, .el-table th.is-leaf{
+		 border-bottom:none;
+	 }
   el-table th, .el-table tr {
     background-color: transparent;
-    font-size: 36PX;
+    font-size: 15px;
   }
+	.el-table th div{
+		font-size 18px;
+		color #3094f7;
+		font-weight 30;
+		
+	}
 	.has-gutter{
 		background transparent;
 		background:url("../../../assets/img/tainingTitle.png")
@@ -385,6 +390,7 @@ export default {
 
   .el-table--enable-row-hover .el-table__body tr:hover>td {
     background-color: #081437 !important;
+		cursor pointer
   }
 
   .el-table__row>td {
@@ -407,28 +413,33 @@ export default {
 
   .blue-btn {
 	  color:#FFFFFF;
-    width: 3.8rem;
-    font-size: 36PX;
-    background: url('~@fire/assets/img/comfim.png') no-repeat;
+    width: 100px;
+   font-size:18px;
+   	background: url('~@fire/assets/img/seach_blue.png') no-repeat;
     background-size: 100% 100%;
   }
 
   .yellow-btn {
-    width: 3.8rem;
+    width: 100px;
     color: #F6CE69;
-    font-size: 36PX;
-    background: url('~@fire/assets/img/import.png') no-repeat;
+   font-size:18px;
+		background: url('~@fire/assets/img/seach_yellow.png') no-repeat;
     background-size: 100% 100%;
-    margin-left: 15px;
+    margin-left: 20px;
   }
 
   .item-zt {
-    width: 790PX;
+    // width: 790px;
     // padding-left: 30PX;
+		.el-checkbox__label{
+			font-size:16px;
+			color:#90d9ff;
+		}
   }
 
   .taining-button {
     float: right;
+		margin-right:40px;
   }
 }
 

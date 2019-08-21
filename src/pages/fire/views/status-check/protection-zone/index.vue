@@ -1,5 +1,5 @@
 <template>
-	<div class="protection-zone">
+	<div :class="pageType? 'protection-zone':'protection-zone-5'">
 		<el-container>
 			<el-aside width="77%">
 				<div class="protection-zone-top">
@@ -15,19 +15,21 @@
 				</div>
 				<div class="protection-zone-bottom">
 					<p class="menu-bar">实时态势</p>
-					<div style="height: 500PX" ref="envChart"></div>
+					<p>实时态势：</p>
+					<div style="height: 385px" ref="envChart"></div>
 				</div>
 			</el-aside>
 			<el-main>
 				<div class="protection-zone-items">
 					<el-row>
 						<el-col :span="10" class="menu-bar">防护区列表</el-col>
+						<el-col :span="10">防护区列表：</el-col>
 					</el-row>
 					<div class="search-item">
 						<el-row
 							v-for="(item, index) in subMenuList"
 							:key="index"
-							style="background: #1A2836;margin-bottom: 20PX;width: 95%;"
+							style="width: 95%;"
 						>
 							<el-col :span="12">
 								<span>
@@ -36,9 +38,7 @@
 								</span>
 							</el-col>
 							<el-col :span="12" class="item-btn">
-								<el-button style="position:relative; top: -5PX" size="mini" @click="getTemDetail(item)"
-									>查看</el-button
-								>
+								<el-button style="position:relative; top: -5PX" size="mini" @click="getTemDetail(item,index)" :class="activeIndex==index? 'activeClick':''">查看</el-button>
 							</el-col>
 						</el-row>
 					</div>
@@ -46,6 +46,7 @@
 				<div class="protection-zone-items-bottom">
 					<el-row>
 						<el-col :span="24" class="menu-bar">{{ temData.name }}</el-col>
+						<el-col :span="24">{{ temData.name }}</el-col>
 					</el-row>
 					<div class="search-item">
 						<div style="padding-left:24px;">
@@ -88,9 +89,15 @@ export default {
 	components: {
 		'ocx-video': ocxVideo
 	},
-	props: {},
+	props: {
+		pageType: {
+			type: Boolean,
+			require: false
+		}
+	},
 	data() {
 		return {
+			activeIndex: null,//用来切换查看按钮的激活样式
 			getList: {
 				arr1: [],
 				arr2: [],
@@ -266,7 +273,7 @@ export default {
 					textStyle: {
 						color: '#85c9ee',
 						// fontFamily: "DS-DIGI",
-						fontSize: 33,
+						fontSize: 14,
 						align: 'center'
 					},
 					top: 20,
@@ -278,7 +285,7 @@ export default {
 					right: 10,
 					textStyle: {
 						color: '#fff',
-						fontSize: 33
+						fontSize: 16
 					}
 				},
 				color: ['#47b2fe', '#5d6040'],
@@ -323,7 +330,7 @@ export default {
 						color: '#fff',
 						show: true,
 						textStyle: {
-							fontSize: 28
+							fontSize: 14
 						}
 					}
 				},
@@ -477,7 +484,10 @@ export default {
 		 *获取温度湿度信息方法
 		 *
 		 */
-		async getTemDetail(item) {
+		async getTemDetail(item,index) {
+			//用来切换查看按钮的激活样式
+			this.activeIndex = index
+
 			this.getAreaVideo(item)
 			this.temData.name = item.vcName
 			let result = await this.$_api.statusCheck.getTemDetail({
@@ -574,7 +584,7 @@ export default {
 	color: #32e611;
 }
 .font-size-14 {
-	font-size: 36px;
+	font-size: 14px;
 }
 </style>
 
@@ -681,15 +691,17 @@ $prowidth = 100%;
         .search-item {
           height: 498px;
           overflow: auto;
-          margin-top: 15px;
-          margin-left: 33PX;
-          font-size: 36PX;
-			.el-row:hover{
-				border: 2px #0E70AF solid;
-				box-shadow: inset 0 0 20px #0E70AF;
-			}
+          margin-top: 20px;
+          margin-left: 24px;
+          font-size: 16px;
+
+          .el-row:hover {
+            border: 2px #0E70AF solid;
+            box-shadow: inset 0 0 20px #0E70AF;
+          }
 
           .el-row {
+
             .el-col {
               font-size: 36PX;
 
@@ -730,9 +742,226 @@ $prowidth = 100%;
 
         .search-item {
           margin-top: 14px;
+
           .el-row {
             margin-left: 20px;
             margin-bottom: 20px;
+          }
+
+          img {
+            width: 10px;
+            margin-top: -5px;
+          }
+        }
+      }
+    }
+  }
+}
+</style>
+
+<style lang="stylus">
+.protection-zone-5 {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  height: 670px;
+
+  .menu-bar {
+    background: url('../../../assets/img/main/lan.png');
+    background-repeat: no-repeat;
+    font-weight: bold;
+    width: 100%;
+    font-size: 44PX;
+    height: 30px;
+    line-height: 30px;
+    background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    text-align: center;
+    color: black;
+    display: none;
+  }
+
+  .el-container {
+    display: flex;
+    justify-content: space-between;
+    background: url('~@/assets/img/common/wai.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    padding: 20px 48px;
+	height: 800px;
+
+    .el-aside {
+      height: $prohight;
+
+      .protection-zone-top {
+        // height: 560px;
+        // background: #141A26;
+        // border: 1PX solid #D3DEE6;
+        font-size: 36px;
+		overflow: hidden;
+
+        .protection-zone-top-main {
+          display: flex;
+          justify-content: space-around;
+		  
+
+          .protection-zone-top-item {
+            margin: 9px 5px;
+            // float left
+            height: 508px;
+            background: none;
+          }
+
+          .left {
+            width: 49%;
+			height: 356px;
+            margin: 0;
+            // margin-left: -7px;
+            margin-right: 0px;
+
+            .ocxVideo {
+              width: 100% !important;
+            }
+          }
+
+          .right {
+            position: relative;
+            width: 49%;
+			height: 356px;
+            margin: 0;
+
+            .ocxVideo {
+              width: 100% !important;
+            }
+          }
+        }
+      }
+
+      .protection-zone-bottom {
+		height: 385px;
+        margin-top: 19px;
+		width: 1126px;
+        background: #141A26;
+		background: url('../../../assets/img/protection-zon/actualTime.png');
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		-moz-background-size: 100% 100%;
+
+		p {
+			color: #fff;
+			font-size: 16px;
+			padding: 20px 0 0 24px;
+		}
+      }
+    }
+
+    .el-main {
+      padding: 0 0 0 10px;
+	  overflow: hidden;
+
+      .protection-zone-items {
+        width: $prowidth;
+        height: 559px;
+        border-radius: 5px;
+        background: url('../../../assets/img/protection-zon/protectArea.png');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        -moz-background-size: 100% 100%;
+		padding-top: 28px;
+		overflow: auto;
+
+        .el-row {
+          color: white;
+          height: 40px;
+          line-height: 40px;
+          font-size: 16px;
+          margin-left: 24px;
+			
+          .tool-text {
+            font-size: 15px;
+            text-align: right;
+
+            .color-red {
+              color: red;
+            }
+
+            .color-green {
+              color: #32e611;
+            }
+          }
+        }
+
+        .search-item {
+          height: 498px;
+          overflow: auto;
+          font-size: 16px;
+
+          .el-row:hover {
+            border: 2px #0E70AF solid;
+            box-shadow: inset 0 0 20px #0E70AF;
+          }
+
+          .el-row {
+            color: white;
+            font-size: 16px;
+			margin-bottom: 0;
+
+            .el-col {
+              font-size: 14PX;
+
+              .color-green {
+                color: #19be6b;
+              }
+            }
+
+            .item-btn {
+              text-align: right;
+              padding-right: 10%;
+
+              .el-button {
+                background: none;
+                border: 0.04444rem solid #00aaff;
+                color: #37a8ff;
+              }
+
+			  .activeClick {
+				  color: #ffd36a;
+			  }
+            }
+          }
+        }
+
+        // margin-bottom: 0px;
+      }
+
+      .protection-zone-items-bottom {
+        width: $prowidth;
+		// width: 310px;
+        height: 208px;
+        border-radius: 5px;
+        // background: #141A26;
+        // border: 1PX solid #D3DEE6;
+		background: url('../../../assets/img/protection-zon/oneProtection.png')
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		padding-top: 28px;
+
+        .el-row {
+          color: white;
+          height: 40px;
+          line-height: 40px;
+          font-size: 14px;
+		  margin-left: 24px;
+        }
+
+        .search-item {
+          margin-top: 14px;
+
+          .el-row {
+            margin-left: 20px;
+            margin-bottom: 20px;
+			font-size: 12px;
           }
 
           img {

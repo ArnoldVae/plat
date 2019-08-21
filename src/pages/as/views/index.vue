@@ -161,7 +161,6 @@
 </template>
 <script>
 // 地图使用的指令
-import { center } from '@/directives/directive.js'
 import echarts from 'echarts'
 import mapComponent from '@/components/native/mapComponent/mapComponent'
 export default {
@@ -365,8 +364,18 @@ export default {
   watch: {},
   computed: {},
   directives: {
-    center
-  }
+    'center': {
+      bind(el) {
+        el.style.marginLeft = `${-el.offsetWidth / 2}px`
+      },
+      inserted(el) {
+        el.style.marginLeft = `${-el.offsetWidth / 2}px`
+      },
+      update(el) {
+        el.style.marginLeft = `${-el.offsetWidth / 2}px`
+      }
+    }
+  },
 }
 </script>
 <style lang="stylus">

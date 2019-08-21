@@ -93,13 +93,9 @@
 
 <script>
 import Overlay from '../overlays/Overlay.vue'
-import { center } from '../../../../pages/ac/directive/directives'
 export default {
 	name: 'bm-rich-marker',
 	components: { 'bm-overlay': Overlay },
-	directives: {
-		center
-	},
 	data() {
 		return {
 			iconStyle: {
@@ -183,6 +179,19 @@ export default {
 				}
 				this.iconStyle = `background-image: url(${this.icon.url ||
 					''}); height: ${height}px; width: ${width}px;`
+			}
+		}
+	},
+	directives: {
+		'center': {
+			bind(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			},
+			inserted(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			},
+			update(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
 			}
 		}
 	},

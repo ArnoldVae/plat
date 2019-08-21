@@ -1,6 +1,11 @@
 <template>
 	<div class="inspectionTaskList">
 		<div class="inspectionTicket">
+			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+				<el-form-item label="任务名称" prop="taskName">
+				    <el-input v-model="ruleForm.taskName" placeholder="请输入任务名称"></el-input>
+				</el-form-item>
+			</el-form>
 			<el-table :data="modalInspectionTaskTableData" max-height="630" :span-method="objectSpanMethod" :header-cell-style="{ background: '#0d2a68', color: '#2c87e6' , fontSize: '14px' }">
 				<el-table-column prop="area" label="区域" align="center" width="80"></el-table-column>
 				<el-table-column prop="interval" label="间隔" align="center" width="80"></el-table-column>
@@ -16,8 +21,8 @@
 			</el-table>
 			<!-- 底部 按钮 -->
 			<div class="modalFooterBtn">
-				<input type="button" value="执行任务" class="btn"/>
-				<input type="button" value="取消" class="btn" @click="closeClick"/>
+				<input type="button" value="保存" class="btn" @click="saveClick('ruleForm')"/>
+				<input type="button" value="取消" class="btn" @click="closeClick('ruleForm')"/>
 			</div>
 		</div>
 	</div>
@@ -39,7 +44,16 @@ export default {
 		return {
 			devOrInspec: false,
 			//巡检成票表格数据
-			inspectionAticketData: []
+			inspectionAticketData: [],
+			ruleForm:{
+				taskName: ''
+			},
+			rules: {
+				taskName: [
+					{ required: true, message: '任务名称为必填项', trigger: 'blur' },
+				]
+			}
+			
 		}
 	},
 	computed: {},
@@ -107,23 +121,19 @@ export default {
 			})
 			return spanArr
 		},
-		//点击巡检任务单某一行
-		rowCliCk(row, column) {
-			let str = column.label.substring(0, 2)
-			if (str == '室外') {
-				row.outdoor_ground = !row.outdoor_ground
-			} else if (str == '室内') {
-				row.indoor = !row.ndoor
-			} else if (str == '高清') {
-				row.camera = !row.camera
-			} else if (str == '智辅') {
-				row.zhifu = !row.zhifu
-			} else if (str == '无人') {
-				row.uav = !row.uav
-			}
+		//点击保存按钮
+		saveClick(formName) {
+			 this.$refs[formName].validate((valid) => {
+				if (valid) {
+					let name = this.ruleForm.taskName
+					this.$emit( 'saveClick' , name )
+					this.$refs[formName].resetFields()
+				}
+			})
 		},
 		//点击取消按钮
-		closeClick() {
+		closeClick(formName) {
+			this.$refs[formName].resetFields()
 			this.$emit( 'closeAddTaskNext' )
 		},
 		//点击 执行任务 按钮
@@ -285,6 +295,14 @@ export default {
 
 			span {
 				margin-right: 15px;
+			}
+		}
+		
+		/deep/.el-form{
+			width: 957px;
+			margin-top: 20px;
+			/deep/.el-form-item__label{
+				color:#fff;
 			}
 		}
 	}

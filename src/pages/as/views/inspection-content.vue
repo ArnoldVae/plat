@@ -25,8 +25,8 @@
 							@click="changeView(item.view, item.id)"
 							:class="{
 								changeStyle: item.id == currentIndex,
-								grey: item.id == 3 || item.id == 4 || item.id == 5,
-								banner: item.id == 3 || item.id == 4 || item.id == 5
+								grey: item.id == 3 || item.id == 4,
+								banner: item.id == 3 || item.id == 4
 							}"
 						>{{ item.name }}</li>
 					</ul>
@@ -47,12 +47,14 @@
 <script>
 import monitor from './monitor'
 import record from './record'
+import taskManage from './taskManage'
 import { debuglog } from 'util'
 export default {
   name: 'inspection-content',
   components: {
     monitor,
-    record
+    record,
+    taskManage
   },
   props: {},
   data() {
@@ -84,7 +86,7 @@ export default {
         {
           id: 5,
           name: '任务管理',
-          view: 'record'
+          view: 'taskManage'
         }
       ],
       unitId: '',

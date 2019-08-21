@@ -368,7 +368,7 @@ export default {
 		handleClickNode(data, node, root) {
 			// 更新当前模块单元id
 			this.$store.commit('UPDATE_UNITID', data.id)
-			// console.log(this.$store.getters.unitId)
+			console.log(this.$store.getters.unitId)
 
 			// 如果匹配到最根级则返回
 			if (data.id == this.data[0]['id']) {

@@ -11,25 +11,25 @@
 
 			<!-- 无角标版本 -->
 			<!-- <bm-overlay
-        @click="markerClick({$event, item})"
-        v-bind="item"
-        v-for="item in markerList"
-        :key="item.unitId"
-      >
-        <div class="rich">
-          <div
-            class="rich-icon"
-            :style="{
-                    backgroundImage: 'url(' + item.url+ ')', 
-                    height: convertPxToRem(item.size.height), 
-                    width: convertPxToRem(item.size.width)
-                  }"
-          ></div>
-          <div class="rich-label">
-            <div v-center v-text="item.label"></div>
-          </div>
-        </div>
-      </bm-overlay>-->
+		@click="markerClick({$event, item})"
+		v-bind="item"
+		v-for="item in markerList"
+		:key="item.unitId"
+	  >
+		<div class="rich">
+		  <div
+			class="rich-icon"
+			:style="{
+					backgroundImage: 'url(' + item.url+ ')', 
+					height: convertPxToRem(item.size.height), 
+					width: convertPxToRem(item.size.width)
+				  }"
+		  ></div>
+		  <div class="rich-label">
+			<div v-center v-text="item.label"></div>
+		  </div>
+		</div>
+	  </bm-overlay>-->
 		</baidu-map>
 		<!-- 搜索站点悬浮框 -->
 		<div class="search-ctn">
@@ -117,8 +117,6 @@
 </template>
 
 <script>
-// 地图使用的指令
-import { center } from '@/directives/directive.js'
 export default {
 	props: {
 		moduleNames: {
@@ -185,6 +183,19 @@ export default {
 			topicArr: ['qif/zf/app/'],
 			stationFlag: false,
 			stationTitle: '名称'
+		}
+	},
+	directives: {
+		'center': {
+			bind(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			},
+			inserted(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			},
+			update(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			}
 		}
 	},
 	methods: {
@@ -456,8 +467,18 @@ export default {
 		// })
 	},
 	directives: {
-		center
-	}
+		'center': {
+			bind(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			},
+			inserted(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			},
+			update(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			}
+		}
+	},
 }
 </script>
 
@@ -513,261 +534,261 @@ export default {
   position: relative;
 
   .map {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 
-    .border-lt {
-      position: absolute;
-      top: -7px;
-      left: -7px;
-      width: 35px;
-      height: 30px;
-      background: url('~@/assets/img/common/border-lt.png') no-repeat;
-      background-size: 35px 30px;
-    }
+	.border-lt {
+	  position: absolute;
+	  top: -7px;
+	  left: -7px;
+	  width: 35px;
+	  height: 30px;
+	  background: url('~@/assets/img/common/border-lt.png') no-repeat;
+	  background-size: 35px 30px;
+	}
 
-    .border-rb {
-      position: absolute;
-      bottom: -7px;
-      right: -7px;
-      width: 35px;
-      height: 30px;
-      background: url('~@/assets/img/common/border-rb.png') no-repeat;
-      background-size: 35px 30px;
-    }
+	.border-rb {
+	  position: absolute;
+	  bottom: -7px;
+	  right: -7px;
+	  width: 35px;
+	  height: 30px;
+	  background: url('~@/assets/img/common/border-rb.png') no-repeat;
+	  background-size: 35px 30px;
+	}
   }
 
   .search-ctn {
-    position: absolute;
-    width: 260px;
-    height: 352px;
-    right: 14px;
-    top: 12px;
-    border: 2px solid #0d7ec5;
-    background: rgba(54, 105, 134, 0.2);
-    padding: 8px 3px 10px 13px;
+	position: absolute;
+	width: 260px;
+	height: 352px;
+	right: 14px;
+	top: 12px;
+	border: 2px solid #0d7ec5;
+	background: rgba(54, 105, 134, 0.2);
+	padding: 8px 3px 10px 13px;
 
-    .selectOrg {
-      width: 100%;
-      margin-bottom: 20px;
+	.selectOrg {
+	  width: 100%;
+	  margin-bottom: 20px;
 
-      // 下拉选择样式修改
-      .el-select {
-        width: 231px;
-      }
+	  // 下拉选择样式修改
+	  .el-select {
+		width: 231px;
+	  }
 
-      .el-select .el-input .el-select__caret {
-        color: #5ac9ff;
-      }
+	  .el-select .el-input .el-select__caret {
+		color: #5ac9ff;
+	  }
 
-      .el-input__icon {
-        line-height: 32px;
-        width: 20px;
-      }
+	  .el-input__icon {
+		line-height: 32px;
+		width: 20px;
+	  }
 
-      .el-select .el-input .el-select__caret {
-        font-size: 16px;
-      }
+	  .el-select .el-input .el-select__caret {
+		font-size: 16px;
+	  }
 
-      .el-input__inner:hover {
-        border-color: #4ba5de;
-      }
-    }
+	  .el-input__inner:hover {
+		border-color: #4ba5de;
+	  }
+	}
 
-    .selectRcu {
-      width: 232px;
-      color: #45adf7;
-      margin-bottom: 20px;
+	.selectRcu {
+	  width: 232px;
+	  color: #45adf7;
+	  margin-bottom: 20px;
 
-      .el-input__prefix, .el-input__suffix {
-        color: #009dff;
-        font-size: 18px;
-        line-height: 34px;
-        font-weight: 700;
-      }
+	  .el-input__prefix, .el-input__suffix {
+		color: #009dff;
+		font-size: 18px;
+		line-height: 34px;
+		font-weight: 700;
+	  }
 
-      .el-input__inner:hover {
-        border-color: #4ba5de;
-      }
+	  .el-input__inner:hover {
+		border-color: #4ba5de;
+	  }
 
-      .el-input__icon {
-        line-height: 34px;
-        color: #33a6e1;
-      }
-    }
+	  .el-input__icon {
+		line-height: 34px;
+		color: #33a6e1;
+	  }
+	}
 
-    .selectLevel {
-      width: 232px;
-      margin-bottom: 15px;
-      display: flex;
-      flex-direction: row;
-      // justify-content: space-between;
-      justify-content: flex-start;
+	.selectLevel {
+	  width: 232px;
+	  margin-bottom: 15px;
+	  display: flex;
+	  flex-direction: row;
+	  // justify-content: space-between;
+	  justify-content: flex-start;
 
-      span {
-        display: inline-block;
-        width: 50px;
-        height: 30px;
-        line-height: 30px;
-        color: #45ade8;
-        margin-right: 10px;
-        text-align: center;
-        background-color: rgba(9, 32, 47, 0.6);
-        border: 2px solid #3076a2;
-        color: #45adf7;
-        border-radius: 2px;
-        cursor: pointer;
-      }
+	  span {
+		display: inline-block;
+		width: 50px;
+		height: 30px;
+		line-height: 30px;
+		color: #45ade8;
+		margin-right: 10px;
+		text-align: center;
+		background-color: rgba(9, 32, 47, 0.6);
+		border: 2px solid #3076a2;
+		color: #45adf7;
+		border-radius: 2px;
+		cursor: pointer;
+	  }
 
-      .levelSpanActive {
-        border-color: #1199f1;
-        background-color: rgba(9, 32, 47, 1);
-      }
-    }
+	  .levelSpanActive {
+		border-color: #1199f1;
+		background-color: rgba(9, 32, 47, 1);
+	  }
+	}
 
-    .rcuTable {
-      width: 232px;
-      height: 175px;
-      border: 1px solid #206794;
+	.rcuTable {
+	  width: 232px;
+	  height: 175px;
+	  border: 1px solid #206794;
 
-      .thBox {
-        width: 100%;
-        height: 26px;
-        line-height: 26px;
-        display: flex;
-        justify-content: flex-start;
-        flex-direction: row;
-        color: #49b6fa;
-        font-size: 15px;
-        background-color: rgba(7, 36, 63, 0.6);
+	  .thBox {
+		width: 100%;
+		height: 26px;
+		line-height: 26px;
+		display: flex;
+		justify-content: flex-start;
+		flex-direction: row;
+		color: #49b6fa;
+		font-size: 15px;
+		background-color: rgba(7, 36, 63, 0.6);
 
-        .td1 {
-          width: 90px;
-          text-align: center;
-        }
+		.td1 {
+		  width: 90px;
+		  text-align: center;
+		}
 
-        .td2 {
-          width: 104px;
-          text-align: center;
-        }
+		.td2 {
+		  width: 104px;
+		  text-align: center;
+		}
 
-        .td3 {
-          width: calc(100% - 194px);
-          text-align: center;
-        }
-      }
+		.td3 {
+		  width: calc(100% - 194px);
+		  text-align: center;
+		}
+	  }
 
-      .tableBox {
-        width: 100%;
-        height: calc(100% - 26px);
-        overflow: auto;
+	  .tableBox {
+		width: 100%;
+		height: calc(100% - 26px);
+		overflow: auto;
 
-        table {
-          width: 100%;
+		table {
+		  width: 100%;
 
-          tr {
-            width: 100%;
-            height: 26px;
-            line-height: 26px;
-            background-color: rgba(7, 34, 60, 0.5);
-            color: #5ba0e3;
+		  tr {
+			width: 100%;
+			height: 26px;
+			line-height: 26px;
+			background-color: rgba(7, 34, 60, 0.5);
+			color: #5ba0e3;
 
-            .td1 {
-              width: 90px;
-              text-align: center;
-            }
+			.td1 {
+			  width: 90px;
+			  text-align: center;
+			}
 
-            .td2 {
-              width: 104px;
-              text-align: center;
-            }
+			.td2 {
+			  width: 104px;
+			  text-align: center;
+			}
 
-            .td3 {
-              width: calc(100% - 194px);
-              text-align: center;
-              cursor: pointer;
-            }
-          }
+			.td3 {
+			  width: calc(100% - 194px);
+			  text-align: center;
+			  cursor: pointer;
+			}
+		  }
 
-          .tabEven {
-            background-color: rgba(7, 34, 60, 0.9);
-          }
+		  .tabEven {
+			background-color: rgba(7, 34, 60, 0.9);
+		  }
 
-          .noRcuSow {
-            color: #49b6fa;
-            font-size: 16px;
-            background-color: rgba(10, 16, 44, 0.5);
-            text-align: center;
-            height: 60px;
-            line-height: 60px;
-          }
-        }
-      }
-    }
+		  .noRcuSow {
+			color: #49b6fa;
+			font-size: 16px;
+			background-color: rgba(10, 16, 44, 0.5);
+			text-align: center;
+			height: 60px;
+			line-height: 60px;
+		  }
+		}
+	  }
+	}
   }
 
   .legend {
-    position: absolute;
-    width: 240px;
-    height: 230px;
-    right: 14px;
-    bottom: 12px;
-    border: 2px solid #0d7ec5;
-    background: rgba(54, 105, 134, 0.2);
-    padding: 8px 3px 10px 13px;
+	position: absolute;
+	width: 240px;
+	height: 230px;
+	right: 14px;
+	bottom: 12px;
+	border: 2px solid #0d7ec5;
+	background: rgba(54, 105, 134, 0.2);
+	padding: 8px 3px 10px 13px;
 
-    h3 {
-      color: #fff;
-      font-size: 20px;
-    }
+	h3 {
+	  color: #fff;
+	  font-size: 20px;
+	}
 
-    >div {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
+	>div {
+	  display: flex;
+	  justify-content: space-around;
+	  align-items: center;
 
-      >img {
-        width: 80px;
-        height: 64px;
-      }
+	  >img {
+		width: 80px;
+		height: 64px;
+	  }
 
-      >span {
-        color: #fff;
-      }
-    }
+	  >span {
+		color: #fff;
+	  }
+	}
   }
 
   .legend1 {
-    position: absolute;
-    width: 240px;
-    height: 230px;
-    right: 14px;
-    bottom: 12px;
-    border: 2px solid #0d7ec5;
-    background: rgba(54, 105, 134, 0.2);
-    padding: 8px 3px 10px 13px;
+	position: absolute;
+	width: 240px;
+	height: 230px;
+	right: 14px;
+	bottom: 12px;
+	border: 2px solid #0d7ec5;
+	background: rgba(54, 105, 134, 0.2);
+	padding: 8px 3px 10px 13px;
 
-    h3 {
-      color: #fff;
-      font-size: 20px;
-    }
+	h3 {
+	  color: #fff;
+	  font-size: 20px;
+	}
 
-    >div {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
+	>div {
+	  display: flex;
+	  justify-content: space-around;
+	  align-items: center;
 
-      >img {
-        width: 70px;
-        height: 30px;
-        margin-top: 20px;
-      }
+	  >img {
+		width: 70px;
+		height: 30px;
+		margin-top: 20px;
+	  }
 
-      >span {
-        color: #fff;
-        margin-top: 20px;
-      }
-    }
+	  >span {
+		color: #fff;
+		margin-top: 20px;
+	  }
+	}
   }
 }
 </style>

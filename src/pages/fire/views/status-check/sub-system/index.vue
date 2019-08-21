@@ -129,7 +129,8 @@
 									</el-col>
 									<el-col :span="6">
 										<el-button
-											@click="showSysDetail(item)"
+                                            :class="activeIndex==index? 'activeClick':''"
+											@click="showSysDetail(item,index)"
 											type="primary"
 											size="mini"
 											v-show="item.areaList.length == 0"
@@ -145,7 +146,7 @@
 												<span class="color-green">●</span>{{ i.vc_Name }}
 											</el-col>
 											<el-col :span="6">
-												<el-button size="mini" @click="showSysDetail(i)">查看</el-button>
+												<el-button size="mini" @click="showSysDetail(i,n)" :class="activeIndex==n? 'activeClick':''">查看</el-button>
 											</el-col>
 										</el-row>
 									</li>
@@ -175,6 +176,7 @@ export default {
 	},
 	data() {
 		return {
+            activeIndex: null,//控制查看按钮的激活样式
 			pageType:true,//控制端口号5200和3200的切换
 			showFlag: true, //显示视频或者图片判断标志
 			videoConfig: {
@@ -327,11 +329,14 @@ export default {
 		 * para  item：为当前对象，
 		 */
 
-		showSysDetail(item) {
+		showSysDetail(item,index) {
 			//处理水喷雾逻辑（水喷雾显示图片，其他显示视频）
 			this.showFlag = item.subSystemId == 90010014 ? true : false
 			this.getLightItem(item)
-			//			this.getHtMap(item)
+            //			this.getHtMap(item)
+            
+            //控制查看按钮的激活样式
+            this.activeIndex = index
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -351,7 +356,8 @@ export default {
 }
 
 .color-green {
-	color: #19be6b;
+	color: #58b229;
+    margin: 0 10px;
 }
 </style>
 
@@ -780,7 +786,7 @@ export default {
 
                     .item-list {
                         height: 360px;
-                        overflow: hidden;
+                        overflow: auto;
 						margin-left 0!important;
                         .el-row {
 							padding: 0 0 0 20px;
@@ -788,15 +794,16 @@ export default {
                                 .item-list-single {
                                     text-align: center;
                                     color: #90d9ff;
-                                    width: 136px;
-                                    font-size: 14px
-                                    background: rgba(54, 105, 134, 0.3);
-                                    margin-bottom: 8px;
-                                    border 1PX solid
-                                    // height 3.2rem
-									// height 50px;
-									// line-height 50px;
-									// padding 0 15px;
+                                    width: 6.04444rem;
+                                    font-size: 0.62222rem;
+                                    background: rgba(54,105,134,0.3);
+                                    line-height: 24px;
+                                    height: 64px;
+                                    vertical-align: middle;
+                                    display: table-cell;
+                                    // margin-bottom: 0.35556rem;
+                                    border: 1PX solid;
+
                                 }
 
                                 .item-list-single-err {
@@ -824,18 +831,11 @@ export default {
 					height 248px;
                     font-size: 36PX;
 					margin: 22px 0 0 10px;
-                    // margin-left: 10px;
-                    // background: #141A26;
-                    // border: 1PX solid #D3DEE6;
                     background url("~@/assets/img/common/bg-info.png") 
 					background-repeat: no-repeat;
                     background-size: 100% 100%;
                     -moz-background-size: 100% 100%;
-                    // display: flex;
-                    // flex-direction: column;
-                    // justify-content flex-start
-                    // align-items: center;
-
+                    overflow: auto;
                     > li {
                         color: #90d9ff;
                         // width: 50%;
@@ -879,22 +879,18 @@ export default {
                 }
 
                 .sub-system-bottom-right {
-                    // height: 104%;
-                    // width: 59%;
 					width: 516px;
 					height: 248px;
                     font-size: 36PX;
 					margin 22px 10px 0 10px;
                     background: url("../../../assets/img/weibao.png")
-                    // background: #141A26;
-                    // border: 1PX solid #D3DEE6;
 					background-repeat: no-repeat;
                     background-size: 100% 100%;
                     -moz-background-size: 100% 100%;
                     display: flex;
                     flex-direction: column;
-                    // justify-content flex-start
                     align-items: center;
+                    overflow: auto;
 
                     > li {
                         color: #90d9ff;
@@ -1000,12 +996,16 @@ export default {
                                 color: #37a8ff;
 								font-size: 12px;
                             }
+
+                            .activeClick {
+                                color: #ffd36a!important;
+                            }
                         }
                     }
 
                     .el-row {
                         cursor: pointer;
-                        margin-bottom: 20PX;
+                        margin: 10PX 0;
 						// line-height 48px;
                         .el-col {
                             font-size: 14PX;

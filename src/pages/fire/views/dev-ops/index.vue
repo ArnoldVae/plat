@@ -1,47 +1,45 @@
 <template>
-	<div class="dev-ops" :class="{ 'new-color': pageType }">
-		<el-container>
-			<!-- <el-aside width="15%" >
-                <el-filter-tree
-                        placeholder="输入关键字进行过滤"
-                        v-model="filterText"
-                        ref="elFilterTree"
-                        :data="treeData"
-                        :props="defaultProps"
-                        default-expand-all
-                        :filter-node-method="filterNode"
-                        highlight-current
-                        @node-click="handleClickNode"
-                ></el-filter-tree>
-            </el-aside>-->
-			<el-main>
-				<div class="el-main-header">
-					<el-row>
-						<el-col :span="24">
-							<div
-								class="fire-header-title"
-								:class="{ 'fire-header-active': tab.active == true }"
-								@click="tabChange(tab)"
-								v-for="(tab, i) in tabList"
-								:key="i"
-							>
-								{{ tab.title }}
-							</div>
-						</el-col>
-					</el-row>
-				</div>
-				<div class="el-main-content">
-					<component
-						ref="sunMethod"
-						v-bind:is="current"
-						@transfer="getMethod"
-						:node="alarmNode"
-						@receiveAlarm="receiveAlarm"
-					></component>
-				</div>
-			</el-main>
-		</el-container>
-	</div>
+  <div class="dev-ops" :class="{ 'new-color': pageType }">
+    <el-container>
+      <el-aside width="15%">
+        <el-filter-tree
+          placeholder="输入关键字进行过滤"
+          v-model="filterText"
+          ref="elFilterTree"
+          :data="treeData"
+          :props="defaultProps"
+          default-expand-all
+          :filter-node-method="filterNode"
+          highlight-current
+          @node-click="handleClickNode"
+        ></el-filter-tree>
+      </el-aside>
+      <el-main>
+        <div class="el-main-header">
+          <el-row>
+            <el-col :span="24">
+              <div
+                class="fire-header-title"
+                :class="{ 'fire-header-active': tab.active == true }"
+                @click="tabChange(tab)"
+                v-for="(tab, i) in tabList"
+                :key="i"
+              >{{ tab.title }}</div>
+            </el-col>
+          </el-row>
+        </div>
+        <div class="el-main-content">
+          <component
+            ref="sunMethod"
+            v-bind:is="current"
+            @transfer="getMethod"
+            :node="alarmNode"
+            @receiveAlarm="receiveAlarm"
+          ></component>
+        </div>
+      </el-main>
+    </el-container>
+  </div>
 </template>
 <script>
 import maintaining from './main-taining'
@@ -75,18 +73,18 @@ export default {
 				label: 'label'
 			},
 			tabList: [
-				{
-					title: '灭火装置巡视',
-					id: '01',
-					code: 'sub-system', //菜单对应code
-					active: false
-				},
-				{
-					title: '防护区巡视',
-					id: '02',
-					code: 'protection-zone',
-					active: false
-				},
+				// {
+				// 	title: '灭火装置巡视',
+				// 	id: '01',
+				// 	code: 'sub-system', //菜单对应code
+				// 	active: false
+				// },
+				// {
+				// 	title: '防护区巡视',
+				// 	id: '02',
+				// 	code: 'protection-zone',
+				// 	active: false
+				// },
 
 				{
 					title: '消防设备台账',
@@ -114,7 +112,7 @@ export default {
 	filters: {},
 	watch: {},
 	created() {
-		// this.getOrganization()
+		this.getOrganization()
 	},
 	mounted() {
 		console.log(this.pageType)
@@ -134,6 +132,7 @@ export default {
 				treeFlag: '2'
 			})
 			if (result.success) {
+				console.log(result.data)
 				this.treeData = result.data
 			} else {
 				this.treeData = []
@@ -187,73 +186,85 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .new-color {
+  height: 980px !important;
+
+  .el-aside {
+    background: #141a26;
     height: 980px !important;
+    margin-top: 27px;
+  }
 
-    .el-aside {
-        background: #141a26;
-        height: 980px !important;
-    }
-
-    .el-main .el-main-content {
-        border: 4PX solid #d3dee6;
-        height: 972px !important;
-    }
+  .el-main .el-main-content {
+    border: 4PX solid #d3dee6;
+    height: 972px !important;
+  }
 }
 
 .dev-ops {
-    height: 830px;
-    overflow: hidden;
-    font-size: 30PX
+  width:1900px;
+  height: 900px;
+  overflow: hidden;
+  margin-left:12px;
+
+  .el-container {
+	height:890px;
+    .el-aside {
+		margin-top:27px;
+    }
 
     .el-main {
-        padding: 21PX 0 0 0;
+      padding: 21PX 0 0 0;
+      width: 85%;
+	  margin-left:15px;
+      .el-main-header {
+        min-height: 50px;
+        width: 100%;
+        position: relative;
+        background: url('../../assets/img/threemenu.png') no-repeat;
+        background-size: 100% 100%;
+        line-height: 50px;
 
-        .el-main-header {
-            min-height: 50px;
-            width: 100%;
+        .el-row {
+          // margin-top: 12px;
+          margin-bottom: 12px;
+
+          .fire-header-sub-title {
+            font-size: 22px;
+            color: white;
+            margin: 36px;
+            cursor: pointer;
+          }
+
+          .fire-header-title {
+            color: #37a8ff;
+            font-size: 16PX;
+            cursor: pointer;
+            width: 240px;
+            float: left;
+            text-align: center;
+          }
+
+          .fire-header-active {
+            color: #f6ce69;
+          }
+
+          .point {
             position: relative;
-            background: url('~@fire/assets/img/main/bg-long.png');
-            background-size: 100% 100%;
-            line-height: 50px;
-
-            .el-row {
-                // margin-top: 12px;
-                margin-bottom: 12px;
-
-                .fire-header-sub-title {
-                    font-size: 22px;
-                    color: white;
-                    margin: 36px;
-                    cursor: pointer;
-                }
-
-                .fire-header-title{
-                    color #fff
-                    font-size 36PX
-                    cursor pointer
-                    width  240px
-                    float left
-                    text-align center
-
-
-                }
-                .fire-header-active{
-                    background url('../../assets/img/main/bg-menu.png')
-                    background-size 100% 100%;
-                }
-                .point {
-                    position: relative;
-                    left: 2.5%;
-                    margin-right: 10px;
-                }
-            }
+            left: 2.5%;
+            margin-right: 10px;
+          }
         }
+      }
 
-        .el-main-content {
-            height: 750px;
-            width: 100%;
-            position: relative;
-        }
+      .el-main-content {
+        height: 800px;
+        width: 100%;
+        position: relative;
+		background: url("~@/assets/img/common/wai.png")
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+      }
     }
+  }
 }
 </style>

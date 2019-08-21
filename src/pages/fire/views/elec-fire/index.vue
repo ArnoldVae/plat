@@ -1,28 +1,26 @@
 <template>
-	<div class="elecFire">
-		<el-container style="height: 1850px">
-			<el-main>
-				<div class="el-main-header">
-					<el-row>
-						<el-col :span="24">
-							<div
-								class="fire-header-title"
-								:class="{ 'fire-header-active': tab.active == true }"
-								@click="tabChange(tab)"
-								v-for="(tab, i) in tabList"
-								:key="i"
-							>
-								{{ tab.title }}
-							</div>
-						</el-col>
-					</el-row>
-				</div>
-				<div class="el-main-content">
-					<component ref="sunMethod" v-bind:is="current"></component>
-				</div>
-			</el-main>
-		</el-container>
-	</div>
+  <div class="elecFire">
+    <el-container class="el-comtanier">
+      <el-main>
+        <div class="el-main-header">
+          <el-row>
+            <el-col :span="24">
+              <div
+                class="fire-header-title"
+                :class="{ 'fire-header-active': tab.active == true }"
+                @click="tabChange(tab)"
+                v-for="(tab, i) in tabList"
+                :key="i"
+              >{{ tab.title }}</div>
+            </el-col>
+          </el-row>
+        </div>
+        <div class="el-main-content">
+          <component ref="sunMethod" v-bind:is="current"></component>
+        </div>
+      </el-main>
+    </el-container>
+  </div>
 </template>
 
 <script>
@@ -117,67 +115,66 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .elecFire {
-//   margin: 20px 20px 0 20px;
-  width: 1747px;
-  	.el-main{
-            overflow hidden
-            padding-bottom: 0
-			padding 0
-			// margin-top -20px
-			.el-main-header{
-				min-height 50px
-				width: 100%;
-				position relative
-				background url('../../assets/img/main/bg-long.png');
-				background-size 100% 100%;
-				line-height 50px;
-				.el-row{
-					margin-top 12px
-					margin-bottom  12px
-					.fire-header-sub-title{
-						font-size 14px
-						color white
-						margin 36px
-						cursor pointer
+  width: 1900px;
+  margin-left: 10px;
+  .el-container {
+	  height 900px;
+    .el-main {
+      overflow: hidden;
+      padding-bottom: 0;
+      padding: 0;
 
-					}
+      // margin-top -20px
+      .el-main-header {
+        min-height: 50px;
+        width: 100%;
+        position: relative;
+        background: url('../../assets/img/threemenu.png') no-repeat;
+        background-size: 100% 100%;
+        line-height: 50px;
 
-                  .fire-header-title{
-                    color #fff
-                    font-size 36PX
-                    cursor pointer
-                    width  240px
-                    float left
-                    text-align center
+        .el-row {
+          margin-top: 12px;
+          margin-bottom: 12px;
 
+          .fire-header-sub-title {
+            font-size: 14px;
+            color: white;
+            margin: 36px;
+            cursor: pointer;
+          }
 
-                  }
-                  .fire-header-active{
-                    background url('../../assets/img/main/bg-menu.png')
-                    background-size 100% 100%;
-                  }
-					.point{
-						position: relative
-						left 2.5%
-						margin-right 10px
+          .fire-header-title {
+            color: #37a8ff;
+            font-size: 16px;
+            cursor: pointer;
+            width: 240px;
+            float: left;
+            text-align: center;
+          }
 
-					}
-				}
+          .fire-header-active {
+            color: #f6ce69;
+          }
 
-			}
-			.el-main-content{
-				margin-top 10px;
-				height 770px
-				width: 100%;
+          .point {
+            position: relative;
+            left: 2.5%;
+            margin-right: 10px;
+          }
+        }
+      }
 
-				position relative
-
-				// background url("../../assets/img/hull.png")
-				background-size:100% 100%
-				-moz-background-size:100% 100%
-			}
-
-
-		}
+      .el-main-content {
+        margin-top: 10px;
+        height: 810px;
+        width: 100%;
+        position: relative;
+        // background url("../../assets/img/hull.png")
+        background-size: 100% 100%;
+        -moz-background-size: 100% 100%;
+      }
+    }
+  }
 }
 </style>
