@@ -76,13 +76,22 @@ let listen = (key, fn) => {
 	}
 	messageQueue[key] = fn
 }
+// 断开事件订阅池
+let stop = (key) => {
+	if (!messageQueue[key]) {
+		messageQueue[key] = []
+	}
+	messageQueue[key] = () => {
+		console.log(`已断开${key}组件的MQTT事件池~！`)
+	}
+}
 let trigger = (topic, message, packet) => {
 	Object.keys(messageQueue).map(key => {
 		messageQueue[key].apply(this, [topic, message, packet])
 	})
 }
 
-export { client, listen }
+export { client, listen, stop }
 
 // 监听
 /*client.on('message', function (topic, message, packet) {

@@ -8,7 +8,7 @@
 					ref="elFilterTree"
 					:data="treeData"
 					:props="defaultProps"
-					:current-node-key="$store.getters.unitId"
+					:current-node-key="activeUnitId"
 					node-key="id"
 					default-expand-all
 					:filter-node-method="filterNode"
@@ -170,6 +170,10 @@ export default {
 			})
 			tab.active = true
 			this.current = tab.code
+
+			setTimeout(() => {
+				this.$refs.sunMethod.init()
+			}, 100);
 		},
 		// 点击树节点
 		handleClickNode(data, node, root) {

@@ -1,6 +1,7 @@
 const getters = {
-	number: state => state.test.count,
-	unitId: state => state.frame.unitId
+	unitId: state => state.frame.unitId,
+	appTopic: state => state.frame.appTopic,
+	controlTopic: state => state.frame.controlTopic
 }
 
 export default getters

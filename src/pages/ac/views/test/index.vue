@@ -14,6 +14,10 @@
 				<Icon type="md-pulse" />
 				通用指令测试
 			</MenuItem>
+			<MenuItem name="filter-test">
+				<Icon type="md-pulse" />
+				通用过滤器测试
+			</MenuItem>
 			<MenuItem name="other-test">
 				<Icon type="md-share-alt" />
 				其他测试
@@ -29,6 +33,7 @@
 import ocxModalTest from './ocx-modal-test.vue'
 import chartTest from './chart-test.vue'
 import directiveTest from './directive-test.vue'
+import filterTest from './filter-test.vue'
 import otherTest from './other-test.vue'
 export default {
 	name: 'test',
@@ -36,7 +41,8 @@ export default {
 		'ocx-modal-test': ocxModalTest,
 		'chart-test': chartTest,
 		'other-test': otherTest,
-		'directive-test': directiveTest
+		'directive-test': directiveTest,
+		'filter-test': filterTest
 	},
 	props: {},
 	data() {

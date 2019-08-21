@@ -50,16 +50,14 @@
 					<template slot-scope="scope">
 						<div class="control-wrap" v-if="scope.row.i_NodeType == 3 || scope.row.i_NodeType == 4">
 							<template v-for="item in transFunction(scope.row.vc_ValueDesc)">
-								<el-button size="mini" @click="handleControl(item.id, scope.row)">{{
-									item.label
-								}}</el-button>
+								<el-button size="mini" @click="handleControl(item.id, scope.row)">{{item.label}}</el-button>
 							</template>
 						</div>
 					</template>
 				</el-table-column>
 				<el-table-column label="操作" align="center">
 					<template slot-scope="scope">
-						<el-button size="mini" @click="handleViewHistory(scope.row)">历史数据</el-button>
+						<el-button v-if="scope.row.i_NodeType == 1 || scope.row.i_NodeType == 2" size="mini" @click="handleViewHistory(scope.row)">历史数据</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -176,7 +174,7 @@ export default {
 			axisLabelData: [],
 			series: [],
 			nodeStateHistory: [],
-			zStart: 0,
+			dataZoomStart: 0,
 			formatstr: '',
 			tableReset: true,
 			loading: false
@@ -328,11 +326,11 @@ export default {
 			// 设置默认时间 风速 风向 数据量过大 只取一小时
 			this.$set(this.formValidate.date, 0, new Date(Date.now() - 24 * 60 * 60 * 1000))
 			this.$set(this.formValidate.date, 1, new Date(Date.now()))
-			this.zStart = 0
+			this.dataZoomStart = 0
 			if (row.nodeName == '风速' || row.nodeName == '风向' || row.nodeName == '风级') {
 				this.$set(this.formValidate.date, 0, new Date(Date.now() - 1 * 60 * 60 * 1000))
 				this.$set(this.formValidate.date, 1, new Date(Date.now()))
-				this.zStart = 99
+				this.dataZoomStart = 99
 			}
 
 			await this.getHistoryByNodeId()
@@ -362,7 +360,7 @@ export default {
 					this.spanArr = []
 					this.position = 0
 					this.tableData = result.data.lists
-					console.log(this.tableData)
+					// console.log(this.tableData)
 					this.total = result.data.page.totalNum
 
 					this.rowFn()
@@ -574,7 +572,7 @@ export default {
 				// 		type: 'slider',
 				// 		xAxisIndex: 0,
 				// 		filterMode: 'empty',
-				// 		start: this.zStart,
+				// 		start: this.dataZoomStart,
 				// 		end: this.zEnd
 				// 	}
 				// ],
@@ -583,7 +581,7 @@ export default {
 						type: 'inside',
 						minValueSpan: 7,
 						minSpan: 20,
-						start: 0,
+						start: this.dataZoomStart,
 						end: 100
 					},
 					{

@@ -11,41 +11,8 @@ Vue.use(iView)
 
 // ElementUI 按需
 import {
-	Select,
-	Input,
-	Table,
-	Option,
-	Button,
-	TableColumn,
-	Tree,
-	Form,
-	FormItem,
-	Radio,
-	RadioGroup,
-	Checkbox,
-	CheckboxGroup,
-	Progress,
-	Loading,
-	Scrollbar
-} from 'element-ui'
-const ElementUI = [
-	Table,
-	Select,
-	Input,
-	Option,
-	Button,
-	TableColumn,
-	Tree,
-	Form,
-	FormItem,
-	Radio,
-	RadioGroup,
-	Checkbox,
-	CheckboxGroup,
-	Progress,
-	Loading,
-	Scrollbar
-]
+	Select,Input,Table,Option,Button,TableColumn,Tree,Form,FormItem,Radio,RadioGroup,Checkbox,CheckboxGroup,Progress,Loading,Scrollbar} from 'element-ui'
+const ElementUI = [Table,Select,Input,Option,Button,TableColumn,Tree,Form,FormItem,Radio,RadioGroup,Checkbox,CheckboxGroup,Progress,Loading,Scrollbar]
 
 // ElementDev 按需
 import { elFilterTree } from '@/components/element-dev'
@@ -82,9 +49,10 @@ import api from '@as/api'
 Vue.prototype.$_api = api
 
 // 当前模块全局 mqtt连接
-import { client, listen } from '@/config/mqtt'
+import { client, listen, stop } from '@/config/mqtt'
 Vue.prototype.$_mqtt = client
 Vue.prototype.$_listen = listen
+Vue.prototype.$_stop = stop
 
 //全局使用放大镜
 import VuePhotoZoomPro from 'vue-photo-zoom-pro'

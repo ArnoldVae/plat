@@ -1,15 +1,40 @@
 export default {
 	name: 'pin',
 	bind(el, binding) {
-		// 拿到修饰方向
 		let postion = binding.modifiers
-		console.log(binding)
 		if (binding.value) {
 			el.style.position = 'fixed'
 
-			if (postion == {}) {
+			if (JSON.stringify(postion) != '{}') {
+				el.style.transform = 'initial'
+				el.style.top = 'initial'
 				for (let key in postion) {
-					el.style[key] = '10px'
+					el.style[key] = '0px'
+				}
+			} else {
+				el.style.top = '50%'
+				el.style.transform = 'translateY(-50%)';
+				el.style.left = '50%'
+				el.style.transform = 'translateX(-50%)';
+			}
+
+			if (binding.arg === 'current') {
+				el.style.background = '#F14F9A'
+			}
+		} else {
+			el.style.position = 'static'
+		}
+	},
+	update(el, binding) {
+		let postion = binding.modifiers
+		if (binding.value) {
+			el.style.position = 'fixed'
+
+			if (JSON.stringify(postion) != '{}') {
+				el.style.transform = 'initial'
+				el.style.top = 'initial'
+				for (let key in postion) {
+					el.style[key] = '0px'
 				}
 			} else {
 				el.style.top = '50%'

@@ -195,6 +195,7 @@ export default {
 	},
 	created() {
 		this.getOrganization()
+		this.getVideoServe()
 		const $this = this
 		// $this.$api.dsqIntelligent.getDefaultInfo().then(defaultInfo => {
 		$this.$_api.getStaticData('./simulation-data/video-changeVideoTime.json').then(defaultInfo => {
@@ -205,6 +206,7 @@ export default {
 		const _this = this
 		// 初始化的时候，默认先加载每个视频容器
 		_this.setVideoScreen(_this.videoLen)
+
 		_this.loadSceneList(this.unitId)
 		_this.palyVideo(this.unitId)
 		window.pqw_this = this
@@ -222,8 +224,8 @@ export default {
 			})
 			if (result.success) {
 				this.unitId = result.data[0].id
-				console.log(this.unitId)
-				console.log(result)
+				// console.log(this.unitId)
+				// console.log(result)
 				this.data = result.data
 			} else {
 				this.data = []
@@ -258,7 +260,7 @@ export default {
 			}
 		},
 		selectIndex(val) {
-			// console.log(val);
+			console.log(val)
 			// alert(val)
 
 			this.selectIdx = val
@@ -278,10 +280,12 @@ export default {
 		},
 		//视频列表点击
 		selectMenuVideo(data) {
-			console.log(data)
 			this.videoComList[this.selectIdx].deviceInfo = data
-			this.videoComList[this.selectIdx].serviceInfo = this.videoSeviceUrl
+			// this.videoComList[this.selectIdx].serviceInfo = this.videoSeviceUrl
+			this.videoComList[this.selectIdx].serviceInfo = this.serviceInfo
+			this.videoComList[this.selectIdx].isAutoPlay = true
 			// this.videoComList[this.selectIdx].serviceInfo = "1$22.46.34.114$6800$admin$admin";
+			console.log(this.videoComList)
 		},
 		// 改变分屏
 		changePanel(len) {
@@ -298,6 +302,7 @@ export default {
 				}
 			}, 500)
 			// 获取视频列表
+			console.log(this.selectScene)
 			this.loadVideoList(this.selectScene)
 		},
 		// 根据指定分屏数量，展示分屏
@@ -307,7 +312,8 @@ export default {
 				this.videoComList.push({
 					isAutoPlay: false,
 					videoIdx: i,
-					serviceInfo: '',
+					// serviceInfo: '',
+					serviceInfo: this.serviceInfo,
 					deviceInfo: '',
 					hideTool: true
 				})
@@ -316,31 +322,45 @@ export default {
 		// 获取视频列表
 		loadVideoList(sceneID) {
 			const _this = this
-			// this.$api.dsqIntelligent
-			// 	.getVideoByScene(
-			// 		qs.stringify({
-			// 			sceneId: sceneID,
-			// 			stationId: this.unitId
-			// 		})
-			// 	)
-			// 	.then(res => {
-			_this.$_api.getStaticData('./simulation-data/video-list.json').then(res => {
-				if (res.data.ret == 0) {
-					if (res.data.data.length != 0) {
-						res.data.data.forEach(item => {
-							if (!!item.vc_Params3 && _this.serviceInfo == '') {
-								_this.serviceInfo = item.vc_Params3
-							}
+			// _this.$_api.getStaticData('./simulation-data/video-list.json').then(res => {
+			let params = {
+				sceneId: sceneID,
+				unitId: this.unitId
+			}
+			if(this.videoShow){
+				this.$_api.videoSystem.getSceneDevList(params).then(res => {
+				console.log(res)
+				if (res.code == 200 && res.data) {
+					if (res.data.lists.length != 0) {
+						res.data.lists.forEach(item => {
+							// if (!!item.vc_Params3 && _this.serviceInfo == '') {
+							// 	_this.serviceInfo = item.vc_Params3
+							// }
 							_this.videoList.push({
-								videoUrl: item.vc_Params1,
-								preset: item.fParam1
+								videoUrl: item.devId
+								// preset: item.fParam1
 							})
 						})
 						_this.autoPlay()
 					}
 				}
 			})
-			console.log(_this.videoList)
+			}	
+			
+		
+		},
+		//获取流媒体服务
+		getVideoServe() {
+			this.$_api.videoSystem.getVideoServe().then(res => {
+				if (res.code == 200 && res.data) {
+					console.log(res)
+					// this.videoConfig.serviceInfo = res.data.ServiceID
+					// 1$153.3.56.162$6800$admin$admin
+					let obj = res.data
+					this.serviceInfo = obj.ServiceID + '$' + obj.vc_IP + '$' + obj.i_Port + '$admin$admin'
+					console.log(this.serviceInfo)
+				}
+			})
 		},
 		// 开始轮巡
 		startPlay() {
@@ -354,11 +374,11 @@ export default {
 						typeof _this.videoList[_this.index].videoUrl === 'undefined'
 							? ''
 							: _this.videoList[_this.index].videoUrl,
-					serviceInfo: _this.serviceInfo,
-					presetVal:
-						typeof _this.videoList[_this.index].preset === 'undefined'
-							? ''
-							: _this.videoList[_this.index].preset
+					serviceInfo: _this.serviceInfo
+					// presetVal:
+					// 	typeof _this.videoList[_this.index].preset === 'undefined'
+					// 		? ''
+					// 		: _this.videoList[_this.index].preset
 				}
 				if (_this.videoList.length > _this.videoLen) {
 					_this.index = _this.index + 1 < _this.videoList.length ? _this.index + 1 : 0
@@ -399,6 +419,7 @@ export default {
 				_this.lxStatus = '结束轮巡'
 			}
 		},
+		//获取场景数据
 		loadSceneList() {
 			const _this = this
 			let params = {
@@ -413,7 +434,7 @@ export default {
 					_this.sceneList = res.data.lists
 					_this.sceneList.forEach(itemScene => {
 						switch (itemScene.type) {
-								case '10080001':
+							case '10080001':
 								itemScene.iconName = 'cdjs'
 								break
 							case '10080002':
@@ -453,15 +474,18 @@ export default {
 				unitId: this.unitId
 			}
 			this.$_api.videoSystem.getDevList(params).then(res => {
+				console.log(res)
 				if (res.code == 200 && res.data) {
-					this.firstvideoPlayUrl = res.data.lists[0].vcParam1
+					this.firstvideoPlayUrl = res.data.lists[0].devId
 					res.data.lists.forEach(item => {
-						if (!!item.vcParam3 && _this.videoSeviceUrl == '') {
-							_this.videoSeviceUrl = item.vcParam3
-						}
+						// if (!!item.vcParam3 && _this.videoSeviceUrl == '') {
+						// 	_this.videoSeviceUrl = item.vcParam3
+						// }
+						_this.videoSeviceUrl = this.serviceInfo
+						////////////////////////////////////////
 						_this.playVideoList.push({
 							// videoPlayUrl: item.vcParam1,
-							videoPlayUrl: item.vcName,
+							videoPlayUrl: item.devId,
 							vcName: item.vcName
 						})
 					})
@@ -742,12 +766,12 @@ export default {
           .videoItem {
             float: left;
             box-sizing: border-box;
-			padding 1px;
-			box-sizing border-box;
-            // border: 1px solid #000;
-			.ocxVideo{
-				width 100% !important;
-			}
+            padding: 1px;
+            box-sizing: border-box;
+
+            .ocxVideo {
+              width: 100% !important;
+            }
           }
 
           .layout-1 {

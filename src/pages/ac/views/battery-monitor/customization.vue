@@ -9,8 +9,7 @@
 						<p>电池组电压</p>
 					</div>
 					<div class="status-right">
-						<span>{{ topDy }}</span>
-						V
+						<span>{{ list1.dy }}</span>
 					</div>
 				</div>
 				<div class="current status-item">
@@ -19,8 +18,7 @@
 						<p>电池组电流</p>
 					</div>
 					<div class="status-right">
-						<span>{{ topDl }}</span>
-						A
+						<span>{{ list1.dl }}</span>
 					</div>
 				</div>
 				<div class="status status-item">
@@ -30,17 +28,17 @@
 					</div>
 					<div class="status-right">
 						<span></span>
-						{{ topZt }}
+						{{ list1.zt }}
 					</div>
 				</div>
 			</div>
 			<div class="top-charts">
 				<p class="title">第一组电池电压内阻</p>
 				<div class="chartsBox">
-					<charts :xData="xData" :seriesData="seriesData1" :options="options1"></charts>
+					<charts :xData="list1.dyName" :seriesData="list1.dyArr" :options="list1.dyOptions"></charts>
 				</div>
 				<div class="chartsBox">
-					<charts :xData="xData" :seriesData="seriesData2" :options="options2"></charts>
+					<charts :xData="list1.dzName" :seriesData="list1.dzArr" :options="list1.dzOptions"></charts>
 				</div>
 			</div>
 		</div>
@@ -53,8 +51,7 @@
 						<p>电池组电压</p>
 					</div>
 					<div class="status-right">
-						<span>{{ bottomDy }}</span>
-						V
+						<span>{{ list2.dy }}</span>
 					</div>
 				</div>
 				<div class="current status-item">
@@ -63,8 +60,7 @@
 						<p>电池组电流</p>
 					</div>
 					<div class="status-right">
-						<span>{{ bottomDl }}</span>
-						A
+						<span>{{ list2.dl }}</span>
 					</div>
 				</div>
 				<div class="status status-item">
@@ -74,17 +70,17 @@
 					</div>
 					<div class="status-right">
 						<span></span>
-						{{ bottomZt }}
+						{{ list2.zt }}
 					</div>
 				</div>
 			</div>
 			<div class="bottom-charts">
 				<p class="title">第二组电池电压内阻</p>
 				<div class="chartsBox">
-					<charts :xData="xData" :seriesData="seriesData3" :options="options3"></charts>
+					<charts :xData="list2.dyName" :seriesData="list2.dyArr" :options="list2.dyOptions"></charts>
 				</div>
 				<div class="chartsBox">
-					<charts :xData="xData" :seriesData="seriesData4" :options="options4"></charts>
+					<charts :xData="list2.dzName" :seriesData="list2.dzArr" :options="list2.dzOptions"></charts>
 				</div>
 			</div>
 		</div>
@@ -100,53 +96,60 @@ export default {
 	data() {
 		return {
 			unitId: this.$store.getters.unitId,
-			xData: [],
-			seriesData1: [],
-			seriesData2: [],
-			seriesData3: [],
-			seriesData4: [],
-			options1: {
-				id: 'charts1',
-				title: '单体电压(V)',
-				name: '电压',
-				unit: 'V',
-				color: '#21e1ee',
-				min: 2.23,
-				max: 2.28
+			list1: {
+				dyArr: [],
+				dzArr: [],
+				dyName: [],
+				dzName: [],
+				dy: '',
+				dl: '',
+				zt: '',
+				dyOptions: {
+					id: 'charts1',
+					title: '单体电压(V)',
+					name: '电压',
+					unit: 'V',
+					color: '#21e1ee',
+					min: 2.23,
+					max: 2.28
+				},
+				dzOptions: {
+					id: 'charts2',
+					title: '单体内阻(Ω)',
+					name: '电阻',
+					unit: 'Ω',
+					color: '#ddad3a',
+					min: 0.3,
+					max: 0.4
+				}
 			},
-			options2: {
-				id: 'charts2',
-				title: '单体内阻(Ω)',
-				name: '电阻',
-				unit: 'Ω',
-				color: '#ddad3a',
-				min: 0.3,
-				max: 0.4
-			},
-			options3: {
-				id: 'charts3',
-				title: '单体电压(V)',
-				name: '电压',
-				unit: 'V',
-				color: '#21e1ee',
-				min: 2.23,
-				max: 2.28
-			},
-			options4: {
-				id: 'charts4',
-				title: '单体内阻(Ω)',
-				name: '电阻',
-				unit: 'Ω',
-				color: '#ddad3a',
-				min: 0.3,
-				max: 0.4
-			},
-			topDy: 117,
-			bottomDy: 115,
-			topDl: 109.35,
-			bottomDl: 103.51,
-			topZt: '正常',
-			bottomZt: '正常'
+			list2: {
+				dyArr: [],
+				dzArr: [],
+				dyName: [],
+				dzName: [],
+				dy: '',
+				dl: '',
+				zt: '',
+				dyOptions: {
+					id: 'charts3',
+					title: '单体电压(V)',
+					name: '电压',
+					unit: 'V',
+					color: '#21e1ee',
+					min: 2.23,
+					max: 2.28
+				},
+				dzOptions: {
+					id: 'charts4',
+					title: '单体内阻(Ω)',
+					name: '电阻',
+					unit: 'Ω',
+					color: '#ddad3a',
+					min: 0.3,
+					max: 0.4
+				}
+			}
 		}
 	},
 	computed: {
@@ -162,7 +165,7 @@ export default {
 		getunitId: {
 			handler(newValue) {
 				this.unitId = newValue
-				this.topicStr = this.topicArr[0] + this.unitId
+				// this.topicStr = this.topicArr[0] + this.unitId
 			}
 		}
 	},
@@ -174,17 +177,7 @@ export default {
 	update() {},
 	beforeDestory() {},
 	methods: {
-		getList() {
-			let params = {
-				devTypeId: this.activeDeviceTypeId,
-				isPage: 1,
-				// unitId: '192fe4cec3ec4d3fb81c0d05f82bde41'
-				unitId: this.unitId
-			}
-			this.$_api.batteryMonitor.getList(params).then(res => {
-				console.log(res)
-			})
-		},
+		//获取设备数据
 		getDevList() {
 			let params = {
 				devTypeId: this.activeDeviceTypeId,
@@ -194,35 +187,51 @@ export default {
 			}
 			this.$_api.batteryMonitor.getDevList(params).then(res => {
 				if (res.code == 200 && res.data) {
-					console.log(res)
+					this.setListData1(res.data.lists[0])
+					this.setListData2(res.data.lists[1])
 				}
-				// this.seriesData1 = []
-				// this.seriesData2 = []
-				// this.seriesData3 = []
-				// this.seriesData4 = []
-				// this.xData = []
-				// for (let i = 0; i < 52; i++) {
-				// 	let num = 2 + this.randomNum(24, 26) / 100
-				// 	this.seriesData1.push(num)
-				// 	this.seriesData2.push(num)
-				// 	this.seriesData3.push(num)
-				// 	this.seriesData4.push(num)
-				// 	this.xData.push('电池' + (i + 1))
-				// }
 			})
 		},
-		randomNum(minNum, maxNum) {
-			switch (arguments.length) {
-				case 1:
-					return parseInt(Math.random() * minNum + 1, 10)
-					break
-				case 2:
-					return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
-					break
-				default:
-					return 0
-					break
-			}
+		//处理第一组数据
+		setListData1(data) {
+			data.devNodesList.forEach(item => {
+				if (item.vcName.indexOf('单体电压') != -1) {
+					this.list1.dyArr.push(item.fvalue)
+					this.list1.dyName.push(item.vcName)
+				} else if (item.vcUnit == 'Ω') {
+					this.list1.dzArr.push(item.fvalue)
+					this.list1.dzName.push(item.vcName)
+				} else {
+					console.log(item)
+					if (item.vcName.indexOf('状态') != -1) {
+						this.list1.zt = item.desc
+					} else if (item.vcName.indexOf('电流') != -1) {
+						this.list1.dl = item.desc
+					} else if (item.vcName.indexOf('电压') != -1) {
+						this.list1.dy = item.desc
+					}
+				}
+			})
+		},
+		// 处理第二组数据
+		setListData2(data) {
+			data.devNodesList.forEach(item => {
+				if (item.vcName.indexOf('单体电压') != -1) {
+					this.list2.dyArr.push(item.fvalue)
+					this.list2.dyName.push(item.vcName)
+				} else if (item.vcUnit == 'Ω') {
+					this.list2.dzArr.push(item.fvalue)
+					this.list2.dzName.push(item.vcName)
+				} else {
+					if (item.vcName.indexOf('状态') != -1) {
+						this.list2.zt = item.desc
+					} else if (item.vcName.indexOf('电流') != -1) {
+						this.list2.dl = item.desc
+					} else if (item.vcName.indexOf('电压') != -1) {
+						this.list2.dy = item.desc
+					}
+				}
+			})
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -331,8 +340,8 @@ export default {
       color: #49ff19;
 
       span {
-        font-size: 22px;
-        font-family: 'DS-DIGI';
+        font-size: 18px;
+        // font-family: 'DS-DIGI';
       }
     }
   }

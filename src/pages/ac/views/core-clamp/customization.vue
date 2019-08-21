@@ -136,6 +136,7 @@ export default {
 		},
 		// 历史数据
 		getHistory(info) {
+      console.log(info)
 			this.nodeId = info.eNodeId
 			this.chartTitle = info.equName + ' - ' + info.nodeName
 			this.unit = info.vcUnit

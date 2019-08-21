@@ -15,7 +15,8 @@
                    :primitiveNodes="primitiveNodes"
                    @htClick="htClick"
                    :isNodeClick="true"
-                   :mqttData="mqttData" />
+                   :mqttData="mqttData"
+				   :isShowName="true" />
     </div>
     <charts v-model="historyModal"
             :node-id="nodeId"

@@ -33,7 +33,7 @@
 							<div class="line"></div>
 							<div class="online">
 								<div class="icon"></div>
-								<div class="name">在线</div>
+								<div class="name">离线</div>
 								<div class="number">{{ online }}</div>
 							</div>
 						</div>

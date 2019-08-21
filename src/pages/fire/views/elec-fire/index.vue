@@ -1,6 +1,19 @@
 <template>
   <div class="elecFire">
     <el-container class="el-comtanier">
+      <el-aside width="15%">
+        <el-filter-tree
+          placeholder="输入关键字进行过滤"
+          v-model="filterText"
+          ref="elFilterTree"
+          :data="treeData"
+          :props="defaultProps"
+          default-expand-all
+          :filter-node-method="filterNode"
+          highlight-current
+          @node-click="handleClickNode"
+        ></el-filter-tree>
+      </el-aside>
       <el-main>
         <div class="el-main-header">
           <el-row>
@@ -50,7 +63,13 @@ export default {
 				}
 			],
 			subTabList: [],
-			current: 'residual-current'
+			current: 'residual-current',
+			treeData:[],
+			defaultProps: {
+				children: 'children',
+				label: 'label'
+			},
+			filterText: '',
 		}
 	},
 	computed: {
@@ -70,7 +89,9 @@ export default {
 			}
 		}
 	},
-	created() {},
+	created() {
+		this.getOrganization()
+	},
 	mounted() {
 		this.registerMQTT()
 	},
@@ -78,6 +99,28 @@ export default {
 	update() {},
 	beforeDestory() {},
 	methods: {
+		filterNode(value, data) {
+			if (!value) return true
+			return data.title.indexOf(value) !== -1
+		},
+		// 获取组织结构
+		async getOrganization() {
+			let result = await this.$_api.analyst.getOrganization({
+				iType: '1006003',
+				treeFlag: '2'
+			})
+			if (result.success) {
+				console.log(result.data)
+				this.treeData = result.data
+			} else {
+				this.treeData = []
+			}
+		},
+		// 点击树节点
+		handleClickNode(data, node, root) {
+			// 更新当前模块单元id
+			this.$store.dispatch('updateUnitId', data.id)
+		},
 		registerMQTT() {
 			this.$_listen('firecontrolAllAlarm', (topic, msg, pack) => {
 				let msgJson = JSON.parse(msg.toString())
@@ -117,14 +160,20 @@ export default {
 .elecFire {
   width: 1900px;
   margin-left: 10px;
+
   .el-container {
-	  height 900px;
+    height: 890px;
+		.el-aside{
+			 background: transparent;
+				margin-top: -40px;
+				overflow-y:auto;
+		}
     .el-main {
       overflow: hidden;
       padding-bottom: 0;
       padding: 0;
-
-      // margin-top -20px
+			width:85%;
+     	margin-left:15px;
       .el-main-header {
         min-height: 50px;
         width: 100%;

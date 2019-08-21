@@ -20,7 +20,7 @@
 				</el-select>
 			</div>
 			<el-button type="primary" class="btn searchbtn" @click="getTaskList">查询</el-button>
-      <el-button type="primary" class="btn addTaskBtn" @click="addTask">新增</el-button>
+			<el-button type="primary" class="btn addTaskBtn" @click="addTask">新增</el-button>
 		</div>
 		<div class="list">
 			<el-table
@@ -70,16 +70,44 @@
 				show-elevator
 			/>
 		</div>
-    <taskOrder v-if="addTaskModal"></taskOrder>
+		<ocx-modal
+			v-model="addTaskModal"
+			:width="1485"
+			footer-hide
+			@on-cancel="closeAddTask"
+			:styles="{top: '100px'}"
+		>
+			<taskOrder @closeAddTask="closeAddTask" @inspectionAticketClick="inspectionAticketClick"></taskOrder>
+		</ocx-modal>
+		<ocx-modal
+			v-model="addTaskNext"
+			:width="1000"
+			:mask-closable="false"
+			footer-hide
+			@on-cancel="closeAddTaskNext"
+		>
+			<inspectionTaskList
+				:modalInspectionTaskTableData="modalInspectionTaskTableData"
+				:modalWorkOrderTableHeaderData="modalWorkOrderTableHeaderData"
+				v-loading="inspectionTaskListLoading"
+				element-loading-text="巡检资源加载中..."
+				element-loading-background="#061638"
+				@closeAddTaskNext="closeAddTaskNext"
+				@saveClick="saveClick"
+				@lastStepClick="lastStepClick"
+			></inspectionTaskList>
+		</ocx-modal>
 	</div>
 </template>
 <script>
 import moment from 'moment'
 import taskOrder from '../common/task-order'
+import inspectionTaskList from '../common/inspectionTaskList.vue'
 export default {
   name: 'taskManage',
   components: {
-    taskOrder
+    taskOrder,
+    inspectionTaskList
   },
   props: {},
   data() {
@@ -92,9 +120,23 @@ export default {
       page: 1,
       pageSize: 10,
       total: 0,
-      taskType: [],
-      taskSubType: [],
+      taskType: [
+        {
+          key: '',
+          value: '全部'
+        }
+      ],
+      taskSubType: [
+        {
+          key: '',
+          value: '全部'
+        }
+      ],
       status: [
+        {
+          value: '',
+          label: '全部'
+        },
         {
           value: '0',
           label: '停止'
@@ -110,6 +152,10 @@ export default {
       i_SubType: '',//任务子类型
       i_Status: '',//状态
       addTaskModal: false,
+      addTaskNext: false,
+      inspectionTaskListLoading: false,
+      modalInspectionTaskTableData: [],
+      modalWorkOrderTableHeaderData: [],
     }
   },
   computed: {
@@ -160,8 +206,10 @@ export default {
     getTaskType() {
       let params = `dictgroupid=7010`
       this.axios.getTaskTypeOrTaskSubType(params).then((res) => {
-        // console.log(res.data,'type');
-        this.taskType = res.data
+        res.data.map((item) => {
+          this.taskType.push(item)
+        })
+        console.log(this.tasktype)
       }).catch((err) => {
         console.log(err);
       });
@@ -170,7 +218,9 @@ export default {
     getTaskSubType() {
       let params = `dictgroupid=7011`
       this.axios.getTaskTypeOrTaskSubType(params).then((res) => {
-        this.taskSubType = res.data
+        res.data.map((item) => {
+          this.taskSubType.push(item)
+        })
       }).catch((err) => {
         console.log(err);
       });
@@ -188,8 +238,72 @@ export default {
       this.i_Status = val
     },
     //点击新增按钮
-    addTask(){
+    addTask() {
       this.addTaskModal = true
+    },
+    //点击新增任务弹框的 巡检成票 按钮
+    inspectionAticketClick(arr) {
+      this.addTaskNodesArr = []
+      this.addTaskNodesArr = arr
+      this.addTask = false
+      this.addTaskNext = true
+      //let addInfos = `Nodes=016cf78433f745c99fc38db402afd037,03721088658244ad88715a73707243a9`
+      let addInfos = {
+        Nodes: arr.join(',')
+      }
+      this.inspectionTaskListLoading = true
+      this.axios.getInspectionWorkOrderData(addInfos).then(response => {
+        this.inspectionTaskListLoading = false
+        this.modalWorkOrderTableHeaderData = response.data.data.asRobots
+        this.modalInspectionTaskTableData = response.data.data.asTaskNodes
+      })
+
+    },
+    //新增任务 保存 按钮
+    saveClick(name) {
+      this.addTaskNext = false
+      this.getPresetInspectionData()
+      //临时功能
+      let obj = {
+        "cmd": "2202",
+        "type": "req",
+        "srcid": "",
+        "destid": "",
+        "serial": "",
+        "time": "",
+        "task": {
+          "unitid": this.stationId,
+          "name": name,
+          "tasktype": "70100004",
+          "tasksubtype": "70110008",
+          "executetype": "70120100",
+          "executetime": "0000",
+          "startdate": "0000",
+          "stopdate": "0000",
+          "userid": "",
+          "tasknode": []
+        }
+      }
+      obj.time = (new Date()).valueOf()
+      this.addTaskNodesArr.forEach(item => {
+        obj.task.tasknode.push({
+          "nodeid": item,
+          "sortid": "0"
+        })
+      })
+      this.$_mqtt.publish(this.topicArr[0], JSON.stringify(data))
+    },
+    //新增任务 上一步 按钮
+    lastStepClick() {
+      this.addTaskNext = false
+      this.addTask = true
+    },
+    //关闭新增任务 巡检成票 弹框
+    closeAddTaskNext() {
+      this.addTaskNext = false
+    },
+    closeAddTask() {
+      this.addTaskModal = false
     },
     handleChangePage(page) {
       this.page = page
@@ -266,6 +380,7 @@ export default {
       background: url('../../assets/img/record/detail-hover.png') no-repeat;
       background-size: 100% 100%;
     }
+
     .addTaskBtn {
       background: url('../../assets/img/record/export.png') no-repeat;
       background-size: 100% 100%;
@@ -392,6 +507,6 @@ export default {
 }
 
 /deep/.el-table tbody tr:hover>td {
-  background: none;
+  background: #081437;
 }
 </style>

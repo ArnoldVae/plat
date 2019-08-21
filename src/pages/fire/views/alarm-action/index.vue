@@ -26,6 +26,10 @@
                                     <span class="icon">●</span>
                                     <span>{{ item.devName }}</span>
                                 </li>
+                                <li>
+                                    <span class="icon">●</span>
+                                    <span>{{ item.beginTime }}</span>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -139,15 +143,33 @@
                         </div>
                     </div>
                     <div class="con-right">
-                        <div class="con-right-title"><span></span>应急预警处置:</div>
-                        <h4>{{ cfgName }}:</h4>
-                        <div class="con-right-List">
+                        <div class="con-right-title"><span></span>应急处置流程:
+                            <el-switch
+                                    style="display: block;text-align: right;width: 50%;float: right;"
+                                    v-model="caseTabCode"
+                                    active-color="#00aaff"
+                                    inactive-color="#00aaff"
+                                    active-text=""
+                                    inactive-text="">
+                            </el-switch>
+                        </div>
+
+<!--                        <div class="tab-change">-->
+<!--                            <div class="tab" v-for="(d,index) in caseTab" :class="[ d.selected? 'tab-active' : '', 'tab']" :key="index" @click="changeMenu(d)">-->
+<!--                               {{d.name}}-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="con-right-List" v-show="caseTabCode">
                             <ul>
                                 <li v-for="(disposeItem, index) in disposeList" :key="index">
                                     <div class="flag">{{ index + 1 }}</div>
                                     <p class="con">{{ disposeItem.itemContext }}</p>
                                 </li>
                             </ul>
+                        </div>
+                        <div class="con-right-List" v-show="!caseTabCode">
+                            <img :src="mapImgUrl" alt="">
+
                         </div>
                     </div>
                 </div>
@@ -184,6 +206,9 @@
                 cfgName: '',
                 moreFlag: false,
                 modal1: false,
+                caseTab:[{name:'流程图',selected:true,code:"chart"},{name:'文字',selected:false,code:"code"}],
+                caseTabCode:false,
+                mapImgUrl:"",
                 javainterface: {
                     allStation: {
                         subModuleName: 'systemView',
@@ -346,20 +371,11 @@
                                 this.labelList = res.data
                                 this.labelList.forEach((im, i) => {
                                     im.index = i + 1
+                                    im.beginTime=moment(im.beginTime * 1000).format('YYYY-MM-DD HH:mm')
                                     im.selected = i == 0 ? true : false
                                 })
-                                if (this.labelList.length > 5) {
-                                    this.labelList.forEach((item, index) => {
-                                        item.index = index + 1
-                                        item.selected = index == 0 ? true : false
-                                        if (index < 5) {
-                                            this.subLabelList.push(item)
-                                        }
-                                    })
-                                } else {
-                                    this.subLabelList = this.labelList
-                                }
-                                this.showLabelList = this.subLabelList
+
+
                                 // this.unitTitle = this.alarmTitle = res.data[0].unitName
                                 if (item) {
                                     this.showItemDetail(item)
@@ -382,34 +398,10 @@
 
                 this.unitTitle = this.alarmTitle = item.unitName
                 let result = await this.$_api.alarmAction.getAlarmData({
-                    unitId: item.unitId || '192fe4cec3ec4d3fb81c0d05f82bde41',
+                    unitId: item.unitId || '',
                     alarmId: item.alarmId || item.alarmid
                 })
                 if (result.success) {
-                    if (this.moreFlag) {
-                        this.showLabelList = []
-                        this.labelList.forEach(i => {
-                            if (i.index > item.index - 1 && i.index < item.index + 6) {
-                                this.showLabelList.push(i)
-                            }
-                        })
-                        let that = this
-
-                        function getArr() {
-                            if (that.showLabelList.length < 5) {
-                                that.showLabelList.unshift(that.labelList[item.index - that.showLabelList.length - 1])
-                                console.log(that.showLabelList)
-                                getArr()
-                            }
-                        }
-
-                        getArr()
-                        this.showLabelList = that.showLabelList
-
-                        this.moreFlag = false
-                        let ele = document.getElementById('case')
-                        ele.style.height = '8rem'
-                    }
 
                     //报警信息赋值操作
                     this.alarmListInfo[0].value = result.data.araeName
@@ -423,16 +415,19 @@
 
                     this.getAreaData()
                     const obj = {
-                        unitId: this.$store.getters.unitId || '192fe4cec3ec4d3fb81c0d05f82bde41',
+                        unitId: this.$store.getters.unitId || '',
                         areaId: this.protectAreaId
                     }
+                    //报警联动视频赋值逻辑
+                    if(result.data.videoList&&result.data.videoList.length>0){
+                        result.data.videoList.forEach((item,index)=>{
+                            this.videoConfig[index].deviceInfo = item.vcParams1
+                        })
+                    }
+                    // this.videoConfig[0].deviceInfo = result.data.[0].vcParams1
                     this.getReserve(obj)
                     //                    获取图例
                     this.imgUrl = result.data.svgList[0].vcMemo
-                    if (this.pageType) {
-                        this.newVideoConfig[0].deviceInfo = result.data.videoList[0].vcParams1
-                        this.newVideoConfig[0].presetVal = result.data.videoList[0].f_Param1
-                    }
                 }
             },
             /**
@@ -440,12 +435,13 @@
              */
             async getReserve(item) {
                 let result = await this.$_api.alarmAction.getReserve({
-                    unitId: item.unitId || '192fe4cec3ec4d3fb81c0d05f82bde41',
+                    unitId: item.unitId || '',
                     areaId: item.areaId
                 })
                 if (result.success) {
                     this.cfgName = result.data.cfgName
                     this.disposeList = result.data.list
+                    this.mapImgUrl=result.data.vcPicture
                 }
             },
             //charts表渲染
@@ -611,22 +607,6 @@
                 }
                 this.envChart.setOption(option)
             },
-            //视频
-            getVideoData() {
-                this.$_api.alarmAction
-                    .getVideoData({
-                        unitId: this.$store.getters.unitId || '192fe4cec3ec4d3fb81c0d05f82bde41',
-                        protectAreaId: this.protectAreaId
-                    })
-                    .then(res => {
-                        if (res.code == 200) {
-                            if (res.data) {
-                                this.videoConfig[0].deviceInfo = res.data[0].vcParams1
-                                this.videoConfig[1].deviceInfo = res.data[1].vcParams1
-                            }
-                        }
-                    })
-            },
             //天气参数获取
             getAreaData() {
                 this.$_api.alarmAction
@@ -687,10 +667,18 @@
             },
             //            改变选中颜色
             changeColor(item) {
-                this.showLabelList.forEach(i => {
+                this.labelList.forEach(i => {
                     i.selected = false
                 })
                 item.selected = true
+            },
+            //应急方案切换
+            changeMenu(item){
+                this.caseTab.forEach(i=>{
+                    i.selected=false
+                })
+                item.selected = true
+                this.caseTabCode=item.code
             },
             //获取ht接口数据
             getHtMap() {
@@ -735,6 +723,12 @@
     .font-time {
         font-family: 'DS-DIGI';
     }
+    .el-switch__label{
+        color: #00aaff;
+    }
+    .el-switch__label.is-active{
+        color: #ffd36a;
+    }
 </style>
 
 <style lang="stylus" scoped>
@@ -766,7 +760,6 @@
             width: 15%;
             height: 770px;
             float left
-
             .alarmNow-title {
                 width: 100%;
                 height: 30px;
@@ -794,7 +787,6 @@
 
                         ul li {
                             color white
-                            margin-bottom 8px
 
                             .icon {
                                 color red
@@ -814,8 +806,6 @@
 
                         ul li {
                             color white
-                            margin-bottom 8px
-
                             .icon {
                                 color red
                                 margin-right 6px
@@ -1270,52 +1260,9 @@
                             }
 
                             .htCon {
-                                width: 100%;
-                                height: 300px;
-                                display: flex;
-
-                                .ht {
-                                    width: 70%;
-                                    height: 300px;
-
-                                    .mapHT {
-                                        width: 100%;
-                                        height: 100%;
-                                        position: relative;
-                                    }
-                                }
-
-                                .htInfo {
-                                    width: 30%;
-                                    height: 300px;
-
-                                    .infoList {
-                                        width: 165px;
-                                        height: 100px;
-                                        background: url('~@fire/assets/img/alarm-now/details.png') no-repeat;
-                                        background-size: 100% 100%;
-
-                                        .infoTitle {
-                                            color: #fff;
-                                            text-align: center;
-                                            line-height: 35px;
-                                        }
-
-                                        .infoCon {
-                                            width: 150px;
-                                            height: 50px;
-                                            margin: 0 auto;
-                                            padding: 0 5px;
-
-                                            li {
-                                                display: flex;
-                                                color: #fff;
-                                                width: 100%;
-                                                margin-bottom: 5px;
-                                                justify-content: space-between;
-                                            }
-                                        }
-                                    }
+                                img{
+                                    width 22rem
+                                    height 13rem
                                 }
                             }
                         }
@@ -1336,10 +1283,27 @@
                         color #32e611
 
                     }
+                    .tab-change{
+                        height 30pxW
+                        line-height 30px
+                        .tab{
+                            border 0.04444rem solid #3ea1aa
+                            width 50%
+                            float left
+                            text-align center
+                            cursor pointer
+                            color white
+                        }
+                        .tab-active{
+                            background: rgba(15,33,69,0.7);
+                            color: #ffd36a;
+                        }
+                    }
 
                     .con-right-title {
                         color: #fff;
                         font-size: 20px;
+                        margin 10px 0
 
                         span {
                             width 20px;
@@ -1352,8 +1316,8 @@
                     }
 
                     .con-right-List {
-                        width: 100%;
-                        height: 620px;
+                        width: 399px;
+                        height: 28.55556rem
                         margin-top: 20px;
                         overflow-y: auto;
                         overflow-x hidden

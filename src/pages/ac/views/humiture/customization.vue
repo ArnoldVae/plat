@@ -95,7 +95,7 @@ export default {
 			if (topic == _this.topicStr) {
 				let msgData = JSON.parse(message.toString())
 				console.log(msgData)
-				if (msgData.cmd == 1001) {
+				if (msgData.cmd == 1001 && msgData.unitid == this.$store.getters.unitId) {
 					_this.devList.forEach(element => {
 						if (msgData.nodeid == element.wdNodeId) {
 							element.devNodesList.forEach(item => {
@@ -248,6 +248,7 @@ export default {
 		setEcharts() {
 			// 基于准备好的dom，初始化echarts实例
 			var myChart = this.$_echarts.init(document.getElementById('chart'))
+			myChart.clear()
 
 			// 指定图表的配置项和数据
 			var option = {

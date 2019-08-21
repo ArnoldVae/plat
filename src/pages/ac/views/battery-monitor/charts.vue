@@ -63,7 +63,7 @@ export default {
 		this.id = this.options.id
 	},
 	mounted() {
-		this.setCharts()
+		// this.setCharts()
 	},
 	activited() {},
 	update() {},
@@ -73,11 +73,9 @@ export default {
 			let maxArr = []
 			let minArr = []
 			let unit = this.options.unit
-			let dz = []
 			for (let i = 0; i < this.seriesData.length; i++) {
 				minArr.push(this.options.min)
 				maxArr.push(this.options.max)
-				dz.push(0.35)
 			}
 			var myChart = this.$_echarts.init(document.getElementById(this.id))
 			var option = {
@@ -151,7 +149,7 @@ export default {
 					{
 						name: this.options.name,
 						type: 'bar',
-						data: this.options.name == '电压' ? this.seriesData : dz
+						data: this.seriesData
 					},
 					{
 						name: this.options.min,

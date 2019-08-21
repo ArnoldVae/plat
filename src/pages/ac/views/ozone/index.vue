@@ -20,7 +20,16 @@ export default {
 	},
 	computed: {},
 	filters: {},
-	watch: {},
+	watch: {
+		// 更新当前组件，断开已销毁组件的事件池
+		current(newVal, oldVal) {
+			if (oldVal.indexOf('table') != -1) {
+				this.$_stop('view-table')
+			} else {
+				this.$_stop(oldVal)
+			}
+		}
+	},
 	created() {},
 	mounted() {},
 	activited() {},
@@ -34,6 +43,11 @@ export default {
 		next()
 	},
 	beforeRouteLeave(to, from, next) {
+		Object.keys(this.$options.components).map( item => {
+			if (typeof this.$options.components[item] == 'object') {
+				this.$_stop(this.$options.components[item]['name'])
+			}
+		})
 		next()
 	}
 }

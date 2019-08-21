@@ -14,7 +14,8 @@
                    :primitiveNodes="primitiveNodes"
                    :mqttData="mqttData"
                    @htClick="htClick"
-                   :isNodeClick="true" />
+                   :isNodeClick="true"
+				   :isShowName="true" />
     </div>
     <charts v-model="historyModal"
             :node-id="nodeId"
@@ -46,7 +47,8 @@ export default {
 			historyModal: false,
 			nodeId: '',
 			chartTitle: '',
-			unit: ''
+			unit: '',
+			functionCode: ''
 		}
 	},
 	watch: {},
@@ -90,12 +92,18 @@ export default {
 	},
 	methods: {
 		//图纸节点点击回调
-		htClick(data) {
-			console.log(data)
-
-			this.historyModal = true
-			this.nodeId = data._tag
-			this.chartTitle = data._name
+		htClick(data, nodes) {
+			let index = nodes.findIndex(item => item.vcSourceId == data._tag)
+			let node = nodes[index]
+			console.log(node);
+			
+			// let nodeIndex = node.devNodes.findIndex(val => val.functionCode == this.functionCode)
+			// let devNode = node.devNodes[nodeIndex]
+			
+			// this.historyModal = true
+			// this.nodeId = devNode.NodeID
+			// this.chartTitle = devNode.devName
+			// this.unit = devNode.vc_Unit
 		},
 		//图纸切换
 		but(val) {

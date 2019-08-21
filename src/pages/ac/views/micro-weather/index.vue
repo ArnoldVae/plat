@@ -2,6 +2,8 @@
 	<div class="micro-weather">
 		<!-- <transition name="v" mode="out-in"> -->
 		<component v-bind:is="current"></component>
+		<!-- <micro-weather-customization v-if="current == 'micro-weather-customization'"></micro-weather-customization> -->
+		<!-- <micro-weather-table v-if="current == 'micro-weather-table'"></micro-weather-table> -->
 		<!-- </transition> -->
 	</div>
 </template>
@@ -22,7 +24,16 @@ export default {
 	},
 	computed: {},
 	filters: {},
-	watch: {},
+	watch: {
+		// 更新当前组件，断开已销毁组件的事件池
+		current(newVal, oldVal) {
+			if (oldVal.indexOf('table') != -1) {
+				this.$_stop('view-table')
+			} else {
+				this.$_stop(oldVal)
+			}
+		}
+	},
 	created() {},
 	mounted() {},
 	activited() {},
@@ -36,6 +47,11 @@ export default {
 		next()
 	},
 	beforeRouteLeave(to, from, next) {
+		Object.keys(this.$options.components).map( item => {
+			if (typeof this.$options.components[item] == 'object') {
+				this.$_stop(this.$options.components[item]['name'])
+			}
+		})
 		next()
 	}
 }

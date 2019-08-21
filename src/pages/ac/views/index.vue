@@ -108,9 +108,6 @@ export default {
 		return {
 			cardReset: true,
 			filterText: '',
-			topicArr: ['qif/zf/app/', 'qif/zf/app/control/'],
-			topicStr1: '',
-			topicStr2: '',
 			unitId: this.$store.getters.unitId,
 			data: [],
 			defaultProps: {
@@ -170,6 +167,12 @@ export default {
 	computed: {
 		activeUnitId() {
 			return this.$store.getters.unitId
+		},
+		activeAppTopic() {
+			return this.$store.getters.appTopic + this.$store.getters.unitId
+		},
+		activeControlTopic() {
+			return this.$store.getters.controlTopic + this.$store.getters.unitId
 		}
 	},
 	filters: {},
@@ -180,29 +183,23 @@ export default {
 		activeUnitId: {
 			handler(val) {
 				this.init()
-				this.unitId = val
-				this.topicStr1 = this.topicArr[0] + this.unitId
-				this.topicStr2 = this.topicArr[1] + this.unitId
-				let tArr = [this.topicStr1, this.topicStr2]
-				this.subscribe(tArr)
+				this.$store.commit('UPDATE_UNITID', val)
+				this.subscribe([this.activeAppTopic, this.activeControlTopic])
 			}
 			// immediate: true
 		},
-		currentTypeId: {
+		/*currentTypeId: {
 			handler(val) {
-				// this.getDeviceInfo()
+				this.getDeviceInfo()
 			}
-		}
+		}*/
 	},
 	created() {
 		this.getOrganization()
 		this.init()
 	},
 	mounted() {
-		this.topicStr1 = this.topicArr[0] + this.unitId
-		this.topicStr2 = this.topicArr[1] + this.unitId
-		let tArr = [this.topicStr1, this.topicStr2]
-		this.subscribe(tArr)
+		this.subscribe([this.activeAppTopic, this.activeControlTopic])
 	},
 	activited() {},
 	update() {},
@@ -210,6 +207,13 @@ export default {
 		clearInterval(this.rotation)
 	},
 	methods: {
+		// 更新订阅
+		updateSubscription() {
+			this.topicStr1 = this.topicArr[0] + this.unitId
+			this.topicStr2 = this.topicArr[1] + this.unitId
+			let tArr = [this.topicStr1, this.topicStr2]
+			this.subscribe(tArr)
+		},
 		// 返回
 		handleGoBack() {
 			this.$router.push({ name: 'overview' })
@@ -350,19 +354,19 @@ export default {
 		// 初始化显示模式
 		initDisplayMode() {
 			this.handleChangeDisplayMode(this.currentModeList[0], 0)
-			// this.rotation = setInterval(() => {
-			// 	if (this.currentModeList && this.currentModeList.length > 0) {
-			// 		// 如果当前第一个显示模式和组件匹配则不再执行初始化
-			// 		if (!this.$refs.view.current) clearInterval(this.rotation)
-			// 		if (this.$refs.view.current && this.$refs.view.current == `${this.$route.name}-${this.currentModeList[0]['name']}`) {
-			// 			return clearInterval(this.rotation)
-			// 		}
-			// 		this.handleChangeDisplayMode(this.currentModeList[0], 0)
-			// 		clearInterval(this.rotation)
-			// 	} else {
-			// 		clearInterval(this.rotation)
-			// 	}
-			// }, 500)
+			/*this.rotation = setInterval(() => {
+				if (this.currentModeList && this.currentModeList.length > 0) {
+					// 如果当前第一个显示模式和组件匹配则不再执行初始化
+					if (!this.$refs.view.current) clearInterval(this.rotation)
+					if (this.$refs.view.current && this.$refs.view.current == `${this.$route.name}-${this.currentModeList[0]['name']}`) {
+						return clearInterval(this.rotation)
+					}
+					this.handleChangeDisplayMode(this.currentModeList[0], 0)
+					clearInterval(this.rotation)
+				} else {
+					clearInterval(this.rotation)
+				}
+			}, 500)*/
 		},
 		// 点击树节点
 		handleClickNode(data, node, root) {
@@ -376,6 +380,7 @@ export default {
 			}
 		},
 		subscribe(topicArr) {
+			// 待定的条件
 			if (true) {
 				this.$_mqtt.unsubscribe(topicArr, err => {
 					if (err) {

@@ -48,7 +48,9 @@ import {
 	CheckboxButton,
 	CheckboxGroup, //多选
 	Table, //Table表格
-	TableColumn
+	TableColumn,
+	Pagination,
+	Switch
 } from 'element-ui'
 const ElementUI = [
 	Tree,
@@ -78,7 +80,9 @@ const ElementUI = [
 	CheckboxButton,
 	CheckboxGroup, //多选
 	Table, //Table表格
-	TableColumn
+	TableColumn,
+	Pagination,//分页
+	Switch
 ]
 
 // Antd 按需

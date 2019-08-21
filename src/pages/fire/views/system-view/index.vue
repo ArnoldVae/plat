@@ -170,8 +170,6 @@
 	</div>
 </template>
 <script>
-// 地图使用的指令
-import { mapCenter } from '@/directives/'
 import mapComponent from '@/components/native/mapComponent/mapComponent'
 import moment from 'moment'
 
@@ -423,7 +421,17 @@ export default {
 		next()
 	},
 	directives: {
-		mapCenter
+		'center': {
+			bind(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			},
+			inserted(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			},
+			update(el) {
+				el.style.marginLeft = `${-el.offsetWidth / 2}px`
+			}
+		}
 	}
 }
 </script>

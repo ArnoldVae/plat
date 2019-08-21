@@ -250,10 +250,10 @@ export default {
 }
 
 .fireControlHt {
-  margin-left: 20px;
-  margin-top: 20px;
-  width: 98%;
-  height: 880px;
+//   margin-left: 20px;
+//   margin-top: 20px;
+  width: 100%;
+  height: 800px;
   position: relative;
 }
 

@@ -36,11 +36,26 @@ export default {
 			data: JSON.stringify(params)
 		})
 	},
-	getSceneList(params){
+	getSceneList(params) {
 		return axios.request({
-			url:'scene/scene_list',
+			url: 'scene/scene_list',
 			method: 'post',
 			data: JSON.stringify(params)
 		})
-	}
+	},
+	//获取流媒体服务
+	getVideoServe(params) {
+		return axios.request({
+			url: 'dev_info/getService',
+			method: 'post',
+			data: JSON.stringify(params)
+		})
+	},
+	getSceneDevList(params) {
+		return axios.request({
+			url: 'scene/find_scene_dev',
+			method: 'post',
+			data: JSON.stringify(params)
+		})
+	},
 }

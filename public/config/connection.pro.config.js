@@ -8,9 +8,6 @@ var $_production = {
 		location: "",
 		netModule: "dsa5200"
 	},
-	video: {
-		location: "172.26.1.152:8888"
-	},
 	mqtt: {
 		host: "26.47.189.184",
 		port: "8083",

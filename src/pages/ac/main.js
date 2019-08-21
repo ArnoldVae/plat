@@ -65,9 +65,10 @@ import api from '@ac/api'
 Vue.prototype.$_api = api
 
 // 当前模块全局 mqtt连接
-import { client, listen } from '@/config/mqtt'
+import { client, listen, stop } from '@/config/mqtt'
 Vue.prototype.$_mqtt = client
 Vue.prototype.$_listen = listen
+Vue.prototype.$_stop = stop
 
 // 地图
 import BaiduMap from '../../components/native/gismap/index'

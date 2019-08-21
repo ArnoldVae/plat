@@ -1,5 +1,6 @@
 <template>
-	<div ref="blueprint" class="blueprintHt"></div>
+  <div ref="blueprint"
+       class="blueprintHt"></div>
 </template>
 <script>
 export default {
@@ -18,6 +19,10 @@ export default {
 			type: Object
 		},
 		isNodeClick: {
+			type: Boolean,
+			default: false
+		},
+		isShowName:{
 			type: Boolean,
 			default: false
 		}
@@ -99,6 +104,7 @@ export default {
 					graphView.fitContent(true)
 				})
 				.catch(err => {
+					
 					this.$ocxMessage.error('图纸丢失！！！')
 				})
 			//监听交互事件
@@ -116,6 +122,24 @@ export default {
 						}
 					}
 				}
+				if (this.isShowName && this.isShowName == true) {
+					if (eType == 'onEnter') {
+						if (e.data.a('vc_SourceID')) {
+							//添加图元下文字
+							eData.setStyle('label', eData._name)
+							eData.setStyle('label.color', '#fff')
+							// eData.setStyle('label.font', '10px sans-serif')
+							eData.setStyle('label.position', 31)
+							eData.setStyle('label.toggleable', false)
+						}
+					}
+					if (eType == 'onLeave') {
+						if (e.data.a('vc_SourceID')) {
+							//删除图元下文字
+							eData.setStyle('label', null)
+						}
+					}
+				}
 			})
 
 			this.getNode()
@@ -128,9 +152,9 @@ export default {
 			}
 			this.axios.getHtFind(params).then(res => {
 				if (res.code == 200) {
-					console.log(res.data);
+					console.log(res.data)
 					this.findNodes = res.data
-					
+
 					let primitiveNodes = res.data
 
 					primitiveNodes.length &&
@@ -145,6 +169,7 @@ export default {
 								node.setRotation(item.fPageZ ? parseFloat(item.fPageZ) : 0) //设置旋转角度
 								node.setName(item.vcName) //设置名称
 								node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight)) //设置大小
+								node.setStyle('interactive', true)
 								node.a('vc_SourceID', item.vcSourceId) //设置自定义内容
 								node.a('vc_Path', item.vcPath)
 								node.a('i_NodeType', item.iNodeType)

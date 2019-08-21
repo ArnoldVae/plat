@@ -98,12 +98,12 @@ export default {
 					code: 'main-taining',
 					active: false
 				},
-				{
-					title: '全面检测报告',
-					id: '05',
-					code: 'test-report',
-					active: false
-				}
+				// {
+				// 	title: '全面检测报告',
+				// 	id: '05',
+				// 	code: 'test-report',
+				// 	active: false
+				// }
 			],
 			alarmNode: ''
 		}
@@ -142,7 +142,8 @@ export default {
 		// 点击树节点
 		handleClickNode(data, node, root) {
 			// 更新当前模块单元id
-			this.$store.dispatch('updateUnitId', data.id)
+			console.log(data,node,root);
+			// this.$store.dispatch('updateUnitId', data.id)
 		},
 
 		// tab点击
@@ -189,7 +190,7 @@ export default {
   height: 980px !important;
 
   .el-aside {
-    background: #141a26;
+    // background: #141a26;
     height: 980px !important;
     margin-top: 27px;
   }
@@ -207,15 +208,18 @@ export default {
   margin-left:12px;
 
   .el-container {
-	height:890px;
+		height:890px;
     .el-aside {
-		margin-top:27px;
+			margin-top:-40px;
+			height:920px;
+			overflow-y:auto;
+			position:absolute;
     }
 
     .el-main {
       padding: 21PX 0 0 0;
       width: 85%;
-	  margin-left:15px;
+	  	margin-left:310px;
       .el-main-header {
         min-height: 50px;
         width: 100%;

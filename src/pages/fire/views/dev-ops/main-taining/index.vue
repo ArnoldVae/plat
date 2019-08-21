@@ -55,12 +55,13 @@
 			</el-form-item>
 		</el-form>
 		<!-- table -->
-		<div>
+		<div class="table">
 			<el-table
 				:header-cell-style="{ background: '#0d2351' }"
 				:row-style="tableColor"
 				:data="maintainData"
 				style="width: 100%;"
+				height="630"
 			>
 				<el-table-column prop="coName" align="center" label="维保单位" width='100'></el-table-column>
 				<el-table-column prop="unitName" align="center" label="变电站" width='130'></el-table-column>
@@ -91,6 +92,19 @@
 				</el-table-column>
 			</el-table>
 		</div>
+		 <div class="pagination">
+      <el-pagination
+        ref="pages"
+        background
+        layout="total,  prev, pager, next,sizes, jumper"
+        :current-page="curIndex"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="pageSize"
+				@size-change="handleSizeChange"
+        :total="totals"
+        @current-change="changePage"
+      ></el-pagination>
+    </div>
 		<infoModal :dialogVisible="modalShow" :delitail="detileData" @handleClose="handleClose"></infoModal>
 	</div>
 </template>
@@ -120,7 +134,11 @@ export default {
 			maintainData: [],
 			modalShow: false,
 			detileData: '',
-			searchIS: false
+			searchIS: false,
+			// 分页相关数据
+			curIndex: 1,
+			pageSize: 10,
+			totals: 3
 		}
 	},
 	mounted() {},
@@ -219,7 +237,10 @@ export default {
 				// this.maintainData = []
 			}
 		},
-
+		//分页
+		changePage(curIndex) {
+			console.log(curIndex)
+		},
 		opoentime() {
 			this.searchIS = true
 		},
@@ -231,28 +252,40 @@ export default {
 				startTime: this.search.starTime,
 				endTime: this.search.endTime,
 				mtcCoID: this.search.maintenanceUnit,
-				iStatus: this.search.stute
+				iStatus: this.search.stute,
+				pageSize:this.pageSize,
+				currentPage:this.curIndex
 			})
 			if (res.code == '200') {
+				this.totals=res.data.total
 				this.maintainData = res.data.list
 			} else {
 				this.maintainData = []
 			}
 		},
-
-		async searchInfos() {
-			let res = await this.$_api.maintaining.getfindPlanRecord({
-				startTime: this.searchb.starTime,
-				endTime: this.searchb.endTime,
-				mtcCoID: this.search.maintenanceUnit,
-				iStatus: this.search.stute
-			})
-			if (res.code == '200') {
-				this.maintainData = res.data.list
-			} else {
-				this.maintainData = []
-			}
+	//分页
+		changePage(curIndex) {
+			this.curIndex=curIndex;
+			this.searchInfo()
 		},
+		handleSizeChange(pagesize){
+			this.pageSize=pagesize
+			this.searchInfo()
+		},
+		// async searchInfos() {
+		// 	let res = await this.$_api.maintaining.getfindPlanRecord({
+		// 		startTime: this.searchb.starTime,
+		// 		endTime: this.searchb.endTime,
+		// 		mtcCoID: this.search.maintenanceUnit,
+		// 		iStatus: this.search.stute,
+				
+		// 	})
+		// 	if (res.code == '200') {
+		// 		this.maintainData = res.data.list
+		// 	} else {
+		// 		this.maintainData = []
+		// 	}
+		// },
 		leadTo() {},
 		exportInfo() {},
 		getThisWeek(currentTime) {
@@ -384,6 +417,52 @@ export default {
 		/*background:transparent*/
 		/*background :url("../../../assets/i")*/
 	//}
+	.table{
+		height:650px;
+	}
+	// 分页样式的修改
+  .pagination {
+    text-align: center;
+    margin-top: 20px;
+
+    .el-pagination {
+      .el-pagination__total {
+        color: #73a6c3;
+      }
+
+      .btn-prev, .btn-next {
+        border: 1px solid #0f3047;
+        background-color: transparent;
+        color: #444;
+      }
+
+      .el-pagination__jump {
+        color: #73a6c3;
+      }
+			/deep/ .el-pager li{
+			color: #2d8cf0 !important;
+			background:transparent;
+		}
+      .el-input__inner {
+        background: transparent;
+      }
+
+      .el-select:hover .el-input__inner {
+        border: 1px solid #2d8cf0;
+      }
+
+      .table-wrap .page-wrap .ivu-page .ivu-select-dropdown {
+        background: transparent;
+      }
+    }
+
+    .el-pagination.is-background .el-pager li:not(.disabled).active {
+      background-color: transparent;
+      border: 1px solid #2d8cf0;
+      color: #2d8cf0;
+      cursor: pointer;
+    }
+  }
   .el-table__row {
     color: white;
   }

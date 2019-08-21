@@ -1,6 +1,8 @@
 const test = {
 	state: {
-		unitId: ''
+		unitId: '',
+		appTopic: 'qif/zf/app/',
+		controlTopic: 'qif/zf/app/control/'
 	},
 	mutations: {
 		UPDATE_UNITID: (state, id) => {

@@ -37,6 +37,7 @@
 				:mqttData="mqttData"
 				@htClick="htClick"
 				:isNodeClick="true"
+				:isShowName="true"
 			/>
 		</div>
 		<charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
@@ -44,7 +45,7 @@
 </template>
 <script>
 import htBlueprint from '../common/view-ichnography'
-import charts from '../main-oil/charts1'
+import charts from './charts1'
 export default {
 	name: 'terminal-box-customization-customization',
 	components: {
@@ -64,9 +65,10 @@ export default {
 			topicStr: '',
 			mqttData: {},
 			historyModal: false,
-			nodeId: '',
-			chartTitle: '',
-			unit: ''
+			nodeId: [],
+			chartTitle: [],
+			unit:[],
+			functionCode: ['2021.0001', '2021.0002']
 		}
 	},
 	watch: {},
@@ -113,10 +115,22 @@ export default {
 	},
 	methods: {
 		//图纸节点点击回调
-		htClick(data) {
+		htClick(data, nodes) {
+			
+			
+			let index = nodes.findIndex(item => item.vcSourceId == data._tag)
+			let node = nodes[index]
+			let arr = []
+			for(let i =0; i<this.functionCode.length; i++){
+				let functionCode = this.functionCode[i]
+				let nodeIndex = node.devNodes.findIndex(val => val.functionCode == functionCode)
+				arr.push(node.devNodes[nodeIndex])
+			}
+			
 			this.historyModal = true
-			this.nodeId = data._tag
-			this.chartTitle = data._name
+			this.nodeId = arr
+			this.chartTitle = arr
+			this.unit = arr
 		},
 		//图纸切换
 		but(val) {

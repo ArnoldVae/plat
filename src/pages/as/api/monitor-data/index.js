@@ -1,5 +1,7 @@
 import axios from '@/config/api.request'
 import axiosNet from '@/config/api.request.net'
+import $ajax from 'axios'
+import qs from 'qs';
 export default {
 	//获取预置巡检列表
 	getPresetInspection(params) {
@@ -83,6 +85,14 @@ export default {
 			data: params
 		})
 	},
+	//获取巡检树数据
+	getInspectionTreeData(params) {
+		return axios.request({
+			url: 'tree/showVbllTree1',
+			method: 'post',
+			data: params
+		})
+	},
 
 	//获取图元节点
 	getMCFind(params) {
@@ -128,11 +138,21 @@ export default {
 
 	//获取巡检任务单数据
 	getInspectionWorkOrderData(params) {
+		return $ajax({
+			//url: 'http://172.26.1.128:8011/as/GetAsTaskNodeByTree',
+			url: 'http://172.26.1.128:8011/as/GetAsTaskNodeByNodes',
+			method: 'post',
+			data: qs.stringify(params)
+		})
+	},
+	
+	getInspectionWorkOrderDataN(params) {
 		return axiosNet.request({
 			url: `/as/GetAsTaskNodeByTree?${params}`,
 			method: 'post',
 		})
 	},
+	
 	//获取预置巡检数据
 	getPresetInspectionInfo( params ) {
 		return axiosNet.request({

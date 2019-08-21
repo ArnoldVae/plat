@@ -142,6 +142,7 @@
                 // console.log(this.$refs)
             },
             getMethod(val) {
+                console.log(val)
                 this.tabList.forEach(item => {
                     if (item.code == 'status-check') {
                         item.active = true
@@ -151,6 +152,7 @@
                 })
 
                 this.current = 'status-check'
+          
                 let that = this
                 setTimeout(() => {
                     that.$refs.test.initView(val)
@@ -179,7 +181,7 @@
             //获取所有接入消防的站
             getAllstation() {
                 this.$_api.systemView.getAllStation({iType: 10060003}).then(res => {
-                    debugger
+                    // debugger
                     if (res.success) {
                         res.data.map((val) => {
                             this.topicArr.push(this.alaramTopic + val.unitId)
@@ -252,10 +254,10 @@
         .fire-nav {
             top: 1px;
             height: 45px;
-            width: 81.2%;
+            width: 82.7%;
             position: relative;
             line-height: 45px;
-            left: 16.8%;
+            left: 16.1%;
             background: url('~@/assets/img/navigation/nav-menu.png');
             background-size: 100% 100%;
             -moz-background-size: 100% 100%;
@@ -267,17 +269,18 @@
                 height: 45px;
                 line-height: 45px;
                 text-align: center;
-                font-size: 16px;
+                font-size: 15px;
                 cursor: pointer;
-                margin-right: 94px;
+                margin-right:3rem
             }
 
             .float-right {
                 float right
+                margin-right:1rem
             }
 
             .fire-header-title:first-child {
-                margin-left 43px;
+                margin-left 36px;
             }
 
             .fire-header-active {

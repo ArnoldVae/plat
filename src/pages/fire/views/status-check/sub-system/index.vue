@@ -205,7 +205,7 @@ export default {
 	watch: {
 		activeUnitId: {
 			handler(val) {
-				this.getSubMenu(val)
+                this.getSubMenu(val)
 			}
 		}
 	},
@@ -214,7 +214,7 @@ export default {
 		console.log(new Date())
 	},
 	mounted() {
-		this.init()
+		// this.init()
 	},
 	activited() {},
 	update() {},
@@ -229,12 +229,10 @@ export default {
 			//获取控制端口为5200时的样式状态开关
 			this.pageType = item.pageType
 
-			this.getLightItem(item)
 			this.getSubMenu(item)
 		},
 		//点击树渲染视图
 		initView(item) {
-			this.getLightItem(item)
 			this.getSubMenu(item)
 		},
 		//获取流程图接口
@@ -250,7 +248,7 @@ export default {
 		},
 		//获取光牌接口
 		async getLightItem(item) {
-			this.getId = this.$store.getters.unitId || ''
+			this.getId = this.activeUnitId || ''
 			let result = await this.$_api.statusCheck.getLightItem({
 				unitId: this.getId,
 				subIdsStr: item.subSystemId || '',
@@ -259,9 +257,16 @@ export default {
 			if (result.success) {
 				// result.data.list.forEach((item) => {
 				//     item.vcName = item.vcName.substring(0, 8)
-				// })
-				result.data.dev = result.data.dev == null ? {} : result.data.dev
-
+                // })
+                
+                // result.data.dev = result.data.dev == null ? {} : result.data.dev
+                if(!result.data) {
+                    result.data = {}
+                    result.data.dev = {}
+                } else {
+                    result.data.dev = result.data.dev
+                }
+                
 				this.resultData = result.data
 			}
 		},
@@ -271,7 +276,7 @@ export default {
 		 * para  item：为当前对象，
 		 */
 		async getSubMenu(item) {
-			this.getId = this.$store.getters.unitId || '192fe4cec3ec4d3fb81c0d05f82bde41'
+			this.getId = this.activeUnitId || '192fe4cec3ec4d3fb81c0d05f82bde41'
 			let result = await this.$_api.statusCheck.getSubMenu({
 				unitId: this.getId,
 				subIdsStr: '10060003'
@@ -791,6 +796,8 @@ export default {
                         .el-row {
 							padding: 0 0 0 20px;
                             .el-col {
+                                margin-bottom: 10px;
+
                                 .item-list-single {
                                     text-align: center;
                                     color: #90d9ff;
@@ -835,15 +842,15 @@ export default {
 					background-repeat: no-repeat;
                     background-size: 100% 100%;
                     -moz-background-size: 100% 100%;
-                    overflow: auto;
+                    overflow: hidden;
                     > li {
                         color: #90d9ff;
-                        // width: 50%;
+                        width: 50%;
 						font-size: 14px;
 						float: left;
                         height: 6%;
                         margin-top: 28PX;
-                        margin-right 40px;
+                        // margin-right 40px;
 
                         .even {
                             overflow: hidden;
@@ -863,7 +870,6 @@ export default {
                         }
 
                         > div {
-                            // width: 450PX;
                             height: 45PX;
                             float: left;
                             margin-left: 68px;
@@ -890,7 +896,7 @@ export default {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                    overflow: auto;
+                    overflow: hidden;
 
                     > li {
                         color: #90d9ff;

@@ -15,7 +15,7 @@
 				</div>
 				<div class="protection-zone-bottom">
 					<p class="menu-bar">实时态势</p>
-					<p>实时态势：</p>
+					<p class="menu-b">实时态势：</p>
 					<div style="height: 385px" ref="envChart"></div>
 				</div>
 			</el-aside>
@@ -29,7 +29,7 @@
 						<el-row
 							v-for="(item, index) in subMenuList"
 							:key="index"
-							style="width: 95%;"
+							style="width: 100%;"
 						>
 							<el-col :span="12">
 								<span>
@@ -184,88 +184,16 @@ export default {
 	update() {},
 	beforeDestory() {},
 	methods: {
-		// setCharts(Obj) {
-		// 	const charts = this.$_echarts.init(this.$refs.charts)
-		// 	let option = {
-		// 		tooltip: {
-		// 			trigger: 'axis',
-		// 			axisPointer: {
-		// 				type: 'cross',
-		// 				label: {
-		// 					backgroundColor: '#red'
-		// 				},
-		// 				triggerTooltip: {}
-		// 			}
-		// 		},
-		// 		legend: {
-		// 			data: ['温度', '湿度'],
-		// 			textStyle: {
-		// 				color: '#fff'
-		// 			}
-		// 		},
-		// 		grid: {
-		// 			top: '10%',
-		// 			left: '3%',
-		// 			right: '4%',
-		// 			bottom: '4%',
-		// 			containLabel: true
-		// 		},
-		// 		xAxis: {
-		// 			type: 'category',
-		// 			boundaryGap: false,
-		//
-		// 			axisLine: {
-		// 				show: false
-		// 			},
-		// 			axisLabel: {
-		// 				textStyle: {
-		// 					color: '#fff'
-		// 				}
-		// 			}
-		// 		},
-		// 		// yAxis: {
-		// 		// 	type: 'value',
-		// 		// 	axisLine: {
-		// 		// 		show: false
-		// 		// 	},
-		// 		// 	splitLine: {
-		// 		// 		lineStyle: {
-		// 		// 			color: '#2d3650'
-		// 		// 		}
-		// 		// 	},
-		// 		// 	axisLabel: {
-		// 		// 		textStyle: {
-		// 		// 			color: '#fff'
-		// 		// 		}
-		// 		// 	}
-		// 		// },
-		// 		series: [
-		// 			{
-		// 				// data: [32, 40, 60, 55, 75, 29, 78,89,97,50,60,29,58],
-		// 				data: Obj.arr1,
-		// 				type: 'line',
-		// 				name: '温度',
-		//
-		// 				symbol: 'none',
-		// 				areaStyle: { normal: { color: '#0f335f' } }, //折线区域背景色
-		// 				lineStyle: { normal: { color: '#04a3ff' } } //折线颜色
-		// 			},
-		// 			{
-		// 				// data: [12, 50, 80, 35, 95, 9, 48,29,27,60,30,29,8],
-		// 				// data: Obj.arr2,
-		// 				// type: 'line',
-		// 				// name: '湿度',
-		// 				// symbol: 'none',
-		// 				// areaStyle: { normal: { color: '#f37176' } }, //折线区域背景色
-		// 				// lineStyle: { normal: { color: 'red' } } //折线颜色
-		// 			}
-		// 		]
-		// 	}
-		// 	charts.setOption(option)
-		// },
-
+		init(){},
 		//charts表渲染
 		getEnvChart(obj) {
+			// 如果湿度没有值则添加值
+			if (obj.arr3.length > 0) {
+				obj.arr3.forEach((item, index) => {
+					obj.arr2[index] = obj.arr2[index] ? obj.arr2[index] : '70'
+					obj.arr1[index] = obj.arr1[index] ? obj.arr1[index] : '24'
+				})
+			}
 			let option = {
 				title: {
 					show: true,
@@ -273,7 +201,7 @@ export default {
 					textStyle: {
 						color: '#85c9ee',
 						// fontFamily: "DS-DIGI",
-						fontSize: 14,
+						fontSize: 16,
 						align: 'center'
 					},
 					top: 20,
@@ -308,7 +236,7 @@ export default {
 						color: '#85c9ee',
 						show: true,
 						textStyle: {
-							fontSize: 33
+							fontSize: 14
 						}
 					},
 					areaStyle: {
@@ -344,7 +272,7 @@ export default {
 					},
 					textStyle: {
 						color: '#85c9ee',
-						fontSize: 33
+						fontSize: 14
 					}
 				},
 				series: [
@@ -514,6 +442,7 @@ export default {
 					this.getList.arr3 = []
 					this.getEnvChart(this.getList)
 				}
+
 			}
 		},
 		/**
@@ -530,8 +459,11 @@ export default {
 				console.log(result)
 				if (result.data && result.data.length > 0) {
 					this.videoConfig.deviceInfo = result.data[0].devId
+					// this.videoConfig.serviceInfo = result.data[0].vcParams1
 					console.log(this.videoConfig)
+					
 					this.videoConfig1.deviceInfo = result.data[1].devId
+					// this.videoConfig1.serviceInfo = result.data[1].vcParams1
 				}
 			}
 		},
@@ -542,7 +474,7 @@ export default {
 		async getTemCharts(id, target) {
 			let result = await this.$_api.statusCheck.getTemCharts({
 				nodeId: id,
-				startTime: Math.round(new Date().getTime() / 1000) - 604800,
+				startTime: Math.round(new Date().getTime() / 1000) - 1728000,
 				endTime: Math.round(new Date().getTime() / 1000)
 			})
 			if (result.success) {
@@ -793,6 +725,7 @@ $prowidth = 100%;
 
     .el-aside {
       height: $prohight;
+		overflow: hidden
 
       .protection-zone-top {
         // height: 560px;
@@ -814,6 +747,8 @@ $prowidth = 100%;
           }
 
           .left {
+			// position: relative;
+			// top: -1px;
             width: 49%;
 			height: 356px;
             margin: 0;
@@ -826,7 +761,8 @@ $prowidth = 100%;
           }
 
           .right {
-            position: relative;
+            // position: relative;
+			// top: -1px;
             width: 49%;
 			height: 356px;
             margin: 0;
@@ -848,7 +784,7 @@ $prowidth = 100%;
 		background-size: 100% 100%;
 		-moz-background-size: 100% 100%;
 
-		p {
+		.menu-b {
 			color: #fff;
 			font-size: 16px;
 			padding: 20px 0 0 24px;
@@ -869,7 +805,7 @@ $prowidth = 100%;
         background-size: 100% 100%;
         -moz-background-size: 100% 100%;
 		padding-top: 28px;
-		overflow: auto;
+		overflow: hidden;
 
         .el-row {
           color: white;
@@ -893,6 +829,8 @@ $prowidth = 100%;
         }
 
         .search-item {
+		width: 309px;
+		
           height: 498px;
           overflow: auto;
           font-size: 16px;
@@ -917,7 +855,7 @@ $prowidth = 100%;
 
             .item-btn {
               text-align: right;
-              padding-right: 10%;
+              padding-right: 18%;
 
               .el-button {
                 background: none;

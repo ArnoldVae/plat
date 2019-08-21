@@ -532,6 +532,6 @@ label {
 }
 
 /deep/.el-table tbody tr:hover>td {
-  background: none;
+  background: #081437;
 }
 </style>

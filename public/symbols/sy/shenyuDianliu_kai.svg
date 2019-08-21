@@ -1,86 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 2247 1080" style="enable-background:new 0 0 2247 1080;" xml:space="preserve">
+	 viewBox="0 0 2338 1153" style="enable-background:new 0 0 2338 1153;" xml:space="preserve">
 <style type="text/css">
 	.st0{display:none;}
 	.st1{display:inline;fill:#141A26;}
-	.st2{display:inline;fill:none;stroke:#49E2FC;stroke-width:2;stroke-miterlimit:10;}
-	.st3{fill:#FFFFFF;}
-	.st4{font-family:'MicrosoftYaHei';}
-	.st5{font-size:18px;}
+	.st2{fill:#FFFFFF;}
+	.st3{font-family:'MicrosoftYaHei';}
+	.st4{font-size:20px;}
+	.st5{display:inline;fill:#00FF85;}
+	.st6{font-family:'DigifaceWide';}
+	.st7{font-size:22px;}
+	.st8{display:inline;fill:none;stroke:#FFCE00;stroke-width:2;stroke-miterlimit:10;}
+	.st9{display:inline;fill:#FFFFFF;}
+	.st10{font-size:26px;}
+	.st11{font-size:32px;}
 </style>
 <g id="图层_4" class="st0">
-	<rect class="st1" width="2247" height="1080"/>
+	<rect class="st1" width="2338" height="1153"/>
 </g>
-<g id="框" class="st0">
-	<rect x="156" y="199" class="st2" width="65" height="46"/>
-	<rect x="159" y="479" class="st2" width="65" height="46"/>
-	<rect x="163" y="764" class="st2" width="65" height="46"/>
-	<rect x="444.3" y="545" class="st2" width="65" height="28"/>
-	<rect x="550.3" y="545" class="st2" width="65" height="28"/>
-	<rect x="659.8" y="545" class="st2" width="65" height="28"/>
-	<rect x="841" y="399.5" class="st2" width="55" height="28"/>
-	<rect x="932.8" y="400" class="st2" width="56" height="27.5"/>
-	<rect x="1026.3" y="400" class="st2" width="55" height="27.5"/>
-	<rect x="1119.8" y="400" class="st2" width="55" height="27.5"/>
-	<rect x="1210.3" y="400" class="st2" width="55" height="27.5"/>
-	<rect x="1300.2" y="400" class="st2" width="57" height="27.5"/>
-	<rect x="1396.8" y="400" class="st2" width="55" height="27.5"/>
-	<polygon class="st2" points="1486.8,400 1542.8,400 1542.8,428 1486.8,427.5 	"/>
-	<rect x="1613.6" y="162" class="st2" width="61" height="28"/>
-	<rect x="1720.6" y="162" class="st2" width="61" height="28"/>
-	<rect x="1826.8" y="162" class="st2" width="59" height="28"/>
-	<rect x="1919.5" y="162" class="st2" width="64" height="28"/>
-	<rect x="1613.6" y="275" class="st2" width="61" height="28"/>
-	<rect x="1720.6" y="275" class="st2" width="61" height="28"/>
-	<rect x="1825.3" y="275" class="st2" width="62" height="28"/>
-	<rect x="1915" y="275" class="st2" width="73" height="28"/>
-	<rect x="1613.6" y="396" class="st2" width="61" height="28"/>
-	<rect x="1720.6" y="396" class="st2" width="61" height="28"/>
-	<rect x="1825.3" y="396" class="st2" width="62" height="28"/>
-	<rect x="1915" y="396" class="st2" width="73" height="28"/>
-	<rect x="1611.3" y="659" class="st2" width="61" height="28"/>
-	<rect x="1711.6" y="659" class="st2" width="71" height="28"/>
-	<rect x="1817.3" y="659" class="st2" width="69" height="28"/>
-	<rect x="1923" y="659" class="st2" width="66" height="28"/>
-	<rect x="1611.3" y="760" class="st2" width="61" height="28"/>
-	<rect x="1711.6" y="760" class="st2" width="71" height="28"/>
-	<rect x="1815.8" y="760" class="st2" width="72" height="28"/>
-	<rect x="1923.5" y="760" class="st2" width="65" height="28"/>
-	<rect x="1611.3" y="863" class="st2" width="61" height="28"/>
-	<rect x="1711.6" y="863" class="st2" width="71" height="28"/>
-	<rect x="1815.8" y="863" class="st2" width="72" height="28"/>
-	<rect x="1923.5" y="863" class="st2" width="65" height="28"/>
-	<rect x="1461.2" y="660" class="st2" width="47" height="28"/>
-	<rect x="1342.5" y="660" class="st2" width="47" height="28"/>
-	<rect x="1216.2" y="660" class="st2" width="47" height="28"/>
-	<rect x="1611.3" y="659" class="st2" width="61" height="28"/>
-	<rect x="1711.6" y="659" class="st2" width="71" height="28"/>
-	<rect x="1817.3" y="659" class="st2" width="69" height="28"/>
-	<rect x="1923" y="659" class="st2" width="66" height="28"/>
-	<rect x="1611.3" y="760" class="st2" width="61" height="28"/>
-	<rect x="1711.6" y="760" class="st2" width="71" height="28"/>
-	<rect x="1815.8" y="760" class="st2" width="72" height="28"/>
-	<rect x="1923.5" y="760" class="st2" width="65" height="28"/>
-	<rect x="1611.3" y="863" class="st2" width="61" height="28"/>
-	<rect x="1711.6" y="863" class="st2" width="71" height="28"/>
-	<rect x="1815.8" y="863" class="st2" width="72" height="28"/>
-	<rect x="1923.5" y="863" class="st2" width="65" height="28"/>
-	<rect x="1461.2" y="660" class="st2" width="47" height="28"/>
-	<rect x="1342.5" y="660" class="st2" width="47" height="28"/>
-	<rect x="1216.2" y="660" class="st2" width="47" height="28"/>
-	<rect x="1093.3" y="660" class="st2" width="47" height="28"/>
-	<rect x="975.7" y="660" class="st2" width="47" height="28"/>
-	<rect x="847.7" y="660" class="st2" width="47" height="28"/>
-	<rect x="71" y="84" class="st2" width="253" height="51"/>
+<text transform="matrix(1 0 0 1 1597.5863 380.9253)" class="st2 st3 st4">铠装接地</text>
+<text transform="matrix(1 0 0 1 1597.5863 415.3253)" class="st2 st3 st4">电流合成</text>
+<text transform="matrix(1 0 0 1 1703.5638 380.9253)" class="st2 st3 st4">铠装接地</text>
+<text transform="matrix(1 0 0 1 1703.5638 415.3253)" class="st2 st3 st4">电流合成</text>
+<text transform="matrix(1 0 0 1 1808.3024 868.9253)" class="st2 st3 st4">铠装接地</text>
+<text transform="matrix(1 0 0 1 1808.3024 903.3254)" class="st2 st3 st4">电流合成</text>
+<text transform="matrix(1 0 0 1 1912.2826 868.9253)" class="st2 st3 st4">铠装接地</text>
+<text transform="matrix(1 0 0 1 1912.2826 903.3254)" class="st2 st3 st4">电流合成</text>
+<rect x="1808.4" y="785.9" width="80" height="51"/>
+<rect x="1911.5" y="785.9" width="80" height="51"/>
+<rect x="1598.1" y="305.5" width="80" height="51"/>
+<rect x="1703.6" y="305.5" width="80" height="51"/>
+<g class="st0">
+	<text transform="matrix(1 0 0 1 1603.2577 192.3303)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1708.8219 192.3303)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1813.5602 192.3303)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1916.6744 192.3303)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1603.2577 338.5002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1708.8219 338.5002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1813.5602 338.5002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1916.6744 338.5002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1603.2577 470.5002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1708.8219 470.5002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1813.5602 470.5002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1916.6744 470.5002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1603.2577 665.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1708.8219 665.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1813.5602 665.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1916.6744 665.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1458.1744 456.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1365.6744 456.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1273.1744 456.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1181.1744 456.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1088.1744 456.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 996.6744 456.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 903.6744 456.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 812.1744 456.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 819.6744 782.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 661.3411 637.6669)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 548.0078 637.6669)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 428.6744 637.6669)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 164.1744 220.7)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 162.1744 486.5004)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 162.1744 839.5005)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 950.1744 782.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1065.1787 782.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1187.1743 782.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1319.1743 782.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1436.2878 782.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1603.2577 821.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1708.8219 821.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1813.5602 821.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1916.6744 821.0002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1603.2577 956.5002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1708.8219 956.5002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1813.5602 956.5002)" class="st5 st6 st7">52.52</text>
+	<text transform="matrix(1 0 0 1 1916.6744 956.5002)" class="st5 st6 st7">52.52</text>
 </g>
-<text transform="matrix(1 0 0 1 1610.1049 330.9253)" class="st3 st4 st5">铠装接地</text>
-<text transform="matrix(1 0 0 1 1610.1049 355.3253)" class="st3 st4 st5">电流合成</text>
-<text transform="matrix(1 0 0 1 1717.0824 330.9253)" class="st3 st4 st5">铠装接地</text>
-<text transform="matrix(1 0 0 1 1717.0824 355.3253)" class="st3 st4 st5">电流合成</text>
-<text transform="matrix(1 0 0 1 1814.7653 807.9253)" class="st3 st4 st5">铠装接地</text>
-<text transform="matrix(1 0 0 1 1814.7653 832.3254)" class="st3 st4 st5">电流合成</text>
-<text transform="matrix(1 0 0 1 1922.0131 807.9253)" class="st3 st4 st5">铠装接地</text>
-<text transform="matrix(1 0 0 1 1922.0131 832.3254)" class="st3 st4 st5">电流合成</text>
+<g class="st0">
+	<path class="st8" d="M2159.4,1020.9L2159.4,1020.9c-5.5,0-10-4.5-10-10l0,0c0-5.5,4.5-10,10-10l0,0c5.5,0,10,4.5,10,10l0,0
+		C2169.4,1016.5,2164.9,1020.9,2159.4,1020.9z"/>
+	<text transform="matrix(1 0 0 1 2184 1018.7698)" class="st9 st3 st10">剩余电流</text>
+	<circle class="st5" cx="2159.4" cy="1010.9" r="5"/>
+	<path class="st8" d="M2159.4,1077.4L2159.4,1077.4c-5.5,0-10-4.5-10-10l0,0c0-5.5,4.5-10,10-10l0,0c5.5,0,10,4.5,10,10l0,0
+		C2169.4,1072.9,2164.9,1077.4,2159.4,1077.4z"/>
+	<text transform="matrix(1 0 0 1 2184 1075.2493)" class="st9 st3 st10">铠装电流</text>
+	<text transform="matrix(1 0 0 1 2147 964.5002)" class="st9 st3 st11">图例：</text>
+</g>
 </svg>

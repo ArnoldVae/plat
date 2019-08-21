@@ -6,7 +6,7 @@
 				    <el-input v-model="ruleForm.taskName" placeholder="请输入任务名称"></el-input>
 				</el-form-item>
 			</el-form>
-			<el-table :data="modalInspectionTaskTableData" max-height="630" :span-method="objectSpanMethod" :header-cell-style="{ background: '#0d2a68', color: '#2c87e6' , fontSize: '14px' }">
+			<el-table :data="nodesTableData" max-height="580" :span-method="objectSpanMethod" :header-cell-style="{ background: '#0d2a68', color: '#2c87e6' , fontSize: '14px' }">
 				<el-table-column prop="area" label="区域" align="center" width="80"></el-table-column>
 				<el-table-column prop="interval" label="间隔" align="center" width="80"></el-table-column>
 				<el-table-column prop="dev" label="设备" align="center" width="80"></el-table-column>
@@ -18,9 +18,12 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			</el-table>
+			<div class="page-box">
+			    <Page :total="total" show-elevator :page-size='20' @on-change="handleChangePage"/>	
+			</div>
 			<!-- 底部 按钮 -->
 			<div class="modalFooterBtn">
+				<input type="button" value="上一步" class="btn" @click="lastStepClick()"/>
 				<input type="button" value="保存" class="btn" @click="saveClick('ruleForm')"/>
 				<input type="button" value="取消" class="btn" @click="closeClick('ruleForm')"/>
 			</div>
@@ -52,19 +55,30 @@ export default {
 				taskName: [
 					{ required: true, message: '任务名称为必填项', trigger: 'blur' },
 				]
-			}
+			},
+			nodesTableData: [],
+			total: 1,
 			
 		}
 	},
 	computed: {},
 	filters: {},
-	watch: {},
+	watch: {
+		modalInspectionTaskTableData(){
+			this.total = this.modalInspectionTaskTableData.length
+			this.nodesTableData = this.modalInspectionTaskTableData.slice( 0 , 20 )
+		}
+	},
 	created() {},
 	mounted() {},
 	activited() {},
 	update() {},
 	beforeDestory() {},
 	methods: {
+		//分页
+		handleChangePage( page ) {
+			this.nodesTableData = this.modalInspectionTaskTableData.slice( (page-1)*20 , (page-1)*20+20 )
+		},
 		inspectionTaskHeaderText( info ) {
 			let str = ''
 			return str = `${info.r_vc_Name} \n (${info.count})`
@@ -120,6 +134,10 @@ export default {
 				}
 			})
 			return spanArr
+		},
+		//点击上一步
+		lastStepClick() {
+			this.$emit( 'lastStepClick' )
 		},
 		//点击保存按钮
 		saveClick(formName) {
@@ -179,9 +197,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+@import '~@/assets/style/component/iview-page/index.styl'
 .inspectionTaskList {
 	.inspectionTicket {
-		height: 750px;
+		height: 780px;
 		padding-top: 20px;
 		background-size: 100% 100%;
 
@@ -229,11 +248,23 @@ export default {
 		/deep/.el-table__body-wrapper {
 			position: relative;
 		}
-
+		
+		.page-box{
+			width: 100%;
+			height: 32px;
+			margin-top: 10px;
+			display: flex;
+			justify-content: center;
+			
+			/deep/.ivu-page {
+				iview-page()
+			}
+		}
+		
 		.modalFooterBtn {
 			position: absolute;
 			right: 50px;
-			bottom: 30px;
+			bottom: 15px;
 
 			.btn {
 				width: 100px;
