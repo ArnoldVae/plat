@@ -1,7 +1,7 @@
 <template>
 	<div :class="pageType? 'statusCheck':'statusCheck-5'">
 		<el-container>
-			<el-aside width="15%" >
+			<el-aside width="14.2%">
 				<el-filter-tree
 					placeholder="输入关键字进行过滤"
 					v-model="filterText"
@@ -14,8 +14,7 @@
 					:filter-node-method="filterNode"
 					highlight-current
 					@node-click="handleClickNode"
-				>
-				</el-filter-tree>
+				></el-filter-tree>
 			</el-aside>
 			<el-main>
 				<div class="el-main-header">
@@ -27,8 +26,7 @@
 								@click="tabChange(tab)"
 								v-for="(tab, index) in tabList"
 								:key="index"
-								>{{ tab.title }}</span
-							>
+							>{{ tab.title }}</span>
 						</el-col>
 					</el-row>
 				</div>
@@ -41,7 +39,6 @@
 </template>
 
 <script>
-const trees = require('../../filters/treeCode')
 import subSystem from './sub-system'
 import viewCheck from './view-check'
 import protectionZone from './protection-zone'
@@ -60,10 +57,10 @@ export default {
 	},
 	data() {
 		return {
-			pageType:false,
+			pageType: false,
 			filterText: '',
 			itemData: {},
-			treeData: trees.treeData,
+			treeData: [],
 			defaultProps: {
 				children: 'children',
 				label: 'label'
@@ -113,15 +110,12 @@ export default {
 			}
 		}
 	},
-	created() {
-
-	},
+	created() {},
 	mounted() {
 		console.log(this.$store)
 
 		this.getOrganization()
 		this.registerMQTT()
-
 	},
 	activited() {},
 	update() {},
@@ -147,7 +141,7 @@ export default {
 		// 获取组织结构
 		async getOrganization() {
 			let result = await this.$_api.statusCheck.getOrganization({
-				iType: '1006003',
+				iType: '10060003',
 				treeFlag: '2'
 			})
 			if (result.success) {
@@ -173,7 +167,7 @@ export default {
 
 			setTimeout(() => {
 				this.$refs.sunMethod.init()
-			}, 100);
+			}, 100)
 		},
 		// 点击树节点
 		handleClickNode(data, node, root) {
@@ -201,164 +195,158 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.statusCheck{
-	margin 20px  20px 0  20px
-	height 100%
-	width 98%
-	.el-aside{
-		background #141a26
-		height 960px
+.statusCheck {
+  margin: 20px 20px 0 20px;
+  height: 100%;
+  width: 98%;
 
-		.el-tree{
-			background none;
-			color white
-		}
-	}
+  .el-aside {
+    background: #141a26;
+    height: 960px;
 
-	.el-main{
-           overflow hidden
-           padding-bottom: 0
-		margin-top -20px
-		padding-top:13px;
-		.el-main-header{
-			min-height 50px
-			width: 100%;
-			// left: 7px;
-			.el-row{
-				margin-top 12px
-				margin-bottom  12px
-				.fire-header-sub-title{
-					font-size 14px
-					color white
-					margin 36px
-					cursor pointer
+    .el-tree {
+      background: none;
+      color: white;
+    }
+  }
 
-				}
+  .el-main {
+    overflow: hidden;
+    padding-bottom: 0;
+    margin-top: -20px;
+    padding-top: 13px;
 
-				.fire-header-title{
-					color #37a8ff
-					font-size 16px
-					margin-right  94px
-					cursor pointer
+    .el-main-header {
+      min-height: 50px;
+      width: 100%;
 
+      // left: 7px;
+      .el-row {
+        margin-top: 12px;
+        margin-bottom: 12px;
 
-				}
+        .fire-header-sub-title {
+          font-size: 14px;
+          color: white;
+          margin: 36px;
+          cursor: pointer;
+        }
 
+        .fire-header-title {
+          color: #37a8ff;
+          font-size: 16px;
+          margin-right: 94px;
+          cursor: pointer;
+        }
 
-				.fire-header-active{
-					color #f6ce69
-				}
-				.point{
-					position: relative
-					left 2.5%
-					margin-right 10px
+        .fire-header-active {
+          color: #f6ce69;
+        }
 
-				}
-			}
-			position relative
-			background: #062964;
-			border: 0.04444rem solid #044e90;
-			border-radius 4px
+        .point {
+          position: relative;
+          left: 2.5%;
+          margin-right: 10px;
+        }
+      }
 
-		}
-		.el-main-content{
-			margin-top 10px;
-			height 770px
-			width: 100%;
+      position: relative;
+      background: #062964;
+      border: 0.04444rem solid #044e90;
+      border-radius: 4px;
+    }
 
-			position relative
-
-			// background url("../../assets/img/hull.png")
-			background-size:100% 100%
-			-moz-background-size:100% 100%
-		}
-
-
-	}
-
+    .el-main-content {
+      margin-top: 10px;
+      height: 770px;
+      width: 100%;
+      position: relative;
+      // background url("../../assets/img/hull.png")
+      background-size: 100% 100%;
+      -moz-background-size: 100% 100%;
+    }
+  }
 }
 </style>
 
 <style lang="stylus" scoped>
 .statusCheck-5 {
-	margin 20px  20px 0  20px
-	height 100%
-	width 98%
-	.el-aside{
-		// background #141a26
-		height 960px
-		position relative
-		top -50px
+  margin: 20px 20px 0 20px;
+  height: 100%;
+  width: 98%;
 
-		.el-tree{
-			background none;
-			color white
-		}
-	}
-	.el-main{
-           overflow hidden
-           padding-bottom: 0
-		margin-top -20px
-		padding-top:13px;
-		.el-main-header{
-			min-height 50px
-			width: 100%;
-			// left: 7px;
-			.el-row{
-				margin-top 12px
-				margin-bottom  12px
-				.fire-header-sub-title{
-					font-size 14px
-					color white
-					margin 36px
-					cursor pointer
+  .el-aside {
+    // background #141a26
+    height: 960px;
+    position: relative;
+    top: -64px;
 
-				}
+    .el-tree {
+      background: none;
+      color: white;
+    }
+  }
 
-				.fire-header-title{
-					color #37a8ff
-					font-size 16px
-					margin-right  94px
-					cursor pointer
+  .el-main {
+    overflow: hidden;
+    margin-top: -20px;
+    padding: 13px 6px 0 22px;
 
+    .el-main-header {
+      min-height: 50px;
+      width: 100%;
 
-				}
+      // left: 7px;
+      .el-row {
+        margin-top: 12px;
+        margin-bottom: 12px;
 
-				.fire-header-title:first-child {
-					margin-left 50px
-				}
-				.fire-header-active{
-					color #f6ce69
-				}
-				.point{
-					position: relative
-					left 2.5%
-					margin-right 10px
+        .fire-header-sub-title {
+          font-size: 14px;
+          color: white;
+          margin: 36px;
+          cursor: pointer;
+        }
 
-				}
-			}
-			position relative
-			// background: #062964;
-			background: url('../../assets/img/threemenu.png') no-repeat;
-			background-size: 100% 100%;
-			border: 0.04444rem solid #044e90;
-			border-radius 4px
+        .fire-header-title {
+          color: #37a8ff;
+          font-size: 14px;
+          margin-right: 68px;
+          cursor: pointer;
+        }
 
-		}
-		.el-main-content{
-			margin-top 10px;
-			height 770px
-			width: 100%;
+        .fire-header-title:first-child {
+          margin-left: 50px;
+        }
 
-			position relative
+        .fire-header-active {
+          color: #f6ce69;
+        }
 
-			// background url("../../assets/img/hull.png")
-			background-size:100% 100%
-			-moz-background-size:100% 100%
-		}
+        .point {
+          position: relative;
+          left: 2.5%;
+          margin-right: 10px;
+        }
+      }
 
+      position: relative;
+      // background: #062964;
+      background: url('../../assets/img/threemenu.png') no-repeat;
+      background-size: 100% 100%;
+      border: 0.04444rem solid #044e90;
+      border-radius: 4px;
+    }
 
-	}
-
+    .el-main-content {
+      margin-top: 10px;
+      height: 770px;
+      width: 100%;
+      position: relative;
+      // background url("../../assets/img/hull.png")
+      background-size: 100% 100%;
+      -moz-background-size: 100% 100%;
+    }
+  }
 }
 </style>

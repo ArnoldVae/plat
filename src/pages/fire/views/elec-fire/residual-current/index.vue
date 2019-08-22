@@ -170,7 +170,8 @@ $view-height = 898px;
 .residual-current {
   width: 100%;
   height: 100%;
-  background-color: #141a26;
-  border: 4px solid #d3dee6;
+  background: url("~@/assets/img/common/wai.png")
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 </style>

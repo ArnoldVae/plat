@@ -83,8 +83,6 @@
 	</div>
 </template>
 <script>
-const trees = require('../../filters/treeCode')
-console.log(trees)
 export default {
 	name: 'personnel',
 	components: {},
@@ -96,7 +94,7 @@ export default {
 				value2: '',
 				region: ''
 			},
-			treeData: trees.treeData,
+			treeData: [],
 			defaultProps: {
 				children: 'children',
 				label: 'label'

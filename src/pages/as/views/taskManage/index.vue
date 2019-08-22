@@ -509,4 +509,8 @@ export default {
 /deep/.el-table tbody tr:hover>td {
   background: #081437;
 }
+
+/deep/.el-loading-text {
+	font-size: 20px;
+	}
 </style>

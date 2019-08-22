@@ -6,7 +6,7 @@
 		center
 		:visible.sync="dialogVisible"
 		width="100%"
-		style="top:-30vh;left: 4vw"
+		style="top:-83vh;left: 4vw"
 		:before-close="handleClose"
 	>
 		<Row type="flex" class="row-bg" justify="center">
@@ -442,7 +442,7 @@ export default {
 }
 
 #dialogs .el-dialog__header {
-	background: url('../../assets/img/main/title.png') no-repeat;
+	background: url('../../assets/img/dialog.png') no-repeat;
 	background-size: 100% 100%;
 	padding: 5px 0;
 	font-weight: 700;

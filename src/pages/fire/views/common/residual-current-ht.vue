@@ -219,12 +219,12 @@ export default {
 
 .btnBox {
   position: absolute;
-  bottom: 50px;
+  bottom: 20px;
   right: 30px;
   width: 250px;
   height: 150px;
   color: #fff;
-  font-size: 35px;
+  font-size: 25px;
 
   .btnCon {
     margin-left: 30px;

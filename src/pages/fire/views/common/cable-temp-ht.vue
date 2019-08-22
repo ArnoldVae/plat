@@ -259,12 +259,12 @@ export default {
 
 .btnBox {
   position: absolute;
-  bottom: 170px;
+  bottom: 120px;
   right: -64px;
   width: 300px;
   height: 50px;
   color #fff;
-  font-size 35px;
+  font-size 25px;
   .btnCon{
 	.btnConItem{
 		display flex;

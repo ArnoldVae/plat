@@ -44,7 +44,7 @@
 									<div class="progress-box">
 										<Progress :percent="percentage" stroke-color='#00c6ff' /><span>本次巡检共包含目标{{inspectionTarget}}个,已完成0个，剩余{{inspectionTarget}}个</span>
 									</div>
-									<el-table :data="inspectionTaskTableData" max-height="475" :span-method="objectSpanMethod" :header-cell-style="{ background: '#0d2a68', color: '#2c87e6' , fontSize: '14px' }">
+									<el-table ref='inspecAticketTable' id="ticketTableScroll" :data="inspectionTaskTableData" max-height="475" :span-method="objectSpanMethod" :header-cell-style="{ background: '#0d2a68', color: '#2c87e6' , fontSize: '14px' }">
 										<!-- @cell-click="rowCliCk" -->
 										<el-table-column prop="area" label="区域" align="center" width="80"></el-table-column>
 										<el-table-column prop="interval" label="间隔" align="center" width="80"></el-table-column>
@@ -63,7 +63,7 @@
 										</el-table-column>
 									</el-table>
 									<div class="pageBox">
-									    <Page :total="totalNum" show-elevator :page-size='20' @on-change="handleChangePage"/>	
+									    <Page :total="totalNum" show-elevator :current.sync='pageNum' :page-size='pageSize' show-sizer @on-change="handleChangePage"/>	
 									</div>
 								
 								</Tab-pane>
@@ -286,7 +286,9 @@
 				inspectionTarget: 0, //巡检目标总数
 				inspectionTaskTableDataLoad: false, //巡检任务单loading
 				percentage: 0,//已完成百分比
-				totalNum: 0,//数据同条数
+				totalNum: 0,//数据所有条数
+				pageSize: 20,//每页条数
+				pageNum: 1,//当前页
 				
 				//新增任务相关
 				addTask: false,
@@ -299,7 +301,11 @@
 		},
 		computed: {},
 		filters: {},
-		watch: {},
+		watch: {
+			pageSize() {
+				this.inspectionTaskTableData = this.inspectionTaskTableDataAll.slice( 0 , this.pageSize )
+			}
+		},
 		components: {
 			cvideo,
 			monitorCurrent,
@@ -322,8 +328,8 @@
 			this.topicArr = temp;
 		},
 		mounted() {
-      this.subscribe()
-      this.topicStr = this.topicArr[1]
+			this.subscribe()
+			this.topicStr = this.topicArr[1]
 			this.$_listen('inspectionmonitor', (topic, message, packet) => {
 				let data = ''
 				let dataObj = []
@@ -359,19 +365,37 @@
 			//页面 巡检任务单 测点推送
 			getNodeIdData( nodeid ) {
 				if( nodeid ) {
-					
+					if (this.$refs['inspecAticketTable']) {
+						let index = this.inspectionTaskTableDataAll.findIndex(node => {
+							return node.nodeID == nodeid
+						})
+						let pages = parseInt(index/this.pageSize)+1;
+						this.handleChangePage( pages )
+						
+						let num = this.inspectionTaskTableData.findIndex(node => {
+							return node.nodeID == nodeid
+						})
+						this.$nextTick(() => {
+							let targetTr = document.querySelectorAll('#ticketTableScroll .el-table__body-wrapper tr')[num]
+							//console.log(num)
+							let targetTable = document.querySelector('#ticketTableScroll .el-table__body-wrapper')
+							if (targetTr && targetTable) {
+								targetTable.scrollTop = targetTr.offsetTop
+							}
+						})
+					}
 				}
 			},
 			//分页操作
 			handleChangePage( page ) {
 				console.log( page )
-				this.inspectionTaskTableData = this.inspectionTaskTableDataAll.slice( (page-1)*20 , (page-1)*20+20 )
+				this.pageNum = page
+				this.inspectionTaskTableData = this.inspectionTaskTableDataAll.slice( (page-1)*this.pageSize , (page-1)*this.pageSize+this.pageSize )
 			},
 			//点击新增任务
 			addTaskClick() {
 				this.addTask = true
-				// this.$refs.taskOrder.getDeviceType()
-				// this.$refs.taskOrder.getStaticTreeData()
+				this.$refs.taskOrder.getStaticTreeData()
 			},
 			//关闭新增任务弹框
 			closeAddTask() {
@@ -434,7 +458,8 @@
 						"sortid":"0"
 					})
 				})
-				this.$_mqtt.publish(this.topicArr[0], JSON.stringify(data))
+				console.log(obj);
+				this.$_mqtt.publish(this.topicArr[0], JSON.stringify(obj))
 			},
 			//关闭新增任务 巡检成票 弹框
 			closeAddTaskNext() {
@@ -444,14 +469,14 @@
 			//点击左侧 巡检成票
 			inspectionAticketBtn() {
 				//判断是否执行
-        // this.affirmTicket = true
-        this.$ocxModal.confirm({
-          title: '确认',
-          content: '是否执行巡检成票？',
-          onOk: () => {
-            this.affirmTicketYes()
-          }
-        })
+				// this.affirmTicket = true
+				this.$ocxModal.confirm({
+				  title: '确认',
+				  content: '是否执行巡检成票？',
+				  onOk: () => {
+					this.affirmTicketYes()
+				  }
+				})
 			},
 			//执行左侧 巡检成票
 			affirmTicketYes() {
@@ -474,7 +499,7 @@
 						this.tabsDisable = false
 						this.workOrderTableHeaderData = res.data.asRobots
 						this.inspectionTaskTableDataAll = res.data.asTaskNodes
-						this.inspectionTaskTableData = res.data.asTaskNodes.slice( 0 , 20 )
+						this.inspectionTaskTableData = res.data.asTaskNodes.slice( 0 , this.pageSize )
 						this.inspectionTarget = res.data.asTaskNodes.length
 						this.totalNum = res.data.asTaskNodes.length
 						this.inspectionTaskTableDataLoad = false

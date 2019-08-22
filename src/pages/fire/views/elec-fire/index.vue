@@ -176,7 +176,7 @@ export default {
      	margin-left:15px;
       .el-main-header {
         min-height: 50px;
-        width: 100%;
+        width: 99%;
         position: relative;
         background: url('../../assets/img/threemenu.png') no-repeat;
         background-size: 100% 100%;
@@ -195,9 +195,9 @@ export default {
 
           .fire-header-title {
             color: #37a8ff;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
-            width: 240px;
+            width: 6.6rem;
             float: left;
             text-align: center;
           }

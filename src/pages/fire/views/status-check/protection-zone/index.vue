@@ -46,7 +46,7 @@
 				<div class="protection-zone-items-bottom">
 					<el-row>
 						<el-col :span="24" class="menu-bar">{{ temData.name }}</el-col>
-						<el-col :span="24">{{ temData.name }}</el-col>
+						<el-col :span="24">{{ temData.name }}：</el-col>
 					</el-row>
 					<div class="search-item">
 						<div style="padding-left:24px;">
@@ -474,7 +474,7 @@ export default {
 		async getTemCharts(id, target) {
 			let result = await this.$_api.statusCheck.getTemCharts({
 				nodeId: id,
-				startTime: Math.round(new Date().getTime() / 1000) - 1728000,
+				startTime: Math.round(new Date().getTime() / 1000) - 86400,
 				endTime: Math.round(new Date().getTime() / 1000)
 			})
 			if (result.success) {
@@ -777,7 +777,7 @@ $prowidth = 100%;
       .protection-zone-bottom {
 		height: 385px;
         margin-top: 19px;
-		width: 1126px;
+		width: 1145px;
         background: #141A26;
 		background: url('../../../assets/img/protection-zon/actualTime.png');
 		background-repeat: no-repeat;
@@ -889,7 +889,7 @@ $prowidth = 100%;
           color: white;
           height: 40px;
           line-height: 40px;
-          font-size: 14px;
+          font-size: 16px;
 		  margin-left: 24px;
         }
 

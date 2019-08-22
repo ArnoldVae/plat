@@ -73,7 +73,7 @@
 				<el-table-column prop="presetName" align="center" label="负责人" width='100'></el-table-column>
 				<el-table-column prop="telePhone" align="center" label="联系电话" width='120'></el-table-column>
 				<el-table-column prop="presetName" align="center" label="负责人" width='100'></el-table-column>
-				<el-table-column prop="status" align="center" label="当前状态"  width='150'>
+				<el-table-column prop="status" align="center" label="当前状态"  width='100'>
 					<!-- <template slot-scope="scope">
 						<span v-if="scope.row.status=='未执行'" style="color:red;">{{scope.row.status}}</span>
 						<span v-if="scope.row.status=='正在执行'" style="color:green;">{{scope.row.status}}</span>
@@ -361,6 +361,7 @@ export default {
     /deep/.el-form-item__label {
       color: #90d9ff;
       font-size: 18px;
+			
     }
 
     .el-input {
@@ -434,6 +435,7 @@ export default {
         border: 1px solid #0f3047;
         background-color: transparent;
         color: #444;
+				cursor: pointer;
       }
 
       .el-pagination__jump {

@@ -333,6 +333,10 @@ export default {
 				this.dataZoomStart = 99
 			}
 
+			if (row.nodeName == '室内空调湿度') {
+				this.dataZoomStart = 95
+			}
+
 			await this.getHistoryByNodeId()
 
 			this.EchartsReady()

@@ -1,7 +1,7 @@
 <template>
 	<div :class="pageType? 'sub-system':'sub-system-5'">
 		<el-container>
-			<el-aside width="75%">
+			<el-aside width="75.4%">
 				<div class="sub-system-top">
 					<div class="sub-system-top-item left">
 						<p style="font-size: 44PX" class="menu-bars" @click="showFlag = !showFlag">
@@ -772,7 +772,7 @@ export default {
                         line-height: 40px;
                         font-size: 0.71111rem;
 
-                        padding 20px 0  0 20px;
+                        padding-top 20px;
 
                         .tool-text {
                             font-size: 15px;
@@ -790,7 +790,7 @@ export default {
                     }
 
                     .item-list {
-                        height: 360px;
+                        height: 460px;
                         overflow: auto;
 						margin-left 0!important;
                         .el-row {
@@ -851,6 +851,8 @@ export default {
                         height: 6%;
                         margin-top: 28PX;
                         // margin-right 40px;
+                        display: flex;
+                        justify-content: space-between;
 
                         .even {
                             overflow: hidden;
@@ -865,27 +867,33 @@ export default {
                             text-overflow: ellipsis;
                             width-space: nowrap;
                             color: #47b2fe;
-							float: left;
 							margin-left 0;
+                            flex: 61%;
+                            text-align: left;
                         }
 
                         > div {
+                            flex: 39%;
                             height: 45PX;
                             float: left;
-                            margin-left: 68px;
+                            margin-left: 50px;
                         }
                     }
+                    li:nth-child(odd) {
+                            width: 46%;
+                    }
+                        
 
 					.system-info {
 						color: #fff;
 						width: 100%;
-						margin: 20px 0 0 40px;
+						margin: 20px 0 0 24px;
 						font-size: 0.71111rem;
 					}
                 }
 
                 .sub-system-bottom-right {
-					width: 516px;
+					width: 494px;
 					height: 248px;
                     font-size: 36PX;
 					margin 22px 10px 0 10px;
@@ -904,6 +912,8 @@ export default {
                         height: 6%;
                         margin-top: 28PX;
 						font-size: 14px;
+                        display: flex;
+                        justify-content: space-between;
 
                         .even {
                             width: 220px;
@@ -911,6 +921,8 @@ export default {
                             text-overflow: ellipsis;
                             width-space: nowrap;
                             color: #ffd36a;
+                            
+
                         }
 
                         .odd {
@@ -918,16 +930,15 @@ export default {
                             text-overflow: ellipsis;
                             width-space: nowrap;
                             color: #47b2fe;
-							float: left;
 							margin-left 0;
+                            flex: 70%;
                         }
 
                         > div {
-                            // width: 450PX;
+                            flex: 30%;
                             height: 45PX;
-                            float: left;
-							// margin-left: 68px;
                         }
+
                     }
 
 					.maintenance-info {

@@ -105,17 +105,19 @@ export default {
 				// 	active: false
 				// }
 			],
-			alarmNode: ''
+			alarmNode: '',
+			untid:''
 		}
 	},
 	computed: {},
 	filters: {},
 	watch: {},
 	created() {
-		this.getOrganization()
+		this.getOrganization();
+			
 	},
 	mounted() {
-		console.log(this.pageType)
+		// console.log(this.pageType)
 	},
 	activited() {},
 	update() {},
@@ -128,12 +130,14 @@ export default {
 		// 获取组织结构
 		async getOrganization() {
 			let result = await this.$_api.analyst.getOrganization({
-				iType: '1006003',
+				iType: '10060003',
 				treeFlag: '2'
 			})
 			if (result.success) {
-				console.log(result.data)
 				this.treeData = result.data
+				this.untid=result.data[0].children[0].children[0].children[0].id
+					this.$store.dispatch('updateUnitId', this.untid)
+			
 			} else {
 				this.treeData = []
 			}
@@ -142,13 +146,15 @@ export default {
 		// 点击树节点
 		handleClickNode(data, node, root) {
 			// 更新当前模块单元id
-			console.log(data,node,root);
-			// this.$store.dispatch('updateUnitId', data.id)
+			if(data.type==10070002){
+				this.$store.dispatch('updateUnitId', data.id)
+			}
+			
 		},
 
 		// tab点击
 		tabChange(val) {
-			console.log(val, 'val')
+			// console.log(val, 'val')
 			this.tabList.forEach(item => {
 				item.active = false
 			})
@@ -219,10 +225,10 @@ export default {
     .el-main {
       padding: 21PX 0 0 0;
       width: 85%;
-	  	margin-left:310px;
+	  	margin-left:300px;
       .el-main-header {
         min-height: 50px;
-        width: 100%;
+        width: 99%;
         position: relative;
         background: url('../../assets/img/threemenu.png') no-repeat;
         background-size: 100% 100%;
@@ -241,9 +247,9 @@ export default {
 
           .fire-header-title {
             color: #37a8ff;
-            font-size: 16PX;
+            font-size: 15PX;
             cursor: pointer;
-            width: 240px;
+            width: 6.6rem;
             float: left;
             text-align: center;
           }

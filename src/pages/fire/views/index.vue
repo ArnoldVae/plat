@@ -195,7 +195,6 @@
             },
             //订阅topic
             subscribe(topic) {
-                console.log(topic[0])
                 this.$_mqtt.unsubscribe(topic[0], err => {
                     if (err) {
                         console.log('取消智慧消防订阅失败')

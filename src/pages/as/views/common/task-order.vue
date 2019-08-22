@@ -271,7 +271,7 @@ export default {
 	created() {
 		console.log('init');
 		this.getDeviceType()
-		this.getStaticTreeData()
+		//this.getStaticTreeData()
 	},
 	mounted() {},
 	activited() {},
@@ -396,20 +396,20 @@ export default {
 			}
 		},
 		getStaticTreeData(area,devType,regType,appearanceType,meterType) {
-      this.axios.getInspectionTreeData({
-        unitId:this.stationId,
-        asAreaId:area
-      })
-      .then(res=>{
-        if(res.code === '200'){
-          this.loading = false
-          this.treeData = res.data
-          this.treeDataStr = JSON.stringify(res.data)
-        }
-      })
-      .catch(err=>{
-        console.log(res);
-      })
+		  this.axios.getInspectionTreeData({
+			unitId:this.stationId,
+			asAreaId:area
+		  })
+		  .then(res=>{
+			if(res.code === '200'){
+			  this.loading = false
+			  this.treeData = res.data
+			  this.treeDataStr = JSON.stringify(res.data)
+			}
+		  })
+		  .catch(err=>{
+			console.log(res);
+		  })
 			// this.axios.getInspectionTreeData({ unitId: '8177a787a28b4f86a103fac9a023db05' }).then(res => {
 			// 	console.log(res)
 			// 	if (res.code == 200) {
@@ -427,16 +427,16 @@ export default {
 			// })
 		},
 		getDeviceType() {
-			;(this.isMeterType = false),
-				(this.isRecognitionType = false),
-				(this.isdeviceAreaList = false),
-				(this.isDeviceType = false),
-				(this.isAppearanceType = false),
-				(this.checkedMeterType = []),
-				(this.checkedRecognitionType = []),
-				(this.checkedDeviceAreaList = []),
-				(this.checkedDeviceType = []),
-				(this.checkedAppearanceType = []),
+			  this.isMeterType = false,
+				this.isRecognitionType = false,
+			  this.isdeviceAreaList = false,
+				this.isDeviceType = false,
+				this.isAppearanceType = false,
+				this.checkedMeterType = [],
+				this.checkedRecognitionType = [],
+				this.checkedDeviceAreaList = [],
+				this.checkedDeviceType = [],
+				this.checkedAppearanceType = [],
 				this.axios
 					.getInspectionType({
 						typeCode: this.typeCode,
@@ -714,6 +714,17 @@ export default {
 			console.log(node)
     },
     clearFilter(){
+      this.checkedDeviceAreaList = []
+      this.checkedMeterType = [],
+			this.checkedRecognitionType =  [], 
+			this.checkedDeviceType = [],
+			this.checkedAppearanceType = [],
+      this.checkdeviceAreaListAll = false
+      this.checkMeterTypeAll = false
+      this.checkRecognitionTypeAll = false
+      this.checkedAppearanceTypeAll = false
+      this.checkedDeviceTypeAll = false
+
       this.selectAreaList = []
       this.selectDevType=[]
       this.selectRegType = []
@@ -750,7 +761,7 @@ export default {
 				appearanceType.push(item.typeCode)
 			})
       
-      this.getStaticTreeData(area);
+      // this.getStaticTreeData(area);
     }
 	},
 	beforeRouteEnter(to, from, next) {

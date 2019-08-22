@@ -106,87 +106,41 @@
     </ElDialog>
 
     <el-form class="formSize" :inline="true" size="mini" :model="search">
-      <el-form-item label="设备名称:" style="margin-right: 15px">
-        <el-input v-model="form.eqName" placeholder="请输入设备名称"></el-input>
+      <el-form-item label="设备名称:" style="margin-right: 20px">
+        <el-input v-model="search.eqName" placeholder="请输入设备名称"></el-input>
       </el-form-item>
-      <el-form-item label="设备类型:" style="margin-right: 15px">
-        <el-select v-model="search.maintenanceUnit" placeholder="请选择设备类型">
+      <el-form-item label="设备类型:" style="margin-right: 20px">
+        <el-select v-model="search.devType" placeholder="请选择设备类型">
           <el-option label="全部" value="nullValue"></el-option>
           <el-option
             v-for="(item, index) in eqcnameS"
             :key="index"
-            :label="item.vc_Name"
-            :value="item.MtcCoID"
+            :label="item.vcName"
+            :value="item.vcName"
           ></el-option>
         </el-select>
       </el-form-item>
-	  <el-form-item label="定置点编号:" style="margin-right: 15px">
-        <el-input v-model="form.Num" placeholder="请输入定置点编号"></el-input>
+	  <el-form-item label="定置点编号:" style="margin-right: 20px">
+        <el-input v-model="search.Num" placeholder="请输入定置点编号"></el-input>
       </el-form-item>
-      <el-form-item label="所属子系统:" style="margin-right: 15px">
+      <el-form-item label="所属子系统:" style="margin-right: 26px">
         <el-select v-model="search.maintenanceUnit" placeholder="请选择所属子系统">
           <el-option label="全部" value="nullValue"></el-option>
           <el-option
             v-for="(item, index) in eqctypeS"
             :key="index"
-            :label="item.vc_Name"
-            :value="item.MtcCoID"
+            :label="item.vcName"
+            :value="item.vcName"
           ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="保管责任人:" >
-        <el-input v-model="form.keeperName" placeholder="请输入设备名称"></el-input>
+        <el-input v-model="search.keeperName" placeholder="请输入保管责任人"></el-input>
       </el-form-item>
       <br>
-      <!-- <el-form-item label="设备材质:" style="margin-right: 30px">
-				<el-select v-model="search.eqcaizhi" placeholder>
-					<el-option label="全部" value="nullValue"></el-option>
-					<el-option
-						v-for="(item, index) in materias"
-						:key="index"
-						:label="item.vc_Name"
-						:value="item.MtcCoID"
-					></el-option>
-				</el-select>
-			</el-form-item>
-
-			<el-form-item label="设备状态:" style="margin-right: 35px; margin-left:18px" >
-				<el-select v-model="search.subTypes" placeholder>
-					<el-option label="全部" value="nullValue"></el-option>
-					<el-option
-						v-for="(item, index) in subModels"
-						:key="index"
-						:label="item.vc_Name"
-						:value="item.MtcCoID"
-					></el-option>
-				</el-select>
-			</el-form-item>
-			<el-form-item label="设备名称:" style="margin-right: 30px;margin-left:18px" >
-				<el-select v-model="search.subModelsh" placeholder>
-					<el-option label="全部" value="nullValue"></el-option>
-					<el-option
-						v-for="(item, index) in subModelshs"
-						:key="index"
-						:label="item.vc_Name"
-						:value="item.MtcCoID"
-					></el-option>
-				</el-select>
-			</el-form-item>
-			<el-form-item label="安装位置:" style="margin-right: 30px">
-				<el-select v-model="search.materias" placeholder>
-					<el-option label="全部" value="nullValue"></el-option>
-					<el-option
-						v-for="(item, index) in subpostions"
-						:key="index"
-						:label="item.vc_Name"
-						:value="item.MtcCoID"
-					></el-option>
-				</el-select>
-      </el-form-item>-->
-
       <el-form-item class="taining-button">
         <div style="margin-bottom: 10px">
-          <el-button class="blue-btn" type="text" @click="searchItem()">查 询</el-button>
+          <el-button class="blue-btn" type="text" @click="doSearch()">查询</el-button>
           <el-button class="blue-btn" @click="leadTo" type="text">查看</el-button>
           <el-button class="blue-btn" @click="exportInfo" type="text">导入</el-button>
         </div>
@@ -207,16 +161,16 @@
         style="width: 100%;"
 		 height="630"
       >
-        <el-table-column prop="unit_name" align="center" label="变电站名称" width="200"></el-table-column>
-        <el-table-column prop="dev_name" align="center" label="设备名称" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="dev_type" align="center" label="设备类型"></el-table-column>
-        <el-table-column prop="dev_subsytem" align="center" label="所属子系统"></el-table-column>
-        <el-table-column prop="dev_num" align="center" label="定置点编号"></el-table-column>
-        <el-table-column prop="vc_Code" align="center" label="型号规格"></el-table-column>
-        <el-table-column prop="i_BeginTime" align="center" label="有效期"></el-table-column>
-        <el-table-column prop="vc_User" align="center" label="保管责任人"></el-table-column>
-        <el-table-column prop="vc_Local" align="center" label="安装位置"></el-table-column>
-        <el-table-column prop="vc_remark" align="center" label="备注"></el-table-column>
+        <el-table-column prop="unit_name" align="center" label="变电站名称" width="160"></el-table-column>
+        <el-table-column prop="vcName" align="center" label="设备名称" width='250' show-overflow-tooltip></el-table-column>
+        <el-table-column prop="devTypeName" align="center" label="设备类型" width='120'></el-table-column>
+        <el-table-column prop="subName" align="center" label="所属子系统" width='150'></el-table-column>
+        <el-table-column prop="num" align="center" label="定置点编号" width='150'></el-table-column>
+        <el-table-column prop="vcCode" align="center" label="型号规格" width='120'></el-table-column>
+        <el-table-column prop="beginTime" align="center" label="有效期" width='150'></el-table-column>
+        <el-table-column prop="userId" align="center" label="保管责任人" width='120'></el-table-column>
+        <el-table-column prop="vcLocal" align="center" label="安装位置" width='180'></el-table-column>
+        <el-table-column prop="vcMemo" align="center" label="备注" ></el-table-column>
       </el-table>
     </div>
     <div class="pagination">
@@ -298,12 +252,12 @@ export default {
 			nullValue: null,
 			data: '',
 			search: {
-				starTime: '',
-				endTime: '',
-				user: '',
-				timeQuantum: '',
-				maintenanceUnit: '',
-				stute: []
+				eqName: '',//设备名称
+				devType:'',//设备类型
+				Num:'',//定置点编号
+				maintenanceUnit: '',//所属子系统
+				keeperName: '',//保管责任人
+				
 			},
 			stutes: [{ id: 0, name: '未执行' }, { id: 1, name: '正在执行' }, { id: 2, name: '已结束' }],
 
@@ -394,25 +348,46 @@ export default {
 				}
 			],
 			modalShow: false,
-			form: {
-				eqName: '',
-				keeperName: '',
-				Num:''
-			},
 			// 分页相关数据
 			curIndex: 1,
 			pageSize: 10,
-			totals: 3
+			totals: 3,
+			unitId:this.$store.getters.unitId
 		}
 	},
 	mounted() {
+		
+	},
+	created() {
+		this.getData()
 		this.searchItem()
+		// console.log(this.$store.getters.unitId,'zhes');
 	},
 
-	created() {},
-
-	watch: {},
+	watch: {
+		unitId(val){
+			this.searchItem()
+		}
+	},
 	methods: {
+		//获取设备和子系统数据
+		getData(){
+			 this.$_api.devOps.geteqData({
+					dictGroupID:9003
+			}).then(res=>{
+				if(res.code==200){
+					this.eqcnameS=res.data
+				}
+			})
+			this.$_api.devOps.getChildData({
+				type:''
+			}).then(res=>{
+				if(res.code==200){
+					this.eqctypeS=res.data.lists
+				}
+			})
+			
+		},
 		tableColor({ row, column, rowIndex, columnIndex }) {
 			let index = rowIndex
 			if (index % 2 != 0) {
@@ -421,16 +396,26 @@ export default {
 				return 'background-color: transparent;'
 			}
 		},
+		doSearch(){
+				this.searchItem()
+		},
 		async searchItem() {
 			let result = await this.$_api.devOps.getAcountList({
+				vcName:this.search.eqName,
+				devTypeName:this.search.devType,
+				num:this.search.Num,
+				subName:this.search.maintenanceUnit,
+				userId:this.search.keeperName,
 				pageSize:this.pageSize,
-				currentPage:this.curIndex
+				currentPage:this.curIndex,
+				unitName:this.unitId
 			})
 			if (result.success) {
 				if (result.data && result.data) {
-					console.log(result.data);
+					// console.log(result.data);
 					this.totals=result.data.total
 					this.maintainDatas = result.data.list
+					console.log(this.maintainDatas);
 				}
 			}
 		},
@@ -540,7 +525,7 @@ export default {
 
   .el-form--inline {
     .el-input {
-      width: 150px;
+      width: 180px;
 
       /deep/ .el-input__inner {
         border: 1PX solid #0d7ec5 !important;
@@ -558,6 +543,7 @@ export default {
 
   /deep/ .el-form-item__label {
     color: #78b8de !important;
+	font-size:18px;
   }
 
   .el-checkbox__label {
@@ -603,6 +589,7 @@ export default {
         border: 1px solid #0f3047;
         background-color: transparent;
         color: #444;
+		cursor: pointer;
       }
 		/deep/ .el-pager li{
 			color: #2d8cf0 !important;
@@ -708,9 +695,7 @@ export default {
   }
 
   .taining-button {
-    position: absolute !important;
-    top: 0px;
-    right: 0;
+    float:right;
   }
 
   .taining-button button {
