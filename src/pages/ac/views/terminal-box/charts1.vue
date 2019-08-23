@@ -330,6 +330,7 @@ export default {
                   border-radius: 3px;
                   color: #fff;
                   cursor: pointer;
+                  margin-left: 5px;
                 }
 
                 .switch {

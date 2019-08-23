@@ -385,7 +385,7 @@ export default {
 				background-size: 138px 50px;
 				box-sizing: border-box;
 				margin-right: 15px;
-				border-radius: 14px 17px 14px 17px;
+				border-radius: 0px 17px 0px 17px;
 				display: flex;
 				justify-content: center;
 				align-items: center;

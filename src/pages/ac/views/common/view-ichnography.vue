@@ -1,10 +1,9 @@
 <template>
-  <div ref="blueprint"
-       class="blueprintHt"></div>
+    <div ref="view-ichnography" class="view-ichnography"></div>
 </template>
 <script>
 export default {
-	name: 'ht-blueprint',
+	name: 'view-ichnography',
 	props: {
 		blueprintUrl: {
 			type: String
@@ -22,9 +21,13 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		isShowName:{
+		isShowName: {
 			type: Boolean,
 			default: false
+		},
+		source: {
+			type: String,
+			default: ''
 		}
 	},
 	data() {
@@ -33,7 +36,8 @@ export default {
 			localHt: null,
 			dataModel: null,
 			graphView: null,
-			findNodes: []
+			findNodes: [],
+			isShow: true
 		}
 	},
 	created() {},
@@ -43,7 +47,7 @@ export default {
 	watch: {
 		blueprintUrl(url) {
 			this.dataModel.clear()
-			var el = this.$refs['blueprint']
+			var el = this.$refs['view-ichnography']
 			var childs = el.childNodes
 			for (var i = childs.length - 1; i >= 0; i--) {
 				el.removeChild(childs[i])
@@ -73,7 +77,7 @@ export default {
 			let dataModel = (global.dataModel = this.dataModel = new localHt.DataModel())
 			let graphView = (this.graphView = new localHt.graph.GraphView(dataModel))
 
-			let dom = this.$refs['blueprint']
+			let dom = this.$refs['view-ichnography']
 			graphView.addToDOM(dom)
 
 			dataModel.enableAnimation() //启用动画
@@ -102,10 +106,13 @@ export default {
 					let json = ht.Default.parse(res)
 					dataModel.deserialize(json)
 					graphView.fitContent(true)
+					this.getNode()
+					return
 				})
 				.catch(err => {
-					
 					this.$ocxMessage.error('图纸丢失！！！')
+					this.isShow = false
+					return
 				})
 			//监听交互事件
 			graphView.mi(e => {
@@ -141,8 +148,9 @@ export default {
 					}
 				}
 			})
-
-			this.getNode()
+			// if (this.isShow == true) {
+			// 	this.getNode()
+			// }
 		},
 
 		getNode() {
@@ -162,7 +170,13 @@ export default {
 							setTimeout(() => {
 								//创建ht node节点
 								let node = new this.localHt.Node()
-								node.setImage(item.vcPath) //设置图片
+
+								if (this.source == 'terminalBox') {
+									node.setImage('symbols/zf/dzx_zc.png')
+								} else {
+									node.setImage(item.vcPath) //设置图片
+								}
+
 								node.setTag(item.vcSourceId) //设置tag标签名称
 								node.setId(item.nodeId) //设置id
 								node.setPosition(parseFloat(item.fPageX), parseFloat(item.fPageY)) //设置位置
@@ -205,7 +219,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.blueprintHt {
+.view-ichnography {
   width: calc(100% - 16px);
   height: calc(100% - 10px);
   margin: 0 8px;

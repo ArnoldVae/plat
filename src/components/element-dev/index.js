@@ -1,3 +1,6 @@
+/*!
+ * 基于element的二次封装组件库
+ */
 import elFilterTree from './el-filter-tree'
 
 const components = [elFilterTree]

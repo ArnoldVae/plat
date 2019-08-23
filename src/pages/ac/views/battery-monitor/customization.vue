@@ -2,14 +2,14 @@
 	<div class="battery-monitor-customization">
 		<div class="battery-top">
 			<div class="top-status">
-				<p class="title">第一组电池组</p>
+				<p class="title">{{ title1 }}</p>
 				<div class="voltage status-item">
 					<div class="status-left">
 						<img src="../../assets/img/battery-monitor/dy.png" alt />
 						<p>电池组电压</p>
 					</div>
 					<div class="status-right">
-						<span>{{ list1.dy }}</span>
+						<span>{{ list1.dy.desc }}</span>
 					</div>
 				</div>
 				<div class="current status-item">
@@ -18,7 +18,7 @@
 						<p>电池组电流</p>
 					</div>
 					<div class="status-right">
-						<span>{{ list1.dl }}</span>
+						<span>{{ list1.dl.desc }}</span>
 					</div>
 				</div>
 				<div class="status status-item">
@@ -28,7 +28,7 @@
 					</div>
 					<div class="status-right">
 						<span></span>
-						{{ list1.zt }}
+						{{ list1.zt.desc }}
 					</div>
 				</div>
 			</div>
@@ -44,14 +44,14 @@
 		</div>
 		<div class="battery-bottom">
 			<div class="bottom-status">
-				<p class="title">第二组电池组</p>
+				<p class="title">{{ title2 }}</p>
 				<div class="voltage status-item">
 					<div class="status-left">
 						<img src="../../assets/img/battery-monitor/dy.png" alt />
 						<p>电池组电压</p>
 					</div>
 					<div class="status-right">
-						<span>{{ list2.dy }}</span>
+						<span>{{ list2.dy.desc }}</span>
 					</div>
 				</div>
 				<div class="current status-item">
@@ -60,7 +60,7 @@
 						<p>电池组电流</p>
 					</div>
 					<div class="status-right">
-						<span>{{ list2.dl }}</span>
+						<span>{{ list2.dl.desc }}</span>
 					</div>
 				</div>
 				<div class="status status-item">
@@ -70,7 +70,7 @@
 					</div>
 					<div class="status-right">
 						<span></span>
-						{{ list2.zt }}
+						{{ list2.zt.desc }}
 					</div>
 				</div>
 			</div>
@@ -96,14 +96,29 @@ export default {
 	data() {
 		return {
 			unitId: this.$store.getters.unitId,
+			topicArr: ['qif/zf/app/'],
+			topicStr: '',
+			title1: '第一组电池组',
+			title2: '第二组电池组',
+			devData: [],
 			list1: {
 				dyArr: [],
 				dzArr: [],
 				dyName: [],
 				dzName: [],
-				dy: '',
-				dl: '',
-				zt: '',
+				devId: '',
+				dy: {
+					desc: '',
+					nodeId: ''
+				},
+				dl: {
+					desc: '',
+					nodeId: ''
+				},
+				zt: {
+					desc: '',
+					nodeId: ''
+				},
 				dyOptions: {
 					id: 'charts1',
 					title: '单体电压(V)',
@@ -115,9 +130,9 @@ export default {
 				},
 				dzOptions: {
 					id: 'charts2',
-					title: '单体内阻(Ω)',
+					title: '单体内阻(mΩ)',
 					name: '电阻',
-					unit: 'Ω',
+					unit: 'mΩ',
 					color: '#ddad3a',
 					min: 0.3,
 					max: 0.4
@@ -128,9 +143,19 @@ export default {
 				dzArr: [],
 				dyName: [],
 				dzName: [],
-				dy: '',
-				dl: '',
-				zt: '',
+				devId: '',
+				dy: {
+					desc: '',
+					nodeId: ''
+				},
+				dl: {
+					desc: '',
+					nodeId: ''
+				},
+				zt: {
+					desc: '',
+					nodeId: ''
+				},
 				dyOptions: {
 					id: 'charts3',
 					title: '单体电压(V)',
@@ -142,9 +167,9 @@ export default {
 				},
 				dzOptions: {
 					id: 'charts4',
-					title: '单体内阻(Ω)',
+					title: '单体内阻(mΩ)',
 					name: '电阻',
-					unit: 'Ω',
+					unit: 'mΩ',
 					color: '#ddad3a',
 					min: 0.3,
 					max: 0.4
@@ -165,14 +190,49 @@ export default {
 		getunitId: {
 			handler(newValue) {
 				this.unitId = newValue
-				// this.topicStr = this.topicArr[0] + this.unitId
+				this.topicStr = this.topicArr[0] + this.unitId
 			}
 		}
 	},
 	created() {
 		this.getDevList()
 	},
-	mounted() {},
+	mounted() {
+		this.topicStr = this.topicArr[0] + this.unitId
+		console.log(this.topicStr)
+		//实时数据回调
+		const _this = this
+		this.$_listen(this.$options.name, (topic, message, packet) => {
+			// console.log(this.topicStr)
+			//如果推送上来的数据的topic和订阅的topic一致
+			if (topic == _this.topicStr) {
+				//将json字符串转为数组
+				let msgData = JSON.parse(message.toString())
+				// console.log(msgData)
+				if (msgData.cmd == 1001 && msgData.unitid == this.$store.getters.unitId) {
+					//先对比设备 如果是第一组
+					if (msgData.devid == this.list1.devId) {
+						for (let k in this.list1) {
+							if (k == 'dy' || k == 'dl' || k == 'zt') {
+								if (msgData.nodeid == this.list1[k].nodeId) {
+									this.list1[k].desc = msgData.desc
+								}
+							}
+						}
+						//否则是第二组
+					} else if (msgData.devid == this.list2.devId) {
+						for (let key in this.list2) {
+							if (key == 'dy' || key == 'dl' || key == 'zt') {
+								if (msgData.nodeid == this.list2[key].nodeId) {
+									this.list2[key].desc = msgData.desc
+								}
+							}
+						}
+					}
+				}
+			}
+		})
+	},
 	activited() {},
 	update() {},
 	beforeDestory() {},
@@ -187,28 +247,68 @@ export default {
 			}
 			this.$_api.batteryMonitor.getDevList(params).then(res => {
 				if (res.code == 200 && res.data) {
+					this.devData = res.data.lists
+					this.title1 = !!res.data.lists[0].vcName ? res.data.lists[0].vcName : '第一组电池组'
+					this.title2 = !!res.data.lists[1].vcName ? res.data.lists[1].vcName : '第二组电池组'
+					// res.data.lists[0].devNodesList.forEach(item => {
+					// 	if (item.vcName.indexOf('单体') != -1) {
+					// 		item.sort = item.vcName.replace(/[^0-9]/gi, '') - 0
+					// 	}
+					// })
+					// res.data.lists[1].devNodesList.forEach(item => {
+					// 	if (item.vcName.indexOf('单体') != -1) {
+					// 		item.sort = item.vcName.replace(/[^0-9]/gi, '') - 0
+					// 	}
+					// })
+					// res.data.lists[0].devNodesList = res.data.lists[0].devNodesList.sort(this.objSort('sort'))
+					// res.data.lists[1].devNodesList = res.data.lists[1].devNodesList.sort(this.objSort('sort'))
+
+					//注掉的是对数据进行排序的代码
+					this.list1.devId = res.data.lists[0].devId
+					this.list2.devId = res.data.lists[1].devId
 					this.setListData1(res.data.lists[0])
 					this.setListData2(res.data.lists[1])
 				}
 			})
 		},
+		//排序
+		objSort(prop) {
+			return function(obj1, obj2) {
+				var val1 = obj1[prop]
+				var val2 = obj2[prop]
+				if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+					val1 = Number(val1)
+					val2 = Number(val2)
+				}
+				if (val1 < val2) {
+					return -1
+				} else if (val1 > val2) {
+					return 1
+				} else {
+					return 0
+				}
+			}
+		},
 		//处理第一组数据
 		setListData1(data) {
 			data.devNodesList.forEach(item => {
-				if (item.vcName.indexOf('单体电压') != -1) {
+				if (item.vcName.indexOf('单体电压') != -1  && item.fvalue) {
 					this.list1.dyArr.push(item.fvalue)
-					this.list1.dyName.push(item.vcName)
-				} else if (item.vcUnit == 'Ω') {
-					this.list1.dzArr.push(item.fvalue)
-					this.list1.dzName.push(item.vcName)
+					this.list1.dyName.push( item.vcName.replace(/[^0-9]/gi, '') - 0)
+				} else if (item.vcUnit == 'Ω'  && item.fvalue) {
+					this.list1.dzArr.push((item.fvalue / 1000))
+					this.list1.dzName.push( item.vcName.replace(/[^0-9]/gi, '') - 0)
 				} else {
-					console.log(item)
+					// console.log(item)
 					if (item.vcName.indexOf('状态') != -1) {
-						this.list1.zt = item.desc
+						this.list1.zt.desc = item.desc
+						this.list1.zt.nodeId = item.nodeId
 					} else if (item.vcName.indexOf('电流') != -1) {
-						this.list1.dl = item.desc
-					} else if (item.vcName.indexOf('电压') != -1) {
-						this.list1.dy = item.desc
+						this.list1.dl.desc = item.desc
+						this.list1.dl.nodeId = item.nodeId
+					} else if (item.vcName.indexOf('电池组电压') != -1) {
+						this.list1.dy.desc = item.desc
+						this.list1.dy.nodeId = item.nodeId
 					}
 				}
 			})
@@ -216,22 +316,26 @@ export default {
 		// 处理第二组数据
 		setListData2(data) {
 			data.devNodesList.forEach(item => {
-				if (item.vcName.indexOf('单体电压') != -1) {
+				if (item.vcName.indexOf('单体电压') != -1 && item.fvalue) {
 					this.list2.dyArr.push(item.fvalue)
-					this.list2.dyName.push(item.vcName)
-				} else if (item.vcUnit == 'Ω') {
-					this.list2.dzArr.push(item.fvalue)
-					this.list2.dzName.push(item.vcName)
+					this.list2.dyName.push( item.vcName.replace(/[^0-9]/gi, '') - 0)
+				} else if (item.vcUnit == 'Ω' && item.fvalue) {
+					this.list2.dzArr.push((item.fvalue / 1000))
+					this.list2.dzName.push( item.vcName.replace(/[^0-9]/gi, '') - 0)
 				} else {
 					if (item.vcName.indexOf('状态') != -1) {
-						this.list2.zt = item.desc
+						this.list2.zt.desc = item.desc
+						this.list2.zt.nodeId = item.nodeId
 					} else if (item.vcName.indexOf('电流') != -1) {
-						this.list2.dl = item.desc
-					} else if (item.vcName.indexOf('电压') != -1) {
-						this.list2.dy = item.desc
+						this.list2.dl.desc = item.desc
+						this.list2.dl.nodeId = item.nodeId
+					} else if (item.vcName.indexOf('电池组电压') != -1) {
+						this.list2.dy.desc = item.desc
+						this.list2.dy.nodeId = item.nodeId
 					}
 				}
 			})
+
 		}
 	},
 	beforeRouteEnter(to, from, next) {

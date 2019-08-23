@@ -1,3 +1,6 @@
+/*!
+ * 基于iview的二次封装组件库
+ */
 import FilterTree from './filter-tree'
 import ocxModal from './ocx-modal'
 import ocxMessage from './ocx-message/ocx-message.js'

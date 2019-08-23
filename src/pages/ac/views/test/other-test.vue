@@ -1,18 +1,27 @@
 <template>
 	<div class="other-test">
 		<div class="action">
-			<Button type="info">其他测试</Button>
+			<Input v-model="val" style="width: 200px"></Input>
+			<Button type="info" @click="test">测试</Button>
 		</div>
-		<div class="container"></div>
+		<div class="container">
+			{{ str }}
+		</div>
 	</div>
 </template>
 <script>
+import Vue from 'vue'
+import fort from '@/filters'
+Vue.use(fort)
 export default {
 	name: 'other-test',
 	components: {},
 	props: {},
 	data() {
-		return {}
+		return {
+			val: '',
+			str: ''
+		}
 	},
 	computed: {},
 	filters: {},
@@ -23,7 +32,14 @@ export default {
 	beforeUpdate() {},
 	update() {},
 	beforeDestory() {},
-	methods: {},
+	methods: {
+		test() {
+			this.str = this.upperStringFirst(this.val)
+		},
+		upperStringFirst(str) {
+			return str.substring(0, 1).toUpperCase() + str.substring(1)
+		}
+	},
 	beforeRouteEnter(to, from, next) {
 		next()
 	},
@@ -41,12 +57,13 @@ export default {
 		display: flex;
 		justify-content: center;
 
-		.ivu-btn {
+		.ivu-input-wrapper,.ivu-btn {
 			margin: 10px;
 		}
 	}
 	.container {
-
+		display: flex;
+		justify-content: center;
 	}
 }
 </style>

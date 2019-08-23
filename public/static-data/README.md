@@ -13,3 +13,10 @@ businessTreeNodeList // 业务树节点类型
 phasePositionList // 相位定义
 ```
 
+### simulation-data
+
+> 模拟数据
+
+### device-type-map
+
+> 设备类型的参数映射

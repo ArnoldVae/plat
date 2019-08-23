@@ -17,9 +17,11 @@
 						<div class="list-item-right">
 							<span>{{ item.vcName }}</span>
 							<div class="list-item-btn">
-								<span v-for="(ite, idx) in item.btnArr" :key="idx" @click="handleClick(item, ite)">{{
+								<span v-for="(ite, idx) in item.btnArr" :key="idx" @click="handleClick(item, ite)">
+									{{
 									ite.btnTitle
-								}}</span>
+									}}
+								</span>
 							</div>
 						</div>
 					</li>
@@ -33,7 +35,7 @@
 			@on-ok="handleConfirm"
 			@on-cacel="handleCancel"
 		></confirm-modal>
-    <tool-tip createIframe v-model="tipShow" type="success" title="命令下发成功"></tool-tip>-->
+		<tool-tip createIframe v-model="tipShow" type="success" title="命令下发成功"></tool-tip>-->
 		<ocx-modal title="提醒" v-model="modalShow" @on-ok="handleConfirm" @on-cacel="handleCancel">
 			<p>确认执行该操作？</p>
 		</ocx-modal>
@@ -123,14 +125,16 @@ export default {
 					}
 				})
 				this.listData = res.data.lists
+				console.log(this.listData)
 				this.getFirstVideo(this.listData)
 			})
 		},
 		//获取第一条视频
 		getFirstVideo(data) {
 			for (let i = 0; i < data.length; i++) {
-				if (data[i].devNodesList && data[i].devNodesList.length > 0 && !!data[i].devNodesList[0].vcParam1) {
-					this.videoConfig.deviceInfo = data[i].devNodesList[0].vcParam1
+				if (data[i].devNodesList && data[i].devNodesList.length > 0 && !!data[i].devNodesList[0].devId) {
+					// this.videoConfig.deviceInfo = data[i].devNodesList[0].vcParam1
+					this.videoConfig.deviceInfo = data[i].devNodesList[0].devId
 					break
 				}
 			}
@@ -139,8 +143,9 @@ export default {
 		getVideoServe() {
 			this.$_api.antiTheft.getVideoServe().then(res => {
 				if (res.code == 200 && res.data) {
-					// this.videoConfig.serviceInfo = res.data.ServiceID
-					this.videoConfig.serviceInfo = res.data.vc_Address
+					// this.videoConfig.serviceInfo = res.data.vc_Address
+					let obj = res.data
+					this.videoConfig.serviceInfo = obj.ServiceID + '$' + obj.vc_IP + '$' + obj.i_Port + '$admin$admin'
 				}
 			})
 		},
@@ -176,10 +181,12 @@ export default {
 			if (
 				this.devItem.devNodesList &&
 				this.devItem.devNodesList.length > 0 &&
-				!!this.devItem.devNodesList[0].vcParam1
+				!!this.devItem.devNodesList[0].devId
 			) {
-				this.videoConfig.deviceInfo = this.devItem.devNodesList[0].vcParam1
+				this.videoConfig.deviceInfo = this.devItem.devNodesList[0].devId
 			}
+			console.log(this.videoConfig)
+			console.log(this.guids)
 		},
 		//弹窗取消
 		handleCancel() {},
@@ -199,7 +206,7 @@ export default {
 			this.$_listen(this.$options.name, (topic, message, packet) => {
 				if (topic == this.topicStr || topic == this.topicStr2) {
 					let msgData = JSON.parse(message.toString())
-					if (msgData.cmd == 1001) {
+					if (msgData.cmd == 1001 && msgData.unitid == this.$store.getters.unitId) {
 						console.log(msgData)
 						this.listData.forEach(element => {
 							element.devNodesList.forEach(item => {
@@ -233,6 +240,7 @@ export default {
 									this.guids.splice(index, 1)
 								} else {
 									this.$ocxMessage.error('命令执行失败')
+									this.guids.splice(index, 1)
 								}
 							}
 						})
@@ -341,7 +349,7 @@ export default {
 
           > span {
             font-size: 16px;
-			text-align center;
+            text-align: center;
           }
 
           .list-item-btn {
@@ -355,14 +363,14 @@ export default {
 
             > span {
               display: inline-block;
-			  min-width 60px;
+              min-width: 60px;
               color: #0ef6ff;
               background: url('../../assets/img/intelligent-lighting/btnBg.png');
               background-size: 100% 100%;
               cursor: pointer;
               height: 30px;
               line-height: 30px;
-			  text-align center;
+              text-align: center;
               padding: 0 10px;
               margin-bottom: 4px;
             }

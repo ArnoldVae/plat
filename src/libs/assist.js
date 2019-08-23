@@ -1,16 +1,6 @@
-// 模块懒加载 ==> Vue推荐 ES6
-// export const getComponent = (path) => () => import(/* webpackChunkName: "ES6Chunk" */ `@/views/${path}`)
-
-// 模块懒加载 ==> WebPack推荐 CommonJS
-// export const getComponent = (path) => r => require.ensure([], () => r(require(`@/views/${path}`)), 'CommonJsChunk');
-
-// 模块懒加载 ==> 参数化
-// function getComponent(path) {
-// 	let chunkName = path.split('/')[path.split('/').length-1] || 'chunkIsUndefined';
-// 	return r => require.ensure([], () => r(require('@/views/dongshanqiao/Inspection/InspectionReport')), 'chunkName');
-// 	return r => require.ensure([], () => r(require(`@/views/${path}`)), 'CommonJsChunk');
-// }
-// export { getComponent }
+/*!
+ * 辅助函数
+ */
 
 // 根据节点id查找更新后的节点pid
 export const getTreeNodeParentIdByTreeNodeId = (tree, nodeId) => {
@@ -68,20 +58,24 @@ export const componentReset = (_this, vif) => {
 }
 
 /**
- * Tree组件更新后的选中展开状态保持
- * @param {Object} _this			当前组件this
+ * Tree组件数据更新后的选中展开状态保持(iview)
+ * @param {Object} _this		当前组件this
  * @param {Array} tree			树组件数据
  * @param {String} nodeId		树节点ID
  * @param {String} parentId		树节点父ID
  * @param {String} parentIdKey	树节点父idKey字符
  * @param {String} vif			v-ifKey字符
  */
-/* export const treeKeepAlive = (_this, tree, nodeId, parentId, parentIdKey, vif) => {
-	_this[parentIdKey] = getTreeNodeParentIdByTreeNodeId(tree, nodeId)
-	setAllParentNodesExpand(tree, _this[parentIdKey])
-	handleSelectedExpandTreeNode(tree, nodeId)
-	componentReset(_this, vif)
-} */
+/*
+	params = {
+		_this: this,
+		tree: this.treeData,
+		nodeId: this.nodeId,
+		parentId: this.pid,
+		parentIdKey: 'pid',
+		vif: 'treeReset'
+	}
+ */
 export const treeKeepAlive = json => {
 	let params = json || {}
 	params._this[params.parentIdKey] = getTreeNodeParentIdByTreeNodeId(params.tree, params.nodeId)
@@ -100,12 +94,17 @@ export function oneOf(value, validList) {
 	return false
 }
 
+// 简单的深拷贝
+export function exchange(jsonObject) {
+	return JSON.parse(JSON.stringify(jsonObject))
+}
+
 // 获取数据类型
 export function getDataType(data) {
 	return Object.prototype.toString.call(data).match(/^\[object\s(.*)\]$/)[1]
 }
 
-// 深拷贝
+// 复杂深拷贝
 function dataDeepCopy(current, target, filter) {
 	for (let key in current) {
 		if (filter && target[key]) {
@@ -125,7 +124,7 @@ function dataDeepCopy(current, target, filter) {
 
 export { dataDeepCopy }
 
-// Find components upward
+// Find components upward 通过组件名称从目标源向父链查找单个组件
 function findComponentUpward(context, componentName, componentNames) {
 	if (typeof componentName === 'string') {
 		componentNames = [componentName]
@@ -143,7 +142,7 @@ function findComponentUpward(context, componentName, componentNames) {
 }
 export { findComponentUpward }
 
-// Find component downward
+// Find component downward 通过组件名称从目标源向子链查找单个组件
 export function findComponentDownward(context, componentName) {
 	const childrens = context.$children
 	let children = null
@@ -163,7 +162,7 @@ export function findComponentDownward(context, componentName) {
 	return children
 }
 
-// Find components downward
+// Find components downward 通过组件名称从目标源向子链查找多个组件
 export function findComponentsDownward(context, componentName) {
 	return context.$children.reduce((components, child) => {
 		if (child.$options.name === componentName) components.push(child)
@@ -172,7 +171,7 @@ export function findComponentsDownward(context, componentName) {
 	}, [])
 }
 
-// Find components upward
+// Find components upward 通过组件名称从目标源向父链查找单个组件
 export function findComponentsUpward(context, componentName) {
 	let parents = []
 	const parent = context.$parent
@@ -184,7 +183,7 @@ export function findComponentsUpward(context, componentName) {
 	}
 }
 
-// Find brothers components
+// Find brothers components 通过组件名称找到目标源的兄弟组件，默认包含自身
 export function findBrothersComponents(context, componentName, exceptMe = true) {
 	let res = context.$parent.$children.filter(item => {
 		return item.$options.name === componentName
@@ -193,3 +192,17 @@ export function findBrothersComponents(context, componentName, exceptMe = true) 
 	if (exceptMe) res.splice(index, 1)
 	return res
 }
+
+// 模块懒加载 ==> Vue推荐 ES6
+// export const getComponent = (path) => () => import(/* webpackChunkName: "ES6Chunk" */ `@/views/${path}`)
+
+// 模块懒加载 ==> WebPack推荐 CommonJS
+// export const getComponent = (path) => r => require.ensure([], () => r(require(`@/views/${path}`)), 'CommonJsChunk');
+
+// 模块懒加载 ==> 参数化
+// export function getComponent(path) {
+// 	let chunkName = path.split('/')[path.split('/').length-1] || 'chunkIsUndefined';
+// 	return r => require.ensure([], () => r(require('@/views/dongshanqiao/Inspection/InspectionReport')), 'chunkName');
+// 	return r => require.ensure([], () => r(require(`@/views/${path}`)), 'CommonJsChunk');
+// }
+// export { getComponent }

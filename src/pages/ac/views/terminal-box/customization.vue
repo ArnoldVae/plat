@@ -38,6 +38,7 @@
 				@htClick="htClick"
 				:isNodeClick="true"
 				:isShowName="true"
+				:source="'terminalBox'"
 			/>
 		</div>
 		<charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>

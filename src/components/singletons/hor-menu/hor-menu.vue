@@ -10,7 +10,8 @@
 			</div>
 		</div>
 		<div class="go-back" @click="handleGoBack()">
-			返回
+			<div class="icon"></div>
+			<div class="name">返回</div>
 		</div>
 	</div>
 </template>
@@ -86,15 +87,32 @@ export default {
 	}
 
 	.go-back {
-		position: absolute;
-		right: 20px;
-		top: 9px;
+		// position: absolute;
+		// right: 20px;
+		// top: 9px;
 		font-size: 18px;
-		color: #62bdf5;
+		color: #fff;
 		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100px;
+		height: 46px;
+		background: #106fd9;
+		position: absolute;
+		right: 0px;
+		border-radius: 0 7px 7px 0;
+
+		.icon {
+			width: 10px;
+			height: 16px;
+			background: url('~@/assets/img/common/back-icon.png') no-repeat;
+			background-size: 10px 16px;
+			margin-right: 10px;
+		}
 
 		&:hover {
-			color: #47b2fe;
+			/* color: #47b2fe; */
 		}
 	}
 }

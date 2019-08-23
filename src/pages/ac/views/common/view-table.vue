@@ -50,14 +50,21 @@
 					<template slot-scope="scope">
 						<div class="control-wrap" v-if="scope.row.i_NodeType == 3 || scope.row.i_NodeType == 4">
 							<template v-for="item in transFunction(scope.row.vc_ValueDesc)">
-								<el-button size="mini" @click="handleControl(item.id, scope.row)">{{item.label}}</el-button>
+								<el-button size="mini" @click="handleControl(item.id, scope.row)">{{
+									item.label
+								}}</el-button>
 							</template>
 						</div>
 					</template>
 				</el-table-column>
 				<el-table-column label="操作" align="center">
 					<template slot-scope="scope">
-						<el-button v-if="scope.row.i_NodeType == 1 || scope.row.i_NodeType == 2" size="mini" @click="handleViewHistory(scope.row)">历史数据</el-button>
+						<el-button
+							v-if="scope.row.i_NodeType == 1 || scope.row.i_NodeType == 2"
+							size="mini"
+							@click="handleViewHistory(scope.row)"
+							>历史数据</el-button
+						>
 					</template>
 				</el-table-column>
 			</el-table>

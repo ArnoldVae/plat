@@ -16,6 +16,9 @@
 					<template slot-scope="scope">
 						<img src="../../assets/img/common/dui.png" alt style="width: 15px;height: 15px;" v-if="handelCheck( scope.row.robotIDS , item.robotID )" />
 					</template>
+					<!-- <template slot-scope="scope">
+					  <el-checkbox v-model="item.checked" v-if="handelCheck( scope.row.robotIDS , item )"></el-checkbox>
+					</template> -->
 				</el-table-column>
 			</el-table>
 			<div class="page-box">
@@ -23,7 +26,7 @@
 			</div>
 			<!-- 底部 按钮 -->
 			<div class="modalFooterBtn">
-				<input type="button" value="上一步" class="btn" @click="lastStepClick()"/>
+				<input type="button" value="上一步" class="btn" @click="lastStepClick('ruleForm')"/>
 				<input type="button" value="保存" class="btn" @click="saveClick('ruleForm')"/>
 				<input type="button" value="取消" class="btn" @click="closeClick('ruleForm')"/>
 			</div>
@@ -83,9 +86,12 @@ export default {
 			let str = ''
 			return str = `${info.r_vc_Name} \n (${info.count})`
 		},
-		handelCheck(arr, id) {
-			if (arr.indexOf(id) == 0) {
+		handelCheck(arr, info) {
+			if (arr.indexOf(info.robotID) == 0) {
+				info.checked = true
 				return true
+			}else{
+				info.checked = false
 			}
 		},
 		//合并单元格的方法
@@ -136,7 +142,8 @@ export default {
 			return spanArr
 		},
 		//点击上一步
-		lastStepClick() {
+		lastStepClick(formName) {
+			this.$refs[formName].resetFields()
 			this.$emit( 'lastStepClick' )
 		},
 		//点击保存按钮
@@ -216,8 +223,12 @@ export default {
 				padding: 0;
 			}
 		
-			/deep/.cell {
-				padding: 0;
+			/deep/.el-table__body-wrapper{
+				
+				/deep/.cell {
+					padding: 0;
+					height: 100%;
+				}
 			}
 		
 			/deep/td,

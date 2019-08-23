@@ -230,6 +230,10 @@
                 "title": "定制化",
                 "name": "customization",
                 "icon": "layout"
+            }, {
+                "title": "平面图",
+                "name": "htcustomization",
+                "icon": "picture"
             },
             {
                 "title": "表格",
@@ -342,5 +346,36 @@
                 "icon": "table"
             }
         ]
+    },
+    {
+        "typeId": 8887,
+        "name": "hgis",
+        "mode": [{
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
+            },
+            {
+                "title": "表格",
+                "name": "table",
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "typeId": 8888,
+        "name": "breaker",
+        "mode": [{
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
+            },
+            {
+                "title": "表格",
+                "name": "table",
+                "icon": "table"
+            }
+        ]
     }
+
 ]

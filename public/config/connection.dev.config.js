@@ -1,4 +1,6 @@
-// 开发模式
+/*!
+ * 发布模式下的一些请求地址信息
+ */
 var $_development = {
 	javaRequest: {
 		location: "http://172.26.1.110:8080",

@@ -1,3 +1,6 @@
+/*!
+ * 全局指令插件
+ */
 import mapCenter from './map-center'
 import clickoutside from './clickoutside'
 import pin from './pin'

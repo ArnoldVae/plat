@@ -1,0 +1,1873 @@
+{
+  "v": "7.0.1",
+  "p": {
+    "autoAdjustIndex": true,
+    "hierarchicalRendering": true
+  },
+  "a": {
+    "rotateAsClock": false,
+    "connectActionType": null
+  },
+  "d": [
+    {
+      "c": "ht.Node",
+      "i": 12873,
+      "p": {
+        "position": {
+          "x": 1054.31358,
+          "y": 1290.57548
+        },
+        "width": 1843.31632,
+        "height": 2465.91358
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": null,
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12874,
+      "p": {
+        "displayName": "500kV东峰5652线",
+        "parent": {
+          "__i": 12873
+        },
+        "position": {
+          "x": 421.63509,
+          "y": 500.01957
+        },
+        "width": 550,
+        "height": 800
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": null,
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12875,
+      "p": {
+        "parent": {
+          "__i": 12874
+        },
+        "position": {
+          "x": 420.73262,
+          "y": 124.73569
+        },
+        "width": 550,
+        "height": 50
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": "rgb(50,153,255)",
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)",
+        "2d.editable": false
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12876,
+      "p": {
+        "displayName": "500kV东峰5652线",
+        "parent": {
+          "__i": 12874
+        },
+        "position": {
+          "x": 421.3755,
+          "y": 126.75994
+        },
+        "width": 548.71425,
+        "height": 52.09313
+      },
+      "s": {
+        "text": "500kV东峰5652线",
+        "text.align": "center",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "22px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12877,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12874
+        },
+        "tag": "1e8a16ac40974b19b0a471e9578bfd16",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 422,
+          "y": 290
+        },
+        "width": 502,
+        "height": 200
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "zhi": "11",
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12878,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12874
+        },
+        "tag": "7c05e2de7ae142feb3f5e61311e5f7e6",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 421,
+          "y": 519.95711
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "zhi": "12",
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12879,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12874
+        },
+        "tag": "67008c5541914ce2b29e9ccbcc658530",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 422,
+          "y": 750.45356
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12880,
+      "p": {
+        "parent": {
+          "__i": 12874
+        },
+        "position": {
+          "x": 189.58792,
+          "y": 288.99462
+        },
+        "width": 37.17585,
+        "height": 100.14048
+      },
+      "s": {
+        "text": "A相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12881,
+      "p": {
+        "parent": {
+          "__i": 12874
+        },
+        "position": {
+          "x": 189.58792,
+          "y": 518.69432
+        },
+        "width": 37.17585,
+        "height": 100.29135
+      },
+      "s": {
+        "text": "B相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12882,
+      "p": {
+        "parent": {
+          "__i": 12874
+        },
+        "position": {
+          "x": 190.58792,
+          "y": 748.96114
+        },
+        "width": 35.17585,
+        "height": 99.76592
+      },
+      "s": {
+        "text": "C相",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "18px arial, sans-serif",
+        "text.align": "center"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12883,
+      "p": {
+        "displayName": "500kV东迴5651线",
+        "parent": {
+          "__i": 12873
+        },
+        "position": {
+          "x": 1053.37181,
+          "y": 500.01957
+        },
+        "width": 550,
+        "height": 800
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": null,
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12884,
+      "p": {
+        "parent": {
+          "__i": 12883
+        },
+        "position": {
+          "x": 1052.72893,
+          "y": 124.73569
+        },
+        "width": 550,
+        "height": 50
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": "rgb(50,153,255)",
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12885,
+      "p": {
+        "displayName": "500kV东迴5651线",
+        "parent": {
+          "__i": 12883
+        },
+        "position": {
+          "x": 1052.72893,
+          "y": 126.06613
+        },
+        "width": 548.71425,
+        "height": 52.09313
+      },
+      "s": {
+        "text": "500kV东迴5651线",
+        "text.align": "center",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "22px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12886,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12883
+        },
+        "tag": "e6851dd148274ed4aea824b5337c34c7",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1053.37181,
+          "y": 290
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12887,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12883
+        },
+        "tag": "5537fd95883643fdba3b41c712f0b177",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1053.37181,
+          "y": 519.95711
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12888,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12883
+        },
+        "tag": "c538b370e8064f6680cc56a1e2888a91",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1053.37181,
+          "y": 750.45356
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12889,
+      "p": {
+        "parent": {
+          "__i": 12883
+        },
+        "position": {
+          "x": 821.95973,
+          "y": 290
+        },
+        "width": 37.17585,
+        "height": 100.14048
+      },
+      "s": {
+        "text": "A相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12890,
+      "p": {
+        "parent": {
+          "__i": 12883
+        },
+        "position": {
+          "x": 821.95973,
+          "y": 519.95711
+        },
+        "width": 37.17585,
+        "height": 100.29135
+      },
+      "s": {
+        "text": "B相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12891,
+      "p": {
+        "parent": {
+          "__i": 12883
+        },
+        "position": {
+          "x": 820.95973,
+          "y": 748.96114
+        },
+        "width": 35.17585,
+        "height": 99.76592
+      },
+      "s": {
+        "text": "C相",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "18px arial, sans-serif",
+        "text.align": "center"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12892,
+      "p": {
+        "displayName": "500kV秦东5687线",
+        "parent": {
+          "__i": 12873
+        },
+        "position": {
+          "x": 1683.63346,
+          "y": 500.01957
+        },
+        "width": 550,
+        "height": 800
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": null,
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12893,
+      "p": {
+        "parent": {
+          "__i": 12892
+        },
+        "position": {
+          "x": 1682.34771,
+          "y": 126.06613
+        },
+        "width": 550,
+        "height": 50
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": "rgb(50,153,255)",
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12894,
+      "p": {
+        "displayName": "500kV秦东5687线",
+        "parent": {
+          "__i": 12892
+        },
+        "position": {
+          "x": 1682.99059,
+          "y": 126.06613
+        },
+        "width": 548.71425,
+        "height": 52.09313
+      },
+      "s": {
+        "text": "500kV秦东5687线",
+        "text.align": "center",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "22px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12895,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12892
+        },
+        "tag": "c1c74a9cd5764746be9caebb2f8c2dc1",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1683.63346,
+          "y": 290
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12896,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12892
+        },
+        "tag": "371df3495e704011accffa5d2b75c0e2",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1683.63346,
+          "y": 519.95711
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12897,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12892
+        },
+        "tag": "0b900e4108394db4becaed09009c0be4",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1683.63346,
+          "y": 750.45356
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12898,
+      "p": {
+        "parent": {
+          "__i": 12892
+        },
+        "position": {
+          "x": 1452.22139,
+          "y": 290
+        },
+        "width": 37.17585,
+        "height": 100.14048
+      },
+      "s": {
+        "text": "A相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12899,
+      "p": {
+        "parent": {
+          "__i": 12892
+        },
+        "position": {
+          "x": 1452.22139,
+          "y": 519.95711
+        },
+        "width": 37.17585,
+        "height": 100.29135
+      },
+      "s": {
+        "text": "B相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12900,
+      "p": {
+        "parent": {
+          "__i": 12892
+        },
+        "position": {
+          "x": 1452.22139,
+          "y": 748.96114
+        },
+        "width": 35.17585,
+        "height": 99.76592
+      },
+      "s": {
+        "text": "C相",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "18px arial, sans-serif",
+        "text.align": "center"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12901,
+      "p": {
+        "displayName": "500kV秦桥5688线",
+        "parent": {
+          "__i": 12873
+        },
+        "position": {
+          "x": 422.63509,
+          "y": 1300.30345
+        },
+        "width": 550,
+        "height": 800
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": null,
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12902,
+      "p": {
+        "parent": {
+          "__i": 12901
+        },
+        "position": {
+          "x": 421.73262,
+          "y": 925.01957
+        },
+        "width": 550,
+        "height": 50
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": "rgb(50,153,255)",
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12903,
+      "p": {
+        "displayName": "500kV秦桥5688线",
+        "parent": {
+          "__i": 12901
+        },
+        "position": {
+          "x": 422.3755,
+          "y": 927.04382
+        },
+        "width": 548.71425,
+        "height": 52.09313
+      },
+      "s": {
+        "text": "500kV秦桥5688线",
+        "text.align": "center",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "22px arial, sans-serif",
+        "shape.border.color": "rgb(9,6,201)"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12904,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12901
+        },
+        "tag": "f32d72cf2b044f8d8cb87ea1864964be",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 423,
+          "y": 1090.28388
+        },
+        "width": 502,
+        "height": 200
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "zhi": "11",
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12905,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12901
+        },
+        "tag": "602b4ff97b8240a8865f52dde501f3d3",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 422,
+          "y": 1320.24099
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "zhi": "12",
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12906,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12901
+        },
+        "tag": "381c8bed4e464a108a5a7e4acc7bc195",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 423,
+          "y": 1550.73744
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12907,
+      "p": {
+        "parent": {
+          "__i": 12901
+        },
+        "position": {
+          "x": 190.58792,
+          "y": 1089.2785
+        },
+        "width": 37.17585,
+        "height": 100.14048
+      },
+      "s": {
+        "text": "A相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12908,
+      "p": {
+        "parent": {
+          "__i": 12901
+        },
+        "position": {
+          "x": 190.58792,
+          "y": 1318.9782
+        },
+        "width": 37.17585,
+        "height": 100.29135
+      },
+      "s": {
+        "text": "B相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12909,
+      "p": {
+        "parent": {
+          "__i": 12901
+        },
+        "position": {
+          "x": 191.58792,
+          "y": 1549.24502
+        },
+        "width": 35.17585,
+        "height": 99.76592
+      },
+      "s": {
+        "text": "C相",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "18px arial, sans-serif",
+        "text.align": "center"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12910,
+      "p": {
+        "displayName": "500kV龙东5261线",
+        "parent": {
+          "__i": 12873
+        },
+        "position": {
+          "x": 1054.37181,
+          "y": 1300.30345
+        },
+        "width": 550,
+        "height": 800
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": null,
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12911,
+      "p": {
+        "parent": {
+          "__i": 12910
+        },
+        "position": {
+          "x": 1053.72893,
+          "y": 925.01957
+        },
+        "width": 550,
+        "height": 50
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": "rgb(50,153,255)",
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12912,
+      "p": {
+        "displayName": "500kV龙东5261线",
+        "parent": {
+          "__i": 12910
+        },
+        "position": {
+          "x": 1053.72893,
+          "y": 926.35001
+        },
+        "width": 548.71425,
+        "height": 52.09313
+      },
+      "s": {
+        "text": "500kV龙东5261线",
+        "text.align": "center",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "22px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12913,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12910
+        },
+        "tag": "d5a0062758624ec2841f0affc4742e56",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1054.37181,
+          "y": 1090.28388
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12914,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12910
+        },
+        "tag": "f0c0b1d4ab894f258a462ad8f19247ba",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1054.37181,
+          "y": 1320.24099
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12915,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12910
+        },
+        "tag": "0469f3444b454734b6841f5df6476297",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1054.37181,
+          "y": 1550.73744
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12916,
+      "p": {
+        "parent": {
+          "__i": 12910
+        },
+        "position": {
+          "x": 822.95973,
+          "y": 1090.28388
+        },
+        "width": 37.17585,
+        "height": 100.14048
+      },
+      "s": {
+        "text": "A相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12917,
+      "p": {
+        "parent": {
+          "__i": 12910
+        },
+        "position": {
+          "x": 822.95973,
+          "y": 1320.24099
+        },
+        "width": 37.17585,
+        "height": 100.29135
+      },
+      "s": {
+        "text": "B相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12918,
+      "p": {
+        "parent": {
+          "__i": 12910
+        },
+        "position": {
+          "x": 821.95973,
+          "y": 1549.24502
+        },
+        "width": 35.17585,
+        "height": 99.76592
+      },
+      "s": {
+        "text": "C相",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "18px arial, sans-serif",
+        "text.align": "center"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12919,
+      "p": {
+        "displayName": "500kV龙桥5262线",
+        "parent": {
+          "__i": 12873
+        },
+        "position": {
+          "x": 1684.63346,
+          "y": 1300.30345
+        },
+        "width": 550,
+        "height": 800
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": null,
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12920,
+      "p": {
+        "parent": {
+          "__i": 12919
+        },
+        "position": {
+          "x": 1683.34771,
+          "y": 926.35001
+        },
+        "width": 550,
+        "height": 50
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": "rgb(50,153,255)",
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12921,
+      "p": {
+        "displayName": "500kV龙桥5262线",
+        "parent": {
+          "__i": 12919
+        },
+        "position": {
+          "x": 1683.99059,
+          "y": 926.35001
+        },
+        "width": 548.71425,
+        "height": 52.09313
+      },
+      "s": {
+        "text": "500kV龙桥5262线",
+        "text.align": "center",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "22px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12922,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12919
+        },
+        "tag": "a49adc30b09e49da9d7c45c5854ae221",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1684.63346,
+          "y": 1090.28388
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12923,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12919
+        },
+        "tag": "267b6bbdfbf84f8eab70090627fbe37e",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1684.63346,
+          "y": 1320.24099
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12924,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12919
+        },
+        "tag": "4c33305d6a96440dac982b23ff6f29f7",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1684.63346,
+          "y": 1550.73744
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12925,
+      "p": {
+        "parent": {
+          "__i": 12919
+        },
+        "position": {
+          "x": 1453.22139,
+          "y": 1090.28388
+        },
+        "width": 37.17585,
+        "height": 100.14048
+      },
+      "s": {
+        "text": "A相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12926,
+      "p": {
+        "parent": {
+          "__i": 12919
+        },
+        "position": {
+          "x": 1453.22139,
+          "y": 1320.24099
+        },
+        "width": 37.17585,
+        "height": 100.29135
+      },
+      "s": {
+        "text": "B相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12927,
+      "p": {
+        "parent": {
+          "__i": 12919
+        },
+        "position": {
+          "x": 1453.22139,
+          "y": 1549.24502
+        },
+        "width": 35.17585,
+        "height": 99.76592
+      },
+      "s": {
+        "text": "C相",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "18px arial, sans-serif",
+        "text.align": "center"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12928,
+      "p": {
+        "displayName": "500kV备用5053线",
+        "parent": {
+          "__i": 12873
+        },
+        "position": {
+          "x": 422.63509,
+          "y": 2100.58733
+        },
+        "width": 550,
+        "height": 800
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": null,
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12929,
+      "p": {
+        "parent": {
+          "__i": 12928
+        },
+        "position": {
+          "x": 421.73262,
+          "y": 1725.30345
+        },
+        "width": 550,
+        "height": 50
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": "rgb(50,153,255)",
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12930,
+      "p": {
+        "displayName": "500kV备用5053线",
+        "parent": {
+          "__i": 12928
+        },
+        "position": {
+          "x": 422.3755,
+          "y": 1727.3277
+        },
+        "width": 548.71425,
+        "height": 52.09313
+      },
+      "s": {
+        "text": "500kV备用5053线",
+        "text.align": "center",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "22px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12931,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12928
+        },
+        "tag": "5a66119b8a8f465ba2de4d04fd158281",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 423,
+          "y": 1890.56776
+        },
+        "width": 502,
+        "height": 200
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "zhi": "11",
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12932,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12928
+        },
+        "tag": "19e21242a5a641bc83ccd05ab0d53c0b",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 422,
+          "y": 2120.52487
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "zhi": "12",
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12933,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12928
+        },
+        "tag": "d7c6467a027b464a829b69deff95a43e",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 423,
+          "y": 2351.02132
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12934,
+      "p": {
+        "parent": {
+          "__i": 12928
+        },
+        "position": {
+          "x": 190.58792,
+          "y": 1889.56238
+        },
+        "width": 37.17585,
+        "height": 100.14048
+      },
+      "s": {
+        "text": "A相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12935,
+      "p": {
+        "parent": {
+          "__i": 12928
+        },
+        "position": {
+          "x": 190.58792,
+          "y": 2119.26208
+        },
+        "width": 37.17585,
+        "height": 100.29135
+      },
+      "s": {
+        "text": "B相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12936,
+      "p": {
+        "parent": {
+          "__i": 12928
+        },
+        "position": {
+          "x": 191.58792,
+          "y": 2349.5289
+        },
+        "width": 35.17585,
+        "height": 99.76592
+      },
+      "s": {
+        "text": "C相",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "18px arial, sans-serif",
+        "text.align": "center"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12937,
+      "p": {
+        "displayName": "500kV备用5061线",
+        "parent": {
+          "__i": 12873
+        },
+        "position": {
+          "x": 1054.37181,
+          "y": 2100.58733
+        },
+        "width": 550,
+        "height": 800
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": null,
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12938,
+      "p": {
+        "parent": {
+          "__i": 12937
+        },
+        "position": {
+          "x": 1053.72893,
+          "y": 1725.30345
+        },
+        "width": 550,
+        "height": 50
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": "rgb(50,153,255)",
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12939,
+      "p": {
+        "displayName": "500kV备用5061线",
+        "parent": {
+          "__i": 12937
+        },
+        "position": {
+          "x": 1053.72893,
+          "y": 1726.63389
+        },
+        "width": 548.71425,
+        "height": 52.09313
+      },
+      "s": {
+        "text": "500kV备用5061线",
+        "text.align": "center",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "22px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12940,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12937
+        },
+        "tag": "e648f9c0f5024fad906a23650e7d3ddb",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1054.37181,
+          "y": 1890.56776
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12941,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12937
+        },
+        "tag": "c9173690fbb54067afab60ff7363081f",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1054.37181,
+          "y": 2120.52487
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12942,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12937
+        },
+        "tag": "2b952ef5da9a457da1083c4627641e73",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1054.37181,
+          "y": 2351.02132
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12943,
+      "p": {
+        "parent": {
+          "__i": 12937
+        },
+        "position": {
+          "x": 822.95973,
+          "y": 1890.56776
+        },
+        "width": 37.17585,
+        "height": 100.14048
+      },
+      "s": {
+        "text": "A相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12944,
+      "p": {
+        "parent": {
+          "__i": 12937
+        },
+        "position": {
+          "x": 822.95973,
+          "y": 2120.52487
+        },
+        "width": 37.17585,
+        "height": 100.29135
+      },
+      "s": {
+        "text": "B相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12945,
+      "p": {
+        "parent": {
+          "__i": 12937
+        },
+        "position": {
+          "x": 821.95973,
+          "y": 2349.5289
+        },
+        "width": 35.17585,
+        "height": 99.76592
+      },
+      "s": {
+        "text": "C相",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "18px arial, sans-serif",
+        "text.align": "center"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12946,
+      "p": {
+        "displayName": "500kV一段母线",
+        "parent": {
+          "__i": 12873
+        },
+        "position": {
+          "x": 1684.63346,
+          "y": 2100.58733
+        },
+        "width": 550,
+        "height": 800
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": null,
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12947,
+      "p": {
+        "parent": {
+          "__i": 12946
+        },
+        "position": {
+          "x": 1683.34771,
+          "y": 1726.63389
+        },
+        "width": 550,
+        "height": 50
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": "rgb(50,153,255)",
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12948,
+      "p": {
+        "displayName": "500kV一段母线",
+        "parent": {
+          "__i": 12946
+        },
+        "position": {
+          "x": 1683.99059,
+          "y": 1726.63389
+        },
+        "width": 548.71425,
+        "height": 52.09313
+      },
+      "s": {
+        "text": "500kV一段母线",
+        "text.align": "center",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "22px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12949,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12946
+        },
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1684.63346,
+          "y": 1890.56776
+        }
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12950,
+      "p": {
+        "parent": {
+          "__i": 12946
+        },
+        "position": {
+          "x": 1453.22139,
+          "y": 1890.56776
+        },
+        "width": 37.17585,
+        "height": 100.14048
+      },
+      "s": {
+        "text": "A相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12951,
+      "p": {
+        "displayName": "500kV二段母线",
+        "parent": {
+          "__i": 12873
+        },
+        "position": {
+          "x": 1682.34771,
+          "y": 2260.69804
+        },
+        "width": 550,
+        "height": 479.77858
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": null,
+        "shape.border.color": "#979797"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12952,
+      "p": {
+        "parent": {
+          "__i": 12951
+        },
+        "position": {
+          "x": 1684.44524,
+          "y": 2045.52487
+        },
+        "width": 550,
+        "height": 50
+      },
+      "s": {
+        "shape": "rect",
+        "shape.background": "rgb(50,153,255)",
+        "shape.border.width": 1,
+        "shape.border.color": "rgb(50,153,255)"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12953,
+      "p": {
+        "displayName": "500kV二段母线",
+        "parent": {
+          "__i": 12951
+        },
+        "position": {
+          "x": 1682.08812,
+          "y": 2047.54912
+        },
+        "width": 548.71425,
+        "height": 52.09313
+      },
+      "s": {
+        "text": "500kV二段母线",
+        "text.align": "center",
+        "text.color": "rgb(247,247,247)",
+        "text.font": "22px arial, sans-serif"
+      }
+    },
+    {
+      "c": "ht.Node",
+      "i": 12954,
+      "p": {
+        "displayName": "避雷器",
+        "parent": {
+          "__i": 12951
+        },
+        "tag": "53201cf1c4fc4c6fbe0292d1f5120abe",
+        "image": "symbols/zf/bileiqi.json",
+        "position": {
+          "x": 1685.71262,
+          "y": 2210.78918
+        },
+        "width": 502,
+        "height": 200
+      },
+      "s": {
+        "interactive": true
+      },
+      "a": {
+        "zhi": "11",
+        "1003.0011": "10",
+        "1003.0008": "10",
+        "1003.0007": "10"
+      }
+    },
+    {
+      "c": "ht.Text",
+      "i": 12955,
+      "p": {
+        "parent": {
+          "__i": 12951
+        },
+        "position": {
+          "x": 1450.30054,
+          "y": 2209.7838
+        },
+        "width": 37.17585,
+        "height": 100.14048
+      },
+      "s": {
+        "text": "A相",
+        "text.color": "rgb(247,247,247)",
+        "text.align": "center",
+        "text.font": "18px arial, sans-serif"
+      }
+    }
+  ],
+  "modified": "Thu Aug 22 2019 22:52:21 GMT+0800 (中国标准时间)",
+  "contentRect": {
+    "x": 131.15542,
+    "y": 56.11869,
+    "width": 1846.31632,
+    "height": 2468.91358
+  }
+}

@@ -2,6 +2,10 @@
 	<div class="taskManage">
 		<div class="search-bar">
 			<div class="search">
+        <label for="">任务名称：</label>
+        <el-input class="ipt" v-model="taskName" placeholder=""/>
+			</div>
+      <div class="search">
 				<label for>任务类型：</label>
 				<el-select class="ipt" v-model="value" placeholder="请选择" @change="handleChangeTaskType">
 					<el-option v-for="item in taskType" :key="item.key" :label="item.value" :value="item.key"></el-option>
@@ -44,9 +48,9 @@
 				<el-table-column align="center" label="最后执行时间">
 					<template slot-scope="scope">{{ scope.row.updateTime }}</template>
 				</el-table-column>
-				<el-table-column align="center" label="机器人名称">
+				<!-- <el-table-column align="center" label="机器人名称">
 					<template slot-scope="scope">{{ scope.row.r_vc_Name }}</template>
-				</el-table-column>
+				</el-table-column> -->
 				<!-- <el-table-column prop align="center" label="操作">
 					<template slot-scope="scope">
 						<span
@@ -77,7 +81,7 @@
 			@on-cancel="closeAddTask"
 			:styles="{top: '100px'}"
 		>
-			<taskOrder @closeAddTask="closeAddTask" @inspectionAticketClick="inspectionAticketClick"></taskOrder>
+			<taskOrder ref='taskOrder' @closeAddTask="closeAddTask" @inspectionAticketClick="inspectionAticketClick"></taskOrder>
 		</ocx-modal>
 		<ocx-modal
 			v-model="addTaskNext"
@@ -120,18 +124,8 @@ export default {
       page: 1,
       pageSize: 10,
       total: 0,
-      taskType: [
-        {
-          key: '',
-          value: '全部'
-        }
-      ],
-      taskSubType: [
-        {
-          key: '',
-          value: '全部'
-        }
-      ],
+      taskType: [],
+      taskSubType: [],
       status: [
         {
           value: '',
@@ -156,6 +150,8 @@ export default {
       inspectionTaskListLoading: false,
       modalInspectionTaskTableData: [],
       modalWorkOrderTableHeaderData: [],
+      taskName: '',
+      topicArr: ['qif/xj/app/control/','qif/xj/app/data/'],
     }
   },
   computed: {
@@ -179,6 +175,11 @@ export default {
     this.getTaskList()
     this.getTaskType()
     this.getTaskSubType()
+    let temp = [];
+    this.topicArr.forEach(item=>{
+      temp.push(item+this.stationId);
+    })
+    this.topicArr = temp;
   },
   mounted() { },
   activited() { },
@@ -187,7 +188,7 @@ export default {
   methods: {
     //获取任务列表
     getTaskList() {
-      let params = `UnitID=${this.$store.getters.stationId}&Page=${this.page}&Rows=${this.pageSize}&i_Type=${this.i_Type}&i_SubType=${this.i_SubType}&i_Status=${this.i_Status}`
+      let params = `UnitID=${this.$store.getters.stationId}&Page=${this.page}&Rows=${this.pageSize}&i_Type=${this.i_Type}&i_SubType=${this.i_SubType}&i_Status=${this.i_Status}&vc_Name=${this.taskName}`
       this.axios.getTaskList(params).then((res) => {
         if (res.success) {
           res.data.rows.map((item) => {
@@ -204,23 +205,18 @@ export default {
     },
     //获取任务类型
     getTaskType() {
-      let params = `dictgroupid=7010`
+      let params = `dictgroupid=7010&isneednull=true`
       this.axios.getTaskTypeOrTaskSubType(params).then((res) => {
-        res.data.map((item) => {
-          this.taskType.push(item)
-        })
-        console.log(this.tasktype)
+        this.taskType = res.data
       }).catch((err) => {
         console.log(err);
       });
     },
     //获取任务子类型
     getTaskSubType() {
-      let params = `dictgroupid=7011`
+      let params = `dictgroupid=7011&isneednull=true`
       this.axios.getTaskTypeOrTaskSubType(params).then((res) => {
-        res.data.map((item) => {
-          this.taskSubType.push(item)
-        })
+        this.taskSubType = res.data
       }).catch((err) => {
         console.log(err);
       });
@@ -240,6 +236,7 @@ export default {
     //点击新增按钮
     addTask() {
       this.addTaskModal = true
+      this.$refs.taskOrder.getStaticTreeData()
     },
     //点击新增任务弹框的 巡检成票 按钮
     inspectionAticketClick(arr) {
@@ -262,7 +259,7 @@ export default {
     //新增任务 保存 按钮
     saveClick(name) {
       this.addTaskNext = false
-      this.getPresetInspectionData()
+      this.getTaskList()
       //临时功能
       let obj = {
         "cmd": "2202",
@@ -291,7 +288,7 @@ export default {
           "sortid": "0"
         })
       })
-      this.$_mqtt.publish(this.topicArr[0], JSON.stringify(data))
+      this.$_mqtt.publish(this.topicArr[0], JSON.stringify(obj))
     },
     //新增任务 上一步 按钮
     lastStepClick() {
@@ -513,4 +510,20 @@ export default {
 /deep/.el-loading-text {
 	font-size: 20px;
 	}
+
+/deep/.el-table tr,/deep/.el-table th{
+  background: #0d2a68;
+}
+
+/deep/.el-table{
+  // 滚动条的宽度
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+  }
+  // 滚动条的滑块
+  ::-webkit-scrollbar-thumb {
+    background-color: #a1a3a9;
+  }
+}
 </style>

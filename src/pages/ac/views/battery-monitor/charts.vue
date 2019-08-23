@@ -101,7 +101,7 @@ export default {
 					axisLabel: {
 						color: '#85c9ee',
 						show: true,
-						interval: 7.5, //间隔几个出现一次标签
+						interval: 2, //间隔几个出现一次标签
 						textStyle: {
 							fontSize: 14
 						}

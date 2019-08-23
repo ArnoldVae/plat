@@ -4,7 +4,7 @@
 			<!-- 变电站树区域 -->
 			<div class="station">
 				<el-filter-tree
-					placeholder="输入关键字进行过滤"
+					placeholder="请输入关键字"
 					v-model="filterText"
 					ref="elFilterTree"
 					:data="data"
@@ -15,7 +15,11 @@
 					@node-click="handleClickNode"
 					:current-node-key="$store.getters.unitId"
 					node-key="id"
-				></el-filter-tree>
+				>
+					<template #prefix>
+						<i class="el-icon-search"></i>
+					</template>
+				</el-filter-tree>
 			</div>
 			<div class="container">
 				<hor-menu
@@ -30,11 +34,13 @@
 					<div v-if="typeList.length != 1 && cardReset" class="card" @mousewheel="scrollBar">
 						<!-- <el-scrollbar v-if="typeList.length != 1"> -->
 						<div class="item-box">
-								<div v-for="(item, index) in typeList"
+							<div
+								v-for="(item, index) in typeList"
 								:key="item.devTypeId"
 								@click="handleSelectCard(item, index)"
 								class="card-item"
-								:class="{ current: currentTypeId == item.devTypeId }">
+								:class="{ current: currentTypeId == item.devTypeId }"
+							>
 								<!-- <div class="line"></div> -->
 								<div class="type">
 									<!-- ~@ac/assets/img/device-type/空调-0.png -->
@@ -187,7 +193,7 @@ export default {
 				this.subscribe([this.activeAppTopic, this.activeControlTopic])
 			}
 			// immediate: true
-		},
+		}
 		/*currentTypeId: {
 			handler(val) {
 				this.getDeviceInfo()
@@ -207,13 +213,6 @@ export default {
 		clearInterval(this.rotation)
 	},
 	methods: {
-		// 更新订阅
-		updateSubscription() {
-			this.topicStr1 = this.topicArr[0] + this.unitId
-			this.topicStr2 = this.topicArr[1] + this.unitId
-			let tArr = [this.topicStr1, this.topicStr2]
-			this.subscribe(tArr)
-		},
 		// 返回
 		handleGoBack() {
 			this.$router.push({ name: 'overview' })
@@ -461,11 +460,16 @@ export default {
     .station {
       width: 290px;
       height: 940px;
-      // background: url('~@/assets/img/common/side-bg.png') no-repeat;
-      // background-size: 313px 890px;
-      padding: 0 10px;
+      background: url('~@/assets/img/common/side-bg.png') no-repeat;
+      background-size: 290px 940px;
+      // padding: 0 10px;
+      padding-top: 10px;
       margin: 0 10px;
-
+		
+	  /deep/ .el-input__prefix {
+	  	left: 20px;
+	  	top: 7px;
+	  }
       /* background: #0af; */
       /deep/ .el-tree {
         height: 890px;
@@ -604,7 +608,7 @@ export default {
             }
           }
 		  }
-         
+
         }
 
         .router-view-wrap {

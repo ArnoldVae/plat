@@ -60,7 +60,7 @@ export default {
 		getunitId: {
 			handler(newValue) {
 				this.unitId = newValue
-				// this.topicStr = this.topicArr[0] + this.unitId
+				this.topicStr = this.topicArr[0] + this.unitId
 			}
 		},
 		button4: {
@@ -113,6 +113,7 @@ export default {
 				}
 			}
 		})
+		
 	},
 	activited() {},
 	update() {},
@@ -134,7 +135,7 @@ export default {
 							let devList = []
 							for (let i = 0; i < res.data.lists[0].devNodesList.length; i++) {
 								// if (res.data.lists[0].devNodesList[i].nodeType != 2) {
-								if (res.data.lists[0].devNodesList[i].functionCode != 1010.0009) {
+								if (res.data.lists[0].devNodesList[i].functionCode != 1010.0009 && res.data.lists[0].devNodesList[i].functionCode != 1010.0006) {
 									devList.push(res.data.lists[0].devNodesList[i])
 								}
 							}

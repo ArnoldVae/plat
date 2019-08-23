@@ -1,0 +1,183 @@
+<template>
+  <div class='ht-page'>
+    <div class="ht"
+         ref="ht-page"></div>
+    <charts v-model="historyModal"
+            :node-id="nodeId"
+            :sub-title="chartTitle"
+            :unit="unit"></charts>
+  </div>
+
+</template>
+<script>
+import charts from '../main-oil/charts1'
+export default {
+	name: 'ht-page',
+	components: { charts },
+	props: {
+		dataList: {
+			type: Array,
+			default: []
+		},
+		pitchOn: {
+			type: String,
+			default: ''
+		},
+		mainDevList: {
+			type: Array,
+			default: []
+		},
+		msgData: {
+			type: Object,
+			default: {}
+		}
+	},
+	data() {
+		return {
+			presentData: '',
+			localHt: null,
+			dataModel: null,
+			graphView: null,
+			historyModal: false,
+			chartTitle: '',
+			nodeId: '',
+			unit: ''
+		}
+	},
+	computed: {},
+	filters: {},
+	watch: {
+		pitchOn(newVal) {
+			if (this.presentData.length != 0) {
+				let index = this.dataList.findIndex(item => item.pageId == newVal)
+				this.presentData = this.dataList[index]
+				this.dataModel.clear()
+				var el = this.$refs['ht-page']
+				var childs = el.childNodes
+				for (var i = childs.length - 1; i >= 0; i--) {
+					el.removeChild(childs[i])
+				}
+				this.init()
+			} else {
+				console.log(11111)
+
+				let index = this.dataList.findIndex(item => item.pageId == newVal)
+				this.presentData = this.dataList[index]
+				this.init()
+			}
+		},
+		msgData(newVal) {
+			console.log('newVal', newVal)
+			let tag = this.dataModel.getDataByTag(newVal.devid)
+			if (tag != undefined) {
+				tag.a(newVal.functionCode, newVal.value ? newVal.value : 0)
+			}
+		}
+	},
+	created() {},
+	mounted() {},
+	activited() {},
+	update() {},
+	beforeDestory() {},
+	methods: {
+		init() {
+			let localHt = (this.localHt = global.ht)
+			let dataModel = (global.dataModel = this.dataModel = new localHt.DataModel())
+			let graphView = (this.graphView = new localHt.graph.GraphView(dataModel))
+
+			let dom = this.$refs['ht-page']
+			graphView.addToDOM(dom)
+
+			dataModel.enableAnimation() //启用动画
+
+			//监听窗口大小变化
+			window.addEventListener('resize', e => {
+				graphView.fitContent(false)
+			})
+
+			//设置图元选中时 边框的宽度
+			graphView.getSelectWidth = function(data) {
+				return 0
+			}
+			//图元移动时的回调
+			graphView.setMovableFunc(data => {
+				// console.log("移动" + data);
+				return false
+			})
+
+			if (!this.presentData.vcUrl.length) return
+
+			this.$_api.hgis
+				.getHtControl(this.presentData.vcUrl)
+				.then(res => {
+					console.log(res)
+
+					let json = localHt.Default.parse(res)
+					dataModel.deserialize(json)
+					graphView.fitContent(true, 8)
+
+					if (this.mainDevList.length != 0) {
+						for (let i = 0; i < this.mainDevList.length; i++) {
+							let item = this.mainDevList.lists[i]
+							let tag = dataModel.getDataByTag(item.devId)
+							if (tag != undefined) {
+								for (let j = 0; j < item.devNodesList.length; j++) {
+									tag.a(
+										item.devNodesList[j].functionCode,
+										item.devNodesList[j].fvalue ? item.devNodesList[j].fvalue : 0
+									)
+								}
+								tag.a('item', item)
+							}
+						}
+					}
+				})
+				.catch(err => {
+					this.$ocxMessage.error('图纸丢失！！！')
+					return
+				})
+
+			let _this = this
+			//ht添加的点击事件的接收函数
+			global.htModel = function(data, functionCode) {
+				_this.chartsModal(data, functionCode)
+			}
+		},
+		chartsModal(data, functionCode) {
+			let val = data.a('item')
+			if (val != undefined) {
+				let index = val.devNodesList.findIndex(item => item.functionCode == functionCode)
+				let list = val.devNodesList[index]
+				this.historyModal = true
+				this.nodeId = list.nodeId
+				this.unit = list.vcUnit
+				this.chartTitle = `${val.vcName}-${list.vcName}`
+			} else {
+				this.$ocxMessage.error('数据丢失！！！')
+			}
+		}
+	},
+	beforeRouteEnter(to, from, next) {
+		next()
+	},
+	beforeRouteUpdate(to, from, next) {
+		next()
+	},
+	beforeRouteLeave(to, from, next) {
+		next()
+	}
+}
+</script>
+<style lang='stylus' scoped>
+.ht-page {
+  width: calc(100% - 16px);
+  height: calc(100% - 10px);
+  margin: 0 8px;
+
+  .ht {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+}
+</style>

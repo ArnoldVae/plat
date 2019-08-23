@@ -271,7 +271,7 @@ export default {
 	created() {
 		console.log('init');
 		this.getDeviceType()
-		//this.getStaticTreeData()
+		this.getStaticTreeData()
 	},
 	mounted() {},
 	activited() {},
@@ -295,12 +295,10 @@ export default {
 				}
 			}
 		},
-		//勾选树节点
-		// handleCheckChange() {
-		// 	this.transmitArr = []
-		// 	let res = this.$refs.tree.getCheckedNodes()
-		// 	this.transmitArr = res
-		// 	console.log( res )
+		//重新渲染树
+		// applyTreeData() {
+		// 	console.log( 789 )
+		// 	this.treeData = JSON.parse(this.treeDataStr);
 		// },
 		//关闭弹框
 		closeAddTask() {
@@ -317,7 +315,7 @@ export default {
 					nodesArr.push(item.id)
 				}
 			})
-			console.log(nodesArr)
+			//console.log(nodesArr)
 			this.$emit('inspectionAticketClick', nodesArr)
 		},
 		handleShowMore1(value) {
@@ -714,22 +712,22 @@ export default {
 			console.log(node)
     },
     clearFilter(){
-      this.checkedDeviceAreaList = []
-      this.checkedMeterType = [],
-			this.checkedRecognitionType =  [], 
-			this.checkedDeviceType = [],
-			this.checkedAppearanceType = [],
-      this.checkdeviceAreaListAll = false
-      this.checkMeterTypeAll = false
-      this.checkRecognitionTypeAll = false
-      this.checkedAppearanceTypeAll = false
-      this.checkedDeviceTypeAll = false
+		this.checkedDeviceAreaList = []
+		this.checkedMeterType = [],
+		this.checkedRecognitionType =  [], 
+		this.checkedDeviceType = [],
+		this.checkedAppearanceType = [],
+		this.checkdeviceAreaListAll = false
+		this.checkMeterTypeAll = false
+		this.checkRecognitionTypeAll = false
+		this.checkedAppearanceTypeAll = false
+		this.checkedDeviceTypeAll = false
 
-      this.selectAreaList = []
-      this.selectDevType=[]
-      this.selectRegType = []
-      this.selectAppearanceType = []
-      this.selectMeterType = []
+		this.selectAreaList = []
+		this.selectDevType=[]
+		this.selectRegType = []
+		this.selectAppearanceType = []
+		this.selectMeterType = []
     },
     filterByCondition2(){   //调用接口进行树节点过滤
        this.loading = true;

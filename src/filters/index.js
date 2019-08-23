@@ -1,11 +1,14 @@
-import getDescLabel from './get-desc-label'
-
-const filters = [getDescLabel]
+/*!
+ * 全局过滤器插件
+ */
+import getDescLabel from './get-desc-label.js'
+import formatPrice from './format-price.js'
+import formatDate from './format-date.js'
 
 const install = function(Vue) {
-	filters.forEach(filter => {
-		Vue.filter('getDescLabel', filter)
-	})
+	Vue.filter('getDescLabel', getDescLabel)
+	Vue.filter('formatPrice', formatPrice)
+	Vue.filter('formatDate', formatDate)
 }
 
 if (typeof window !== 'undefined' && window.Vue) {
@@ -15,5 +18,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 export default {
 	version: '1.0.0',
 	install,
-	getDescLabel
+	getDescLabel,
+	formatPrice,
+	formatDate
 }

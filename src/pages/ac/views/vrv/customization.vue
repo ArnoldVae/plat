@@ -194,7 +194,7 @@ export default {
 		getTemperature(vrv) {
 			let temperature = ''
 			vrv.devNodesList.map(item => {
-				if (item.functionCode == '1016.0006') {
+				if (item.functionCode == '1016.0008') {
 					temperature = item.desc
 				}
 			})
@@ -204,7 +204,7 @@ export default {
 		getHumidity(vrv) {
 			let humidity = ''
 			vrv.devNodesList.map(item => {
-				if (item.functionCode == '1016.0007') {
+				if (item.functionCode == '1016.0009') {
 					humidity = item.desc
 				}
 			})
@@ -291,7 +291,7 @@ export default {
 			let status = false
 			let statusCode = null
 			vrv.devNodesList.map(item => {
-				if (item.functionCode == '1016.0001') {
+				if (item.functionCode == '1016.0004') {
 					statusCode = item.fvalue
 				}
 			})
@@ -379,7 +379,7 @@ export default {
 			} else if (statusCode == 4) {
 				return ['', '自动']
 			} else {
-				return ['', '模式无']
+				return ['', '未知']
 			}
 		},
 		// 控制空调功能

@@ -11,9 +11,8 @@
 					<p>灯控设备开关</p>
 					<span>
 						总 :
-						<i>{{ total }}</i
-						>&nbsp;&nbsp;&nbsp;开 : <i>{{ openTotal }}</i
-						>&nbsp;&nbsp;&nbsp;关 :
+						<i>{{ total }}</i>&nbsp;&nbsp;&nbsp;开 :
+						<i>{{ openTotal }}</i>&nbsp;&nbsp;&nbsp;关 :
 						<b>{{ offTotal }}</b>
 					</span>
 				</div>
@@ -27,7 +26,7 @@
 							<!-- <img
                 v-if="item.f_Value == 0"
                 src="../../assets/img/intelligent-lighting/lamplight-close-s.png"
-              />-->
+							/>-->
 							<img v-else src="../../assets/img/intelligent-lighting/lamplight-close-s.png" />
 						</div>
 						<div class="li-right">
@@ -170,12 +169,12 @@ export default {
 		// 	}
 		// },
 		getFirstVideo(data) {
-			// for (let i = 0; i < data.length; i++) {
-			// 	if (data[i].devNodesList && data[i].devNodesList.length > 0 && !!data[i].devNodesList[0].vcParam1) {
-			// 		this.videoConfig.deviceInfo = data[i].devNodesList[0].vcParam1
-			// 		break
-			// 	}
-			// }
+			for (let i = 0; i < data.length; i++) {
+				if (data[i].devNodesList && data[i].devNodesList.length > 0 && !!data[i].devNodesList[0].devId) {
+					this.videoConfig.deviceInfo = data[i].devNodesList[0].devId
+					break
+				}
+			}
 		},
 		//获取开关数量
 		getSwitch() {
@@ -188,13 +187,15 @@ export default {
 		},
 		//获取流媒体服务
 		getVideoServe() {
-			// this.$_api.intelligentLightin.getVideoServe().then(res => {
-			// 	if (res.code == 200 && res.data) {
-			// 		console.log(res)
-			// 		// this.videoConfig.serviceInfo = res.data.ServiceID
-			// 		this.videoConfig.serviceInfo = res.data.vc_Address
-			// 	}
-			// })
+			this.$_api.intelligentLightin.getVideoServe().then(res => {
+				if (res.code == 200 && res.data) {
+					console.log(res)
+					// this.videoConfig.serviceInfo = res.data.ServiceID
+					// this.videoConfig.serviceInfo = res.data.vc_Address
+					let obj = res.data
+					this.videoConfig.serviceInfo = obj.ServiceID + '$' + obj.vc_IP + '$' + obj.i_Port + '$admin$admin'
+				}
+			})
 		},
 		//点击开关按钮
 		handleSwitch(type, item) {
@@ -237,15 +238,16 @@ export default {
 			//下发控制命令
 			this.$_mqtt.publish(this.topicStr, JSON.stringify(params), { qos: 0, retain: false })
 			//判断当前节点是否有视频 有就切换视频
-			// if (
-			// 	this.lightItem.devNodesList &&
-			// 	this.lightItem.devNodesList.length > 0 &&
-			// 	!!this.lightItem.devNodesList[0].vcParam1
-			// ) {
-			// 	this.videoConfig.deviceInfo = this.lightItem.devNodesList[0].vcParam1
-			// 	console.log(this.lightItem.devNodesList[0].vcParam1)
-			// 	console.log(this.videoConfig.deviceInfo)
-			// }
+			if (
+				this.lightItem.devNodesList &&
+				this.lightItem.devNodesList.length > 0 &&
+				!!this.lightItem.devNodesList[0].devId
+			) {
+				this.videoConfig.deviceInfo = this.lightItem.devNodesList[0].devId
+				// console.log(this.lightItem.devNodesList[0].devId)
+				console.log(this.videoConfig)
+				console.log(this.guids)
+			}
 		},
 		//取消
 		handleCancel() {
@@ -259,9 +261,9 @@ export default {
 			this.$_listen(this.$options.name, (topic, message, packet) => {
 				if (topic == this.topicStr || topic == this.topicStr2) {
 					let msgData = JSON.parse(message.toString())
-					if (msgData.cmd == 1001) {
+					if (msgData.cmd == 1001 && msgData.unitid == this.$store.getters.unitId) {
 						console.log(msgData)
-						console.log(this.lightingList)
+						// console.log(this.lightingList)
 						this.lightingList.forEach(element => {
 							if (msgData.nodeid == element.ctrlNodeId) {
 								element.devNodesList.forEach(item => {
@@ -290,6 +292,8 @@ export default {
 									this.getSwitch()
 								} else {
 									this.$ocxMessage.error('命令执行失败')
+									this.guids.splice(index, 1)
+									this.getSwitch()
 								}
 							}
 						})

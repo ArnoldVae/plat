@@ -33,11 +33,11 @@ export default {
 </script>
 <style lang='stylus' scoped>
 .blank {
-  width: 100%;
-  height: 100vh;
+  width: 1920px;
+  height: 1080px;
   background: rgba(0, 0, 0, 0);
-  background: url('~@/assets/img/navigation/background.png') no-repeat;
-  background-size: 100% 100%;
+  background: url('~@/assets/img/navigation/background.png') no-repeat 0 -140px;
+  background-size: 1920px 1080px;
   position: relative;
 
   .title {

@@ -1,4 +1,6 @@
-// 生产模式
+/*!
+ * 开发模式下的一些请求地址信息
+ */
 var $_production = {
 	javaRequest: {
 		location: "",

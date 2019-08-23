@@ -134,7 +134,7 @@ export default {
 			if (topic == _this.topicStr) {
 				//将json字符串转为数组
 				let msgData = JSON.parse(message.toString())
-				if (msgData.cmd == 1001) {
+				if (msgData.cmd == 1001 && msgData.unitid == this.$store.getters.unitId) {
 					//循环主变还是非主变的flag
 					let devFlag = true
 					//非主变
@@ -315,7 +315,7 @@ export default {
           width: calc(33.33% - 15px);
           height: 100%;
           border: 1px solid #3299ff;
-          background-color: rgba(50, 153, 255, 0.1);
+        //   background-color: rgba(50, 153, 255, 0.1);
 
           .item-box {
             width: 100%;
@@ -323,6 +323,7 @@ export default {
             margin-top: 15px;
             border-top: 1px solid #3299ff;
             border-bottom: 1px solid #3299ff;
+			 background-color: rgba(50, 153, 255, 0.1);
 
             .left-title {
               width: 35px;

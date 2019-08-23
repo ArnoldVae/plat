@@ -1,161 +1,176 @@
 <template>
 	<div class="core-clamp-customization">
-		<div class="rcu" v-for="(item, index, idx) in rcuList" :key="index">
-			<div class="item-title">{{ idx + 1 + '号主变' }}</div>
-			<div class="content">
-				<ul class="x-wrap">
-					<li class="x-item" v-for="(ctem, i) in item" :key="i">
-						<div class="title">
-							<p>{{ i }}</p>
-							<p>相</p>
-						</div>
-						<div class="clamp">
-							<div class="info">
-								<div class="history-btn" @click="getHistory(ctem.jj)"></div>
-								<img src="~@ac/assets/img/core-clamp/clamp.png" />
-								<p>夹件电流</p>
-							</div>
-							<div class="value">
-								<ul>
-									<li>值(mA)</li>
-									<li>{{ ctem.jj.fvalue }}</li>
-								</ul>
-							</div>
-						</div>
-						<div class="electric">
-							<div class="info">
-								<div class="history-btn" @click="getHistory(ctem.tx)"></div>
-								<img src="~@ac/assets/img/core-clamp/electric.png" />
-								<p>铁芯电流</p>
-							</div>
-							<div class="value">
-								<ul>
-									<li>值(mA)</li>
-									<li>{{ ctem.tx.fvalue }}</li>
-								</ul>
-							</div>
-						</div>
-					</li>
-				</ul>
+		<div class="main-dev" v-for="(item1,index,num) in mainList" :key="index">
+			<div class="title">{{num+1}}号主变</div>
+			<div class="dev-item" v-for="(item2,idex) in item1" :key="idex">
+				<div class="phase">{{idex}}相</div>
+				<div class="node node1" v-for="node in item2" :key="node.nodeId">
+					<div class="logo">
+						<div class="history-btn" @click="getHistory(node)"></div>
+						<img v-if="node.vcName.indexOf('夹件电流') != -1" src="~@ac/assets/img/core-clamp/clamp.png" />
+						<img v-if="node.vcName.indexOf('铁芯电流') != -1" src="~@ac/assets/img/core-clamp/electric.png" />
+						<p v-if="node.vcName.indexOf('夹件电流') != -1">夹件电流</p>
+						<p v-if="node.vcName.indexOf('铁芯电流') != -1">铁芯电流</p>
+					</div>
+					<div class="value">
+						<div class="v-lf">值(mA)</div>
+						<div class="v-rt">{{node.fvalue}}</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<!-- <ac-history-modal v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></ac-history-modal> -->
 		<charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
 	</div>
 </template>
 <script>
 import { findComponentUpward } from '@/libs/assist'
-import moment from 'moment'
 import charts from '../main-oil/charts1'
+// import localData from './localData.json'
 export default {
 	name: 'core-clamp-customization',
 	components: { charts },
 	props: {},
 	data() {
 		return {
-			rcuList: [],
+			unitId: this.$store.getters.unitId,
+			topicArr: ['qif/zf/app/'],
+			topicStr: '',
+			// localData,
+			mainList: {
+				M1: {
+					A: [],
+					B: [],
+					C: []
+				},
+				M2: {
+					A: [],
+					B: [],
+					C: []
+				},
+				M3: {
+					A: [],
+					B: [],
+					C: []
+				}
+			},
+			devList: [],
 			historyModal: false,
 			chartTitle: '',
 			unit: '',
 			nodeId: ''
 		}
 	},
-	computed: {},
-	filters: {},
-	watch: {},
-	created() {
-		this.getCoreClampData()
+	computed: {
+		getunitId: function() {
+			return this.$store.getters.unitId
+		},
+		activeDeviceTypeId() {
+			return findComponentUpward(this, 'intelligent').currentTypeId
+		}
 	},
-	mounted() {},
+	filters: {},
+	watch: {
+		getunitId: {
+			handler(newValue) {
+				this.unitId = newValue
+				this.topicStr = this.topicArr[0] + this.unitId
+			}
+		}
+	},
+	created() {
+		this.getDevList()
+	},
+	mounted() {
+		this.setMqtt()
+	},
 	activited() {},
 	update() {},
 	beforeDestory() {},
 	methods: {
 		// 铁芯夹件数据
-		async getCoreClampData() {
-			let { data } = await this.$_api.getStaticData('./simulation-data/core-clamp.json')
-			if (data.ret == 0) {
-				this.rcuList.push(data.data1)
-				this.rcuList.push(data.data2)
-				this.rcuList.push(data.data3)
+		getDevList() {
+			let params = {
+				devTypeId: this.activeDeviceTypeId,
+				isPage: 1,
+				isFindNodes: 1,
+				unitId: this.unitId
 			}
-			let arr = {
-				S1: {
-					A: [],
-					B: [],
-					C: []
-				},
-				S2: {
-					A: [],
-					B: [],
-					C: []
-				},
-				S3: {
-					A: [],
-					B: [],
-					C: []
+			this.$_api.coreClamp.getDevList(params).then(res => {
+				if (res.code == 200 && res.data) {
+					// this.devList = this.localData.data.lists
+					this.devList = res.data.lists
+					this.setMain(this.devList)
+					// console.log(this.devList)
 				}
-			}
-			this.rcuList.forEach((item, index) => {
-				item.forEach((stem, i) => {
-					if (parseInt(stem.iParam2 % 10) == 1) {
-						if (stem.iParam1 == 1) {
-							arr[`S${index + 1}`]['A']['tx'] = stem
-							arr[`S${index + 1}`]['A']['tx'].equName = `${index + 1}号主变A相`
-							arr[`S${index + 1}`]['A']['tx'].nodeName = '铁芯电流'
-						} else if (stem.iParam1 == 0) {
-							arr[`S${index + 1}`]['A']['jj'] = stem
-							arr[`S${index + 1}`]['A']['jj'].equName = `${index + 1}号主变A相`
-							arr[`S${index + 1}`]['A']['jj'].nodeName = '夹件电流'
-						}
-					} else if (parseInt(stem.iParam2 % 10) == 2) {
-						if (stem.iParam1 == 1) {
-							arr[`S${index + 1}`]['B']['tx'] = stem
-							arr[`S${index + 1}`]['B']['tx'].equName = `${index + 1}号主变B相`
-							arr[`S${index + 1}`]['B']['tx'].nodeName = '铁芯电流'
-						} else if (stem.iParam1 == 0) {
-							arr[`S${index + 1}`]['B']['jj'] = stem
-							arr[`S${index + 1}`]['B']['jj'].equName = `${index + 1}号主变B相`
-							arr[`S${index + 1}`]['B']['jj'].nodeName = '夹件电流'
-						}
-					} else if (parseInt(stem.iParam2 % 10) == 3) {
-						if (stem.iParam1 == 1) {
-							arr[`S${index + 1}`]['C']['tx'] = stem
-							arr[`S${index + 1}`]['C']['tx'].equName = `${index + 1}号主变C相`
-							arr[`S${index + 1}`]['C']['tx'].nodeName = '铁芯电流'
-						} else if (stem.iParam1 == 0) {
-							arr[`S${index + 1}`]['C']['jj'] = stem
-							arr[`S${index + 1}`]['C']['jj'].equName = `${index + 1}号主变C相`
-							arr[`S${index + 1}`]['C']['jj'].nodeName = '夹件电流'
-						}
-					}
-				})
 			})
-			this.rcuList = arr
-			console.log(this.rcuList)
+		},
+		//设置主变
+		setMain(data) {
+			data.forEach(item => {
+				if (item.vcName.indexOf('1') != -1) {
+					this.setPhase(item, 1)
+				} else if (item.vcName.indexOf('2') != -1) {
+					this.setPhase(item, 2)
+				} else if (item.vcName.indexOf('3') != -1) {
+					this.setPhase(item, 3)
+				}
+			})
+		},
+		//设置相位
+		setPhase(data, num) {
+			if (data.vcName.indexOf('A') != -1) {
+				this.mainList[`M${num}`].A = this.setNode(data.devNodesList)
+			} else if (data.vcName.indexOf('B') != -1) {
+				this.mainList[`M${num}`].B = this.setNode(data.devNodesList)
+			} else if (data.vcName.indexOf('C') != -1) {
+				this.mainList[`M${num}`].C = this.setNode(data.devNodesList)
+			}
+		},
+		//设置节点
+		setNode(data) {
+			let arr = []
+			data.forEach(item => {
+				if (item.vcName.indexOf('夹件电流') != -1) {
+					arr[0] = item
+				} else if (item.vcName.indexOf('铁芯电流') != -1) {
+					arr[1] = item
+				}
+			})
+			return arr
 		},
 		// 历史数据
 		getHistory(info) {
-      console.log(info)
-			this.nodeId = info.eNodeId
-			this.chartTitle = info.equName + ' - ' + info.nodeName
+			this.nodeId = info.nodeId
+			this.chartTitle = info.vcName
 			this.unit = info.vcUnit
 			this.historyModal = true
-			// console.log(info)
-			// console.log(this)
-			// console.log(findComponentUpward(this.$children, 'view-table'))
-			// return
-			// this.historyModal = true
-			// this.chartUnit = info.vcUnit
-			// this.chartTitle = info.nodeName + '历史数据'
-			// let params = {
-			// 	startTime: moment()
-			// 		.subtract(24, 'hours')
-			// 		.unix(),
-			// 	endTime: moment().unix(),
-			// 	eNodeId: info.eNodeId
-			// }
-			// this.currentHistoryParams = params
+		},
+		setMqtt() {
+			this.topicStr = this.topicArr[0] + this.unitId
+			console.log(this.topicStr)
+			const _this = this
+			this.$_listen(this.$options.name, (topic, message, packet) => {
+				//如果推送上来的数据的topic和订阅的topic一致
+				if (topic == _this.topicStr) {
+					let msgData = JSON.parse(message.toString())
+					if (msgData.cmd == 1001 && msgData.unitid == this.$store.getters.unitId) {
+						console.log(msgData)
+						this.devList.forEach(item => {
+							if (item.devId == msgData.devid) {
+								for (let key in this.mainList) {
+									for (let k in this.mainList[key]) {
+										this.mainList[key][k].forEach(node => {
+											if (msgData.nodeid == node.nodeId) {
+												node.fvalue = msgData.value
+											}
+										})
+									}
+								}
+							}
+						})
+					}
+				}
+			})
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -175,228 +190,117 @@ export default {
   height: 100%;
   background: url('~@/assets/img/common/bg-border.png') no-repeat;
   background-size: 100% 100%;
-  padding: 25px 30px 25px 40px;
+  padding: 30px 30px 25px 40px;
+  overflow: hidden;
 
-  .rcu {
-    float: left;
-    width: 33%;
+  .main-dev {
+    width: calc(33% - 10px);
     height: 100%;
-    border: 1px solid #0173bb;
-    margin-right: 5px;
+    border: 1px solid #3299ff;
+    float: left;
+    margin-right: 10px;
 
-    .item-title {
-      width: 100%;
-      height: 30px;
-      color: #fff;
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 30px;
-      text-align: center;
-      background-color: rgba(36, 64, 88, 1);
-      border: 1px solid #26636c;
-      margin-bottom: 5px;
-    }
+    .dev-item {
+      width: calc(100% - 10px);
+      height: calc(33% - 15px);
+      box-sizing: border-box;
+      margin-left: 5px;
+      margin-top: 5px;
+      border: 1px solid #3299ff;
+      background-color: rgba(50, 153, 255, 0.1);
 
-    // margin: 0 5px;
-    .content {
-      // padding: 0 10px;
-      .x-wrap {
-        list-style: none;
+      .phase {
+        width: 50px;
+        height: 100%;
+        color: #fff;
+        float: left;
+        text-align: center;
+        line-height: 200px;
+        font-size: 18px;
+      }
 
-        .x-item {
-          margin-bottom: 10px;
-          overflow: hidden;
-          margin-left: 10px;
+      .node {
+        width: calc(50% - 25px);
+        height: 100%;
+        float: left;
+        box-sizing: border-box;
+        border-left: 1px solid #3299ff;
 
-          > div {
-            float: left;
+        .logo {
+          width: 100%;
+          height: calc(100% - 50px);
+          position: relative;
+
+          .history-btn {
+            width: 30px;
+            height: 30px;
+            background: #fa0;
+            background: url('~@ac/assets/img/core-clamp/history.png') no-repeat;
+            background-size: 30px 30px;
+            border-radius: 50%;
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            cursor: pointer;
           }
 
-          .title {
-            width: 50px;
-            height: 190px;
-            background-color: rgba(36, 64, 88, 0.7);
+          img {
+            width: 90px;
+            height: 90px;
+            margin-top: 15px;
+            margin-left: 50%;
+            transform: translateX(-50%);
+          }
+
+          p {
+            text-align: center;
+            margin-top: 2px;
+            font-size: 22px;
             color: #fff;
-            border: 1px solid #26636c;
-            box-sizing: border-box;
+          }
+        }
 
-            p {
-              text-align: center;
-              font-size: 20px;
-            }
+        .value {
+          width: 100%;
+          height: 50px;
+          border-top: 1px solid #3299ff;
 
-            p:nth-of-type(1) {
-              margin-top: 78px;
-            }
+          .v-lf {
+            width: 50%;
+            height: 100%;
+            float: left;
+            font-size: 20px;
+            text-align: center;
+            line-height: 50px;
+            color: #fff;
           }
 
-          .clamp {
-            width: calc(50% - 30px);
-            height: 190px;
-            box-sizing: border-box;
-            background-color: rgba(36, 64, 88, 0.48);
-
-            .info {
-              position: relative;
-              width: 100%;
-              height: 130px;
-              border-top: 1px solid #26636c;
-              border-right: 1px solid #26636c;
-              border-bottom: 1px solid #26636c;
-              text-align: center;
-
-              .history-btn {
-                width: 30px;
-                height: 30px;
-                background: #fa0;
-                background: url('~@ac/assets/img/core-clamp/history.png') no-repeat;
-                background-size: 30px 30px;
-                border-radius: 50%;
-                position: absolute;
-                right: 5px;
-                top: 5px;
-                cursor: pointer;
-              }
-
-              img {
-                width: 70px;
-                height: 70px;
-                margin-top: 15px;
-              }
-
-              p {
-                margin-top: 2px;
-                font-size: 22px;
-                color: #fff;
-              }
-            }
-
-            .value {
-              width: 100%;
-              height: 60px;
-              border-right: 1px solid #26636c;
-              border-bottom: 1px solid #26636c;
-
-              // background: #1b2938;
-              ul {
-                list-style: none;
-                overflow: hidden;
-
-                li {
-                  width: 81px;
-                  height: 37px;
-                  float: left;
-                  margin: 10px 13px;
-                  border-radius: 5px;
-                }
-
-                li:nth-of-type(1) {
-                  margin: 10px 13px;
-                  font-size: 24px;
-                  color: #fff;
-                  text-align: center;
-                  line-height: 37px;
-                }
-
-                li:nth-of-type(2) {
-                  width: 90px;
-                  height: 42px;
-                  margin: 10px 1px;
-                  background: #0f0d0e;
-                  font-family: DS-DIGI;
-                  font-size: 40px;
-                  line-height: 42px;
-                  color: #49ff01;
-                  text-align: center;
-                }
-              }
-            }
-          }
-
-          .electric {
-            width: calc(50% - 30px);
-            height: 190px;
-            box-sizing: border-box;
-            background-color: rgba(36, 64, 88, 0.48);
-
-            .info {
-              position: relative;
-              width: 100%;
-              height: 130px;
-              border-top: 1px solid #26636c;
-              border-right: 1px solid #26636c;
-              border-bottom: 1px solid #26636c;
-              text-align: center;
-
-              .history-btn {
-                width: 30px;
-                height: 30px;
-                background: #fa0;
-                background: url('~@ac/assets/img/core-clamp/history.png') no-repeat;
-                background-size: 30px 30px;
-                border-radius: 50%;
-                position: absolute;
-                right: 5px;
-                top: 5px;
-                cursor: pointer;
-              }
-
-              img {
-                width: 70px;
-                height: 70px;
-                margin-top: 15px;
-              }
-
-              p {
-                margin-top: 2px;
-                font-size: 22px;
-                color: #fff;
-              }
-            }
-
-            .value {
-              width: 100%;
-              height: 60px;
-              border-right: 1px solid #26636c;
-              border-bottom: 1px solid #26636c;
-
-              ul {
-                list-style: none;
-                overflow: hidden;
-
-                li {
-                  width: 81px;
-                  height: 37px;
-                  float: left;
-                  margin: 15px 13px;
-                  border-radius: 5px;
-                }
-
-                li:nth-of-type(1) {
-                  margin: 10px 13px;
-                  font-size: 24px;
-                  color: #fff;
-                  text-align: center;
-                  line-height: 37px;
-                }
-
-                li:nth-of-type(2) {
-                  width: 90px;
-                  height: 42px;
-                  margin: 10px 1px;
-                  background: #0f0d0e;
-                  font-family: 'DS-DIGI';
-                  font-size: 40px;
-                  line-height: 42px;
-                  color: #49ff01;
-                  text-align: center;
-                }
-              }
-            }
+          .v-rt {
+            float: left;
+            width: 90px;
+            height: 40px;
+            margin: 5px;
+            background: #0f0d0e;
+            font-family: 'DS-DIGI';
+            font-size: 34px;
+            line-height: 42px;
+            color: #49ff01;
+            text-align: center;
+            border-radius: 5px;
           }
         }
       }
     }
+  }
+
+  .title {
+    width: 100%;
+    height: 30px;
+    background-color: #3299ff;
+    font-size: 20px;
+    text-align: center;
+    line-height: 30px;
+    color: #fff;
   }
 }
 </style>

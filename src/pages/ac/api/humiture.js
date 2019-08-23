@@ -24,5 +24,20 @@ export default {
 			method: 'post',
 			data: JSON.stringify(params)
 		})
+	},
+	//获取图纸列表
+	getHtDrawing(data) {
+		return axios.request({
+			url: 'htp/find_htp_age',
+			method: 'post',
+			data
+		})
+	},
+	//获取图纸
+	getHtControl(params) {
+		return axios.request({
+			url: params,
+			method: 'get'
+		})
 	}
 }

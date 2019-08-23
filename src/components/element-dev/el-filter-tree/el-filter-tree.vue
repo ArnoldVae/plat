@@ -51,11 +51,11 @@ export default {
 <style lang="stylus" scoped>
 .el-filter-tree {
 	/deep/ .el-input {
+		padding: 0 10px;
 		.el-input__inner {
-			background: transparent;
-			border-color: #3789c9;
+			background: #06234a;
+			border-color: transparent;
 			color: #98cee8 !important;
-
 		}
 	}
 
@@ -66,8 +66,8 @@ export default {
 		.el-tree-node__content {
 			height: 50px;
 			&:hover {
-				background-color: #0757b1b3 !important;
-				color: #fa0 !important;
+				background-color: #063783 !important;
+				/* color: #fa0 !important; */
 			}
 
 			.custom-tree-node {
@@ -99,14 +99,14 @@ export default {
 			}
 		}
 		.el-tree-node:focus>.el-tree-node__content {
-			background-color: #0757b1b3 !important;
-			color: #fa0 !important;
+			background-color: #063783 !important;
+			/* color: #fa0 !important; */
 		}
 
 		.el-tree-node.is-current.is-focusable {
 			.el-tree-node__content {
-				background-color: #0757b1b3 !important;
-				color: #fa0 !important;
+				background-color: #063783 !important;
+				/* color: #fa0 !important; */
 			}
 		}
 	}

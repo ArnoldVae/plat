@@ -42,11 +42,12 @@
 								</Tab-pane>
 								<Tab-pane label="巡检任务单" name='inspectionTask' v-loading="inspectionTaskTableDataLoad" element-loading-background="rgba(7, 42, 115)" :disabled='tabsDisable'>
 									<div class="progress-box">
-										<Progress :percent="percentage" stroke-color='#00c6ff' /><span>本次巡检共包含目标{{inspectionTarget}}个,已完成0个，剩余{{inspectionTarget}}个</span>
+										<Progress :percent="percentage" stroke-color='#00c6ff' /><span>本次巡检共包含目标{{inspectionTarget}}个,已完成{{finishNum}}个，剩余{{residueNum}}个</span>
 									</div>
 									<el-table ref='inspecAticketTable' id="ticketTableScroll" :data="inspectionTaskTableData" max-height="475" :span-method="objectSpanMethod" :header-cell-style="{ background: '#0d2a68', color: '#2c87e6' , fontSize: '14px' }">
 										<!-- @cell-click="rowCliCk" -->
-										<el-table-column prop="area" label="区域" align="center" width="80"></el-table-column>
+										<el-table-column prop="area" label="区域" align="center" width="80">
+										</el-table-column>
 										<el-table-column prop="interval" label="间隔" align="center" width="80"></el-table-column>
 										<el-table-column prop="dev" label="设备" align="center" width="80"></el-table-column>
 										<el-table-column prop="node" label="巡检点位" align="center"></el-table-column>
@@ -63,7 +64,7 @@
 										</el-table-column>
 									</el-table>
 									<div class="pageBox">
-									    <Page :total="totalNum" show-elevator :current.sync='pageNum' :page-size='pageSize' show-sizer @on-change="handleChangePage"/>	
+									    <Page :total="totalNum" show-elevator :current.sync='pageNum' :page-size='pageSize'  @on-change="handleChangePage"/>	
 									</div>
 								
 								</Tab-pane>
@@ -283,8 +284,10 @@
 				workOrderTableHeaderData: [], //巡检任务单表头
 				inspectionTaskTableDataAll: [], //巡检任务单表所有数据
 				inspectionTaskTableData: [], //巡检任务单表数据
-				inspectionTarget: 0, //巡检目标总数
 				inspectionTaskTableDataLoad: false, //巡检任务单loading
+				inspectionTarget: 0, //巡检目标总数
+				finishNum: 0,//完成数量
+				residueNum: 0,//剩余数量
 				percentage: 0,//已完成百分比
 				totalNum: 0,//数据所有条数
 				pageSize: 20,//每页条数
@@ -340,6 +343,11 @@
 					if (msgData.cmd === '2104') {
 							msgData.time = moment(msgData.time * 1000).format('YYYY-MM-DD hh:mm:ss')
 							this.getNodeIdData( msgData.tasksresult.nodeid )
+							
+							this.finishNum = parseInt( ++this.finishNum )
+							this.residueNum = parseInt( this.inspectionTarget - this.finishNum )
+							this.percentage =  Number( this.finishNum/this.inspectionTarget ).toFixed(2)
+							
 							if(msgData.tasksresult.alarmlevel > 1){
 								this.alarmTable.unshift(msgData)
 								// 如果长度超过一百 就删除最初的一个数据
@@ -388,14 +396,14 @@
 			},
 			//分页操作
 			handleChangePage( page ) {
-				console.log( page )
+				//console.log( page )
 				this.pageNum = page
 				this.inspectionTaskTableData = this.inspectionTaskTableDataAll.slice( (page-1)*this.pageSize , (page-1)*this.pageSize+this.pageSize )
 			},
 			//点击新增任务
 			addTaskClick() {
 				this.addTask = true
-				this.$refs.taskOrder.getStaticTreeData()
+				//this.$refs.taskOrder.applyTreeData()
 			},
 			//关闭新增任务弹框
 			closeAddTask() {
@@ -406,7 +414,7 @@
 			//点击新增任务弹框的 巡检成票 按钮
 			inspectionAticketClick( arr ) {
 				this.addTaskNodesArr = []
-				this.addTaskNodesArr = arr
+				
 				this.addTask = false
 				this.addTaskNext = true
 				//let addInfos = `Nodes=016cf78433f745c99fc38db402afd037,03721088658244ad88715a73707243a9`
@@ -418,6 +426,9 @@
 					this.inspectionTaskListLoading = false
 					this.modalWorkOrderTableHeaderData = response.data.data.asRobots
 					this.modalInspectionTaskTableData = response.data.data.asTaskNodes	
+					response.data.data.asTaskNodes.forEach( item=> {
+						this.addTaskNodesArr = this.addTaskNodesArr.concat( item.nodeGuidIDS )
+					})
 				})
 				
 			},
@@ -464,6 +475,8 @@
 			//关闭新增任务 巡检成票 弹框
 			closeAddTaskNext() {
 				this.addTaskNext = false
+				this.modalInspectionTaskTableData= []
+				this.modalWorkOrderTableHeaderData= []
 				this.$refs.taskOrder.clearFilter()
 			},
 			//点击左侧 巡检成票
@@ -500,7 +513,12 @@
 						this.workOrderTableHeaderData = res.data.asRobots
 						this.inspectionTaskTableDataAll = res.data.asTaskNodes
 						this.inspectionTaskTableData = res.data.asTaskNodes.slice( 0 , this.pageSize )
+						
 						this.inspectionTarget = res.data.asTaskNodes.length
+						this.finishNum = 0
+						this.residueNum = res.data.asTaskNodes.length
+						this.percentage = 0
+						
 						this.totalNum = res.data.asTaskNodes.length
 						this.inspectionTaskTableDataLoad = false
 						
@@ -529,7 +547,7 @@
 			},
 			//获取预置巡检数据
 			getPresetInspectionData() {
-				let str = `i_PatrolType=1&UnitID=${this.stationId}`
+				let str = `UnitID=${this.stationId}`
 				this.axios.getPresetInspectionInfo(str).then(res => {
 					this.presetInspectionArr = res.data.rows
 					this.presetInspectionTaskId = res.data.rows[0].id
@@ -1249,9 +1267,13 @@
 								/deep/th {
 									padding: 0;
 								}
-
-								/deep/.cell {
-									padding: 0;
+								
+								/deep/.el-table__body-wrapper{
+									
+									/deep/.cell {
+										padding: 0;
+										height: 100%;
+									}
 								}
 
 								/deep/td,
@@ -1265,19 +1287,19 @@
 									height: 50px;
 								}
 
-								/deep/.el-table__body-wrapper {
-									/deep/.el-table_1_column_1,
-									/deep/.el-table_1_column_2,
-									/deep/.el-table_1_column_3 {
-										vertical-align: top;
-									}
-
-									/deep/.el-table_6_column_37,
-									/deep/.el-table_6_column_38,
-									/deep/.el-table_6_column_39 {
-										vertical-align: top;
-									}
-								}
+// 								/deep/.el-table__body-wrapper {
+// 									/deep/.el-table_1_column_1,
+// 									/deep/.el-table_1_column_2,
+// 									/deep/.el-table_1_column_3 {
+// 										vertical-align: top;
+// 									}
+// 
+// 									/deep/.el-table_6_column_37,
+// 									/deep/.el-table_6_column_38,
+// 									/deep/.el-table_6_column_39 {
+// 										vertical-align: top;
+// 									}
+// 								}
 
 							}
 
@@ -1340,10 +1362,9 @@
 							.pageBox{
 								width: 100%;
 								height: 32px;
-								position: relative;
-								bottom: -15px;
-								left: 185px;
-								
+								margin-top: 10px;
+								display: flex;
+								justify-content: center;
 								/deep/.ivu-page {
 									iview-page()
 								}
@@ -1891,5 +1912,8 @@
 	/deep/.el-loading-mask{
 		margin-top: 10px;
 	}
-	
+	.textTop{
+		display: inline-block;
+		vertical-align: top;
+	}
 </style>

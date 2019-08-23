@@ -85,7 +85,7 @@ export default {
 			title: '变电信息综合处理系统',
 			mainLogTitle: '国家电网',
 			mainLogTitleEn: 'STATE GRID',
-			subLogTitle: '国网江苏省电力有限公司',
+			subLogTitle: '国网江苏省电力公司',
 			subLogTitleEn: 'STATE GRID JIANGSU ELECTRIC POWER CO.,LTD.'
 		}
 	},
@@ -216,16 +216,17 @@ export default {
 		},
 		//处理iframe src
 		handleIframeSrc(src) {
+			// console.log('发布模式：' , src)
 			if (src && src.indexOf('http') != -1) {
 				return src
 			} else {
 				if (process.env.NODE_ENV == 'production') {
-					// 全路径
-					/*let pathname = window.location.pathname
+					// 全路径 404模板需要
+					let pathname = window.location.pathname
 					let folderPath = pathname.substring(0, pathname.lastIndexOf('/'))
-					return window.location.origin + folderPath + `/${src}`*/
+					return window.location.origin + folderPath + `/${src}`
 					// 自动补全路径
-					return src
+					// return src
 				}
 				if (src && process.env.NODE_ENV == 'development') {
 					let moduleName = src.split('/#')[0]

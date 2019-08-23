@@ -204,6 +204,21 @@ export default [
 					title: '双鉴'
 				},
 				component: () => import('@ac/views/security-control')
+			},{
+				path: 'hgis',
+				name: 'hgis',
+				meta: {
+					title: 'HGIS气体监测'
+				},
+				component: () => import('@ac/views/hgis')
+			},
+			{
+				path: 'breaker',
+				name: 'breaker',
+				meta: {
+					title: '断路器气体监测'
+				},
+				component: () => import('@ac/views/breaker')
 			}
 		]
 	}

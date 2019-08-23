@@ -14,6 +14,8 @@ import microWeather from './micro-weather'
 import antiTheft from './anti-theft'
 import mainOil from './main-oil'
 import video from './video'
+import coreClamp from './core-clamp'
+import hgis from "./hgis";
 
 export default {
 	getStaticData,
@@ -29,5 +31,7 @@ export default {
 	microWeather,
 	antiTheft,
 	mainOil,
-	video
+	video,
+	coreClamp,
+	hgis
 }

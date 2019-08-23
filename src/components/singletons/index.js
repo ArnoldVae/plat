@@ -1,3 +1,6 @@
+/*!
+ * 一个页面只用一次的单例组件库
+ */
 import navigation from './navigation'
 import sideMenu from './side-menu'
 import horMenu from './hor-menu'
