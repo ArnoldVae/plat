@@ -144,14 +144,15 @@
                     </div>
                     <div class="con-right">
                         <div class="con-right-title"><span></span>应急处置流程:
-                            <el-switch
-                                    style="display: block;text-align: right;width: 50%;float: right;"
-                                    v-model="caseTabCode"
-                                    active-color="#00aaff"
-                                    inactive-color="#00aaff"
-                                    active-text=""
-                                    inactive-text="">
-                            </el-switch>
+                            <a-button-group style="float: right">
+                                <a-button
+                                        v-for="(mode, index) in caseTab"
+                                        :key="index"
+                                        @click="handleChangeDisplayMode(mode, index)"
+                                        :icon="mode.icon"
+                                        :class="{ current: caseTabCode == index }"
+                                ></a-button>
+                            </a-button-group>
                         </div>
 
 <!--                        <div class="tab-change">-->
@@ -206,8 +207,8 @@
                 cfgName: '',
                 moreFlag: false,
                 modal1: false,
-                caseTab:[{name:'流程图',selected:true,code:"chart"},{name:'文字',selected:false,code:"code"}],
-                caseTabCode:false,
+                caseTab:[{name:"ichnography",icon:"picture",title:"流程图"},{name:"table",icon:"table",title:"文字"}],
+                caseTabCode:0,
                 mapImgUrl:"",
                 javainterface: {
                     allStation: {
@@ -245,7 +246,7 @@
                     }
                 ],
                 alarmDetail: {},
-                labelList: [{name: ''}, {name: ''}, {name: ''}, {name: ''}, {name: ''}, {name: ''}],
+                labelList: [],
                 subLabelList: [],
                 showLabelList: [],
                 //chart
@@ -318,7 +319,6 @@
         watch: {
             getStationId: {
                 handler(val) {
-                    console.log(val + 'zhege')
                 }
             },
             node(val) {
@@ -344,6 +344,12 @@
         },
         methods: {
             /**
+             * 应急预案切换方案
+             */
+            handleChangeDisplayMode(mode,index){
+                this.caseTabCode=index
+            },
+            /**
              *弹窗关闭事件
              */
             closeModal() {
@@ -360,7 +366,7 @@
             getAlarmList(item) {
                 this.$_api.alarmAction
                     .getAlarmList({
-                        unitId: this.$store.getters.unitId || '192fe4cec3ec4d3fb81c0d05f82bde41'
+                        unitId: this.$store.getters.unitId || ''
                         // alarmId: '1'
                     })
                     .then(res => {
@@ -611,7 +617,7 @@
             getAreaData() {
                 this.$_api.alarmAction
                     .getAreaData({
-                        unitId: this.$store.getters.unitId || '192fe4cec3ec4d3fb81c0d05f82bde41',
+                        unitId: this.$store.getters.unitId || '',
                         areaId: this.protectAreaId,
                         devTypeId: '1010'
                     })
@@ -1304,6 +1310,15 @@
                         color: #fff;
                         font-size: 20px;
                         margin 10px 0
+                        .ant-btn {
+                            background-color: #054166;
+                            border-color: #000;
+
+                            &.current {
+                                background-color: #0291ed;
+                                border-color: #013351;
+                            }
+                        }
 
                         span {
                             width 20px;

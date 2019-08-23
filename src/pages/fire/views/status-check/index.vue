@@ -112,7 +112,7 @@ export default {
 	},
 	created() {},
 	mounted() {
-		console.log(this.$store)
+		console.log(this.activeUnitId)
 
 		this.getOrganization()
 		this.registerMQTT()
@@ -173,14 +173,22 @@ export default {
 		handleClickNode(data, node, root) {
 			// 更新当前模块单元id
 			this.$store.dispatch('updateUnitId', data.id)
+
+			setTimeout(() => {
+				this.$refs.sunMethod.init()
+			}, 100);
 		},
 		markerList() {},
 		initView(item) {
+			console.log(item.id)
+			this.$store.dispatch('updateUnitId', item.id)
 			//获取控制端口为5200时的样式状态开关
 			this.pageType = item.pageType
 
 			// console.log(item.pageType);
-			this.$refs.sunMethod.initSysView(item)
+			setTimeout(() => {
+				this.$refs.sunMethod.initSysView(item)
+			}, 100);
 		}
 	},
 	beforeRouteEnter(to, from, next) {

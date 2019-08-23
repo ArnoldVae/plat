@@ -46,7 +46,7 @@ import maintaining from './main-taining'
 import quipmentAccount from './equipment-account'
 import subsystem from '../status-check/sub-system'
 import protectionZone from '../status-check/protection-zone'
-import testReport from '../test-report'
+import testReport from './test-report'
 
 export default {
 	name: 'dev-ops',
@@ -98,12 +98,12 @@ export default {
 					code: 'main-taining',
 					active: false
 				},
-				// {
-				// 	title: '全面检测报告',
-				// 	id: '05',
-				// 	code: 'test-report',
-				// 	active: false
-				// }
+				 {
+				 	title: '全面检测报告',
+				 	id: '05',
+				 	code: 'test-report',
+				 	active: false
+				 }
 			],
 			alarmNode: '',
 			untid:''

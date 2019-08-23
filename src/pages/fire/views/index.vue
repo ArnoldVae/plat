@@ -17,7 +17,7 @@
         </div>
 
         <div class="fire-content">
-            <keep-alive>
+            <keep-alive include="systemView">
                 <component
                         v-bind:is="current"
                         ref="test"
@@ -142,7 +142,6 @@
                 // console.log(this.$refs)
             },
             getMethod(val) {
-                console.log(val)
                 this.tabList.forEach(item => {
                     if (item.code == 'status-check') {
                         item.active = true
@@ -152,6 +151,7 @@
                 })
 
                 this.current = 'status-check'
+                this.$store.dispatch('updateUnitId', val.id)
           
                 let that = this
                 setTimeout(() => {

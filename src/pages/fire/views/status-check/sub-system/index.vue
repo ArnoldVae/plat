@@ -176,7 +176,7 @@ export default {
 	},
 	data() {
 		return {
-            activeIndex: null,//控制查看按钮的激活样式
+            activeIndex: 0,//控制查看按钮的激活样式
 			pageType:true,//控制端口号5200和3200的切换
 			showFlag: true, //显示视频或者图片判断标志
 			videoConfig: {

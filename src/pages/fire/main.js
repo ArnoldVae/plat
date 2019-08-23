@@ -6,7 +6,6 @@ import store from '@fire/store'
 
 //引入基本模板
 let echarts = require('echarts')
-
 // iView 全局(按需的话低版本会出问题，已经比原版小1M)
 import iView from 'iview/dist/iview.min.js'
 import 'iview/dist/styles/iview.css'
@@ -33,8 +32,8 @@ import {
 	Row, // Layout 布局
 	Select, // 选择器
 	Col, // Layout 布局
-	Icon,
-	Button,
+	Icon as eIcon,
+    Button as eButton,
 	Tag,
 	Dialog,
 	Steps,
@@ -65,8 +64,6 @@ const ElementUI = [
 	Row, // Layout 布局
 	Select, // 选择器
 	Col, // Layout 布局
-	Icon,
-	Button,
 	Tag,
 	Dialog, //对话框
 	Steps,
@@ -84,10 +81,11 @@ const ElementUI = [
 	Pagination,//分页
 	Switch
 ]
-
+ElementUI.push(eButton)
+ElementUI.push(eIcon)
 // Antd 按需
-/*import { A1, A2 } from 'ant-design-vue'
-const Antd = [ A1, A2 ]*/
+import { Icon, Button } from 'ant-design-vue'
+const Antd = [Icon, Button]
 // Singletons(单例组件库) 按需
 import { sideMenu, horMenu, crumbs, statistics } from '@/components/singletons'
 const Singletons = [sideMenu, horMenu, crumbs, statistics]
@@ -101,7 +99,7 @@ const iviewDev = [ocxModal, ocxMessage]
 function* register(name) {
 	Vue.use(name)
 }
-;[...ElementUI, ...Singletons, ...ElementDev, ...iviewDev].forEach(component => register(component).next())
+;[...ElementUI, ...Singletons, ...ElementDev, ...iviewDev,...Antd].forEach(component => register(component).next())
 
 // 挂载api
 import api from '@fire/api'
@@ -115,6 +113,7 @@ Vue.use(BaiduMap)
 import { client, listen } from '@/config/mqtt'
 Vue.prototype.$_mqtt = client
 Vue.prototype.$_listen = listen
+
 
 /**
  * 多模块相同集中配置

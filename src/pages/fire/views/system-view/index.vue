@@ -337,7 +337,6 @@ export default {
 				subIdsStr: '10060003'
 			})
 			if (result.success) {
-				console.log(result)
 				if (result.data.length > 0) {
 					result.data.forEach(item => {
 						item.url = '../../assets/img/sys/' + item.SubSystemID + '.png'
@@ -360,9 +359,13 @@ export default {
 
 		// val为点击地图传过来的数据  跳转状态监视
 		clickRcuImg(val) {
+
+			this.$store.dispatch('updateUnitId', val.id)
 			//用来切换端口为5200时的样式
 			val.pageType = false
-			this.$emit('transfer', val)
+			setTimeout(() => {
+				this.$emit('transfer', val)
+			}, 100);
 		},
 		//跳转报警联动
 		clickBtn(val) {

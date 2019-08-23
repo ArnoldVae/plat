@@ -97,7 +97,7 @@ export default {
 	},
 	data() {
 		return {
-			activeIndex: null,//用来切换查看按钮的激活样式
+			activeIndex: 0,//用来切换查看按钮的激活样式
 			getList: {
 				arr1: [],
 				arr2: [],
@@ -413,6 +413,9 @@ export default {
 		 *
 		 */
 		async getTemDetail(item,index) {
+			if(!index) {
+				index = 0
+			}
 			//用来切换查看按钮的激活样式
 			this.activeIndex = index
 
@@ -435,6 +438,7 @@ export default {
 							this.temData.env = item.fValue
 							this.getTemCharts(item.nodeId, item.functioinId)
 						}
+
 					})
 				} else {
 					this.getList.arr1 = []
@@ -442,7 +446,6 @@ export default {
 					this.getList.arr3 = []
 					this.getEnvChart(this.getList)
 				}
-
 			}
 		},
 		/**
