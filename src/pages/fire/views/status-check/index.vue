@@ -1,7 +1,7 @@
 <template>
 	<div :class="pageType? 'statusCheck':'statusCheck-5'">
 		<el-container>
-			<el-aside width="14.2%">
+			<el-aside width="290px">
 				<el-filter-tree
 					placeholder="输入关键字进行过滤"
 					v-model="filterText"
@@ -10,11 +10,16 @@
 					:props="defaultProps"
 					:current-node-key="activeUnitId"
 					node-key="id"
+					style="margin-top: 10px"
 					default-expand-all
 					:filter-node-method="filterNode"
 					highlight-current
 					@node-click="handleClickNode"
-				></el-filter-tree>
+				>
+					<template #prefix>
+						<i class="el-icon-search"></i>
+					</template>
+				</el-filter-tree>
 			</el-aside>
 			<el-main>
 				<div class="el-main-header">
@@ -42,6 +47,7 @@
 import subSystem from './sub-system'
 import viewCheck from './view-check'
 import protectionZone from './protection-zone'
+
 export default {
 	name: 'statusCheck',
 	components: {
@@ -176,7 +182,7 @@ export default {
 
 			setTimeout(() => {
 				this.$refs.sunMethod.init()
-			}, 100);
+			}, 100)
 		},
 		markerList() {},
 		initView(item) {
@@ -188,7 +194,7 @@ export default {
 			// console.log(item.pageType);
 			setTimeout(() => {
 				this.$refs.sunMethod.initSysView(item)
-			}, 100);
+			}, 100)
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -203,6 +209,11 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+/deep/ .el-input__prefix {
+  left: 20px;
+  top: 7px;
+}
+
 .statusCheck {
   margin: 20px 20px 0 20px;
   height: 100%;
@@ -211,6 +222,11 @@ export default {
   .el-aside {
     background: #141a26;
     height: 960px;
+    padding-top: 10px !important;
+
+    .el-filter-tree {
+      margin-top: 10px;
+    }
 
     .el-tree {
       background: none;
@@ -228,7 +244,6 @@ export default {
       min-height: 50px;
       width: 100%;
 
-      // left: 7px;
       .el-row {
         margin-top: 12px;
         margin-bottom: 12px;
@@ -269,7 +284,8 @@ export default {
       height: 770px;
       width: 100%;
       position: relative;
-      // background url("../../assets/img/hull.png")
+      background: url('~@/assets/img/common/wai.png');
+      background-repeat: no-repeat;
       background-size: 100% 100%;
       -moz-background-size: 100% 100%;
     }
@@ -279,15 +295,17 @@ export default {
 
 <style lang="stylus" scoped>
 .statusCheck-5 {
-  margin: 20px 20px 0 20px;
+  margin: 20px 10px;
   height: 100%;
   width: 98%;
 
   .el-aside {
-    // background #141a26
-    height: 960px;
+    height: 41.6rem;
+    background: url('../../assets/img/common/tree-bg.png') no-repeat;
+    background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
     position: relative;
-    top: -64px;
+    top: -75px;
 
     .el-tree {
       background: none;
@@ -304,7 +322,6 @@ export default {
       min-height: 50px;
       width: 100%;
 
-      // left: 7px;
       .el-row {
         margin-top: 12px;
         margin-bottom: 12px;
@@ -339,7 +356,6 @@ export default {
       }
 
       position: relative;
-      // background: #062964;
       background: url('../../assets/img/threemenu.png') no-repeat;
       background-size: 100% 100%;
       border: 0.04444rem solid #044e90;
@@ -348,10 +364,11 @@ export default {
 
     .el-main-content {
       margin-top: 10px;
-      height: 770px;
+      height: 800px;
       width: 100%;
       position: relative;
-      // background url("../../assets/img/hull.png")
+      background: url('~@/assets/img/common/wai.png');
+      background-repeat: no-repeat;
       background-size: 100% 100%;
       -moz-background-size: 100% 100%;
     }

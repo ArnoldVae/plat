@@ -1,8 +1,8 @@
 <template>
 	<div class="protectionZone">
-		<img src="../../../assets/img/main/lan.png" style="width: 100%;height: 5%" alt="" />
-		<span style="position: relative;top:-85px;left: 9.5%;font-size:44PX;color: #000000;font-weight: bold"
-			>年度全面检测报告</span
+		<!-- <img src="../../../assets/img/main/lan.png" style="width: 100%;height: 5%" alt="" /> -->
+		<!-- <span style="position: relative;top:-85px;left: 9.5%;font-size:44PX;color: #000000;font-weight: bold"
+			>年度全面检测报告</span -->
 		>
 		<div style="float: right;margin-right: 30px">
 			<el-button @click="isClick1" :class="{ action: isButton1 }" class="blueBtn" size="mini" type="text"
@@ -18,8 +18,8 @@
 		<iframe
 			class="iframeCal"
 			src="http://26.47.189.183:8012/onlinePreview?url=http%3A%2F%2F26.47.189.184%3A8085%2Fwebshare%2Fpdf%2Fdsqxfss.docx&officePreviewType=pdf"
-			height="83.5%"
-			width="100%"
+			height="98%"
+			width="60%"
 			style="position: relative;"
 		></iframe>
 	</div>
@@ -65,12 +65,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
 .protectionZone {
 	width: 100%;
 	height: 100%;
-	background-color: #141a26;
-	border: 1px #ffffff solid;
 	text-align: center;
 }
 
@@ -82,7 +80,21 @@ export default {
 	background: url('../../../assets/img/comfim.png') no-repeat;
 	background-size: 100% 100%;
 	color: #ffffff;
-	font-size: 36px;
-	width: 3.8rem;
+	font-size: 14px;
+	width: 2.4rem;
+	margin-top: 30px;
+}
+.blueBtn:last-child {
+	margin-right: 30px;
+}
+
+.iframeCal {
+	left: 112px;
+	margin-top: 10px;
+	border: none;
+
+	#sidebarContainer {
+		display: none;
+	}
 }
 </style>

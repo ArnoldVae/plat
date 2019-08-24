@@ -11,13 +11,12 @@
                     v-for="(tab,index) in tabList" :key="index">{{tab.title}}
             </div>
             <div class="fire-header-title float-right" @click="backPage()">
-                返回
-
+                ◀ 返回
             </div>
         </div>
 
         <div class="fire-content">
-            <keep-alive include="systemView">
+            <!--<keep-alive include="systemView">-->
                 <component
                         v-bind:is="current"
                         ref="test"
@@ -26,7 +25,7 @@
                         @receiveAlarm="receiveAlarm"
                         @switchWarning="switchWarning"
                 ></component>
-            </keep-alive>
+            <!--</keep-alive>-->
         </div>
     </div>
 </template>
@@ -252,12 +251,12 @@
 
         .fire-nav {
             top: 1px;
-            height: 45px;
-            width: 82.7%;
+            height: 56px;
+            width: 1590px;
             position: relative;
-            line-height: 45px;
-            left: 16.1%;
-            background: url('~@/assets/img/navigation/nav-menu.png');
+            line-height: 56px;
+            left: 16.2%;
+            background: url('../assets/img/common/menu-bg-two.png');
             background-size: 100% 100%;
             -moz-background-size: 100% 100%;
 
@@ -265,21 +264,25 @@
                 color: #90d9ff;
                 float: left;
                 //   width: 230px;
-                height: 45px;
-                line-height: 45px;
+                height: 56px;
+                line-height: 56px;
                 text-align: center;
-                font-size: 15px;
+                font-size: 18px
                 cursor: pointer;
-                margin-right:3rem
+                margin-right: 60px
             }
 
             .float-right {
+                width 100px
+                background #106fd9
                 float right
-                margin-right:1rem
+                margin-right:0
+                color white
+                border-radius 4px
             }
 
             .fire-header-title:first-child {
-                margin-left 36px;
+                margin-left 2rem;
             }
 
             .fire-header-active {

@@ -763,9 +763,12 @@
         }
 
         .alarmList {
-            width: 15%;
-            height: 770px;
+            width: 290px;
+            height: 930px;
+            margin-top -75px
             float left
+            padding 10px 0 0 10px
+            background url('../../assets/img/common/tree-bg.png')
             .alarmNow-title {
                 width: 100%;
                 height: 30px;
@@ -830,7 +833,7 @@
             float left
             background: url('~@fire/assets/img/hull.png') no-repeat;
             background-size: 100% 100%;
-            margin-left: 20px;
+            margin-left: 10px;
 
             .container {
                 width: 1600px;
