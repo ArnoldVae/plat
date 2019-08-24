@@ -30,7 +30,13 @@
 							<img v-else src="../../assets/img/intelligent-lighting/lamplight-close-s.png" />
 						</div>
 						<div class="li-right">
-							<div class="li-title">{{ item.vcName }}</div>
+							<Tooltip :content="item.vcName" class="tooltip" placement="top">
+								<div class="li-title">{{ item.vcName }}</div>
+							</Tooltip>
+							<div class="video-box">
+								<i v-if="item.videoUrl != ''" class="el-icon-video-play" @click="changeVideo(item)"></i>
+								<Icon v-if="item.videoUrl == ''" type="md-eye-off" class="noVideo" />
+							</div>
 							<div class="li-btn">
 								<span @click="handleSwitch('open', item)">开</span>
 								<span @click="handleSwitch('off', item)" class="closeBtn">关</span>
@@ -72,8 +78,8 @@ export default {
 				isAutoPlay: true,
 				// serviceInfo: '1$172.26.1.128$6800$admin$admin',
 				// deviceInfo: '2|172.26.1.28:37777|admin:admin123|0',
-				serviceInfo: '1$153.3.56.162$6800$admin$admin',
-				deviceInfo: '64bae7e19e3011e9ac508cec4b8f5477',
+				serviceInfo: '',
+				deviceInfo: '',
 				// serviceInfo: '',
 				// deviceInfo: '',
 				hideTool: true
@@ -128,7 +134,7 @@ export default {
 						this.lightingList.push(item)
 					}
 				})
-				this.total = this.lightingList.length
+				// this.total = this.lightingList.length
 				this.getFirstVideo(this.lightingList)
 			})
 		},
@@ -136,13 +142,14 @@ export default {
 			let params = {
 				devTypeId: this.activeDeviceTypeId,
 				isPage: 1,
+				findFlag: 1,
 				isFindNodes: 1,
 				unitId: this.unitId
 			}
 			this.$_api.intelligentLightin.getDevList(params).then(res => {
 				if (res.code == 200 && res.data.lists) {
-					// console.log( res.data.lists)
 					res.data.lists.forEach(item => {
+						item.videoUrl = item.linkDevInfo.length > 0 ? item.linkDevInfo[0].DevID : ''
 						item.devNodesList.forEach(element => {
 							if (element.functionCode == 1020.0001) {
 								item.fvalue = element.fvalue
@@ -153,7 +160,7 @@ export default {
 						})
 					})
 					this.lightingList = res.data.lists
-					this.total = this.lightingList.length
+					// this.total = this.lightingList.length
 					this.getFirstVideo(this.lightingList)
 				}
 			})
@@ -170,18 +177,24 @@ export default {
 		// },
 		getFirstVideo(data) {
 			for (let i = 0; i < data.length; i++) {
-				if (data[i].devNodesList && data[i].devNodesList.length > 0 && !!data[i].devNodesList[0].devId) {
-					this.videoConfig.deviceInfo = data[i].devNodesList[0].devId
+				// if (data[i].devNodesList && data[i].devNodesList.length > 0 && !!data[i].devNodesList[0].devId) {
+				// 	this.videoConfig.deviceInfo = data[i].devNodesList[0].devId
+				// 	break
+				// }
+				if (data[i].videoUrl && data[i].videoUrl != '') {
+					this.videoConfig.deviceInfo = data[i].videoUrl
 					break
 				}
 			}
+			console.log(this.videoConfig)
 		},
 		//获取开关数量
 		getSwitch() {
-			this.$_api.intelligentLightin.getSwitch().then(res => {
+			this.$_api.intelligentLightin.getSwitch({ unitId: this.unitId }).then(res => {
 				if (res.code == 200 && res.data) {
 					this.openTotal = res.data.openCount
 					this.offTotal = res.data.closeCount
+					this.total = this.openTotal + this.offTotal
 				}
 			})
 		},
@@ -189,7 +202,6 @@ export default {
 		getVideoServe() {
 			this.$_api.intelligentLightin.getVideoServe().then(res => {
 				if (res.code == 200 && res.data) {
-					console.log(res)
 					// this.videoConfig.serviceInfo = res.data.ServiceID
 					// this.videoConfig.serviceInfo = res.data.vc_Address
 					let obj = res.data
@@ -238,20 +250,26 @@ export default {
 			//下发控制命令
 			this.$_mqtt.publish(this.topicStr, JSON.stringify(params), { qos: 0, retain: false })
 			//判断当前节点是否有视频 有就切换视频
-			if (
-				this.lightItem.devNodesList &&
-				this.lightItem.devNodesList.length > 0 &&
-				!!this.lightItem.devNodesList[0].devId
-			) {
-				this.videoConfig.deviceInfo = this.lightItem.devNodesList[0].devId
-				// console.log(this.lightItem.devNodesList[0].devId)
-				console.log(this.videoConfig)
-				console.log(this.guids)
+			// if (
+			// 	this.lightItem.devNodesList &&
+			// 	this.lightItem.devNodesList.length > 0 &&
+			// 	!!this.lightItem.devNodesList[0].devId
+			// ) {
+			// 	this.videoConfig.deviceInfo = this.lightItem.devNodesList[0].devId
+			// }
+			if (this.lightItem.videoUrl && this.lightItem.videoUrl != '') {
+				this.videoConfig.deviceInfo = this.lightItem.videoUrl
 			}
+			console.log(this.videoConfig)
 		},
 		//取消
 		handleCancel() {
 			console.log('cancel')
+		},
+		//切换视频
+		changeVideo(data) {
+			this.videoConfig.deviceInfo = data.videoUrl
+			console.log(this.videoConfig)
 		},
 		//实时数据回调
 		getMqtt() {
@@ -440,16 +458,30 @@ export default {
             height: 100%;
             float: left;
 
-            .li-title {
-              width: 100%;
-              height: 40px;
-              font-size: 14px;
-              line-height: 40px;
-              color: #fff;
-              text-align: center;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
+            .tooltip {
+              width: 80%;
+              float: left;
+
+              .ivu-tooltip-rel {
+                width: 100%;
+
+                .li-title {
+                  width: 100%;
+                  height: 40px;
+                  font-size: 14px;
+                  line-height: 40px;
+                  color: #fff;
+                  text-align: center;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                }
+              }
+            }
+
+            .vidoe-box {
+              width: 20%;
+              float: left;
             }
 
             .li-btn {
@@ -486,5 +518,40 @@ export default {
 
 /deep/.el-scrollbar__wrap {
   overflow-x: hidden;
+}
+
+.top, .bottom {
+  text-align: center;
+}
+
+.center {
+  width: 300px;
+  margin: 10px auto;
+  overflow: hidden;
+}
+
+.center-left {
+  float: left;
+}
+
+.center-right {
+  float: right;
+}
+
+/deep/.ivu-tooltip-rel {
+  width: 100% !important;
+}
+
+/deep/.el-icon-video-play:before {
+  font-size: 24px;
+  line-height: 40px;
+  color: #19be6b;
+  cursor: pointer;
+}
+
+.noVideo {
+  font-size: 24px;
+  line-height: 40px;
+  color: #c5c8ce;
 }
 </style>

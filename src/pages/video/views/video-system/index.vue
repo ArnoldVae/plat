@@ -251,6 +251,9 @@ export default {
 				this.videoList = []
 				// this.setVideoScreen(this.videoLen);
 				// this.loadSceneList(this.$store.getters.stationId);
+				if(this.videoShow == false){
+					// this.loadSceneList()
+				}
 				this.videoShow = true
 			} else if (type == '视频') {
 				this.setVideoScreen(this.videoLen)
@@ -277,6 +280,7 @@ export default {
 			}
 			// 获取视频列表
 			this.loadVideoList(data)
+			console.log(this.videoComList)
 		},
 		//视频列表点击
 		selectMenuVideo(data) {
@@ -302,7 +306,7 @@ export default {
 				}
 			}, 500)
 			// 获取视频列表
-			console.log(this.selectScene)
+			// console.log(this.selectScene)
 			this.loadVideoList(this.selectScene)
 		},
 		// 根据指定分屏数量，展示分屏
@@ -327,27 +331,26 @@ export default {
 				sceneId: sceneID,
 				unitId: this.unitId
 			}
-			if(this.videoShow){
+			if (this.videoShow) {
 				this.$_api.videoSystem.getSceneDevList(params).then(res => {
-				console.log(res)
-				if (res.code == 200 && res.data) {
-					if (res.data.lists.length != 0) {
-						res.data.lists.forEach(item => {
-							// if (!!item.vc_Params3 && _this.serviceInfo == '') {
-							// 	_this.serviceInfo = item.vc_Params3
-							// }
-							_this.videoList.push({
-								videoUrl: item.devId
-								// preset: item.fParam1
+					console.log(res)
+					if (res.code == 200 && res.data) {
+						if (res.data.length != 0) {
+							res.data.forEach(item => {
+								// if (!!item.vc_Params3 && _this.serviceInfo == '') {
+								// 	_this.serviceInfo = item.vc_Params3
+								// }
+								_this.videoList.push({
+									videoUrl: item.devId,
+									// preset: item.fParam1
+								})
 							})
-						})
-						_this.autoPlay()
+							
+							_this.autoPlay()
+						}
 					}
-				}
-			})
-			}	
-			
-		
+				})
+			}
 		},
 		//获取流媒体服务
 		getVideoServe() {
@@ -387,6 +390,7 @@ export default {
 				}
 			}
 			_this.videoComList = _vidoeInfos
+			console.log(this.videoComList)
 		},
 		autoPlay(isClick) {
 			const _this = this

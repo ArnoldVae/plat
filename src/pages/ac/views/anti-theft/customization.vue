@@ -22,6 +22,10 @@
 									ite.btnTitle
 									}}
 								</span>
+								<div class="video-box">
+									<i v-if="item.videoUrl != ''" class="el-icon-video-play" @click="changeVideo(item)"></i>
+									<Icon v-if="item.videoUrl == ''" type="md-eye-off" class="noVideo" />
+								</div>
 							</div>
 						</div>
 					</li>
@@ -65,8 +69,8 @@ export default {
 				isAutoPlay: true,
 				// serviceInfo: '1$172.26.1.128$6800$admin$admin',
 				// deviceInfo: '2|172.26.1.28:37777|admin:admin123|0',
-				serviceInfo: '1$153.3.56.162$6800$admin$admin',
-				deviceInfo: '64bae7e19e3011e9ac508cec4b8f5477',
+				serviceInfo: '',
+				deviceInfo: '',
 				hideTool: true
 			}
 		}
@@ -104,6 +108,7 @@ export default {
 			let params = {
 				devTypeId: this.activeDeviceTypeId,
 				isPage: 1,
+				findFlag: 1,
 				isFindNodes: 1,
 				unitId: this.unitId
 			}
@@ -112,6 +117,7 @@ export default {
 					item.btnArr = []
 					if (item.devNodesList && item.devNodesList.length > 0) {
 						item.devNodesList.forEach(element => {
+							item.videoUrl = item.linkDevInfo.length > 0 ? item.linkDevInfo[0].DevID : ''
 							element.btnTitle = ''
 							if (element.nodeType == 3 || (element.nodeType == 4 && element.vcValueDesc)) {
 								item.ctrlNodeId = element.nodeId
@@ -131,13 +137,20 @@ export default {
 		},
 		//获取第一条视频
 		getFirstVideo(data) {
+			// for (let i = 0; i < data.length; i++) {
+			// 	if (data[i].devNodesList && data[i].devNodesList.length > 0 && !!data[i].devNodesList[0].devId) {
+			// 		// this.videoConfig.deviceInfo = data[i].devNodesList[0].vcParam1
+			// 		this.videoConfig.deviceInfo = data[i].devNodesList[0].devId
+			// 		break
+			// 	}
+			// }
 			for (let i = 0; i < data.length; i++) {
-				if (data[i].devNodesList && data[i].devNodesList.length > 0 && !!data[i].devNodesList[0].devId) {
-					// this.videoConfig.deviceInfo = data[i].devNodesList[0].vcParam1
-					this.videoConfig.deviceInfo = data[i].devNodesList[0].devId
+				if (data[i].videoUrl && data[i].videoUrl != '') {
+					this.videoConfig.deviceInfo = data[i].videoUrl
 					break
 				}
 			}
+			console.log(this.videoConfig)
 		},
 		//获取流媒体服务
 		getVideoServe() {
@@ -178,15 +191,22 @@ export default {
 			//下发控制命令
 			this.$_mqtt.publish(this.topicStr, JSON.stringify(params), { qos: 0, retain: false })
 			//判断当前节点是否有视频 有就切换视频
-			if (
-				this.devItem.devNodesList &&
-				this.devItem.devNodesList.length > 0 &&
-				!!this.devItem.devNodesList[0].devId
-			) {
-				this.videoConfig.deviceInfo = this.devItem.devNodesList[0].devId
+			// if (
+			// 	this.devItem.devNodesList &&
+			// 	this.devItem.devNodesList.length > 0 &&
+			// 	!!this.devItem.devNodesList[0].devId
+			// ) {
+			// 	this.videoConfig.deviceInfo = this.devItem.devNodesList[0].devId
+			// }
+			if (this.devItem.videoUrl && this.devItem.videoUrl != '') {
+				this.videoConfig.deviceInfo = this.devItem.videoUrl
 			}
 			console.log(this.videoConfig)
-			console.log(this.guids)
+			// console.log(this.guids)
+		},
+		changeVideo(data) {
+			this.videoConfig.deviceInfo = data.videoUrl
+			console.log(this.videoConfig)
 		},
 		//弹窗取消
 		handleCancel() {},
@@ -346,10 +366,18 @@ export default {
           justify-content: space-around;
           align-items: center;
           color: #fff;
+          position: relative;
 
           > span {
+            margin-top: 15px;
             font-size: 16px;
             text-align: center;
+          }
+
+          .video-box {
+            position: absolute;
+            top: 2px;
+            right: 2px;
           }
 
           .list-item-btn {
@@ -379,5 +407,16 @@ export default {
       }
     }
   }
+}
+
+/deep/.el-icon-video-play:before {
+  font-size: 22px;
+  color: #19be6b;
+  cursor: pointer;
+}
+
+.noVideo {
+  font-size: 22x;
+  color: #c5c8ce;
 }
 </style>
