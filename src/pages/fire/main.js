@@ -49,7 +49,9 @@ import {
 	Table, //Table表格
 	TableColumn,
 	Pagination,
-	Switch
+	Switch,
+	Upload,
+	Message
 } from 'element-ui'
 const ElementUI = [
 	Tree,
@@ -78,8 +80,10 @@ const ElementUI = [
 	CheckboxGroup, //多选
 	Table, //Table表格
 	TableColumn,
-	Pagination,//分页
-	Switch
+	Pagination, //分页
+	Switch,
+	Upload,
+	Message
 ]
 ElementUI.push(eButton)
 ElementUI.push(eIcon)

@@ -100,7 +100,7 @@
         :current-page="curIndex"
         :page-sizes="[10, 20, 30, 40]"
         :page-size="pageSize"
-				@size-change="handleSizeChange"
+		@size-change="handleSizeChange"
         :total="totals"
         @current-change="changePage"
       ></el-pagination>
@@ -138,7 +138,8 @@ export default {
 			// 分页相关数据
 			curIndex: 1,
 			pageSize: 10,
-			totals: 3
+			totals: 3,
+			unitId:this.$store.getters.unitId
 		}
 	},
 	mounted() {},
@@ -226,6 +227,17 @@ export default {
 				default:
 					break
 			}
+		},
+			activeUnitId: {
+			handler(val) {
+			  this.unitId=val
+              this.searchInfo()
+			}
+		}
+	},
+	computed: {
+		activeUnitId() {
+			return this.$store.getters.unitId
 		}
 	},
 	methods: {
@@ -249,12 +261,13 @@ export default {
 		},
 		async searchInfo() {
 			let res = await this.$_api.maintaining.getfindPlanRecord({
-				startTime: this.search.starTime,
-				endTime: this.search.endTime,
+				startTime: parseInt(this.search.starTime/1000),
+				endTime: parseInt(new Date(this.search.endTime).getTime()/1000),
 				mtcCoID: this.search.maintenanceUnit,
 				iStatus: this.search.stute,
 				pageSize:this.pageSize,
-				currentPage:this.curIndex
+				currentPage:this.curIndex,
+				unitId:this.unitId
 			})
 			if (res.code == '200') {
 				this.totals=res.data.total
@@ -404,6 +417,10 @@ export default {
     background-color: transparent;
     font-size: 15px;
   }
+  .el-table__empty-block .el-table__empty-text{
+        color:#fff;
+        font-size:16px;
+      }
 	.el-table th div{
 		font-size 18px;
 		color #3094f7;
@@ -470,7 +487,7 @@ export default {
   }
 
   .el-table--enable-row-hover .el-table__body tr:hover>td {
-    background-color: #081437 !important;
+	  background: rgba(36,64,88,0.48) !important;
 		cursor pointer
   }
 

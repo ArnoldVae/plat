@@ -144,7 +144,7 @@
                 })
                 if (result.success) {
                     this.treeData = result.data
-                    this.untid = result.data[0].children[0].children[0].children[0].id
+                    this.untid = result.data[0].children[0].children[0].children[0].children[0].id
                     this.$store.dispatch('updateUnitId', this.untid)
 
                 } else {
@@ -155,9 +155,9 @@
             // 点击树节点
             handleClickNode(data, node, root) {
                 // 更新当前模块单元id
-                if (data.type == 10070002) {
+     
                     this.$store.dispatch('updateUnitId', data.id)
-                }
+                
 
             },
 
@@ -234,7 +234,7 @@
             .el-aside {
                 background: url('../../assets/img/common/tree-bg.png') no-repeat;
                 background-size 100% 100%
-                margin-top: -54px;
+                margin-top: -49px;
                 height: 930px;
                 overflow-y: auto;
                 position: absolute;
@@ -245,6 +245,7 @@
                 width: 85%;
                 margin-left: 300px;
                 .el-main-header {
+                    margin-top -10px
                     min-height: 50px;
                     width: 99.5%;
                     position: relative;
@@ -285,7 +286,7 @@
                 }
 
                 .el-main-content {
-                    height: 800px;
+                    height: 808px;
                     width: 99.5%;
                     position: relative;
                     background: url("~@/assets/img/common/wai.png")

@@ -1,7 +1,7 @@
 <template>
 	<div :class="pageType? 'sub-system':'sub-system-5'">
 		<el-container>
-			<el-aside width="1183px">
+			<el-aside width="1166px">
 				<div class="sub-system-top">
 					<div class="sub-system-top-item left">
 						<p
@@ -100,7 +100,7 @@
 					<div class="search-item">
 						<ul>
 							<li v-for="(item, index) in subMenuList" :key="index">
-								<el-row :gutter="10">
+								<el-row :gutter="10" :class="activeIndex==index? 'activeClick':''" style="margin-left: 0; margin-right: 0;">
 									<el-col :span="18">
 										<span @click="showSubItem(item)">
 											<span class="color-green" v-show="item.areaList.length == 0">●</span>
@@ -115,7 +115,7 @@
 									</el-col>
 									<el-col :span="6">
 										<el-button
-											:class="activeIndex==index? 'activeClick':''"
+                     
 											@click="showSysDetail(item,index)"
 											type="primary"
 											size="mini"
@@ -124,18 +124,18 @@
 									</el-col>
 								</el-row>
 								<!--                                子节点-->
-								<ul class="subList" v-show="item.showSubFlag" style=" margin-left: 24px;">
-									<li v-for="(i, n) in item.areaList" :key="n">
+								<ul class="subList" v-show="item.showSubFlag" style=" margin-left: 10px;">
+									<li v-for="(i, n) in item.areaList" :key="n" :class="activeIndex==n? 'activeClick':''">
 										<el-row>
-											<el-col :span="18">
+											<el-col :span="16">
 												<span class="color-green">●</span>
 												{{ i.vc_Name }}
 											</el-col>
-											<el-col :span="6">
+											<el-col :span="8">
 												<el-button
 													size="mini"
 													@click="showSysDetail(i,n)"
-													:class="activeIndex==n? 'activeClick':''"
+													
 												>查看</el-button>
 											</el-col>
 										</el-row>
@@ -697,7 +697,7 @@ export default {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     -moz-background-size: 100% 100%;
-    padding: 10px 50px 14px 46px;
+    padding: 10px 0 14px 46px;
 
     .el-aside {
       overflow: hidden;
@@ -710,7 +710,6 @@ export default {
         justify-content: space-between;
 
         .sub-system-top-item {
-          // border: 1PX solid #D3DEE6;
           height: 484px;
         }
 
@@ -719,28 +718,29 @@ export default {
 
           img {
             width: 80%;
-            margin: 24px 0 0 60px;
+            margin: 18px 0 0 60px;
           }
         }
 
         .right {
           border-radius: 5px;
           width: 468px;
-          height: 530px;
+          height: 528px;
           font-size: 36PX;
-          background: url('../../../assets/img/alarm-now/resoure.png');
-          background-repeat: no-repeat;
-          background-size: 100% 100%;
-          -moz-background-size: 100% 100%;
+          // background: url('../../../assets/img/alarm-now/resoure.png');
+          // background-repeat: no-repeat;
+          // background-size: 100% 100%;
+          // -moz-background-size: 100% 100%;
+          border: 1PX solid #195891;
           margin-left: 12px;
 
           .yunxing {
             color: #fff;
-              width: 98.8%;
-              height: 50px;
+              width: 100%;
+              height: 2.2228rem!important;
               padding-left: 24px;
               font-size: 18px;
-              margin: 0 0 0 4px;
+              margin: 0 ;
               height: 56px;
               line-height: 56px;
               background: url('../../../assets/img/common/second.png') no-repeat;
@@ -804,16 +804,17 @@ export default {
         display: flex;
         justify-content: space-between;
         font-size: 18px;
-        margin-top: 10px;
+        margin-top: 8px;
 
         .sub-system-bottom-left {
-          width: 705px;
+          width: 700px;
           height: 100%;
           font-size: 18px;
-          background: url('../../../assets/img/alarm-now/resoure.png');
-          background-repeat: no-repeat;
-          background-size: 100% 100%;
-          -moz-background-size: 100% 100%;
+          // background: url('../../../assets/img/alarm-now/resoure.png');
+          // background-repeat: no-repeat;
+          // background-size: 100% 100%;
+          // -moz-background-size: 100% 100%;
+          border: 1PX solid #195891;
           overflow: hidden;
 
           > li {
@@ -858,11 +859,11 @@ export default {
 
           .system-info {
             color: #fff;
-            width: 98.8%;
-            height: 50px;
+            width: 100%;
+            height: 2.2228rem!important;
             padding-left: 24px;
             font-size: 18px;
-            margin: 0 0 0 4px;
+            margin: 0;
             height: 56px;
             line-height: 56px;
             background: url('../../../assets/img/common/second.png') no-repeat;
@@ -875,11 +876,12 @@ export default {
           width: 468px;
           height: 100%;
           font-size: 18px;
-          margin-left: 8px;
-          background: url('../../../assets/img/alarm-now/resoure.png');
-          background-repeat: no-repeat;
-          background-size: 100% 100%;
-          -moz-background-size: 100% 100%;
+          margin-left: 10px;
+          // background: url('../../../assets/img/alarm-now/resoure.png');
+          // background-repeat: no-repeat;
+          // background-size: 100% 100%;
+          // -moz-background-size: 100% 100%;
+          border: 1PX solid #195891;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -920,11 +922,11 @@ export default {
 
           .maintenance-info {
             color: #fff;
-            width: 98.8%;
-            height: 50px;
+            width: 100%;
+            height: 2.2228rem!important;
             padding-left: 24px;
             font-size: 18px;
-            margin: 0 0 0 4px;
+            margin: 0;
             height: 56px;
             line-height: 56px;
             background: url('../../../assets/img/common/second.png') no-repeat;
@@ -936,26 +938,28 @@ export default {
     }
 
     .el-main {
-      width: 300px;
+      width: 330px;
       padding: 0;
+      height: 100%;
     
       .sub-system-items {
-        width: 300px;
-        height: 788px;
-        border-radius: 10px 0 0 0;
-        background: url('../../../assets/img/yunxing.png');
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        -moz-background-size: 100% 100%;
+        width: 321px;
+        height: 100%;
+        // border-radius: 10px 0 0 0;
+        // background: url('../../../assets/img/yunxing.png');
+        // background-repeat: no-repeat;
+        // background-size: 100% 100%;
+        // -moz-background-size: 100% 100%;
+        border: 1PX solid #195891;
         overflow: auto;
 
         .miehuo {
-            color: #fff;
-              width: 98.8%;
-              height: 50px;
+              color: #fff;
+              width: 100%;
+              height: 2.2228rem!important;
               padding-left: 24px;
               font-size: 18px;
-              margin: 0 0 0 4px;
+              margin: 0;
               height: 56px;
               line-height: 56px;
               background: url('../../../assets/img/common/second.png') no-repeat;
@@ -985,28 +989,52 @@ export default {
 
         .search-item {
           margin-top: 16px;
-          margin-left: 33px;
-          padding-right: 10px;
+          font-size: 16px;
 
           ul {
+            width: 100%;
+            
             li:hover {
-              border: 1px #0E70AF solid;
               box-shadow: inset 0 0 20px #0E70AF;
+              background-color: #063783;
+              height: 40px;
+              width: 100%;
             }
 
             li {
+            // padding-left: 10px;
               cursor: pointer;
               color: white;
+              height: 40px;
+              line-height: 40px;
+              width: 100%;
+              // padding-right: 10px;   
+              
+              .el-row {
+                margin: 0;
+              }
+
+              .subList {
+                margin-left: 0!important;
+                width: 100%;
+
+                .el-col {
+                  padding-left: 18px;
+                }
+              }
 
               .el-button {
                 background: none;
                 border: 0.04444rem solid #00aaff;
                 color: #37a8ff;
-                font-size: 12px;
+                font-size: 16px;
               }
 
               .activeClick {
-                color: #ffd36a !important;
+                background-color: #063783;
+                .el-button {
+                  color: #ffd36a !important;
+                }
               }
             }
           }
@@ -1016,12 +1044,11 @@ export default {
             margin: 10PX 0;
 
             .el-col {
-              font-size: 14PX;
+              font-size: 16px;
             }
 
             .item-btn {
               text-align: right;
-              padding-right: 10%;
             }
           }
         }

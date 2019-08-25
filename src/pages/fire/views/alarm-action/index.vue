@@ -41,33 +41,38 @@
                         <span>{{ unitTitle }}</span>
                     </div>
                     <div class="alarm-now-video" v-if="comfireAlarm">
-                        <div class="alarm-now-video-item" v-for="(videoItem, index) in videoConfig" :key="index">
-                            <OcxVideo :videoConfig="videoItem"></OcxVideo>
+                        <div class="alarm-now-video-item" style="margin-right: 18px;height: 102%">
+                            <OcxVideo :videoConfig="videoConfig[0]" style="width: 753px"></OcxVideo>
+                        </div>
+                        <div class="alarm-now-video-item">
+                            <OcxVideo :videoConfig="videoConfig[1]" style="height: 102%"></OcxVideo>
                         </div>
                     </div>
                     <div class="alarm-now-chart">
                         <div class="chart-container" ref="envChart"></div>
                         <div class="infoWarp-top">
-                            <div class="title">站内气象:</div>
-                            <div class="weather">
-                                <img :src="weatherImg" alt/>
-                            </div>
+                            <div class="newTitle">站内气象</div>
                             <div class="weatherInfo">
                                 <ul>
                                     <li v-for="(item, index) in weatherList" :key="index">
-                                        <div class="icon">
-                                            <img :src="item.icon" alt/>
-                                        </div>
-                                        <div class="name">{{ item.name }}</div>
-                                        <div class="value">{{ item.value }}</div>
-                                        <div class="com">{{ item.vcUnit }}</div>
+                                        <el-row>
+                                            <el-col :span="2" class="icon">
+                                                <img :src="item.icon" alt>
+                                            </el-col>
+                                            <el-col :span="6">
+                                                <div class="name">{{item.name}}</div>
+                                            </el-col>
+                                            <el-col :span="16">
+                                                <div class="value">{{item.value}}{{item.vcUnit}}</div>
+                                            </el-col>
+                                        </el-row>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="infoWarp-bottom">
                             <div class="alarmInfo-box">
-                                <div class="title">报警信息:</div>
+                                <div class="newTitle">报警信息</div>
                                 <div class="info-wrap">
                                     <ul>
                                         <li v-for="(infoItem, index) in alarmListInfo" :key="index">
@@ -97,13 +102,13 @@
                     <div class="con-left">
                         <div class="left-topCon" v-if="confirHide">
                             <div class="videoAlarm" v-for="(valarmItem, index) in videoConfig" :key="index">
-                                <OcxVideo :videoConfig="valarmItem"></OcxVideo>
+                                <OcxVideo style="width: 630px" :videoConfig="valarmItem"></OcxVideo>
                             </div>
                         </div>
                         <div class="left-bottomCon">
                             <div class="left-bottomCon-left">
                                 <div class="alarmInfo-box">
-                                    <div class="aInfotitle">报警信息:</div>
+                                    <div class="newTitle">报警信息</div>
                                     <div class="info-wrap">
                                         <ul>
                                             <li v-for="(infoItem, index) in alarmListInfo" :key="index">
@@ -117,25 +122,27 @@
                                 </div>
                             </div>
                             <div class="left-bottomCon-center">
-                                <div class="areatitle">站内气象:</div>
-                                <div class="weather">
-                                    <img :src="weatherImg" alt/>
-                                </div>
+                                <div class="newTitle">站内气象</div>
                                 <div class="weatherInfo">
                                     <ul>
                                         <li v-for="(item, index) in weatherList" :key="index">
-                                            <div class="icon">
-                                                <img :src="item.icon" alt/>
-                                            </div>
-                                            <div class="name">{{ item.name }}</div>
-                                            <div class="value">{{ item.value }}</div>
-                                            <div class="com">{{ item.vcUnit }}</div>
+                                            <el-row>
+                                                <el-col :span="2" class="icon">
+                                                    <img :src="item.icon" alt>
+                                                </el-col>
+                                                <el-col :span="6">
+                                                    <div class="name">{{item.name}}</div>
+                                                </el-col>
+                                                <el-col :span="16">
+                                                    <div class="value">{{item.value}}{{item.vcUnit}}</div>
+                                                </el-col>
+                                            </el-row>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="left-bottomCon-right">
-                                <div class="bottomCon-right-title">灭火资源:</div>
+                                <div class="newTitle">灭火资源</div>
                                 <div class="htCon">
                                     <img :src="imgUrl" alt="">
                                 </div>
@@ -143,7 +150,7 @@
                         </div>
                     </div>
                     <div class="con-right">
-                        <div class="con-right-title"><span></span>应急处置流程:
+                        <div class="newTitle"><span></span>应急处置流程
                             <a-button-group style="float: right">
                                 <a-button
                                         v-for="(mode, index) in caseTab"
@@ -738,6 +745,26 @@
 </style>
 
 <style lang="stylus" scoped>
+    .newTitle{
+        width: 100%;
+        height: 50px;
+        line-height 50px
+        background #185a9e
+        border-top-left-radius 4px
+        border-top-right-radius 4px
+        color: #fff;
+        padding-left 16px
+        .ant-btn {
+            background-color: #054166;
+            border-color: #000;
+
+            &.current {
+                background-color: #0291ed;
+                border-color: #013351;
+            }
+        }
+        font-size: 18px;
+    }
     .modal-header {
         color red
     }
@@ -830,6 +857,7 @@
         .alarmContainer {
             width: 83.7%;
             height: 100%;
+            margin-top -10px
             float left
             background: url('~@fire/assets/img/hull.png') no-repeat;
             background-size: 100% 100%;
@@ -838,7 +866,7 @@
             .container {
                 width: 1600px;
                 overflow: hidden;
-                height: 38rem;
+                height: 38.8rem;
 
                 .unitTitle {
                     width: 400px;
@@ -861,8 +889,7 @@
                     margin: 0px 0 5px 36px;
 
                     .alarm-now-video-item {
-                        width: 48%;
-                        margin 0 10px
+                        width:49%;
                         height: 100%;
                         float: left;
                     }
@@ -877,23 +904,30 @@
                     .chart-container {
                         width: 850px;
                         height: 320px;
-                        background: url('~@fire/assets/img/alarm-now/enviroment-chart.png') no-repeat;
-                        background-size: 100% 100%;
+                        border-top-left-radius 4px
+                        border-top-right-radius 4px
+                        border 1px solid #195891
+                        margin-right 10px
                     }
 
                     .infoWarp-top {
-                        width: 405px;
+                        width: 400px;
+                        margin-right 10px
                         height: 320px;
-                        background: url('~@fire/assets/img/alarm-now/air-wrap.png') no-repeat;
-                        background-size: 100% 100%;
-                        padding: 10px 20px 0 20px;
+                        border-top-left-radius 4px
+                        border-top-right-radius 4px
+                        border 1px solid #195891
+                        padding: 0px 0px 0 0px;
                         box-sizing: border-box;
 
                         .title {
                             width: 100%;
-                            height: 20px;
+                            height: 50px;
+                            line-height 50px
+                            background #185a9e
                             color: #fff;
-                            font-size: 16px;
+                            padding-left 16px
+                            font-size: 18px;
                         }
 
                         .weather {
@@ -910,13 +944,19 @@
                         .weatherInfo {
                             height: 90px;
                             padding: 10px;
+                            padding-left 25px
+                            left: 16%;
+                            position: relative;
+                            top: 16%;
 
                             ul {
                                 li {
-                                    width: 140px;
+                                    .el-row{
+                                        width 100%
+                                    }
                                     height: 30px;
                                     display: flex;
-                                    float: left;
+
                                     font-size: 15px;
                                     margin-right: 20px;
                                     margin-bottom: 10px;
@@ -966,23 +1006,27 @@
                         .alarmInfo-box {
                             width: 94%;
                             height: 280px;
-                            background: url('~@fire/assets/img/alarm-now/info-wrap.png') no-repeat;
+                            border 1px solid #195891
+                            border-top-left-radius 4px
+                            border-top-right-radius 4px
                             background-size: 100% 100%;
-                            padding: 16px;
                             box-sizing: border-box;
 
                             .title {
                                 width: 100%;
-                                height: 20px;
+                                height: 50px;
+                                line-height 50px
+                                background #185a9e
                                 color: #fff;
-                                font-size: 16px;
+                                padding-left 16px
+                                font-size: 18px;
                             }
 
                             .info-wrap {
                                 width: 100%;
                                 height: 300px;
                                 margin-top: 20px;
-                                margin-left: 10px;
+                                margin-left: 25px;
                                 overflow-y: auto;
 
                                 ul {
@@ -1024,6 +1068,7 @@
                         width: 95%;
                         height: 50px;
                         text-align: center;
+                        margin-top 10px
 
                         .btn {
                             width: 45%;
@@ -1092,19 +1137,20 @@
                 margin-top 1rem
                 height: 720px;
                 display: flex;
-                margin-left: 50px;
+                margin-left: 32px;
                 padding: 20px;
                 box-sizing: border-box;
 
                 .con-left {
-                    width: 75%;
-                    height: 800px;
+                    width: 76%;
+                    height: 34.1rem;
+                    margin-right  10px
 
                     // border 1px solid red;
 
                     .left-topCon {
                         width: 100%;
-                        height: 53%;
+                        height: 55%;
                         display: flex;
                         margin-bottom: 5px;
 
@@ -1118,26 +1164,21 @@
                         width: 100%;
                         height: 50%;
                         display: flex;
+                        margin-top 9px
 
                         .left-bottomCon-left {
-                            width: 420px;
+                            width: 400px;
                             height: 350px;
+                            margin-right 10px
 
                             .alarmInfo-box {
                                 width: 100%;
-                                height: 340px;
-                                background: url('~@fire/assets/img/alarm-now/info-wrap.png') no-repeat;
-                                background-size: 100% 100%;
-                                padding: 20px;
+                                height: 339px;
+                                border-top-left-radius 4px
+                                border-top-right-radius 4px
+                                border 1px solid #195a9e
                                 box-sizing: border-box;
                                 font-size 16px
-
-                                .aInfotitle {
-                                    width: 100%;
-                                    height: 20px;
-                                    color: #fff;
-                                    font-size 16px
-                                }
 
                                 .info-wrap {
                                     width: 100%;
@@ -1181,10 +1222,11 @@
                         .left-bottomCon-center {
                             width: 330px;
                             height: 340px;
-                            background: url('~@fire/assets/img/alarm-now/air-wrap.png') no-repeat;
-                            background-size: 100% 100%;
-                            padding: 10px 20px 0 20px;
+                            border 1px solid #195a9e
+                            border-top-left-radius 4px
+                            border-top-right-radius 4px
                             box-sizing: border-box;
+                            margin-right 10px
 
                             .areatitle {
                                 width: 100%;
@@ -1206,13 +1248,21 @@
 
                             .weatherInfo {
                                 height: 90px;
+                                margin-left 25px
+                                left: 16%;
+                                position: relative;
+                                top: 16%;
+
 
                                 ul {
                                     li {
-                                        width: 140px;
+                                        .el-row{
+                                            width 100%
+                                        }
+
                                         height: 30px;
                                         display: flex;
-                                        float: left;
+
                                         font-size: 15px;
                                         margin-bottom: 10px;
 
@@ -1256,22 +1306,15 @@
                         .left-bottomCon-right {
                             width: 560px;
                             height: 340px;
-                            background: url('~@fire/assets/img/alarm-now/resoure.png') no-repeat;
-                            background-size: 100% 100%;
-                            padding: 10px 20px;
+                            border 1px solid #195a9e
+                            border-top-left-radius 4px
+                            border-top-right-radius 4px
                             box-sizing: border-box;
-
-                            .bottomCon-right-title {
-                                width: 300px;
-                                height: 30px;
-                                color: #fff;
-                                font-size: 16px;
-                            }
-
                             .htCon {
                                 img{
                                     width 22rem
-                                    height 13rem
+                                    height 11rem
+                                    margin 16px
                                 }
                             }
                         }
@@ -1280,11 +1323,12 @@
 
                 .con-right {
                     width: 25%;
-                    height: 35rem;
-                    background: url('~@fire/assets/img/alarm-now/alarmPlanInfo.png') no-repeat;
-                    background-size: 100% 100%;
-                    margin-left: 20px;
-                    padding: 15px;
+                    height: 34.2rem;
+                    border 1px solid #195a9e
+                    border-top-left-radius 4px
+                    border-top-right-radius 4px
+                    margin-left 10px
+                    margin-left: 0px;
 
                     h4 {
                         font-size 16px

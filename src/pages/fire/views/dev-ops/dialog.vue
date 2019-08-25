@@ -6,7 +6,7 @@
 		center
 		:visible.sync="dialogVisible"
 		width="100%"
-		style="top:-83vh;left: 4vw"
+		style="top:-82vh;left: 4vw"
 		:before-close="handleClose"
 	>
 		<Row type="flex" class="row-bg" justify="center">
@@ -218,8 +218,8 @@ export default {
 	height: 740px;
 	width: 88%;
 	overflow: hidden;
-	background-color: #141a26;
-	border: 1px solid #fff;
+	background: url('../../assets/img/dialog.png') no-repeat;
+	background-size: 100% 100%;
 	/*border-top: 0;*/
 }
 
@@ -231,6 +231,7 @@ export default {
 /*对话框关闭图标*/
 #dialogs .el-dialog__headerbtn .el-dialog__close {
 	color: #ffffff;
+	font-size:30px;
 }
 
 /*取消背景色*/
@@ -442,8 +443,8 @@ export default {
 }
 
 #dialogs .el-dialog__header {
-	background: url('../../assets/img/dialog.png') no-repeat;
-	background-size: 100% 100%;
+	/* background: url('../../assets/img/dialog.png') no-repeat;
+	background-size: 100% 100%; */
 	padding: 5px 0;
 	font-weight: 700;
 }

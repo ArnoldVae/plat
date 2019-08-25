@@ -343,7 +343,7 @@ export default {
 				global.mapconfig['tiles_dir']
 			}`
 		} else {
-			global.mapconfig['tiles_dir'] = `http://172.26.1.233:8085/${global.mapconfig['tiles_dir']}`
+			global.mapconfig['tiles_dir'] = `http://26.47.189.184:8085/${global.mapconfig['tiles_dir']}`
 		}
 	},
 	mounted() {

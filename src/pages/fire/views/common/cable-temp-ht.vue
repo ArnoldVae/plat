@@ -10,14 +10,15 @@
 					</div>
 					<div class="con" @click="optical()">光纤测温</div>
 				</div>
-				<div class="btnConItem">
-					<div><img src="../../assets/img/elec-fire/fireDan.png" alt /></div>
-					<div class="con" @click="fieDanClick()">灭火弹</div>
-				</div>
 				<div class="btnConItem fireQ">
 					<div><img src="../../assets/img/elec-fire/fireQi.png" alt /></div>
 					<div class="con" @click="fireQiClick()">探火管</div>
 				</div>
+				<div class="btnConItem">
+					<div><img src="../../assets/img/elec-fire/fireDan.png" alt /></div>
+					<div class="con" @click="fieDanClick()">灭火弹</div>
+				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -32,7 +33,8 @@ export default {
 			graphView: null,
 			cableNodes: [],
 			deviceid: '',
-			nodeValue: ''
+			nodeValue: '',
+			unitId: this.$store.getters.unitId,
 		}
 	},
 	created() {},
@@ -120,7 +122,7 @@ export default {
 		getNode() {
 			let params = {
 				pageId: this.cableObj.pageId,
-				unitId: '8177a787a28b4f86a103fac9a023db05'
+				unitId: this.unitId
 			}
 			this.$_api.statusCheck.getHtNode(params).then(res => {
 				// console.log(res)
@@ -137,7 +139,7 @@ export default {
 									node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
 									node.setName(item.vcName)
 									// node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
-									node.setSize(40, 20)
+									node.setSize(30, 10)
 									node.setStyle('interactive', true)
 									node.a('vc_SourceID', item.vcSourceId)
 									node.a('vc_Path', item.vcPath)

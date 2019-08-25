@@ -118,7 +118,7 @@ export default {
 	},
 	created() {},
 	mounted() {
-		console.log(this.activeUnitId)
+		// console.log(this.activeUnitId)
 
 		this.getOrganization()
 		this.registerMQTT()
@@ -152,7 +152,9 @@ export default {
 			})
 			if (result.success) {
 				this.treeData = result.data
-				// this.$refs.sunMethod.init(this.treeData[0])
+				 this.untid = result.data[0].children[0].children[0].children[0].children[0].id
+				this.$store.dispatch('updateUnitId', this.untid)
+				this.$refs.sunMethod.init(this.treeData[0])
 				// this.itemData=this.treeData[0]
 			} else {
 				this.treeData = []
@@ -186,7 +188,7 @@ export default {
 		},
 		markerList() {},
 		initView(item) {
-			console.log(item.id)
+			// console.log(item.id)
 			this.$store.dispatch('updateUnitId', item.id)
 			//获取控制端口为5200时的样式状态开关
 			this.pageType = item.pageType
@@ -257,7 +259,7 @@ export default {
 
         .fire-header-title {
           color: #37a8ff;
-          font-size: 16px;
+          font-size: 18px;
           margin-right: 94px;
           cursor: pointer;
         }
@@ -295,9 +297,9 @@ export default {
 
 <style lang="stylus" scoped>
 .statusCheck-5 {
-  margin: 20px 10px;
+  margin: 20px 0 20px 10px;
   height: 100%;
-  width: 98%;
+  width: 98.53%;
 
   .el-aside {
     height: 41.6rem;
@@ -316,15 +318,17 @@ export default {
   .el-main {
     overflow: hidden;
     margin-top: -20px;
-    padding: 13px 6px 0 22px;
+	margin-left: 10px;
+    padding: 12px 0 0 0;
 
     .el-main-header {
-      min-height: 50px;
+      height: 2.2228rem;
       width: 100%;
+	  line-height: 2.2228rem;
 
       .el-row {
-        margin-top: 12px;
-        margin-bottom: 12px;
+        // margin-top: 12px;
+        // margin-bottom: 12px;
 
         .fire-header-sub-title {
           font-size: 14px;
@@ -335,13 +339,13 @@ export default {
 
         .fire-header-title {
           color: #37a8ff;
-          font-size: 14px;
+          font-size: 18px;
           margin-right: 68px;
           cursor: pointer;
         }
 
         .fire-header-title:first-child {
-          margin-left: 50px;
+          margin-left: 2rem;
         }
 
         .fire-header-active {
@@ -356,15 +360,15 @@ export default {
       }
 
       position: relative;
-      background: url('../../assets/img/threemenu.png') no-repeat;
+      background: url('../../assets/img/common/three.png') no-repeat;
       background-size: 100% 100%;
-      border: 0.04444rem solid #044e90;
+    //   border: 0.04444rem solid #044e90;
       border-radius: 4px;
     }
 
     .el-main-content {
       margin-top: 10px;
-      height: 800px;
+      height: 809px;
       width: 100%;
       position: relative;
       background: url('~@/assets/img/common/wai.png');

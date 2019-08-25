@@ -23,7 +23,7 @@ export default {
 	data() {
 		return {
 			current: 'fireControl-customization',
-			unitId: '8177a787a28b4f86a103fac9a023db05',
+			unitId: this.$store.getters.unitId,
 			resultData: {
 				dev: {},
 				data: []
@@ -36,9 +36,7 @@ export default {
 			mqttData: {}
 		}
 	},
-	computed: {},
 	filters: {},
-	watch: {},
 	created() {
 		this.getHtMap()
 	},
@@ -70,7 +68,7 @@ export default {
 		//获取图纸接口
 		getHtMap() {
 			let params = {
-				unitId: this.united,
+				unitId: this.unitId,
 				iSubType: '10100008'
 			}
 			this.$_api.statusCheck.getSubCharts(params).then(res => {
@@ -111,6 +109,19 @@ export default {
 			}
 		}
 	},
+	computed: {
+		activeUnitId() {
+			return this.$store.getters.unitId
+		}
+	},
+	watch: {
+		activeUnitId: {
+			handler(val) {
+				this.unitId = val
+				this.getHtMap()
+			}
+		}
+	},
 	beforeRouteEnter(to, from, next) {
 		next()
 	},
@@ -127,8 +138,8 @@ $view-height = 898px;
 
 .cable-temp {
   width: 100%;
-  height: 100%;
-  background: url("~@/assets/img/common/wai.png")
+  height: 99%;
+  background: url('~@/assets/img/common/wai.png');
   background-repeat: no-repeat;
   background-size: 100% 100%;
 

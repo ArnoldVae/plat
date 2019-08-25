@@ -77,6 +77,7 @@
                     label: 'label'
                 },
                 filterText: '',
+                untid:''
             }
         },
         computed: {
@@ -88,7 +89,7 @@
         watch: {
             activeUnitId: {
                 handler(val) {
-                    this.current = 'cable-temp'
+                    this.current = 'residual-current'
                     this.tabList.forEach(item => {
                         item.active = false
                     })
@@ -116,12 +117,15 @@
             // 获取组织结构
             async getOrganization() {
                 let result = await this.$_api.analyst.getOrganization({
-                    iType: '1006003',
+                    iType: '10060003',
                     treeFlag: '2'
                 })
                 if (result.success) {
-                    console.log(result.data)
+                    // console.log(result.data)
                     this.treeData = result.data
+                    this.untid = result.data[0].children[0].children[0].children[0].children[0].id
+                    cosole.log(this.unitid,"书第一个id")
+                    this.$store.dispatch('updateUnitId', this.untid)
                 } else {
                     this.treeData = []
                 }
@@ -181,7 +185,7 @@
             .el-aside {
                 background: url('../../assets/img/common/tree-bg.png');
                 overflow-y: auto;
-                margin-top: -54px;
+                margin-top: -49px;
                 height: 930px;
             }
             .el-main {

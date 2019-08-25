@@ -5,16 +5,16 @@
 			<div class="btnTitle">图例:</div>
 			<div class="btnCon">
 				<div class="btnConItem">
-					<div>
-						<img src="../../assets/img/elec-fire/shengyu.png" alt />
-					</div>
-					<div class="con" @click="residueDian()">剩余电流</div>
-				</div>
-				<div class="btnConItem">
-					<div>
+					<div class="imgCon">
 						<img src="../../assets/img/elec-fire/kaizhuang.png" alt />
 					</div>
 					<div class="con" @click="kaiDian()">铠装电流</div>
+				</div>
+				<div class="btnConItem">
+					<div class="imgCon">
+						<img src="../../assets/img/elec-fire/shengyu.png" alt />
+					</div>
+					<div class="con" @click="residueDian()">剩余电流</div>
 				</div>
 			</div>
 		</div>
@@ -51,9 +51,21 @@ export default {
 		// this.mapHt()
 		this.init()
 	},
+	computed: {
+		// activeUnitId() {
+		// 	return this.$store.getters.unitId
+		// }
+	},
 	watch: {
+		// activeUnitId: {
+		// 	handler(val) {
+		// 		// console.log(val,"这个是ht图纸的id")
+		// 		this.unitId = val
+		// 		// this.getHtMap()
+		// 	}
+		// },
 		residualUrl(url) {
-			// console.log(url)
+			// console.log(url,'这是图纸地址')
 			this.dataModel.clear()
 			var el = this.$refs['view-main']
 			var childs = el.childNodes
@@ -110,17 +122,21 @@ export default {
 				var http = `${$_development.javaRequest.location}/${$_development.javaRequest.javaModule}${this.residualUrl}`
 			}
 			ht.Default.xhrLoad(http, res => {
+				// res.p.background='transparent'
 				let json = ht.Default.parse(res)
+				json.p.background = 'transparent'
 				dataModel.deserialize(json)
 				graphView.fitContent(true)
+
 				// graphView.setZoom(6,true,{x:0,y:0})
 			})
 			this.getNode()
 		},
 		getNode() {
+			// console.log(this.unitId,'这里是Nioe的id')
 			let params = {
 				pageId: this.residualObj.pageId,
-				unitId: '8177a787a28b4f86a103fac9a023db05'
+				unitId: this.unitId
 			}
 			this.$_api.statusCheck.getHtNode(params).then(res => {
 				// console.log(res)
@@ -136,23 +152,25 @@ export default {
 								node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
 								node.setName(item.vcName)
 								// node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
-								node.setSize(40, 20)
+								node.setSize(60, 50)
 								node.setStyle('interactive', true)
 								node.a('vc_SourceID', item.vcSourceId)
 								node.a('vc_Path', item.vcPath)
 								node.a('i_NodeType', item.iNodeType)
 								node.a('pageId', this.residualObj.pageId)
-								node.a('devtypeId',item.devNodes[0].devTypeId)
+								node.a('devtypeId', item.devNodes[0].devTypeId)
 								node.setLayer(1)
 								node.s('label', '')
+								item.devNodes[0].f_Value=item.devNodes[0].f_Value=='65535'?'    --':item.devNodes[0].f_Value
+								node.a('value',item.devNodes[0].f_Value);
 								this.dataModel.add(node)
-								this.dataModel.each(data => {
-									let valueNum = item.devNodes[0].f_Value !=null ? item.devNodes[0].f_Value : '---'
-									data.a('value', valueNum)
-									// if(data.getTag()=='12e1638920ca4ce0a5ace94d87e005eb'){
-									// 	// console.log(data)
-									// }
-								})
+								// this.dataModel.each(data => {
+								// 	let valueNum = item.devNodes[0].f_Value != null ? item.devNodes[0].f_Value : '---'
+								// 	data.a('value', valueNum)
+								// 	// if(data.getTag()=='12e1638920ca4ce0a5ace94d87e005eb'){
+								// 	// 	// console.log(data)
+								// 	// }
+								// })
 							}, 100)
 						})
 				}
@@ -161,14 +179,14 @@ export default {
 		//剩余电流的点击 显示与隐藏
 		residueDian() {
 			this.dataModel.each(data => {
-					if (data.a('devtypeId')==1080) {
-						if (data.getStyle('2d.visible') == true) {
-							data.setStyle('2d.visible', false)
-						} else {
-							data.setStyle('2d.visible', true)
-						}
+				if (data.a('devtypeId') == 1080) {
+					if (data.getStyle('2d.visible') == true) {
+						data.setStyle('2d.visible', false)
+					} else {
+						data.setStyle('2d.visible', true)
 					}
-				
+				}
+
 				if (data.getTag() == 'sy-bg-shengyu') {
 					if (data.getStyle('2d.visible') == true) {
 						data.setStyle('2d.visible', false)
@@ -181,12 +199,12 @@ export default {
 		//铠装电流的点击 显示与隐藏
 		kaiDian() {
 			this.dataModel.each(data => {
-				if (data.a('devtypeId')==1082) {
-						if (data.getStyle('2d.visible') == true) {
-							data.setStyle('2d.visible', false)
-						} else {
-							data.setStyle('2d.visible', true)
-						}
+				if (data.a('devtypeId') == 1082) {
+					if (data.getStyle('2d.visible') == true) {
+						data.setStyle('2d.visible', false)
+					} else {
+						data.setStyle('2d.visible', true)
+					}
 				}
 				if (data.getTag() == 'sy-bg-kai') {
 					if (data.getStyle('2d.visible') == true) {
@@ -210,8 +228,6 @@ export default {
 }
 
 .fireControlHt {
-  // margin-left 20px
-//   margin-top: 20px;
   width: 100%;
   height: 800px;
   position: relative;
@@ -230,14 +246,26 @@ export default {
     margin-left: 30px;
     cursor: pointer;
     user-select: none;
-	.btnConItem{
-		display flex;
-		cursor pointer;
-        user-select none;
-		.con{
-			margin-left 20px;
-		}
-	}
+
+    .btnConItem {
+      display: flex;
+      cursor: pointer;
+      user-select: none;
+
+      .con {
+        margin-left: 20px;
+      }
+
+      .imgCon {
+        width: 30px;
+        height: 30px;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
   }
 }
 </style>

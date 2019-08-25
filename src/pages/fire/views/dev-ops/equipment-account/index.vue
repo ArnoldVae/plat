@@ -1,107 +1,72 @@
 <template>
   <div class="docFire">
     <ElDialog
-      style="left: 17vw; top:8vh;text-align: center"
+      style="left: 15vw; top:-4vh;text-align: center"
       :visible.sync="dialogVisible"
       center
       :before-close="handleClose"
     >
-      <img src="./lan.png" style="position: relative;top:-120px;left: -50px; width: 107%;" alt>
+      <!-- <img src="./lan.png" style="position: relative;top:-120px;left: -50px; width: 107%;" alt> -->
       <span
-        style="color: #000000;font-size:44PX;position:relative;top: -3.9rem;left: 15rem;font-weight: bold"
+        style="color: #fff;font-size:30px;position:relative;top: -3.5rem;left: 15rem;font-weight: bold"
       >设备详情</span>
 
       <div class="diaSpan" style="position: relative;top:-40px">
         <el-row style="color: #ffffff;">
-          <el-col :span="12">
-            <span>变电站：</span>
-            <span>{{ forData.itemData1 }}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>设备名称：</span>
-            <span>{{ forData.itemData2 }}</span>
-          </el-col>
-        </el-row>
-        <el-row style="color: #ffffff">
-          <el-col :span="12">
-            <span>设备编号：</span>
-            <span>{{ forData.itemData3 }}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>所属子系统：</span>
-            <span>{{ forData.itemData4 }}</span>
-          </el-col>
-        </el-row>
-        <el-row style="color: #ffffff">
-          <el-col :span="12">
-            <span>设备类型：</span>
-            <span>{{ forData.itemData5 }}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>设备子系统：</span>
-            <span>{{ forData.itemData6 }}</span>
-          </el-col>
-        </el-row>
-        <el-row style="color: #ffffff">
-          <el-col :span="12">
-            <span>设备种类：</span>
-            <span>{{ forData.itemData7 }}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>设备型号：</span>
-            <span>{{ forData.itemData8 }}</span>
-          </el-col>
-        </el-row>
-        <el-row style="color: #ffffff">
-          <el-col :span="12">
-            <span>设备型式：</span>
-            <span>{{ forData.itemData9 }}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>设备材质：</span>
-            <span>{{ forData.itemData10 }}</span>
-          </el-col>
-        </el-row>
-        <el-row style="color: #ffffff">
-          <el-col :span="12">
-            <span>设备参数：</span>
-            <span>{{ forData.itemData11 }}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>安装位置：</span>
-            <span>{{ forData.itemData12 }}</span>
-          </el-col>
-        </el-row>
-        <el-row style="color: #ffffff">
-          <el-col :span="12">
-            <span>功率：</span>
-            <span>{{ forData.itemData12 }}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>回路数：</span>
-            <span>{{ forData.itemData14 }}</span>
-          </el-col>
-        </el-row>
-        <el-row style="color: #ffffff">
-          <el-col :span="12">
-            <span>编码地址：</span>
-            <span>{{ forData.itemData15 }}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>投运日期：</span>
-            <span>{{ forData.itemData16 }}</span>
-          </el-col>
-        </el-row>
-        <el-row style="color: #ffffff">
-          <el-col :span="20">
-            <span>单位：</span>
-            <span>{{ forData.itemData17 }}</span>
-          </el-col>
-        </el-row>
+					<el-col :span="12">
+						<span>变电站:</span>
+						<span style="margin-left:50px;color:#47b2fe">{{ forData.unitName }}</span>
+					</el-col>
+					<el-col :span="12">
+						<span>设备名称:</span>
+						<span style="margin-left:50px;color:#47b2fe">{{ forData.vcName }}</span>
+					</el-col>
+				</el-row>
+				<el-row style="color: #ffffff">
+					<el-col :span="12">
+						<span>设备类型:</span>
+						<span style="margin-left:41px;color:#47b2fe">{{ forData.devTypeName }}</span>
+					</el-col>
+					<el-col :span="12">
+						<span>所属子系统:</span>
+						<span style="margin-left:38px;color:#47b2fe">{{ forData.subName }}</span>
+					</el-col>
+				</el-row>
+				<el-row style="color: #ffffff">
+					<el-col :span="12">
+						<span>定置点编号:</span>
+						<span style="margin-left:24px;color:#47b2fe">{{ forData.num }}</span>
+					</el-col>
+					<el-col :span="12">
+						<span>规格型号:</span>
+						<span style="margin-left:51px;color:#47b2fe">{{ forData.vcCode }}</span>
+					</el-col>
+				</el-row>
+				<el-row style="color: #ffffff">
+					<el-col :span="12">
+						<span>有效日期:</span>
+						<span style="margin-left:38px;color:#47b2fe">{{ forData.beginTime }}</span>
+					</el-col>
+					<el-col :span="12">
+						<span>保管责任人:</span>
+						<span style="margin-left:34px;color:#47b2fe">{{ forData.userId }}</span>
+					</el-col>
+				</el-row>
+				<el-row style="color: #ffffff">
+					<el-col :span="12">
+						<span>安装位置:</span>
+						<span style="margin-left:36px;color:#47b2fe">{{ forData.vcLocal }}</span>
+					</el-col>
+					<el-col :span="12">
+						<span>备注:</span>
+						<span style="margin-left:83px;color:#47b2fe">{{ forData.vcMemo }}</span>
+					</el-col>
+				</el-row>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button class="yellow-btn" @click="dialogVisible = false" type="text">取 消</el-button>
-        <el-button class="blue-btn" type="text" @click="dialogVisible = false">确 定</el-button>
+		  <el-button class="blue-btn" type="text" @click="comfir">确 定</el-button>
+        <el-button class="yellow-btn" @click="comfir" type="text">取 消</el-button>
+        
       </span>
     </ElDialog>
 
@@ -142,7 +107,7 @@
         <div style="margin-bottom: 10px">
           <el-button class="blue-btn" type="text" @click="doSearch()">查询</el-button>
           <el-button class="blue-btn" @click="leadTo" type="text">查看</el-button>
-          <el-button class="blue-btn" @click="exportInfo" type="text">导入</el-button>
+          <el-button class="yellow-btn" @click="exportInfo" type="text">导入</el-button>
         </div>
         <!-- <div style>
 					<el-button style="margin: 0" class="yellow-btn" type="text">删 除</el-button>
@@ -158,10 +123,11 @@
         :data="maintainDatas"
         :row-style="tableColor"
         @selection-change="handleSelectionChange"
+		@row-click="rowClick"
         style="width: 100%;"
-		 height="630"
+		 height="600"
       >
-        <el-table-column prop="unit_name" align="center" label="变电站名称" width="160"></el-table-column>
+        <el-table-column prop="unitName" align="center" label="变电站名称" width="160"></el-table-column>
         <el-table-column prop="vcName" align="center" label="设备名称" width='250' show-overflow-tooltip></el-table-column>
         <el-table-column prop="devTypeName" align="center" label="设备类型" width='120'></el-table-column>
         <el-table-column prop="subName" align="center" label="所属子系统" width='150'></el-table-column>
@@ -186,6 +152,22 @@
         @current-change="changePage"
       ></el-pagination>
     </div>
+	<!-- 导入弹框 -->
+		<el-dialog title="导入文件" :visible.sync="DaoShow" width="50%" class="Daoshow" :before-close="Close">
+			<el-upload
+				class="upload-demo"
+				action="https://jsonplaceholder.typicode.com/posts/"
+				:on-preview="handlePreview"
+				:on-remove="handleRemove"
+				:before-remove="beforeRemove"
+				:limit="3"
+				:on-exceed="handleExceed"
+				:file-list="fileList"
+			>
+				<el-button size="small" type="primary">点击上传</el-button>
+				<div slot="tip" class="el-upload__tip">只能上传elx格式文件</div>
+			</el-upload>
+		</el-dialog>
   </div>
 </template>
 <script>
@@ -193,27 +175,7 @@ export default {
 	name: 'docFire',
 	data() {
 		return {
-			forData: [
-				{
-					itemData1: '',
-					itemData2: '',
-					itemData3: '',
-					itemData4: '',
-					itemData5: '',
-					itemData6: '',
-					itemData7: '',
-					itemData8: '',
-					itemData9: '',
-					itemData10: '',
-					itemData11: '',
-					itemData12: '',
-					itemData13: '',
-					itemData14: '',
-					itemData15: '',
-					itemData16: '',
-					itemData17: ''
-				}
-			],
+			forData: [],
 
 			eqnameS: [
 				{ MtcCoID: 1, vc_Name: '火灾传输装置' },
@@ -352,7 +314,10 @@ export default {
 			curIndex: 1,
 			pageSize: 10,
 			totals: 3,
-			unitId:this.$store.getters.unitId
+			unitId:this.$store.getters.unitId,
+			//导入文件
+			DaoShow: false,
+			fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
 		}
 	},
 	mounted() {
@@ -363,10 +328,17 @@ export default {
 		this.searchItem()
 		// console.log(this.$store.getters.unitId,'zhes');
 	},
-
+computed: {
+		activeUnitId() {
+			return this.$store.getters.unitId
+		}
+	},
 	watch: {
-		unitId(val){
-			this.searchItem()
+		activeUnitId: {
+			handler(val) {
+				this.unitId = val
+				this.searchItem()
+			}
 		}
 	},
 	methods: {
@@ -408,14 +380,19 @@ export default {
 				userId:this.search.keeperName,
 				pageSize:this.pageSize,
 				currentPage:this.curIndex,
-				unitName:this.unitId
+				unitId:this.unitId
 			})
 			if (result.success) {
 				if (result.data && result.data) {
-					// console.log(result.data);
-					this.totals=result.data.total
+					this.totals = result.data.total
 					this.maintainDatas = result.data.list
-					console.log(this.maintainDatas);
+					this.maintainDatas.forEach(item => {
+						for (name in item) {
+							if (item[name] == null) {
+								item[name] = '--'
+							}
+						}
+					})
 				}
 			}
 		},
@@ -448,16 +425,49 @@ export default {
 			this.forData.itemData12 = this.data[0].substute
 			this.forData.itemData13 = this.data[0].subpostion
 		},
-		leadTo() {},
-		exportInfo() {},
+		leadTo() {
+				this.dialogVisible = true
+		},		
 		infoModal() {
 			this.modalShow = true
+		},
+		rowClick(row) {
+			// console.log(row)
+			this.forData = row
+		},
+		comfir() {
+			this.forData = []
+			this.dialogVisible = false
+		},
+		//导入弹框的逻辑
+		exportInfo() {
+			this.DaoShow = true
+		},
+		Close() {
+			this.DaoShow = false
+		},
+		handleRemove(file, fileList) {
+			console.log(file, fileList)
+		},
+		handlePreview(file) {
+			console.log(file)
 		},
 		handleClose() {
 			this.dialogVisible = false
 		},
 		handleSelectionChange(val) {
 			this.data = val
+		},
+		handleExceed(files, fileList) {
+			// this.$ocxMessage.info('命令下发成功')
+			this.$ocxMessage.warning(
+				`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
+					fileList.length} 个文件`
+			)
+		},
+		beforeRemove(file, fileList) {
+			console.log("一处")
+			// return this.$confirm(`确定移除 ${file.name}？`)
 		}
 	}
 }
@@ -480,14 +490,38 @@ export default {
     font-weight: bold;
     margin-bottom: 20px;
   }
+.Daoshow {
+    .el-dialog {
+      height: 500px;
+      border: none;
+      background: url('../../../assets/img/dialog.png') no-repeat;
+      background-size: 100% 100%;
 
+      .el-dialog__title {
+        color: #fff;
+        font-size: 30px;
+      }
+
+      .el-dialog__close {
+        font-size: 30px;
+      }
+
+      .el-upload__tip {
+        color: #fff;
+		font-size:25px;
+      }
+	  .el-upload-list__item-name{
+		  color:#fff;
+		  font-size:20px;
+	  }
+    }
+  }
   .el-dialog {
-    background: #141a26;
-    border: 1PX solid #d3dee6;
+    background: url('../../../assets/img/dialog.png') no-repeat;
+    background-size: 100% 100%;
 
     .el-dialog__header {
-      background: url('../../../assets/img/main/lan.png');
-      background-repeat: no-repeat;
+      
       font-weight: bold;
       font-size: 44PX;
       height: 71PX;
@@ -497,6 +531,9 @@ export default {
       -moz-background-size: 100% 100%;
       text-align: center;
       color: black;
+    }
+	.el-dialog__close {
+      font-size: 30px;
     }
   }
 
@@ -574,7 +611,12 @@ export default {
   .table {
     height: 650px;
   }
-
+ .el-table {
+      .el-table__empty-block .el-table__empty-text {
+        color: #fff;
+        font-size: 16px;
+      }
+    }
   // 分页样式的修改
   .pagination {
     text-align: center;
@@ -642,8 +684,8 @@ export default {
   }
 
   .el-table--enable-row-hover .el-table__body tr:hover > td {
-    background-color: #081437 !important;
-    cursor: pointer;
+	  background: rgba(36,64,88,0.48) !important;
+	  cursor: pointer;
   }
 
   .el-table__row > td {

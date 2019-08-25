@@ -16,59 +16,60 @@
 				<div class="protection-zone-bottom">
 					<p class="menu-bar">实时态势</p>
 					<p class="menu-b">实时态势：</p>
-					<div style="height: 385px" ref="envChart"></div>
+					<div style="height: 314px" ref="envChart"></div>
 				</div>
 			</el-aside>
 			<el-main>
 				<div class="protection-zone-items">
-					<el-row>
-						<el-col :span="10" class="menu-bar">防护区列表</el-col>
-						<el-col :span="10">防护区列表：</el-col>
-					</el-row>
+					<div class="menu-bar">防护区列表</div>
+					<div class="menu">防护区列表：</div>
 					<div class="search-item">
 						<el-row
 							v-for="(item, index) in subMenuList"
 							:key="index"
 							style="width: 100%;"
+							:class="activeIndex==index? 'activeClick':''"
 						>
-							<el-col :span="12">
+							<el-col :span="17">
 								<span>
 									<span class="color-green">●</span>
 									{{ item.vcName }}
 								</span>
 							</el-col>
-							<el-col :span="12" class="item-btn">
-								<el-button style="position:relative; top: -5PX" size="mini" @click="getTemDetail(item,index)" :class="activeIndex==index? 'activeClick':''">查看</el-button>
+							<el-col :span="7" class="item-btn">
+								<el-button
+									style="position:relativ"
+									size="mini"
+									@click="getTemDetail(item,index)"
+								>查看</el-button>
 							</el-col>
 						</el-row>
 					</div>
 				</div>
 				<div class="protection-zone-items-bottom">
-					<el-row>
-						<el-col :span="24" class="menu-bar">{{ temData.name }}</el-col>
-						<el-col :span="24">{{ temData.name }}：</el-col>
-					</el-row>
+					<div class="menu-bar">{{ temData.name }}</div>
+					<div class="menu">{{ temData.name }}：</div>
 					<div class="search-item">
 						<div style="padding-left:24px;">
 							<el-row>
-								<el-col :span="12">
+								<el-col :span="16">
 									<span class="font-size-14">
 										<img src="@/assets/img/common/temp.png" width="10px" /> 当前环境湿度：
 									</span>
 								</el-col>
-								<el-col :span="12" class="item-btn">
+								<el-col :span="8" class="item-btn">
 									<span class="font-time color-light-green">{{ temData.mechine }}</span>
 									<span class="color-light-green">%</span>
 								</el-col>
 							</el-row>
 
 							<el-row>
-								<el-col :span="12">
+								<el-col :span="16">
 									<span class="font-size-14">
 										<img src="@/assets/img/common/temp2.png" width="10px" /> 当前环境温度：
 									</span>
 								</el-col>
-								<el-col :span="12" class="item-btn">
+								<el-col :span="8" class="item-btn">
 									<span class="font-time color-light-green">{{ temData.env }}</span>
 									<span class="color-light-green">℃</span>
 								</el-col>
@@ -97,7 +98,7 @@ export default {
 	},
 	data() {
 		return {
-			activeIndex: 0,//用来切换查看按钮的激活样式
+			activeIndex: 0, //用来切换查看按钮的激活样式
 			getList: {
 				arr1: [],
 				arr2: [],
@@ -157,7 +158,8 @@ export default {
 			],
 			chartData: ['30', '15', '34', '33.5', '34', '10', '33.9', '40', '33.2', '32.3'],
 			chartData2: ['8', '34', '33.2', '60', '33.5', '31.3', '31.4', '20', '34.6', '10'],
-			categorName: ['温度', '湿度']
+			categorName: ['温度', '湿度'],
+			unitId: this.$store.getters.unitId,
 		}
 	},
 	computed: {
@@ -184,7 +186,7 @@ export default {
 	update() {},
 	beforeDestory() {},
 	methods: {
-		init(){},
+		init() {},
 		//charts表渲染
 		getEnvChart(obj) {
 			// 如果湿度没有值则添加值
@@ -210,10 +212,10 @@ export default {
 				legend: {
 					data: this.categorName,
 					top: 20,
-					right: 10,
+					right: 30,
 					textStyle: {
 						color: '#fff',
-						fontSize: 16
+						fontSize: 18
 					}
 				},
 				color: ['#47b2fe', '#5d6040'],
@@ -236,7 +238,7 @@ export default {
 						color: '#85c9ee',
 						show: true,
 						textStyle: {
-							fontSize: 14
+							fontSize: 16
 						}
 					},
 					areaStyle: {
@@ -247,7 +249,7 @@ export default {
 					type: 'value',
 					axisLine: {
 						lineStyle: {
-							color: '#fff',
+							color: '#85c9ee',
 							width: 2
 						}
 					},
@@ -255,10 +257,10 @@ export default {
 						show: false
 					},
 					axisLabel: {
-						color: '#fff',
+						color: '#85c9ee',
 						show: true,
 						textStyle: {
-							fontSize: 14
+							fontSize: 16
 						}
 					}
 				},
@@ -272,7 +274,7 @@ export default {
 					},
 					textStyle: {
 						color: '#85c9ee',
-						fontSize: 14
+						fontSize: 16
 					}
 				},
 				series: [
@@ -384,7 +386,7 @@ export default {
 		 *
 		 */
 		async getAreaMenu(item) {
-			this.getId = '8177a787a28b4f86a103fac9a023db05'
+			this.getId = this.unitId
 			let result = await this.$_api.statusCheck.getAreaMenu({
 				unitId: this.getId,
 				subIdsStr: ''
@@ -412,8 +414,8 @@ export default {
 		 *获取温度湿度信息方法
 		 *
 		 */
-		async getTemDetail(item,index) {
-			if(!index) {
+		async getTemDetail(item, index) {
+			if (!index) {
 				index = 0
 			}
 			//用来切换查看按钮的激活样式
@@ -438,7 +440,6 @@ export default {
 							this.temData.env = item.fValue
 							this.getTemCharts(item.nodeId, item.functioinId)
 						}
-
 					})
 				} else {
 					this.getList.arr1 = []
@@ -464,7 +465,7 @@ export default {
 					this.videoConfig.deviceInfo = result.data[0].devId
 					// this.videoConfig.serviceInfo = result.data[0].vcParams1
 					console.log(this.videoConfig)
-					
+
 					this.videoConfig1.deviceInfo = result.data[1].devId
 					// this.videoConfig1.serviceInfo = result.data[1].vcParams1
 				}
@@ -519,7 +520,7 @@ export default {
 	color: #32e611;
 }
 .font-size-14 {
-	font-size: 14px;
+	font-size: 16px;
 }
 </style>
 
@@ -636,7 +637,6 @@ $prowidth = 100%;
           }
 
           .el-row {
-
             .el-col {
               font-size: 36PX;
 
@@ -719,28 +719,24 @@ $prowidth = 100%;
   .el-container {
     display: flex;
     justify-content: space-between;
-    background: url('~@/assets/img/common/wai.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    -moz-background-size: 100% 100%;
-    padding: 20px 48px;
-	height: 800px;
+    // background: url('~@/assets/img/common/wai.png');
+    // background-repeat: no-repeat;
+    // background-size: 100% 100%;
+    // -moz-background-size: 100% 100%;
+    padding: 10px 48px 10px 48px;
+    height: 800px;
 
     .el-aside {
       height: $prohight;
-		overflow: hidden
+      overflow: hidden;
 
       .protection-zone-top {
-        // height: 560px;
-        // background: #141A26;
-        // border: 1PX solid #D3DEE6;
         font-size: 36px;
-		overflow: hidden;
+        overflow: hidden;
 
         .protection-zone-top-main {
           display: flex;
           justify-content: space-around;
-		  
 
           .protection-zone-top-item {
             margin: 9px 5px;
@@ -750,10 +746,8 @@ $prowidth = 100%;
           }
 
           .left {
-			// position: relative;
-			// top: -1px;
             width: 49%;
-			height: 356px;
+            height: 356px;
             margin: 0;
             // margin-left: -7px;
             margin-right: 0px;
@@ -764,10 +758,8 @@ $prowidth = 100%;
           }
 
           .right {
-            // position: relative;
-			// top: -1px;
             width: 49%;
-			height: 356px;
+            height: 356px;
             margin: 0;
 
             .ocxVideo {
@@ -778,47 +770,68 @@ $prowidth = 100%;
       }
 
       .protection-zone-bottom {
-		height: 385px;
+        height: 401px;
         margin-top: 19px;
-		width: 1145px;
-        background: #141A26;
-		background: url('../../../assets/img/protection-zon/actualTime.png');
-		background-repeat: no-repeat;
-		background-size: 100% 100%;
-		-moz-background-size: 100% 100%;
+        width: 1145px;
+        // background: #141A26;
+        // background: url('../../../assets/img/protection-zon/actualTime.png');
+        // background-repeat: no-repeat;
+        // background-size: 100% 100%;
+        // -moz-background-size: 100% 100%;
+		border: 1px solid #195891;
 
-		.menu-b {
-			color: #fff;
-			font-size: 16px;
-			padding: 20px 0 0 24px;
-		}
+        .menu-b {
+         color: #fff;
+          width: 100%;
+          height: 2.2228rem!important;
+          padding-left: 24px;
+          font-size: 18px;
+          margin: 0;
+          height: 56px;
+          line-height: 56px;
+          background: url('../../../assets/img/common/second.png') no-repeat;
+          background-size: 100% 100%;
+          -moz-background-size: 100% 100%;
+
+        }
       }
     }
 
     .el-main {
       padding: 0 0 0 10px;
-	  overflow: hidden;
+      overflow: hidden;
 
       .protection-zone-items {
         width: $prowidth;
-        height: 559px;
-        border-radius: 5px;
-        background: url('../../../assets/img/protection-zon/protectArea.png');
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        -moz-background-size: 100% 100%;
-		padding-top: 28px;
-		overflow: hidden;
+        height: 549px;
+        // padding-top: 28px;
+        border: 1px solid #195891;
+        overflow: hidden;
+
+        .menu {
+          color: #fff;
+          width: 100%;
+          height: 2.2228rem!important;
+          padding-left: 24px;
+          font-size: 18px;
+          margin: 0;
+          height: 56px;
+          line-height: 56px;
+          background: url('../../../assets/img/common/second.png') no-repeat;
+          background-size: 100% 100%;
+          -moz-background-size: 100% 100%;
+          margin-bottom: 14px;
+        }
 
         .el-row {
           color: white;
           height: 40px;
           line-height: 40px;
           font-size: 16px;
-          margin-left: 24px;
-			
+          padding-left: 24px;
+
           .tool-text {
-            font-size: 15px;
+            font-size: 16px;
             text-align: right;
 
             .color-red {
@@ -832,24 +845,33 @@ $prowidth = 100%;
         }
 
         .search-item {
-		width: 309px;
-		
+          width: 100%;
           height: 498px;
           overflow: auto;
           font-size: 16px;
 
           .el-row:hover {
-            border: 2px #0E70AF solid;
+            // border: 2px #0E70AF solid;
             box-shadow: inset 0 0 20px #0E70AF;
+            background-color: #063783;
+          }
+
+          .activeClick {
+            box-shadow: inset 0 0 20px #0E70AF;
+            background-color: #063783;
+
+            .el-button {
+              color: #ffd36a !important;
+            }
           }
 
           .el-row {
             color: white;
             font-size: 16px;
-			margin-bottom: 0;
+            margin-bottom: 0;
 
             .el-col {
-              font-size: 14PX;
+              font-size: 16px;
 
               .color-green {
                 color: #19be6b;
@@ -858,51 +880,60 @@ $prowidth = 100%;
 
             .item-btn {
               text-align: right;
-              padding-right: 18%;
+              padding-right: 14%;
 
               .el-button {
                 background: none;
                 border: 0.04444rem solid #00aaff;
                 color: #37a8ff;
+                font-size: 16px;
+				top: -1px!important;
               }
-
-			  .activeClick {
-				  color: #ffd36a;
-			  }
             }
           }
         }
-
-        // margin-bottom: 0px;
       }
 
       .protection-zone-items-bottom {
         width: $prowidth;
-		// width: 310px;
-        height: 208px;
-        border-radius: 5px;
-        // background: #141A26;
-        // border: 1PX solid #D3DEE6;
-		background: url('../../../assets/img/protection-zon/oneProtection.png')
-		background-repeat: no-repeat;
-		background-size: 100% 100%;
-		padding-top: 28px;
+        height: 218px;
+        // border-radius: 5px;
+        // background: url('../../../assets/img/protection-zon/oneProtection.png');
+        // background-repeat: no-repeat;
+        // background-size: 100% 100%;
+        margin-top: 10px;
+		border: 1px solid #195891;
+
+		.menu {
+          color: #fff;
+          width: 100%;
+          height: 2.2228rem!important;
+          padding-left: 24px;
+          font-size: 18px;
+          margin: 0;
+          height: 56px;
+          line-height: 56px;
+          background: url('../../../assets/img/common/second.png') no-repeat;
+          background-size: 100% 100%;
+          -moz-background-size: 100% 100%;
+          margin-bottom: 14px;
+        }
 
         .el-row {
           color: white;
           height: 40px;
           line-height: 40px;
           font-size: 16px;
-		  margin-left: 24px;
+          margin-left: 24px;
         }
 
         .search-item {
           margin-top: 14px;
 
           .el-row {
-            margin-left: 20px;
+            padding-left: 20px;
             margin-bottom: 20px;
-			font-size: 12px;
+            font-size: 12px;
           }
 
           img {

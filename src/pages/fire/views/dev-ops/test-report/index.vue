@@ -80,7 +80,7 @@ export default {
 	background: url('../../../assets/img/comfim.png') no-repeat;
 	background-size: 100% 100%;
 	color: #ffffff;
-	font-size: 14px;
+	font-size: 16px;
 	width: 2.4rem;
 	margin-top: 30px;
 }

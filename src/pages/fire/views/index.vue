@@ -125,6 +125,7 @@
         beforeDestory() {
         },
         methods: {
+
             /**
              * tab菜单切换
              * tab为当前勾选节点
@@ -251,10 +252,10 @@
 
         .fire-nav {
             top: 1px;
-            height: 56px;
+            height: 50px;
             width: 1590px;
             position: relative;
-            line-height: 56px;
+            line-height: 50px;
             left: 16.2%;
             background: url('../assets/img/common/menu-bg-two.png');
             background-size: 100% 100%;
@@ -264,8 +265,8 @@
                 color: #90d9ff;
                 float: left;
                 //   width: 230px;
-                height: 56px;
-                line-height: 56px;
+                height: 50px;
+                line-height: 50px;
                 text-align: center;
                 font-size: 18px
                 cursor: pointer;
