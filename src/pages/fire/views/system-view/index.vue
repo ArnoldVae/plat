@@ -126,7 +126,13 @@
                     <!--</div>-->
                     <!--</div>-->
                     <div class="newTitle" >
-                        实时报警:
+                        实时报警
+                        <span class="label">
+                             <span class="left"><img src="../../assets/img/system-view/warning-lable.png" alt=""><span class="color-red font-size-14">报警</span></span>
+                             <span><img src="../../assets/img/system-view/early-lable.png" alt=""><span class="color-yellow font-size-14" >预警</span></span>
+                        </span>
+
+
                     </div>
                     <!--<div class="elMain-footer-title2">-->
                     <!--<div class="elMain-footer-btn1">-->
@@ -155,11 +161,11 @@
                                 </li>
                                 <li class="itemDetails">
                                     <span class="color-red">●</span>
-                                    <span class="color-white">{{ item.areaName }}</span>
+                                    <span class="color-white">{{ item.araeName}}</span>
                                 </li>
                                 <li class="itemDetails">
                                     <span class="color-red">●</span>
-                                    <span class="color-white">{{ item.time }}</span>
+                                    <span class="color-white">{{ item.beginTime }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -283,6 +289,7 @@
             this.getSubFireItem()
             this.registerMQTT()
             this.getAllStation() //已接入变电站
+            this.getAlarmList()
         },
         activited() {
         },
@@ -295,44 +302,26 @@
              *获取报警信息列表 列表初始化调用
              *
              */
-            getAlarmList(item) {
+            getAlarmList() {
+                let that=this
                 this.$_api.alarmAction
                     .getAlarmList({
-                        unitId: this.$store.getters.unitId || "",
+                        unitId: this.$store.getters.unitId || "0",
                         // alarmId: '1'
                     })
                     .then(res => {
                         if (res.code == 200) {
-                            this.subLabelList = [];
+                            console.log('获取列表')
+                            console.log(res)
 
-                            if (res.data) {
-                                this.labelList = res.data
-                                this.labelList.forEach((im, i) => {
-                                    im.index = i + 1
-                                    im.selected = i == 0 ? true : false
+                            if(res.data&&res.data.length>0){
+                                res.data.forEach((im, i) => {
                                     im.beginTime=moment(im.beginTime * 1000).format('YYYY-MM-DD HH:mm')
                                 })
-                                if (this.labelList.length > 5) {
-                                    this.labelList.forEach((item, index) => {
-                                        item.index = index + 1
-                                        item.selected = index == 0 ? true : false
-                                        if (index < 5) {
-                                            this.subLabelList.push(item)
-                                        }
-                                    })
 
-                                } else {
-                                    this.subLabelList = this.labelList
-                                }
-                                this.showLabelList = this.subLabelList
-                                // this.unitTitle = this.alarmTitle = res.data[0].unitName
-                                if (item) {
-                                    this.showItemDetail(item)
-                                } else {
-                                    this.showItemDetail(res.data[0]);
-                                }
-
-
+                                this.sysLists=res.data
+                            }else {
+                                this.sysLists=[]
                             }
                         }
                     })
@@ -423,26 +412,28 @@
             },
             //            获取推送信息
             registerMQTT() {
-                this.$_listen('firecontrolAllAlarm', (topic, msg, pack) => {
-                     debugger
+                this.$_listen(this.$options.name, (topic, msg, pack) => {
+                    debugger
 
                     let msgJson = JSON.parse(msg.toString())
-                    // console.log(msgJson)
+                     console.log(msgJson)
                     // debugger
 
                     if (msgJson.cmd === '3002') {
                         //报警的上传数据
                         //                        日期格式化
-                        if (msgJson.level == '0') {
-                            this.sysLists.forEach((item, index) => {
-                                if (item.alarmid == msgJson.alarmid) {
-                                    this.sysLists.splice(index, 1)
-                                }
-                            })
-                            return false
-                        }
-                        msgJson.time = moment(Number(msgJson.time) * 1000).format('YYYY-MM-DD hh:mm:ss')
-                        this.sysLists.unshift(msgJson)
+//                        if (msgJson.level == '0') {
+//                            this.sysLists.forEach((item, index) => {
+//                                if (item.alarmid == msgJson.alarmid) {
+//                                    this.sysLists.splice(index, 1)
+//                                }
+//                            })
+//                            return false
+//                        }
+//                        msgJson.time = moment(Number(msgJson.time) * 1000).format('YYYY-MM-DD hh:mm:ss')
+//                        this.sysLists.unshift(msgJson)
+                        this.getAlarmList()
+
 
                         //右上角消防统计报警数增加
                         this.paraData.map((item, index, arr) => {
@@ -454,8 +445,10 @@
                                 })
                             }
                         })
-                        this.$refs.map.changeAlarmNum(msgJson.unitid)
-                        this.$emit('receiveAlarm', 'alarm-action', msgJson.unitid)
+                        this.$refs.map.changeAlarmNum(msgJson.unitId)
+                        if(msgJson.level == '0')
+                            return false
+                        this.$emit('receiveAlarm', 'alarm-action', msgJson)
                         if (this.pageType) {
                             this.$store.dispatch('changeMenu', true)
                             this.$emit('changeFlag', true)
@@ -490,6 +483,10 @@
 </script>
 
 <style lang="stylus">
+
+    .font-size-14{
+        font-size 14px
+    }
     .newTitle {
         width: 100%;
         height: 50px;
@@ -499,15 +496,17 @@
         border-top-right-radius 4px
         color: #fff;
         padding-left 16px
-        .ant-btn {
-            background-color: #054166;
-            border-color: #000;
-
-            &.current {
-                background-color: #0291ed;
-                border-color: #013351;
+        .label{
+            float right
+            margin-right 20px
+            .left{
+                margin-right  10px
+            }
+            img{
+                margin-right 4px
             }
         }
+
         font-size: 18px;
     }
 
@@ -944,7 +943,7 @@
                         height: 320px;
                         overflow: auto;
                         position relative
-                        top -40px;
+                        top 16px;
 
                         .system-item {
                             width: 90%;

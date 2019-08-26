@@ -48,8 +48,8 @@
 
 			<!-- <el-button class="blue-btn" style=" line-height: 21PX;" @click="searchInfo" type="text">查&nbsp找</el-button> -->
 			<el-form-item class="taining-button">
-				<el-button class="blue-btn" v-if="searchIS" @click="searchInfo" type="text">查找</el-button>
-				<el-button class="blue-btn" v-if="!searchIS" @click="searchInfos" type="text">查找</el-button>
+				<el-button class="blue-btn"  @click="searchInfo" type="text">查找</el-button>
+				<!-- <el-button class="blue-btn" v-if="!searchIS" @click="searchInfos" type="text">查找</el-button> -->
 				<el-button class="yellow-btn" @click="leadTo" type="text">导入</el-button>
 				<el-button class="yellow-btn" @click="exportInfo" type="text">导出</el-button>
 			</el-form-item>
@@ -80,12 +80,11 @@
 						<span v-if="scope.row.status=='已结束'" style="color:blue;">{{scope.row.status}}</span>
 					</template>-->
 				</el-table-column>
-				<el-table-column label="执行" align="center" width="130">
+				<el-table-column label="操作" align="center" width="180">
 					<template slot-scope="scope">
 						<div>
-							<el-button class="blue-btn" @click="infoModals(scope.row)" size="mini" type="text"
-								>查看详情</el-button
-							>
+							<el-button class="blue-btn" @click="infoModals(scope.row)" size="mini" type="text" style="width:3.0rem;">详情</el-button>
+							<el-button class="blue-btn" @click="recordModals(scope.row)" size="mini" type="text" style="width:3.0rem;">记录</el-button>
 							<!-- <el-button class="yellow-btn" @click="searchInfo" size="mini" type="text">导出</el-button> -->
 						</div>
 					</template>
@@ -106,6 +105,24 @@
       ></el-pagination>
     </div>
 		<infoModal :dialogVisible="modalShow" :delitail="detileData" @handleClose="handleClose"></infoModal>
+
+		<ocx-modal
+			v-model="recordShow"
+			:width="1307"
+			:mask-closable="false"
+			footer-hide
+			:styles="{top: '500px','text-align':'center','color': '#303133'}"
+		>
+
+		<iframe
+			fullscreen
+			class="iframeCal"
+			:src="fileDate"
+			height="98%"
+			width="96%"
+			style="position: relative;"
+		></iframe>
+		</ocx-modal>
 	</div>
 </template>
 <script>
@@ -115,6 +132,8 @@ export default {
 	components: { infoModal },
 	data() {
 		return {
+			fileDate:"",
+			recordShow: false,
 			nullValue: null,
 			search: {
 				starTime: '',
@@ -257,7 +276,7 @@ export default {
 			this.searchIS = true
 		},
 		opoentimeB() {
-			this.searchIS = false
+			// this.searchIS = false
 		},
 		async searchInfo() {
 			let res = await this.$_api.maintaining.getfindPlanRecord({
@@ -272,9 +291,14 @@ export default {
 			if (res.code == '200') {
 				this.totals=res.data.total
 				this.maintainData = res.data.list
+				console.log(this.maintainData)
 			} else {
 				this.maintainData = []
 			}
+			// 重置页码为1
+			this.$nextTick(() => {
+				this.$refs['pages'].internalCurrentPage = 1
+			})
 		},
 	//分页
 		changePage(curIndex) {
@@ -333,6 +357,12 @@ export default {
 		},
 		handleClose() {
 			this.modalShow = false
+		},
+		recordModals(row) {
+			// this.recordData = row.mtcPlanId
+			this.fileDate = row.fileName
+			console.log(this.fileDate)
+			this.recordShow = true
 		}
 	}
 }
@@ -393,9 +423,11 @@ export default {
   }
 
   .el-input__prefix {
-  right: 0;
+  	right: 0;
 	text-align :right;
   // transition: all 0.3s;
+    top:3.5px !important;
+	cursor: pointer;
   }
   .el-checkbox__label {
     color: #ffffff;
@@ -547,5 +579,31 @@ export default {
 
 /deep/.el-table__body-wrapper {
   margin-top: -20px;
+}
+
+.ivu-modal {
+	top: 122px!important;
+	left: 0;
+	width: 100%!important;
+}
+
+
+.iframeCal {
+	left: 0!important;
+	height: 40rem;
+	top: 0!important;
+}
+.ivu-modal-content {
+	top: -122px;
+	height: 41rem!important;
+}
+.ivu-modal-wrap {
+	height: 42rem!important;
+}
+.ivu-modal {
+	
+}
+.iframw-view {
+	height: 930px!important;
 }
 </style>

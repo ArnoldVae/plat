@@ -10,6 +10,8 @@
                         :props="defaultProps"
                         style="margin-top: 10px"
                         default-expand-all
+                        :current-node-key="activeUnitId"
+					    node-key="id"
                         :filter-node-method="filterNode"
                         highlight-current
                         @node-click="handleClickNode"
@@ -115,7 +117,11 @@
                 untid: ''
             }
         },
-        computed: {},
+        computed: {
+		activeUnitId() {
+			return this.$store.getters.unitId
+		}
+	    },
         filters: {},
         watch: {},
         created() {
@@ -146,6 +152,7 @@
                     this.treeData = result.data
                     this.untid = result.data[0].children[0].children[0].children[0].children[0].id
                     this.$store.dispatch('updateUnitId', this.untid)
+                    this.$refs.sunMethod.init(this.treeData[0])
 
                 } else {
                     this.treeData = []
@@ -227,7 +234,7 @@
         width: 1900px;
         height: 900px;
         overflow: hidden;
-        margin-left: 12px;
+        margin-left: 10px;
 
         .el-container {
             height: 890px;
@@ -241,7 +248,7 @@
             }
 
             .el-main {
-                padding: 21PX 0 0 0;
+                padding: 21.8px 0 0 0;
                 width: 85%;
                 margin-left: 300px;
                 .el-main-header {
@@ -286,12 +293,13 @@
                 }
 
                 .el-main-content {
-                    height: 808px;
+                    height: 809px;
                     width: 99.5%;
                     position: relative;
                     background: url("~@/assets/img/common/wai.png")
                     background-repeat: no-repeat;
                     background-size: 100% 100%;
+                    margin-top: -2px;
                 }
             }
         }

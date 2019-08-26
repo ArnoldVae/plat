@@ -97,7 +97,7 @@ export default {
 			let graphView = (this.graphView = new localHt.graph.GraphView(dataModel))
 			let dom = this.$refs['view-main']
 			graphView.addToDOM(dom)
-
+			graphView.setScrollBarSize(0)
 			// dataModel.enableAnimation() //启用动画
 
 			//监听窗口大小变化
@@ -126,9 +126,9 @@ export default {
 				let json = ht.Default.parse(res)
 				json.p.background = 'transparent'
 				dataModel.deserialize(json)
-				graphView.fitContent(true)
+				// graphView.fitContent(true)
 
-				// graphView.setZoom(6,true,{x:0,y:0})
+				graphView.setZoom(5, true, { x: 630, y: 500 })
 			})
 			this.getNode()
 		},
@@ -152,7 +152,7 @@ export default {
 								node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
 								node.setName(item.vcName)
 								// node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
-								node.setSize(60, 50)
+								node.setSize(20, 10)
 								node.setStyle('interactive', true)
 								node.a('vc_SourceID', item.vcSourceId)
 								node.a('vc_Path', item.vcPath)
@@ -236,7 +236,7 @@ export default {
 .btnBox {
   position: absolute;
   bottom: 20px;
-  right: 30px;
+  right: -20px;
   width: 250px;
   height: 150px;
   color: #fff;

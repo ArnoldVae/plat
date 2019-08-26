@@ -365,7 +365,7 @@ export default {
 						newArr.push(i.f_Value)
 						dateArr.push(moment(i.i_DataTime * 1000).format('YYYY-MM-DD hh:mm:ss'))
 					})
-					if (target == 157) {
+					if (target == 158) {
 						this.idListObj.arr1 = newArr
 						this.idListObj.arr3 = dateArr
 					} else if (target == 158) {
@@ -426,17 +426,17 @@ export default {
 			let result = await this.$_api.statusCheck.getTemDetail({
 				unitId: item.unitId,
 				areaId: item.protectAreaId,
-				devTypeId: '1014'
+				devTypeId: '1010'
 			})
 			if (result.success) {
 				if (result.data.length > 0) {
 					console.log(result)
 					result.data.forEach(item => {
-						if (item.functioinId == 190) {
+						if (item.functioinId == 158) {
 							this.temData.mechine = item.fValue
 							this.getTemCharts(item.nodeId, item.functioinId)
 						}
-						if (item.functioinId == 191) {
+						if (item.functioinId == 157) {
 							this.temData.env = item.fValue
 							this.getTemCharts(item.nodeId, item.functioinId)
 						}
@@ -488,7 +488,7 @@ export default {
 					newArr.push(i.f_Value)
 					dateArr.push(moment(i.i_DataTime * 1000).format('YYYY-MM-DD hh:mm:ss'))
 				})
-				if (target == 190) {
+				if (target == 157) {
 					this.getList.arr1 = newArr
 				} else {
 					this.getList.arr2 = newArr
@@ -723,7 +723,7 @@ $prowidth = 100%;
     // background-repeat: no-repeat;
     // background-size: 100% 100%;
     // -moz-background-size: 100% 100%;
-    padding: 10px 48px 10px 48px;
+    padding: 10px 48px 0 48px;
     height: 800px;
 
     .el-aside {
@@ -747,7 +747,7 @@ $prowidth = 100%;
 
           .left {
             width: 49%;
-            height: 356px;
+            height: 386px;
             margin: 0;
             // margin-left: -7px;
             margin-right: 0px;
@@ -759,7 +759,7 @@ $prowidth = 100%;
 
           .right {
             width: 49%;
-            height: 356px;
+            height: 386px;
             margin: 0;
 
             .ocxVideo {
@@ -770,7 +770,7 @@ $prowidth = 100%;
       }
 
       .protection-zone-bottom {
-        height: 401px;
+        height: 379px;
         margin-top: 19px;
         width: 1145px;
         // background: #141A26;
@@ -896,7 +896,7 @@ $prowidth = 100%;
 
       .protection-zone-items-bottom {
         width: $prowidth;
-        height: 218px;
+        height: 224px;
         // border-radius: 5px;
         // background: url('../../../assets/img/protection-zon/oneProtection.png');
         // background-repeat: no-repeat;
@@ -928,10 +928,10 @@ $prowidth = 100%;
         }
 
         .search-item {
-          margin-top: 14px;
+          margin-top: 38px;
 
           .el-row {
-            padding-left: 20px;
+            // padding-left: 20px;
             margin-bottom: 20px;
             font-size: 12px;
           }

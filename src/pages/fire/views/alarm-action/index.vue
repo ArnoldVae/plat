@@ -373,7 +373,7 @@
             getAlarmList(item) {
                 this.$_api.alarmAction
                     .getAlarmList({
-                        unitId: this.$store.getters.unitId || ''
+                        unitId: this.$store.getters.unitId || '0'
                         // alarmId: '1'
                     })
                     .then(res => {
@@ -385,7 +385,6 @@
                                 this.labelList.forEach((im, i) => {
                                     im.index = i + 1
                                     im.beginTime=moment(im.beginTime * 1000).format('YYYY-MM-DD HH:mm')
-                                    im.selected = i == 0 ? true : false
                                 })
 
 
@@ -405,6 +404,20 @@
              * param：item为当前勾选对象
              */
             async showItemDetail(item) {
+                let num=0
+
+                this.labelList.forEach(i=>{
+                    if(item.alarmId==i.alarmId){
+                        i.selected=true
+                        num++
+                    }else {
+                        i.selected=false
+                    }
+                })
+                if(!num&&this.labelList.length>0){
+                    this.labelList[0].selected=true
+                    item=this.labelList[0]
+                }
                 if (item.unitId) {
                     this.$store.dispatch('updateUnitId', item.unitId)
                 }
@@ -415,6 +428,7 @@
                     alarmId: item.alarmId || item.alarmid
                 })
                 if (result.success) {
+
 
                     //报警信息赋值操作
                     this.alarmListInfo[0].value = result.data.araeName
@@ -717,9 +731,9 @@
                 this.comfireAlarm = true
                 this.confirHide = false
             },
-            init() {
-                this.getAlarmList()
-            }
+            init(node) {
+                this.getAlarmList(node)
+            },
         },
         beforeRouteEnter(to, from, next) {
             next()
@@ -957,7 +971,7 @@
                                     height: 30px;
                                     display: flex;
 
-                                    font-size: 15px;
+                                    font-size 16px
                                     margin-right: 20px;
                                     margin-bottom: 10px;
 
@@ -1263,7 +1277,7 @@
                                         height: 30px;
                                         display: flex;
 
-                                        font-size: 15px;
+                                        font-size 16px
                                         margin-bottom: 10px;
 
                                         .icon {

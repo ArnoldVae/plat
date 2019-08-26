@@ -131,10 +131,10 @@
         <el-table-column prop="vcName" align="center" label="设备名称" width='250' show-overflow-tooltip></el-table-column>
         <el-table-column prop="devTypeName" align="center" label="设备类型" width='120'></el-table-column>
         <el-table-column prop="subName" align="center" label="所属子系统" width='150'></el-table-column>
-        <el-table-column prop="num" align="center" label="定置点编号" width='150'></el-table-column>
-        <el-table-column prop="vcCode" align="center" label="型号规格" width='120'></el-table-column>
+        <el-table-column prop="num" align="center" label="定置点编号" width='140'></el-table-column>
+        <el-table-column prop="vcCode" align="center" label="型号规格" width='150'></el-table-column>
         <el-table-column prop="beginTime" align="center" label="有效期" width='150'></el-table-column>
-        <el-table-column prop="userId" align="center" label="保管责任人" width='120'></el-table-column>
+        <el-table-column prop="userId" align="center" label="保管责任人" width='110'></el-table-column>
         <el-table-column prop="vcLocal" align="center" label="安装位置" width='180'></el-table-column>
         <el-table-column prop="vcMemo" align="center" label="备注" ></el-table-column>
       </el-table>
@@ -352,7 +352,7 @@ computed: {
 				}
 			})
 			this.$_api.devOps.getChildData({
-				type:''
+				type:'10060003'
 			}).then(res=>{
 				if(res.code==200){
 					this.eqctypeS=res.data.lists
@@ -369,7 +369,11 @@ computed: {
 			}
 		},
 		doSearch(){
-				this.searchItem()
+			this.searchItem()
+			// 重置页码为1
+			this.$nextTick(() => {
+				this.$refs['pages'].internalCurrentPage = 1
+			})
 		},
 		async searchItem() {
 			let result = await this.$_api.devOps.getAcountList({
@@ -441,7 +445,7 @@ computed: {
 		},
 		//导入弹框的逻辑
 		exportInfo() {
-			this.DaoShow = true
+			this.DaoShow = false
 		},
 		Close() {
 			this.DaoShow = false
@@ -567,6 +571,7 @@ computed: {
       /deep/ .el-input__inner {
         border: 1PX solid #0d7ec5 !important;
         background: #081e4d;
+		font-size:16px;
       }
     }
 

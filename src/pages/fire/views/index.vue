@@ -16,16 +16,15 @@
         </div>
 
         <div class="fire-content">
-            <!--<keep-alive include="systemView">-->
-                <component
-                        v-bind:is="current"
-                        ref="test"
-                        @transfer="getMethod"
-                        :node="alarmNode"
-                        @receiveAlarm="receiveAlarm"
-                        @switchWarning="switchWarning"
-                ></component>
-            <!--</keep-alive>-->
+            <keep-alive include="systemView">
+            <component
+                    v-bind:is="current"
+                    ref="test"
+                    @transfer="getMethod"
+                    @receiveAlarm="receiveAlarm"
+                    @switchWarning="switchWarning"
+            ></component>
+            </keep-alive>
         </div>
     </div>
 </template>
@@ -117,6 +116,7 @@
             // this.current='alarm-action'
         },
         mounted() {
+            this.subscribe()
         },
         activited() {
         },
@@ -152,7 +152,7 @@
 
                 this.current = 'status-check'
                 this.$store.dispatch('updateUnitId', val.id)
-          
+
                 let that = this
                 setTimeout(() => {
                     that.$refs.test.initView(val)
@@ -166,7 +166,7 @@
                 this.current = 'system-view'
             },
             //跳转切换报警联动页面
-            switchWarning() {
+            switchWarning(val) {
                 // console.log(val)
                 this.tabList.forEach(item => {
                     if (item.code == 'alarm-action') {
@@ -176,6 +176,13 @@
                     }
                 })
                 this.current = 'alarm-action'
+                let that=this
+                setTimeout(()=>{
+                    that.$refs.test.init(val)
+                },10)
+
+
+
             },
 
             //获取所有接入消防的站
@@ -189,13 +196,14 @@
                         this.$store.dispatch('updateUnitId', res.data[0].unitId)
                         //订阅所有消防站点报警的topic
                         console.log(this.topicArr)
-                        this.subscribe(this.topicArr)
+
                     }
                 })
             },
             //订阅topic
-            subscribe(topic) {
-                this.$_mqtt.unsubscribe(topic[0], err => {
+            subscribe() {
+                const topic = "qif/fire/app/alarm"
+                this.$_mqtt.unsubscribe(topic, err => {
                     if (err) {
                         console.log('取消智慧消防订阅失败')
                     } else {
@@ -205,6 +213,7 @@
                                 console.log('智慧消防订阅失败!')
                             } else {
                                 console.log('智慧消防订阅成功!')
+
                             }
                         })
                     }
@@ -212,7 +221,6 @@
             },
             receiveAlarm(component, node) {
                 console.log(component, node)
-                this.alarmNode = node
                 this.tabList.forEach(item => {
                     if (item.code == component) {
                         item.active = true
@@ -221,7 +229,11 @@
                     }
                 })
                 this.current = component
-                this.$store.commit('STATIONID', node)
+                let that=this
+                setTimeout(()=>{
+                    that.$refs.test.init(node)
+                },10)
+                this.$store.dispatch('updateUnitId', node.unitId)
             }
         },
         beforeRouteEnter(to, from, next) {
@@ -241,7 +253,6 @@
         height: 42rem;
         margin-top: -1px;
         background: url('~@/assets/img/navigation/background.png') no-repeat;
-
 
         .fire-header {
             height: 100px;
@@ -264,7 +275,7 @@
             .fire-header-title {
                 color: #90d9ff;
                 float: left;
-                //   width: 230px;
+            //   width: 230px;
                 height: 50px;
                 line-height: 50px;
                 text-align: center;
@@ -277,7 +288,7 @@
                 width 100px
                 background #106fd9
                 float right
-                margin-right:0
+                margin-right: 0
                 color white
                 border-radius 4px
             }

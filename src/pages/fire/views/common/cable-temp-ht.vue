@@ -66,16 +66,23 @@ export default {
 		},
 		mqttData(data) {
 			// console.log(data)
-			if (data.cmd == 1001) {
+			if (data.cmd == 1001 && data.functionCode=='1079.0002') {
+				// console.log(data)
 				this.deviceid = data.devid
 				this.nodeValue = data.value
+				this.funId=data.functionCode
 				let tag = global.dataModel.getDataByTag(this.deviceid)
-				// console.log(tag)
 				//给图元添加下方文字
 				if (tag != undefined) {
+					// console.log(tag.a('functionCode'))
 					if (tag.getTag() == this.deviceid) {
+						// console.log(tag)
 						tag.a('value', this.nodeValue)
 					}
+					// if(tag.a('functionCode')==this.funId){
+					// 	// console.log(this.nodeValue)
+					// 		tag.a('value', this.nodeValue)
+					// }
 				}
 			}
 		}
@@ -87,14 +94,14 @@ export default {
 			let graphView = (this.graphView = new localHt.graph.GraphView(dataModel))
 			let dom = this.$refs['view-main']
 			graphView.addToDOM(dom)
-
+			graphView.setScrollBarSize(0)
 			// dataModel.enableAnimation() //启用动画
 
 			//监听窗口大小变化
 			window.addEventListener('resize', e => {
 				graphView.fitContent(false)
 			})
-
+			graphView.isAutoHideScrollBar(true)
 			//设置图元选中时 边框的宽度
 			graphView.getSelectWidth = function(data) {
 				return 0
@@ -115,7 +122,8 @@ export default {
 				let json = ht.Default.parse(res)
 				// console.log(json);
 				dataModel.deserialize(json)
-				graphView.fitContent(true)
+				// graphView.fitContent(true)
+				graphView.setZoom(5.5,true,{x:340,y:460})
 			})
 			this.getNode()
 		},
@@ -139,7 +147,7 @@ export default {
 									node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
 									node.setName(item.vcName)
 									// node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
-									node.setSize(30, 10)
+									node.setSize(20, 10)
 									node.setStyle('interactive', true)
 									node.a('vc_SourceID', item.vcSourceId)
 									node.a('vc_Path', item.vcPath)
@@ -147,14 +155,24 @@ export default {
 									node.a('pageId', this.cableObj.pageId)
 									node.setLayer(1)
 									node.s('label', '')
+									if(item.devNodes.length>0){
+										node.a('devtypeId',item.devNodes[0].devTypeId)
+									}
+									item.devNodes.forEach(itv=>{
+										
+										if(itv.functionCode=='1079.0002'){
+											node.a('value',itv.f_Value)
+											node.a('functionCode',itv.functionCode)
+										}
+									})
 									// node.s({
 									// 	'color':'#fff'
 									// })
 									this.dataModel.add(node)
-									this.dataModel.each(data => {
-										let valueNum =  item.devNodes[0].f_Value !=null ? item.devNodes[0].f_Value : '---'
-										data.a('value', valueNum)
-									})
+									// this.dataModel.each(data => {
+									// 	let valueNum =  item.devNodes[0].f_Value !=null ? item.devNodes[0].f_Value : '---'
+									// 	data.a('value', valueNum)
+									// })
 								}, 100)
 							})
 					}

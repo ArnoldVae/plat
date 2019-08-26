@@ -10,6 +10,8 @@
                         style="margin-top: 10px"
                         :props="defaultProps"
                         default-expand-all
+                        :current-node-key="activeUnitId"
+					     node-key="id"
                         :filter-node-method="filterNode"
                         highlight-current
                         @node-click="handleClickNode"

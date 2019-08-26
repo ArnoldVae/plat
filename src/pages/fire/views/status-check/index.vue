@@ -307,7 +307,7 @@ export default {
     background-size: 100% 100%;
     -moz-background-size: 100% 100%;
     position: relative;
-    top: -75px;
+    top: -69px;
 
     .el-tree {
       background: none;
