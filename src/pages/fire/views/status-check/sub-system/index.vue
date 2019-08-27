@@ -1,11 +1,10 @@
 <template>
 	<div :class="pageType? 'sub-system':'sub-system-5'">
 		<el-container>
-			<el-aside width="1166px">
+			<el-aside>
 				<div class="sub-system-top">
 					<div class="sub-system-top-item left">
 						<p
-							style="font-size: 44PX"
 							class="menu-bars"
 							@click="showFlag = !showFlag"
 						>{{ !showFlag ? '视频' : '3D' }}</p>
@@ -23,7 +22,7 @@
 								<span class="color-red">{{ resultData.normal }}</span>
 							</div>
 						</div>
-						<div class="item-list" style="    margin-left: 60px;">
+						<div class="item-list">
 							<el-row>
 								<el-col :span="8" v-for="(i, index) in resultData.list" :key="index">
 									<div
@@ -701,7 +700,7 @@ export default {
 
     .el-aside {
       overflow: hidden;
-      width: 478px;
+      width: 1166px!important;
       padding-right: 10px;
 
       .sub-system-top {
