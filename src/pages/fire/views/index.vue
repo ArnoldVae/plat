@@ -11,7 +11,7 @@
                     v-for="(tab,index) in tabList" :key="index">{{tab.title}}
             </div>
             <div class="fire-header-title float-right" @click="backPage()">
-                ◀ 返回
+                <img src="~@/assets/img/common/back-icon.png" alt=""> 返回
             </div>
         </div>
 
@@ -275,6 +275,12 @@
             .fire-header-title {
                 color: #90d9ff;
                 float: left;
+                img{
+                    width: 9px;
+                    position: relative;
+                    top: -2px;
+                    left: -3px;
+                }
             //   width: 230px;
                 height: 50px;
                 line-height: 50px;
