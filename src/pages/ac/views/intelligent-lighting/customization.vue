@@ -38,8 +38,10 @@
 								<Icon v-if="item.videoUrl == ''" type="md-eye-off" class="noVideo" />
 							</div>
 							<div class="li-btn">
-								<span @click="handleSwitch('open', item)">开</span>
-								<span @click="handleSwitch('off', item)" class="closeBtn">关</span>
+								<!-- <span @click="handleSwitch('open', item)">开</span> -->
+								<!-- <span @click="handleSwitch('off', item)" class="closeBtn">关</span> -->
+								<span v-for="node in item.btnArr" :key="node.nodeId+node.fvalue" @click="handleSwitch(node,item)">{{node.btnTitle}}</span>
+
 							</div>
 						</div>
 					</li>
@@ -150,16 +152,28 @@ export default {
 				if (res.code == 200 && res.data.lists) {
 					res.data.lists.forEach(item => {
 						item.videoUrl = item.linkDevInfo.length > 0 ? item.linkDevInfo[0].DevID : ''
+						item.btnArr = [];
 						item.devNodesList.forEach(element => {
 							if (element.functionCode == 1020.0001) {
 								item.fvalue = element.fvalue
 							}
 							if (element.functionCode == 1020.0002) {
 								item.ctrlNodeId = element.nodeId
+								let bta1 = element.vcValueDesc.split('|')
+								let param = {}
+								bta1.map(ite => {
+									param = {}
+									param.btnTitle = ite.split(' ')[1]
+									param.fvalue = ite.split(' ')[0]
+									param.devId = element.devId
+									param.nodeId = element.nodeId
+									item.btnArr.unshift(param)
+								})
 							}
 						})
 					})
 					this.lightingList = res.data.lists
+					console.log(this.lightingList)
 					// this.total = this.lightingList.length
 					this.getFirstVideo(this.lightingList)
 				}
@@ -210,22 +224,27 @@ export default {
 			})
 		},
 		//点击开关按钮
-		handleSwitch(type, item) {
-			console.log(item)
-			if (item.ctrlNodeId) {
-				if (type == 'open') {
-					this.modalShow = true
-					this.nodeData = JSON.parse(JSON.stringify(item))
-					this.nodeData.f_Value = '1'
-				} else {
-					this.modalShow = true
-					this.nodeData = JSON.parse(JSON.stringify(item))
-					this.nodeData.f_Value = '0'
-				}
-				this.lightItem = item
-			} else {
-				this.$ocxMessage.info('控制节点未配置')
-			}
+		handleSwitch(node,item) {
+			console.log(node)
+			this.modalShow = true
+			this.nodeData = JSON.parse(JSON.stringify(node))
+			this.lightItem = item
+			console.log(this.nodeData)
+			console.log(this.lightItem)
+			// if (item.ctrlNodeId) {
+			// 	if (type == 'open') {
+			// 		this.modalShow = true
+			// 		this.nodeData = JSON.parse(JSON.stringify(item))
+			// 		this.nodeData.f_Value = '1'
+			// 	} else {
+			// 		this.modalShow = true
+			// 		this.nodeData = JSON.parse(JSON.stringify(item))
+			// 		this.nodeData.f_Value = '0'
+			// 	}
+			// 	this.lightItem = item
+			// } else {
+			// 	this.$ocxMessage.info('控制节点未配置')
+			// }
 		},
 		//点击确定
 		handleConfirm() {
@@ -241,8 +260,8 @@ export default {
 				nodes: [
 					{
 						devid: this.nodeData.devId,
-						nodeid: this.nodeData.ctrlNodeId,
-						value: this.nodeData.f_Value
+						nodeid: this.nodeData.nodeId,
+						value: this.nodeData.fvalue
 					}
 				]
 			}
@@ -280,7 +299,7 @@ export default {
 				if (topic == this.topicStr || topic == this.topicStr2) {
 					let msgData = JSON.parse(message.toString())
 					if (msgData.cmd == 1001 && msgData.unitid == this.$store.getters.unitId) {
-						console.log(msgData)
+						// console.log(msgData)
 						// console.log(this.lightingList)
 						this.lightingList.forEach(element => {
 							if (msgData.nodeid == element.ctrlNodeId) {
@@ -357,26 +376,6 @@ export default {
     float: left;
     padding: 20px 6px 50px 50px;
     position: relative;
-
-    .ft {
-      width: 20px;
-      height: 17px;
-      position: absolute;
-      top: 13px;
-      left: 43px;
-      background: url('~@/assets/img/common/border-lt.png') no-repeat;
-      background-size: 100% 100%;
-    }
-
-    .rb {
-      width: 20px;
-      height: 17px;
-      position: absolute;
-      bottom: 44px;
-      right: 0;
-      background: url('~@/assets/img/common/border-rb.png') no-repeat;
-      background-size: 100% 100%;
-    }
   }
 
   .lighting-right {
@@ -390,13 +389,14 @@ export default {
     .lighting-list {
       width: 100%;
       height: 100%;
-      background-color: rgba(12, 27, 58, 0.7);
+      border: 2px solid #175a9e;
 
       .list-title {
         width: 100%;
-        height: 60px;
+        height: 50px;
         font-size: 18px;
-        line-height: 60px;
+        line-height: 50px;
+        background: #175a9e;
         color: #fff;
 
         p {
@@ -427,6 +427,7 @@ export default {
       ul {
         width: 100%;
         height: calc(100% - 80px);
+        margin-top: 10px;
         overflow: auto;
 
         li {

@@ -481,16 +481,16 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .vrv-customization {
-	width: 1572px;
+	width: 1590px;
 	height: 100%;
 	background: url('~@/assets/img/common/bg-border.png') no-repeat;
-	background-size: 1572px 100%;
+	background-size: 1590px 100%;
 	/* padding: 30px 52px; */
 	/* overflow: auto; */
 	overflow: hidden;
 
 	.vrv-item-wrap {
-		width: 1470px;
+		width: 1490px;
 		height: 630px;
 		margin: 30px 52px;
 		overflow: auto;
@@ -499,7 +499,7 @@ export default {
 		flex-wrap: wrap;
 
 		.vrv-item {
-			width: 215px;
+			width: 220px;
 			height: 380px;
 			/* background: url('~@ac/assets/img/vrv/bg.png') no-repeat; */
 			/* background-size: 215px 380px; */
@@ -508,13 +508,13 @@ export default {
 			/* margin-bottom: 20px; */
 
 			.vrv-item-content {
-				width: 215px;
+				width: 220px;
 				height: 334px;
 				background: url('~@ac/assets/img/vrv/bg.png') no-repeat;
-				background-size: 215px 334px;
+				background-size: 220px 334px;
 
 				.header {
-					width: 215px;
+					width: 220px;
 					height: 132px;
 					/* background: #0af; */
 					padding-top: 22px;
@@ -522,7 +522,7 @@ export default {
 					color: #fff;
 
 					.left {
-						width: 69px;
+						width: 67px;
 						height: 109px;
 
 						.status {
@@ -620,7 +620,7 @@ export default {
 					}
 
 					.right {
-						width: 69px;
+						width: 73px;
 						height: 109px;
 
 						.temp {

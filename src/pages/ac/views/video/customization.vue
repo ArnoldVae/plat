@@ -74,6 +74,12 @@ export default {
 	data() {
 		return {
 			unitId: this.$store.getters.unitId,
+			filterText: '',
+			data: [],
+			defaultProps: {
+				children: 'children',
+				label: 'label'
+			},
 			videoShow: false,
 			topicArr: ['qif/zf/app/', 'qif/zf/app/control/'],
 			topicStr: '',
@@ -173,18 +179,19 @@ export default {
 	},
 	created() {
 		const $this = this
+		this.getVideoServe()
 		// $this.$api.dsqIntelligent.getDefaultInfo().then(defaultInfo => {
 		$this.$_api.getStaticData('./simulation-data/video-changeVideoTime.json').then(defaultInfo => {
 			$this.lxTime = defaultInfo.data.changeVideoTime
 		})
 	},
 	mounted() {
-		console.log(this.$_api)
 		const _this = this
 		// 初始化的时候，默认先加载每个视频容器
 		_this.setVideoScreen(_this.videoLen)
-		_this.loadSceneList()
-		_this.palyVideo()
+
+		_this.loadSceneList(this.unitId)
+		_this.palyVideo(this.unitId)
 		window.pqw_this = this
 	},
 	activited() {},
@@ -199,6 +206,9 @@ export default {
 				this.videoList = []
 				// this.setVideoScreen(this.videoLen);
 				// this.loadSceneList(this.$store.getters.stationId);
+				if (this.videoShow == false) {
+					// this.loadSceneList()
+				}
 				this.videoShow = true
 			} else if (type == '视频') {
 				this.setVideoScreen(this.videoLen)
@@ -213,6 +223,7 @@ export default {
 
 			this.selectIdx = val
 		},
+		//场景列表点击
 		selectMenu: function(data) {
 			this.setVideoScreen(this.videoLen)
 			this.videoList = []
@@ -224,12 +235,14 @@ export default {
 			// 获取视频列表
 			this.loadVideoList(data)
 		},
+		//点击视频列表
 		selectMenuVideo(data) {
-			console.log(data)
-			console.log(this.videoSeviceUrl)
 			this.videoComList[this.selectIdx].deviceInfo = data
-			this.videoComList[this.selectIdx].serviceInfo = this.videoSeviceUrl
+			// this.videoComList[this.selectIdx].serviceInfo = this.videoSeviceUrl
+			this.videoComList[this.selectIdx].serviceInfo = this.serviceInfo
+			this.videoComList[this.selectIdx].isAutoPlay = true
 			// this.videoComList[this.selectIdx].serviceInfo = "1$22.46.34.114$6800$admin$admin";
+			console.log(this.videoComList)
 		},
 		// 改变分屏
 		changePanel(len) {
@@ -246,6 +259,7 @@ export default {
 				}
 			}, 500)
 			// 获取视频列表
+			// console.log(this.selectScene)
 			this.loadVideoList(this.selectScene)
 		},
 		// 根据指定分屏数量，展示分屏
@@ -255,7 +269,8 @@ export default {
 				this.videoComList.push({
 					isAutoPlay: false,
 					videoIdx: i,
-					serviceInfo: '',
+					// serviceInfo: '',
+					serviceInfo: this.serviceInfo,
 					deviceInfo: '',
 					hideTool: true
 				})
@@ -264,31 +279,44 @@ export default {
 		// 获取视频列表
 		loadVideoList(sceneID) {
 			const _this = this
-			// this.$api.dsqIntelligent
-			// 	.getVideoByScene(
-			// 		qs.stringify({
-			// 			sceneId: sceneID,
-			// 			stationId: _this.$store.getters.stationId
-			// 		})
-			// 	)
-			// 	.then(res => {
-			_this.$_api.getStaticData('./simulation-data/video-list.json').then(res => {
-				if (res.data.ret == 0) {
-					if (res.data.data.length != 0) {
-						res.data.data.forEach(item => {
-							if (!!item.vc_Params3 && _this.serviceInfo == '') {
-								_this.serviceInfo = item.vc_Params3
-							}
-							_this.videoList.push({
-								videoUrl: item.vc_Params1,
-								preset: item.fParam1
+			// _this.$_api.getStaticData('./simulation-data/video-list.json').then(res => {
+			let params = {
+				sceneId: sceneID,
+				unitId: this.unitId
+			}
+			if (this.videoShow) {
+				this.$_api.video.getSceneDevList(params).then(res => {
+					console.log(res)
+					if (res.code == 200 && res.data) {
+						if (res.data.length != 0) {
+							res.data.forEach(item => {
+								// if (!!item.vc_Params3 && _this.serviceInfo == '') {
+								// 	_this.serviceInfo = item.vc_Params3
+								// }
+								_this.videoList.push({
+									videoUrl: item.devId
+									// preset: item.fParam1
+								})
 							})
-						})
-						_this.autoPlay()
+
+							_this.autoPlay()
+						}
 					}
+				})
+			}
+		},
+		//获取视频服务
+		getVideoServe() {
+			this.$_api.video.getVideoServe().then(res => {
+				if (res.code == 200 && res.data) {
+					console.log(res)
+					// this.videoConfig.serviceInfo = res.data.ServiceID
+					// 1$153.3.56.162$6800$admin$admin
+					let obj = res.data
+					this.serviceInfo = obj.ServiceID + '$' + obj.vc_IP + '$' + obj.i_Port + '$admin$admin'
+					console.log(this.serviceInfo)
 				}
 			})
-			console.log(_this.videoList)
 		},
 		// 开始轮巡
 		startPlay() {
@@ -302,11 +330,11 @@ export default {
 						typeof _this.videoList[_this.index].videoUrl === 'undefined'
 							? ''
 							: _this.videoList[_this.index].videoUrl,
-					serviceInfo: _this.serviceInfo,
-					presetVal:
-						typeof _this.videoList[_this.index].preset === 'undefined'
-							? ''
-							: _this.videoList[_this.index].preset
+					serviceInfo: _this.serviceInfo
+					// presetVal:
+					// 	typeof _this.videoList[_this.index].preset === 'undefined'
+					// 		? ''
+					// 		: _this.videoList[_this.index].preset
 				}
 				if (_this.videoList.length > _this.videoLen) {
 					_this.index = _this.index + 1 < _this.videoList.length ? _this.index + 1 : 0
@@ -315,6 +343,7 @@ export default {
 				}
 			}
 			_this.videoComList = _vidoeInfos
+			console.log(this.videoComList)
 		},
 		autoPlay(isClick) {
 			const _this = this
@@ -349,13 +378,6 @@ export default {
 		},
 		loadSceneList() {
 			const _this = this
-			// _this.$api.dsqIntelligent
-			// 	.getSceneList(
-			// 		qs.stringify({
-			// 			stationId: params
-			// 		})
-			// 	)
-			// 	.then(res => {
 			let params = {
 				currentPage: 1,
 				pageSize: 10000,
@@ -368,25 +390,28 @@ export default {
 					_this.sceneList = res.data.lists
 					_this.sceneList.forEach(itemScene => {
 						switch (itemScene.type) {
-							case '130002':
+							case '10080001':
 								itemScene.iconName = 'cdjs'
 								break
-							case '130004':
+							case '10080002':
+								itemScene.iconName = 'cdjs'
+								break
+							case '10080004':
 								itemScene.iconName = 'afxs'
 								break
-							case '130005':
+							case '10080005':
 								itemScene.iconName = 'sbjs'
 								break
-							case '130006':
+							case '10080006':
 								itemScene.iconName = 'dlcjs'
 								break
-							case '130003':
+							case '10080003':
 								itemScene.iconName = 'qjnk'
 								break
 						}
 					})
 					// 默认选中第一个   且赋值给当前选中项
-					_this.firstScene = _this.selectScene = _this.sceneList[0].sceneID
+					_this.firstScene = _this.selectScene = _this.sceneList[0].sceneId
 					_this.$nextTick(() => {
 						_this.$refs.videoScene.updateActiveName()
 						_this.loadVideoList(_this.firstScene)
@@ -405,19 +430,23 @@ export default {
 				unitId: this.unitId
 			}
 			this.$_api.video.getDevList(params).then(res => {
+				console.log(res)
 				if (res.code == 200 && res.data) {
-					this.firstvideoPlayUrl = res.data.lists[0].vcParam1
+					this.firstvideoPlayUrl = res.data.lists[0].devId
 					res.data.lists.forEach(item => {
-						if (!!item.vcParam3 && _this.videoSeviceUrl == '') {
-							_this.videoSeviceUrl = item.vcParam3
-						}
+						// if (!!item.vcParam3 && _this.videoSeviceUrl == '') {
+						// 	_this.videoSeviceUrl = item.vcParam3
+						// }
+						_this.videoSeviceUrl = this.serviceInfo
+						////////////////////////////////////////
 						_this.playVideoList.push({
 							// videoPlayUrl: item.vcParam1,
-							videoPlayUrl: item.vcName,
+							videoPlayUrl: item.devId,
 							vcName: item.vcName
 						})
 					})
 					this.convertToPinyin(_this.playVideoList)
+					console.log(this.videoComList)
 				}
 			})
 		},
@@ -467,7 +496,7 @@ export default {
   .lfCtn {
     width: 340px;
     height: 100%;
-    background-color: rgba(20, 26, 38, 0.6);
+    // background-color: rgba(20, 26, 38, 0.6);
     text-align: center;
     // overflow-y: auto;
     // padding-top: 10px;
@@ -504,12 +533,17 @@ export default {
       width: 100%;
       height: calc(100% - 120px);
       overflow-y: auto;
+      border: 2px solid #185a9e;
+    }
+
+    .videoBox {
+      height: calc(100% - 60px);
     }
 
     .search-ipt {
-      width: 280px;
+      width: 100%;
       height: 40px;
-      color: #c0baab;
+      color: #fff;
       margin-bottom: 10px;
       background-color: #0b265c;
       outline: none;

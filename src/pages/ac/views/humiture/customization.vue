@@ -26,12 +26,17 @@
               湿度:
               <i class="li-value">{{item.sdValue}}</i>
               <b>{{item.sdUnit}}</b>
-            </div>-->
+						</div>-->
 						<div class="li-wd" v-for="items in item.devNodesList" :key="items.nodeId">
 							{{ items.title }}:
-							<i class="li-value" :class="{ 'height-wd': items.isHeitht, 'low-wd': items.isLow }">{{
+							<i
+								class="li-value"
+								:class="{ 'height-wd': items.isHeitht, 'low-wd': items.isLow }"
+							>
+								{{
 								items.fvalue
-							}}</i>
+								}}
+							</i>
 							<b>{{ items.vcUnit }}</b>
 						</div>
 					</div>
@@ -366,16 +371,19 @@ export default {
   height: 100%;
   background: url('~@/assets/img/common/bg-border.png') no-repeat;
   background-size: 100% 100%;
-  padding-left: 67px;
-  padding-right: 55px;
-  padding-top: 35px;
+//   padding-left: 67px;
+//   padding-right: 55px;
+//   padding-top: 35px;
+padding 30px 58px 20px 58px;
 
   .humiture-top {
     width: 100%;
-    height: 360px;
-    background: url('../../assets/img/humiture/bigBg1.png') no-repeat;
-    background-size: 100% 100%;
-    padding: 25px 10px 25px 45px;
+    height: 340px;
+    // background: url('../../assets/img/humiture/bigBg1.png') no-repeat;
+    // background-size: 100% 100%;
+    padding: 10px 10px 0 45px;
+    border: 1px solid #3a63a1;
+    background-color: rgba(24, 90, 158, 0.2);
 
     ul {
       width: 100%;
@@ -383,11 +391,11 @@ export default {
       overflow: auto;
 
       li {
-        width: 230px;
-        height: 135px;
+        width: 300px;
+        height: 155px;
         float: left;
         margin-right: 45px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         background: url('../../assets/img/humiture/smallBg.png') no-repeat;
         background-size: 100% 100%;
         cursor: pointer;
@@ -397,14 +405,14 @@ export default {
           height: 100%;
           background: url('../../assets/img/humiture/bottomBg.png') no-repeat;
           background-size: 100px 40px;
-          background-position: 20px 55px;
+          background-position: 35px 50px;
           float: left;
 
           img {
-            width: 25px;
-            height: 48px;
-            margin-top: 27px;
-            margin-left: 57px;
+            width: 30px;
+            height: 55px;
+            margin-top: 20px;
+            margin-left: 73px;
           }
 
           .li-title {
@@ -425,7 +433,8 @@ export default {
           font-size: 14px;
 
           .li-wd {
-            margin-top: 30px;
+            margin-top: 35px;
+			text-align center;
             // margin-bottom: 15px;
           }
 
@@ -460,15 +469,21 @@ export default {
 
   .humiture-bottom {
     width: 100%;
-    height: 270px;
-    background: url('../../assets/img/humiture/bigBg2.png') no-repeat;
-    background-size: 100% 100%;
+    height: 300px;
     position: relative;
+    border: 1px solid #3a63a1;
+    margin-top: 20px;
+    background-color: rgba(24, 90, 158, 0.2);
 
     .chartTitle {
+      width: 100%;
+      height: 35px;
+      line-height: 35px;
+      background-color: #185a9e;
       position: absolute;
-      top: 10px;
-      left: 50px;
+      top: 0;
+      left: 0;
+      padding-left: 50px;
       color: #fff;
       font-size: 16px;
     }

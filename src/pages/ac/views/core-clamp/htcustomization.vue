@@ -1,5 +1,5 @@
 <template>
-  <div class="hgis-customization">
+  <div class="core-clamp-customization">
     <div class="center">
       <div class="top"
            v-if="list.length > 1">
@@ -19,10 +19,10 @@
   </div>
 </template>
 <script>
-import htPage from './ht-page'
+import htPage from '../hgis/ht-page'
 import { findComponentUpward } from '@/libs/assist'
 export default {
-	name: 'hgis-customization',
+	name: 'core-clamp-customization',
 	components: { htPage },
 	props: {},
 	data() {
@@ -104,7 +104,7 @@ export default {
 
 			let params = {
 				unitId: this.unitId,
-				iSubType: '10100013'
+				iSubType: '10100015'
 			}
 			this.axios.getHtDrawing(params).then(res => {
 				if (res.code == 200) {
@@ -137,12 +137,12 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.hgis-customization {
+.core-clamp-customization {
   width: calc(100% - 20px);
   height: 100%;
   background: url('~@/assets/img/common/bg-border.png') no-repeat;
   background-size: 100% 100%;
-  padding-left: 55px;
+  padding-left:55px;
   padding-right: 55px;
   padding-top: 15px;
 

@@ -10,6 +10,7 @@
 				:data="tableData"
 				height="500"
 				v-loading="loading"
+				border
 			>
 				<el-table-column label="设备" align="center">
 					<template slot-scope="scope">

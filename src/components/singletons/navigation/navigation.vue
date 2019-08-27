@@ -261,7 +261,7 @@ export default {
 			}
 
 			.info {
-				margin-left: 15px;
+				margin-left: 5px;
 				// width: 195px;
 				// height: 85px;
 				// background: url(prefixUrl'img/log-desc.png') no-repeat;
@@ -357,7 +357,7 @@ export default {
 		.sub-login {
 			position: relative;
 			top: 8px;
-			padding-left: 71px;
+			padding-left: 60px;
 			color: #40a3e9;
 			.chinese {
 				letter-spacing:2px;
@@ -373,7 +373,7 @@ export default {
 
 		.menu {
 			position: absolute;
-			left: 340px;
+			left: 315px;
 			/* margin-left: 320px; */
 			display: flex;
 			> div.menu-item {

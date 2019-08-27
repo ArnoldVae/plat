@@ -7,17 +7,17 @@
 </template>
 <script>
 import breakerTable from '@ac/views/common/view-table'
-import breakerCustomization from './customization.vue'
+import breakerHtCustomization from './htcustomization.vue'
 export default {
 	name: 'breaker',
 	components: {
 		'breaker-table': breakerTable,
-		'breaker-customization': breakerCustomization
+		'breaker-htcustomization': breakerHtCustomization
 	},
 	props: {},
 	data() {
 		return {
-			current: 'breaker-customization'
+			current: 'breaker-htcustomization'
 		}
 	},
 	computed: {},

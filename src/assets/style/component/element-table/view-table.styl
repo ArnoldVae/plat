@@ -1,4 +1,6 @@
 view-table(img-url) {
+	border: initial;
+	
 	.el-table__header-wrapper {
 		margin-bottom: 5px;
 
@@ -11,14 +13,16 @@ view-table(img-url) {
 			/deep/ th{
 				background-color: transparent;
 				border-bottom: initial;
+				border-right: initial;
 			}
 			/deep/ tr{
 				background-color: initial;
 				// background: url(img-url) no-repeat;
-				background: rgba(36, 64, 88, 0.48)
+				background: rgba(35, 118, 220, 0.21);
 				background-color: rgba(50,153,255,.5)
 				background-size: 100% 100%;
 			}
+
 		}
 	}
 
@@ -36,21 +40,27 @@ view-table(img-url) {
 
 		td {
 			// border-color: #315e96ad;
-			border-color: rgba(36,64,88,0.48)
+			// border-color: rgba(36,64,88,0.48)
+			border-color: #054598;
+
 		}
 	}
 
 	.el-table--enable-row-hover,.el-table__body tr:hover>td {
 		// background: rgba(29, 77, 113, .8);
-		background: rgba(36, 64, 88, 0.48)
+		background: rgba(35, 118, 220, 0.21);
 	}
 	
 	.el-table__body tr.current-row>td {
-		background: rgba(36, 64, 88, 0.48)
+		background: rgba(35, 118, 220, 0.21);
 	}
 
 	&::before {
 		background: rgba(41, 128, 183, 0.31);
 	}	
+	
+	&::after {
+		background: transparent;
+	}
 }
 

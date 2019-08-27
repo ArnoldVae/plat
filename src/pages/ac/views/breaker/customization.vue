@@ -142,9 +142,9 @@ export default {
   height: 100%;
   background: url('~@/assets/img/common/bg-border.png') no-repeat;
   background-size: 100% 100%;
-  padding-left: 67px;
+  padding-left:55px;
   padding-right: 55px;
-  padding-top: 35px;
+  padding-top: 15px;
 
   .center {
     width: 100%;

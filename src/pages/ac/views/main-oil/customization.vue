@@ -3,15 +3,12 @@
 		<div class="oil-main-item" v-for="(mainitem, index) in dataList" :key="index">
 			<div class="item-title">{{ index + 1 }}号主变</div>
 			<div v-for="(childitem, childindex) in mainitem" class="child-item-wrap" :key="childindex">
-				<div class="child-item-title">
-					{{ childindex == 0 ? 'A相' : childindex == 1 ? 'B相' : childindex == 2 ? 'C相' : '' }}
-				</div>
+				<div
+					class="child-item-title"
+				>{{ childindex == 0 ? 'A相' : childindex == 1 ? 'B相' : childindex == 2 ? 'C相' : '' }}</div>
 				<div class="child-item-detail">
 					<div v-for="(detailitem, idx) in childitem.devNodesList" class="detail" :key="idx">
-						<div
-							@click="showHistoryHandler(detailitem)"
-							:class="['detail-img', detailitem.className]"
-						></div>
+						<div @click="showHistoryHandler(detailitem)" :class="['detail-img', detailitem.className]"></div>
 						<div class="detail-content">
 							<div>
 								<span>{{ detailitem.fvalue }}</span>
@@ -25,12 +22,13 @@
 		</div>
 
 		<charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
+		
 	</div>
 </template>
 <script>
 import qs from 'qs'
 import moment from 'moment'
-import charts from './charts'
+import charts from './charts1'
 import { findComponentUpward } from '@/libs/assist'
 export default {
 	name: 'main-oil-customization',
@@ -151,7 +149,7 @@ export default {
 			console.log(node)
 			this.nodeId = node.nodeId
 			this.unit = node.vcUnit
-			this.chartTitle = node.vcName + '历史数据'
+			this.chartTitle = node.vcName
 			this.historyModal = true
 		},
 		closeHistoryModal() {
@@ -185,20 +183,20 @@ export default {
   padding: 25px 50px 25px 50px;
 
   .oil-main-item {
-    width: 33%;
+    width: 32.5%;
     height: 100%;
-    border: 1px solid #0173bb;
+    // border: 1px solid #0173bb;
 
     .item-title {
       width: 100%;
       height: 30px;
       color: #fff;
-      font-size: 20px;
-      font-weight: 700;
+      font-size: 18px;
+    //   font-weight: 700;
       line-height: 30px;
       text-align: center;
-      background-color: rgba(36, 64, 88, 1);
-      border: 1px solid #26636c;
+      background-color: #0e88e3;
+      border: 1px solid #0e88e3;
     }
 
     .child-item-wrap {
@@ -206,17 +204,19 @@ export default {
       height: 31%;
       margin-bottom: 9px;
       display: flex;
+    background-color: rgba(50, 153, 255, 0.1);
+
 
       .child-item-title {
         width: 54px;
         line-height: 220px;
-        background: #13283a;
+        // background: #13283a;
         text-align: center;
         color: #fff;
-        font-size: 24px;
-        border-left: 1px solid #26636c;
-        border-top: 1px solid #26636c;
-        border-bottom: 1px solid #26636c;
+        font-size: 18px;
+        border-left: 1px solid #0e88e3;
+        border-top: 1px solid #0e88e3;
+        border-bottom: 1px solid #0e88e3;
       }
 
       .child-item-detail {
@@ -225,9 +225,9 @@ export default {
         flex-wrap: wrap;
         justify-content: flex-start;
         align-items: center;
-        background-color: rgba(36, 64, 88, 0.48);
+        // background-color: rgba(36, 64, 88, 0.48);
         color: #fff;
-        border: 1px solid #26636c;
+        border: 1px solid #0e88e3;
         position: relative;
         padding-left: 5px;
 

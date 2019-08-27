@@ -1,5 +1,5 @@
 {
-  "modified": "Thu Aug 22 2019 23:19:32 GMT+0800 (中国标准时间)",
+  "modified": "Mon Aug 26 2019 11:19:02 GMT+0800 (中国标准时间)",
   "dataBindings": [
     {
       "attr": "1003.0011",
@@ -201,7 +201,7 @@
     },
     {
       "type": "text",
-      "text": "值(mA)",
+      "text": "值(次)",
       "align": "center",
       "color": "rgb(247,247,247)",
       "rect": [

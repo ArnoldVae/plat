@@ -180,11 +180,14 @@ export default {
 					.then(res => {
 						let json = ht.Default.parse(res)
 						dataModel.deserialize(json)
+						graphView.fitContent(true, 0)
+						return
 					})
 					.catch(err => {
 						this.$ocxMessage.error('图纸丢失！！！')
+						return
 					})
-				graphView.fitContent(true, 10)
+				
 			} else {
 				this.$_api.humiture.getHtControl(dataList.vcUrl).then(res => {
 					graphView.deserialize(res, function(json, dm, gv, datas) {
@@ -192,11 +195,12 @@ export default {
 							if (e.kind === 'validate') {
 								var cWidth = graphView.getContentRect().width
 								var vWidth = graphView.getView().clientWidth
-								var zoom = vWidth / (cWidth * 1.11)
+								var zoom = vWidth / cWidth
 
 								graphView.setZoom(zoom)
-								graphView.tx(0)
-								graphView.ty(0)
+								// graphView.adjustTranslateX()
+								graphView.tx(-150)
+								graphView.ty(-65)
 								graphView.adjustZoom = function() {
 									return zoom
 								}
@@ -342,7 +346,7 @@ export default {
   height: 100%;
   background: url('~@/assets/img/common/bg-border.png') no-repeat;
   background-size: 100% 100%;
-  padding: 25px 55px 25px 67px;
+  padding: 20px 50px 25px 50px;
 
   .top {
     widows: 100%;
@@ -354,6 +358,7 @@ export default {
       border-radius: 3px;
       color: #fff;
       cursor: pointer;
+	  margin-right : 8px;
     }
 
     .switch {

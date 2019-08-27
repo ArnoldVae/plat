@@ -552,7 +552,7 @@ export default {
   .lfCtn {
     width: 290px;
     height: 100%;
-    background-color: rgba(20, 26, 38, 0.6);
+    // background-color: rgba(20, 26, 38, 0.6);
     text-align: center;
     // overflow-y: auto;
     // padding-top: 10px;
@@ -589,7 +589,11 @@ export default {
       width: 100%;
       height: calc(100% - 120px);
       overflow-y: auto;
+	  border 2px solid #185a9e;
     }
+	.videoBox{
+		 height: calc(100% - 60px);
+	}
 
     .search-ipt {
       width: 100%;

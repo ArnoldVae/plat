@@ -1,5 +1,5 @@
 <template>
-  <div class="hgis-customization">
+  <div class="breaker-htcustomization">
     <div class="center">
       <div class="top"
            v-if="list.length > 1">
@@ -19,10 +19,10 @@
   </div>
 </template>
 <script>
-import htPage from './ht-page'
+import htPage from '../hgis/ht-page'
 import { findComponentUpward } from '@/libs/assist'
 export default {
-	name: 'hgis-customization',
+	name: 'breaker-htcustomization',
 	components: { htPage },
 	props: {},
 	data() {
@@ -98,25 +98,25 @@ export default {
 			this.axios.getDevList(data).then(res => {
 				if (res.code == 200 && res.data) {
 					this.mainDevList = JSON.parse(JSON.stringify(res.data.lists))
-					console.log(res)
+					// console.log(res)
 				}
 			})
 
 			let params = {
 				unitId: this.unitId,
-				iSubType: '10100013'
+				iSubType: '10100014'
 			}
 			this.axios.getHtDrawing(params).then(res => {
 				if (res.code == 200) {
 					this.list = res.data
-					console.log(this.list)
+					// console.log(this.list)
 
 					if (res.data.length) {
 						this.pitchOn = res.data[0].pageId
 					}
 				}
 			})
-			console.log(this.activeDeviceTypeId)
+			// console.log(this.activeDeviceTypeId)
 		},
 		//图纸切换
 		but(val) {
@@ -137,12 +137,12 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.hgis-customization {
+.breaker-htcustomization {
   width: calc(100% - 20px);
   height: 100%;
   background: url('~@/assets/img/common/bg-border.png') no-repeat;
   background-size: 100% 100%;
-  padding-left: 55px;
+  padding-left:55px;
   padding-right: 55px;
   padding-top: 15px;
 

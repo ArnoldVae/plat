@@ -7,17 +7,17 @@
 </template>
 <script>
 import hgisTable from '@ac/views/common/view-table'
-import hgisCustomization from './customization.vue'
+import hgisHtCustomization from './htcustomization.vue'
 export default {
 	name: 'hgis',
 	components: {
 		'hgis-table': hgisTable,
-		'hgis-customization': hgisCustomization
+		'hgis-htcustomization': hgisHtCustomization
 	},
 	props: {},
 	data() {
 		return {
-			current: 'hgis-customization'
+			current: 'hgis-htcustomization'
 		}
 	},
 	computed: {},

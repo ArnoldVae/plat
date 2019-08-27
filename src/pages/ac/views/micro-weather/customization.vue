@@ -113,7 +113,6 @@ export default {
 				}
 			}
 		})
-		
 	},
 	activited() {},
 	update() {},
@@ -135,7 +134,10 @@ export default {
 							let devList = []
 							for (let i = 0; i < res.data.lists[0].devNodesList.length; i++) {
 								// if (res.data.lists[0].devNodesList[i].nodeType != 2) {
-								if (res.data.lists[0].devNodesList[i].functionCode != 1010.0009 && res.data.lists[0].devNodesList[i].functionCode != 1010.0006) {
+								if (
+									res.data.lists[0].devNodesList[i].functionCode != 1010.0009 &&
+									res.data.lists[0].devNodesList[i].functionCode != 1010.0006
+								) {
 									devList.push(res.data.lists[0].devNodesList[i])
 								}
 							}
@@ -487,7 +489,7 @@ export default {
     position: absolute;
     width: 400px;
     height: 190px;
-    background-color: rgba(9, 29, 64, 0.7);
+    background-color: rgba(9, 29, 64, 0.4);
   }
 
   .chart1 {
@@ -518,7 +520,7 @@ export default {
   .decSelect {
     position: absolute;
     top: 10px;
-    right: 30px;
+    left: 80px;
 
     /deep/.ivu-select-selection {
       background-color: transparent;
@@ -545,24 +547,42 @@ export default {
   }
 
   .btn-box {
-    width: 230px;
+    width: 330px;
     height: 30px;
     position: absolute;
     top: 10px;
-    left: 80px;
+    right: -50px;
   }
 
   /deep/.ivu-radio-wrapper, .ivu-radio-group-item, .ivu-radio-default {
-    // background-color: #0a1736;
-    background: rgba(0, 0, 0, 0);
-    border: 1px solid #0c79b9;
+    background: url('../../assets/img/micro-weather/btn.jpg') no-repeat;
+    background-size: 100% 100%;
+    margin-left: 10px;
+    // border: 1px solid #0c79b9;
+    border: none;
     color: #fff;
+
+    &:before {
+      width: 0px;
+    }
   }
 
   /deep/.ivu-radio-wrapper-checked {
-    background: rgba(0, 0, 0, 0);
-    border: 1px solid #0173bb;
-    color: #2db7f5;
+    background: url('../../assets/img/micro-weather/btn.jpg') no-repeat;
+    background-size: 100% 100%;
+    color: #ffd36a;
+
+    &:before {
+      width: 0px;
+    }
+
+    &:focus {
+    //   outline: 0;
+    //   box-shadow: 0 0 0 0 !important;
+    }
+  }
+  /deep/.ivu-radio-group-button,.ivu-radio-wrapper-checked{
+	   box-shadow: 0 0 0 0 !important;
   }
 }
 </style>

@@ -6,6 +6,7 @@
 			<ocxVideo :videoConfig="videoConfig"></ocxVideo>
 		</div>
 		<div class="right-list">
+			<div class="list-title">门禁控制设备</div>
 			<ul>
 				<template v-for="(item, index) in listData">
 					<li :key="index">
@@ -118,16 +119,25 @@ export default {
 					if (item.devNodesList && item.devNodesList.length > 0) {
 						item.devNodesList.forEach(element => {
 							item.videoUrl = item.linkDevInfo.length > 0 ? item.linkDevInfo[0].DevID : ''
-							element.btnTitle = ''
 							if (element.nodeType == 3 || (element.nodeType == 4 && element.vcValueDesc)) {
 								item.ctrlNodeId = element.nodeId
-								element.btnTitle = element.vcValueDesc.split(' ')[1]
-								item.btnArr.push(element)
+								let bta1 = element.vcValueDesc.split('|')
+								let param = {}
+								bta1.map(ite => {
+									param = {}
+									param.btnTitle = ite.split(' ')[1]
+									param.fvalue = ite.split(' ')[0]
+									param.devId = element.devId
+									param.nodeId = element.nodeId
+									item.btnArr.unshift(param)
+								})
 							}
 							if (element.nodeType == 2) {
 								item.fvalue = element.fvalue
 							}
 						})
+					} else {
+						item.videoUrl = false
 					}
 				})
 				this.listData = res.data.lists
@@ -150,7 +160,7 @@ export default {
 					break
 				}
 			}
-			console.log(this.videoConfig)
+			// console.log(this.videoConfig)
 		},
 		//获取流媒体服务
 		getVideoServe() {
@@ -227,7 +237,7 @@ export default {
 				if (topic == this.topicStr || topic == this.topicStr2) {
 					let msgData = JSON.parse(message.toString())
 					if (msgData.cmd == 1001 && msgData.unitid == this.$store.getters.unitId) {
-						console.log(msgData)
+						// console.log(msgData)
 						this.listData.forEach(element => {
 							element.devNodesList.forEach(item => {
 								if (msgData.nodeid == item.nodeId) {
@@ -293,26 +303,6 @@ export default {
     float: left;
     padding: 20px 6px 50px 50px;
     position: relative;
-
-    .ft {
-      width: 20px;
-      height: 17px;
-      position: absolute;
-      top: 13px;
-      left: 43px;
-      background: url('~@/assets/img/common/border-lt.png') no-repeat;
-      background-size: 100% 100%;
-    }
-
-    .rb {
-      width: 20px;
-      height: 17px;
-      position: absolute;
-      bottom: 44px;
-      right: 0;
-      background: url('~@/assets/img/common/border-rb.png') no-repeat;
-      background-size: 100% 100%;
-    }
   }
 
   .right-list {
@@ -321,15 +311,26 @@ export default {
     box-sizing: border-box;
     height: 100%;
     float: left;
-    padding: 20px 50px 52px 0;
+    padding: 0 50px 52px 0;
+
+    .list-title {
+      width: 100%;
+      height: 50px;
+      font-size: 18px;
+      line-height: 50px;
+      padding-left: 10px;
+      background: #175a9e;
+      margin-top: 20px;
+      color: #fff;
+    }
 
     ul {
       width: 100%;
-      height: 100%;
+      height: calc(100% - 70px);
       overflow: auto;
+      border: 2px solid #175a9e;
       padding-left: 10px;
-      padding-top: 20px;
-      background-color: rgba(12, 27, 58, 0.7);
+      padding-top: 10px;
 
       li {
         float: left;
@@ -391,7 +392,7 @@ export default {
 
             > span {
               display: inline-block;
-              min-width: 60px;
+              min-width: 75px;
               color: #0ef6ff;
               background: url('../../assets/img/intelligent-lighting/btnBg.png');
               background-size: 100% 100%;
@@ -399,7 +400,7 @@ export default {
               height: 30px;
               line-height: 30px;
               text-align: center;
-              padding: 0 10px;
+            //   padding: 0 5px;
               margin-bottom: 4px;
             }
           }

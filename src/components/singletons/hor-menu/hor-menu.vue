@@ -64,9 +64,9 @@ export default {
 .hor-menu {
 	display: flex;
 	width: 1593px;
-	height: 46px;
+	height: 56px;
 	background: url('~@/assets/img/common/tabs-bg.png') no-repeat;
-	background-size: 1590px 46px;
+	background-size: 1590px 56px;
 	position: relative;
 	padding-right: 70px;
 
@@ -97,7 +97,7 @@ export default {
 		justify-content: center;
 		align-items: center;
 		width: 100px;
-		height: 46px;
+		height: 56px;
 		background: #106fd9;
 		position: absolute;
 		right: 0px;

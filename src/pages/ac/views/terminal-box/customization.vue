@@ -46,7 +46,7 @@
 </template>
 <script>
 import htBlueprint from '../common/view-ichnography'
-import charts from './charts1'
+import charts from './chartsList'
 export default {
 	name: 'terminal-box-customization-customization',
 	components: {

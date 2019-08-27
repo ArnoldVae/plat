@@ -41,7 +41,8 @@ export default {
 			historyModal: false,
 			chartTitle: '',
 			nodeId: '',
-			unit: ''
+			unit: '',
+			mainDevData: []
 		}
 	},
 	computed: {},
@@ -59,8 +60,6 @@ export default {
 				}
 				this.init()
 			} else {
-				console.log(11111)
-
 				let index = this.dataList.findIndex(item => item.pageId == newVal)
 				this.presentData = this.dataList[index]
 				this.init()
@@ -72,6 +71,10 @@ export default {
 			if (tag != undefined) {
 				tag.a(newVal.functionCode, newVal.value ? newVal.value : 0)
 			}
+		},
+		mainDevList(newVal) {
+			this.mainDevData = newVal
+			this.addData()
 		}
 	},
 	created() {},
@@ -110,27 +113,10 @@ export default {
 			this.$_api.hgis
 				.getHtControl(this.presentData.vcUrl)
 				.then(res => {
-					console.log(res)
-
 					let json = localHt.Default.parse(res)
 					dataModel.deserialize(json)
-					graphView.fitContent(true, 8)
-
-					if (this.mainDevList.length != 0) {
-						for (let i = 0; i < this.mainDevList.length; i++) {
-							let item = this.mainDevList.lists[i]
-							let tag = dataModel.getDataByTag(item.devId)
-							if (tag != undefined) {
-								for (let j = 0; j < item.devNodesList.length; j++) {
-									tag.a(
-										item.devNodesList[j].functionCode,
-										item.devNodesList[j].fvalue ? item.devNodesList[j].fvalue : 0
-									)
-								}
-								tag.a('item', item)
-							}
-						}
-					}
+					graphView.fitContent(true, 0)
+					this.addData()
 				})
 				.catch(err => {
 					this.$ocxMessage.error('图纸丢失！！！')
@@ -143,15 +129,41 @@ export default {
 				_this.chartsModal(data, functionCode)
 			}
 		},
+		addData() {
+			if (this.mainDevData.length != 0) {
+				for (let i = 0; i < this.mainDevData.length; i++) {
+					let item = this.mainDevData[i]
+
+					let tag = this.dataModel.getDataByTag(item.devId)
+					console.log(tag)
+
+					if (tag != undefined) {
+						for (let j = 0; j < item.devNodesList.length; j++) {
+							tag.a(
+								item.devNodesList[j].functionCode,
+								item.devNodesList[j].fvalue ? item.devNodesList[j].fvalue : 0
+							)
+						}
+						tag.a('item', item)
+					}
+				}
+			}
+		},
 		chartsModal(data, functionCode) {
+
 			let val = data.a('item')
 			if (val != undefined) {
 				let index = val.devNodesList.findIndex(item => item.functionCode == functionCode)
-				let list = val.devNodesList[index]
-				this.historyModal = true
-				this.nodeId = list.nodeId
-				this.unit = list.vcUnit
-				this.chartTitle = `${val.vcName}-${list.vcName}`
+				
+				if (index != -1) {
+					let list = val.devNodesList[index]
+					this.historyModal = true
+					this.nodeId = list.nodeId
+					this.unit = list.vcUnit
+					this.chartTitle = `${val.vcName}-${list.vcName}`
+				} else {
+					this.$ocxMessage.error('数据丢失！！！')
+				}
 			} else {
 				this.$ocxMessage.error('数据丢失！！！')
 			}
@@ -170,9 +182,9 @@ export default {
 </script>
 <style lang='stylus' scoped>
 .ht-page {
-  width: calc(100% - 16px);
+  width: calc(100% - 6px);
   height: calc(100% - 10px);
-  margin: 0 8px;
+  margin: 0 3px;
 
   .ht {
     width: 100%;

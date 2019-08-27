@@ -406,10 +406,10 @@ export default {
 @import '~@/assets/style/component/index.styl'
 
 .water-level-customization {
-	width: 1572px;
+	width: 1590px;
 	height: 100%;
 	background: url('~@/assets/img/common/bg-border.png') no-repeat;
-	background-size: 1572px 100%;
+	background-size: 1590px 100%;
 	padding: 30px 52px;
 	// overflow: auto;
 	// overflow: hidden;

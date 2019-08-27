@@ -1,5 +1,5 @@
 <template>
-  <div class="hgis-customization">
+  <div class="hgis-htcustomization">
     <div class="center">
       <div class="top"
            v-if="list.length > 1">
@@ -22,7 +22,7 @@
 import htPage from './ht-page'
 import { findComponentUpward } from '@/libs/assist'
 export default {
-	name: 'hgis-customization',
+	name: 'hgis-htcustomization',
 	components: { htPage },
 	props: {},
 	data() {
@@ -98,7 +98,6 @@ export default {
 			this.axios.getDevList(data).then(res => {
 				if (res.code == 200 && res.data) {
 					this.mainDevList = JSON.parse(JSON.stringify(res.data.lists))
-					console.log(res)
 				}
 			})
 
@@ -109,14 +108,12 @@ export default {
 			this.axios.getHtDrawing(params).then(res => {
 				if (res.code == 200) {
 					this.list = res.data
-					console.log(this.list)
 
 					if (res.data.length) {
 						this.pitchOn = res.data[0].pageId
 					}
 				}
 			})
-			console.log(this.activeDeviceTypeId)
 		},
 		//图纸切换
 		but(val) {
@@ -137,7 +134,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.hgis-customization {
+.hgis-htcustomization {
   width: calc(100% - 20px);
   height: 100%;
   background: url('~@/assets/img/common/bg-border.png') no-repeat;

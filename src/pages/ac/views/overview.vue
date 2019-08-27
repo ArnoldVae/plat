@@ -308,10 +308,16 @@ export default {
           // background: rgba(11, 24, 54, 0.5);
           background: url('~@ac/assets/img/overview/today-st.png') no-repeat;
           background-size: 100% 140px;
-          padding-top: 15px;
+          padding: 1px;
 
+          // padding-top: 15px;
           .title {
-            margin-left: 30px;
+            // margin-left: 30px;
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            padding-left: 30px;
+            background-color: #185a9e;
             font-size: 18px;
           }
 
@@ -439,21 +445,29 @@ export default {
           // background: rgba(11, 24, 54, 0.5);
           background: url('~@ac/assets/img/overview/access.png') no-repeat;
           background-size: 100% 380px;
-          padding-top: 15px;
+          // padding-top: 15px;
+          padding 1px;
           color: #fff;
 
           .header {
             display: flex;
             justify-content: space-between;
-            margin-left: 30px;
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            padding-left: 30px;
+            background-color: #185a9e;
+            margin-top 1px;
             font-size: 18px;
 
             .right {
-              width: 124px;
-              height: 27px;
-              margin-right: 15px;
-              background: url('~@/assets/img/common/bg540.png') no-repeat;
-              background-size: 124px 27px;
+              width: 150px;
+              height: 50px;
+              padding-right:15px;
+              // margin-right: 15px;
+              // background: url('~@/assets/img/common/bg540.png') no-repeat;
+              // background-size: 124px 27px;
+              background :#106fd9;
               display: flex;
               justify-content: space-between;
 
@@ -572,7 +586,8 @@ export default {
 
         .alarming-trend {
           margin-top: 14px;
-          padding-top: 15px;
+          // padding-top: 15px;
+          padding: 1px;
           height: 285px;
           // background: rgba(11, 24, 54, 0.5);
           background: url('~@ac/assets/img/overview/alarming-trend.png') no-repeat;
@@ -580,7 +595,11 @@ export default {
           color: #fff;
 
           .title {
-            margin-left: 30px;
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            padding-left: 30px;
+            background-color: #185a9e;
             font-size: 18px;
           }
 

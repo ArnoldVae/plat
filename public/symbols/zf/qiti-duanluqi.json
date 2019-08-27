@@ -1,28 +1,28 @@
 {
-  "modified": "Mon Aug 26 2019 11:13:39 GMT+0800 (中国标准时间)",
+  "modified": "Mon Aug 26 2019 11:18:17 GMT+0800 (中国标准时间)",
   "dataBindings": [
     {
-      "attr": "1085.0001",
+      "attr": "1086.0001",
       "valueType": "String",
       "name": "SF6压力"
     },
     {
-      "attr": "1085.0002",
+      "attr": "1086.0002",
       "valueType": "String",
       "name": "SF6密度"
     },
     {
-      "attr": "1085.0003",
+      "attr": "1086.0003",
       "valueType": "String",
       "name": "SF6微水"
     },
     {
-      "attr": "1085.0005",
+      "attr": "1086.0005",
       "valueType": "String",
       "name": "SF6温度"
     },
     {
-      "attr": "1085.0004",
+      "attr": "1086.0004",
       "valueType": "String",
       "name": "SF6露点"
     }
@@ -51,7 +51,7 @@
         50,
         50
       ],
-      "onClick": "__ht__function(event, data, view, point, width, height) {\nhtModel(data, '1085.0001')\n}"
+      "onClick": "__ht__function(event, data, view, point, width, height) {\nhtModel(data, '1086.0001')\n}"
     },
     {
       "type": "rect",
@@ -75,7 +75,7 @@
         50,
         50
       ],
-      "onClick": "__ht__function(event, data, view, point, width, height) {\nhtModel(data, '1085.0002')\n}"
+      "onClick": "__ht__function(event, data, view, point, width, height) {\nhtModel(data, '1086.0002')\n}"
     },
     {
       "type": "image",
@@ -87,7 +87,7 @@
         50,
         50
       ],
-      "onClick": "__ht__function(event, data, view, point, width, height) {\nhtModel(data, '1085.0003')\n}"
+      "onClick": "__ht__function(event, data, view, point, width, height) {\nhtModel(data, '1086.0003')\n}"
     },
     {
       "type": "image",
@@ -99,7 +99,7 @@
         50,
         50
       ],
-      "onClick": "__ht__function(event, data, view, point, width, height) {\nhtModel(data, '1085.0005')\n}"
+      "onClick": "__ht__function(event, data, view, point, width, height) {\nhtModel(data, '1086.0005')\n}"
     },
     {
       "type": "image",
@@ -111,7 +111,7 @@
         50,
         50
       ],
-      "onClick": "__ht__function(event, data, view, point, width, height) {\nhtModel(data, '1085.0004')\n}"
+      "onClick": "__ht__function(event, data, view, point, width, height) {\nhtModel(data, '1086.0004')\n}"
     },
     {
       "type": "rect",
@@ -140,7 +140,7 @@
     {
       "type": "text",
       "text": {
-        "func": "attr@1085.0001",
+        "func": "attr@1086.0001",
         "value": "10"
       },
       "align": "center",
@@ -192,7 +192,7 @@
     {
       "type": "text",
       "text": {
-        "func": "attr@1085.0002",
+        "func": "attr@1086.0002",
         "value": "10"
       },
       "align": "center",
@@ -244,7 +244,7 @@
     {
       "type": "text",
       "text": {
-        "func": "attr@1085.0003",
+        "func": "attr@1086.0003",
         "value": "10"
       },
       "align": "center",
@@ -296,7 +296,7 @@
     {
       "type": "text",
       "text": {
-        "func": "attr@1085.0005",
+        "func": "attr@1086.0005",
         "value": "10"
       },
       "align": "center",
@@ -348,7 +348,7 @@
     {
       "type": "text",
       "text": {
-        "func": "attr@1085.0004",
+        "func": "attr@1086.0004",
         "value": "10"
       },
       "align": "center",

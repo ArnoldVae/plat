@@ -6,10 +6,12 @@
 <script>
 import coreClampTable from '@ac/views/common/view-table'
 import coreClampCustomization from './customization.vue'
+import coreClampHtCustomization from './htcustomization.vue'
 export default {
 	name: 'core-clamp',
 	components: {
 		'core-clamp-customization': coreClampCustomization,
+		'core-clamp-htcustomization': coreClampHtCustomization,
 		'core-clamp-table': coreClampTable
 	},
 	props: {},
