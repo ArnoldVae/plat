@@ -27,22 +27,24 @@
 						<el-row
 							v-for="(item, index) in subMenuList"
 							:key="index"
-							style="width: 100%;"
+							style="width: 100%; cursor: pointer;"
 							:class="activeIndex==index? 'activeClick':''"
 						>
-							<el-col :span="17">
+							<div @click="getTemDetail(item,index)">
+									<el-col :span="17">
 								<span>
 									<span class="color-green">●</span>
 									{{ item.vcName }}
 								</span>
-							</el-col>
-							<el-col :span="7" class="item-btn">
-								<el-button
-									style="position:relativ"
-									size="mini"
-									@click="getTemDetail(item,index)"
-								>查看</el-button>
-							</el-col>
+								</el-col>
+								<el-col :span="7" class="item-btn">
+									<el-button
+										style="position:relativ"
+										size="mini"
+										@click="getTemDetail(item,index)"
+									>查看</el-button>
+								</el-col>
+							</div>
 						</el-row>
 					</div>
 				</div>
@@ -51,6 +53,17 @@
 					<div class="menu">{{ temData.name }}：</div>
 					<div class="search-item">
 						<div style="padding-left:24px;">
+							<el-row>
+								<el-col :span="16">
+									<span class="font-size-14">
+										<img src="@/assets/img/common/temp2.png" width="10px" /> 当前环境温度：
+									</span>
+								</el-col>
+								<el-col :span="8" class="item-btn">
+									<span class="font-time color-light-green">{{ temData.env }}</span>
+									<span class="color-light-green">℃</span>
+								</el-col>
+							</el-row>
 							<el-row>
 								<el-col :span="16">
 									<span class="font-size-14">
@@ -63,17 +76,7 @@
 								</el-col>
 							</el-row>
 
-							<el-row>
-								<el-col :span="16">
-									<span class="font-size-14">
-										<img src="@/assets/img/common/temp2.png" width="10px" /> 当前环境温度：
-									</span>
-								</el-col>
-								<el-col :span="8" class="item-btn">
-									<span class="font-time color-light-green">{{ temData.env }}</span>
-									<span class="color-light-green">℃</span>
-								</el-col>
-							</el-row>
+							
 						</div>
 					</div>
 				</div>
@@ -211,14 +214,14 @@ export default {
 				},
 				legend: {
 					data: this.categorName,
-					top: 20,
+					orient: 'vertical',
 					right: 30,
 					textStyle: {
 						color: '#fff',
 						fontSize: 18
 					}
 				},
-				color: ['#47b2fe', '#5d6040'],
+				color: ["red","#00ccff"],
 				grid: [
 					{
 						containLabel: true
@@ -285,9 +288,9 @@ export default {
 						areaStyle: {
 							color: 'none'
 						},
-						itemStyle: {
-							color: '#85c9ee'
-						},
+						// itemStyle: {
+						// 	color: '#85c9ee'
+						// },
 						lineStyle: {
 							color: 'red'
 						},
@@ -309,9 +312,9 @@ export default {
 						areaStyle: {
 							color: 'none'
 						},
-						itemStyle: {
-							color: '#01fef9'
-						},
+						// itemStyle: {
+						// 	color: '#01fef9'
+						// },
 						lineStyle: {
 							color: '#00ccff'
 						},
@@ -518,6 +521,7 @@ export default {
 }
 .color-light-green {
 	color: #32e611;
+	
 }
 .font-size-14 {
 	font-size: 16px;

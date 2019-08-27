@@ -51,7 +51,6 @@ import {
 	Pagination,
 	Switch,
 	Upload,
-	Message
 } from 'element-ui'
 const ElementUI = [
 	Tree,
@@ -83,7 +82,6 @@ const ElementUI = [
 	Pagination, //分页
 	Switch,
 	Upload,
-	Message
 ]
 ElementUI.push(eButton)
 ElementUI.push(eIcon)

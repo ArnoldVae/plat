@@ -99,7 +99,7 @@
 
 					<div class="search-item">
 						<ul>
-							<li v-for="(item, index) in subMenuList" :key="index">
+							<li v-for="(item, index) in subMenuList" :key="index" >
 								<el-row :gutter="10" :class="activeIndex==index? 'activeClick':''" style="margin-left: 0; margin-right: 0;">
 									<el-col :span="18">
 										<span @click="showSubItem(item)">
@@ -125,7 +125,7 @@
 								</el-row>
 								<!--                                子节点-->
 								<ul class="subList" v-show="item.showSubFlag" style=" margin-left: 10px;">
-									<li v-for="(i, n) in item.areaList" :key="n" :class="activeIndex==n? 'activeClick':''">
+									<li v-for="(i, n) in item.areaList" :key="n" :class="activeIndex==n? 'activeClick':''" 	@click="showSysDetail(i,n)">
 										<el-row>
 											<el-col :span="16">
 												<span class="color-green">●</span>

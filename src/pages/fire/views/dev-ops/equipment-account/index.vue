@@ -399,6 +399,10 @@ computed: {
 					})
 				}
 			}
+			// 重置页码为1
+			this.$nextTick(() => {
+				this.$refs['pages'].internalCurrentPage = 1
+			})
 		},
 		//分页
 		changePage(curIndex) {
@@ -445,7 +449,11 @@ computed: {
 		},
 		//导入弹框的逻辑
 		exportInfo() {
-			this.DaoShow = false
+			// this.DaoShow = true
+			 this.Message({
+          message: '警告哦，这是一条警告消息',
+          type: 'warning'
+        });
 		},
 		Close() {
 			this.DaoShow = false
