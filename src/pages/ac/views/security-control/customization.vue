@@ -1,7 +1,7 @@
 <template>
   <div class="security-control-customization">
-    <div class="securityControl-center">
-      <div class="securityControl-top"
+    <div class="security-control-center">
+      <div class="security-control-top"
            v-if="list.length > 1">
         <span v-for="(item, index) in list"
               :key="index"
@@ -9,13 +9,14 @@
               :class="{ onBut: pitchOn == item.pageId }"
               @click="but(item)">{{ item.vcName }}</span>
       </div>
+
       <htBlueprint :blueprintUrl="blueprintUrl"
                    :blueprintObj="blueprintObj"
                    :primitiveNodes="primitiveNodes"
-                   :mqttData="mqttData"
                    @htClick="htClick"
                    :isNodeClick="true"
-				   :isShowName="true" />
+                   :mqttData="mqttData"
+                   :isShowName="true" />
     </div>
     <charts v-model="historyModal"
             :node-id="nodeId"
@@ -24,12 +25,13 @@
   </div>
 </template>
 <script>
+import { findComponentUpward } from '@/libs/assist'
 import htBlueprint from '../common/view-ichnography'
 import charts from '../main-oil/charts1'
 export default {
 	name: 'security-control-customization',
 	components: {
-		htBlueprint: htBlueprint,
+		htBlueprint,
 		charts
 	},
 	data() {
@@ -55,26 +57,43 @@ export default {
 	created() {
 		this.getData()
 	},
+	computed: {
+		activeDeviceTypeId() {
+			return findComponentUpward(this, 'intelligent').currentTypeId
+		}
+	},
 	mounted() {
 		this.topicStr = this.topicArr[0] + this.unitId
 		// this.subscribe(this.topicStr)
+		console.log(this.topicStr)
+
 		//实时数据回调
 		const _this = this
-		// this.$_listen(this.$options.name, (topic, message, packet) => {
-		// 	let data = ''
-		// 	let dataobj = []
-		// 	dataobj = message
-		// 	dataobj.forEach(item => {
-		// 		//将推送的报文转码
-		// 		data = data + String.fromCharCode(item)
-		// 	})
 
+		// this.$_listen(_this.$options.name, (topic, message, packet) => {
+		// 	// let data = ''
+		// 	// let dataobj = []
+		// 	// dataobj = message
+		// 	// dataobj.forEach(item => {
+		// 	// 	//将推送的报文转码
+		// 	// 	data = data + String.fromCharCode(item)
+		// 	// })
+		// 	console.log(message);
+
+		// 	let data = JSON.parse(message.toString())
 		// 	//如果推送上来的数据的topic和订阅的topic一致qif/zf/app/192fe4cec3ec4d3fb81c0d05f82bde41
+		// 	// 	if (topic == _this.topicStr) {
+		// 	//   console.log(data)
+		// 	// 	}
+		// 	console.log(123123);
+
+		// 	console.log(data);
+
 		// 	if (topic == _this.topicStr) {
 		// 		let val = JSON.parse(data)
 		// 		if (val.type == 'req' && val.cmd == '1002') {
-		// 			_this.mqttData = val
 		// 			console.log(val)
+		// 			_this.mqttData = val
 		// 		}
 		// 	}
 		// })
@@ -86,25 +105,24 @@ export default {
 				if (msgData.type == 'req' && msgData.cmd == '1002') {
 					this.mqttData = msgData
 				}
-				
 			}
 		})
 	},
 	methods: {
 		//图纸节点点击回调
 		htClick(data, nodes) {
+			let code = '.0001'
 			let index = nodes.findIndex(item => item.vcSourceId == data._tag)
 			let node = nodes[index]
-			console.log(node);
-			
-			// let nodeIndex = node.devNodes.findIndex(val => val.functionCode == this.functionCode)
-			// let devNode = node.devNodes[nodeIndex]
-			
-			// this.historyModal = true
-			// this.nodeId = devNode.NodeID
-			// this.chartTitle = devNode.devName
-			// this.unit = devNode.vc_Unit
+			let nodeIndex = node.devNodes.findIndex(val => val.functionCode.search(code))
+			let devNode = node.devNodes[nodeIndex]
+
+			this.historyModal = true
+			this.nodeId = devNode.NodeID
+			this.chartTitle = devNode.devName
+			this.unit = devNode.vc_Unit
 		},
+
 		//图纸切换
 		but(val) {
 			if (val.vcUrl != this.blueprintUrl) {
@@ -116,6 +134,7 @@ export default {
 
 		//获取图纸信息
 		getData() {
+			
 			let params = {
 				unitId: this.unitId,
 				iSubType: '10100002'
@@ -178,14 +197,14 @@ export default {
   width: 100%;
   height: 100%;
 
-  .securityControl-center {
+  .security-control-center {
     width: calc(100% - 20px);
     height: 100%;
     background-image: url('~@/assets/img/common/bg-border.png');
     background-size: 100% 100%;
     padding: 15px 30px 30px;
 
-    .securityControl-top {
+    .security-control-top {
       height: 34px;
 
       .onBut {

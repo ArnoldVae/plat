@@ -13,10 +13,15 @@
 						总 :
 						<i>{{ total }}</i>&nbsp;&nbsp;&nbsp;开 :
 						<i>{{ openTotal }}</i>&nbsp;&nbsp;&nbsp;关 :
-						<b>{{ offTotal }}</b>
+						<b>{{ offTotal }}</b>&nbsp;&nbsp;&nbsp;未知:
+						<b>{{ unknown }}</b>
 					</span>
 				</div>
-				<ul>
+				<ul
+					v-loading="listLoading"
+					element-loading-text="数据加载中"
+					element-loading-background="rgba(0, 0, 0, 0)"
+				>
 					<li v-for="(item, index) in lightingList" :key="index">
 						<div class="li-left">
 							<img
@@ -30,7 +35,7 @@
 							<img v-else src="../../assets/img/intelligent-lighting/lamplight-close-s.png" />
 						</div>
 						<div class="li-right">
-							<Tooltip :content="item.vcName" class="tooltip" placement="top">
+							<Tooltip :content="item.vcName" class="tooltip" placement="right">
 								<div class="li-title">{{ item.vcName }}</div>
 							</Tooltip>
 							<div class="video-box">
@@ -40,8 +45,11 @@
 							<div class="li-btn">
 								<!-- <span @click="handleSwitch('open', item)">开</span> -->
 								<!-- <span @click="handleSwitch('off', item)" class="closeBtn">关</span> -->
-								<span v-for="node in item.btnArr" :key="node.nodeId+node.fvalue" @click="handleSwitch(node,item)">{{node.btnTitle}}</span>
-
+								<span
+									v-for="node in item.btnArr"
+									:key="node.nodeId+node.fvalue"
+									@click="handleSwitch(node,item)"
+								>{{node.btnTitle}}</span>
 							</div>
 						</div>
 					</li>
@@ -65,6 +73,7 @@ export default {
 	data() {
 		return {
 			unitId: this.$store.getters.unitId,
+			listLoading: false,
 			topicArr: ['qif/zf/app/', 'qif/zf/app/control/'],
 			topicStr: '',
 			topicStr2: '',
@@ -73,6 +82,7 @@ export default {
 			guids: [],
 			openTotal: '',
 			offTotal: '',
+			unknown: 0,
 			modalShow: false,
 			tipShow: false,
 			lightingFlag: 'open',
@@ -141,6 +151,7 @@ export default {
 			})
 		},
 		getDevList() {
+			this.listLoading = true
 			let params = {
 				devTypeId: this.activeDeviceTypeId,
 				isPage: 1,
@@ -148,36 +159,46 @@ export default {
 				isFindNodes: 1,
 				unitId: this.unitId
 			}
-			this.$_api.intelligentLightin.getDevList(params).then(res => {
-				if (res.code == 200 && res.data.lists) {
-					res.data.lists.forEach(item => {
-						item.videoUrl = item.linkDevInfo.length > 0 ? item.linkDevInfo[0].DevID : ''
-						item.btnArr = [];
-						item.devNodesList.forEach(element => {
-							if (element.functionCode == 1020.0001) {
-								item.fvalue = element.fvalue
-							}
-							if (element.functionCode == 1020.0002) {
-								item.ctrlNodeId = element.nodeId
-								let bta1 = element.vcValueDesc.split('|')
-								let param = {}
-								bta1.map(ite => {
-									param = {}
-									param.btnTitle = ite.split(' ')[1]
-									param.fvalue = ite.split(' ')[0]
-									param.devId = element.devId
-									param.nodeId = element.nodeId
-									item.btnArr.unshift(param)
-								})
-							}
+			this.$_api.intelligentLightin
+				.getDevList(params)
+				.then(res => {
+					if (res.code == 200 && res.data.lists) {
+						res.data.lists.forEach(item => {
+							item.videoUrl = item.linkDevInfo.length > 0 ? item.linkDevInfo[0].DevID : ''
+							item.btnArr = []
+							item.devNodesList.forEach(element => {
+								if (element.functionCode == 1020.0001) {
+									item.fvalue = element.fvalue
+								}
+								if (element.functionCode == 1020.0002) {
+									item.ctrlNodeId = element.nodeId
+									let bta1 = element.vcValueDesc.split('|')
+									let param = {}
+									bta1.map(ite => {
+										param = {}
+										param.btnTitle = ite.split(' ')[1]
+										param.fvalue = ite.split(' ')[0]
+										param.devId = element.devId
+										param.nodeId = element.nodeId
+										item.btnArr.unshift(param)
+									})
+								}
+							})
 						})
-					})
-					this.lightingList = res.data.lists
-					console.log(this.lightingList)
-					// this.total = this.lightingList.length
-					this.getFirstVideo(this.lightingList)
-				}
-			})
+						this.lightingList = res.data.lists
+						this.listLoading = false
+						console.log(this.lightingList)
+						// this.openTotal = res.data.openCount
+						// this.offTotal = res.data.closeCount
+						this.total = this.lightingList.length
+						this.unknown = this.total - this.openTotal - this.offTotal
+						this.unknown = isNaN(this.unknown) ? this.total : this.unknown
+						this.getFirstVideo(this.lightingList)
+					}
+				})
+				.catch(error => {
+					this.listLoading = false
+				})
 		},
 		//获取第一条视频
 		// getFirstVideo(data) {
@@ -204,11 +225,20 @@ export default {
 		},
 		//获取开关数量
 		getSwitch() {
+			console.log(this.$_api.intelligentLightin)
 			this.$_api.intelligentLightin.getSwitch({ unitId: this.unitId }).then(res => {
+				console.log(res)
+
 				if (res.code == 200 && res.data) {
-					this.openTotal = res.data.openCount
-					this.offTotal = res.data.closeCount
-					this.total = this.openTotal + this.offTotal
+					if (res.data.openCount + res.data.closeCount == 0) {
+						this.openTotal = '未知'
+						this.offTotal = '未知'
+					} else {
+						this.openTotal = res.data.openCount
+						this.offTotal = res.data.closeCount
+					}
+
+					// this.total = this.openTotal + this.offTotal
 				}
 			})
 		},
@@ -224,13 +254,13 @@ export default {
 			})
 		},
 		//点击开关按钮
-		handleSwitch(node,item) {
+		handleSwitch(node, item) {
 			console.log(node)
 			this.modalShow = true
 			this.nodeData = JSON.parse(JSON.stringify(node))
 			this.lightItem = item
-			console.log(this.nodeData)
-			console.log(this.lightItem)
+			// console.log(this.nodeData)
+			// console.log(this.lightItem)
 			// if (item.ctrlNodeId) {
 			// 	if (type == 'open') {
 			// 		this.modalShow = true
@@ -279,7 +309,6 @@ export default {
 			if (this.lightItem.videoUrl && this.lightItem.videoUrl != '') {
 				this.videoConfig.deviceInfo = this.lightItem.videoUrl
 			}
-			console.log(this.videoConfig)
 		},
 		//取消
 		handleCancel() {
@@ -292,9 +321,10 @@ export default {
 		},
 		//实时数据回调
 		getMqtt() {
-			console.log(this.topicStr)
 			this.topicStr = this.topicArr[0] + this.unitId
 			this.topicStr2 = this.topicArr[1] + this.unitId
+			console.log(this.topicStr)
+
 			this.$_listen(this.$options.name, (topic, message, packet) => {
 				if (topic == this.topicStr || topic == this.topicStr2) {
 					let msgData = JSON.parse(message.toString())
@@ -312,10 +342,15 @@ export default {
 							}
 						})
 					} else if (msgData.cmd == 1003) {
-						console.log(JSON.stringify(msgData))
+						console.log(msgData)
 						this.guids.forEach(item => {
 							if (item == msgData.serial) {
 								this.$ocxMessage.info('命令下发成功')
+								this.lightingList.forEach(element => {
+									if (element.devId == msgData.nodes[0].devid) {
+										element.fvalue = msgData.nodes[0].value
+									}
+								})
 							}
 						})
 					} else if (msgData.cmd == 1004) {
@@ -400,13 +435,13 @@ export default {
         color: #fff;
 
         p {
-          width: 50%;
+          width: 40%;
           padding-left: 30px;
           float: left;
         }
 
         span {
-          width: 50%;
+          width: 60%;
           float: left;
           font-size: 16px;
           text-align: right;

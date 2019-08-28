@@ -7,7 +7,11 @@
 		</div>
 		<div class="right-list">
 			<div class="list-title">门禁控制设备</div>
-			<ul>
+			<ul
+				v-loading="listLoading"
+				element-loading-text="数据加载中"
+				element-loading-background="rgba(0, 0, 0, 0)"
+			>
 				<template v-for="(item, index) in listData">
 					<li :key="index">
 						<div class="list-item-left">
@@ -49,6 +53,7 @@
 <script>
 import ocxVideo from '@/components/native/video/OcxVideo'
 import { findComponentUpward } from '@/libs/assist'
+import { timingSafeEqual } from 'crypto'
 export default {
 	name: 'anti-theft-customization',
 	components: { ocxVideo },
@@ -56,6 +61,7 @@ export default {
 	data() {
 		return {
 			unitId: this.$store.getters.unitId,
+			listLoading: false,
 			topicArr: ['qif/zf/app/', 'qif/zf/app/control/'],
 			topicStr: '',
 			guids: [],
@@ -113,37 +119,43 @@ export default {
 				isFindNodes: 1,
 				unitId: this.unitId
 			}
-			this.$_api.antiTheft.getDevList(params).then(res => {
-				res.data.lists.forEach(item => {
-					item.btnArr = []
-					if (item.devNodesList && item.devNodesList.length > 0) {
-						item.devNodesList.forEach(element => {
-							item.videoUrl = item.linkDevInfo.length > 0 ? item.linkDevInfo[0].DevID : ''
-							if (element.nodeType == 3 || (element.nodeType == 4 && element.vcValueDesc)) {
-								item.ctrlNodeId = element.nodeId
-								let bta1 = element.vcValueDesc.split('|')
-								let param = {}
-								bta1.map(ite => {
-									param = {}
-									param.btnTitle = ite.split(' ')[1]
-									param.fvalue = ite.split(' ')[0]
-									param.devId = element.devId
-									param.nodeId = element.nodeId
-									item.btnArr.unshift(param)
-								})
-							}
-							if (element.nodeType == 2) {
-								item.fvalue = element.fvalue
-							}
-						})
-					} else {
-						item.videoUrl = false
-					}
+			this.listLoading = true
+			this.$_api.antiTheft
+				.getDevList(params)
+				.then(res => {
+					res.data.lists.forEach(item => {
+						item.btnArr = []
+						if (item.devNodesList && item.devNodesList.length > 0) {
+							item.devNodesList.forEach(element => {
+								item.videoUrl = item.linkDevInfo.length > 0 ? item.linkDevInfo[0].DevID : ''
+								if (element.nodeType == 3 || (element.nodeType == 4 && element.vcValueDesc)) {
+									item.ctrlNodeId = element.nodeId
+									let bta1 = element.vcValueDesc.split('|')
+									let param = {}
+									bta1.map(ite => {
+										param = {}
+										param.btnTitle = ite.split(' ')[1]
+										param.fvalue = ite.split(' ')[0]
+										param.devId = element.devId
+										param.nodeId = element.nodeId
+										item.btnArr.unshift(param)
+									})
+								}
+								if (element.nodeType == 2) {
+									item.fvalue = element.fvalue
+								}
+							})
+						} else {
+							item.videoUrl = false
+						}
+					})
+					this.listData = res.data.lists
+					this.listLoading = false
+					// console.log(this.listData)
+					this.getFirstVideo(this.listData)
+				}).catch(error => {
+					this.listLoading = false
 				})
-				this.listData = res.data.lists
-				console.log(this.listData)
-				this.getFirstVideo(this.listData)
-			})
 		},
 		//获取第一条视频
 		getFirstVideo(data) {
@@ -254,10 +266,15 @@ export default {
 							})
 						})
 					} else if (msgData.cmd == 1003) {
-						console.log(JSON.stringify(msgData))
+						console.log(msgData)
 						this.guids.forEach(item => {
 							if (item == msgData.serial) {
 								this.$ocxMessage.info('命令下发成功')
+								this.listData.forEach(element => {
+									if (element.devId == msgData.nodes[0].devid) {
+										element.fvalue = msgData.nodes[0].value
+									}
+								})
 							}
 						})
 					} else if (msgData.cmd == 1004) {
@@ -400,7 +417,6 @@ export default {
               height: 30px;
               line-height: 30px;
               text-align: center;
-            //   padding: 0 5px;
               margin-bottom: 4px;
             }
           }

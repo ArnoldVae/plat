@@ -324,12 +324,15 @@ export default {
 			let _vidoeInfos = []
 			for (let i = 0; i < this.videoLen; i++) {
 				_vidoeInfos[i] = {
-					isAutoPlay: true,
+					isAutoPlay:
+						_this.videoList[_this.index] && _this.videoList[_this.index].videoUrl != 'undefined'
+							? true
+							: false,
 					hideTool: true,
 					deviceInfo:
-						typeof _this.videoList[_this.index].videoUrl === 'undefined'
-							? ''
-							: _this.videoList[_this.index].videoUrl,
+						_this.videoList[_this.index] && _this.videoList[_this.index].videoUrl != 'undefined'
+							? _this.videoList[_this.index].videoUrl
+							: '',
 					serviceInfo: _this.serviceInfo
 					// presetVal:
 					// 	typeof _this.videoList[_this.index].preset === 'undefined'

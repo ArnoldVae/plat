@@ -251,7 +251,7 @@ export default {
 				this.videoList = []
 				// this.setVideoScreen(this.videoLen);
 				// this.loadSceneList(this.$store.getters.stationId);
-				if(this.videoShow == false){
+				if (this.videoShow == false) {
 					// this.loadSceneList()
 				}
 				this.videoShow = true
@@ -280,7 +280,6 @@ export default {
 			}
 			// 获取视频列表
 			this.loadVideoList(data)
-			console.log(this.videoComList)
 		},
 		//视频列表点击
 		selectMenuVideo(data) {
@@ -341,11 +340,11 @@ export default {
 								// 	_this.serviceInfo = item.vc_Params3
 								// }
 								_this.videoList.push({
-									videoUrl: item.devId,
+									videoUrl: item.devId
 									// preset: item.fParam1
 								})
 							})
-							
+
 							_this.autoPlay()
 						}
 					}
@@ -367,16 +366,43 @@ export default {
 		},
 		// 开始轮巡
 		startPlay() {
+			// const _this = this
+			// let _vidoeInfos = []
+			// for (let i = 0; i < this.videoLen; i++) {
+			// 	_vidoeInfos[i] = {
+			// 		isAutoPlay: true,
+			// 		hideTool: true,
+			// 		deviceInfo:
+			// 			typeof _this.videoList[_this.index].videoUrl === 'undefined'
+			// 				? ''
+			// 				: _this.videoList[_this.index].videoUrl,
+			// 		serviceInfo: _this.serviceInfo
+			// 		// presetVal:
+			// 		// 	typeof _this.videoList[_this.index].preset === 'undefined'
+			// 		// 		? ''
+			// 		// 		: _this.videoList[_this.index].preset
+			// 	}
+			// 	if (_this.videoList.length > _this.videoLen) {
+			// 		_this.index = _this.index + 1 < _this.videoList.length ? _this.index + 1 : 0
+			// 	} else {
+			// 		_this.index++
+			// 	}
+			// }
+			// _this.videoComList = _vidoeInfos
+			// console.log(this.videoComList)
 			const _this = this
 			let _vidoeInfos = []
 			for (let i = 0; i < this.videoLen; i++) {
 				_vidoeInfos[i] = {
-					isAutoPlay: true,
+					isAutoPlay:
+						_this.videoList[_this.index] && _this.videoList[_this.index].videoUrl != 'undefined'
+							? true
+							: false,
 					hideTool: true,
 					deviceInfo:
-						typeof _this.videoList[_this.index].videoUrl === 'undefined'
-							? ''
-							: _this.videoList[_this.index].videoUrl,
+						_this.videoList[_this.index] && _this.videoList[_this.index].videoUrl != 'undefined'
+							? _this.videoList[_this.index].videoUrl
+							: '',
 					serviceInfo: _this.serviceInfo
 					// presetVal:
 					// 	typeof _this.videoList[_this.index].preset === 'undefined'
@@ -589,11 +615,12 @@ export default {
       width: 100%;
       height: calc(100% - 120px);
       overflow-y: auto;
-	  border 2px solid #185a9e;
+      border: 2px solid #185a9e;
     }
-	.videoBox{
-		 height: calc(100% - 60px);
-	}
+
+    .videoBox {
+      height: calc(100% - 60px);
+    }
 
     .search-ipt {
       width: 100%;

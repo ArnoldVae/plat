@@ -117,8 +117,6 @@ export default {
 	methods: {
 		//图纸节点点击回调
 		htClick(data, nodes) {
-			
-			
 			let index = nodes.findIndex(item => item.vcSourceId == data._tag)
 			let node = nodes[index]
 			let arr = []

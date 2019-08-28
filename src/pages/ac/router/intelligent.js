@@ -204,7 +204,24 @@ export default [
 					title: '双鉴'
 				},
 				component: () => import('@ac/views/security-control')
-			},{
+			},
+			{
+				path: 'infrared-correlation',
+				name: 'infrared-correlation',
+				meta: {
+					title: '红外对射'
+				},
+				component: () => import('@ac/views/infrared-correlation')
+			},
+			{
+				path: 'burglar-alarm',
+				name: 'burglar-alarm',
+				meta: {
+					title: '防盗报警'
+				},
+				component: () => import('@ac/views/burglar-alarm')
+			},
+			{
 				path: 'hgis',
 				name: 'hgis',
 				meta: {

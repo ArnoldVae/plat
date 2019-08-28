@@ -82,7 +82,7 @@ let stop = (key) => {
 		messageQueue[key] = []
 	}
 	messageQueue[key] = () => {
-		console.log(`已断开${key}组件的MQTT事件池~！`)
+		// console.log(`已断开${key}组件的MQTT事件池~！`)
 	}
 }
 let trigger = (topic, message, packet) => {

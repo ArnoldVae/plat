@@ -1,21 +1,21 @@
 <template>
-	<div class="electronic-fence-control">
+	<div class="burglar-alarm">
 		<component v-bind:is="current"></component>
 	</div>
 </template>
 <script>
-import electronicFenceControlTable from '@ac/views/common/view-table'
-import electronicFenceControlCustomization from '../security-control/customization'
+import securityControlTable from '@ac/views/common/view-table'
+import securityControlCustomization from '../security-control/customization'
 export default {
-	name: 'electronic-fence-control',
+	name: 'burglar-alarm',
 	components: {
-		'electronic-fence-control-table': electronicFenceControlTable,
-		'electronic-fence-control-customization': electronicFenceControlCustomization
+		'burglar-alarm-table': securityControlTable,
+		'burglar-alarm-customization': securityControlCustomization
 	},
 	props: {},
 	data() {
 		return {
-			current: 'electronic-fence-control-customization'
+			current: 'burglar-alarm-customization'
 		}
 	},
 	computed: {},
@@ -53,7 +53,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.electronic-fence-control {
+.burglar-alarm {
 	height: 100%;
 }
 </style>

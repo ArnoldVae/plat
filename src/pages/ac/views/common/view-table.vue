@@ -772,7 +772,8 @@ export default {
 				position: relative;
 
 				&:hover {
-					background: #09102f;
+					background: #2d8cf06b;
+					color: #fa0;
 				}
 
 				&:active {

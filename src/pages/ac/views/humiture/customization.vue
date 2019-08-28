@@ -34,7 +34,7 @@
 								:class="{ 'height-wd': items.isHeitht, 'low-wd': items.isLow }"
 							>
 								{{
-								items.fvalue
+								items.fvalue?items.fvalue:'暂无数据'
 								}}
 							</i>
 							<b>{{ items.vcUnit }}</b>

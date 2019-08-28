@@ -67,7 +67,7 @@ export default {
 
 			//设备不唯一时可用
 			this.dataModel.toDatas(function(data) {
-				if (data.getTag() == val.nodeid) data.a('alarmLevel', val.level)
+				if (data.getTag() == val.devid) data.a('alarmLevel', val.level)
 			})
 		}
 	},
@@ -84,7 +84,7 @@ export default {
 
 			//监听窗口大小变化
 			window.addEventListener('resize', e => {
-				graphView.fitContent(false)
+				graphView.fitContent(true, 0)
 			})
 
 			//设置图元选中时 边框的宽度
@@ -105,7 +105,7 @@ export default {
 				.then(res => {
 					let json = ht.Default.parse(res)
 					dataModel.deserialize(json)
-					graphView.fitContent(true)
+					graphView.fitContent(true, 0)
 					this.getNode()
 					return
 				})
@@ -125,6 +125,9 @@ export default {
 					if (e.data.a('vc_SourceID') != undefined) {
 						if (this.isNodeClick && this.isNodeClick == true) {
 							// let targetTag = eData.getTag()
+							console.log(e.data);
+							console.log(this.findNodes);
+							
 							this.$emit('htClick', e.data, this.findNodes)
 						}
 					}

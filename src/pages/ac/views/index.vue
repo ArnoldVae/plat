@@ -631,7 +631,7 @@ export default {
             /* height: 20px; */
             /* background: #f00; */
             position: absolute;
-            bottom: 10px;
+            bottom: 13px;
             left: 10px;
 
             .ant-btn {

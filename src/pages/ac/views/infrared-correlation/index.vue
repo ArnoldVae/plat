@@ -1,21 +1,21 @@
 <template>
-	<div class="electronic-fence-control">
+	<div class="infrared-correlation">
 		<component v-bind:is="current"></component>
 	</div>
 </template>
 <script>
-import electronicFenceControlTable from '@ac/views/common/view-table'
-import electronicFenceControlCustomization from '../security-control/customization'
+import securityControlTable from '@ac/views/common/view-table'
+import securityControlCustomization from '../security-control/customization'
 export default {
-	name: 'electronic-fence-control',
+	name: 'infrared-correlation',
 	components: {
-		'electronic-fence-control-table': electronicFenceControlTable,
-		'electronic-fence-control-customization': electronicFenceControlCustomization
+		'infrared-correlation-table': securityControlTable,
+		'infrared-correlation-customization': securityControlCustomization
 	},
 	props: {},
 	data() {
 		return {
-			current: 'electronic-fence-control-customization'
+			current: 'infrared-correlation-customization'
 		}
 	},
 	computed: {},
@@ -53,7 +53,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.electronic-fence-control {
+.infrared-correlation {
 	height: 100%;
 }
 </style>

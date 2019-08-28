@@ -68,7 +68,7 @@ export default {
 	},
 	mounted() {
 		this.topicStr = this.topicArr[0] + this.unitId
-		console.log(this.topicStr)
+		// console.log(this.topicStr)
 		//实时数据回调
 		const _this = this
 		// this.$_mqtt.on('message', function(topic, message, packet) {
