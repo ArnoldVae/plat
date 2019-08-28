@@ -119,13 +119,13 @@
     <!-- table -->
     <div class="table">
       <el-table
-        :header-cell-style="{ background: '#0d2351' }"
         :data="maintainDatas"
-        :row-style="tableColor"
+
         @selection-change="handleSelectionChange"
 		@row-click="rowClick"
         style="width: 100%;"
-		 height="600"
+		height="400"
+		border
       >
         <el-table-column prop="unitName" align="center" label="变电站名称" width="160"></el-table-column>
         <el-table-column prop="vcName" align="center" label="设备名称" width='250' show-overflow-tooltip></el-table-column>
@@ -133,9 +133,9 @@
         <el-table-column prop="subName" align="center" label="所属子系统" width='150'></el-table-column>
         <el-table-column prop="num" align="center" label="定置点编号" width='140'></el-table-column>
         <el-table-column prop="vcCode" align="center" label="型号规格" width='150'></el-table-column>
-        <el-table-column prop="beginTime" align="center" label="有效期" width='150'></el-table-column>
+        <el-table-column prop="beginTime" align="center" label="有效期" width='120'></el-table-column>
         <el-table-column prop="userId" align="center" label="保管责任人" width='110'></el-table-column>
-        <el-table-column prop="vcLocal" align="center" label="安装位置" width='180'></el-table-column>
+        <el-table-column prop="vcLocal" align="center" label="安装位置" width='179'></el-table-column>
         <el-table-column prop="vcMemo" align="center" label="备注" ></el-table-column>
       </el-table>
     </div>
@@ -396,13 +396,14 @@ computed: {
 								item[name] = '--'
 							}
 						}
+						 if(item['vcMemo']=='--')item.vcMemo=''
 					})
 				}
 			}
 			// 重置页码为1
-			this.$nextTick(() => {
-				this.$refs['pages'].internalCurrentPage = 1
-			})
+			// this.$nextTick(() => {
+			// 	this.$refs['pages'].internalCurrentPage = 1
+			// })
 		},
 		//分页
 		changePage(curIndex) {
@@ -487,6 +488,8 @@ computed: {
 
 <style lang="stylus">
 @import './input.css';
+@import '~@/assets/style/component/index.styl'
+
 
 .docFire {
   width: 100%;
@@ -495,8 +498,61 @@ computed: {
   padding: 0 50px;
   // background-color: #141a26;
   overflow: hidden;
+	.table {
+		height: 77%;
 
-  .el-row {
+		/deep/ .el-table {
+			width: 100%;
+			height: calc(100% - 45px)!important;
+			background: transparent;
+			color: #fff;
+
+			view-table('~@fire/assets/img/view-table/header.png')
+
+			.control-wrap {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.el-button+.el-button {
+				margin-left: initial;
+				margin: 2.5px;
+			}
+
+			.el-button {
+				margin: 2.5px;
+				background: transparent;
+				border-color: #2d8cf0;
+				color: #2d8cf0;
+				position: relative;
+
+				&:hover {
+					background: #09102f;
+				}
+
+				&:active {
+					top: 1px;
+					left: 1px;
+				}
+
+			}
+		}
+
+		.page-wrap {
+			margin-top: 10px;
+			display: flex;
+			justify-content: center;
+
+			.ivu-page {
+				iview-page()
+			}
+		}
+	}
+
+
+	.el-row {
     left: 7%;
     font-size: 0.7rem;
     font-weight: bold;
@@ -577,7 +633,7 @@ computed: {
       width: 180px;
 
       /deep/ .el-input__inner {
-        border: 1PX solid #0d7ec5 !important;
+        border: 1px solid #0d7ec5 !important;
         background: #081e4d;
 		font-size:16px;
       }
@@ -605,40 +661,19 @@ computed: {
     border: 1PX solid #0c4e75;
   }
 
-  .el-table, .el-table__expanded-cell {
-    background-color: transparent;
-  }
 
-  .el-table th, .el-table tr {
-    background-color: transparent;
-  }
-
-  .formSize {
-    position: relative;
-
-    .formSize label {
-      font-size: 20px;
-    }
-  }
-
-  .table {
-    height: 650px;
-  }
- .el-table {
-      .el-table__empty-block .el-table__empty-text {
-        color: #fff;
-        font-size: 16px;
-      }
-    }
   // 分页样式的修改
   .pagination {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 25px;
 
     .el-pagination {
       .el-pagination__total {
         color: #73a6c3;
       }
+		.el-pager{
+			margin-top: 4px;
+		}
 
       .btn-prev, .btn-next {
         border: 1px solid #0f3047;
@@ -675,52 +710,7 @@ computed: {
     }
   }
 
-  .el-table td div {
-    font-size: 15px;
-  }
 
-  .has-gutter {
-    background: transparent;
-    background: url('../../../assets/img/tainingTitle.png');
-  }
-	.el-table th{
-		background: transparent;
-	}
-  .el-table th div {
-    font-size: 18px;
-    color: #3094f7;
-    font-weight: 30;
-  }
-
-  .el-table__row {
-    color: white;
-  }
-
-  .el-table--enable-row-hover .el-table__body tr:hover > td {
-	  background: rgba(36,64,88,0.48) !important;
-	  cursor: pointer;
-  }
-
-  .el-table__row > td {
-    border: none;
-  }
-
-  .el-table td, .el-table th.is-leaf {
-    border-bottom: none;
-  }
-
-  .el-table::before { // 去掉最下面的那一条线
-    height: 0px;
-  }
-
-  .el-table {
-    /deep/ .has-gutter {
-      height: 0px;
-      color: #fff;
-      background-color: #0d2351;
-      border-bottom: 0px;
-    }
-  }
 
   .blue-btn {
     width: 3.8rem;
@@ -762,7 +752,8 @@ computed: {
   background-color: #1A587F !important;
 }
 
-/deep/ .el-table__body-wrapper {
-  margin-top: -20px;
-}
+
+
+
+
 </style>

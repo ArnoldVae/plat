@@ -98,6 +98,7 @@ export default {
 			let dom = this.$refs['view-main']
 			graphView.addToDOM(dom)
 			graphView.setScrollBarSize(0)
+			graphView.enableToolTip()
 			// dataModel.enableAnimation() //启用动画
 
 			//监听窗口大小变化
@@ -151,6 +152,7 @@ export default {
 								node.setId(item.vcSourceId)
 								node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
 								node.setName(item.vcName)
+								
 								// node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
 								node.setSize(20, 10)
 								node.setStyle('interactive', true)
@@ -161,16 +163,11 @@ export default {
 								node.a('devtypeId', item.devNodes[0].devTypeId)
 								node.setLayer(1)
 								node.s('label', '')
-								item.devNodes[0].f_Value=item.devNodes[0].f_Value=='65535'?'    --':item.devNodes[0].f_Value
-								node.a('value',item.devNodes[0].f_Value);
+								node.setToolTip(item.vcName)
+								let NumValue=item.devNodes[0].f_Value =item.devNodes[0].f_Value == '65535' ? '    --' : item.devNodes[0].f_Value
+								node.a('value', NumValue.toFixed(1))
 								this.dataModel.add(node)
-								// this.dataModel.each(data => {
-								// 	let valueNum = item.devNodes[0].f_Value != null ? item.devNodes[0].f_Value : '---'
-								// 	data.a('value', valueNum)
-								// 	// if(data.getTag()=='12e1638920ca4ce0a5ace94d87e005eb'){
-								// 	// 	// console.log(data)
-								// 	// }
-								// })
+							
 							}, 100)
 						})
 				}

@@ -41,7 +41,6 @@
 									<el-button
 										style="position:relativ"
 										size="mini"
-										@click="getTemDetail(item,index)"
 									>查看</el-button>
 								</el-col>
 							</div>
@@ -465,12 +464,11 @@ export default {
 				console.log('视频出')
 				console.log(result)
 				if (result.data && result.data.length > 0) {
-					this.videoConfig.deviceInfo = result.data[0].devId
-					// this.videoConfig.serviceInfo = result.data[0].vcParams1
-					console.log(this.videoConfig)
+//					this.videoConfig.deviceInfo = result.data[0].devId
+					 this.videoConfig.serviceInfo = result.data[0].vcParams1
 
-					this.videoConfig1.deviceInfo = result.data[1].devId
-					// this.videoConfig1.serviceInfo = result.data[1].vcParams1
+//					this.videoConfig1.deviceInfo = result.data[1].devId
+					 this.videoConfig1.serviceInfo = result.data[1].vcParams1
 				}
 			}
 		},
@@ -819,8 +817,7 @@ $prowidth = 100%;
           padding-left: 24px;
           font-size: 18px;
           margin: 0;
-          height: 56px;
-          line-height: 56px;
+          line-height: 2.2228rem;
           background: url('../../../assets/img/common/second.png') no-repeat;
           background-size: 100% 100%;
           -moz-background-size: 100% 100%;
@@ -861,7 +858,6 @@ $prowidth = 100%;
           }
 
           .activeClick {
-            box-shadow: inset 0 0 20px #0E70AF;
             background-color: #063783;
 
             .el-button {
@@ -915,8 +911,7 @@ $prowidth = 100%;
           padding-left: 24px;
           font-size: 18px;
           margin: 0;
-          height: 56px;
-          line-height: 56px;
+          line-height: 2.2228rem;
           background: url('../../../assets/img/common/second.png') no-repeat;
           background-size: 100% 100%;
           -moz-background-size: 100% 100%;

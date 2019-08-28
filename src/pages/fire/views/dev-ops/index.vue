@@ -1,7 +1,7 @@
 <template>
     <div class="dev-ops" :class="{ 'new-color': pageType }">
         <el-container>
-            <el-aside width="290px">
+            <el-aside width="15.322%">
                 <el-filter-tree
                         placeholder="输入关键字进行过滤"
                         v-model="filterText"

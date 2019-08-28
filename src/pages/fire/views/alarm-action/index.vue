@@ -102,7 +102,7 @@
                     <div class="con-left">
                         <div class="left-topCon" v-if="confirHide">
                             <div class="videoAlarm" v-for="(valarmItem, index) in videoConfig" :key="index">
-                                <OcxVideo style="width: 630px" :videoConfig="valarmItem"></OcxVideo>
+                                <OcxVideo :videoConfig="valarmItem"></OcxVideo>
                             </div>
                         </div>
                         <div class="left-bottomCon">

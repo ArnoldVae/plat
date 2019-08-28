@@ -57,11 +57,10 @@
 		<!-- table -->
 		<div class="table">
 			<el-table
-				:header-cell-style="{ background: '#0d2351' }"
-				:row-style="tableColor"
 				:data="maintainData"
 				style="width: 100%;"
 				height="630"
+				border
 			>
 				<el-table-column prop="coName" align="center" label="维保单位" width='100'></el-table-column>
 				<el-table-column prop="unitName" align="center" label="变电站" width='130'></el-table-column>
@@ -83,7 +82,7 @@
 				<el-table-column label="操作" align="center" width="180">
 					<template slot-scope="scope">
 						<div>
-							<el-button class="blue-btn" @click="infoModals(scope.row)" size="mini" type="text" style="width:3.0rem;">详情</el-button>
+							<el-button class="blue-btn" @click="infoModals(scope.row)" size="mini" type="text" style="width:3.0rem;" :disabled="scope.row.status=='未执行'? true:false">详情</el-button>
 							<el-button class="blue-btn" @click="recordModals(scope.row)" size="mini" type="text" style="width:3.0rem;">记录</el-button>
 							<!-- <el-button class="yellow-btn" @click="searchInfo" size="mini" type="text">导出</el-button> -->
 						</div>
@@ -352,6 +351,7 @@ export default {
 			}
 		},
 		infoModals(row) {
+			console.log(row)
 			this.detileData = row.mtcPlanId
 			this.modalShow = true
 		},
@@ -370,6 +370,8 @@ export default {
 
 <style lang="stylus">
 @import './input.css';
+@import '~@/assets/style/component/index.styl'
+
 
 .mian-taining {
   // padding: 1.66667rem;
@@ -379,8 +381,61 @@ export default {
   padding: 0 50px;
   // background-color: #141a26;
   overflow: hidden;
+	.table {
+		height: 77%;
 
-  /deep/.el-form--inline {
+		/deep/ .el-table {
+			width: 100%;
+			height: calc(100% - 45px)!important;
+			background: transparent;
+			color: #fff;
+
+			view-table('~@fire/assets/img/view-table/header.png')
+
+			.control-wrap {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.el-button+.el-button {
+				margin-left: initial;
+				margin: 2.5px;
+			}
+
+			.el-button {
+				margin: 2.5px;
+				background: transparent;
+				border-color: #2d8cf0;
+				color: #2d8cf0;
+				position: relative;
+
+				&:hover {
+					background: #09102f;
+				}
+
+				&:active {
+					top: 1px;
+					left: 1px;
+				}
+
+			}
+		}
+
+		.page-wrap {
+			margin-top: 10px;
+			display: flex;
+			justify-content: center;
+
+			.ivu-page {
+				iview-page()
+			}
+		}
+	}
+
+
+	/deep/.el-form--inline {
     margin-top: 20px;
     // margin-left 50px;
   }
@@ -411,13 +466,14 @@ export default {
       width: 170px;
       /deep/.el-input__inner {
         border: 1px solid #0d7ec5!important;
+		  font-size 16px
 		  background:#07225e;
       }
     }
 
     .el-select {
       /deep/.el-input__inner {
-        border: 1PX solid #0c4e75;
+        border: 1px solid #0c4e75;
       }
     }
   }
@@ -439,46 +495,19 @@ export default {
     border: 1PX solid #0c4e75;
   }
 
-  .el-table, .el-table__expanded-cell {
-    background-color: transparent;
-  }
-	.el-table td, .el-table th.is-leaf{
-		 border-bottom:none;
-	 }
-  el-table th, .el-table tr {
-    background-color: transparent;
-    font-size: 15px;
-  }
-  .el-table__empty-block .el-table__empty-text{
-        color:#fff;
-        font-size:16px;
-      }
-	.el-table th div{
-		font-size 18px;
-		color #3094f7;
-		font-weight 30;
-		
-	}
-	.has-gutter{
-		background transparent;
-		background:url("../../../assets/img/tainingTitle.png")
-	}
-	/*.has-gutter tr{*/
-		/*background:transparent*/
-		/*background :url("../../../assets/i")*/
-	//}
-	.table{
-		height:650px;
-	}
 	// 分页样式的修改
   .pagination {
     text-align: center;
     margin-top: 20px;
 
     .el-pagination {
+
       .el-pagination__total {
         color: #73a6c3;
       }
+		.el-pager{
+			margin-top 4px
+		}
 
       .btn-prev, .btn-next {
         border: 1px solid #0f3047;
@@ -514,41 +543,18 @@ export default {
       cursor: pointer;
     }
   }
-  .el-table__row {
-    color: white;
-  }
 
-  .el-table--enable-row-hover .el-table__body tr:hover>td {
-	  background: rgba(36,64,88,0.48) !important;
-		cursor pointer
-  }
-
-  .el-table__row>td {
-    border: none;
-  }
-
-  .el-table::before { // 去掉最下面的那一条线
-    height: 0;
-  }
-
-  .el-table {
-    /deep/.has-gutter {
-      height: 0;
-      // color: #1589F2;
-      color: #fff;
-      background-color: #0a3449;
-      border-bottom: 0;
-    }
-  }
 
   .blue-btn {
-	  color:#FFFFFF;
+	  color:#45adf7;
     width: 100px;
    font-size:18px;
    	background: url('~@fire/assets/img/seach_blue.png') no-repeat;
     background-size: 100% 100%;
   }
-
+  .btnClick {
+	  color: #f6ce69;
+  }
   .yellow-btn {
     width: 100px;
     color: #F6CE69;
@@ -582,27 +588,28 @@ export default {
 }
 
 .ivu-modal {
-	top: 122px!important;
+	top: 1px!important;
 	left: 0;
 	width: 100%!important;
 }
 
-
+.ivu-modal-mask {
+	top: -137px;
+}
 .iframeCal {
 	left: 0!important;
 	height: 40rem;
 	top: 0!important;
 }
 .ivu-modal-content {
-	top: -122px;
-	height: 41rem!important;
+	// top: -122px;
+	height: 41.2rem!important;
 }
 .ivu-modal-wrap {
 	height: 42rem!important;
+	top: 2px;
 }
-.ivu-modal {
-	
-}
+
 .iframw-view {
 	height: 930px!important;
 }

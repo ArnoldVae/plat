@@ -81,7 +81,7 @@
                                             <img
                                                     v-show="i.SubSystemID == '90010011'"
                                                     src="../../assets/img/sys/90010011.png"
-                                                    width="30px"
+                                                    width="20px"
                                                     alt
                                             />
                                             <img
@@ -413,7 +413,7 @@
             //            获取推送信息
             registerMQTT() {
                 this.$_listen(this.$options.name, (topic, msg, pack) => {
-                    debugger
+                    // debugger
 
                     let msgJson = JSON.parse(msg.toString())
                      console.log(msgJson)
@@ -674,6 +674,8 @@
                 .elMain-top {
                     border 1px solid #195a9e
                     width: 94%;
+                    border-top-left-radius 4px
+                    border-top-right-radius 4px
                     height 6rem;
                     overflow: hidden;
                     position relative
@@ -774,11 +776,12 @@
                     background-color: #fff;
                     width: 94%;
                     margin-top: 1%;
-                    background: url('../../assets/img/system-view/设备统计bg.png');
-                    background-size: 100% 100%;
                     height: 300px;
                     position relative
-
+                    border 1px solid #195a9e
+                    background none
+                    border-top-left-radius 4px
+                    border-top-right-radius 4px
                     .elMain-top-top {
                         position absolute
                         top 0
@@ -868,8 +871,10 @@
                     background-color: #fff;
                     width: 94%;
                     margin-top: 1%;
-                    background: url('../../assets/img/system-view/实时报警bg.png');
-                    background-size: 100% 100%;
+                    border 1px solid #195a9e
+                    background none
+                    border-top-left-radius 4px
+                    border-top-right-radius 4px
                     height: 18.5rem;
                     position relative;
 
