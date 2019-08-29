@@ -11,15 +11,7 @@
 	.st5{font-family:'AdobeSongStd-Light-GBpc-EUC-H';}
 	.st6{font-size:22px;}
 	.st7{font-size:20px;}
-	.st8{letter-spacing:-1;}
-	.st9{letter-spacing:1;}
-	.st10{fill:#104706;}
-	.st11{display:inline;fill:#00FF85;}
-	.st12{font-family:'DigifaceWide';}
-	.st13{display:inline;fill:none;stroke:#FFCE00;stroke-width:2;stroke-miterlimit:10;}
-	.st14{display:inline;fill:#FFFFFF;}
-	.st15{font-size:26px;}
-	.st16{font-size:32px;}
+	.st8{fill:#104706;}
 </style>
 <g id="图层_4" class="st0">
 	<rect class="st1" width="2338" height="1153"/>
@@ -29,65 +21,49 @@
 <text transform="matrix(1 0 0 1 95.4277 170.9341)" class="st2 st3 st6">1号站用变剩余电流</text>
 <text transform="matrix(1 0 0 1 95.4277 431.9341)" class="st2 st3 st6">0号站用变剩余电流</text>
 <text transform="matrix(1 0 0 1 95.4277 785.9341)" class="st2 st3 st6">2号站用变剩余电流</text>
-<text transform="matrix(1 0 0 1 1604.5863 231.9341)" class="st2 st3 st7">500kV断</text>
-<text transform="matrix(1 0 0 1 1604.5859 261.3297)" class="st2 st3 st7">路器电源1</text>
-<text transform="matrix(1 0 0 1 1604.5859 290.7253)" class="st2 st3 st7">（起点）</text>
-<text transform="matrix(1 0 0 1 1731.5638 231.9341)" class="st2 st3 st7">1号主变冷</text>
-<text transform="matrix(1 0 0 1 1731.5631 261.3297)" class="st2 st3 st7">却器电源1</text>
-<text transform="matrix(1 0 0 1 1731.5631 290.7253)" class="st2 st3 st7">（起点）</text>
-<text transform="matrix(1 0 0 1 1856.7467 231.9341)" class="st2 st3 st7">2号主变冷</text>
-<text transform="matrix(1 0 0 1 1856.7469 261.3297)" class="st2 st3 st7">却器电源1</text>
-<text transform="matrix(1 0 0 1 1856.7469 290.7253)" class="st2 st3 st7">（起点）</text>
-<text transform="matrix(1 0 0 1 1979.0275 232.9341)" class="st2 st3 st7">3号主变冷</text>
-<text transform="matrix(1 0 0 1 1979.0272 262.3297)" class="st2 st3 st7">却器电源1</text>
-<text transform="matrix(1 0 0 1 1979.0277 291.7253)" class="st2 st3 st7">（起点）</text>
-<text transform="matrix(1 0 0 1 1604.5862 515.9341)" class="st2 st3 st7">500kV断</text>
-<text transform="matrix(1 0 0 1 1604.5858 545.3301)" class="st2 st3 st7">路器电源1</text>
-<text transform="matrix(1 0 0 1 1604.5863 574.7253)" class="st2 st3 st7">（终点）</text>
-<text transform="matrix(1 0 0 1 1979.2825 707.9341)" class="st2 st3 st7">500kV断</text>
-<text transform="matrix(1 0 0 1 1982.2821 737.3301)" class="st2 st3 st7">路器电源2</text>
-<text transform="matrix(1 0 0 1 1982.2826 766.7253)" class="st2 st3 st7">（终点）</text>
-<text transform="matrix(1 0 0 1 1731.5638 515.9341)" class="st2 st3 st7">1号主变冷</text>
-<text transform="matrix(1 0 0 1 1731.5631 545.3301)" class="st2 st3 st7">却器电源1</text>
-<text transform="matrix(1 0 0 1 1731.5631 574.7253)" class="st2 st3 st7">（终点）</text>
-<text transform="matrix(1 0 0 1 1856.3025 707.9341)" class="st2 st3 st7">1号主变冷</text>
-<text transform="matrix(1 0 0 1 1856.3022 737.3301)" class="st2 st3 st7">却器电源2</text>
-<text transform="matrix(1 0 0 1 1856.3027 766.7253)" class="st2 st3 st7">（终点）</text>
-<text transform="matrix(1 0 0 1 1856.7467 515.9341)" class="st2 st3 st7">2号主变冷</text>
-<text transform="matrix(1 0 0 1 1856.7469 545.3301)" class="st2 st3 st7">却器电源1</text>
-<text transform="matrix(1 0 0 1 1856.7469 574.7253)" class="st2 st3 st7">（终点）</text>
-<text transform="matrix(1 0 0 1 1730.6184 707.9341)" class="st2 st3 st7">2号主变冷</text>
-<text transform="matrix(1 0 0 1 1730.6182 737.3301)" class="st2 st3 st7">却器电源2</text>
-<text transform="matrix(1 0 0 1 1730.6177 766.7253)" class="st2 st3 st7">（终点）</text>
-<text transform="matrix(1 0 0 1 1979.0272 514.9341)" class="st2 st3 st7">3号主变冷</text>
-<text transform="matrix(1 0 0 1 1979.027 544.3301)" class="st2 st3 st7">却器电源1</text>
-<text transform="matrix(1 0 0 1 1979.0272 573.7253)" class="st2 st3 st7">（终点）</text>
-<text transform="matrix(1 0 0 1 1604.3025 707.9341)" class="st2 st3 st7">3号主变冷</text>
-<text transform="matrix(1 0 0 1 1604.3022 737.3301)" class="st2 st3 st7">却器电源2</text>
-<text transform="matrix(1 0 0 1 1604.3027 766.7253)" class="st2 st3 st7">（终点）</text>
-<text transform="matrix(1 0 0 1 1982.2825 1000.9341)" class="st2 st3 st7">500kV断</text>
-<text transform="matrix(1 0 0 1 1982.2821 1030.3301)" class="st2 st3 st7">路器电源2</text>
-<text transform="matrix(1 0 0 1 1982.2826 1059.7253)" class="st2 st3 st7">（起点）</text>
-<text transform="matrix(1 0 0 1 1856.3025 1000.9341)" class="st2 st3 st7">1号主变冷</text>
-<text transform="matrix(1 0 0 1 1856.3022 1030.3301)" class="st2 st3 st7">却器电源2</text>
-<text transform="matrix(1 0 0 1 1856.3027 1059.7253)" class="st2 st3 st7">（起点）</text>
-<text transform="matrix(1 0 0 1 1730.6184 1000.9341)" class="st2 st3 st7">2号主变冷</text>
-<text transform="matrix(1 0 0 1 1730.6182 1030.3301)" class="st2 st3 st7">却器电源2</text>
-<text transform="matrix(1 0 0 1 1730.6177 1059.7253)" class="st2 st3 st7">（起点）</text>
-<text transform="matrix(1 0 0 1 1604.3025 1000.9341)" class="st2 st3 st7">3号主变冷</text>
-<text transform="matrix(1 0 0 1 1604.3022 1030.3301)" class="st2 st3 st7">却器电源2</text>
-<text transform="matrix(1 0 0 1 1604.3027 1059.7253)" class="st2 st3 st7">（起点）</text>
-<text transform="matrix(1 0 0 1 1854.7467 380.9253)" class="st2 st3 st7">长电缆剩余</text>
-<text transform="matrix(1 0 0 1 1854.7467 414.3256)" class="st2 st3 st7">电流合成</text>
-<text transform="matrix(1 0 0 1 1982.0273 380.9253)" class="st2 st3 st7">长电缆剩余</text>
-<text transform="matrix(1 0 0 1 1982.0273 413.3256)" class="st2 st3 st7">电流合成</text>
-<text transform="matrix(1 0 0 1 1601.9996 870.7993)" class="st2 st3 st7">长电缆剩余</text>
-<text transform="matrix(1 0 0 1 1601.9996 904.1996)" class="st2 st3 st7">电流合成</text>
-<text transform="matrix(1 0 0 1 1727.2803 869.7993)" class="st2 st3 st7">长电缆剩余</text>
-<text transform="matrix(1 0 0 1 1727.2803 902.1996)" class="st2 st3 st7">电流合成</text>
+<g>
+	<text transform="matrix(1 0 0 1 1605.4473 231.9341)" class="st2 st3 st7">2号主变冷</text>
+	<text transform="matrix(1 0 0 1 1605.4475 261.3297)" class="st2 st3 st7">却器电源1</text>
+	<text transform="matrix(1 0 0 1 1605.4475 290.7253)" class="st2 st3 st7">（起点）</text>
+	<text transform="matrix(1 0 0 1 1605.4473 515.9341)" class="st2 st3 st7">2号主变冷</text>
+	<text transform="matrix(1 0 0 1 1605.4475 545.3301)" class="st2 st3 st7">却器电源1</text>
+	<text transform="matrix(1 0 0 1 1605.4475 574.7253)" class="st2 st3 st7">（终点）</text>
+	<text transform="matrix(1 0 0 1 1603.4473 380.9253)" class="st2 st3 st7">长电缆剩余</text>
+	<text transform="matrix(1 0 0 1 1603.4473 414.3256)" class="st2 st3 st7">电流合成</text>
+</g>
+<g>
+	<text transform="matrix(1 0 0 1 1727.728 232.9341)" class="st2 st3 st7">3号主变冷</text>
+	<text transform="matrix(1 0 0 1 1727.7278 262.3297)" class="st2 st3 st7">却器电源1</text>
+	<text transform="matrix(1 0 0 1 1727.7283 291.7253)" class="st2 st3 st7">（起点）</text>
+	<text transform="matrix(1 0 0 1 1727.7278 514.9341)" class="st2 st3 st7">3号主变冷</text>
+	<text transform="matrix(1 0 0 1 1727.7275 544.3301)" class="st2 st3 st7">却器电源1</text>
+	<text transform="matrix(1 0 0 1 1727.7278 573.7253)" class="st2 st3 st7">（终点）</text>
+	<text transform="matrix(1 0 0 1 1730.7279 380.9253)" class="st2 st3 st7">长电缆剩余</text>
+	<text transform="matrix(1 0 0 1 1730.7279 413.3256)" class="st2 st3 st7">电流合成</text>
+</g>
+<g>
+	<text transform="matrix(1 0 0 1 1604.4475 707.9341)" class="st2 st3 st7">2号主变冷</text>
+	<text transform="matrix(1 0 0 1 1604.4473 737.3301)" class="st2 st3 st7">却器电源2</text>
+	<text transform="matrix(1 0 0 1 1604.4468 766.7253)" class="st2 st3 st7">（终点）</text>
+	<text transform="matrix(1 0 0 1 1605.448 1000.9341)" class="st2 st3 st7">2号主变冷</text>
+	<text transform="matrix(1 0 0 1 1605.4478 1030.3301)" class="st2 st3 st7">却器电源2</text>
+	<text transform="matrix(1 0 0 1 1605.4473 1059.7253)" class="st2 st3 st7">（起点）</text>
+	<text transform="matrix(1 0 0 1 1599.1002 870.7993)" class="st2 st3 st7">长电缆剩余</text>
+	<text transform="matrix(1 0 0 1 1599.1002 904.1996)" class="st2 st3 st7">电流合成</text>
+</g>
+<g>
+	<text transform="matrix(1 0 0 1 1727.7273 707.9341)" class="st2 st3 st7">3号主变冷</text>
+	<text transform="matrix(1 0 0 1 1727.7271 737.3301)" class="st2 st3 st7">却器电源2</text>
+	<text transform="matrix(1 0 0 1 1727.7275 766.7253)" class="st2 st3 st7">（终点）</text>
+	<text transform="matrix(1 0 0 1 1727.7268 1000.9341)" class="st2 st3 st7">3号主变冷</text>
+	<text transform="matrix(1 0 0 1 1727.7266 1030.3301)" class="st2 st3 st7">却器电源2</text>
+	<text transform="matrix(1 0 0 1 1727.7271 1059.7253)" class="st2 st3 st7">（起点）</text>
+	<text transform="matrix(1 0 0 1 1724.7283 869.7993)" class="st2 st3 st7">长电缆剩余</text>
+	<text transform="matrix(1 0 0 1 1724.7283 902.1996)" class="st2 st3 st7">电流合成</text>
+</g>
 <g>
 	<text transform="matrix(1 0 0 1 463.9731 212.1086)" class="st2 st3 st6">35</text>
-	<text transform="matrix(1 0 0 1 463.4731 238.5085)" class="st2 st3 st6">kV</text>
+	<text transform="matrix(1 0 0 1 460.4731 238.5085)" class="st2 st3 st6">k V</text>
 	<text transform="matrix(1 0 0 1 465.8745 266.8691)" class="st2 st3 st6">断</text>
 	<text transform="matrix(1 0 0 1 465.8745 293.2692)" class="st2 st3 st6">路</text>
 	<text transform="matrix(1 0 0 1 465.8746 320.0653)" class="st2 st3 st6">器</text>
@@ -97,7 +73,7 @@
 </g>
 <g>
 	<text transform="matrix(1 0 0 1 573.8873 212.1091)" class="st2 st3 st6">500</text>
-	<text transform="matrix(1 0 0 1 579.7874 238.5092)" class="st2 st3 st6">kV</text>
+	<text transform="matrix(1 0 0 1 574.7874 238.5092)" class="st2 st3 st6">k V</text>
 	<text transform="matrix(1 0 0 1 582.2391 266.8699)" class="st2 st3 st6">断</text>
 	<text transform="matrix(1 0 0 1 582.2391 293.2699)" class="st2 st3 st6">路</text>
 	<text transform="matrix(1 0 0 1 582.2394 320.0657)" class="st2 st3 st6">器</text>
@@ -118,91 +94,89 @@
 	<text transform="matrix(1 0 0 1 700.9999 400.666)" class="st2 st3 st6">1</text>
 </g>
 <g>
-	<text transform="matrix(1 0 0 1 811.6167 132.0654)" class="st2 st3 st6">通</text>
-	<text transform="matrix(1 0 0 1 811.6167 158.4655)" class="st2 st3 st6">信</text>
-	<text transform="matrix(1 0 0 1 811.6167 184.8655)" class="st2 st3 st6">楼</text>
-	<text transform="matrix(1 0 0 1 811.6169 211.2654)" class="st2 st3 st6">交</text>
-	<text transform="matrix(1 0 0 1 811.6169 237.6654)" class="st2 st3 st6">流</text>
-	<text transform="matrix(1 0 0 1 811.6169 264.0654)" class="st2 st3 st6">屏</text>
-	<text transform="matrix(1 0 0 1 804.3169 291.9)" class="st2 st3 st6">(二)</text>
-	<text transform="matrix(1 0 0 1 811.6167 320.0654)" class="st2 st3 st6">输</text>
-	<text transform="matrix(1 0 0 1 811.6167 346.4656)" class="st2 st3 st6">入</text>
-	<text transform="matrix(1 0 0 1 811.6167 372.8655)" class="st2 st3 st6">一</text>
-	<text transform="matrix(1 0 0 1 811.6167 399.2654)" class="st2 st3 st6">路</text>
+	<text transform="matrix(1 0 0 1 1187.021 133.27)" class="st2 st3 st6">通</text>
+	<text transform="matrix(1 0 0 1 1187.021 159.6701)" class="st2 st3 st6">信</text>
+	<text transform="matrix(1 0 0 1 1187.021 186.0701)" class="st2 st3 st6">楼</text>
+	<text transform="matrix(1 0 0 1 1187.0212 212.47)" class="st2 st3 st6">交</text>
+	<text transform="matrix(1 0 0 1 1187.0212 238.87)" class="st2 st3 st6">流</text>
+	<text transform="matrix(1 0 0 1 1187.0212 265.27)" class="st2 st3 st6">屏</text>
+	<text transform="matrix(1 0 0 1 1179.7212 293.1046)" class="st2 st3 st6">(二)</text>
+	<text transform="matrix(1 0 0 1 1187.021 321.27)" class="st2 st3 st6">输</text>
+	<text transform="matrix(1 0 0 1 1187.021 347.6702)" class="st2 st3 st6">入</text>
+	<text transform="matrix(1 0 0 1 1187.021 374.0701)" class="st2 st3 st6">一</text>
+	<text transform="matrix(1 0 0 1 1187.021 400.47)" class="st2 st3 st6">路</text>
 </g>
 <g>
-	<text transform="matrix(1 0 0 1 907.4556 132.3699)" class="st2 st3 st6">通</text>
-	<text transform="matrix(1 0 0 1 907.4556 158.7698)" class="st2 st3 st6">信</text>
-	<text transform="matrix(1 0 0 1 907.4556 185.1698)" class="st2 st3 st6">楼</text>
-	<text transform="matrix(1 0 0 1 907.4554 214.1858)" class="st2 st3 st6">整</text>
-	<text transform="matrix(1 0 0 1 907.4554 240.5858)" class="st2 st3 st6">流</text>
-	<text transform="matrix(1 0 0 1 907.4554 266.9858)" class="st2 st3 st6">屏</text>
-	<text transform="matrix(1 0 0 1 900.1554 294.8204)" class="st2 st3 st6">(三)</text>
-	<text transform="matrix(1 0 0 1 907.4556 320.0654)" class="st2 st3 st6">输</text>
-	<text transform="matrix(1 0 0 1 907.4556 346.4656)" class="st2 st3 st6">入</text>
-	<text transform="matrix(1 0 0 1 907.4556 372.8655)" class="st2 st3 st6">一</text>
-	<text transform="matrix(1 0 0 1 907.4556 399.2654)" class="st2 st3 st6">路</text>
+	<text transform="matrix(1 0 0 1 1276.8599 133.5745)" class="st2 st3 st6">通</text>
+	<text transform="matrix(1 0 0 1 1276.8599 159.9744)" class="st2 st3 st6">信</text>
+	<text transform="matrix(1 0 0 1 1276.8599 186.3744)" class="st2 st3 st6">楼</text>
+	<text transform="matrix(1 0 0 1 1276.8596 215.3904)" class="st2 st3 st6">整</text>
+	<text transform="matrix(1 0 0 1 1276.8596 241.7904)" class="st2 st3 st6">流</text>
+	<text transform="matrix(1 0 0 1 1276.8596 268.1904)" class="st2 st3 st6">屏</text>
+	<text transform="matrix(1 0 0 1 1269.5597 296.025)" class="st2 st3 st6">(三)</text>
+	<text transform="matrix(1 0 0 1 1276.8599 321.27)" class="st2 st3 st6">输</text>
+	<text transform="matrix(1 0 0 1 1276.8599 347.6702)" class="st2 st3 st6">入</text>
+	<text transform="matrix(1 0 0 1 1276.8599 374.0701)" class="st2 st3 st6">一</text>
+	<text transform="matrix(1 0 0 1 1276.8599 400.47)" class="st2 st3 st6">路</text>
 </g>
 <g>
 	<text transform="matrix(1 0 0 1 987.2155 269.7046)" class="st2 st3 st6">500</text>
-	<text transform="matrix(1 0 0 1 993.1155 296.1046)" class="st2 st3 st6">kV</text>
+	<text transform="matrix(1 0 0 1 991.1155 296.1046)" class="st2 st3 st6">k V</text>
 	<text transform="matrix(1 0 0 1 988.8053 325.8994)" class="st2 st3 st6">GIS</text>
 	<text transform="matrix(1 0 0 1 995.5673 346.4657)" class="st2 st3 st6">电</text>
 	<text transform="matrix(1 0 0 1 995.5673 372.8657)" class="st2 st3 st6">源</text>
 	<text transform="matrix(1 0 0 1 1000.0673 400.7003)" class="st2 st3 st6">1</text>
 </g>
 <g>
-	<text transform="matrix(1 0 0 1 1094.083 299.8701)" class="st2 st3 st6">1</text>
-	<text transform="matrix(1 0 0 1 1089.583 324.8355)" class="st2 st3 st6">号</text>
-	<text transform="matrix(1 0 0 1 1080.7336 352.2701)" class="st2 st3 st6">UPS</text>
-	<text transform="matrix(1 0 0 1 1091.0043 372.8652)" class="st2 st3 st6">电</text>
-	<text transform="matrix(1 0 0 1 1091.0043 399.2653)" class="st2 st3 st6">源</text>
+	<text transform="matrix(1 0 0 1 905.3492 299.8701)" class="st2 st3 st6">1</text>
+	<text transform="matrix(1 0 0 1 900.8492 324.8355)" class="st2 st3 st6">号</text>
+	<text transform="matrix(1 0 0 1 891.9998 352.2701)" class="st2 st3 st6">UPS</text>
+	<text transform="matrix(1 0 0 1 902.2704 372.8652)" class="st2 st3 st6">电</text>
+	<text transform="matrix(1 0 0 1 902.2704 399.2653)" class="st2 st3 st6">源</text>
 </g>
 <g>
-	<text transform="matrix(1 0 0 1 1179.8057 129.4497)" class="st2 st3 st6">通</text>
-	<text transform="matrix(1 0 0 1 1179.8057 155.8497)" class="st2 st3 st6">信</text>
-	<text transform="matrix(1 0 0 1 1179.8057 182.2498)" class="st2 st3 st6">楼</text>
-	<text transform="matrix(1 0 0 1 1179.8053 212.6456)" class="st2 st3 st6">整</text>
-	<text transform="matrix(1 0 0 1 1179.8053 239.0457)" class="st2 st3 st6">流</text>
-	<text transform="matrix(1 0 0 1 1179.8053 265.4457)" class="st2 st3 st6">屏</text>
-	<text transform="matrix(1 0 0 1 1172.5052 293.2803)" class="st2 st3 st6">(一)</text>
-	<text transform="matrix(1 0 0 1 1179.8054 320.0653)" class="st2 st3 st6">输</text>
-	<text transform="matrix(1 0 0 1 1179.8054 346.4653)" class="st2 st3 st6">入</text>
-	<text transform="matrix(1 0 0 1 1179.8054 372.8654)" class="st2 st3 st6">一</text>
-	<text transform="matrix(1 0 0 1 1179.8054 399.2654)" class="st2 st3 st6">路</text>
+	<text transform="matrix(1 0 0 1 1093.4407 129.4497)" class="st2 st3 st6">通</text>
+	<text transform="matrix(1 0 0 1 1093.4407 155.8497)" class="st2 st3 st6">信</text>
+	<text transform="matrix(1 0 0 1 1093.4407 182.2498)" class="st2 st3 st6">楼</text>
+	<text transform="matrix(1 0 0 1 1093.4403 212.6456)" class="st2 st3 st6">整</text>
+	<text transform="matrix(1 0 0 1 1093.4403 239.0457)" class="st2 st3 st6">流</text>
+	<text transform="matrix(1 0 0 1 1093.4403 265.4457)" class="st2 st3 st6">屏</text>
+	<text transform="matrix(1 0 0 1 1086.1403 293.2803)" class="st2 st3 st6">(一)</text>
+	<text transform="matrix(1 0 0 1 1093.4404 320.0653)" class="st2 st3 st6">输</text>
+	<text transform="matrix(1 0 0 1 1093.4404 346.4653)" class="st2 st3 st6">入</text>
+	<text transform="matrix(1 0 0 1 1093.4404 372.8654)" class="st2 st3 st6">一</text>
+	<text transform="matrix(1 0 0 1 1093.4404 399.2654)" class="st2 st3 st6">路</text>
 </g>
 <g>
-	<text transform="matrix(1 0 0 1 1274.1729 293.5991)" class="st2 st3 st6">旧</text>
-	<text transform="matrix(1 0 0 1 1263.8728 321.4337)" class="st2 st3 st6">UPS</text>
-	<text transform="matrix(1 0 0 1 1274.1733 346.4657)" class="st2 st3 st6">电</text>
-	<text transform="matrix(1 0 0 1 1274.1733 372.8657)" class="st2 st3 st6">源</text>
-	<text transform="matrix(1 0 0 1 1278.6733 400.7003)" class="st2 st3 st6">1</text>
+	<text transform="matrix(1 0 0 1 1457.0017 348.2504)" class="st2 st3 st6">备</text>
+	<text transform="matrix(1 0 0 1 1457.0017 374.6503)" class="st2 st3 st6">用</text>
+	<text transform="matrix(1 0 0 1 1461.5022 399.7861)" class="st2 st3 st6">1</text>
 </g>
 <g>
-	<text transform="matrix(1 0 0 1 1355.1853 207.875)" class="st2 st3 st6">220</text>
-	<text transform="matrix(1 0 0 1 1361.0853 234.275)" class="st2 st3 st6">kV</text>
-	<text transform="matrix(1 0 0 1 1363.5374 262.6355)" class="st2 st3 st6">断</text>
-	<text transform="matrix(1 0 0 1 1363.5374 289.0355)" class="st2 st3 st6">路</text>
-	<text transform="matrix(1 0 0 1 1363.5374 315.4355)" class="st2 st3 st6">器</text>
-	<text transform="matrix(1 0 0 1 1363.5372 346.4657)" class="st2 st3 st6">电</text>
-	<text transform="matrix(1 0 0 1 1363.5372 372.8657)" class="st2 st3 st6">源</text>
-	<text transform="matrix(1 0 0 1 1368.0372 400.7003)" class="st2 st3 st6">1</text>
+	<text transform="matrix(1 0 0 1 1360.5505 206.9608)" class="st2 st3 st6">220</text>
+	<text transform="matrix(1 0 0 1 1363.4507 233.3608)" class="st2 st3 st6">k V</text>
+	<text transform="matrix(1 0 0 1 1368.9026 261.7213)" class="st2 st3 st6">断</text>
+	<text transform="matrix(1 0 0 1 1368.9026 288.1213)" class="st2 st3 st6">路</text>
+	<text transform="matrix(1 0 0 1 1368.9026 314.5213)" class="st2 st3 st6">器</text>
+	<text transform="matrix(1 0 0 1 1368.9026 345.5515)" class="st2 st3 st6">电</text>
+	<text transform="matrix(1 0 0 1 1368.9026 371.9515)" class="st2 st3 st6">源</text>
+	<text transform="matrix(1 0 0 1 1373.4026 399.7861)" class="st2 st3 st6">1</text>
 </g>
 <g>
-	<text transform="matrix(1 0 0 1 1459.1921 239.8794)" class="st2 st3 st6">2</text>
-	<text transform="matrix(1 0 0 1 1454.6921 264.8448)" class="st2 st3 st6">号</text>
-	<text transform="matrix(1 0 0 1 1445.8428 295.2794)" class="st2 st3 st6">UPS</text>
-	<text transform="matrix(1 0 0 1 1456.1135 319.6399)" class="st2 st3 st6">旁</text>
-	<text transform="matrix(1 0 0 1 1456.1135 346.0399)" class="st2 st3 st6">路</text>
-	<text transform="matrix(1 0 0 1 1456.1143 372.8654)" class="st2 st3 st6">电</text>
-	<text transform="matrix(1 0 0 1 1456.1143 399.2654)" class="st2 st3 st6">源</text>
+	<text transform="matrix(1 0 0 1 808.5779 239.8794)" class="st2 st3 st6">2</text>
+	<text transform="matrix(1 0 0 1 804.0779 264.8448)" class="st2 st3 st6">号</text>
+	<text transform="matrix(1 0 0 1 795.2285 295.2794)" class="st2 st3 st6">UPS</text>
+	<text transform="matrix(1 0 0 1 805.4993 319.6399)" class="st2 st3 st6">旁</text>
+	<text transform="matrix(1 0 0 1 805.4993 346.0399)" class="st2 st3 st6">路</text>
+	<text transform="matrix(1 0 0 1 805.5 372.8654)" class="st2 st3 st6">电</text>
+	<text transform="matrix(1 0 0 1 805.5 399.2654)" class="st2 st3 st6">源</text>
 </g>
 <text transform="matrix(1 0 0 1 422.1345 586.2)" class="st2 st3 st6">共零合成</text>
 <text transform="matrix(1 0 0 1 539.0002 586.2)" class="st2 st3 st6">共零合成</text>
 <text transform="matrix(1 0 0 1 654.0002 586.2)" class="st2 st3 st6">共零合成</text>
 <g>
 	<text transform="matrix(1 0 0 1 469.5216 836.9998)" class="st2 st3 st6">35</text>
-	<text transform="matrix(1 0 0 1 469.0216 863.3998)" class="st2 st3 st6 st8">k V </text>
+	<text transform="matrix(1 0 0 1 469.0216 863.3998)" class="st2 st3 st6">k V </text>
 	<text transform="matrix(1 0 0 1 471.4229 885.239)" class="st2 st3 st6">断</text>
 	<text transform="matrix(1 0 0 1 471.4229 911.6389)" class="st2 st3 st6">路</text>
 	<text transform="matrix(1 0 0 1 471.4229 938.0391)" class="st2 st3 st6">器</text>
@@ -212,7 +186,7 @@
 </g>
 <g>
 	<text transform="matrix(1 0 0 1 579.876 837)" class="st2 st3 st6">500</text>
-	<text transform="matrix(1 0 0 1 585.776 863.4)" class="st2 st3 st6">kV</text>
+	<text transform="matrix(1 0 0 1 582.776 863.4)" class="st2 st3 st6">k V</text>
 	<text transform="matrix(1 0 0 1 588.228 887.2395)" class="st2 st3 st6">断</text>
 	<text transform="matrix(1 0 0 1 588.228 913.6395)" class="st2 st3 st6">路</text>
 	<text transform="matrix(1 0 0 1 588.228 940.0396)" class="st2 st3 st6">器</text>
@@ -250,138 +224,73 @@
 </g>
 <g>
 	<text transform="matrix(1 0 0 1 1055.7078 837.0005)" class="st2 st3 st6">500</text>
-	<text transform="matrix(1 0 0 1 1061.6078 863.4005)" class="st2 st3 st6 st9">kV</text>
+	<text transform="matrix(1 0 0 1 1058.6078 863.4005)" class="st2 st3 st6">k V</text>
 	<text transform="matrix(1 0 0 1 1057.2974 883.0002)" class="st2 st3 st6">GIS</text>
 	<text transform="matrix(1 0 0 1 1064.0598 905.0657)" class="st2 st3 st6">电</text>
 	<text transform="matrix(1 0 0 1 1064.0598 931.4657)" class="st2 st3 st6">源</text>
 	<text transform="matrix(1 0 0 1 1068.5598 959.3003)" class="st2 st3 st6">2</text>
 </g>
 <g>
-	<text transform="matrix(1 0 0 1 1183.2495 837)" class="st2 st3 st6">220</text>
-	<text transform="matrix(1 0 0 1 1189.1495 863.4)" class="st2 st3 st6 st9">kV</text>
-	<text transform="matrix(1 0 0 1 1191.6019 888.5662)" class="st2 st3 st6">开</text>
-	<text transform="matrix(1 0 0 1 1191.6019 914.9661)" class="st2 st3 st6">关</text>
-	<text transform="matrix(1 0 0 1 1191.6016 937.5659)" class="st2 st3 st6">电</text>
-	<text transform="matrix(1 0 0 1 1191.6016 963.9658)" class="st2 st3 st6">源</text>
-	<text transform="matrix(1 0 0 1 1196.1016 991.8005)" class="st2 st3 st6">2</text>
+	<text transform="matrix(1 0 0 1 1305.0737 837)" class="st2 st3 st6">220</text>
+	<text transform="matrix(1 0 0 1 1307.9738 863.4)" class="st2 st3 st6">k V</text>
+	<text transform="matrix(1 0 0 1 1313.4261 888.5662)" class="st2 st3 st6">断</text>
+	<text transform="matrix(1 0 0 1 1313.4261 914.9661)" class="st2 st3 st6">路</text>
+	<text transform="matrix(1 0 0 1 1313.4265 941.4655)" class="st2 st3 st6">器</text>
+	<text transform="matrix(1 0 0 1 1313.4258 967.5659)" class="st2 st3 st6">电</text>
+	<text transform="matrix(1 0 0 1 1313.4258 993.9658)" class="st2 st3 st6">源</text>
+	<text transform="matrix(1 0 0 1 1317.9258 1021.8005)" class="st2 st3 st6">2</text>
 </g>
 <g>
-	<text transform="matrix(1 0 0 1 1315.5864 835.5652)" class="st2 st3 st6">旧</text>
-	<text transform="matrix(1 0 0 1 1305.2864 863.3998)" class="st2 st3 st6">UPS</text>
-	<text transform="matrix(1 0 0 1 1315.5864 884.2395)" class="st2 st3 st6">电</text>
-	<text transform="matrix(1 0 0 1 1315.5864 910.6395)" class="st2 st3 st6">源</text>
-	<text transform="matrix(1 0 0 1 1320.0864 938.4741)" class="st2 st3 st6">2</text>
+	<text transform="matrix(1 0 0 1 1433.9004 834.3279)" class="st2 st3 st6">备</text>
+	<text transform="matrix(1 0 0 1 1433.9004 860.7279)" class="st2 st3 st6">用</text>
+	<text transform="matrix(1 0 0 1 1438.4004 888.6714)" class="st2 st3 st6">2</text>
 </g>
 <g>
-	<text transform="matrix(1 0 0 1 1433 835.5649)" class="st2 st3 st6">通</text>
-	<text transform="matrix(1 0 0 1 1433 861.9651)" class="st2 st3 st6">信</text>
-	<text transform="matrix(1 0 0 1 1433 888.365)" class="st2 st3 st6">楼</text>
-	<text transform="matrix(1 0 0 1 1434.0001 915.0652)" class="st2 st3 st6">整</text>
-	<text transform="matrix(1 0 0 1 1434.0001 941.4652)" class="st2 st3 st6">流</text>
-	<text transform="matrix(1 0 0 1 1434.0001 967.8652)" class="st2 st3 st6">屏</text>
-	<text transform="matrix(1 0 0 1 1426.6527 996.1744)" class="st2 st3 st6">(一)</text>
-	<text transform="matrix(1 0 0 1 1433.9528 1021.1398)" class="st2 st3 st6">输</text>
-	<text transform="matrix(1 0 0 1 1433.9528 1047.5398)" class="st2 st3 st6">入</text>
-	<text transform="matrix(1 0 0 1 1434.5527 1075.3744)" class="st2 st3 st6">二</text>
-	<text transform="matrix(1 0 0 1 1433.9528 1100.3398)" class="st2 st3 st6">路</text>
+	<text transform="matrix(1 0 0 1 1188.5718 836.1125)" class="st2 st3 st6">通</text>
+	<text transform="matrix(1 0 0 1 1188.5718 862.5127)" class="st2 st3 st6">信</text>
+	<text transform="matrix(1 0 0 1 1188.5718 888.9126)" class="st2 st3 st6">楼</text>
+	<text transform="matrix(1 0 0 1 1189.5719 915.6128)" class="st2 st3 st6">整</text>
+	<text transform="matrix(1 0 0 1 1189.5719 942.0128)" class="st2 st3 st6">流</text>
+	<text transform="matrix(1 0 0 1 1189.5719 968.4128)" class="st2 st3 st6">屏</text>
+	<text transform="matrix(1 0 0 1 1182.2245 996.722)" class="st2 st3 st6">(一)</text>
+	<text transform="matrix(1 0 0 1 1189.5245 1021.6874)" class="st2 st3 st6">输</text>
+	<text transform="matrix(1 0 0 1 1189.5245 1048.0874)" class="st2 st3 st6">入</text>
+	<text transform="matrix(1 0 0 1 1190.1245 1075.922)" class="st2 st3 st6">二</text>
+	<text transform="matrix(1 0 0 1 1189.5245 1100.8875)" class="st2 st3 st6">路</text>
 </g>
 <g>
-	<rect x="71" y="84" class="st10" width="253" height="51"/>
-	<rect x="153.5" y="186.6" class="st10" width="88" height="51"/>
-	<rect x="153.5" y="453.5" class="st10" width="88" height="51"/>
-	<rect x="153.5" y="806.5" class="st10" width="88" height="51"/>
-	<rect x="422.1" y="604.5" class="st10" width="88" height="51"/>
-	<rect x="538" y="604.5" class="st10" width="88" height="51"/>
-	<rect x="652" y="604.5" class="st10" width="88" height="51"/>
-	<rect x="806.3" y="422.3" class="st10" width="80" height="51"/>
-	<rect x="898.5" y="422.3" class="st10" width="80" height="51"/>
-	<rect x="990.8" y="422.3" class="st10" width="80" height="51"/>
-	<rect x="1083" y="422.3" class="st10" width="80" height="51"/>
-	<rect x="1175.3" y="422.3" class="st10" width="80" height="51"/>
-	<rect x="1267.5" y="422.3" class="st10" width="80" height="51"/>
-	<rect x="1359.8" y="422.3" class="st10" width="80" height="51"/>
-	<rect x="1452" y="422.3" class="st10" width="80" height="51"/>
-	<rect x="1431" y="746.3" class="st10" width="80" height="51"/>
-	<rect x="1313" y="746.3" class="st10" width="80" height="51"/>
-	<rect x="1181.5" y="746.3" class="st10" width="80" height="51"/>
-	<rect x="1060" y="746.3" class="st10" width="80" height="51"/>
-	<rect x="944" y="746.3" class="st10" width="80" height="51"/>
-	<rect x="813.5" y="746.3" class="st10" width="80" height="51"/>
-	<rect x="1608.1" y="923" class="st10" width="80" height="51"/>
-	<rect x="1734.6" y="923" class="st10" width="80" height="51"/>
-	<rect x="1860.4" y="923" class="st10" width="80" height="51"/>
-	<rect x="1981.5" y="923" class="st10" width="80" height="51"/>
-	<rect x="1608.1" y="785.9" class="st10" width="80" height="51"/>
-	<rect x="1734.6" y="785.9" class="st10" width="80" height="51"/>
-	<rect x="1608.1" y="630.9" class="st10" width="80" height="51"/>
-	<rect x="1734.6" y="630.9" class="st10" width="80" height="51"/>
-	<rect x="1860.4" y="630.9" class="st10" width="80" height="51"/>
-	<rect x="1981.5" y="630.9" class="st10" width="80" height="51"/>
-	<rect x="1608.1" y="435.5" class="st10" width="80" height="51"/>
-	<rect x="1734.6" y="435.5" class="st10" width="80" height="51"/>
-	<rect x="1860.4" y="435.5" class="st10" width="80" height="51"/>
-	<rect x="1981.5" y="435.5" class="st10" width="80" height="51"/>
-	<rect x="1860.4" y="305.5" class="st10" width="80" height="51"/>
-	<rect x="1981.5" y="305.5" class="st10" width="80" height="51"/>
-	<rect x="1608.1" y="158.2" class="st10" width="80" height="51"/>
-	<rect x="1734.6" y="158.2" class="st10" width="80" height="51"/>
-	<rect x="1860.4" y="158.2" class="st10" width="80" height="51"/>
-	<rect x="1981.5" y="158.2" class="st10" width="80" height="51"/>
-</g>
-<g class="st0">
-	<text transform="matrix(1 0 0 1 1613.2577 192.3303)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1739.8219 192.3303)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1865.5602 192.3303)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1986.6744 192.3303)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1613.2577 338.5002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1739.8219 338.5002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1865.5602 338.5002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1986.6744 338.5002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1613.2577 470.5002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1739.8219 470.5002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1865.5602 470.5002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1986.6744 470.5002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1613.2577 665.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1739.8219 665.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1865.5602 665.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1986.6744 665.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1458.1744 456.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1365.6744 456.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1273.1744 456.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1181.1744 456.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1088.1744 456.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 996.6744 456.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 903.6744 456.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 812.1744 456.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 819.6744 782.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 661.3411 637.6669)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 548.0078 637.6669)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 428.6744 637.6669)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 164.1744 220.7)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 162.1744 486.5004)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 162.1744 839.5005)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 950.1744 782.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1065.1787 782.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1187.1743 782.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1319.1743 782.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1436.2878 782.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1613.2577 821.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1739.8219 821.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1865.5602 821.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1986.6744 821.0002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1613.2577 956.5002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1739.8219 956.5002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1865.5602 956.5002)" class="st11 st12 st6">52.52</text>
-	<text transform="matrix(1 0 0 1 1986.6744 956.5002)" class="st11 st12 st6">52.52</text>
-</g>
-<g class="st0">
-	<path class="st13" d="M2159.4,1020.9L2159.4,1020.9c-5.5,0-10-4.5-10-10l0,0c0-5.5,4.5-10,10-10l0,0c5.5,0,10,4.5,10,10l0,0
-		C2169.4,1016.5,2164.9,1020.9,2159.4,1020.9z"/>
-	<text transform="matrix(1 0 0 1 2184 1018.7698)" class="st14 st3 st15">剩余电流</text>
-	<circle class="st11" cx="2159.4" cy="1010.9" r="5"/>
-	<path class="st13" d="M2159.4,1077.4L2159.4,1077.4c-5.5,0-10-4.5-10-10l0,0c0-5.5,4.5-10,10-10l0,0c5.5,0,10,4.5,10,10l0,0
-		C2169.4,1072.9,2164.9,1077.4,2159.4,1077.4z"/>
-	<text transform="matrix(1 0 0 1 2184 1075.2493)" class="st14 st3 st15">铠装电流</text>
-	<text transform="matrix(1 0 0 1 2147 964.5002)" class="st14 st3 st16">图例：</text>
+	<rect x="71" y="84" class="st8" width="253" height="51"/>
+	<rect x="153.5" y="186.6" class="st8" width="88" height="51"/>
+	<rect x="153.5" y="453.5" class="st8" width="88" height="51"/>
+	<rect x="153.5" y="806.5" class="st8" width="88" height="51"/>
+	<rect x="422.1" y="604.5" class="st8" width="88" height="51"/>
+	<rect x="538" y="604.5" class="st8" width="88" height="51"/>
+	<rect x="652" y="604.5" class="st8" width="88" height="51"/>
+	<rect x="806.3" y="422.3" class="st8" width="80" height="51"/>
+	<rect x="898.5" y="422.3" class="st8" width="80" height="51"/>
+	<rect x="990.8" y="422.3" class="st8" width="80" height="51"/>
+	<rect x="1083" y="422.3" class="st8" width="80" height="51"/>
+	<rect x="1175.3" y="422.3" class="st8" width="80" height="51"/>
+	<rect x="1267.5" y="422.3" class="st8" width="80" height="51"/>
+	<rect x="1359.8" y="422.3" class="st8" width="80" height="51"/>
+	<rect x="1452" y="422.3" class="st8" width="80" height="51"/>
+	<rect x="1431" y="746.3" class="st8" width="80" height="51"/>
+	<rect x="1313" y="746.3" class="st8" width="80" height="51"/>
+	<rect x="1181.5" y="746.3" class="st8" width="80" height="51"/>
+	<rect x="1060" y="746.3" class="st8" width="80" height="51"/>
+	<rect x="944" y="746.3" class="st8" width="80" height="51"/>
+	<rect x="813.5" y="746.3" class="st8" width="80" height="51"/>
+	<rect x="1608.1" y="923" class="st8" width="80" height="51"/>
+	<rect x="1734.6" y="923" class="st8" width="80" height="51"/>
+	<rect x="1608.1" y="785.9" class="st8" width="80" height="51"/>
+	<rect x="1734.6" y="785.9" class="st8" width="80" height="51"/>
+	<rect x="1608.1" y="630.9" class="st8" width="80" height="51"/>
+	<rect x="1734.6" y="630.9" class="st8" width="80" height="51"/>
+	<rect x="1608.1" y="435.5" class="st8" width="80" height="51"/>
+	<rect x="1734.6" y="435.5" class="st8" width="80" height="51"/>
+	<rect x="1608.1" y="305.5" class="st8" width="80" height="51"/>
+	<rect x="1734.6" y="305.5" class="st8" width="80" height="51"/>
+	<rect x="1608.1" y="158.2" class="st8" width="80" height="51"/>
+	<rect x="1734.6" y="158.2" class="st8" width="80" height="51"/>
 </g>
 </svg>
