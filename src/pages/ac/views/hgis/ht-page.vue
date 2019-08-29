@@ -66,7 +66,6 @@ export default {
 			}
 		},
 		msgData(newVal) {
-			console.log('newVal', newVal)
 			let tag = this.dataModel.getDataByTag(newVal.devid)
 			if (tag != undefined) {
 				tag.a(newVal.functionCode, newVal.value ? newVal.value : 0)
@@ -95,7 +94,7 @@ export default {
 
 			//监听窗口大小变化
 			window.addEventListener('resize', e => {
-				graphView.fitContent(false)
+				graphView.fitContent(true, 0)
 			})
 
 			//设置图元选中时 边框的宽度
@@ -110,11 +109,13 @@ export default {
 
 			if (!this.presentData.vcUrl.length) return
 
+			//获取图纸
 			this.$_api.hgis
 				.getHtControl(this.presentData.vcUrl)
 				.then(res => {
 					let json = localHt.Default.parse(res)
 					dataModel.deserialize(json)
+					//重置图纸位置
 					graphView.fitContent(true, 0)
 					this.addData()
 				})
@@ -129,6 +130,7 @@ export default {
 				_this.chartsModal(data, functionCode)
 			}
 		},
+		//添加数据
 		addData() {
 			if (this.mainDevData.length != 0) {
 				for (let i = 0; i < this.mainDevData.length; i++) {
@@ -149,6 +151,7 @@ export default {
 				}
 			}
 		},
+		//弹窗
 		chartsModal(data, functionCode) {
 
 			let val = data.a('item')

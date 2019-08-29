@@ -9,6 +9,8 @@
 						@current-change="handleCurrentChange"
 						:data="tableData"
 						height="500"
+						row-key="NodeID"
+						:current-row-key="nodeId"
 					>
 						<el-table-column label="设备" align="center">
 							<template slot-scope="scope">
@@ -18,7 +20,7 @@
 						</el-table-column>
 						<el-table-column label="当前水位值" align="center">
 							<template slot-scope="scope">
-								<span style="margin-left: 10px">{{ scope.row.f_Value }}</span>
+								<span style="margin-left: 10px">{{ scope.row.desc }}</span>
 							</template>
 						</el-table-column>
 						<el-table-column label="视频" align="center">
@@ -132,7 +134,7 @@ export default {
 				},
 				series: [
 					{
-						data: [1, 3, 4, 3, 3, 1, 7],
+						data: [],
 						type: 'line',
 						areaStyle: {},
 						symbol: 'none',
@@ -159,19 +161,20 @@ export default {
 	watch: {
 		nodeId: {
 			handler() {
-				console.log('更新历史数据')
-
+				// console.log('更新历史数据')
 				this.getHistoryByNodeId()
 			}
 		}
 	},
 	created() {
-		this.getNodesInfo()
+		
 	},
 	mounted() {
 		// 获取 echarts
-		this.echarts = this.$_echarts.init(this.$refs['water-level-chart'])
-		this.echarts.setOption(this.option)
+		// this.echarts = this.$_echarts.init(this.$refs['water-level-chart'])
+		// this.echarts.setOption(this.option)
+		// 初始化
+		this.init()
 	},
 	activited() {},
 	update() {},
@@ -190,6 +193,12 @@ export default {
 			if (result.success) {
 				this.tableData = result.data.lists
 				this.total = result.data.page.totalNum
+
+				// 默认选中第一个节点 曲线 视频
+				if (this.tableData.length > 0 && this.tableData[0]['NodeID']) {
+					this.handleCurrentChange(this.tableData[0])
+					this.handlePlayVideo(this.tableData[0])
+				}
 			} else {
 				this.tableData = []
 				this.total = 0
@@ -216,15 +225,14 @@ export default {
 			})
 			firstUrl = videoLinkArr[firstUrlIndex]
 
-			// this.$set(this.videoConfig, 'deviceInfo', firstUrl)
+			this.$set(this.videoConfig, 'deviceInfo', firstUrl)
 
 			// if ((row.linkDevInfo.length >) 0 && (row.linkDevInfo[0] != '')) {
 			// 	currentLink = row.linkDevInfo[0]
 			// }
 		},
 		handleCurrentChange(row) {
-			console.log(row)
-
+			// console.log(row)
 			this.formatstr = row.vc_Unit
 			this.nodeTitle = `${row.devName}设备 ${row.nodeName}节点 状态分布`
 			this.nodeId = row.NodeID
@@ -389,6 +397,10 @@ export default {
 				]
 			}
 			this.$_echarts.init(this.$refs['water-level-chart']).setOption(option)
+		},
+		async init() {
+			await this.getNodesInfo()
+			this.getHistoryByNodeId()
 		}
 	},
 	beforeRouteEnter(to, from, next) {

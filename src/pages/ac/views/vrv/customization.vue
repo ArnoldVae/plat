@@ -291,7 +291,7 @@ export default {
 			let status = false
 			let statusCode = null
 			vrv.devNodesList.map(item => {
-				if (item.functionCode == '1016.0004') {
+				if (item.functionCode == '1016.0001') {
 					statusCode = item.fvalue
 				}
 			})
@@ -308,7 +308,7 @@ export default {
 		handleToggle(devInfo, index) {
 			// console.log(devInfo)
 			let nodeIndex = devInfo.devNodesList.findIndex(item => {
-				return item.functionCode == '1016.0001'
+				return item.functionCode == '1016.0007'
 			})
 			if (nodeIndex == -1) {
 				return

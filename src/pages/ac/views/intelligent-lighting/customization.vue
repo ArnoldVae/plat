@@ -13,8 +13,9 @@
 						总 :
 						<i>{{ total }}</i>&nbsp;&nbsp;&nbsp;开 :
 						<i>{{ openTotal }}</i>&nbsp;&nbsp;&nbsp;关 :
-						<b>{{ offTotal }}</b>&nbsp;&nbsp;&nbsp;未知:
-						<b>{{ unknown }}</b>
+						<b>{{ offTotal }}</b>
+						<!-- &nbsp;&nbsp;&nbsp;未知:
+						<b>{{ unknown }}</b> -->
 					</span>
 				</div>
 				<ul
@@ -164,7 +165,7 @@ export default {
 				.then(res => {
 					if (res.code == 200 && res.data.lists) {
 						res.data.lists.forEach(item => {
-							item.videoUrl = item.linkDevInfo.length > 0 ? item.linkDevInfo[0].DevID : ''
+							item.videoUrl = item.linkDevInfo ? item.linkDevInfo : ''
 							item.btnArr = []
 							item.devNodesList.forEach(element => {
 								if (element.functionCode == 1020.0001) {
@@ -187,12 +188,12 @@ export default {
 						})
 						this.lightingList = res.data.lists
 						this.listLoading = false
-						console.log(this.lightingList)
+						// console.log(this.lightingList)
 						// this.openTotal = res.data.openCount
 						// this.offTotal = res.data.closeCount
 						this.total = this.lightingList.length
-						this.unknown = this.total - this.openTotal - this.offTotal
-						this.unknown = isNaN(this.unknown) ? this.total : this.unknown
+						// this.unknown = this.total - this.openTotal - this.offTotal
+						// this.unknown = isNaN(this.unknown) ? this.total : this.unknown
 						this.getFirstVideo(this.lightingList)
 					}
 				})

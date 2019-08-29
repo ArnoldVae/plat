@@ -127,7 +127,7 @@ export default {
 						item.btnArr = []
 						if (item.devNodesList && item.devNodesList.length > 0) {
 							item.devNodesList.forEach(element => {
-								item.videoUrl = item.linkDevInfo.length > 0 ? item.linkDevInfo[0].DevID : ''
+								item.videoUrl = item.linkDevInfo ? item.linkDevInfo : ''
 								if (element.nodeType == 3 || (element.nodeType == 4 && element.vcValueDesc)) {
 									item.ctrlNodeId = element.nodeId
 									let bta1 = element.vcValueDesc.split('|')
@@ -153,7 +153,8 @@ export default {
 					this.listLoading = false
 					// console.log(this.listData)
 					this.getFirstVideo(this.listData)
-				}).catch(error => {
+				})
+				.catch(error => {
 					this.listLoading = false
 				})
 		},
