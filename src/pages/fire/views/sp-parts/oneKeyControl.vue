@@ -2,7 +2,7 @@
     <div id="buttonControl">
         <div>
             <img src="../../assets/img/title.png" alt="">
-            <span>二次设备监视</span>
+            <span>二次设备状态</span>
             <cvideo class="video" :videoConfig="video2" style="height: 93.5%!important;width: 3630PX!important;"></cvideo>
         </div>
         <div>
@@ -12,7 +12,7 @@
         </div>
         <div>
             <img src="../../assets/img/title.png" alt="">
-            <span>网络安全</span>
+            <span>网络安全监视</span>
             <cvideo class="video" :videoConfig="video3" style="height: 93.5%!important;"></cvideo>
         </div>
     </div>

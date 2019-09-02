@@ -4,7 +4,7 @@
 			<el-aside width="77%">
 				<div class="protection-zone-top">
 					<p class="menu-bar">防护区列表信息</p>
-					<div class="protection-zone-top-main">
+					<div class="protection-zone-top-main" v-if="showVideoFlag">
 						<div class="protection-zone-top-item left">
 							<ocx-video :videoConfig="videoConfig"></ocx-video>
 						</div>
@@ -24,16 +24,18 @@
 						<el-col :span="10" class="menu-bar">防护区列表</el-col>
 					</el-row>
 					<div class="search-item">
-						<el-row v-for="(item,index) in subMenuList" :key="index" style="background: #1A2836;margin-bottom: 20PX;width: 95%;">
-							<el-col :span="12">
+						<el-row v-for="(item,index) in subMenuList" :key="index" :class="activeIndex==index ? 'activeColor':''" style="cursor: pointer;background: #1A2836;margin-bottom: 20PX;width: 95%;">
+							<div @click="getTemDetail(item,index)" >
+								<el-col :span="12">
 								<span>
 									<span class="color-green">●</span>
-									{{item.vcName}}
+									<span >{{item.vcName}}</span>
 								</span>
-							</el-col>
-							<el-col :span="12" class="item-btn">
-								<el-button style="position:relative; top: -5PX" size="mini" @click="getTemDetail(item)">查看</el-button>
-							</el-col>
+								</el-col>
+								<el-col :span="12" class="item-btn">
+									<el-button style="position:relative; top: -5PX" size="mini"  @click="getTemDetail(item,index)">查看</el-button>
+								</el-col>
+							</div>
 						</el-row>
 					</div>
 				</div>
@@ -46,6 +48,17 @@
 							<el-row>
 								<el-col :span="12">
 									<span class="font-size-14">
+										<img src="@/assets/img/common/temp2.png" width="10px" /> 当前环境温度：
+									</span>
+								</el-col>
+								<el-col :span="12" class="item-btn">
+									<span class="font-time color-light-green">{{temData.env}}</span>
+									<span class="color-light-green">℃</span>
+								</el-col>
+							</el-row>
+							<el-row>
+								<el-col :span="12">
+									<span class="font-size-14">
 										<img src="@/assets/img/common/temp.png" width="10px" /> 当前环境湿度：
 									</span>
 								</el-col>
@@ -55,17 +68,7 @@
 								</el-col>
 							</el-row>
 
-							<el-row>
-								<el-col :span="12">
-									<span class="font-size-14">
-										<img src="@/assets/img/common/temp2.png" width="10px" /> 当前环境温度：
-									</span>
-								</el-col>
-								<el-col :span="12" class="item-btn">
-									<span class="font-time color-light-green">{{temData.env}}</span>
-									<span class="color-light-green">℃</span>
-								</el-col>
-							</el-row>
+							
 						</div>
 					</div>
 				</div>
@@ -90,17 +93,20 @@ export default {
 				arr2: [],
 				arr3:[]
 			},
+            showVideoFlag:true,
             videoConfigList:[
                 {
                     isAutoPlay: true,
                     serviceInfo: '1$22.46.34.114$6800$admin$admin',
                     deviceInfo: '1|22.46.34.114:8001|admin:admin123|1',
+                    presetVal:0,
                     hideTool: true
                 },
                 {
                     isAutoPlay: true,
                     serviceInfo: '1$22.46.34.114$6800$admin$admin',
                     deviceInfo: '1|22.46.34.114:8001|admin:admin123|1',
+                    presetVal:0,
                     hideTool: true
                 }
 			],
@@ -108,12 +114,14 @@ export default {
 				isAutoPlay: true,
 				serviceInfo: '1$22.46.34.114$6800$admin$admin',
 				deviceInfo: '1|22.46.34.114:8001|admin:admin123|1',
+                presetVal:0,
 				hideTool: true
 			},
 			videoConfig1: {
 				isAutoPlay: true,
 				serviceInfo: '1$22.46.34.114$6800$admin$admin',
 				deviceInfo: '1|22.46.34.114:8001|admin:admin123|1',
+                presetVal:0,
 				hideTool: true
 			},
 			current: 'fireControl-customization',
@@ -144,7 +152,8 @@ export default {
 			],
 			chartData: ['30', '15', '34', '33.5', '34', '10', '33.9', '40', '33.2', '32.3'],
 			chartData2: ['8', '34', '33.2', '60', '33.5', '31.3', '31.4', '20', '34.6', '10'],
-			categorName: ['温度', '湿度']
+			categorName: ['温度', '湿度'],
+			activeIndex:0
 		}
 	},
 	computed: {
@@ -275,14 +284,16 @@ export default {
 				},
 				legend: {
 					data: this.categorName,
-					top: 20,
-					right: 10,
+					orient: 'vertical',
+					right: 60,
 					textStyle: {
 						color: '#fff',
-						fontSize:33
-					}
+						fontSize:40
+					},
+					itemWidth:40,
+					itemHeight:20
 				},
-				color: ['#47b2fe', '#5d6040'],
+				color: ["red","#00ccff"],
 				grid: [
 					{
 						containLabel: true
@@ -349,9 +360,9 @@ export default {
 						areaStyle: {
 							color: 'none'
 						},
-						itemStyle: {
-							color: '#85c9ee'
-						},
+						// itemStyle: {
+						// 	color: '#85c9ee'
+						// },
 						lineStyle: {
 							color: 'red'
 						},
@@ -373,9 +384,9 @@ export default {
 						areaStyle: {
 							color: 'none'
 						},
-						itemStyle: {
-							color: '#01fef9'
-						},
+						// itemStyle: {
+						// 	color: '#01fef9'
+						// },
 						lineStyle: {
 							color: '#00ccff'
 						},
@@ -479,23 +490,28 @@ export default {
 		 *获取温度湿度信息方法
 		 *
 		 */
-		async getTemDetail(item) {
+		async getTemDetail(item,index) {
+			if(!index){
+				index=0
+			}
+			//用来切换查看按钮的激活样式
+			this.activeIndex = index
 			this.getAreaVideo(item)
 			this.temData.name = item.vcName
 			let result = await this.$_api.statusCheck.getTemDetail({
 				unitId: item.unitId,
 				areaId: item.protectAreaId,
-				devTypeId: '1014'
+				devTypeId: '1010'
 			})
 			if (result.success) {
 				if (result.data.length > 0) {
-					console.log(result)
+					// console.log(result)
 					result.data.forEach(item => {
-						if (item.functioinId == 190) {
+						if (item.functioinId == 158) {
 							this.temData.mechine = item.fValue
 							this.getTemCharts(item.nodeId, item.functioinId)
 						}
-						if (item.functioinId == 191) {
+						if (item.functioinId == 157) {
 							this.temData.env = item.fValue
 							this.getTemCharts(item.nodeId, item.functioinId)
 						}
@@ -513,17 +529,24 @@ export default {
 		 *
 		 */
 		async getAreaVideo(item) {
+		    this.showVideoFlag=false
 			let result = await this.$_api.statusCheck.getAreaVideo({
 				unitId: item.unitId,
 				protectAreaId: item.protectAreaId
 			})
 			if (result.success) {
-			    console.log('视频出')
-			    console.log(result)
+			    // console.log('视频出')
+			    // console.log(result)
 				if(result.data&&result.data.length>0){
+                    this.showVideoFlag=true
+				    // debugger
 					this.videoConfig.deviceInfo=result.data[0].vcParams1
-					console.log(this.videoConfig)
+					this.videoConfig.presetVal=Number(result.data[0].vcParam1)
+					this.videoConfig.isAutoPlay=true
+                    this.videoConfig1.isAutoPlay=true
+					// console.log(this.videoConfig)
 					this.videoConfig1.deviceInfo=result.data[1].vcParams1
+					this.videoConfig1.presetVal=Number(result.data[1].vcParam1)
 				}
 
 			}
@@ -544,7 +567,7 @@ export default {
 					newArr.push(i.f_Value)
 					dateArr.push(moment(i.i_DataTime * 1000).format('YYYY-MM-DD hh:mm:ss'))
 				})
-				if (target == 190) {
+				if (target == 157) {
 					this.getList.arr1 = newArr
 				} else {
 					this.getList.arr2 = newArr
@@ -570,13 +593,14 @@ export default {
 <style>
 .font-time {
 	font-family: 'DS-DIGI';
-	font-size: 20px;
+	font-size: 50PX;
 }
 .color-light-green {
 	color: #32e611;
+	
 }
 .font-size-14 {
-	font-size: 36PX;
+	font-size: 45PX;
 }
 </style>
 
@@ -610,10 +634,10 @@ $prowidth = 100%;
     justify-content: space-between;
 
     .el-aside {
-      height: $prohight;
+   
 
       .protection-zone-top {
-        height: 560px;
+        height: 540px;
         background: #141A26;
         border: 1PX solid #D3DEE6;
         font-size: 36PX;
@@ -625,7 +649,7 @@ $prowidth = 100%;
           .protection-zone-top-item {
             margin: 9px 5px;
             // float left
-            height: 508px;
+            height: 490px;
           }
 
           .left {
@@ -655,10 +679,11 @@ $prowidth = 100%;
 
       .protection-zone-items {
         width: $prowidth;
-        height: 559px;
+        height: 540px;
         border-radius: 5px;
         background: #141A26;
         border: 1PX solid #D3DEE6;
+		margin-bottom:45px;
 
         .el-row {
           color: white;
@@ -690,10 +715,16 @@ $prowidth = 100%;
 				border: 2px #0E70AF solid;
 				box-shadow: inset 0 0 20px #0E70AF;
 			}
-
+			.activeColor{
+				// box-shadow: inset 0 0 20px #0E70AF;
+            	background-color:  #063783 !important;
+				.el-button {
+                                color: #ffd36a !important;
+                                }
+			}
           .el-row {
             .el-col {
-              font-size: 36PX;
+              font-size: 39PX;
 
               .color-green {
                 color: #19be6b;
@@ -708,6 +739,7 @@ $prowidth = 100%;
                 background: none;
                 border: 0.04444rem solid #00aaff;
                 color: #37a8ff;
+				font-size:20px;
               }
             }
           }
@@ -718,7 +750,7 @@ $prowidth = 100%;
 
       .protection-zone-items-bottom {
         width: $prowidth;
-        height: 580PX;
+        height: 576PX;
         border-radius: 5px;
         background: #141A26;
         border: 1PX solid #D3DEE6;
@@ -735,6 +767,7 @@ $prowidth = 100%;
           .el-row {
             margin-left: 20px;
             margin-bottom: 20px;
+			margin-top:40px;
           }
 
           img {

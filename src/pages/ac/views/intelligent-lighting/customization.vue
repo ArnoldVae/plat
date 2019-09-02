@@ -197,7 +197,7 @@ export default {
 		},
 		//点击开关按钮
 		handleSwitch(type, item) {
-			console.log(item)
+			// console.log(item)
 			if (item.ctrlNodeId) {
 				if (type == 'open') {
 					this.modalShow = true
@@ -252,15 +252,15 @@ export default {
 		},
 		//实时数据回调
 		getMqtt() {
-			console.log(this.topicStr)
+			// console.log(this.topicStr)
 			this.topicStr = this.topicArr[0] + this.unitId
 			this.topicStr2 = this.topicArr[1] + this.unitId
 			this.$_listen(this.$options.name, (topic, message, packet) => {
 				if (topic == this.topicStr || topic == this.topicStr2) {
 					let msgData = JSON.parse(message.toString())
 					if (msgData.cmd == 1001) {
-						console.log(msgData)
-						console.log(this.lightingList)
+						// console.log(msgData)
+						// console.log(this.lightingList)
 						this.lightingList.forEach(element => {
 							if (msgData.nodeid == element.ctrlNodeId) {
 								element.devNodesList.forEach(item => {
@@ -272,14 +272,14 @@ export default {
 							}
 						})
 					} else if (msgData.cmd == 1003) {
-						console.log(JSON.stringify(msgData))
+						// console.log(JSON.stringify(msgData))
 						this.guids.forEach(item => {
 							if (item == msgData.serial) {
 								this.$ocxMessage.info('命令下发成功')
 							}
 						})
 					} else if (msgData.cmd == 1004) {
-						console.log(JSON.stringify(msgData))
+						// console.log(JSON.stringify(msgData))
 
 						this.guids.forEach((item, index) => {
 							if (item == msgData.serial) {

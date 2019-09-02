@@ -98,10 +98,10 @@ export default {
 			// 	if (topic == _this.topicStr) {
 			//   console.log(data)
 			// 	}
-			console.log(data)
+			// console.log(data)
 			let val = JSON.parse(data)
 			if (val.type == 'req' && val.cmd == '1002') {
-				console.log(val)
+				// console.log(val)
 				_this.mqttData = val
 			}
 		})
@@ -109,7 +109,7 @@ export default {
 	methods: {
 		//图纸节点点击回调
 		htClick(data) {
-			console.log(data)
+			// console.log(data)
 			this.historyModal = true
 			this.nodeId = data._tag
 			this.chartTitle = data._name

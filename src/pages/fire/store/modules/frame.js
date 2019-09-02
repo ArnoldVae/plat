@@ -6,7 +6,6 @@ const test = {
 	},
 	mutations: {
 		UPDATE_UNITID: (state, id) => {
-			console.log(id)
 			state.unitId = id
 		},
 		STATIONID:(state, id) =>{

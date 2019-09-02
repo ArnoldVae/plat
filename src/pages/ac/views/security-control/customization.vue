@@ -60,7 +60,7 @@ export default {
 				let val = JSON.parse(data)
 				if (val.type == 'req' && val.cmd == '1002') {
 					_this.mqttData = val
-					console.log(val);
+					// console.log(val);
 					
 				}
 			}

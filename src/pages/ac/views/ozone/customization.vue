@@ -71,7 +71,7 @@ export default {
 			}
 		},
 		deviceData(val){
-			console.log(val);
+			// console.log(val);
 			this.getData(this.isTime)
 		}
 	},

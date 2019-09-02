@@ -8,6 +8,7 @@
             :mqttData='mqttData'
             :residualObj='residualObj'></component>
 		</el-aside>
+		
 	</div>
 </template>
 

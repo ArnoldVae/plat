@@ -1,30 +1,31 @@
 <template>
-  <div class="ac-history-modal">
-    <ocx-modal
-      :styles="{ top: '0px' }"
-      title="历史记录"
-      :mask="false"
-      @on-cancel="handleCloseHistoryModal"
-      class="historyModal-wrap"
-      :value="value"
-      scrollable
-      v-bind="$attrs"
-      v-on="$listeners"
-    >
-      <div class="modal-content">
-        <div class="btn-box">
-          <RadioGroup v-model="button4" type="button" size="large">
-            <Radio label="一天"></Radio>
-            <Radio label="三天"></Radio>
-            <Radio label="一周"></Radio>
-          </RadioGroup>
-        </div>
-        <div id="charts"></div>
-      </div>
+	<div class="ac-history-modal">
+		<ocx-modal
+			:styles="{ top: '100px' }"
+			title="历史记录"
+			:mask="false"
+			@on-cancel="handleCloseHistoryModal"
+			class="historyModal-wrap"
+			:value="value"
+			scrollable
+			v-bind="$attrs"
+			v-on="$listeners"
+		>
+			<div class="modal-content">
+				<div class="btn-box">
+					<RadioGroup v-model="button4" type="button" size="large">
+						<Radio label="一小时"></Radio>
+						<Radio label="一天"></Radio>
+						<Radio label="三天"></Radio>
+						<Radio label="一周"></Radio>
+					</RadioGroup>
+				</div>
+				<div id="charts" ref="charts"></div>
+			</div>
 
-      <div slot="footer"></div>
-    </ocx-modal>
-  </div>
+			<div slot="footer"></div>
+		</ocx-modal>
+	</div>
 </template>
 <script>
 import { setTimeout } from 'timers'
@@ -55,7 +56,8 @@ export default {
 			endTime: '',
 			startTime: '',
 			xdata: [],
-			ydata: []
+			ydata: [],
+			myChart: null
 		}
 	},
 	computed: {},
@@ -81,14 +83,26 @@ export default {
 	created() {},
 	mounted() {
 		// this.handleDay('一天')
+		this.myChart = this.$_echarts.init(this.$refs['charts'])
 	},
 	activited() {},
 	update() {},
 	beforeDestory() {},
 	methods: {
-		handleCloseHistoryModal() {},
+		handleCloseHistoryModal() {
+			this.myChart.clear()
+		},
 		handleDay(type) {
-			let time = type == '一天' ? 86400 : type == '三天' ? 259200 : type == '一周' ? 604800 : 86400
+			let time =
+				type == '一小时'
+					? 3600
+					: type == '一天'
+					? 86400
+					: type == '三天'
+					? 259200
+					: type == '一周'
+					? 604800
+					: 86400
 			let nowDate = new Date().getTime()
 			let endTime = Math.ceil(nowDate / 1000)
 			let startTime = endTime - time
@@ -101,7 +115,7 @@ export default {
 		},
 		getChartsData(params) {
 			// console.log(params)
-			this.$_api.humiture.getNodeChart(params).then(res => {
+			this.$_api.maintaining.getNodeChart(params).then(res => {
 				if (res.code == 200 && res.data) {
 					// console.log(res)
 					let tempList = []
@@ -116,7 +130,7 @@ export default {
 		},
 		setEcharts(data, time, unit, name) {
 			// 基于准备好的dom，初始化echarts实例
-			var myChart = this.$_echarts.init(document.getElementById('charts'))
+			// this.myChart = this.$_echarts.init(document.getElementById('charts'))
 
 			// 指定图表的配置项和数据
 			var option = {
@@ -125,10 +139,10 @@ export default {
 					textStyle: {
 						color: '#fff',
 						fontWeight: 400,
-						fontSize: 22
+						fontSize: 40
 					},
-					left: 100,
-					top: 0
+					left: 30,
+					top: -10
 				},
 				tooltip: {
 					trigger: 'axis',
@@ -139,6 +153,10 @@ export default {
 							backgroundColor: '#6a7985'
 						},
 						triggerTooltip: {}
+					},
+					textStyle: {
+						color: '#85c9ee',
+						fontSize: 33
 					}
 				},
 				grid: {
@@ -146,7 +164,7 @@ export default {
 					// top: '5%',
 					// left: '10%',
 					// right: '8%',
-					bottom: '18%',
+					bottom: '10%',
 					containLabel: true
 				},
 
@@ -158,12 +176,14 @@ export default {
 						axisLine: {
 							show: true,
 							lineStyle: {
-								color: '#0091e8'
+								color: '#0091e8',
+								width: 2
 							}
 						},
 						axisLabel: {
 							textStyle: {
-								color: '#fff'
+								color: '#fff',
+								fontSize: 35
 							}
 						}
 					}
@@ -174,7 +194,8 @@ export default {
 						axisLine: {
 							show: true,
 							lineStyle: {
-								color: '#0091e8'
+								color: '#0091e8',
+								width: 2
 							}
 						},
 						splitLine: {
@@ -184,7 +205,8 @@ export default {
 						},
 						axisLabel: {
 							textStyle: {
-								color: '#fff'
+								color: '#fff',
+								fontSize: 35
 							},
 							formatter: `{value} ${unit}`
 						}
@@ -211,7 +233,7 @@ export default {
 					},
 					{
 						showDetail: true,
-						height: 15,
+						height: 20,
 						bottom: 50,
 						borderColor: 'rgba(1,37,59,0.5)',
 						backgroundColor: 'rgba(1,37,59,0.5)',
@@ -223,8 +245,8 @@ export default {
 			}
 
 			// 使用刚指定的配置项和数据显示图表。
-			myChart.setOption(option)
-			myChart.resize()
+			this.myChart.setOption(option)
+			this.myChart.resize()
 		},
 		strToymd(time) {
 			// 遍历时间 处理格式
@@ -260,12 +282,19 @@ export default {
       width: 53.333rem !important;
 
       .ivu-modal-content {
+        background: #141a26 !important;
+        border: 1PX solid #fff;
+        height: 800px !important;
+
         .ivu-modal-header {
           text-align: center;
 
           .ivu-modal-header-inner {
-            color: #0af;
-            font-size: 20px;
+            color: #000;
+            font-size: 25px;
+            font-weight: bold;
+            height: 25px;
+            line-height: 25px;
           }
 
           .ivu-modal-close {
@@ -281,17 +310,17 @@ export default {
 
           .modal-content {
             width: 100%;
-            height: 500px;
+            height: 700px;
 
             .btn-box {
-              width: 200px;
-              height: 50px;
-              margin-left: 80%;
+              width: 350px;
+              height: 55px;
+              margin-left: 74%;
             }
 
             #charts {
               width: 100%;
-              height: 100%;
+              height: calc(100% - 50px);
             }
           }
         }
@@ -308,6 +337,10 @@ export default {
   background-color: #0a1736;
   border: 1px solid #0c79b9;
   color: #fff;
+}
+
+/deep/ .ivu-radio-group-button.ivu-radio-group-large .ivu-radio-wrapper {
+  font-size: 20px;
 }
 
 /deep/.ivu-radio-wrapper-checked {

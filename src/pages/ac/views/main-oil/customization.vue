@@ -70,7 +70,7 @@ export default {
 	},
 	mounted() {
 		this.topicStr = this.topicArr[0] + this.unitId
-		console.log(this.topicStr)
+		// console.log(this.topicStr)
 		//实时数据回调
 		const _this = this
 		// this.$_mqtt.on('message', function(topic, message, packet) {
@@ -80,7 +80,7 @@ export default {
 				//将json字符串转为数组
 				let msgData = JSON.parse(message.toString())
 				if (msgData.cmd == 1001) {
-					console.log(msgData)
+					// console.log(msgData)
 					for(let i = 0; i< this.dataList.length; i++){
 						this.dataList[i].forEach(item=>{
 							item.devNodesList.forEach(element=>{
@@ -148,7 +148,7 @@ export default {
 			}
 		},
 		showHistoryHandler(node) {
-			console.log(node)
+			// console.log(node)
 			this.nodeId = node.nodeId
 			this.unit = node.vcUnit
 			this.chartTitle = node.vcName + '历史数据'

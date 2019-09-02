@@ -59,10 +59,10 @@ export default {
 			// 	if (topic == _this.topicStr) {
 			//   console.log(data)
 			// 	}
-			console.log(data)
+			// console.log(data)
 			let val = JSON.parse(data)
 			if (val.type == 'req' && val.cmd == '1002') {
-				console.log(val)
+				// console.log(val)
 				_this.mqttData = val
 			}
 		})

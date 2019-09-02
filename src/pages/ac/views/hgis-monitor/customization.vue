@@ -86,7 +86,7 @@ export default {
 			// 	page: 1
 			// }).then(res => {
 			this.$_api.getStaticData('./simulation-data/hgis-monitor.json').then(res => {
-				console.log(res)
+				// console.log(res)
 				// if (res.ret == 0) {
 				let newList2 = [[[]], [[]], [[]], [[]], [[]], [[]], [[]], [[]], [[]]]
 				res.data.rows.map(item => {

@@ -8,21 +8,25 @@
 					<div>
 						<img src="../../assets/img/elec-fire/opticalBg.png" alt />
 					</div>
-					<div class="con" @click="optical()">光纤测温</div>
+					<div class="con" @click="optical()">光纤测温(℃)</div>
+				</div>
+				
+				<div class="btnConItem">
+					<div><img src="../../assets/img/elec-fire/fireQi.png" alt /></div>
+					<div class="con" @click="fireQiClick()">探火管</div>
 				</div>
 				<div class="btnConItem">
 					<div><img src="../../assets/img/elec-fire/fireDan.png" alt /></div>
 					<div class="con" @click="fieDanClick()">灭火弹</div>
 				</div>
-				<div class="btnConItem">
-					<div><img src="../../assets/img/elec-fire/fireQi.png" alt /></div>
-					<div class="con" @click="fireQiClick()">探火管</div>
-				</div>
 			</div>
 		</div>
+		<!-- 历史曲线弹框 -->
+			<charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
 	</div>
 </template>
 <script>
+import charts from '../common/charts1'
 export default {
 	name: 'ht-common',
 	data() {
@@ -32,10 +36,17 @@ export default {
 			graphView: null,
 			cableNodes: [],
 			deviceid: '',
-			nodeValue: ''
+			nodeValue: '',
+			funId:'',
+			// 历史曲线
+			historyModal:false,
+			chartTitle: '',
+			nodeId: '',
+			unit: ''
 		}
 	},
 	created() {},
+	components: { charts },
 	mounted() {
 		this.init()
 		// this.optical()
@@ -63,21 +74,25 @@ export default {
 			this.init()
 		},
 		mqttData(data) {
-			// console.log(data)
-			if (data.cmd == 1001) {
+			
+			if (data.cmd == 1001 && data.functionCode=='1079.0002') {
+				// console.log(data)
 				this.deviceid = data.devid
 				this.nodeValue = data.value
+				this.funId=data.functionCode
 				let tag = global.dataModel.getDataByTag(this.deviceid)
-				// console.log(tag)
+				
 				//给图元添加下方文字
 				if (tag != undefined) {
+					// console.log(tag.a('functionCode'))
 					if (tag.getTag() == this.deviceid) {
+						// console.log(tag)
 						tag.a('value', this.nodeValue)
-						// tag.setStyle('label.color', '#fff')
-						// tag.setStyle('label.font', '10px sans-serif')
-						// // tag.setStyle('label.position', 100)
-						// tag.setStyle('label.toggleable', false)
 					}
+					// if(tag.a('functionCode')==this.funId){
+					// 	// console.log(this.nodeValue)
+					// 		tag.a('value', this.nodeValue)
+					// }
 				}
 			}
 		}
@@ -122,6 +137,7 @@ export default {
 				graphView.setZoom(12,true,{x:310,y:415})
 			})
 			this.getNode()
+			this.clickTextNodeHistory()
 		},
 		getNode() {
 			let params = {
@@ -135,7 +151,6 @@ export default {
 						this.cableNodes = res.data
 						this.cableNodes.length &&
 							this.cableNodes.map(item => {
-								setTimeout(() => {
 									let node = new this.localHt.Node()
 									node.setImage('ht/storage/symbols/txtIcon.json')
 									node.setTag(item.vcSourceId)
@@ -143,25 +158,44 @@ export default {
 									node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
 									node.setName(item.vcName)
 									// node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
-									node.setSize(40, 20)
+									node.setSize(25, 10)
 									node.setStyle('interactive', true)
 									node.a('vc_SourceID', item.vcSourceId)
 									node.a('vc_Path', item.vcPath)
+									
 									node.a('i_NodeType', item.iNodeType)
 									node.a('pageId', this.cableObj.pageId)
-									node.a('devtypeId',item.devNodes[0].devTypeId)
 									node.setLayer(1)
 									node.s('label', '')
+									if(item.devNodes.length>0){
+										node.a('devtypeId',item.devNodes[0].devTypeId)
+									}
+									item.devNodes.forEach(itv=>{
+										
+										if(itv.functionCode=='1079.0002'){
+											node.a('value',itv.f_Value)
+											node.a('functionCode',itv.functionCode)
+											node.a('nodeID',itv.NodeID)
+										}
+									})
+									// node.setStyle('2d.visible',false)
+									// if(item.devNodes.functionCode=='1079.0002'){
+									// 	console.log(item)
+									// 	// node.a('value',item.devNodes[0].f_Value)
+									// }
+                                    // item.devNodes[0].f_Value=item.devNodes[0].f_Value=='65535'? '    --':item.devNodes[0].f_Value
+									
+									// node.setStyle('2d.visible',false)
 									// node.s({
 									// 	'color':'#fff'
 									// })
 									this.dataModel.add(node)
-									this.dataModel.each(data => {
-										console.log(item.devNodes[0].f_Value)
-										let valueNum = item.devNodes[0].f_Value !=null ? item.devNodes[0].f_Value : '---'
-										data.a('value', valueNum)
-									})
-								}, 800)
+									// this.dataModel.each(data => {
+									// 	if(data.a('functionCode')=='1079.0002'){
+									// 		console.log(data)
+									// 	}
+									// })
+								
 							})
 					}
 				}
@@ -244,6 +278,21 @@ export default {
 					}
 				}
 			})
+		},
+		//历史曲线
+		clickTextNodeHistory(){
+				this.graphView.mi(e=>{
+					// if(e.data.a('nodeID')){
+						if(e.kind === 'clickData'){
+						this.historyModal=true
+						// console.log(e.data)
+						  this.nodeId=e.data.a('nodeID')
+						  this.chartTitle=e.data.getName()
+						  this.unit='℃'
+					}
+					// }
+			})
+			
 		}
 	}
 }
@@ -272,12 +321,16 @@ export default {
   width: 300px;
   height: 50px;
   color #fff;
-  font-size 35px;
+  font-size 58PX;
   .btnCon{
+	  margin-left:45PX;
 	.btnConItem{
 		display flex;
 		cursor pointer;
         user-select none;
+		img{
+			width:35PX;
+		}
 		.con{
 			margin-left 20px;
 		}

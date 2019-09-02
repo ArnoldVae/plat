@@ -264,7 +264,7 @@ export default {
 				unitId: this.$store.getters.unitId,
 				devTypeId: this.currentTypeId
 			})
-			console.log('获取所有设备信息', result)
+			// console.log('获取所有设备信息', result)
 			if (result.success) {
 				this.deviceInfoList = result.data.lists
 			} else {

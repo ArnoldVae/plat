@@ -7,7 +7,7 @@
       "name": "值"
     }
   ],
-  "width": 60,
+  "width": 80,
   "height": 32,
   "comps": [
     {
@@ -17,12 +17,15 @@
         "value": "--"
       },
       "color": "#00FF00",
+      "font": "12px DS-DIGI, NSimSun",
       "displayName": "值",
+      "vAlign":"middle",
+      "align":"left",
       "rect": [
-        3.08031,
-        14.32343,
-        22.79428,
-        5.85259
+        15,
+        0,
+        80,
+        32
       ]
     }
   ]

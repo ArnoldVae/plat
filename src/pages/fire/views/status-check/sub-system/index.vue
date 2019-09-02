@@ -6,7 +6,7 @@
                     <div class="sub-system-top-item left">
                         <p style="font-size: 44PX" class="menu-bars" @click="showFlag=!showFlag">
                             {{!showFlag ? "视频" : "模型"}}</p>
-                        <img v-show="showFlag" src="../../../assets/img/status/spw.png" width=" 1000PX" alt/>
+                        <img v-show="showFlag" src="../../../../../../public/img/spw.png" width=" 1000PX" alt/>
                         <ocx-video v-show="!showFlag" :videoConfig="videoConfig"
                                    style="width: 1362PX;height:93%"></ocx-video>
                     </div>
@@ -14,7 +14,7 @@
                         <el-row style="height: 3.77778rem;">
                             <p class="menu-bar">运行参数</p>
                             <el-col :span="10" style="padding:0 20px">
-                                <span>运行参数</span>
+                                <span>       </span>
                             </el-col>
                             <el-col :span="14" class="tool-text">
                                 正常：
@@ -112,20 +112,20 @@
 
                                     </el-col>
                                     <el-col :span="6">
-                                        <el-button @click="showSysDetail(item)" type="primary" size="mini"
+                                        <el-button @click="showSysDetail(item,n)" type="primary" size="mini"
                                                    v-show="item.areaList.length==0">查看
                                         </el-button>
                                     </el-col>
                                 </el-row>
                                 <!--                                子节点-->
                                 <ul class="subList" v-show="item.showSubFlag" style=" margin-left: 24px;">
-                                    <li v-for="(i,n) in item.areaList" :key="n">
+                                    <li v-for="(i,n) in item.areaList" :key="n" @click="showSysDetail(i,n)" :class="activeIndex==n ? 'activeColor':''">
                                         <el-row>
                                             <el-col :span="18">
-                                                <span class="color-green">●</span>{{i.vc_Name}}
+                                                <span class="color-green" >●</span><span >{{i.vc_Name}}</span>
                                             </el-col>
                                             <el-col :span="6">
-                                                <el-button size="mini" @click="showSysDetail(i)">查看</el-button>
+                                                <el-button size="mini" @click="showSysDetail(i,n)">查看</el-button>
                                             </el-col>
                                         </el-row>
 
@@ -168,7 +168,8 @@
                     data: []
                 },
                 // 定义声明装置列表对象
-                subMenuList: []
+                subMenuList: [],
+                activeIndex:0
             }
         },
         computed: {
@@ -185,7 +186,7 @@
             }
         },
         created() {
-            console.log(new Date())
+            // console.log(new Date())
         },
         mounted() {
             this.init()
@@ -251,19 +252,20 @@
                 })
                 if (result.success) {
                     this.subMenuList = []
-                    result.data.forEach(i => {
+                    result.data.forEach((i,index) => {
 
                         //处理如果装置存在子菜单则控制显示样式
                         i.showSubFlag = true
                         if (i.subSystemId == 90010014) {
                             if (i.areaList.length > 0) {
                                 i.areaList.forEach((o, n) => {
-                                    console.log(o)
+                                    // console.log(o)
                                     if (o.protectAreaId == "d8b03d6100ba4ccd8fc07f4b8734e099") {
                                         i.areaList.splice(n, 1)
                                     }
                                 })
                             }
+                            // i['index']=index
                             this.subMenuList.push(i)
                             if (i.areaList.length > 0) {
 
@@ -273,8 +275,9 @@
                             }
 
                         }
+                        
+                   
                     })
-
 //                    //调取光字牌接口（运行参数）
 //                    if (this.subMenuList && this.subMenuList.length > 0) {
 //                        //默认第一条灭火装置数据进行运行参数接口如果有子菜单默认子菜单第一条，如果没有则默认第一条数据
@@ -305,11 +308,13 @@
              * para  item：为当前对象，
              */
 
-            showSysDetail(item) {
+            showSysDetail(item,index) {
                 //处理水喷雾逻辑（水喷雾显示图片，其他显示视频）
                 this.showFlag = item.subSystemId == 90010014 ? true : false
                 this.getLightItem(item)
 //			this.getHtMap(item)
+	        //控制查看按钮的激活样式
+			this.activeIndex = index
             }
         },
         beforeRouteEnter(to, from, next) {
@@ -371,7 +376,8 @@
             display: flex;
             justify-content: space-between;
             padding-top: 12px;
-            height 1881PX
+            height 1699PX;
+            box-sizing:border-box
 
             .el-aside {
                 /*background: #141A26;*/
@@ -384,20 +390,24 @@
                     margin: 5px 0;
                     justify-content: space-between;
                     margin: 0 10px;
-
+                    margin-bottom:20PX;
                     .sub-system-top-item {
                         border: 1PX solid #D3DEE6;
-                        height: 920PX;
+                        height: 935PX;
                     }
 
                     .left {
                         width: 1367PX;
+                        background:#141a26;
 
                     // float left
                     // margin-left 3%
 
                         img {
-                            margin: 0 48px;
+                            // margin: 0 48px;
+                            // width:100%;
+                            // height:100%;
+                            margin:-48PX 0 0 172PX
                         }
                     }
 
@@ -421,7 +431,7 @@
                                 font-size: 15px;
                                 text-align: right;
                                 padding-right: 16px;
-
+                                margin-left:230px;
                                 .color-red {
                                     color: red;
                                 }
@@ -448,7 +458,7 @@
                                 display table-cell
                                 vertical-align middle
 
-                                font-size: 14px;
+                                font-size: 16px;
                                 background: rgba(54, 105, 134, 0.3);
                                 margin-bottom: 8px;
                                 border 1PX solid
@@ -473,8 +483,8 @@
                     font-size: 36PX;
 
                     .sub-system-bottom-left {
-                        height: 110%;
-                        width: 67%;
+                        height: 102%;
+                        width: 68%;
                         font-size: 36PX;
                         margin-left: 10px;
                         background: #141A26;
@@ -493,7 +503,7 @@
 
                             height: 6%;
                             margin-top: 38PX;
-
+                            font-size:18px;
                             .even {
                                 overflow: hidden;
                                 text-overflow: ellipsis;
@@ -519,10 +529,10 @@
                     }
 
                     .sub-system-bottom-right {
-                        height: 110%;
+                        height: 102%;
                         width: 59%;
                         font-size: 36PX;
-                        margin-left: 15px;
+                        margin-left: 10px;
                         margin-right: 10px;
                     // background url("~@/assets/img/common/footer.png")
                         background: #141A26;
@@ -539,7 +549,7 @@
                             width: 80%;
                             height: 6%;
                             margin-top: 38PX;
-
+                            font-size:18px;
                             .even {
                                 width: 220px;
                                 overflow: hidden;
@@ -553,10 +563,11 @@
                                 text-overflow: ellipsis;
                                 width-space: nowrap;
                                 color: #49ff01;
+                                width:580PX;
                             }
 
                             > div {
-                                width: 450PX;
+                                width: 355PX;
                                 height: 45PX;
                                 float: left;
                             }
@@ -570,7 +581,7 @@
 
                 .sub-system-items {
                     width: 100%;
-                    height: 38.55556rem;
+                    height: 37.7rem;
                     border-radius: 5px;
                     background: #141A26;
                     border: 1PX solid #D3DEE6;
@@ -601,6 +612,12 @@
                         padding-right 10px
 
                         ul {
+                            .activeColor{
+                                background-color: #063783;
+                                 .el-button {
+                                color: #ffd36a !important;
+                                }
+                            }
                             li:hover {
                                 border: 1px #0E70AF solid;
                                 box-shadow: inset 0 0 20px #0E70AF;
@@ -613,6 +630,7 @@
                                     background: none;
                                     border: 0.04444rem solid #00aaff;
                                     color: #37a8ff;
+                                    font-size:20px;
                                 }
                             }
                         }
@@ -622,7 +640,7 @@
                             margin-bottom: 20PX;
 
                             .el-col {
-                                font-size: 36PX;
+                                font-size: 40PX;
                             }
 
                             .item-btn {

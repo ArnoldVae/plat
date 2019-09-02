@@ -138,7 +138,7 @@
                             this.topicArr.push(this.alaramTopic + '[' + val.unitId + ']')
                         })
                         //订阅所有消防站点报警的topic
-                        console.log(this.topicArr);
+                        // console.log(this.topicArr);
                         this.subscribe(this.topicArr);
                     }
                 })
@@ -161,7 +161,7 @@
                 })
             },
             receiveAlarm(component, node) {
-                console.log(component, node);
+                // console.log(component, node);
                 this.alarmNode = node;
                 this.tabList.forEach(item => {
                     if (item.code == component) {

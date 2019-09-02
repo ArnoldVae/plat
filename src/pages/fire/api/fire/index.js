@@ -35,5 +35,14 @@ export default {
             method: 'post',
             data: JSON.stringify(params)
         })
-    }
+    },
+    // 获取历史数据
+	getNodeChart(params) {
+		return axios.request({
+            headers: { 'Content-Type': 'application/json' },
+			url: 'dev_info/findDevHistoryData',
+			method: 'post',
+			data: JSON.stringify(params)
+		})
+	}
 }

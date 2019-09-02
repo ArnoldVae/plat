@@ -49,7 +49,7 @@
         },
         computed: {
             activeUnitId() {
-                console.log('收到id被更改')
+                // console.log('收到id被更改')
                 return this.$store.getters.unitId
             }
         },
@@ -57,7 +57,7 @@
         watch: {
             activeUnitId: {
                 handler(val) {
-                     console.log('执行')
+                    //  console.log('执行')
                 },
             }
         },

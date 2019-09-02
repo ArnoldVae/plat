@@ -25,7 +25,7 @@
         watch: {
             url:{
                 handler(val){
-                    console.log(val);
+                    // console.log(val);
                     this.init(val)
                 }
             }

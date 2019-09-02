@@ -104,7 +104,7 @@ export default {
 		}
 	},
     mounted(){
-	  console.log(this.getThisWeek(this.getTargetDate(0,0,-3)))
+	  // console.log(this.getThisWeek(this.getTargetDate(0,0,-3)))
 
     },
 
@@ -156,7 +156,7 @@ export default {
 		async init() {
 			let result = await this.$_api.maintaining.getMaintenance()
 			if (result.success) {
-				console.log(result.data, 'ssssss')
+				// console.log(result.data, 'ssssss')
 				this.maintenanceUnits = result.data
 			} else {
 				// this.maintainData = []

@@ -34,7 +34,7 @@ export default {
 		}
 	},
 	created() {
-		console.log('chartId:', this.chartId)
+		// console.log('chartId:', this.chartId)
 	},
 	mounted() {
 		this.init()

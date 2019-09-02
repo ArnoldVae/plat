@@ -15,7 +15,7 @@
             <p></p>
             <span>消防管理</span>
 <!--            <fire></fire>-->
-            <iframe src="http://26.47.189.184:8087/#/main" id="myFrame" align="centet" scrolling="auto" allowtransparency="true" frameborder="0" height="100%" width="3774PX" style="position: relative;left: 13px;width: 99%"></iframe>
+            <iframe src="http://10.10.10.182:18260/fire.html#/main" id="myFrame" align="centet" scrolling="auto" allowtransparency="true" frameborder="0" height="100%" width="3774PX" style="position: relative;left: 13px;width: 99%"></iframe>
 <!--            <iframe src="http://localhost:8087/#/main" frameborder="0" height="95%" width="3774PX"></iframe>-->
         </div>
     </div>
@@ -62,6 +62,7 @@
         align-items: baseline;
         align-content: center;
         background: #3a4761;
+        overflow: hidden;
         /*overflow: scroll !important;*/
     }
 

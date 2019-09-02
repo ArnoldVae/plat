@@ -309,7 +309,7 @@ export default {
 				}
 				// this.defaultMapConfig.center.lng = item.dMapx
 				// this.defaultMapConfig.center.lng = item.dMapy
-				console.log(item)
+				// console.log(item)
 			}
 		},
 		subscribe(topicArr) {

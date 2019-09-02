@@ -135,7 +135,7 @@ export default {
 			rcu220Alarm: require('@/assets/img/common/rcu-220kV.gif'),
 			rcu500Alarm: require('@/assets/img/common/rcu-500kV.gif'),
 			rcu1000Alarm: require('@/assets/img/common/rcu-1000kV.gif'),
-			defaultMapConfig: {
+            defaultMapConfig	: {
 				center: {lng: 118.7929, lat: 31.8803},
 				zoom: 12,
 				scrollWheelZoom: true,

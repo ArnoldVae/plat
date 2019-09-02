@@ -1,28 +1,36 @@
 <template>
     <div id="video">
         <div>
-            <img @click="changeVideo" src="../../assets/img/title.png" alt="">
-            <span @click="changeVideo" >主设备监视</span>
-            <video height="93.5%" width="100%" @click="play" class="video" v-if="!showFlag">
-                <source :src="$_fireVideoCofig.masterRecUrl" type="video/mp4">
+            <div @dblclick="changeVideo('img1')" style="height: 105PX; width: 1800PX;position: absolute">
+
+            </div>
+            <div @dblclick="changeVideo('img2')" style="height: 105PX;left: 1800PX;  width: 1800PX;position: absolute">
+
+            </div>
+            <img @dblclick="changeVideo('video')" src="../../assets/img/title.png" alt="">
+            <span @dblclick="changeVideo('video')" >主设备监视</span>
+            <video height="93.5%" controls="true" width="100%" @click="play(0)" class="video" v-if="showFlag=='ocx'" >
+                <source src="http://26.47.189.184:9000/1.mp4" type="video/mp4">
             </video>
-            <cvideo class="video" v-if="showFlag" :videoConfig="video1" style="height: 93.5%!important;width: 3630PX!important;"></cvideo>
+            <img v-if="showFlag=='img1'" :src="picUrl" style="width: 3634PX;margin-top: -118PX; height: 93.45vh;" alt="">
+            <img v-if="showFlag=='img2'" :src="picUrl2" style="width: 3634PX;margin-top: -118PX; height: 93.45vh;" alt="">
+            <cvideo class="video"  v-if="showFlag=='rec'" :videoConfig="video1" style="height: 93.5%!important;width: 3630PX!important;"></cvideo>
         </div>
         <div>
-            <img @click="changeVideo"  src="../../assets/img/title.png" alt="">
-            <span @click="changeVideo" >一键顺控主机</span>
-            <video height="93.5%" width="100%" @click="play" class="video" v-if="!showFlag">
-                <source :src="$_fireVideoCofig.masterControlRecUrl" type="video/mp4">
+            <img @dblclick="changeVideo('video')"  src="../../assets/img/title.png" alt="">
+            <span @dblclick="changeVideo('video')" >一键顺控主机</span>
+            <video height="93.5%"  controls="true" width="100%" @click="play(1)" class="video" v-if="showFlag2=='ocx'">
+                <source src="http://26.47.189.184:9000/2.mp4" type="video/mp4">
             </video>
-            <cvideo  v-if="showFlag" class="video" :videoConfig="video2" style="height: 93.5%!important;"></cvideo>
+            <cvideo   v-if="showFlag2=='rec'" class="video" :videoConfig="video2" style="height: 93.5%!important;"></cvideo>
         </div>
         <div>
-            <img  @click="changeVideo" src="../../assets/img/title.png" alt="">
-            <span @click="changeVideo" >一键顺控视频主机</span>
-            <video height="93%.5" width="100%" @click="play" class="video" v-if="!showFlag">
-                <source :src="$_fireVideoCofig.masterControlVideoRecUrl" type="video/mp4">
+            <img  @dblclick="changeVideo('video')" src="../../assets/img/title.png" alt="">
+            <span @dblclick="changeVideo('video')" >一键顺控视频主机</span>
+            <video height="93%.5"  controls="true"  width="100%" @click="play(2)" class="video" v-if="showFlag3=='ocx'">
+                <source src="http://26.47.189.184:9000/3.mp4" type="video/mp4">
             </video>
-            <cvideo v-if="showFlag" class="video" :videoConfig="video3" style="height: 93.5%!important;"></cvideo>
+            <cvideo  v-if="showFlag3=='rec'" class="video" :videoConfig="video3" style="height: 93.5%!important;"></cvideo>
         </div>
     </div>
 </template>
@@ -34,7 +42,13 @@
         data(){
           return{
               doc:document.getElementsByClassName('video'),
-              showFlag:true,
+              isPause:false,
+              showFlag:'rec',
+              showFlag2:'rec',
+              showFlag3:'rec',
+              modifyFlag:false,
+              picUrl:require('../../../../../public/img/yjsk1.png'),
+              picUrl2:require('../../../../../public/img/yjsk2.png'),
               video1:{
                   deviceInfo: $_fireVideoCofig.masterDevURL,
                   isAutoPlay: true,
@@ -56,13 +70,31 @@
           }
         },
         methods:{
-            changeVideo(){
-                this.showFlag=!this.showFlag
+            changeVideo(target){
+                if(target=='video') {
+                    this.showFlag = this.showFlag2 == 'rec' ? 'ocx' : 'rec'
+                    this.showFlag2 = this.showFlag2 == 'rec' ? 'ocx' : 'rec'
+                    this.showFlag3 = this.showFlag3 == 'rec' ? 'ocx' : 'rec'
+                }else if(target=='img1') {
+                    this.showFlag=this.showFlag=='img1'?this.showFlag2:'img1'
+                }else {
+                    this.showFlag=this.showFlag=='img2'?this.showFlag2:'img2'
+                }
             },
-            play(){
-                this.doc[0].play();
-                this.doc[1].play();
-                this.doc[2].play()
+            play(index){
+                if(this.isPause){
+                    this.doc[0].pause();
+                    this.doc[1].pause();
+                    this.doc[2].pause();
+                    this.isPause=!this.isPause
+                }else {
+                    this.doc[0].play();
+                    this.doc[1].play();
+                    this.doc[2].play();
+                    this.isPause=!this.isPause
+                }
+
+
             },
         },
         components: {

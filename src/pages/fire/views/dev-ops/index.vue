@@ -68,7 +68,7 @@
             return {
                 filterText: '',
                 treeData: [],
-                current: 'equipment-account',
+                current: 'protection-zone',
                 defaultProps: {
                     children: 'children',
                     label: 'label'
@@ -84,14 +84,14 @@
                         title: '防护区巡视',
                         id: '02',
                         code: 'protection-zone',
-                        active: false
+                        active: true
                     },
 
                     {
                         title: '消防设备台账',
                         id: '04',
                         code: 'equipment-account',
-                        active: true
+                        active: false
                     },
                     {
                         title: '维保记录',
@@ -116,7 +116,7 @@
             // this.getOrganization()
         },
         mounted() {
-            console.log(this.pageType)
+            // console.log(this.pageType)
         },
         activited() {
         },
@@ -150,7 +150,7 @@
 
             // tab点击
             tabChange(val) {
-                console.log(val, 'val')
+                // console.log(val, 'val')
                 this.tabList.forEach(item => {
                     item.active = false
                 })
@@ -160,13 +160,13 @@
 
             getMethod(val) {
                 this.tabList.forEach(item => {
-                    if (item.code == 'equipment-account') {
+                    if (item.code == 'protection-zone') {
                         item.active = true
                     } else {
                         item.active = false
                     }
                 })
-                this.current = 'equipment-account'
+                this.current = 'protection-zone'
                 let that = this
                 setTimeout(() => {
                     that.$refs.sunMethod.initView(val)
@@ -190,7 +190,7 @@
 </script>
 <style lang="stylus" scoped>
     .new-color {
-        height: 980px !important;
+        height: 940px !important;
 
         .el-aside {
             background: #141a26;
@@ -199,7 +199,7 @@
 
         .el-main .el-main-content {
             border: 4PX solid #d3dee6;
-            height: 39.7rem !important;
+            height: 38.6rem !important;
         }
     }
 

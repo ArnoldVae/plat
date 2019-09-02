@@ -144,7 +144,7 @@ export default {
 					myChart.setOption(option)
 					break
 				case 'pie':
-					console.log('饼图')
+					// console.log('饼图')
 					option = {
 						tooltip: {
 							trigger: 'axis',
@@ -157,7 +157,7 @@ export default {
 							},
 							// formatter: '{a} <br/>{b}: {c} ({d}%)'
 							formatter: function(params) {
-								console.log(params)
+								// console.log(params)
 								// let name = params[0].name
 								// let data = params[0].data
 								// let marker = params[0].marker
@@ -215,7 +215,7 @@ export default {
 					myChart.setOption(option)
 					break
 				case 'bar':
-					console.log('折线图')
+					// console.log('折线图')
 					break
 			}
 

@@ -5,19 +5,49 @@
 			<div class="btnTitle">图例:</div>
 			<div class="btnCon">
 				<div class="btnConItem">
-					<div></div>
-					<div class="con" @click="residueDian()">剩余电流</div>
+					<div>
+						<img src="../../assets/img/elec-fire/kaizhuang.png" alt />
+					</div>
+					<div class="con" @click="kaiDian()">铠装电流(mA)</div>
 				</div>
 				<div class="btnConItem">
-					<div class="con" @click="kaiDian()">铠装电流</div>
+					<div>
+						<img src="../../assets/img/elec-fire/shengyu.png" alt />
+					</div>
+					<div class="con" @click="residueDian()">剩余电流(mA)</div>
 				</div>
+				<!-- <div class="btnConItem">
+					<div>
+						<img src="../../assets/img/elec-fire/shengyu.png" alt />
+					</div>
+					<div class="con" @click="Videoclick()">视频</div>
+				</div> -->
 			</div>
 		</div>
+		<!-- 视频弹框 -->
+		<ElDialog
+			id="dialogs"
+			:title="'视频'"
+			center
+			:visible.sync="vidoeShow"
+			v-if="vidoeShow"
+			width="100%"
+			@close="handleClose()"
+			style="top:-75vh;left: 18vw"
+		>
+			<div class="video" v-for="(videoItem,index) in newVideoConfig" :key="index">
+					<OcxVideo :videoConfig="videoItem"></OcxVideo>
+			</div>
+		</ElDialog>
+		<!-- 历史曲线弹框 -->
+			<charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
 	</div>
 </template>
 <script>
 import { CLIENT_RENEG_LIMIT, CLIENT_RENEG_WINDOW } from 'tls'
 import { setTimeout } from 'timers'
+import OcxVideo from '@/components/native/video/OcxVideo'
+import charts from '../common/charts1'
 export default {
 	name: 'ht-common',
 	data() {
@@ -27,7 +57,22 @@ export default {
 			graphView: null,
 			residualNodes: [],
 			deviceid: '',
-			nodeValue: ''
+			nodeValue: '',
+			vidoeShow: false,
+			newVideoConfig:[
+				{
+					isAutoPlay: true,
+					serviceInfo: '1$22.46.34.114$6800$admin$admin',
+					deviceInfo: '2|22.46.34.114:37781|admin:admin123|2',
+					presetVal: 0,
+					hideTool: true
+				}
+			],
+			// 历史曲线
+			historyModal:false,
+			chartTitle: '',
+			nodeId: '',
+			unit: ''
 		}
 	},
 	props: {
@@ -42,9 +87,14 @@ export default {
 		}
 	},
 	created() {},
+	components: {
+		OcxVideo,
+		charts
+	},
 	mounted() {
 		// this.mapHt()
 		this.init()
+		
 	},
 	watch: {
 		residualUrl(url) {
@@ -58,7 +108,7 @@ export default {
 			this.init()
 		},
 		mqttData(data) {
-			console.log(data)
+			// console.log(data)
 			if (data.cmd == 1001) {
 				this.deviceid = data.devid
 				this.nodeValue = data.value
@@ -66,6 +116,7 @@ export default {
 				// console.log(tag)
 				//给图元添加下方文字
 				if (tag != undefined) {
+					// debugger
 					if (tag.getTag() == this.deviceid) {
 						tag.a('value', this.nodeValue)
 					}
@@ -108,10 +159,19 @@ export default {
 			ht.Default.xhrLoad(http, res => {
 				let json = ht.Default.parse(res)
 				dataModel.deserialize(json)
-				graphView.fitContent(true)
-				// graphView.setZoom(4.5,true,{x:0,y:0})
+				// graphView.fitContent(true)
+				graphView.setZoom(10.5, true, { x: 560, y: 450 })
+				this.dataModel.each(data => {
+					if (data.getTag() == 'sy-bg-shengyu' || data.getTag() == 'sy-bg-kai') {
+						if (data.getStyle('2d.visible') == true) {
+							data.setStyle('2d.visible', false)
+						}
+					}
+				})
 			})
-			this.getNode()
+			this.getNode();
+			this.clickTextNodeHistory()
+			// this.clickVideoNode();//视频点击
 		},
 		getNode() {
 			let params = {
@@ -119,46 +179,55 @@ export default {
 				unitId: '8177a787a28b4f86a103fac9a023db05'
 			}
 			this.$_api.statusCheck.getHtNode(params).then(res => {
-				// console.log(res)
 				if (res.code == 200) {
-					this.residualNodes = res.data
+					this.residualNodes = res.data				
 					this.residualNodes.length &&
-						this.residualNodes.map(item => {
-							setTimeout(() => {
-								let node = new this.localHt.Node()
-								node.setImage('ht/storage/symbols/txtIcon.json')
-								node.setTag(item.vcSourceId)
-								node.setId(item.vcSourceId)
-								node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
-								node.setName(item.vcName)
-								// node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
-								node.setSize(40, 20)
-								node.setStyle('interactive', true)
-								//  node.setStyle('border.color', '#40A3FC');
-								// node.setStyle('border.width', 1);
-								// node.setStyle('border.padding',1);
-								// node.setStyle('border.type', 'rect');
-								node.a('vc_SourceID', item.vcSourceId)
-								node.a('vc_Path', item.vcPath)
-								node.a('i_NodeType', item.iNodeType)
-								node.a('pageId', this.residualObj.pageId)
-								node.a('devtypeId',item.devNodes[0].devTypeId);
+						this.residualNodes.map((item,index) => {
+								// console.log(item.devNodes[0].devTypeId)
+							setTimeout(()=>{
+									let node = new this.localHt.Node()
+							    if(item.devNodes[0].devTypeId==1080 || item.devNodes[0].devTypeId==1082){
+									node.setImage('ht/storage/symbols/txtIcon.json')
+									node.setTag(item.vcSourceId)
+									node.setId(item.vcSourceId)
+									node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
+									node.setName(item.vcName)
+									node.setSize(25, 12)
+									// node.setStyle('interactive', true)
+									node.setStyle('font', 'DS-DIGI')
+									node.a('vc_SourceID', item.vcSourceId)
+									node.a('vc_Path', item.vcPath)
+									node.a('nodeID',item.devNodes[0].NodeID)
+									node.a('i_NodeType', item.iNodeType)
+									node.a('pageId', this.residualObj.pageId)
+									node.a('devtypeId', item.devNodes[0].devTypeId)
+									node.setLayer(1)
+									node.s('label', '')
+									if(item.devNodes[0].NodeID=="d4b6b41b574c470ea14aa328f23fd24e"){
+										item.devNodes[0]['f_Value']=item.devNodes[0].f_Value/100
+									}else if(item.devNodes[0].NodeID=="2c9dde06ef014dbb8acee871f81759cf"){
+											item.devNodes[0]["f_Value"]=item.devNodes[0].f_Value/100
+									}
+									let NumValue  =item.devNodes[0].f_Value == '65535' ? ' --' : item.devNodes[0].f_Value
+									node.a('value', NumValue.toFixed(1))
+									node.setStyle('2d.visible', false)
+								}
+								// else if(item.devNodes[0].devTypeId==1044){
+								// 	node.setImage('ht/storage/assets/svg/Dark_icons_qiujiOnline.png')
+								// 	node.setTag("视频")
+								// 	node.setId(item.vcSourceId)
+								// 	node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
+								// 	node.setSize(5, 5)
+								// 	node.a('devtypeId', item.devNodes[0].devTypeId)
+								// 	node.a('devid',item.devNodes[0].DevID)
+								// 	node.setStyle('2d.visible', false)
+								// }
 								
-								// node.a('sort', item.iOrder)
-								// node.a('iParam1', item.iParam1)
-								// node.a('iParam2', item.iParam2)
-								// node.a('iParam3', item.iParam3)
-								node.setLayer(1)
-								node.s('label', '')
+								
+								//								end
 								this.dataModel.add(node)
-								this.dataModel.each(data => {
-									let valueNum = item.devNodes[0].f_Value !=null ? item.devNodes[0].f_Value : '---'
-									data.a('value', valueNum)
-									// if(data.getTag()=='12e1638920ca4ce0a5ace94d87e005eb'){
-									// 	// console.log(data)
-									// }
-								})
-							}, 800)
+							},300)
+							
 						})
 				}
 			})
@@ -166,13 +235,13 @@ export default {
 		//剩余电流的点击 显示与隐藏
 		residueDian() {
 			this.dataModel.each(data => {
-				if(data.a('devtypeId')==1080){
-					console.log(data)
-					if (data.getStyle('2d.visible') == true) {
-							data.setStyle('2d.visible', false)
-						} else {
-							data.setStyle('2d.visible', true)
-						}
+				if (data.a('devtypeId') == 1080) {
+					// console.log(data)
+					if (data.getStyle('2d.visible') == false) {
+						data.setStyle('2d.visible', true)
+					} else {
+						data.setStyle('2d.visible', false)
+					}
 				}
 				// if (data.getName() != undefined) {
 				// 	if (data.getName().indexOf('剩余电流')>0 ) {
@@ -196,13 +265,13 @@ export default {
 		//铠装电流的点击 显示与隐藏
 		kaiDian() {
 			this.dataModel.each(data => {
-				if(data.a('devtypeId')==1082){
-					console.log(data)
-					if (data.getStyle('2d.visible') == true) {
-							data.setStyle('2d.visible', false)
-						} else {
-							data.setStyle('2d.visible', true)
-						}
+				if (data.a('devtypeId') == 1082) {
+					// console.log(data)
+					if (data.getStyle('2d.visible') == false) {
+						data.setStyle('2d.visible', true)
+					} else {
+						data.setStyle('2d.visible', false)
+					}
 				}
 				// if (data.getName() != undefined) {
 				// 	if (data.getName().indexOf('铠接地电流') > 0) {
@@ -222,6 +291,54 @@ export default {
 					}
 				}
 			})
+		},
+		//点击视频的显示与隐藏
+		Videoclick() {
+			this.dataModel.each(data => {
+				if (data.getTag() == '视频') {
+					if (data.getStyle('2d.visible') == true) {
+						data.setStyle('2d.visible', false)
+					} else {
+						data.setStyle('2d.visible', true)
+					}
+				}
+			})
+		},
+		//视频点击
+		clickVideoNode(){
+			this.graphView.mi(e=>{
+				if(e.kind === 'clickData'){
+					this.vidoeShow=true
+					  this.newVideoConfig[0].deviceInfo=e.data.a('devid')
+				}
+			})
+		},
+		handleClose(){
+			this.newVideoConfig=[
+				{
+					isAutoPlay: true,
+					serviceInfo: '1$22.46.34.114$6800$admin$admin',
+					deviceInfo: '',
+					presetVal: 0,
+					hideTool: true
+				}
+			]
+				this.vidoeShow=false
+		},
+		//历史曲线
+		clickTextNodeHistory(){
+				this.graphView.mi(e=>{
+					if(e.kind === 'clickData'){
+						if(e.data.a('nodeID')){
+							this.historyModal=true
+							// console.log(e.data)
+						  this.nodeId=e.data.a('nodeID')
+						  this.chartTitle=e.data.getName()
+						  this.unit='mA'
+						}
+					}
+			})
+			
 		}
 	}
 }
@@ -236,26 +353,64 @@ export default {
 }
 
 .fireControlHt {
-  // margin-left 20px
-  margin-top: 20px;
   width: 100%;
-  height: 880px;
+  height: 845px;
   position: relative;
 }
 
 .btnBox {
   position: absolute;
-  bottom 0;
-  right: 0px;
-  width: 200px;
+  bottom: 0;
+  right: -20PX;
+  width: 12.88889rem;
   height: 150px;
   color: #fff;
-  font-size: 35px;
+  font-size: 58PX;
 
   .btnCon {
     margin-left: 30px;
     cursor: pointer;
     user-select: none;
+
+    .btnConItem {
+      display: flex;
+      cursor: pointer;
+      user-select: none;
+
+      img {
+        width: 70PX;
+        height: 70PX;
+        margin-right: 25PX;
+      }
+
+      .con {
+        margin-left: 0.1rem;
+      }
+    }
+  }
+}
+
+#dialogs {
+  width: 60% !important;
+
+  /deep/ .el-dialog__header .el-dialog__title {
+    font-size: 25px;
+  }
+  /deep/ .el-dialog--center .el-dialog__body{
+	  padding:0 5px !important;
+	  margin-top:20px;
+	
+  }
+  /deep/ .el-dialog__headerbtn .el-dialog__close{
+	  font-size:25px
+   }
+  .video{
+	  width: 100%;
+      height: 680px;
+	//   border:1px solid red;
+	//   .ocxVideo .videoEl{
+	// 	  width:99%;
+	//   }
   }
 }
 </style>

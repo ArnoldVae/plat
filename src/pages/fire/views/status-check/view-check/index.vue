@@ -98,7 +98,7 @@
                 }
                 //图元移动时的回调
                 graphView.setMovableFunc(data => {
-                    console.log("移动" + data);
+                    // console.log("移动" + data);
                     return false
                 })
 
@@ -117,9 +117,9 @@
                     if (eType === 'clickData') {
                         if (e.data.a('vc_SourceID')) {
                             let targetTag = eData.getTag()
-                            console.log(targetTag)
-                            console.log(e.data.a('vc_SourceID'))
-                            console.log(e.data.a('i_NodeType'))
+                            // console.log(targetTag)
+                            // console.log(e.data.a('vc_SourceID'))
+                            // console.log(e.data.a('i_NodeType'))
                         }
                     }
                 })
@@ -173,7 +173,7 @@
                     })
             },
             showHtMap(item){
-                console.log(item)
+                // console.log(item)
                 this.$refs.htCommon.init(item.vcUrl)
             },
         },

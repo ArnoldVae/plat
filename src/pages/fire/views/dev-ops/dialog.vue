@@ -178,7 +178,7 @@
                 let doc = null
                 let docEl = null
                 this.num = b.status === '已结束' ? 6 : b.status === '正在执行' ? 2 : 0
-                console.log(this.num)
+                // console.log(this.num)
 
                 doc = document.getElementsByClassName('vertical2')[0]
                 docEl = doc.getElementsByClassName('el-step__icon-inner')

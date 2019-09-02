@@ -15,7 +15,6 @@
 	.st9{font-size:15.9614px;}
 	.st10{font-size:36px;}
 	.st11{fill:none;stroke:#49E2FC;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st12{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;}
 </style>
 <g id="图层_4_1_" class="st0">
 	<rect class="st1" width="1808" height="820.2"/>
@@ -1154,7 +1153,7 @@
 <text transform="matrix(1 0 0 1 683.1367 134.8816)" class="st6 st7 st8">阻45</text>
 <text transform="matrix(1 0 0 1 1168.4401 185.1152)" class="st6 st7 st8">阻49</text>
 <text transform="matrix(1 0 0 1 615.2678 206.4657)" class="st6 st7 st8">阻44</text>
-<text transform="matrix(1 0 0 1 514.5482 45.8997)" class="st6 st7 st10">500kV东善桥变电站主变及500kV设备区电缆沟</text>
+<text transform="matrix(1 0 0 1 717.8275 45.8997)" class="st6 st7 st10">主变及500kV设备区</text>
 <g>
 	<rect x="649" y="673.7" class="st3" width="26.2" height="11.8"/>
 	<rect x="650.2" y="674.7" class="st4" width="8.1" height="2.6"/>
@@ -1450,5 +1449,4 @@
 <text transform="matrix(1 0 0 1 349.5185 550.8062)" class="st6 st7 st8">变</text>
 <rect x="334.2" y="291.2" class="st11" width="42.6" height="76.8"/>
 <rect x="334.2" y="483.4" class="st11" width="42.6" height="76.8"/>
-<line class="st12" x1="505.6" y1="62" x2="1278.7" y2="62"/>
 </svg>

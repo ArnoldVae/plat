@@ -43,15 +43,15 @@
 
         data() {
             return {
-                current:"elec-fire",
+                current:"dev-ops",
                 menuList:[
 
                     {
                         title:" 电缆防火",
-                        imgUrl: require('../../assets/img/main/elec.png'),
+                        imgUrl: require('../../assets/img/main/elec-n.png'),
                         initUrl:require('../../assets/img/main/elec-n.png'),
                         selectUrl:require('../../assets/img/main/elec.png'),
-                        active:true,
+                        active:false,
                         id:"elec-fire",
                         code:'01'
                     },
@@ -92,10 +92,10 @@
                     },
                     {
                         title:"运维管理",
-                        imgUrl: require('../../assets/img/main/yw-n.png'),
+                        imgUrl: require('../../assets/img/main/yw.png'),
                         initUrl:require('../../assets/img/main/yw-n.png'),
                         selectUrl:require('../../assets/img/main/yw.png'),
-                        active:false,
+                        active:true,
                         id:'dev-ops',
                         code:'01'
                     },
@@ -194,6 +194,7 @@
             //订阅topic
             subscribe() {
                 const  topic="qif/fire/app/alarm"
+                // debugger
                 this.$_mqtt.unsubscribe(topic, err => {
                     if (err) {
                         console.log('取消智慧消防订阅失败')
@@ -217,7 +218,7 @@
                 this.$_listen(this.$options.name, (topic, msg, pack) => {
 
                     let msgJson = JSON.parse(msg.toString())
-                    console.log(msgJson)
+                    // console.log(msgJson)
                     // debugger
 
                     if (msgJson.cmd === '3002') {
