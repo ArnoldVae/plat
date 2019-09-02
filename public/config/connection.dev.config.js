@@ -3,7 +3,7 @@
  */
 var $_development = {
 	javaRequest: {
-		location: "http://26.47.189.184:8081",
+		location: "http://172.26.1.110:8080",
 		javaModule: "dsa5200"
 	},
 	netRequest: {
@@ -11,7 +11,7 @@ var $_development = {
 		netModule: ""
 	},
 	mqtt: {
-		host: "26.47.189.184",
+		host: "172.26.1.233",
 		port: "8083",
 		path: "mqtt",
 		username: 'qif',
