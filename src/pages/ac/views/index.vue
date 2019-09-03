@@ -326,7 +326,8 @@ export default {
 			this.currentTypeId = item.devTypeId
 			// await this.getDeviceInfo()
 
-			this.$router.push({ name: this.getRouterNameByMap(item.devTypeId) })
+			// this.$router.push({ name: this.getRouterNameByMap(item.devTypeId) })
+			this.$router.push({ name: this.getRouterNameByMap(item.devTypeId), query: {unitId: this.$store.getters.unitId } })
 
 			// 更新当前路由下得显示类型列表
 			this.currentModeList = this.getDisplayModeBytypeId(item.devTypeId)

@@ -53,16 +53,26 @@ export default {
 			functionCode: ''
 		}
 	},
-	watch: {},
-	created() {
-		this.getData()
+	watch: {
+		// activeId: {
+		// 	handler(val) {
+		// 		console.log(val)
+		// 	}
+		// }
 	},
+	created() {},
 	computed: {
 		activeDeviceTypeId() {
 			return findComponentUpward(this, 'intelligent').currentTypeId
+		},
+		activeTypeMapList() {
+			return findComponentUpward(this, 'intelligent').deviceTypeMapList
 		}
 	},
+	beforeUpdate() {},
 	mounted() {
+		this.getData()
+
 		this.topicStr = this.topicArr[0] + this.unitId
 		// this.subscribe(this.topicStr)
 		console.log(this.topicStr)
@@ -70,33 +80,6 @@ export default {
 		//实时数据回调
 		const _this = this
 
-		// this.$_listen(_this.$options.name, (topic, message, packet) => {
-		// 	// let data = ''
-		// 	// let dataobj = []
-		// 	// dataobj = message
-		// 	// dataobj.forEach(item => {
-		// 	// 	//将推送的报文转码
-		// 	// 	data = data + String.fromCharCode(item)
-		// 	// })
-		// 	console.log(message);
-
-		// 	let data = JSON.parse(message.toString())
-		// 	//如果推送上来的数据的topic和订阅的topic一致qif/zf/app/192fe4cec3ec4d3fb81c0d05f82bde41
-		// 	// 	if (topic == _this.topicStr) {
-		// 	//   console.log(data)
-		// 	// 	}
-		// 	console.log(123123);
-
-		// 	console.log(data);
-
-		// 	if (topic == _this.topicStr) {
-		// 		let val = JSON.parse(data)
-		// 		if (val.type == 'req' && val.cmd == '1002') {
-		// 			console.log(val)
-		// 			_this.mqttData = val
-		// 		}
-		// 	}
-		// })
 		this.$_listen(this.$options.name, (topic, message, packet) => {
 			//如果推送上来的数据的topic和订阅的topic一致
 			if (topic == _this.topicStr) {
@@ -134,7 +117,6 @@ export default {
 
 		//获取图纸信息
 		getData() {
-			
 			let params = {
 				unitId: this.unitId,
 				iSubType: '10100002'
@@ -146,9 +128,30 @@ export default {
 						this.blueprintObj = res.data[0]
 						this.blueprintUrl = res.data[0].vcUrl
 						this.pitchOn = res.data[0].pageId
+					} else {
+						this.disTable()
 					}
 				}
 			})
+		},
+		// 根据typeId查询显示类型
+		getDisplayModeBytypeId(id) {
+			let modeList = []
+			this.activeTypeMapList.forEach(item => {
+				if (item.typeId == id) {
+					modeList = item.mode
+				}
+			})
+			return modeList
+		},
+
+		// 展示表格类型
+		disTable() {
+			let result = this.getDisplayModeBytypeId(this.activeDeviceTypeId)
+			let index = result.findIndex(item => item.name == 'table')
+			setTimeout(() => {
+				findComponentUpward(this, 'intelligent').handleChangeDisplayMode(result[index], index)
+			}, 300)
 		},
 
 		//获取图元节点

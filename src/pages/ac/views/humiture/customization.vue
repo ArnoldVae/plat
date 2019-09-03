@@ -45,7 +45,11 @@
 			</ul>
 		</div>
 		<div class="humiture-bottom">
-			<div class="chartTitle">{{ devName }}&nbsp;&nbsp;&nbsp;温度</div>
+			<div class="chartTitle">
+				{{ devName }}
+				<span class="btn1" @click="chartsBtn('温度')" :class="{'btn-active':wdActive}">温度</span>
+				<span class="btn2" @click="chartsBtn('湿度')" :class="{'btn-active':!wdActive}">湿度</span>
+			</div>
 			<div id="chart"></div>
 		</div>
 	</div>
@@ -64,7 +68,9 @@ export default {
 			devName: '', //图标标题
 			devList: [], //设备列表
 			chartData: [],
-			timeData: []
+			wdActive: true,
+			timeData: [],
+			devItem: {}
 		}
 	},
 	computed: {
@@ -85,7 +91,6 @@ export default {
 		}
 	},
 	created() {
-		// this.getList()
 		this.getDevList()
 	},
 	mounted() {
@@ -109,17 +114,17 @@ export default {
 								}
 							})
 
-							if (element.isActive) {
+							if (element.isActive && this.wdActive) {
 								//如果当前推送的是选中的 重新获取历史数据
-								let nowDate = new Date().getTime()
-								let endTime = Math.ceil(nowDate / 1000)
-								let startTime = endTime - 604800
-								let params = {
-									nodeId: element.wdNodeId,
-									startTime: startTime,
-									endTime: endTime
-								}
-								_this.getChartsData(params)
+								// let nowDate = new Date().getTime()
+								// let endTime = Math.ceil(nowDate / 1000)
+								// let startTime = endTime - 604800
+								// let params = {
+								// 	nodeId: element.wdNodeId,
+								// 	startTime: startTime,
+								// 	endTime: endTime
+								// }
+								_this.getChartsData()
 							}
 						} else if (msgData.nodeid == element.sdNodeId) {
 							element.devNodesList.forEach(item => {
@@ -127,6 +132,9 @@ export default {
 									item.fvalue = msgData.value
 								}
 							})
+							if (element.isActive && !this.wdActive) {
+								_this.getChartsData()
+							}
 						}
 					})
 				}
@@ -138,47 +146,6 @@ export default {
 	beforeDestory() {},
 	methods: {
 		//获取设备列表
-		// getList() {
-		// 	let params = {
-		// 		devTypeId: this.activeDeviceTypeId,
-		// 		isPage: 1,
-		// 		// unitId: '192fe4cec3ec4d3fb81c0d05f82bde41'
-		// 		unitId: this.unitId
-		// 	}
-		// 	this.$_api.humiture.getList(params).then(res => {
-		// 		if (res.code == 200 && res.data.lists) {
-		// 			let wdList = []
-		// 			res.data.lists.map(item => {
-		// 				if (item.nodeName == '温度') {
-		// 					wdList.push(item)
-		// 				}
-		// 			})
-		// 			res.data.lists.map(item => {
-		// 				for (let i = 0; i < wdList.length; i++) {
-		// 					if (wdList[i].DevID == item.DevID && item.nodeName == '湿度') {
-		// 						wdList[i].sdValue = item.f_Value
-		// 						wdList[i].sdUnit = item.vc_Unit
-		// 						wdList[i].sdNodeId = item.NodeID
-		// 					}
-		// 				}
-		// 			})
-		// 			this.devList = wdList
-		// 			if (this.devList && this.devList.length > 0) {
-		// 				this.devList[0].isActive = true
-		// 				this.devName = this.devList[0].devName
-		// 				let nowDate = new Date().getTime()
-		// 				let endTime = Math.ceil(nowDate / 1000)
-		// 				let startTime = endTime - 604800
-		// 				let params = {
-		// 					nodeId: this.devList[0].NodeID,
-		// 					startTime: startTime,
-		// 					endTime: endTime
-		// 				}
-		// 				this.getChartsData(params)
-		// 			}
-		// 		}
-		// 	})
-		// },
 		getDevList() {
 			let params = {
 				devTypeId: this.activeDeviceTypeId,
@@ -205,15 +172,8 @@ export default {
 					if (this.devList && this.devList.length > 0) {
 						this.devList[0].isActive = true
 						this.devName = this.devList[0].vcName
-						let nowDate = new Date().getTime()
-						let endTime = Math.ceil(nowDate / 1000)
-						let startTime = endTime - 604800
-						let params = {
-							nodeId: this.devList[0].wdNodeId,
-							startTime: startTime,
-							endTime: endTime
-						}
-						this.getChartsData(params)
+						this.devItem = this.devList[0]
+						this.getChartsData()
 					}
 				}
 			})
@@ -225,17 +185,27 @@ export default {
 			})
 			this.devList[index].isActive = true
 			this.devName = item.vcName
+			this.devItem = JSON.parse(JSON.stringify(item))
+			// let nowDate = new Date().getTime()
+			// let endTime = Math.ceil(nowDate / 1000)
+			// let startTime = endTime - 604800
+			// let params = {
+			// 	nodeId: item.wdNodeId,
+			// 	startTime: startTime,
+			// 	endTime: endTime
+			// }
+			this.getChartsData()
+		},
+		getChartsData() {
 			let nowDate = new Date().getTime()
 			let endTime = Math.ceil(nowDate / 1000)
 			let startTime = endTime - 604800
+			let nodeId = this.wdActive ? this.devItem.wdNodeId : this.devItem.sdNodeId
 			let params = {
-				nodeId: item.wdNodeId,
+				nodeId: nodeId,
 				startTime: startTime,
 				endTime: endTime
 			}
-			this.getChartsData(params)
-		},
-		getChartsData(params) {
 			this.$_api.humiture.getNodeChart(params).then(res => {
 				if (res.code == 200 && res.data) {
 					let tempList = []
@@ -254,12 +224,13 @@ export default {
 			// 基于准备好的dom，初始化echarts实例
 			var myChart = this.$_echarts.init(document.getElementById('chart'))
 			myChart.clear()
+			let unit = this.wdActive ? '℃' : '%'
 
 			// 指定图表的配置项和数据
 			var option = {
 				tooltip: {
 					trigger: 'axis',
-					formatter: ' &nbsp;{b0}<br/> &nbsp;{a0}: {c0}℃',
+					formatter: ` &nbsp;{b0}<br/> &nbsp;{a0}: {c0}${unit}`,
 					axisPointer: {
 						type: 'cross',
 						label: {
@@ -279,7 +250,7 @@ export default {
 				// },
 				grid: {
 					//设置表格大小位置的
-					// top: '15%',
+					top: '10%',
 					left: '3%',
 					right: '4%',
 					bottom: '8%',
@@ -327,13 +298,44 @@ export default {
 				],
 				series: [
 					{
-						name: '温度',
+						name: this.wdActive ? '温度' : '湿度',
 						type: 'line',
 						symbol: 'none',
-						areaStyle: { normal: { color: '#0f335f' } }, //折线区域背景色
+						// areaStyle: { normal: { color: '#0f335f' } }, //折线区域背景色
+						areaStyle: {
+							color: new this.$_echarts.graphic.LinearGradient(0, 0, 0, 1, [
+								{
+									offset: 0,
+									color: 'rgb(4,163,255,0.5)'
+								},
+								{
+									offset: 1,
+									color: 'rgb(15,51,95,1)'
+								}
+							])
+						},
 						lineStyle: { normal: { color: '#04a3ff' } }, //折线颜色
 						data: this.chartData,
 						connectNulls: true //这个是重点，将断点连接
+					}
+				],
+				dataZoom: [
+					{
+						type: 'inside',
+						minValueSpan: 7,
+						minSpan: 20,
+						start: 0,
+						end: 100
+					},
+					{
+						showDetail: true,
+						height: 10,
+						bottom: 5,
+						borderColor: 'rgba(1,37,59,0.5)',
+						backgroundColor: 'rgba(1,37,59,0.5)',
+						dataBackgroundColor: 'rgba(47,126,181,0.9)',
+						fillerColor: 'rgba(1,138,225,0.5)',
+						handleColor: 'rgba(1,37,59,0.8)'
 					}
 				]
 			}
@@ -352,6 +354,10 @@ export default {
 			let s = date.getSeconds()
 			let b = Y + M + D + h + m + s
 			return b
+		},
+		chartsBtn(type) {
+			this.wdActive = type == '温度' ? true : false
+			this.getChartsData()
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -371,10 +377,10 @@ export default {
   height: 100%;
   background: url('~@/assets/img/common/bg-border.png') no-repeat;
   background-size: 100% 100%;
-//   padding-left: 67px;
-//   padding-right: 55px;
-//   padding-top: 35px;
-padding 30px 58px 20px 58px;
+  // padding-left: 67px;
+  // padding-right: 55px;
+  // padding-top: 35px;
+  padding: 30px 58px 20px 58px;
 
   .humiture-top {
     width: 100%;
@@ -434,8 +440,7 @@ padding 30px 58px 20px 58px;
 
           .li-wd {
             margin-top: 35px;
-			text-align center;
-            // margin-bottom: 15px;
+            text-align: center;
           }
 
           i {
@@ -486,11 +491,39 @@ padding 30px 58px 20px 58px;
       padding-left: 50px;
       color: #fff;
       font-size: 16px;
+      position: relative;
+
+      span {
+        position: absolute;
+        width: 62px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        color: #fff;
+        top: 2px;
+        // border: 1px solid #000;
+        background: url('../../assets/img/humiture/btn.png') no-repeat;
+        background-size: 100% 100%;
+        cursor: pointer;
+      }
+
+      .btn1 {
+        right: 90px;
+      }
+
+      .btn2 {
+        right: 20px;
+      }
+
+      .btn-active {
+        color: #f6ce69;
+      }
     }
 
     #chart {
       width: 100%;
-      height: 100%;
+      height: 265px;
+      position: absolute;
     }
   }
 }

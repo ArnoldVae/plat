@@ -1,6 +1,6 @@
 <template>
-	<div class="arrester-monitor-customization" >
-		<div class="arrester" v-loading="loading"  element-loading-background="rgba(7,49,135, 0)" >
+	<div class="arrester-monitor-customization">
+		<div class="arrester" v-loading="loading" element-loading-background="rgba(7,49,135, 0)">
 			<!-- 主变区域Start -->
 			<div class="main-content" v-for="main in mainList" :key="main.title">
 				<div class="title">{{ main.title }}</div>
@@ -10,11 +10,11 @@
 						<div class="item-box" v-for="(phase, index) in level.level" :key="index">
 							<div class="left-title">
 								{{
-									phase.vcName.indexOf('A相') != -1
-										? 'A相'
-										: phase.vcName.indexOf('B相') != -1
-										? 'B相'
-										: 'C相'
+								phase.vcName.indexOf('A相') != -1
+								? 'A相'
+								: phase.vcName.indexOf('B相') != -1
+								? 'B相'
+								: 'C相'
 								}}
 							</div>
 							<div class="item" v-for="node in phase.devNodesList" :key="node.nodeId">
@@ -101,7 +101,7 @@ export default {
 			chartTitle: '',
 			nodeId: '',
 			unit: '',
-			loading:false
+			loading: false
 		}
 	},
 	computed: {
@@ -183,15 +183,18 @@ export default {
 				unitId: this.unitId
 			}
 			this.loading = true
-			this.$_api.humiture.getDevList(params).then(res => {
-				if (res.code == 200 && res.data) {
-					this.mainDevList = JSON.parse(JSON.stringify(res.data.lists))
-					this.setMainList()
-				}
-				this.loading = false
-			}).catch(error=>{
-				this.loading = false
-			})
+			this.$_api.humiture
+				.getDevList(params)
+				.then(res => {
+					if (res.code == 200 && res.data) {
+						this.mainDevList = JSON.parse(JSON.stringify(res.data.lists))
+						this.setMainList()
+					}
+					this.loading = false
+				})
+				.catch(error => {
+					this.loading = false
+				})
 		},
 		//处理设备接口返回的数据
 		setMainList() {
@@ -315,7 +318,6 @@ export default {
           width: calc(33.33% - 15px);
           height: 100%;
           border: 1px solid #3299ff;
-        //   background-color: rgba(50, 153, 255, 0.1);
 
           .item-box {
             width: 100%;
@@ -323,7 +325,7 @@ export default {
             margin-top: 15px;
             border-top: 1px solid #3299ff;
             border-bottom: 1px solid #3299ff;
-			 background-color: rgba(50, 153, 255, 0.1);
+            background-color: rgba(50, 153, 255, 0.1);
 
             .left-title {
               width: 35px;
@@ -352,6 +354,7 @@ export default {
                 width: 100%;
                 height: 50%;
                 border-bottom: 1px solid #3299ff;
+                background-color: rgba(50, 153, 255, 0.3);
 
                 // background-color: #0e88e3;
                 .top-left {
@@ -378,7 +381,7 @@ export default {
               }
 
               .item-bottom {
-                background-color: #13283a;
+                // background-color: #13283a;
                 height: 50%;
                 line-height: 40px;
                 color: #fff;
@@ -396,8 +399,12 @@ export default {
                   color: #4dff00;
                   font-family: 'DS-DIGI';
                   font-size: 22px;
-                  height: 100%;
-                  background: radial-gradient(rgb(75, 17, 17), #000);
+                  height: 70%;
+                  line-height: 28px;
+				  border-radius 3px;
+                  margin-top: 5px;
+                  background: #3d3d3d;
+                  border: 1px solid #3299ff;
                 }
               }
             }
@@ -445,6 +452,7 @@ export default {
             width: 100%;
             height: 50%;
             border-bottom: 1px solid #0e88e3;
+			 background-color: rgba(50, 153, 255, 0.3);
 
             // background-color #0e88e3;
             .logo {
@@ -485,7 +493,7 @@ export default {
           }
 
           .item-bottom {
-            background-color: #13283a;
+            // background-color: #13283a;
             height: 50%;
             line-height: 50px;
             color: #fff;
@@ -500,12 +508,17 @@ export default {
 
             .bottom-right {
               float: left;
-              width: 45%;
+              width: 40%;
               color: #4dff00;
               font-family: 'DS-DIGI';
-              font-size: 36px;
-              height: 100%;
-              background: radial-gradient(rgb(75, 17, 17), #000);
+              font-size: 32px;
+              height: 70%;
+              margin-top: 8px;
+			  margin-left 10px;
+			  border-radius 3px;
+              line-height: 35px;
+              background: #3d3d3d;
+              border: 1px solid #3299ff;
             }
           }
         }

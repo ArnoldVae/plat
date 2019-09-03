@@ -10,11 +10,11 @@
 					<div v-for="(detailitem, idx) in childitem.devNodesList" class="detail" :key="idx">
 						<div @click="showHistoryHandler(detailitem)" :class="['detail-img', detailitem.className]"></div>
 						<div class="detail-content">
-							<div>
-								<span>{{ detailitem.fvalue }}</span>
+							<div class="detail-top">
+								<span class="detail-value">{{ detailitem.fvalue }}</span>
 								<span>{{ detailitem.vcUnit }}</span>
 							</div>
-							<span>{{ detailitem.vcName }}</span>
+							<span class="detail-bottom">{{ detailitem.vcName }}</span>
 						</div>
 					</div>
 				</div>
@@ -22,7 +22,6 @@
 		</div>
 
 		<charts v-model="historyModal" :node-id="nodeId" :sub-title="chartTitle" :unit="unit"></charts>
-		
 	</div>
 </template>
 <script>
@@ -185,14 +184,13 @@ export default {
   .oil-main-item {
     width: 32.5%;
     height: 100%;
-    // border: 1px solid #0173bb;
 
+    // border: 1px solid #0173bb;
     .item-title {
       width: 100%;
       height: 30px;
       color: #fff;
       font-size: 18px;
-    //   font-weight: 700;
       line-height: 30px;
       text-align: center;
       background-color: #0e88e3;
@@ -204,8 +202,7 @@ export default {
       height: 31%;
       margin-bottom: 9px;
       display: flex;
-    background-color: rgba(50, 153, 255, 0.1);
-
+      background-color: rgba(50, 153, 255, 0.1);
 
       .child-item-title {
         width: 54px;
@@ -302,29 +299,34 @@ export default {
             flex-direction: column;
             margin-left: 5px;
 
-            :nth-child(1) {
-              color: #48f702;
-              background: #000;
-              border-radius: 5px;
+            .detail-top {
               width: 90px;
               height: 30px;
               margin-top: 5px;
               line-height: 30px;
               text-align: center;
 
-              :nth-of-type(1) {
-                font-family: 'DS-DIGI';
-                font-size: 22px;
+              span {
+                width: 30px;
+                height: 100%;
+                display: block;
+                float: left;
+                font-size: 12px;
               }
 
-              :nth-of-type(2) {
-                font-family: 'Microsoft YaHei';
+              .detail-value {
+                width: calc(100% - 30px);
+                height: 100%;
+                background: #3d3d3d;
+                border: 1px solid #3299ff;
+                color: #01fa5d;
+                border-radius: 3px;
                 font-size: 14px;
               }
             }
 
-            :nth-child(2) {
-              font-size: 16px;
+            .detail-bottom {
+              font-size: 14px;
               color: #fff;
             }
           }

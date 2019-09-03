@@ -26,14 +26,17 @@
 				&nbsp;{{ item.vcUnit }}
 			</p>
 		</span>
-		<div v-for="ite in chartsList" :key="ite.id" class="chart" :class="ite.id" :id="ite.id"></div>
+		<div v-for="ite in chartData" :key="ite.id+100" class="chart" :class="ite.id">
+			<charts :data="ite"></charts>
+		</div>
 	</div>
 </template>
 <script>
 import { findComponentUpward } from '@/libs/assist'
+import charts from './micro-charts'
 export default {
 	name: 'micro-weather-customization',
-	components: {},
+	components: { charts },
 	props: {},
 	data() {
 		return {
@@ -44,7 +47,8 @@ export default {
 			devNameList: [],
 			chartsList: [],
 			devNameItem: '',
-			button4: '1小时'
+			button4: '1小时',
+			chartData: {}
 		}
 	},
 	computed: {
@@ -65,6 +69,7 @@ export default {
 		},
 		button4: {
 			handler(val) {
+				this.chartData = {}
 				this.getCharts(true)
 			}
 		}
@@ -74,40 +79,24 @@ export default {
 	},
 	mounted() {
 		this.topicStr = this.topicArr[0] + this.unitId
-		// console.log(this.topicStr)
+		console.log(this.topicStr)
 		//实时数据回调
 		const _this = this
-		// this.$_mqtt.on('message', function(topic, message, packet) {
 		this.$_listen(this.$options.name, (topic, message, packet) => {
 			//如果推送上来的数据的topic和订阅的topic一致
 			if (topic == _this.topicStr) {
 				//将json字符串转为数组
 				let msgData = JSON.parse(message.toString())
-				console.log('微气象实时数据', msgData)
-
 				if (msgData.cmd == 1001 && msgData.unitid == this.$store.getters.unitId) {
 					_this.chartsList.forEach(element => {
 						if (msgData.nodeid == element.nodeId) {
 							element.fvalue = msgData.value
-							//并且更新发生变化的设备的历史数据echarts
-							let time =
-								this.button4 == '1小时'
-									? 3600
-									: this.button4 == '3小时'
-									? 10800
-									: this.button4 == '6小时'
-									? 21600
-									: 3600
-							let nowDate = new Date().getTime()
-							let endTime = Math.ceil(nowDate / 1000)
-							let startTime = endTime - time
-							let param = {
-								nodeId: msgData.nodeid,
-								startTime: startTime,
-								endTime: endTime
+							for (let key in this.chartData) {
+								if (this.chartData[key].nodeId == msgData.nodeid) {
+									this.chartData[key].datas.chart.push(msgData.value)
+									this.chartData[key].datas.time.push(this.strToymd(msgData.time))
+								}
 							}
-							//调用历史数据接口
-							_this.getChartsData(param, element.id, element.unit, element.nodeName)
 						}
 					})
 				}
@@ -129,11 +118,9 @@ export default {
 				.getDevList(params)
 				.then(res => {
 					if (res.code == 200) {
-						// console.log(res)
 						if (res.data.lists && res.data.lists.length > 0) {
 							let devList = []
 							for (let i = 0; i < res.data.lists[0].devNodesList.length; i++) {
-								// if (res.data.lists[0].devNodesList[i].nodeType != 2) {
 								if (
 									res.data.lists[0].devNodesList[i].functionCode != 1010.0009 &&
 									res.data.lists[0].devNodesList[i].functionCode != 1010.0006
@@ -141,7 +128,6 @@ export default {
 									devList.push(res.data.lists[0].devNodesList[i])
 								}
 							}
-							// console.log(devList)
 							if (!DevID) {
 								res.data.lists.forEach(item => {
 									item.label = item.vcName
@@ -153,7 +139,6 @@ export default {
 								this.getCharts(true)
 							} else {
 								this.chartsList = []
-								// console.log(res)
 								res.data.lists.forEach(item => {
 									if (item.devId == DevID) {
 										for (let i = 0; i < item.devNodesList.length; i++) {
@@ -194,7 +179,6 @@ export default {
 			let nowDate = new Date().getTime()
 			let endTime = Math.ceil(nowDate / 1000)
 			let startTime = endTime - time
-			// let fTime = endTime - 21600
 			//循环列表数据 设置对应的值
 			//循环的同时循环调用历史数据接口
 			let classArr = ['logo1', 'logo2', 'logo3', 'logo4', 'logo5']
@@ -227,9 +211,8 @@ export default {
 					startTime: startTime,
 					endTime: endTime
 				}
-				// (item.vcName.indexOf('风速') != -1 || item.vcName.indexOf('风向') != -1)?fTime : startTime
 				if (flag) {
-					this.getChartsData(param, item.id, item.vcUnit, item.vcName)
+					this.getChartsData(param, item.id, item.vcUnit, item.vcName, index, item.nodeId)
 				}
 			})
 		},
@@ -244,11 +227,11 @@ export default {
 			return arr
 		},
 		changeDev(devNameItem) {
-			// console.log(devNameItem)
+			this.chartData = {}
 			this.getDevList(devNameItem)
 		},
 		//调用历史数据接口
-		getChartsData(param, id, unit, name) {
+		getChartsData(param, id, unit, name, index, nodeId) {
 			this.$_api.microWeather.getChart(param).then(res => {
 				if (res.code == 200 && res.data) {
 					let tempList = []
@@ -257,128 +240,15 @@ export default {
 						tempList.push(item.f_Value)
 						timeList.push(this.strToymd(item.i_DataTime))
 					})
-					this.chartData = tempList
-					this.timeData = timeList
-					//调用历史数据接口 得到数据后开始初始化echarts
-					this.setEcharts(id, tempList, timeList, unit, name)
+					this.$set(this.chartData, `data${index}`, { datas: { chart: [], time: [] } })
+					this.chartData[`data${index}`].datas.chart = tempList
+					this.chartData[`data${index}`].datas.time = timeList
+					this.chartData[`data${index}`].id = id
+					this.chartData[`data${index}`].nodeId = nodeId
+					this.chartData[`data${index}`].unit = unit
+					this.chartData[`data${index}`].name = name
 				}
 			})
-		},
-		setEcharts(id, data, time, unit, name) {
-			// 基于准备好的dom，初始化echarts实例
-			try {
-				var myChart = this.$_echarts.init(document.getElementById(id))
-				// 指定图表的配置项和数据
-				var option = {
-					// title: {
-					// 	text: name,
-					// 	textStyle:{
-					// 		color:'#fff',
-					// 		fontWeight:400,
-					// 		fontSize:14
-					// 	},
-					// 	left:10,
-					// 	top:5
-					// },
-					tooltip: {
-						trigger: 'axis',
-						formatter: `&nbsp;{b0}<br/> &nbsp;{a0}: {c0}&nbsp;${unit}`,
-						axisPointer: {
-							type: 'cross',
-							label: {
-								backgroundColor: '#6a7985'
-							},
-							triggerTooltip: {}
-						}
-					},
-					grid: {
-						//设置表格大小位置的
-						top: '10%',
-						left: '5%',
-						right: '6%',
-						bottom: '8%',
-						containLabel: true
-					},
-
-					xAxis: [
-						{
-							type: 'category',
-							boundaryGap: false,
-							data: time,
-							axisLine: {
-								show: true,
-								lineStyle: {
-									color: '#0091e8'
-								}
-							},
-							axisLabel: {
-								textStyle: {
-									color: '#fff'
-								}
-							}
-						}
-					],
-					yAxis: [
-						{
-							type: 'value',
-							axisLine: {
-								show: true,
-								lineStyle: {
-									color: '#0091e8'
-								}
-							},
-							splitLine: {
-								lineStyle: {
-									color: '#2d3650'
-								}
-							},
-							axisLabel: {
-								textStyle: {
-									color: '#fff'
-								}
-								// formatter: `{value} ${unit}`
-							}
-						}
-					],
-					series: [
-						{
-							name: name,
-							type: 'line',
-							symbol: 'none',
-							areaStyle: { normal: { color: '#0f335f' } }, //折线区域背景色
-							lineStyle: { normal: { color: '#04a3ff' } }, //折线颜色
-							data: data,
-							connectNulls: true //这个是重点，将断点连接
-						}
-					],
-					dataZoom: [
-						{
-							type: 'inside',
-							minValueSpan: 7,
-							minSpan: 20,
-							start: 99,
-							end: 100
-						},
-						{
-							showDetail: true,
-							height: 10,
-							bottom: 0,
-							borderColor: 'rgba(1,37,59,0.5)',
-							backgroundColor: 'rgba(1,37,59,0.5)',
-							dataBackgroundColor: 'rgba(47,126,181,0.9)',
-							fillerColor: 'rgba(1,138,225,0.5)',
-							handleColor: 'rgba(1,37,59,0.8)'
-						}
-					]
-				}
-
-				// 使用刚指定的配置项和数据显示图表。
-				myChart.clear()
-				myChart.setOption(option)
-				myChart.resize()
-			} catch (e) {
-				// this.$ocxMessage.error(`${e}`)
-			}
 		},
 		strToymd(time) {
 			// 遍历时间 处理格式
@@ -555,8 +425,12 @@ export default {
   }
 
   /deep/.ivu-radio-wrapper, .ivu-radio-group-item, .ivu-radio-default {
-    background: url('../../assets/img/micro-weather/btn.jpg') no-repeat;
+    background: url('../../assets/img/micro-weather/btn.png') no-repeat;
     background-size: 100% 100%;
+    width: 62px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
     margin-left: 10px;
     // border: 1px solid #0c79b9;
     border: none;
@@ -568,7 +442,7 @@ export default {
   }
 
   /deep/.ivu-radio-wrapper-checked {
-    background: url('../../assets/img/micro-weather/btn.jpg') no-repeat;
+    background: url('../../assets/img/micro-weather/btn.png') no-repeat;
     background-size: 100% 100%;
     color: #ffd36a;
 
@@ -577,12 +451,13 @@ export default {
     }
 
     &:focus {
-    //   outline: 0;
-    //   box-shadow: 0 0 0 0 !important;
+      // outline: 0;
+      // box-shadow: 0 0 0 0 !important;
     }
   }
-  /deep/.ivu-radio-group-button,.ivu-radio-wrapper-checked{
-	   box-shadow: 0 0 0 0 !important;
+
+  /deep/.ivu-radio-group-button, .ivu-radio-wrapper-checked {
+    box-shadow: 0 0 0 0 !important;
   }
 }
 </style>

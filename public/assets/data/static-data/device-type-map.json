@@ -32,14 +32,14 @@
         "typeId": 1011,
         "name": "water-soaking",
         "mode": [{
-                "title": "平面图",
-                "name": "ichnography",
-                "icon": "picture"
-            },
-            {
                 "title": "表格",
                 "name": "table",
                 "icon": "table"
+            },
+            {
+                "title": "平面图",
+                "name": "ichnography",
+                "icon": "picture"
             }
         ]
     },
@@ -167,14 +167,14 @@
         "typeId": 1024,
         "name": "security-control",
         "mode": [{
-                "title": "定制化",
-                "name": "customization",
-                "icon": "layout"
-            },
-            {
                 "title": "表格",
                 "name": "table",
                 "icon": "table"
+            },
+            {
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
             }
         ]
     },
@@ -312,14 +312,14 @@
         "typeId": 1022,
         "name": "electronic-fence-control",
         "mode": [{
-                "title": "定制化",
-                "name": "customization",
-                "icon": "layout"
-            },
-            {
                 "title": "表格",
                 "name": "table",
                 "icon": "table"
+            },
+            {
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
             }
         ]
     },
@@ -327,14 +327,14 @@
         "typeId": 2021,
         "name": "terminal-box",
         "mode": [{
-                "title": "定制化",
-                "name": "customization",
-                "icon": "layout"
-            },
-            {
                 "title": "表格",
                 "name": "table",
                 "icon": "table"
+            },
+            {
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
             }
         ]
     },
@@ -342,14 +342,14 @@
         "typeId": 1023,
         "name": "infrared-correlation",
         "mode": [{
-                "title": "定制化",
-                "name": "customization",
-                "icon": "layout"
-            },
-            {
                 "title": "表格",
                 "name": "table",
                 "icon": "table"
+            },
+            {
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
             }
         ]
     },
@@ -387,14 +387,14 @@
         "typeId": 1081,
         "name": "burglar-alarm",
         "mode": [{
-                "title": "定制化",
-                "name": "customization",
-                "icon": "layout"
-            },
-            {
                 "title": "表格",
                 "name": "table",
                 "icon": "table"
+            },
+            {
+                "title": "定制化",
+                "name": "customization",
+                "icon": "layout"
             }
         ]
     }

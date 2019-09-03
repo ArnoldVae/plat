@@ -126,7 +126,7 @@ export default {
 						}
 					},
 					min: function(value) {
-						return value.min - 0.2
+						return value.min - 0.3
 						//这里设置Y轴展示的缩放级别
 					}
 				},

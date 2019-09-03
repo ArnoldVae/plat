@@ -1069,7 +1069,7 @@ const ____factory = function(BMap) {
 	}
 
 	Overlay.prototype.getIcon = function() {
-		return new BMap.Icon('/gismap/images/blank.gif', new BMap.Size(this._size.width, this._size.height), {})
+		return new BMap.Icon('/assets/libs/gismap/images/blank.gif', new BMap.Size(this._size.width, this._size.height), {})
 	}
 
 	Overlay.prototype.addContextMenu = function(control) {

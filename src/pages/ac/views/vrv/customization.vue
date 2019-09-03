@@ -179,7 +179,7 @@ export default {
 		},
 		// 实时结果
 		handleRealResult(msg) {
-			if (msg.result == '1') {
+			if (msg.result == '0') {
 				this.$ocxMessage.info('操作成功')
 			} else {
 				this.$ocxMessage.info('操作失败')

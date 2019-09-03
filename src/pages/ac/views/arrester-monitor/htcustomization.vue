@@ -48,7 +48,6 @@ export default {
 			topicArr: ['qif/zf/app/']
 		}
 	},
-	computed: {},
 	filters: {},
 	watch: {
 		htSwitch(newVal) {
@@ -116,6 +115,9 @@ export default {
 		},
 		activeDeviceTypeId() {
 			return findComponentUpward(this, 'intelligent').currentTypeId
+		},
+		activeTypeMapList() {
+			return findComponentUpward(this, 'intelligent').deviceTypeMapList
 		}
 	},
 	methods: {
@@ -174,22 +176,25 @@ export default {
 				return false
 			})
 
-			if (dataList.vcName.search('线路') == -1) {
-				this.$_api.humiture
-					.getHtControl(dataList.vcUrl)
-					.then(res => {
-						let json = ht.Default.parse(res)
-						dataModel.deserialize(json)
-						graphView.fitContent(true, 0)
-						return
-					})
-					.catch(err => {
-						this.$ocxMessage.error('图纸丢失！！！')
-						return
-					})
-				
-			} else {
-				this.$_api.humiture.getHtControl(dataList.vcUrl).then(res => {
+			// if (dataList.vcName.search('线路') == -1) {
+			// 	this.$_api.humiture
+			// 		.getHtControl(dataList.vcUrl)
+			// 		.then(res => {
+			// 			let json = ht.Default.parse(res)
+			// 			dataModel.deserialize(json)
+			// 			graphView.fitContent(true, 0)
+			// 			return
+			// 		})
+			// 		.catch(err => {
+			// 			this.$ocxMessage.error('图纸丢失！！！')
+			// 			this.disTable()
+			// 			return
+			// 		})
+
+			// } else {
+			this.$_api.humiture
+				.getHtControl(dataList.vcUrl)
+				.then(res => {
 					graphView.deserialize(res, function(json, dm, gv, datas) {
 						var validateHandler = function(e) {
 							if (e.kind === 'validate') {
@@ -199,8 +204,8 @@ export default {
 
 								graphView.setZoom(zoom)
 								// graphView.adjustTranslateX()
-								graphView.tx(-150)
-								graphView.ty(-65)
+								graphView.tx(-160)
+								graphView.ty(-85)
 								graphView.adjustZoom = function() {
 									return zoom
 								}
@@ -248,11 +253,16 @@ export default {
 					if (document.addEventListener) {
 						//firefox
 						document.addEventListener('DOMMouseScroll', scrollFunc, false)
-					}
+					}	
 					//Safari与Chrome属于同一类型
 					window.onmousewheel = document.onmousewheel = scrollFunc
 				})
-			}
+				.catch(err => {
+					this.$ocxMessage.error('图纸丢失！！！')
+					this.disTable()
+					return
+				})
+			// }
 
 			// graphView.mi(e => {
 			// 	let eType = e.kind,
@@ -327,6 +337,24 @@ export default {
 			} else {
 				this.$ocxMessage.error('数据丢失！！！')
 			}
+		},
+		// 展示表格类型
+		disTable() {
+			let result = this.getDisplayModeBytypeId(this.activeDeviceTypeId)
+			let index = result.findIndex(item => item.name == 'table')
+			setTimeout(() => {
+				findComponentUpward(this, 'intelligent').handleChangeDisplayMode(result[index], index)
+			}, 300)
+		},
+		// 根据typeId查询显示类型
+		getDisplayModeBytypeId(id) {
+			let modeList = []
+			this.activeTypeMapList.forEach(item => {
+				if (item.typeId == id) {
+					modeList = item.mode
+				}
+			})
+			return modeList
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -358,7 +386,7 @@ export default {
       border-radius: 3px;
       color: #fff;
       cursor: pointer;
-	  margin-right : 8px;
+      margin-right: 8px;
     }
 
     .switch {

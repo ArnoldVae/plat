@@ -775,6 +775,7 @@ $prowidth = 100%;
         height: 379px;
         margin-top: 19px;
         width: 1145px;
+		border-radius: 5px 5px 0 0;
         // background: #141A26;
         // background: url('../../../assets/img/protection-zon/actualTime.png');
         // background-repeat: no-repeat;
@@ -806,6 +807,7 @@ $prowidth = 100%;
       .protection-zone-items {
         width: $prowidth;
         height: 549px;
+		border-radius: 5px 5px 0 0;
         // padding-top: 28px;
         border: 1px solid #195891;
         overflow: hidden;
@@ -897,10 +899,7 @@ $prowidth = 100%;
       .protection-zone-items-bottom {
         width: $prowidth;
         height: 224px;
-        // border-radius: 5px;
-        // background: url('../../../assets/img/protection-zon/oneProtection.png');
-        // background-repeat: no-repeat;
-        // background-size: 100% 100%;
+		border-radius: 5px 5px 0 0;
         margin-top: 10px;
 		border: 1px solid #195891;
 

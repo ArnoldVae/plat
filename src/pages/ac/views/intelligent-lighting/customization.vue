@@ -15,7 +15,7 @@
 						<i>{{ openTotal }}</i>&nbsp;&nbsp;&nbsp;关 :
 						<b>{{ offTotal }}</b>
 						<!-- &nbsp;&nbsp;&nbsp;未知:
-						<b>{{ unknown }}</b> -->
+						<b>{{ unknown }}</b>-->
 					</span>
 				</div>
 				<ul
@@ -67,6 +67,7 @@ import ocxVideo from '@/components/native/video/OcxVideo'
 import lightingOpen from '../../assets/img/intelligent-lighting/lamplight-open-s.png'
 import lightingClose from '../../assets/img/intelligent-lighting/lamplight-close-s.png'
 import { findComponentUpward } from '@/libs/assist'
+import { setTimeout } from 'timers'
 export default {
 	name: 'intelligent-lighting-customization',
 	components: { ocxVideo },
@@ -212,6 +213,7 @@ export default {
 		// 	}
 		// },
 		getFirstVideo(data) {
+			// console.log(data)
 			for (let i = 0; i < data.length; i++) {
 				// if (data[i].devNodesList && data[i].devNodesList.length > 0 && !!data[i].devNodesList[0].devId) {
 				// 	this.videoConfig.deviceInfo = data[i].devNodesList[0].devId
@@ -226,9 +228,9 @@ export default {
 		},
 		//获取开关数量
 		getSwitch() {
-			console.log(this.$_api.intelligentLightin)
+			// console.log(this.$_api.intelligentLightin)
 			this.$_api.intelligentLightin.getSwitch({ unitId: this.unitId }).then(res => {
-				console.log(res)
+				// console.log(res)
 
 				if (res.code == 200 && res.data) {
 					if (res.data.openCount + res.data.closeCount == 0) {
@@ -256,7 +258,7 @@ export default {
 		},
 		//点击开关按钮
 		handleSwitch(node, item) {
-			console.log(node)
+			// console.log(node)
 			this.modalShow = true
 			this.nodeData = JSON.parse(JSON.stringify(node))
 			this.lightItem = item
@@ -282,7 +284,7 @@ export default {
 			let nowDate = new Date().getTime()
 			let startTime = Math.ceil(nowDate / 1000)
 			let guid = this.guid()
-			this.guids.push(guid)
+			this.guids.push({ guid: guid, devId: this.nodeData.devId, value: this.nodeData.fvalue })
 			let params = {
 				cmd: '1003',
 				type: 'req',
@@ -296,9 +298,9 @@ export default {
 					}
 				]
 			}
-			this.topicStr = this.topicArr[1] + this.unitId
+			this.topicStr2 = this.topicArr[1] + this.unitId
 			//下发控制命令
-			this.$_mqtt.publish(this.topicStr, JSON.stringify(params), { qos: 0, retain: false })
+			this.$_mqtt.publish(this.topicStr2, JSON.stringify(params), { qos: 0, retain: false })
 			//判断当前节点是否有视频 有就切换视频
 			// if (
 			// 	this.lightItem.devNodesList &&
@@ -324,49 +326,56 @@ export default {
 		getMqtt() {
 			this.topicStr = this.topicArr[0] + this.unitId
 			this.topicStr2 = this.topicArr[1] + this.unitId
-			console.log(this.topicStr)
-
 			this.$_listen(this.$options.name, (topic, message, packet) => {
 				if (topic == this.topicStr || topic == this.topicStr2) {
 					let msgData = JSON.parse(message.toString())
 					if (msgData.cmd == 1001 && msgData.unitid == this.$store.getters.unitId) {
-						// console.log(msgData)
-						// console.log(this.lightingList)
 						this.lightingList.forEach(element => {
-							if (msgData.nodeid == element.ctrlNodeId) {
+							// console.log(element)
+							if (msgData.devid == element.devId) {
 								element.devNodesList.forEach(item => {
-									if (item.functionCode == 1020.0001) {
+									if (item.functionCode == 1020.0001 && msgData.nodeid == item.nodeId) {
 										item.fvalue = msgData.value
 										element.fvalue = msgData.value
+										if (msgData.value == 0) {
+											this.openTotal = this.openTotal - 1
+											this.offTotal = this.offTotal + 1
+										} else if (msgData.value == 1) {
+											this.openTotal = this.openTotal + 1
+											this.offTotal = this.offTotal - 1
+										}
 									}
 								})
+								return
 							}
 						})
 					} else if (msgData.cmd == 1003) {
 						console.log(msgData)
+						console.log(this.guids)
 						this.guids.forEach(item => {
-							if (item == msgData.serial) {
+							if (item.guid == msgData.serial) {
 								this.$ocxMessage.info('命令下发成功')
-								this.lightingList.forEach(element => {
-									if (element.devId == msgData.nodes[0].devid) {
-										element.fvalue = msgData.nodes[0].value
-									}
-								})
+								this.getSwitch()
 							}
 						})
-					} else if (msgData.cmd == 1004) {
+					}
+					if (msgData.cmd == 1004) {
 						console.log(JSON.stringify(msgData))
-
 						this.guids.forEach((item, index) => {
-							if (item == msgData.serial) {
+							if (item.guid == msgData.serial) {
 								if (msgData.result == 0) {
 									this.$ocxMessage.success('命令执行成功')
+									// this.lightingList.forEach(element => {
+									// 	if (element.devId == item.devId) {
+									// 		element.fvalue = item.value
+									// 	}
+									// })
 									this.guids.splice(index, 1)
-									this.getSwitch()
+									// this.getSwitch()
 								} else {
 									this.$ocxMessage.error('命令执行失败')
 									this.guids.splice(index, 1)
-									this.getSwitch()
+									// this.getSwitch()
 								}
 							}
 						})

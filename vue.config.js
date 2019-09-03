@@ -20,7 +20,7 @@ let outputDir = ''
 if (projectname == 'index') {
 	outputDir = 'dsa5200web/'
 } else {
-	outputDir = 'dsa5200web/' + projectname
+	outputDir = 'dsa5200web/module/' + projectname
 }
 
 // 加载静态路径基址

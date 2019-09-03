@@ -11,6 +11,7 @@
 </template>
 <script>
 import charts from '../main-oil/charts1'
+import { findComponentUpward } from '@/libs/assist'
 export default {
 	name: 'ht-page',
 	components: { charts },
@@ -45,7 +46,14 @@ export default {
 			mainDevData: []
 		}
 	},
-	computed: {},
+	computed: {
+		activeDeviceTypeId() {
+			return findComponentUpward(this, 'intelligent').currentTypeId
+		},
+		activeTypeMapList() {
+			return findComponentUpward(this, 'intelligent').deviceTypeMapList
+		}
+	},
 	filters: {},
 	watch: {
 		pitchOn(newVal) {
@@ -121,6 +129,7 @@ export default {
 				})
 				.catch(err => {
 					this.$ocxMessage.error('图纸丢失！！！')
+					this.disTable()
 					return
 				})
 
@@ -137,7 +146,7 @@ export default {
 					let item = this.mainDevData[i]
 
 					let tag = this.dataModel.getDataByTag(item.devId)
-					console.log(tag)
+					// console.log(tag)
 
 					if (tag != undefined) {
 						for (let j = 0; j < item.devNodesList.length; j++) {
@@ -153,11 +162,10 @@ export default {
 		},
 		//弹窗
 		chartsModal(data, functionCode) {
-
 			let val = data.a('item')
 			if (val != undefined) {
 				let index = val.devNodesList.findIndex(item => item.functionCode == functionCode)
-				
+
 				if (index != -1) {
 					let list = val.devNodesList[index]
 					this.historyModal = true
@@ -170,6 +178,24 @@ export default {
 			} else {
 				this.$ocxMessage.error('数据丢失！！！')
 			}
+		},
+		// 展示表格类型
+		disTable() {
+			let result = this.getDisplayModeBytypeId(this.activeDeviceTypeId)
+			let index = result.findIndex(item => item.name == 'table')
+			setTimeout(() => {
+				findComponentUpward(this, 'intelligent').handleChangeDisplayMode(result[index], index)
+			}, 300)
+		},
+		// 根据typeId查询显示类型
+		getDisplayModeBytypeId(id) {
+			let modeList = []
+			this.activeTypeMapList.forEach(item => {
+				if (item.typeId == id) {
+					modeList = item.mode
+				}
+			})
+			return modeList
 		}
 	},
 	beforeRouteEnter(to, from, next) {

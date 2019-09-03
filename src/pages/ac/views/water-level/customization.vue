@@ -55,7 +55,11 @@
 				<ocx-video :videoConfig="videoConfig"></ocx-video>
 			</div>
 		</div>
-		<div class="chart" ref="water-level-chart"></div>
+		<div class="chart-wrap">
+			<div class="title"></div>
+			<div class="chart" ref="water-level-chart"></div>	
+		</div>
+		
 	</div>
 </template>
 <script>
@@ -273,7 +277,7 @@ export default {
 				title: {
 					text: this.nodeTitle,
 					textStyle: {
-						color: '#0af'
+						color: '#fff'
 					}
 				},
 				tooltip: {
@@ -313,7 +317,15 @@ export default {
 					feature: {
 						restore: {},
 						saveAsImage: {}
-					}
+					},
+					iconStyle:{
+	                    normal:{
+	                    	borderColor: '#fff'
+	                    },
+	                    emphasis: {
+	                    	borderColor: '#fa0'
+	                    }
+	                }
 				},
 				xAxis: {
 					type: 'category',
@@ -497,13 +509,28 @@ export default {
 			}
 		}
 	}
-	.chart {
-		width: 100%;
-		height: 263px;
-		padding-top: 10px;
-		padding-left: 10px;
-		background: url('~@/assets/img/common/bg-border2.png') no-repeat;
-		background-size: 100% 263px;
+	.chart-wrap {
+		position: relative;
+
+		.title {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 45px;
+			background-color: #185a9e;
+		}
+		.chart {
+			margin-top: 20px;
+			width: 100%;
+			height: 280px;
+			padding-top: 10px;
+			padding-left: 10px;
+			/* background: url('~@/assets/img/common/bg-border2.png') no-repeat; */
+			background-color: rgba(24,90,158,0.2);
+			border: 1px solid #3a63a1;
+			/* background-size: 100% 280px; */
+		}
 	}
 }
 </style>

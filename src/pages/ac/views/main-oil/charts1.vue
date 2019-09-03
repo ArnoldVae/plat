@@ -195,7 +195,19 @@ export default {
 						name: name,
 						type: 'line',
 						symbol: 'none',
-						areaStyle: { normal: { color: '#0f335f' } }, //折线区域背景色
+						// areaStyle: { normal: { color: '#0f335f' } }, //折线区域背景色
+						areaStyle: {
+							color: new this.$_echarts.graphic.LinearGradient(0, 0, 0, 1, [
+								{
+									offset: 0,
+									color: 'rgb(4,163,255)'
+								},
+								{
+									offset: 1,
+									color: 'rgb(15,51,95)'
+								}
+							])
+						},
 						lineStyle: { normal: { color: '#04a3ff' } }, //折线颜色
 						data: data,
 						connectNulls: true //这个是重点，将断点连接
@@ -284,8 +296,8 @@ export default {
             height: 500px;
 
             .btn-box {
-              width: 200px;
-              height: 50px;
+              width: 330px;
+              height: 30px;
               margin-left: 80%;
             }
 
@@ -304,15 +316,58 @@ export default {
   }
 }
 
+// /deep/.ivu-radio-wrapper, .ivu-radio-group-item, .ivu-radio-default {
+//   background-color: #0a1736;
+//   border: 1px solid #0c79b9;
+//   color: #fff;
+// }
+
+// /deep/.ivu-radio-wrapper-checked {
+//   background-color: #0173bb;
+//   border: 1px solid #0173bb;
+//   color: #000;
+// }
+
 /deep/.ivu-radio-wrapper, .ivu-radio-group-item, .ivu-radio-default {
-  background-color: #0a1736;
-  border: 1px solid #0c79b9;
+  background: url('../../assets/img/micro-weather/btn.png') no-repeat;
+  background-size: 100% 100%;
+  width: 62px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  margin-left: 10px;
+  // border: 1px solid #0c79b9;
+  border: none;
   color: #fff;
+
+  &:before {
+    width: 0px;
+  }
 }
 
 /deep/.ivu-radio-wrapper-checked {
-  background-color: #0173bb;
-  border: 1px solid #0173bb;
-  color: #000;
+  background: url('../../assets/img/micro-weather/btn.png') no-repeat;
+  background-size: 100% 100%;
+  color: #ffd36a;
+
+  &:before {
+    width: 0px;
+  }
+
+  &:focus {
+    // outline: 0;
+    // box-shadow: 0 0 0 0 !important;
+  }
+}
+
+/deep/.ivu-radio-group-button, .ivu-radio-wrapper-checked {
+  box-shadow: 0 0 0 0 !important;
+}
+/deep/.ivu-radio-group-button,.ivu-radio-wrapper:first-child{
+	border-left:0px;
+}
+/deep/.ivu-radio-group-button,.ivu-radio-group-large,.ivu-radio-wrapper{
+	height:30px;
+	line-height 30px;
 }
 </style>

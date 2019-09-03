@@ -336,7 +336,7 @@ export default {
 		global.mapconfig = {
 			img_format: '.jpg',
 			tiles_dir: 'webshare/MAPS/TILES',
-			home: 'gismap/'
+			home: 'assets/libs/gismap/'
 		}
 		if (process.env.NODE_ENV == 'production') {
 			global.mapconfig['tiles_dir'] = `${global.location.protocol}//${global.location.host}/${

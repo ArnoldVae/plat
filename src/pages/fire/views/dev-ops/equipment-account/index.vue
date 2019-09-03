@@ -81,24 +81,25 @@
             v-for="(item, index) in eqcnameS"
             :key="index"
             :label="item.vcName"
-            :value="item.vcName"
+            :value="item.dictID"
           ></el-option>
         </el-select>
       </el-form-item>
-	  <el-form-item label="定置点编号:" style="margin-right: 20px">
-        <el-input v-model="search.Num" placeholder="请输入定置点编号"></el-input>
-      </el-form-item>
-      <el-form-item label="所属子系统:" style="margin-right: 26px">
+			 <el-form-item label="所属子系统:" style="margin-right: 26px">
         <el-select v-model="search.maintenanceUnit" placeholder="请选择所属子系统">
           <el-option label="全部" value="nullValue"></el-option>
           <el-option
             v-for="(item, index) in eqctypeS"
             :key="index"
             :label="item.vcName"
-            :value="item.vcName"
+            :value="item.subSystemId"
           ></el-option>
         </el-select>
       </el-form-item>
+	  <el-form-item label="定置点编号:" style="margin-right: 20px">
+        <el-input v-model="search.Num" placeholder="请输入定置点编号"></el-input>
+      </el-form-item>
+     
       <el-form-item label="保管责任人:" >
         <el-input v-model="search.keeperName" placeholder="请输入保管责任人"></el-input>
       </el-form-item>
@@ -378,15 +379,22 @@ computed: {
 		async searchItem() {
 			let result = await this.$_api.devOps.getAcountList({
 				vcName:this.search.eqName,
-				devTypeName:this.search.devType,
+				devTypeId:this.search.devType,
 				num:this.search.Num,
-				subName:this.search.maintenanceUnit,
+				subId:this.search.maintenanceUnit,
 				userId:this.search.keeperName,
 				pageSize:this.pageSize,
 				currentPage:this.curIndex,
 				unitId:this.unitId
 			})
 			if (result.success) {
+				this.search={
+					eqName:'',//设备名称
+					devType:'',//设备类型
+					Num:'',//定置点编号
+					maintenanceUnit:'',//所属子系统
+					keeperName:'',//保管责任人
+				}
 				if (result.data && result.data) {
 					this.totals = result.data.total
 					this.maintainDatas = result.data.list

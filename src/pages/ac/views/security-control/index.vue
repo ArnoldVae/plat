@@ -6,6 +6,7 @@
 <script>
 import securityControlTable from '@ac/views/common/view-table'
 import securityControlCustomization from './customization.vue'
+import { findComponentUpward } from '@/libs/assist'
 export default {
 	name: 'security-control',
 	components: {
@@ -18,7 +19,17 @@ export default {
 			current: 'security-control-customization'
 		}
 	},
-	computed: {},
+	computed: {
+		activeId() {
+			return this.$route.query.unitId
+		},
+		activeDeviceTypeId() {
+			return findComponentUpward(this, 'intelligent').currentTypeId
+		},
+		activeTypeMapList() {
+			return findComponentUpward(this, 'intelligent').deviceTypeMapList
+		},
+	},
 	filters: {},
 	watch: {
 		// 更新当前组件，断开已销毁组件的事件池
@@ -28,6 +39,13 @@ export default {
 			} else {
 				this.$_stop(oldVal)
 			}
+		},
+		activeId(newVal) {
+			let result = this.getDisplayModeBytypeId(this.activeDeviceTypeId)
+			let index = result.findIndex( item => item.name == 'table')
+			setTimeout(() => {
+				findComponentUpward(this, 'intelligent').handleChangeDisplayMode(result[index], index)
+			}, 300);
 		}
 	},
 	created() {},
@@ -35,7 +53,18 @@ export default {
 	activited() {},
 	update() {},
 	beforeDestory() {},
-	methods: {},
+	methods: {
+		// 根据typeId查询显示类型
+		getDisplayModeBytypeId(id) {
+			let modeList = []
+			this.activeTypeMapList.forEach(item => {
+				if (item.typeId == id) {
+					modeList = item.mode
+				}
+			})
+			return modeList
+		},
+	},
 	beforeRouteEnter(to, from, next) {
 		next()
 	},

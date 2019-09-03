@@ -27,6 +27,7 @@
     "mqtt": "^3.0.0",
     "pinyin2": "^2.0.8",
     "vue": "^2.6.10",
+    "vue-giant-tree": "^0.1.1",
     "vue-photo-zoom-pro": "^1.2.5",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1",

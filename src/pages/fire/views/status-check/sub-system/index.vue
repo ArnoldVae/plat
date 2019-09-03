@@ -734,7 +734,7 @@
                     }
 
                     .right {
-                        border-radius: 5px;
+                        border-radius: 5px 5px 0 0;
                         width: 468px;
                         height: 528px;
                         font-size: 36PX;
@@ -820,6 +820,7 @@
                         width: 700px;
                         height: 100%;
                         font-size: 18px;
+                        border-radius: 5px 5px 0 0;
                     // background: url('../../../assets/img/alarm-now/resoure.png');
                     // background-repeat: no-repeat;
                     // background-size: 100% 100%;
@@ -886,6 +887,7 @@
                         height: 100%;
                         font-size: 18px;
                         margin-left: 10px;
+                        border-radius: 5px 5px 0 0;
                     // background: url('../../../assets/img/alarm-now/resoure.png');
                     // background-repeat: no-repeat;
                     // background-size: 100% 100%;
@@ -953,7 +955,7 @@
                 .sub-system-items {
                     width: 321px;
                     height: 100%;
-                // border-radius: 10px 0 0 0;
+                border-radius: 5px 5px 0 0;
                 // background: url('../../../assets/img/yunxing.png');
                 // background-repeat: no-repeat;
                 // background-size: 100% 100%;

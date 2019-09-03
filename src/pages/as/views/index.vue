@@ -91,7 +91,7 @@
 										<span class="whiteCls">在线：</span>
 										<span class="blueCls">{{ gq.online }}</span>
 									</div>
-									<div>
+									<div class="thirdDiv">
 										<span class="whiteCls">离线：</span>
 										<span class="yellowCls">{{ gq.offline }}</span>
 									</div>
@@ -106,7 +106,7 @@
 										<span class="whiteCls">在线：</span>
 										<span class="blueCls">{{ snjqr.online }}</span>
 									</div>
-									<div>
+									<div class="thirdDiv">
 										<span class="whiteCls">离线：</span>
 										<span class="yellowCls">{{ snjqr.offline }}</span>
 									</div>
@@ -121,7 +121,7 @@
 										<span class="whiteCls">在线：</span>
 										<span class="blueCls">{{ swjqr.online }}</span>
 									</div>
-									<div>
+									<div class="thirdDiv">
 										<span class="whiteCls">离线：</span>
 										<span class="yellowCls">{{ swjqr.offline }}</span>
 									</div>
@@ -136,7 +136,7 @@
 										<span class="whiteCls">在线：</span>
 										<span class="blueCls">{{ wrj.online }}</span>
 									</div>
-									<div>
+									<div class="thirdDiv">
 										<span class="whiteCls">离线：</span>
 										<span class="yellowCls">{{ wrj.offline }}</span>
 									</div>
@@ -403,7 +403,7 @@ export default {
         // margin-top: 10px;
         // margin-left: 5px;
         width: 1180px;
-        height: 870px;
+        height: 855px;
         background: #333;
         position: relative;
 
@@ -447,24 +447,30 @@ export default {
 
           .title {
             width: 100%;
+            height: 60px;
             font-size: 18px;
             color: #fff;
-            padding-top: 20px;
-            padding-left: 25px;
+            line-height: 60px;
             letter-spacing: 3px;
+            text-indent: 20px;
+            background: #165697;
           }
         }
 
         .inspStatistics {
           height: 380px;
+          border-radius: 5px;
+          width: 595px;
+          border: 2px solid #165697;
 
           .selectTimeBox {
             position: absolute;
             right: 4px;
-            top: 14px;
+            top: 70px;
+            height: 60px;
 
             span {
-              display: inline-block;
+               display: inline-block;
               width: 62px;
               height: 30px;
               line-height: 30px;
@@ -478,6 +484,7 @@ export default {
 
             .spanActive {
               color: #ffd36a;
+            // background: #165697;
             }
           }
 
@@ -496,8 +503,9 @@ export default {
 
               .alarmLevelBox {
                 width: 100%;
-                height: 180px;
+                height: 170px;
                 position: relative;
+                top: 40px;
 
                 #alarmLevelChart {
                   width: 100%;
@@ -516,10 +524,11 @@ export default {
 
               .alarmLevelDetail {
                 width: 50%;
-                height: 110px;
+                height: 90px;
                 color: #fff;
                 display: flex;
                 flex-wrap: wrap;
+                margin-top: 34px;
 
                 .critical, .normal, .serious, .earlyWarning {
                   float: left;
@@ -700,9 +709,11 @@ export default {
         }
 
         .equipStatistics {
-          width: 100%;
+          width: 595px;
           margin-top: 15px;
           padding-bottom: 12px;
+          border: 2px solid #165697;
+          border-radius: 5px;
 
           .equipmentBox {
             width: 100%;
@@ -746,9 +757,10 @@ export default {
             }
 
             .equipDetail {
-              width: calc(100% - 200px);
+              width: calc(100% - 100px);
               // height:100%;
-              padding-top: 30px;
+              // padding-top: 30px;
+              margin-left: 70px;
 
               .detailLine {
                 width: 100%;
@@ -790,10 +802,14 @@ export default {
                 }
 
                 .firstDiv {
-                  width: 176px;
+                  width: 190px;
                 }
 
                 .secondDiv {
+                  width: 120px;
+                }
+
+                .thirdDiv{
                   width: 110px;
                 }
               }

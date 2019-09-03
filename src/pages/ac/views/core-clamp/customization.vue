@@ -1,5 +1,9 @@
 <template>
-	<div class="core-clamp-customization">
+	<div
+		class="core-clamp-customization"
+		v-loading="loading"
+		element-loading-background="rgba(7,49,135, 0.5)"
+	>
 		<div class="main-dev" v-for="(item1,index,num) in mainList" :key="index">
 			<div class="title">{{num+1}}号主变</div>
 			<div class="dev-item" v-for="(item2,idex) in item1" :key="idex">
@@ -57,7 +61,8 @@ export default {
 			historyModal: false,
 			chartTitle: '',
 			unit: '',
-			nodeId: ''
+			nodeId: '',
+			loading: false
 		}
 	},
 	computed: {
@@ -95,14 +100,21 @@ export default {
 				isFindNodes: 1,
 				unitId: this.unitId
 			}
-			this.$_api.coreClamp.getDevList(params).then(res => {
-				if (res.code == 200 && res.data) {
-					// this.devList = this.localData.data.lists
-					this.devList = res.data.lists
-					this.setMain(this.devList)
-					// console.log(this.devList)
-				}
-			})
+			this.loading = true
+			this.$_api.coreClamp
+				.getDevList(params)
+				.then(res => {
+					if (res.code == 200 && res.data) {
+						// this.devList = this.localData.data.lists
+						this.devList = res.data.lists
+						this.setMain(this.devList)
+						// console.log(this.devList)
+					}
+					this.loading = false
+				})
+				.catch(error => {
+					this.loading = false
+				})
 		},
 		//设置主变
 		setMain(data) {
@@ -190,7 +202,7 @@ export default {
   height: 100%;
   background: url('~@/assets/img/common/bg-border.png') no-repeat;
   background-size: 100% 100%;
-  padding: 30px 30px 25px 40px;
+  padding: 30px 30px 50px 40px;
   overflow: hidden;
 
   .main-dev {
@@ -202,10 +214,11 @@ export default {
 
     .dev-item {
       width: calc(100% - 10px);
-      height: calc(33% - 15px);
+      height: calc(33% - 30px);
       box-sizing: border-box;
       margin-left: 5px;
-      margin-top: 5px;
+      margin-top: 15px;
+      margin-bottom: 15px;
       border: 1px solid #3299ff;
       background-color: rgba(50, 153, 255, 0.1);
 
@@ -215,8 +228,9 @@ export default {
         color: #fff;
         float: left;
         text-align: center;
-        line-height: 200px;
+        line-height: 185px;
         font-size: 18px;
+		background-color: rgba(50, 153, 255, 0.3); 
       }
 
       .node {
@@ -245,8 +259,8 @@ export default {
           }
 
           img {
-            width: 90px;
-            height: 90px;
+            width: 70px;
+            height: 70px;
             margin-top: 15px;
             margin-left: 50%;
             transform: translateX(-50%);
@@ -254,8 +268,8 @@ export default {
 
           p {
             text-align: center;
-            margin-top: 2px;
-            font-size: 22px;
+            margin-top: 5px;
+            font-size: 18px;
             color: #fff;
           }
         }
@@ -269,7 +283,7 @@ export default {
             width: 50%;
             height: 100%;
             float: left;
-            font-size: 20px;
+            font-size: 18px;
             text-align: center;
             line-height: 50px;
             color: #fff;
@@ -277,13 +291,16 @@ export default {
 
           .v-rt {
             float: left;
-            width: 90px;
-            height: 40px;
+            width: 70px;
+            height: 35px;
             margin: 5px;
-            background: #0f0d0e;
+            margin-top: 7px;
+            // background: #0f0d0e;
+            background: #3d3d3d;
+            border: 1px solid #3299ff;
             font-family: 'DS-DIGI';
-            font-size: 34px;
-            line-height: 42px;
+            font-size: 26px;
+            line-height: 35px;
             color: #49ff01;
             text-align: center;
             border-radius: 5px;

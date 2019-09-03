@@ -291,9 +291,9 @@ export default {
 			const _this = this
 			const { getVideoFiles, init } = this
 
-			getVideoFiles('kurentoClient', 'video/js/kurento-client.min.js').then(function() {
+			getVideoFiles('kurentoClient', 'assets/libs/video/js/kurento-client.min.js').then(function() {
 				_this.kurentoClient = global.kurentoClient
-				getVideoFiles('kurentoUtils', 'video/js/kurento-utils.min.js').then(function() {
+				getVideoFiles('kurentoUtils', 'assets/libs/video/js/kurento-utils.min.js').then(function() {
 					_this.kurentoUtils = global.kurentoUtils
 					init()
 				})

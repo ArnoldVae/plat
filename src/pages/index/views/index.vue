@@ -28,9 +28,9 @@
 					scrolling="no"
 				>
         </iframe>-->
-				<iframe
-					v-for="(item, index) in menuData"
-					:key="index"
+        	<template v-for="(item, index) in menuData">
+        		<iframe
+					:key="item.moduleId"
 					class="iframw-view"
 					frameborder="0"
 					width="100%"
@@ -38,9 +38,12 @@
 					scrolling="no"
 					:src="frameSrcArr[index]"
 					v-show="index === selectMenuIndex"
-					@load="iframeLoad(index)"
+					v-if="!isVideoModule(item) || currentIsVideoModule || isLoad"
+					@load="iframeLoad(index, item)"
 					allowtransparency="true"
 				></iframe>
+        	</template>
+				
 			</div>
 		</a-spin>
 	</div>
@@ -86,7 +89,10 @@ export default {
 			mainLogTitle: '国家电网',
 			mainLogTitleEn: 'STATE GRID',
 			subLogTitle: '国网江苏省电力公司',
-			subLogTitleEn: 'STATE GRID JIANGSU ELECTRIC POWER CO.,LTD.'
+			subLogTitleEn: 'STATE GRID JIANGSU ELECTRIC POWER CO.,LTD.',
+			currentIsVideoModule: false,
+			// 视频模块是否已加载
+			isLoad: false
 		}
 	},
 	computed: {},
@@ -197,6 +203,11 @@ export default {
 		},
 		//选择菜单项
 		selectMenu(item, index) {
+			if (item.vcExecuteObject.indexOf('video') != -1) {
+				this.currentIsVideoModule = true
+			} else {
+				this.currentIsVideoModule = false
+			}
 			this.maskLoading = true
 			this.spinning = true
 			this.selectMenuIndex = index
@@ -210,9 +221,20 @@ export default {
 				this.spinning = false
 			}
 		},
-		iframeLoad(index) {
+		iframeLoad(index, info) {
+			if (info.vcExecuteObject.indexOf('video') != -1) {
+				this.isLoad = true
+			}
 			this.spinning = false
 			this.maskLoading = false
+		},
+		// 判断是否是视频模块
+		isVideoModule(info) {
+			if (info.vcExecuteObject.indexOf('video') != -1) {
+				return true
+			} else {
+				return false
+			}
 		},
 		//处理iframe src
 		handleIframeSrc(src) {
@@ -224,7 +246,7 @@ export default {
 					// 全路径 404模板需要
 					let pathname = window.location.pathname
 					let folderPath = pathname.substring(0, pathname.lastIndexOf('/'))
-					return window.location.origin + folderPath + `/${src}`
+					return window.location.origin + folderPath + `/module/${src}`
 					// 自动补全路径
 					// return src
 				}

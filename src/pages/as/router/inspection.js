@@ -5,11 +5,6 @@ export default [
 		redirect: '/inspection'
 	},
 	{
-		path: '/recordDetail',
-		name: 'detail',
-		component: () => import('@as/views/record/detail')
-	},
-	{
 		path: '/inspection-content',
 		name: 'inspection-content',
 		meta: {

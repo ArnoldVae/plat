@@ -1121,7 +1121,7 @@
             background: url('~@fire/assets/img/alarm-now/alarmBoxBg.png') no-repeat;
             background-size: 100% 100%;
             position: relative;
-            left 1.5%
+            left 3.5%
 
             .close {
                 width: 25px;

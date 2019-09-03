@@ -64,6 +64,7 @@ export default {
 			listLoading: false,
 			topicArr: ['qif/zf/app/', 'qif/zf/app/control/'],
 			topicStr: '',
+			topicStr2: '',
 			guids: [],
 			modalShow: false,
 			tipShow: false,
@@ -196,7 +197,7 @@ export default {
 			let nowDate = new Date().getTime()
 			let startTime = Math.ceil(nowDate / 1000)
 			let guid = this.guid()
-			this.guids.push(guid)
+			this.guids.push({ guid: guid, devId: this.nodeData.devId, value: this.nodeData.fvalue })
 			let params = {
 				cmd: '1003',
 				type: 'req',
@@ -210,9 +211,9 @@ export default {
 					}
 				]
 			}
-			this.topicStr = this.topicArr[1] + this.unitId
+			this.topicStr2 = this.topicArr[1] + this.unitId
 			//下发控制命令
-			this.$_mqtt.publish(this.topicStr, JSON.stringify(params), { qos: 0, retain: false })
+			this.$_mqtt.publish(this.topicStr2, JSON.stringify(params), { qos: 0, retain: false })
 			//判断当前节点是否有视频 有就切换视频
 			// if (
 			// 	this.devItem.devNodesList &&
@@ -252,39 +253,38 @@ export default {
 					if (msgData.cmd == 1001 && msgData.unitid == this.$store.getters.unitId) {
 						// console.log(msgData)
 						this.listData.forEach(element => {
-							element.devNodesList.forEach(item => {
-								if (msgData.nodeid == item.nodeId) {
-									if (item.nodeType == 3 || item.nodeType == 4) {
-										item.fvalue = msgData.value
-										if (
-											item.vcValueDesc.split(' ')[1] == '开门' ||
-											item.vcValueDesc.split(' ')[1] == '关门'
-										) {
+							if (msgData.devid == element.devId) {
+								element.devNodesList.forEach(item => {
+									if (msgData.nodeid == item.nodeId) {
+										if (item.functionCode == '1025.0001' && msgData.nodeid == item.nodeId) {
+											item.fvalue = msgData.value
 											element.fvalue = msgData.value
+											return
 										}
 									}
-								}
-							})
+								})
+							}
 						})
 					} else if (msgData.cmd == 1003) {
 						console.log(msgData)
+						console.log(this.guids)
 						this.guids.forEach(item => {
-							if (item == msgData.serial) {
+							if (item.guid == msgData.serial) {
 								this.$ocxMessage.info('命令下发成功')
-								this.listData.forEach(element => {
-									if (element.devId == msgData.nodes[0].devid) {
-										element.fvalue = msgData.nodes[0].value
-									}
-								})
 							}
 						})
 					} else if (msgData.cmd == 1004) {
 						console.log(JSON.stringify(msgData))
 
 						this.guids.forEach((item, index) => {
-							if (item == msgData.serial) {
+							if (item.guid == msgData.serial) {
 								if (msgData.result == 0) {
 									this.$ocxMessage.success('命令执行成功')
+									// this.listData.forEach(element => {
+									// 	if (element.devId == item.devId) {
+									// 		element.fvalue = item.value
+									// 	}
+									// })
 									this.guids.splice(index, 1)
 								} else {
 									this.$ocxMessage.error('命令执行失败')

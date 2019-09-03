@@ -1,7 +1,9 @@
 <template>
-    <div ref="view-ichnography" class="view-ichnography"></div>
+  <div ref="view-ichnography"
+       class="view-ichnography"></div>
 </template>
 <script>
+import { findComponentUpward } from '@/libs/assist'
 export default {
 	name: 'view-ichnography',
 	props: {
@@ -44,6 +46,14 @@ export default {
 	mounted() {
 		this.init()
 	},
+	computed: {
+		activeDeviceTypeId() {
+			return findComponentUpward(this, 'intelligent').currentTypeId
+		},
+		activeTypeMapList() {
+			return findComponentUpward(this, 'intelligent').deviceTypeMapList
+		}
+	},
 	watch: {
 		blueprintUrl(url) {
 			this.dataModel.clear()
@@ -84,7 +94,7 @@ export default {
 
 			//监听窗口大小变化
 			window.addEventListener('resize', e => {
-				graphView.fitContent(true, 0)
+				graphView.fitContent(true, 10)
 			})
 
 			//设置图元选中时 边框的宽度
@@ -105,12 +115,13 @@ export default {
 				.then(res => {
 					let json = ht.Default.parse(res)
 					dataModel.deserialize(json)
-					graphView.fitContent(true, 0)
+					graphView.fitContent(true, 10)
 					this.getNode()
 					return
 				})
 				.catch(err => {
 					this.$ocxMessage.error('图纸丢失！！！')
+					this.disTable()
 					this.isShow = false
 					return
 				})
@@ -125,9 +136,6 @@ export default {
 					if (e.data.a('vc_SourceID') != undefined) {
 						if (this.isNodeClick && this.isNodeClick == true) {
 							// let targetTag = eData.getTag()
-							console.log(e.data);
-							console.log(this.findNodes);
-							
 							this.$emit('htClick', e.data, this.findNodes)
 						}
 					}
@@ -138,7 +146,8 @@ export default {
 							//添加图元下文字
 							eData.setStyle('label', eData._name)
 							eData.setStyle('label.color', '#fff')
-							// eData.setStyle('label.font', '10px sans-serif')
+							// eData.setStyle('label.font', '12px arial, sans-serif')
+							eData.setStyle('label.scale', 0.6)
 							eData.setStyle('label.position', 31)
 							eData.setStyle('label.toggleable', false)
 						}
@@ -155,6 +164,7 @@ export default {
 			// 	this.getNode()
 			// }
 		},
+
 
 		getNode() {
 			let params = {
@@ -173,11 +183,14 @@ export default {
 							setTimeout(() => {
 								//创建ht node节点
 								let node = new this.localHt.Node()
-
+								//设置图片
+								console.log(item)
 								if (this.source == 'terminalBox') {
 									node.setImage('symbols/zf/dzx_zc.png')
+								} else if (item.icon && item.icon != '' && item.icon != 'null' && item.icon != null) {
+									node.setImage(`symbols/QIF/${item.icon}.json`)
 								} else {
-									node.setImage(item.vcPath) //设置图片
+									node.setImage(`assets/libs/${item.vcPath}`)
 								}
 
 								node.setTag(item.vcSourceId) //设置tag标签名称
@@ -216,7 +229,26 @@ export default {
 				}
 			}
 			this.dataModel.addScheduleTask(blinkTask) //添加调度的对象
-		}
+		},
+		// 展示表格类型
+		disTable() {
+			let result = this.getDisplayModeBytypeId(this.activeDeviceTypeId)
+			let index = result.findIndex(item => item.name == 'table')
+			setTimeout(() => {
+				findComponentUpward(this, 'intelligent').handleChangeDisplayMode(result[index], index)
+			}, 300)
+		},
+		// 根据typeId查询显示类型
+		getDisplayModeBytypeId(id) {
+			let modeList = []
+			this.activeTypeMapList.forEach(item => {
+				if (item.typeId == id) {
+					modeList = item.mode
+				}
+			})
+			return modeList
+		},
+		
 	}
 }
 </script>

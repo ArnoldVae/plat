@@ -1,5 +1,5 @@
 {
-  "modified": "Mon Aug 26 2019 11:19:02 GMT+0800 (中国标准时间)",
+  "modified": "Thu Aug 29 2019 17:20:25 GMT+0800 (中国标准时间)",
   "dataBindings": [
     {
       "attr": "1003.0011",
@@ -126,7 +126,7 @@
       "text": "计数器动作次数",
       "align": "center",
       "color": "rgb(247,247,247)",
-      "font": "16px arial, sans-serif",
+      "font": "15px arial, sans-serif",
       "rect": [
         37.32589,
         50,
@@ -152,7 +152,7 @@
       "text": "阻性电流",
       "align": "center",
       "color": "rgb(247,247,247)",
-      "font": "18px arial, sans-serif",
+      "font": "15px arial, sans-serif",
       "rect": [
         193.15519,
         49.11616,
@@ -165,7 +165,7 @@
       "text": "全电流",
       "align": "center",
       "color": "rgb(247,247,247)",
-      "font": "18px arial, sans-serif",
+      "font": "15px arial, sans-serif",
       "rect": [
         349.0213,
         50,
@@ -276,14 +276,14 @@
       "type": "text",
       "text": {
         "func": "attr@1003.0011",
-        "value": "10"
+        "value": "0"
       },
       "align": "center",
       "color": "rgb(0,255,94)",
       "font": "16px Microsoft YaHei",
       "rect": [
         114.31524,
-        113,
+        115,
         58,
         24
       ]
@@ -292,14 +292,14 @@
       "type": "text",
       "text": {
         "func": "attr@1003.0008",
-        "value": "10"
+        "value": "0"
       },
       "align": "center",
       "color": "rgb(0,255,94)",
       "font": "16px Microsoft YaHei",
       "rect": [
         270.45015,
-        110.11616,
+        112.11616,
         58,
         24
       ]
@@ -308,14 +308,14 @@
       "type": "text",
       "text": {
         "func": "attr@1003.0007",
-        "value": "10"
+        "value": "0"
       },
       "align": "center",
       "color": "rgb(0,255,94)",
       "font": "16px Microsoft YaHei",
       "rect": [
         426.01065,
-        113.11616,
+        115.11616,
         58,
         24
       ]

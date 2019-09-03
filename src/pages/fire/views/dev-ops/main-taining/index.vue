@@ -48,7 +48,7 @@
 
 			<!-- <el-button class="blue-btn" style=" line-height: 21PX;" @click="searchInfo" type="text">查&nbsp找</el-button> -->
 			<el-form-item class="taining-button">
-				<el-button class="blue-btn"  @click="searchInfo" type="text">查找</el-button>
+				<el-button class="blue-btn"  @click="dosearch" type="text">查找</el-button>
 				<!-- <el-button class="blue-btn" v-if="!searchIS" @click="searchInfos" type="text">查找</el-button> -->
 				<el-button class="yellow-btn" @click="leadTo" type="text">导入</el-button>
 				<el-button class="yellow-btn" @click="exportInfo" type="text">导出</el-button>
@@ -64,14 +64,14 @@
 			>
 				<el-table-column prop="coName" align="center" label="维保单位" width='100'></el-table-column>
 				<el-table-column prop="unitName" align="center" label="变电站" width='130'></el-table-column>
-				<el-table-column prop="context" align="center" label="维护内容"  width='200' show-overflow-tooltip ></el-table-column>
-				<el-table-column prop="beginTime" align="center" label="计划开始时间" width='130'></el-table-column>
-				<el-table-column prop="endTime" align="center" label="计划结束时间" width='130'></el-table-column>
-				<el-table-column prop="vc_PowerOffScene" align="center" label="停电场所" width='100'></el-table-column>
+				<el-table-column prop="context" align="center" label="维护内容"  width='250' show-overflow-tooltip ></el-table-column>
+				<el-table-column prop="beginTime" align="center" label="维保时间" width='130'></el-table-column>
+				<!-- <el-table-column prop="endTime" align="center" label="计划结束时间" width='130'></el-table-column> -->
+				<el-table-column prop="vc_PowerOffScene" align="center" label="工作条件" width='100'></el-table-column>
 				<el-table-column prop="vc_PowerLevel" align="center" label="电压等级" width='100' ></el-table-column>
+				<el-table-column prop="workTicketNum" align="center" label="工作票号" width='150'></el-table-column>
 				<el-table-column prop="presetName" align="center" label="负责人" width='100'></el-table-column>
 				<el-table-column prop="telePhone" align="center" label="联系电话" width='120'></el-table-column>
-				<el-table-column prop="presetName" align="center" label="负责人" width='100'></el-table-column>
 				<el-table-column prop="status" align="center" label="当前状态"  width='100'>
 					<!-- <template slot-scope="scope">
 						<span v-if="scope.row.status=='未执行'" style="color:red;">{{scope.row.status}}</span>
@@ -157,7 +157,9 @@ export default {
 			curIndex: 1,
 			pageSize: 10,
 			totals: 3,
-			unitId:this.$store.getters.unitId
+			unitId:this.$store.getters.unitId,
+			starTim:'',
+			endTim:''
 		}
 	},
 	mounted() {},
@@ -277,10 +279,15 @@ export default {
 		opoentimeB() {
 			// this.searchIS = false
 		},
+		dosearch(){
+			this.starTim=parseInt(this.search.starTime/1000)==0 ? '':parseInt(this.search.starTime/1000)
+			this.endTim=parseInt(this.search.endTime/1000)==0 ? '' :parseInt(this.search.endTime/1000)
+			this.searchInfo()
+		},
 		async searchInfo() {
 			let res = await this.$_api.maintaining.getfindPlanRecord({
-				startTime: parseInt(this.search.starTime/1000),
-				endTime: parseInt(new Date(this.search.endTime).getTime()/1000),
+				beginTime:this.starTim,
+				endTime: this.endTim,
 				mtcCoID: this.search.maintenanceUnit,
 				iStatus: this.search.stute,
 				pageSize:this.pageSize,
@@ -290,7 +297,7 @@ export default {
 			if (res.code == '200') {
 				this.totals=res.data.total
 				this.maintainData = res.data.list
-				console.log(this.maintainData)
+				// console.log(this.maintainData)
 			} else {
 				this.maintainData = []
 			}

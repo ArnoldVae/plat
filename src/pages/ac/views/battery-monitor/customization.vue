@@ -1,5 +1,9 @@
 <template>
-	<div class="battery-monitor-customization">
+	<div
+		class="battery-monitor-customization"
+		v-loading="loading"
+		element-loading-background="rgba(0, 0, 0, 0.5)"
+	>
 		<div class="battery-top">
 			<div class="top-status">
 				<p class="title">{{ title1 }}</p>
@@ -96,6 +100,7 @@ export default {
 	data() {
 		return {
 			unitId: this.$store.getters.unitId,
+			loading: false,
 			topicArr: ['qif/zf/app/'],
 			topicStr: '',
 			title1: '第一组电池组',
@@ -245,31 +250,40 @@ export default {
 				isFindNodes: 1,
 				unitId: this.unitId
 			}
-			this.$_api.batteryMonitor.getDevList(params).then(res => {
-				if (res.code == 200 && res.data) {
-					this.devData = res.data.lists
-					this.title1 = !!res.data.lists[0].vcName ? res.data.lists[0].vcName : '第一组电池组'
-					this.title2 = !!res.data.lists[1].vcName ? res.data.lists[1].vcName : '第二组电池组'
-					// res.data.lists[0].devNodesList.forEach(item => {
-					// 	if (item.vcName.indexOf('单体') != -1) {
-					// 		item.sort = item.vcName.replace(/[^0-9]/gi, '') - 0
-					// 	}
-					// })
-					// res.data.lists[1].devNodesList.forEach(item => {
-					// 	if (item.vcName.indexOf('单体') != -1) {
-					// 		item.sort = item.vcName.replace(/[^0-9]/gi, '') - 0
-					// 	}
-					// })
-					// res.data.lists[0].devNodesList = res.data.lists[0].devNodesList.sort(this.objSort('sort'))
-					// res.data.lists[1].devNodesList = res.data.lists[1].devNodesList.sort(this.objSort('sort'))
+			this.loading = true
+			this.$_api.batteryMonitor
+				.getDevList(params)
+				.then(res => {
+					if (res.code == 200 && res.data) {
+						this.devData = res.data.lists
+						this.title1 = !!res.data.lists[0].vcName ? res.data.lists[0].vcName : '第一组电池组'
+						this.title2 = !!res.data.lists[1].vcName ? res.data.lists[1].vcName : '第二组电池组'
+						// res.data.lists[0].devNodesList.forEach(item => {
+						// 	if (item.vcName.indexOf('单体') != -1) {
+						// 		item.sort = item.vcName.replace(/[^0-9]/gi, '') - 0
+						// 	}
+						// })
+						// res.data.lists[1].devNodesList.forEach(item => {
+						// 	if (item.vcName.indexOf('单体') != -1) {
+						// 		item.sort = item.vcName.replace(/[^0-9]/gi, '') - 0
+						// 	}
+						// })
+						// res.data.lists[0].devNodesList = res.data.lists[0].devNodesList.sort(this.objSort('sort'))
+						// res.data.lists[1].devNodesList = res.data.lists[1].devNodesList.sort(this.objSort('sort'))
 
-					//注掉的是对数据进行排序的代码
-					this.list1.devId = res.data.lists[0].devId
-					this.list2.devId = res.data.lists[1].devId
-					this.setListData1(res.data.lists[0])
-					this.setListData2(res.data.lists[1])
-				}
-			})
+						//注掉的是对数据进行排序的代码
+						this.list1.devId = res.data.lists[0].devId
+						this.list2.devId = res.data.lists[1].devId
+						this.setListData1(res.data.lists[0])
+						this.setListData2(res.data.lists[1])
+						this.loading = false
+					} else {
+						this.loading = false
+					}
+				})
+				.catch(e => {
+					this.loading = false
+				})
 		},
 		//排序
 		objSort(prop) {
@@ -292,12 +306,12 @@ export default {
 		//处理第一组数据
 		setListData1(data) {
 			data.devNodesList.forEach(item => {
-				if (item.vcName.indexOf('单体电压') != -1  && item.fvalue) {
+				if (item.vcName.indexOf('单体电压') != -1 && item.fvalue) {
 					this.list1.dyArr.push(item.fvalue)
-					this.list1.dyName.push( item.vcName.replace(/[^0-9]/gi, '') - 0)
-				} else if (item.vcUnit == 'Ω'  && item.fvalue) {
-					this.list1.dzArr.push((item.fvalue / 1000))
-					this.list1.dzName.push( item.vcName.replace(/[^0-9]/gi, '') - 0)
+					this.list1.dyName.push(item.vcName.replace(/[^0-9]/gi, '') - 0)
+				} else if (item.vcUnit == 'Ω' && item.fvalue) {
+					this.list1.dzArr.push(item.fvalue / 1000)
+					this.list1.dzName.push(item.vcName.replace(/[^0-9]/gi, '') - 0)
 				} else {
 					// console.log(item)
 					if (item.vcName.indexOf('状态') != -1) {
@@ -318,10 +332,10 @@ export default {
 			data.devNodesList.forEach(item => {
 				if (item.vcName.indexOf('单体电压') != -1 && item.fvalue) {
 					this.list2.dyArr.push(item.fvalue)
-					this.list2.dyName.push( item.vcName.replace(/[^0-9]/gi, '') - 0)
+					this.list2.dyName.push(item.vcName.replace(/[^0-9]/gi, '') - 0)
 				} else if (item.vcUnit == 'Ω' && item.fvalue) {
-					this.list2.dzArr.push((item.fvalue / 1000))
-					this.list2.dzName.push( item.vcName.replace(/[^0-9]/gi, '') - 0)
+					this.list2.dzArr.push(item.fvalue / 1000)
+					this.list2.dzName.push(item.vcName.replace(/[^0-9]/gi, '') - 0)
 				} else {
 					if (item.vcName.indexOf('状态') != -1) {
 						this.list2.zt.desc = item.desc
@@ -335,7 +349,6 @@ export default {
 					}
 				}
 			})
-
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -433,12 +446,13 @@ export default {
 
     .status-right {
       width: 100px;
-      height: 50px;
-      border-radius: 5px;
+      height: 40px;
       float: left;
       margin-left: 20px;
-      background-color: rgba(67, 71, 80, 0.7);
-      line-height: 50px;
+      background: #3d3d3d;
+      border: 1px solid #3299ff;
+	  border-radius 3px;
+      line-height: 40px;
       font-size: 18px;
       text-align: center;
       color: #49ff19;

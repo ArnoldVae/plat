@@ -47,7 +47,7 @@ export default {
 		},
 		closeIconUrl: {
 			type: String,
-			default: '/gismap/images/close.png'
+			default: '/assets/libs/gismap/images/close.png'
 		},
 		autoPan: {
 			type: Boolean,

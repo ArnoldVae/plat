@@ -63,7 +63,7 @@
 				v-show="!videoShow"
 			/>
 			<div class="videoBox2" v-show="!videoShow">
-				<Menu width="auto" @on-select="selectMenuVideo" ref="video">
+				<Menu :active-name="selectVideo" width="auto" @on-select="selectMenuVideo" ref="video">
 					<MenuItem
 						:name="item.videoPlayUrl || ''"
 						v-for="(item, idx) in filterplayVideoList"
@@ -118,6 +118,7 @@ export default {
 			firstScene: '',
 			search: '',
 			selectScene: '', //当前选中的场景
+			selectVideo: '',
 			serviceInfo: '',
 			isPlaying: false, // 是否在轮巡播放中
 			defaultIcon: require('../../assets/img/video/cdjs.png'),
@@ -210,6 +211,7 @@ export default {
 		_this.loadSceneList(this.unitId)
 		_this.palyVideo(this.unitId)
 		window.pqw_this = this
+		_this.videoclickShow('视频')
 	},
 	activited() {},
 	update() {},
@@ -265,8 +267,20 @@ export default {
 		selectIndex(val) {
 			console.log(val)
 			// alert(val)
-
 			this.selectIdx = val
+			if (this.videoComList[this.selectIdx].deviceInfo != '') {
+				let list = this.filterplayVideoList
+				list.forEach(item => {
+					if (item.videoPlayUrl == this.videoComList[this.selectIdx].deviceInfo) {
+						this.selectVideo = item.videoPlayUrl
+						this.$nextTick(() => {
+							// this.selectMenuVideo(item.videoPlayUrl)
+							this.$refs.video.updateActiveName()
+						})
+						return
+					}
+				})
+			}
 		},
 		//场景列表点击
 		selectMenu: function(data) {
@@ -283,6 +297,8 @@ export default {
 		},
 		//视频列表点击
 		selectMenuVideo(data) {
+			console.log(data)
+			this.selectVideo = data
 			this.videoComList[this.selectIdx].deviceInfo = data
 			// this.videoComList[this.selectIdx].serviceInfo = this.videoSeviceUrl
 			this.videoComList[this.selectIdx].serviceInfo = this.serviceInfo
@@ -802,7 +818,6 @@ export default {
             float: left;
             box-sizing: border-box;
             padding: 1px;
-            box-sizing: border-box;
 
             .ocxVideo {
               width: 100% !important;
