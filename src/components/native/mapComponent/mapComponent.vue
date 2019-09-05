@@ -418,7 +418,9 @@ export default {
 				if (res.success) {
 					this.markerList = []
 					this.defaultMapConfig.viewportPoints = []
+					console.log(res.data);
 					res.data.forEach(item => {
+						
 						if (item.dMapx !== 0 && item.dMapy !== 0 && !!item.dMapx && !!item.dMapx) {
 							this.defaultMapConfig.viewportPoints.push({
 								lng: item.dMapx,

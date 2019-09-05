@@ -69,7 +69,7 @@
 				<!-- <el-table-column prop="endTime" align="center" label="计划结束时间" width='130'></el-table-column> -->
 				<el-table-column prop="vc_PowerOffScene" align="center" label="工作条件" width='100'></el-table-column>
 				<el-table-column prop="vc_PowerLevel" align="center" label="电压等级" width='100' ></el-table-column>
-				<el-table-column prop="workTicketNum" align="center" label="工作票号" width='150'></el-table-column>
+				<el-table-column prop="workTicketNum" align="center" label="工作票号" width='200'></el-table-column>
 				<el-table-column prop="presetName" align="center" label="负责人" width='100'></el-table-column>
 				<el-table-column prop="telePhone" align="center" label="联系电话" width='120'></el-table-column>
 				<el-table-column prop="status" align="center" label="当前状态"  width='100'>
@@ -271,7 +271,7 @@ export default {
 		},
 		//分页
 		changePage(curIndex) {
-			console.log(curIndex)
+			// console.log(curIndex)
 		},
 		opoentime() {
 			this.searchIS = true
@@ -358,7 +358,7 @@ export default {
 			}
 		},
 		infoModals(row) {
-			console.log(row)
+			// console.log(row)
 			this.detileData = row.mtcPlanId
 			this.modalShow = true
 		},
@@ -368,7 +368,7 @@ export default {
 		recordModals(row) {
 			// this.recordData = row.mtcPlanId
 			this.fileDate = row.fileName
-			console.log(this.fileDate)
+			// console.log(this.fileDate)
 			this.recordShow = true
 		}
 	}
@@ -390,15 +390,13 @@ export default {
   overflow: hidden;
 	.table {
 		height: 77%;
-
 		/deep/ .el-table {
 			width: 100%;
 			height: calc(100% - 45px)!important;
 			background: transparent;
 			color: #fff;
-
+			border:1px solid #054598 !important;
 			view-table('~@fire/assets/img/view-table/header.png')
-
 			.control-wrap {
 				display: flex;
 				flex-wrap: wrap;

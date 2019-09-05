@@ -242,7 +242,7 @@ export default {
 		color: #fff;
 		cursor: pointer;
         background-color: #106fd9;
-        font-size: 16px;
+        font-size: 18px;
         line-height: 56px;
         text-align: center;
 		border-radius: 0 8px 8px 0;
@@ -282,7 +282,7 @@ export default {
             float: left;
             height: 100%;
             width: 120px;
-            font-size: 16px;
+            font-size: 15px;
             line-height: 56px;
             text-align: center;
             cursor: pointer;

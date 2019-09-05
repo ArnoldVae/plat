@@ -60,29 +60,7 @@ export default {
 			iframeReset: true,
 			spinning: true,
 			maskLoading: true,
-			menuData: [
-				{
-					moduleId: 2,
-					vcCaption: '辅助综合',
-					// /intelligent/humiture
-					vcExecuteObject: 'ac/#'
-				},
-				{
-					moduleId: 3,
-					vcCaption: '立体巡检',
-					vcExecuteObject: 'as/#'
-				},
-				{
-					moduleId: 5,
-					vcCaption: '智能消防',
-					vcExecuteObject: 'fire/#'
-				},
-				{
-					moduleId: 17,
-					vcCaption: '监测数据',
-					vcExecuteObject: '#/404'
-				}
-			],
+			menuData: [],
 			selectMenuIndex: 0,
 			frameSrcArr: [], //存放iframe src，初始全部为空
 			title: '变电信息综合处理系统',
@@ -119,7 +97,7 @@ export default {
 				//遍历数据，改变src指向
 				this.frameSrcArr = new Array(result.data.length)
 				result.data.forEach(item => {
-					item.vcExecuteObject = this.handleIframeSrc(item.vcExecuteObject)
+					item.vcExecuteObject = this.handleIframeSrc(item.vcExecuteObject, item.moduleType)
 				})
 				this.menuData = result.data
 			} else {
@@ -237,8 +215,8 @@ export default {
 			}
 		},
 		//处理iframe src
-		handleIframeSrc(src) {
-			// console.log('发布模式：' , src)
+		handleIframeSrc(src, type) {
+			// console.log('处理iframe' , src)
 			if (src && src.indexOf('http') != -1) {
 				return src
 			} else {
@@ -246,7 +224,12 @@ export default {
 					// 全路径 404模板需要
 					let pathname = window.location.pathname
 					let folderPath = pathname.substring(0, pathname.lastIndexOf('/'))
-					return window.location.origin + folderPath + `/module/${src}`
+					if (type == '0') {
+						return window.location.origin + folderPath + `/module/${src}`
+					} else {
+						return window.location.origin + folderPath + `/${src}`
+					}
+					
 					// 自动补全路径
 					// return src
 				}

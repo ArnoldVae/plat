@@ -13,60 +13,59 @@
 
       <div class="diaSpan" style="position: relative;top:-40px">
         <el-row style="color: #ffffff;">
-					<el-col :span="12">
-						<span>变电站:</span>
-						<span style="margin-left:50px;color:#47b2fe">{{ forData.unitName }}</span>
-					</el-col>
-					<el-col :span="12">
-						<span>设备名称:</span>
-						<span style="margin-left:50px;color:#47b2fe">{{ forData.vcName }}</span>
-					</el-col>
-				</el-row>
-				<el-row style="color: #ffffff">
-					<el-col :span="12">
-						<span>设备类型:</span>
-						<span style="margin-left:41px;color:#47b2fe">{{ forData.devTypeName }}</span>
-					</el-col>
-					<el-col :span="12">
-						<span>所属子系统:</span>
-						<span style="margin-left:38px;color:#47b2fe">{{ forData.subName }}</span>
-					</el-col>
-				</el-row>
-				<el-row style="color: #ffffff">
-					<el-col :span="12">
-						<span>定置点编号:</span>
-						<span style="margin-left:24px;color:#47b2fe">{{ forData.num }}</span>
-					</el-col>
-					<el-col :span="12">
-						<span>规格型号:</span>
-						<span style="margin-left:51px;color:#47b2fe">{{ forData.vcCode }}</span>
-					</el-col>
-				</el-row>
-				<el-row style="color: #ffffff">
-					<el-col :span="12">
-						<span>有效日期:</span>
-						<span style="margin-left:38px;color:#47b2fe">{{ forData.beginTime }}</span>
-					</el-col>
-					<el-col :span="12">
-						<span>保管责任人:</span>
-						<span style="margin-left:34px;color:#47b2fe">{{ forData.userId }}</span>
-					</el-col>
-				</el-row>
-				<el-row style="color: #ffffff">
-					<el-col :span="12">
-						<span>安装位置:</span>
-						<span style="margin-left:36px;color:#47b2fe">{{ forData.vcLocal }}</span>
-					</el-col>
-					<el-col :span="12">
-						<span>备注:</span>
-						<span style="margin-left:83px;color:#47b2fe">{{ forData.vcMemo }}</span>
-					</el-col>
-				</el-row>
+          <el-col :span="12">
+            <span>变电站:</span>
+            <span style="margin-left:50px;color:#47b2fe">{{ forData.unitName }}</span>
+          </el-col>
+          <el-col :span="12">
+            <span>设备名称:</span>
+            <span style="margin-left:50px;color:#47b2fe">{{ forData.vcName }}</span>
+          </el-col>
+        </el-row>
+        <el-row style="color: #ffffff">
+          <el-col :span="12">
+            <span>设备类型:</span>
+            <span style="margin-left:41px;color:#47b2fe">{{ forData.devTypeName }}</span>
+          </el-col>
+          <el-col :span="12">
+            <span>所属子系统:</span>
+            <span style="margin-left:38px;color:#47b2fe">{{ forData.subName }}</span>
+          </el-col>
+        </el-row>
+        <el-row style="color: #ffffff">
+          <el-col :span="12">
+            <span>定置点编号:</span>
+            <span style="margin-left:24px;color:#47b2fe">{{ forData.num }}</span>
+          </el-col>
+          <el-col :span="12">
+            <span>规格型号:</span>
+            <span style="margin-left:51px;color:#47b2fe">{{ forData.vcCode }}</span>
+          </el-col>
+        </el-row>
+        <el-row style="color: #ffffff">
+          <el-col :span="12">
+            <span>有效日期:</span>
+            <span style="margin-left:38px;color:#47b2fe">{{ forData.beginTime }}</span>
+          </el-col>
+          <el-col :span="12">
+            <span>保管责任人:</span>
+            <span style="margin-left:34px;color:#47b2fe">{{ forData.userId }}</span>
+          </el-col>
+        </el-row>
+        <el-row style="color: #ffffff">
+          <el-col :span="12">
+            <span>安装位置:</span>
+            <span style="margin-left:36px;color:#47b2fe">{{ forData.vcLocal }}</span>
+          </el-col>
+          <el-col :span="12">
+            <span>备注:</span>
+            <span style="margin-left:83px;color:#47b2fe">{{ forData.vcMemo }}</span>
+          </el-col>
+        </el-row>
       </div>
       <span slot="footer" class="dialog-footer">
-		  <el-button class="blue-btn" type="text" @click="comfir">确 定</el-button>
+        <el-button class="blue-btn" type="text" @click="comfir">确 定</el-button>
         <el-button class="yellow-btn" @click="comfir" type="text">取 消</el-button>
-        
       </span>
     </ElDialog>
 
@@ -85,7 +84,7 @@
           ></el-option>
         </el-select>
       </el-form-item>
-			 <el-form-item label="所属子系统:" style="margin-right: 26px">
+      <el-form-item label="所属子系统:" style="margin-right: 26px">
         <el-select v-model="search.maintenanceUnit" placeholder="请选择所属子系统">
           <el-option label="全部" value="nullValue"></el-option>
           <el-option
@@ -96,16 +95,16 @@
           ></el-option>
         </el-select>
       </el-form-item>
-	  <el-form-item label="定置点编号:" style="margin-right: 20px">
+      <el-form-item label="定置点编号:" style="margin-right: 20px">
         <el-input v-model="search.Num" placeholder="请输入定置点编号"></el-input>
       </el-form-item>
-     
-      <el-form-item label="保管责任人:" >
+
+      <el-form-item label="保管责任人:">
         <el-input v-model="search.keeperName" placeholder="请输入保管责任人"></el-input>
       </el-form-item>
       <br>
       <el-form-item class="taining-button">
-        <div style="margin-bottom: 10px">
+        <div>
           <el-button class="blue-btn" type="text" @click="doSearch()">查询</el-button>
           <el-button class="blue-btn" @click="leadTo" type="text">查看</el-button>
           <el-button class="yellow-btn" @click="exportInfo" type="text">导入</el-button>
@@ -121,23 +120,28 @@
     <div class="table">
       <el-table
         :data="maintainDatas"
-
         @selection-change="handleSelectionChange"
-		@row-click="rowClick"
+        @row-click="rowClick"
         style="width: 100%;"
-		height="400"
-		border
+        height="400"
+        border
       >
         <el-table-column prop="unitName" align="center" label="变电站名称" width="160"></el-table-column>
-        <el-table-column prop="vcName" align="center" label="设备名称" width='250' show-overflow-tooltip></el-table-column>
-        <el-table-column prop="devTypeName" align="center" label="设备类型" width='120'></el-table-column>
-        <el-table-column prop="subName" align="center" label="所属子系统" width='150'></el-table-column>
-        <el-table-column prop="num" align="center" label="定置点编号" width='140'></el-table-column>
-        <el-table-column prop="vcCode" align="center" label="型号规格" width='150'></el-table-column>
-        <el-table-column prop="beginTime" align="center" label="有效期" width='120'></el-table-column>
-        <el-table-column prop="userId" align="center" label="保管责任人" width='110'></el-table-column>
-        <el-table-column prop="vcLocal" align="center" label="安装位置" width='179'></el-table-column>
-        <el-table-column prop="vcMemo" align="center" label="备注" ></el-table-column>
+        <el-table-column
+          prop="vcName"
+          align="center"
+          label="设备名称"
+          width="250"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column prop="devTypeName" align="center" label="设备类型" width="120"></el-table-column>
+        <el-table-column prop="subName" align="center" label="所属子系统" width="150"></el-table-column>
+        <el-table-column prop="num" align="center" label="定置点编号" width="140"></el-table-column>
+        <el-table-column prop="vcCode" align="center" label="型号规格" width="150"></el-table-column>
+        <el-table-column prop="beginTime" align="center" label="有效期" width="120"></el-table-column>
+        <el-table-column prop="userId" align="center" label="保管责任人" width="110"></el-table-column>
+        <el-table-column prop="vcLocal" align="center" label="安装位置" width="180"></el-table-column>
+        <el-table-column prop="vcMemo" align="center" label="备注"></el-table-column>
       </el-table>
     </div>
     <div class="pagination">
@@ -146,29 +150,38 @@
         background
         layout="total,  prev, pager, next,sizes, jumper"
         :current-page="curIndex"
-		 @size-change="handleSizeChange"
+        @size-change="handleSizeChange"
         :page-sizes="[10, 20, 30, 40]"
         :page-size="pageSize"
         :total="totals"
         @current-change="changePage"
       ></el-pagination>
     </div>
-	<!-- 导入弹框 -->
-		<el-dialog title="导入文件" :visible.sync="DaoShow" width="50%" class="Daoshow" :before-close="Close">
-			<el-upload
-				class="upload-demo"
-				action="https://jsonplaceholder.typicode.com/posts/"
-				:on-preview="handlePreview"
-				:on-remove="handleRemove"
-				:before-remove="beforeRemove"
-				:limit="3"
-				:on-exceed="handleExceed"
-				:file-list="fileList"
-			>
-				<el-button size="small" type="primary">点击上传</el-button>
-				<div slot="tip" class="el-upload__tip">只能上传elx格式文件</div>
-			</el-upload>
-		</el-dialog>
+    <!-- 导入弹框 -->
+    <el-dialog
+      title="导入文件"
+      :visible.sync="DaoShow"
+      width="50%"
+      class="Daoshow"
+      :before-close="Close"
+    >
+      <el-upload
+        class="upload-demo"
+				ref="upload"
+        action="http://172.26.1.233:8085/xdq/file/wordToPdf"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+				:auto-upload="false"
+        :file-list="fileList"
+      >
+        <el-button size="small" type="primary">点击上传</el-button>
+        <!-- <div slot="tip" class="el-upload__tip">只能上传elx格式文件</div> -->
+      </el-upload>
+    </el-dialog>
+		<!--查看提示框 -->
+		<!-- <div class='dialoag' v-show="diaShow">
+			<span>请选择列表信息!!!</span>
+		</div> -->
   </div>
 </template>
 <script>
@@ -208,19 +221,17 @@ export default {
 				{ MtcCoID: 2, vc_Name: '消防供水系统' }
 			],
 			subModels: [{ MtcCoID: 1, vc_Name: '正常' }, { MtcCoID: 2, vc_Name: '异常' }],
-
 			subpostions: [],
 			subModelshs: [],
 			dialogVisible: false,
 			nullValue: null,
 			data: '',
 			search: {
-				eqName: '',//设备名称
-				devType:'',//设备类型
-				Num:'',//定置点编号
-				maintenanceUnit: '',//所属子系统
-				keeperName: '',//保管责任人
-				
+				eqName: '', //设备名称
+				devType: '', //设备类型
+				Num: '', //定置点编号
+				maintenanceUnit: '', //所属子系统
+				keeperName: '' //保管责任人
 			},
 			stutes: [{ id: 0, name: '未执行' }, { id: 1, name: '正在执行' }, { id: 2, name: '已结束' }],
 
@@ -230,7 +241,7 @@ export default {
 					dev_name: 'BJ-263',
 					dev_type: '火灾传输装置',
 					dev_subsytem: '火灾自动报警系统',
-					dev_num:1,
+					dev_num: 1,
 					vc_Code: '火灾报警控制主机',
 					i_BeginTime: '消防子系统',
 					vc_User: '灭火',
@@ -242,7 +253,7 @@ export default {
 					dev_name: 'BJ-263',
 					dev_type: '火灾传输装置',
 					dev_subsytem: '火灾自动报警系统',
-					dev_num:1,
+					dev_num: 1,
 					vc_Code: '火灾报警控制主机',
 					i_BeginTime: '消防子系统',
 					vc_User: '灭火',
@@ -253,20 +264,8 @@ export default {
 					unit_name: '550kv东善桥变电站',
 					dev_name: 'BJ-263',
 					dev_type: '火灾传输装置',
-					dev_num:1,
+					dev_num: 1,
 					dev_subsytem: '火灾自动报警系统',
-					vc_Code: '火灾报警控制主机',
-					i_BeginTime: '消防子系统',
-					vc_User: '灭火',
-					vc_Local: 'JK-S-01',
-					vc_remark: '正常'
-				},
-				{
-					unit_name: '550kv东善桥变电站',
-					dev_name: 'BJ-263',
-					dev_type: '火灾传输装置',
-					dev_subsytem: '火灾自动报警系统',
-					dev_num:1,
 					vc_Code: '火灾报警控制主机',
 					i_BeginTime: '消防子系统',
 					vc_User: '灭火',
@@ -278,7 +277,7 @@ export default {
 					dev_name: 'BJ-263',
 					dev_type: '火灾传输装置',
 					dev_subsytem: '火灾自动报警系统',
-					dev_num:1,
+					dev_num: 1,
 					vc_Code: '火灾报警控制主机',
 					i_BeginTime: '消防子系统',
 					vc_User: '灭火',
@@ -290,19 +289,31 @@ export default {
 					dev_name: 'BJ-263',
 					dev_type: '火灾传输装置',
 					dev_subsytem: '火灾自动报警系统',
-					dev_num:1,
+					dev_num: 1,
 					vc_Code: '火灾报警控制主机',
 					i_BeginTime: '消防子系统',
 					vc_User: '灭火',
 					vc_Local: 'JK-S-01',
 					vc_remark: '正常'
 				},
-		        {
+				{
 					unit_name: '550kv东善桥变电站',
 					dev_name: 'BJ-263',
 					dev_type: '火灾传输装置',
 					dev_subsytem: '火灾自动报警系统',
-					dev_num:1,
+					dev_num: 1,
+					vc_Code: '火灾报警控制主机',
+					i_BeginTime: '消防子系统',
+					vc_User: '灭火',
+					vc_Local: 'JK-S-01',
+					vc_remark: '正常'
+				},
+				{
+					unit_name: '550kv东善桥变电站',
+					dev_name: 'BJ-263',
+					dev_type: '火灾传输装置',
+					dev_subsytem: '火灾自动报警系统',
+					dev_num: 1,
 					vc_Code: '火灾报警控制主机',
 					i_BeginTime: '消防子系统',
 					vc_User: '灭火',
@@ -315,21 +326,31 @@ export default {
 			curIndex: 1,
 			pageSize: 10,
 			totals: 3,
-			unitId:this.$store.getters.unitId,
+			unitId: this.$store.getters.unitId,
 			//导入文件
 			DaoShow: false,
-			fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+			fileList: [
+				{
+					name: 'food.jpeg',
+					url:
+						'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+				},
+				{
+					name: 'food2.jpeg',
+					url:
+						'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+				}
+			],
+			diaShow:true
 		}
 	},
-	mounted() {
-		
-	},
+	mounted() {},
 	created() {
 		this.getData()
 		this.searchItem()
 		// console.log(this.$store.getters.unitId,'zhes');
 	},
-computed: {
+	computed: {
 		activeUnitId() {
 			return this.$store.getters.unitId
 		}
@@ -344,22 +365,25 @@ computed: {
 	},
 	methods: {
 		//获取设备和子系统数据
-		getData(){
-			 this.$_api.devOps.geteqData({
-					dictGroupID:9003
-			}).then(res=>{
-				if(res.code==200){
-					this.eqcnameS=res.data
-				}
-			})
-			this.$_api.devOps.getChildData({
-				type:'10060003'
-			}).then(res=>{
-				if(res.code==200){
-					this.eqctypeS=res.data.lists
-				}
-			})
-			
+		getData() {
+			this.$_api.devOps
+				.geteqData({
+					dictGroupID: 9003
+				})
+				.then(res => {
+					if (res.code == 200) {
+						this.eqcnameS = res.data
+					}
+				})
+			this.$_api.devOps
+				.getChildData({
+					type: '10060003'
+				})
+				.then(res => {
+					if (res.code == 200) {
+						this.eqctypeS = res.data.lists
+					}
+				})
 		},
 		tableColor({ row, column, rowIndex, columnIndex }) {
 			let index = rowIndex
@@ -369,7 +393,7 @@ computed: {
 				return 'background-color: transparent;'
 			}
 		},
-		doSearch(){
+		doSearch() {
 			this.searchItem()
 			// 重置页码为1
 			this.$nextTick(() => {
@@ -378,22 +402,22 @@ computed: {
 		},
 		async searchItem() {
 			let result = await this.$_api.devOps.getAcountList({
-				vcName:this.search.eqName,
-				devTypeId:this.search.devType,
-				num:this.search.Num,
-				subId:this.search.maintenanceUnit,
-				userId:this.search.keeperName,
-				pageSize:this.pageSize,
-				currentPage:this.curIndex,
-				unitId:this.unitId
+				vcName: this.search.eqName,
+				devTypeId: this.search.devType,
+				num: this.search.Num,
+				subId: this.search.maintenanceUnit,
+				userId: this.search.keeperName,
+				pageSize: this.pageSize,
+				currentPage: this.curIndex,
+				unitId: this.unitId
 			})
 			if (result.success) {
-				this.search={
-					eqName:'',//设备名称
-					devType:'',//设备类型
-					Num:'',//定置点编号
-					maintenanceUnit:'',//所属子系统
-					keeperName:'',//保管责任人
+				this.search = {
+					eqName: '', //设备名称
+					devType: '', //设备类型
+					Num: '', //定置点编号
+					maintenanceUnit: '', //所属子系统
+					keeperName: '' //保管责任人
 				}
 				if (result.data && result.data) {
 					this.totals = result.data.total
@@ -404,7 +428,7 @@ computed: {
 								item[name] = '--'
 							}
 						}
-						 if(item['vcMemo']=='--')item.vcMemo=''
+						if (item['vcMemo'] == '--') item.vcMemo = ''
 					})
 				}
 			}
@@ -415,11 +439,11 @@ computed: {
 		},
 		//分页
 		changePage(curIndex) {
-			this.curIndex=curIndex;
+			this.curIndex = curIndex
 			this.searchItem()
 		},
-		handleSizeChange(pagesize){
-			this.pageSize=pagesize
+		handleSizeChange(pagesize) {
+			this.pageSize = pagesize
 			this.searchItem()
 		},
 		// lookImG(){
@@ -443,8 +467,19 @@ computed: {
 			this.forData.itemData13 = this.data[0].subpostion
 		},
 		leadTo() {
+			// console.log(this.forData.length);
+			// return
+			if(this.forData.length==0){
+				    this.$Message.info({
+                content: '请点击列表信息!!!',
+                duration: 3
+            });
+			}else{
 				this.dialogVisible = true
-		},		
+			}
+		
+			
+		},
 		infoModal() {
 			this.modalShow = true
 		},
@@ -459,45 +494,33 @@ computed: {
 		//导入弹框的逻辑
 		exportInfo() {
 			// this.DaoShow = true
-			 this.Message({
-          message: '警告哦，这是一条警告消息',
-          type: 'warning'
-        });
+			// this.Message({
+			// 	message: '警告哦，这是一条警告消息',
+			// 	type: 'warning'
+			// })
 		},
 		Close() {
 			this.DaoShow = false
 		},
 		handleRemove(file, fileList) {
-			console.log(file, fileList)
+			// console.log(file, fileList)
 		},
 		handlePreview(file) {
-			console.log(file)
+			// console.log(file)
 		},
 		handleClose() {
 			this.dialogVisible = false
 		},
 		handleSelectionChange(val) {
 			this.data = val
-		},
-		handleExceed(files, fileList) {
-			// this.$ocxMessage.info('命令下发成功')
-			this.$ocxMessage.warning(
-				`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
-					fileList.length} 个文件`
-			)
-		},
-		beforeRemove(file, fileList) {
-			console.log("一处")
-			// return this.$confirm(`确定移除 ${file.name}？`)
 		}
 	}
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" >
 @import './input.css';
-@import '~@/assets/style/component/index.styl'
-
+@import '~@/assets/style/component/index.styl';
 
 .docFire {
   width: 100%;
@@ -506,67 +529,67 @@ computed: {
   padding: 0 50px;
   // background-color: #141a26;
   overflow: hidden;
-	.table {
-		height: 77%;
 
-		/deep/ .el-table {
-			width: 100%;
-			height: calc(100% - 45px)!important;
-			background: transparent;
-			color: #fff;
+  .table {
+    height: 77%;
 
-			view-table('~@fire/assets/img/view-table/header.png')
+    /deep/ .el-table {
+      width: 100%;
+      height: calc(100% - 5.2rem) !important;
+      background: transparent;
+      color: #fff;
+      border: 1px solid #054598 !important;
+      view-table('~@fire/assets/img/view-table/header.png');
 
-			.control-wrap {
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: center;
-				align-items: center;
-			}
+      .control-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
 
-			.el-button+.el-button {
-				margin-left: initial;
-				margin: 2.5px;
-			}
+      .el-button+.el-button {
+        margin-left: initial;
+        margin: 2.5px;
+      }
 
-			.el-button {
-				margin: 2.5px;
-				background: transparent;
-				border-color: #2d8cf0;
-				color: #2d8cf0;
-				position: relative;
+      .el-button {
+        margin: 2.5px;
+        background: transparent;
+        border-color: #2d8cf0;
+        color: #2d8cf0;
+        position: relative;
 
-				&:hover {
-					background: #09102f;
-				}
+        &:hover {
+          background: #09102f;
+        }
 
-				&:active {
-					top: 1px;
-					left: 1px;
-				}
+        &:active {
+          top: 1px;
+          left: 1px;
+        }
+      }
+    }
 
-			}
-		}
+    .page-wrap {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
 
-		.page-wrap {
-			margin-top: 10px;
-			display: flex;
-			justify-content: center;
+      .ivu-page {
+        iview-page();
+      }
+    }
+  }
 
-			.ivu-page {
-				iview-page()
-			}
-		}
-	}
-
-
-	.el-row {
+  .el-row {
     left: 7%;
     font-size: 0.7rem;
     font-weight: bold;
     margin-bottom: 20px;
   }
-.Daoshow {
+
+  .Daoshow {
     .el-dialog {
       height: 500px;
       border: none;
@@ -584,20 +607,28 @@ computed: {
 
       .el-upload__tip {
         color: #fff;
-		font-size:25px;
+        font-size: 25px;
       }
-	  .el-upload-list__item-name{
-		  color:#fff;
-		  font-size:20px;
-	  }
+
+      .el-upload-list__item-name {
+        color: #fff;
+        font-size: 20px;
+				// background:#054598;
+      }
+			/deep/ .el-upload-list__item:hover{
+					background:#054598;
+			}
+			/deep/ .el-upload-list__item .el-icon-close{
+				color:#fff;
+			}
     }
   }
+
   .el-dialog {
     background: url('../../../assets/img/dialog.png') no-repeat;
     background-size: 100% 100%;
 
     .el-dialog__header {
-      
       font-weight: bold;
       font-size: 44PX;
       height: 71PX;
@@ -608,7 +639,8 @@ computed: {
       text-align: center;
       color: black;
     }
-	.el-dialog__close {
+
+    .el-dialog__close {
       font-size: 30px;
     }
   }
@@ -643,7 +675,7 @@ computed: {
       /deep/ .el-input__inner {
         border: 1px solid #0d7ec5 !important;
         background: #081e4d;
-		font-size:16px;
+        font-size: 16px;
       }
     }
 
@@ -657,7 +689,7 @@ computed: {
 
   /deep/ .el-form-item__label {
     color: #78b8de !important;
-	font-size:18px;
+    font-size: 18px;
   }
 
   .el-checkbox__label {
@@ -669,7 +701,6 @@ computed: {
     border: 1PX solid #0c4e75;
   }
 
-
   // 分页样式的修改
   .pagination {
     text-align: center;
@@ -679,20 +710,23 @@ computed: {
       .el-pagination__total {
         color: #73a6c3;
       }
-		.el-pager{
-			margin-top: 4px;
-		}
+
+      .el-pager {
+        margin-top: 4px;
+      }
 
       .btn-prev, .btn-next {
         border: 1px solid #0f3047;
         background-color: transparent;
         color: #444;
-		cursor: pointer;
+        cursor: pointer;
       }
-		/deep/ .el-pager li{
-			color: #2d8cf0 !important;
-			background:transparent;
-		}
+
+      /deep/ .el-pager li {
+        color: #2d8cf0 !important;
+        background: transparent;
+      }
+
       .el-pagination__jump {
         color: #73a6c3;
       }
@@ -718,28 +752,28 @@ computed: {
     }
   }
 
-
-
   .blue-btn {
-    width: 3.8rem;
-    color: #FFFFFF;
+    width: 100px;
+    font-size: 18px;
     background: url('~@fire/assets/img/seach_blue.png') no-repeat;
     background-size: 100% 100%;
+    color: #45adf7;
+    margin-left: 20px;
   }
 
   .import-btn {
-    width: 3.8rem;
+    width: 100px;
     color: #F6CE69;
     background: url('~@fire/assets/img/seach_red.png') no-repeat;
     background-size: 100% 100%;
   }
 
   .yellow-btn {
-    width: 3.8rem;
-    color: #FFFFFF;
+    width: 100px;
+    color: #f6ce69;
     background: url('~@fire/assets/img/seach_yellow.png') no-repeat;
     background-size: 100% 100%;
-    margin-left: 15px;
+    margin-left: 20px;
   }
 
   .item-zt {
@@ -748,20 +782,34 @@ computed: {
   }
 
   .taining-button {
-    float:right;
+    float: right;
   }
 
   .taining-button button {
     font-size: 20px;
   }
+	// .dialoag{
+	// 	width:200px;
+	// 	height:40px;
+	// 	border:1px solid #333;
+	// 	position absolute;
+	// 	top:10%;
+	// 	left:50%;
+	// 	transform:translate(-50%,-50%);
+	// 	color:#fff;
+	// 	font-size:20px;
+	// 	text-align:center;
+	// 	border-radius:25%;
+		
+	// 	span{
+	// 		display:inline-block;
+	// 		margin-top:5px;
+	// 	}
+	// }
 }
 
 /deep/ .el-picker-panel {
   background-color: #1A587F !important;
 }
-
-
-
-
 
 </style>

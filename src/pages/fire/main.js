@@ -50,7 +50,7 @@ import {
 	TableColumn,
 	Pagination,
 	Switch,
-	Upload,
+	Upload
 } from 'element-ui'
 const ElementUI = [
 	Tree,
@@ -81,7 +81,7 @@ const ElementUI = [
 	TableColumn,
 	Pagination, //分页
 	Switch,
-	Upload,
+	Upload
 ]
 ElementUI.push(eButton)
 ElementUI.push(eIcon)

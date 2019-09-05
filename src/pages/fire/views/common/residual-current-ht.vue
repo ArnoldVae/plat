@@ -1,24 +1,24 @@
 <template>
-	<div>
-		<div ref="view-main" id="main" class="fireControlHt"></div>
-		<div class="btnBox">
-			<div class="btnTitle">图例:</div>
-			<div class="btnCon">
-				<div class="btnConItem">
-					<div class="imgCon">
-						<img src="../../assets/img/elec-fire/kaizhuang.png" alt />
-					</div>
-					<div class="con" @click="kaiDian()">铠装电流</div>
-				</div>
-				<div class="btnConItem">
-					<div class="imgCon">
-						<img src="../../assets/img/elec-fire/shengyu.png" alt />
-					</div>
-					<div class="con" @click="residueDian()">剩余电流</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div>
+    <div ref="view-main" id="main" class="fireControlHt"></div>
+    <div class="btnBox">
+      <div class="btnTitle">图例:</div>
+      <div class="btnCon">
+        <div class="btnConItem">
+          <div class="imgCon">
+            <img src="../../assets/img/elec-fire/kaizhuang.png" alt>
+          </div>
+          <div class="con" @click="kaiDian()">铠装电流(mA)</div>
+        </div>
+        <div class="btnConItem">
+          <div class="imgCon">
+            <img src="../../assets/img/elec-fire/shengyu.png" alt>
+          </div>
+          <div class="con" @click="residueDian()">剩余电流(mA)</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import { CLIENT_RENEG_LIMIT, CLIENT_RENEG_WINDOW } from 'tls'
@@ -117,10 +117,14 @@ export default {
 			})
 			if (!this.residualUrl.length) return
 			if (process.env.NODE_ENV == 'production') {
-				var http = `${$_production.javaRequest.location}/${$_production.javaRequest.javaModule}${this.residualUrl}`
+				var http = `${$_production.javaRequest.location}/${$_production.javaRequest.javaModule}${
+					this.residualUrl
+				}`
 			}
 			if (process.env.NODE_ENV == 'development') {
-				var http = `${$_development.javaRequest.location}/${$_development.javaRequest.javaModule}${this.residualUrl}`
+				var http = `${$_development.javaRequest.location}/${$_development.javaRequest.javaModule}${
+					this.residualUrl
+				}`
 			}
 			ht.Default.xhrLoad(http, res => {
 				// res.p.background='transparent'
@@ -128,8 +132,14 @@ export default {
 				json.p.background = 'transparent'
 				dataModel.deserialize(json)
 				// graphView.fitContent(true)
-
 				graphView.setZoom(5, true, { x: 630, y: 500 })
+				this.dataModel.each(data => {
+					if (data.getTag() == 'sy-bg-shengyu' || data.getTag() == 'sy-bg-kai') {
+						if (data.getStyle('2d.visible') == true) {
+							data.setStyle('2d.visible', false)
+						}
+					}
+				})
 			})
 			this.getNode()
 		},
@@ -147,12 +157,12 @@ export default {
 						this.residualNodes.map(item => {
 							setTimeout(() => {
 								let node = new this.localHt.Node()
-								node.setImage('ht/storage/symbols/txtIcon.json')
+								node.setImage('assets/libs/ht/storage/symbols/txtIcon.json')
 								node.setTag(item.vcSourceId)
 								node.setId(item.vcSourceId)
 								node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
 								node.setName(item.vcName)
-								
+
 								// node.setSize(parseFloat(item.iWidth), parseFloat(item.iHeight))
 								node.setSize(20, 10)
 								node.setStyle('interactive', true)
@@ -163,11 +173,17 @@ export default {
 								node.a('devtypeId', item.devNodes[0].devTypeId)
 								node.setLayer(1)
 								node.s('label', '')
+								if (item.devNodes[0].NodeID == 'd4b6b41b574c470ea14aa328f23fd24e') {
+									item.devNodes[0]['f_Value'] = item.devNodes[0].f_Value / 100
+								} else if (item.devNodes[0].NodeID == '2c9dde06ef014dbb8acee871f81759cf') {
+									item.devNodes[0]['f_Value'] = item.devNodes[0].f_Value / 100
+								}
 								node.setToolTip(item.vcName)
-								let NumValue=item.devNodes[0].f_Value =item.devNodes[0].f_Value == '65535' ? '    --' : item.devNodes[0].f_Value
+								let NumValue = (item.devNodes[0].f_Value =
+									item.devNodes[0].f_Value == '65535' ? '    --' : item.devNodes[0].f_Value)
 								node.a('value', NumValue.toFixed(1))
+								node.setStyle('2d.visible', false)
 								this.dataModel.add(node)
-							
 							}, 100)
 						})
 				}
@@ -233,11 +249,11 @@ export default {
 .btnBox {
   position: absolute;
   bottom: 20px;
-  right: -20px;
+  right: -12px;
   width: 250px;
   height: 150px;
   color: #fff;
-  font-size: 25px;
+  font-size: 23px;
 
   .btnCon {
     margin-left: 30px;

@@ -1,11 +1,6 @@
 .DS_Store
 node_modules
 /dist
-/dist/as/
-/dist/ac/
-/dist/index/
-/dist/pack/
-/dist/index.html
 
 # local env files
 .env.local

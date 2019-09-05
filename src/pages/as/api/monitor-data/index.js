@@ -139,12 +139,6 @@ export default {
 
 	//获取巡检任务单数据
 	getInspectionWorkOrderData(params) {
-		// return $ajax({
-		// 	//url: 'http://172.26.1.128:8011/as/GetAsTaskNodeByTree',
-		// 	url: 'http://22.46.34.114:8011/as/GetAsTaskNodeByNodes',
-		// 	method: 'post',
-		// 	data: qs.stringify(params)
-		// })
 		return axiosNet.request({
 			url: '/as/GetAsTaskNodeByNodes',
 			method: 'post',
@@ -166,10 +160,9 @@ export default {
 		})
 	},
 	
-	//获取预置巡检数据
+	//获取预置巡检数据(net)
 	getPresetInspectionInfo( params ) {
 		return axiosNet.request({
-			//url: '/as/GetAsTask?i_PatrolType=1&&UnitID=8177a787a28b4f86a103fac9a023db05',
 			url: '/as/GetAsTask',
 			method: 'post',
 			headers: {
@@ -178,8 +171,16 @@ export default {
 			data: qs.stringify(params)
 		})
 	},
+	//获取预置巡检数据(java)
+	getPresetInspectionData( params ) {
+		return axios.request({
+			url: 'astask/getAsTaskpost',
+			method: 'post',
+			data: params
+		})
+	},
 
-	//获取数组型树数据
+	//获取数组型树数据(net)
 	getZtreeData( params ) {
 		return axiosNet.request({
 			url: `/as/GetBllTreeNodes`,
@@ -188,6 +189,15 @@ export default {
 				'Content-Type': 'application/x-www-form-urlencoded'
 			},
 			data:qs.stringify(params)
+		})
+	},
+	
+	//获取数组型树数据(java)
+	getAddTaskTreeData( params ) {
+		return axios.request({
+			url: 'tree/showVbllTreeList',
+			method: 'post',
+			data: params
 		})
 	}
 	

@@ -791,7 +791,7 @@
                                         text-align: center;
                                         color: #90d9ff;
                                         width: 138px;
-                                        font-size: 16px;
+                                        font-size: 14px;
                                         background: rgba(54, 105, 134, 0.3);
                                         line-height: 24px;
                                         height: 50px;
@@ -1026,7 +1026,10 @@
                                 .subList {
                                     margin-left: 0 !important;
                                     width: 100%;
-
+                                    
+                                    li {
+                                        margin-top: 7px;
+                                    }
                                     .el-col {
                                         padding-left: 18px;
                                     }

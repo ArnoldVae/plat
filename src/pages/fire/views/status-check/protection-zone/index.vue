@@ -832,6 +832,7 @@ $prowidth = 100%;
           line-height: 40px;
           font-size: 16px;
           padding-left: 24px;
+		  margin-top: 6px;
 
           .tool-text {
             font-size: 16px;

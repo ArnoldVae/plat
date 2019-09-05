@@ -44,7 +44,7 @@
 						</el-form-item>
 					</el-form>
 				</div>
-				<div class="list-con" style="height:100px;">
+				<div class="list-con" style="height:125px;">
 					<div class="title">设备区域：</div>
 					<div class="select">
 						<el-checkbox
@@ -73,12 +73,12 @@
 						>全部</el-checkbox>
 						<el-checkbox-group v-model="checkedDeviceType" @change="handleCheckedDeviceTypeChange">
 							<!-- <el-scrollbar style="height: 100%"> -->
-								<el-checkbox
-									v-for="item in deviceType"
-									:label="item"
-									:key="item.id"
-									v-model="item.vcFlag"
-								>{{ item.typeName }}</el-checkbox>
+							<el-checkbox
+								v-for="item in deviceType"
+								:label="item"
+								:key="item.id"
+								v-model="item.vcFlag"
+							>{{ item.typeName }}</el-checkbox>
 							<!-- </el-scrollbar> -->
 						</el-checkbox-group>
 					</div>
@@ -144,7 +144,9 @@
 				</div>
 			</div>
 			<div class="right-tree">
-				<!-- <el-input placeholder="输入关键字进行过滤" @change="filterByKeyWord" v-model="filterText"></el-input> -->
+				<el-input placeholder="输入关键字进行过滤" v-model="filterText">
+					 <el-button slot="append" icon="el-icon-search" @click="filterByKeyWord"></el-button>
+				</el-input>
 
 				<div
 					class="tree-wrap"
@@ -152,7 +154,7 @@
 					element-loading-text="正在加载树"
 					element-loading-background="#0a2e63"
 				>
-					<ztree ref="tree" :nodes="treeData" :setting="setting" @onCreated="handleCreated" />
+					<ul id="ztree" class="ztree"></ul>
 				</div>
 			</div>
 		</div>
@@ -164,12 +166,14 @@
 	</div>
 </template>
 <script>
-import ztree from 'vue-giant-tree'
+// import ztree from 'vue-giant-tree'
+import '@ztree/ztree_v3/js/jquery.ztree.core.min.js'
+import '@ztree/ztree_v3/js/jquery.ztree.excheck.min.js'
+import '@ztree/ztree_v3/js/jquery.ztree.exhide.min.js'
+import '@ztree/ztree_v3/demo/js/fuzzysearch'
+import '@ztree/ztree_v3/css/metroStyle/metroStyle.css'
 export default {
 	name: 'task-order',
-	components: {
-		ztree
-	},
 	props: {
 		selectTreeShow: {
 			type: Boolean
@@ -252,28 +256,26 @@ export default {
 					}
 				},
 				view: {
-					expandSpeed: 'fast'
+					expandSpeed: 'fast',
+					showIcon: false
 				}
 			},
 			ztreeObj: null,
 			isFilter: false,
-			hiddenNodes: []
+			hiddenNodes: [],
+			
+			
 		}
 	},
 	computed: {},
 	filters: {},
 	watch: {
-		// filterText(val) {
-		// 	this.$refs.tree.filter(val)
-		// },
-		// treeData() {
-		// 	this.handleCheckChange()
+		// filterText(){
+		// 	this.filterByKeyWord();
 		// }
 	},
 	created() {
-		//console.log('init')
 		this.getDeviceType()
-		//this.getStaticTreeData()
 	},
 	mounted() {},
 	activited() {},
@@ -311,7 +313,6 @@ export default {
 		//关闭弹框
 		closeAddTask() {
 			this.transmitArr = []
-			//this.clearFilter()
 			this.$emit('closeAddTask')
 		},
 		//点击巡检成票
@@ -325,9 +326,68 @@ export default {
 					nodesArr.push(item.id)
 				}
 			})
-
 			this.$emit('inspectionAticketClick', nodesArr)
 		},
+		//新增任务右侧树
+		//(java接口)
+		getStaticTreeData(area, devType, regType, meterType, appearanceType, selectStr) {
+			this.isFilter = false
+			if (this.treeData.length > 0 && !selectStr) {
+				return
+			} else if (this.treeData.length == 0 && !selectStr) {
+				this.axios.getAddTaskTreeData({
+					'unitId': this.stationId,
+					'codeStr': area || [],
+					'devTypeId': devType || [],
+					'recogTypeId': regType || [],
+					'meterTypeId': meterType || [],
+					'surfaceTypeId': appearanceType || []
+				}).then(res => {
+					if (res.code == 200 ) {
+						console.log( res )
+						this.loading = false
+						this.treeData = res.data
+						$.fn.zTree.init($('#ztree'), this.setting, res.data)
+						this.ztreeObj = $.fn.zTree.getZTreeObj('ztree')
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			} else if (selectStr) {
+				this.axios.getAddTaskTreeData({
+					'unitId': this.stationId,
+					'codeStr': area || [],
+					'devTypeId': devType || [],
+					'recogTypeId': regType || [],
+					'meterTypeId': meterType || [],
+					'surfaceTypeId': appearanceType || []
+				}).then(res => {
+					if (res.code == 200 ) {
+						this.loading = false
+						this.treeData = res.data
+						$.fn.zTree.init($('#ztree'), this.setting, res.data)
+						this.ztreeObj = $.fn.zTree.getZTreeObj('ztree')
+		
+						//标识为过滤用
+						// this.isFilter = true
+		
+						//当前使用过滤时，需要选中节点
+						this.ztreeObj.checkAllNodes(true)
+		
+						//展开区域一级
+						let areaNodes = this.ztreeObj.getNodesByParam('type', 1, null)
+						areaNodes.map(item => {
+							this.ztreeObj.expandNode(item, true, false, false)
+						})
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			}
+		},
+		
+		
+		/* （net接口）
 		getStaticTreeData(area, devType, regType, meterType, appearanceType, selectStr) {
 			//console.log( this.treeData.length )
 			this.isFilter = false
@@ -349,6 +409,8 @@ export default {
 						if (res.success) {
 							this.loading = false
 							this.treeData = res.data
+							$.fn.zTree.init($('#ztree'), this.setting, res.data)
+							this.ztreeObj = $.fn.zTree.getZTreeObj('ztree')
 						}
 					})
 					.catch(err => {
@@ -370,23 +432,27 @@ export default {
 						if (res.success) {
 							this.loading = false
 							this.treeData = res.data
+							$.fn.zTree.init($('#ztree'), this.setting, res.data)
+							this.ztreeObj = $.fn.zTree.getZTreeObj('ztree')
 
 							//标识为过滤用
-							this.isFilter = true
-							// console.log(1);
-							//this.treeDataStr = JSON.stringify(res.data)
-							// let arr = []
-							// this.treeData.forEach(item => {
-							// 	arr.push(item.id)
-							// })
-							// this.$refs.tree.setCheckedKeys(arr)
+							// this.isFilter = true
+
+							//当前使用过滤时，需要选中节点
+							this.ztreeObj.checkAllNodes(true)
+
+							//展开区域一级
+							let areaNodes = this.ztreeObj.getNodesByParam('type', 1, null)
+							areaNodes.map(item => {
+								this.ztreeObj.expandNode(item, true, false, false)
+							})
 						}
 					})
 					.catch(err => {
 						console.log(err)
 					})
 			}
-		},
+		}, */
 		getDeviceType() {
 			this.isMeterType = false
 			this.isRecognitionType = false
@@ -588,68 +654,93 @@ export default {
 			//调用接口进行树节点过滤
 			this.loading = true
 			//区域
-			let area = ''
+			//let area = ''
+			let area = []
 			this.selectAreaList.map(item => {
-				area += item.vcCode + ','
+				//area += item.vcCode + ','
+				area.push( item.vcCode )
 			})
-			area = area.substring(0, area.length - 1)
+			//area = area.substring(0, area.length - 1)
 
 			//设备类型
-			let deviceType = ''
+			//let deviceType = ''
+			let deviceType = []
 			this.selectDevType.map(item => {
-				// deviceType.push(item.typeCode)
-				deviceType += item.typeCode + ','
+				//deviceType += item.typeCode + ','
+				deviceType.push(item.typeCode)
 			})
-			deviceType = deviceType.substring(0, deviceType.length - 1)
+			//deviceType = deviceType.substring(0, deviceType.length - 1)
 
 			//识别类型
-			let regType = ''
+			//let regType = ''
+			let regType = []
 			this.selectRegType.map(item => {
-				regType += item.typeCode + ','
+				//regType += item.typeCode + ','
+				regType.push( item.typeCode )
 			})
-			regType = regType.substring(0, regType.length - 1)
+			//regType = regType.substring(0, regType.length - 1)
 
 			//表计类型
-			let meterType = ''
+			//let meterType = ''
+			let meterType = []
 			this.selectMeterType.map(item => {
-				meterType += item.typeCode + ','
+				//meterType += item.typeCode + ','
+				meterType.push( item.typeCode )
 			})
-			meterType = meterType.substring(0, meterType.length - 1)
+			//meterType = meterType.substring(0, meterType.length - 1)
 
 			//设备外观类型
-			let appearanceType = ''
+			//let appearanceType = ''
+			let appearanceType = []
 			this.selectAppearanceType.map(item => {
-				appearanceType += item.typeCode + ','
+				//appearanceType += item.typeCode + ','
+				appearanceType.push( item.typeCode )
 			})
-			appearanceType = appearanceType.substring(0, appearanceType.length - 1)
+			//appearanceType = appearanceType.substring(0, appearanceType.length - 1)
 
 			this.getStaticTreeData(area, deviceType, regType, meterType, appearanceType, true)
 		},
-		handleCreated(ztreeObj) {
-			//ztree初始化加载
+		filterByKeyWord() {
+			this.loading = true;
+			setTimeout(() => {
+				let nodes = this.ztreeObj.getNodesByFilter(this.filterFun);
+      		    this.processShowNodes(nodes);
+			}, 1000);
+		},
+		filterFun(node) {
+			var nameKey = this.ztreeObj.setting.data.key.name // get the key of the node name
+			if (
+				this.filterText.length === 0 ||
+				(node[nameKey] && node[nameKey].toLowerCase().indexOf(this.filterText.toLowerCase()) != -1)
+			) {
+				this.ztreeObj.showNode(node) // show node with matching keywords
+				return true // return true and show this node
+			}
 
-			this.ztreeObj = ztreeObj
-			if (this.isFilter) {
-				//当前使用过滤时，需要选中节点
-				this.ztreeObj.checkAllNodes(true)
-
-				//展开区域一级
-				let areaNodes = this.ztreeObj.getNodesByParam('type', 1, null)
-				areaNodes.map(item => {
-					this.ztreeObj.expandNode(item, true, false, false)
+			this.ztreeObj.hideNode(node)
+			return false
+		},
+		processShowNodes(nodes) {
+			if (this.filterText.length > 0) {
+				$.each(nodes, (n, obj) => {
+					let pathOfOne = obj.getPath()
+					if (pathOfOne && pathOfOne.length > 0) {
+						// i < pathOfOne.length-1 process every node in path except self
+						for (var i = 0; i < pathOfOne.length - 1; i++) {
+							this.ztreeObj.showNode(pathOfOne[i]) // show node
+							if (pathOfOne[i].type === 1) {
+								this.ztreeObj.expandNode(pathOfOne[i], true,false,false) //expand node
+							}
+						}
+					}
+				})
+			} else {
+				var rootNodes = this.ztreeObj.getNodesByParam('level', '0') // get all root nodes
+				$.each(rootNodes, (n, obj) => {
+					this.ztreeObj.expandNode(obj, true) // expand all root nodes
 				})
 			}
-		},
-		// filterFunc(node){
-		// 	var _keywords=$("#keyword").val();
-		// 	if(node.isParent||node.name.indexOf(_keywords)!=-1) return false;
-		// 	return true;
-		// };
-		filterByKeyWord() {
-			let nodes = this.ztreeObj.getNodesByFilter(node => {
-				return node.name.indexOf(this.filterText) == -1
-			})
-			// console.log(nodes);
+			this.loading = false;
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -669,7 +760,7 @@ export default {
 
 .main {
   overflow: hidden;
-  height: 600px;
+  height: 620px;
   background: #082053;
 
   .left-content {
@@ -678,6 +769,7 @@ export default {
     width: 1400px;
     height: 740px;
     overflow: auto;
+	padding-left: 10px;
 
     .select-type {
       width: 100%;
@@ -748,13 +840,13 @@ export default {
           /deep/.el-checkbox__inner {
             background: none;
             border: 2px solid #409eff;
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
           }
 
           /deep/.el-checkbox__inner::after {
             border-color: yellow;
-            width: 6px;
+            width: 3px;
           }
         }
 
@@ -791,106 +883,38 @@ export default {
   .right-tree {
     float: left;
     width: 325px;
-    height: 550px;
+    height: 570px;
     margin-top: 20px;
-    margin-left: 20px;
+    margin-left: 10px;
     background: url('../../assets/img/common/tree.png') no-repeat;
     background-size: 100% 100%;
-
-    /deep/.el-tree {
-      height: 630px;
-      width: 100%;
-      overflow: auto;
-      background: transparent;
-      color: #fff;
-      margin-top: 5px;
-
-      /deep/.el-input {
-        background: rgba(9, 32, 47, 0.6);
-      }
-
-      .el-tree-node__content {
-        height: 50px;
-        background: none;
-
-        &:hover {
-          background-color: #0757b1b3 !important;
-          color: #fa0 !important;
-        }
-
-        &:active {
-          background-color: #0757b1b3 !important;
-          color: #fa0 !important;
-        }
-
-        .el-tree-node__label {
-          font-size: 20px;
-          color: #8fd8fe;
-        }
-
-        .custom-tree-node {
-          node-icon(img-url) {
-            display: inline-block;
-            width: 17px;
-            height: 17px;
-            background: url(img-url) no-repeat;
-            background-size: 17px 17px;
-            position: relative;
-            top: 3px;
-            margin-right: 3px;
-          }
-
-          .station {
-            node-icon('~@/assets/img/common/station-icon.png');
-          }
-
-          .company {
-            node-icon('~@/assets/img/common/company-icon.png');
-          }
-
-          .team {
-            node-icon('~@/assets/img/common/team-icon.png');
-          }
-
-          .substation {
-            node-icon('~@/assets/img/common/substation-icon.png');
-          }
-
-          .circuit {
-            node-icon('~@/assets/img/common/circuit-icon.png');
-          }
-        }
-      }
-    }
+	
+	/deep/ .tree-wrap{
+		height: 94% !important;
+	}
 
     /deep/ .ztree {
-      li a {
-        height: 40px;
+      li {
         line-height: 40px;
-        color: #8fd8fe;
-        font-size: 16px;
-        background: none;
+
+        a {
+          height: 40px;
+          line-height: 40px;
+          color: #8fd8fe;
+          background: none;
+          text-decoration: none;
+
+          span {
+            font-size: 16px !important;
+          }
+        }
       }
 
       .button.chk {
-        width: 20px;
-        height: 20px;
-        background: none;
+        width: 16px;
+        height: 16px;
         border: 2px solid #409eff;
-      }
-
-      .button.chk.checkbox_true_full:after {
-        position: absolute;
-        top: 1px;
-        left: 4px;
-        width: 7px;
-        height: 11px;
-        border-right: 3px solid yellow;
-        border-bottom: 3px solid yellow;
-      }
-
-      .line:before {
-        border: none;
+        background: none;
       }
     }
 
@@ -902,30 +926,34 @@ export default {
   }
 }
 
-/deep/.ztree .button.checkbox_true_part:after, /deep/.ztree .button.checkbox_true_part_focus:after {
-  top: 6px;
-  left: 3px;
-  width: 10px;
-  height: 1px;
-  border-color: yellow;
-  -webkit-transform: rotate(0deg) scale(1);
-  /* transform: rotate(0deg) scale(1); */
-  border-right: 0;
+// ztree相关样式的覆盖
+/deep/ .ztree li span.button.chk.checkbox_false_full_focus {
+  cursor: pointer;
 }
 
-/deep/.button.chk.checkbox_true_full_focus:after {
-  position: absolute;
-  top: 1px;
-  left: 4px;
-  width: 7px;
-  height: 11px;
-  border-right: 3px solid yellow;
-  border-bottom: 3px solid yellow;
-  transform: rotate(45deg);
+/deep/ .ztree li span.button.chk.checkbox_true_full, /deep/ .ztree li span.button.chk.checkbox_true_full_focus, /deep/ .ztree li span.button.chk.checkbox_true_part, /deep/.ztree li span.button.checkbox_true_part_focus {
+  background: url('../../assets/img/common/dui.png') no-repeat center !important;
+  background-size: 80% 60% !important;
+  cursor: pointer;
 }
 
-/deep/.ztree .center_docu:after, /deep/.ztree .center_docu:before, /deep/.ztree .bottom_docu:before, /deep/.ztree .bottom_docu:after {
-  border: none;
+/deep/ .ztree li span.button.root_close, /deep/ .ztree li span.button.roots_close, /deep/ .ztree li span.button.center_close, /deep/ .ztree li span.button.bottom_close {
+  background: url('../../assets/img/common/arrow.png') no-repeat center !important;
+}
+
+/deep/ .ztree li span.button.root_open, /deep/ .ztree li span.button.roots_open, /deep/ .ztree li span.button.center_open, /deep/ .ztree li span.button.bottom_open {
+  background: url('../../assets/img/common/arrow.png') no-repeat center !important;
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+}
+
+/deep/ .el-input-group__append{
+	background-color: #17579a;
+	border-color:#17579a;
+
+	i{
+		color:#fff;
+	}
 }
 
 .task-order-btn {
@@ -938,8 +966,6 @@ export default {
   padding: 22px 0 50px 0;
   border-radius: 0 0 10px 10px;
 
-  // right: 50px;
-  // bottom: 30px;
   .btn {
     width: 100px;
     height: 30px;
@@ -950,18 +976,21 @@ export default {
     margin-left: 15px;
     cursor: pointer;
     border: 0;
-    color: #d8c50e;
-    font-size: 18px;
-  }
-
-  .cancel {
     color: #fff;
+    font-size: 16px;
+	float: right;
   }
+	
+	.btn:active{
+		color: #d8c50e;
+	}
+	
+	.btn:nth-of-type(1){
+		margin-right: 15px;
+	}
+	
 }
 
-.task-order-btn .btn:nth-of-type(1) {
-  margin-left: 1415px;
-}
 
 .el-tree-node:focus>.el-tree-node__content {
   background-color: #0757b1b3 !important;
@@ -1008,4 +1037,5 @@ export default {
 /deep/.ztree .button.bottom_close:before, /deep/.ztree .button.bottom_open:before, /deep/.ztree .button.center_close:before, /deep/.ztree .button.center_open:before, /deep/.ztree .button.noline_close:before, /deep/.ztree .button.noline_open:before, /deep/.ztree .button.root_close:before, /deep/.ztree .button.root_open:before, /deep/.ztree .button.roots_close:before, /deep/.ztree .button.roots_open:before {
   border-color: transparent transparent transparent #fff;
 }
+
 </style>

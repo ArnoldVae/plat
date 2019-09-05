@@ -16,17 +16,10 @@
 										@click="handelInspecClick(item, index)"
 										:class="{ checkedInspection: recordIndex == index }"
 									>
-										<!-- <div
-                      :class="item.i_Status == 70140001 ? 'checkedInspectionStatus2' : item.i_Status == 1 || item.i_Status == 2 ? 'checkedInspectionStatus1' : 'checkedInspectionStatus2' "
-										></div>-->
-										<div
-											:class="
-												item.i_Status == 70140001
-													? 'checkedInspectionStatus1'
-													: 'checkedInspectionStatus2'
-											"
-										></div>
-										<p>{{ item.vc_Name }}</p>
+										<!-- <div :class="item.i_Status == 70140001? 'checkedInspectionStatus1': 'checkedInspectionStatus2'"></div> -->
+										<!-- <p>{{ item.vc_Name }}</p> -->
+										<div :class="item.intStatus == 70140001? 'checkedInspectionStatus1': 'checkedInspectionStatus2'"></div>
+										<p>{{item.taskName}}</p>
 									</li>
 								</ul>
 							</div>
@@ -227,7 +220,7 @@
 												:class="{
 													'robot-out': item.vcName.substr(0, 2) == '室外',
 													'robot-in': item.vcName.substr(0, 2) == '室内',
-													hvideo: item.vcName.substr(0, 2) == '高清'
+													'hvideo': item.vcName.substr(0, 2) == '高清'
 												}"
 											></i>
 											<p>{{ item.vcName }}</p>
@@ -633,9 +626,12 @@ export default {
           } else if (msgData.cmd === 2102) {
             //任务状态
             this.presetInspectionArr.map(item => {
-              if (item.taskID === msgData.taskstatus.taskid) {
+				if (item.taskId === msgData.taskstatus.taskid) {
+				  item.intStatus = msgData.taskstatus.status
+				}
+              /* if (item.taskID === msgData.taskstatus.taskid) {
                 item.i_Status = msgData.taskstatus.status
-              }
+              } */
             })
           } else if (msgData.cmd === 2205) {
             //任务控制回复
@@ -840,7 +836,20 @@ export default {
     },
     //获取预置巡检数据
     getPresetInspectionData() {
-      let str = {
+		//java
+		let obj = {
+		  unitId: this.stationId,
+		  isPage: 1
+		}
+		this.axios.getPresetInspectionData(obj).then(res => {
+		  if (res.code == 200 && res.data.length > 0) {
+		    this.presetInspectionArr = res.data
+		    this.presetInspectionTaskId = res.data.taskId
+		  }
+		})
+		
+      //(net)
+	  /* let str = {
         UnitID: this.stationId,
         isThread: true
       }
@@ -849,14 +858,14 @@ export default {
           this.presetInspectionArr = res.data.rows
           this.presetInspectionTaskId = res.data.rows[0].taskID
         }
-      })
+      }) */
     },
     //点击预置巡检
     handelInspecClick(info, index) {
       this.recordIndex = index
-      //console.log(info)
-      this.presetInspectionTaskId = info.taskID
-      // this.signForm = false
+		//console.log(info)
+		//this.presetInspectionTaskId = info.taskID
+		this.presetInspectionTaskId = info.taskId
     },
 
     //获取设备ID
@@ -869,13 +878,11 @@ export default {
             return node.devId == devIds
           })
           this.$nextTick(() => {
-            let targetTr = document.querySelectorAll('#ticketTables .el-table__body-wrapper tr')[
-              targetTrIndex
-            ]
+            let targetTr = document.querySelectorAll('#ticketTables .el-table__body-wrapper tr')[targetTrIndex]
             //console.log(targetTr)
             let targetTable = document.querySelector('#ticketTables .el-table__body-wrapper')
             if (targetTr && targetTable) {
-              targetTable.scrollTop = targetTr.offsetTop
+				targetTable.scrollTop = targetTr.offsetTop
             }
           })
         }
@@ -1414,7 +1421,7 @@ export default {
                     height: 100%;
                     font-size: 14px;
                     vertical-align: middle;
-                    margin-left: 10px;
+                    //margin-left: 10px;
                     background: none;
                   }
                 }
@@ -1597,8 +1604,8 @@ export default {
               margin-left: 10px;
               margin-top: 6px;
               width: calc(100% - 20px);
-              border-left-color: #0098ff;
-              border-top-color: #0098ff;
+              border-left-color: #054598;
+              border-top-color: #054598;
 
               /deep/td {
                 height: 40px;
@@ -1626,7 +1633,7 @@ export default {
               /deep/td, /deep/th.is-leaf {
                 font-size: 14px;
                 color: #fff;
-                border-color: #0098ff;
+                border-color: #054598;
               }
 
               .statePageTab {
@@ -1713,7 +1720,7 @@ export default {
               position: absolute;
               left: 0px;
               bottom: 5px;
-
+				
               /deep/.ivu-page {
                 iview-page();
               }
@@ -1721,7 +1728,7 @@ export default {
           }
 
           .content-bottom {
-            width: 1112px;
+            width: 1108px;
             height: 210px;
             float: left;
             margin-top: 10px;
@@ -1730,12 +1737,17 @@ export default {
               float: left;
               height: 210px;
               width: 100%;
-              background: url('../../assets/img/monitor/bigBg2.png') no-repeat;
-              background-size: 100% 100%;
+			  border: 2px solid #064886;
+              //background: url('../../assets/img/monitor/bigBg2.png') no-repeat;
+              //background-size: 100% 100%;
 
               /deep/.ivu-tabs-bar {
                 margin: 10px 0 0 10px;
-
+				
+				/deep/i {
+				  color: #f00;
+				}
+				
                 .ivu-tabs-tab {
                   width: 100%;
                   height: 1.4rem;
@@ -1835,30 +1847,31 @@ export default {
           .videoBox {
             width: 100%;
             height: 615px;
+            position: relative;
 
             .border-lt {
               position: absolute;
-              top: -7px;
+              top: -6px;
               left: -7px;
               width: 35px;
               height: 30px;
-              background: url('~@/assets/img/common/border-lt.png') no-repeat;
+              //background: url('~@/assets/img/common/border-lt.png') no-repeat;
               background-size: 35px 30px;
             }
 
             .border-rb {
               position: absolute;
-              bottom: -7px;
-              right: -7px;
+              bottom: 32px;
+              right: 27px;
               width: 35px;
               height: 30px;
-              background: url('~@/assets/img/common/border-rb.png') no-repeat;
+              //background: url('~@/assets/img/common/border-rb.png') no-repeat;
               background-size: 35px 30px;
             }
 
             .video1, .video2 {
               width: 400px;
-              height: 282px;
+              height: 280px;
 
               .ocxVideo {
                 width: 400px;
@@ -1872,14 +1885,14 @@ export default {
             .env {
               // float: left;
               width: 403px;
-              height: 198px;
-              margin: 15px 0 0 0;
+              height: 210px;
+              margin: 10px 0 0 0;
               border: 1px solid #063765;
 
               // padding-left: 10px;
               // padding-top: 2px;
               .env-flex {
-                height: 145px;
+                height: 158px;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-around;
@@ -1913,7 +1926,7 @@ export default {
               p {
                 width: 100%;
                 height: 30px;
-                font-size: 18px;
+                font-size: 16px;
                 line-height: 30px;
                 color: #fff;
               }
@@ -2368,9 +2381,6 @@ export default {
   background: none;
 }
 
-/deep/i {
-  color: #f00;
-}
 
 .robot-out {
   background: url('../../assets/img/monitor/robot-out.png') no-repeat center;

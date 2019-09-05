@@ -162,11 +162,11 @@
                             </a-button-group>
                         </div>
 
-<!--                        <div class="tab-change">-->
-<!--                            <div class="tab" v-for="(d,index) in caseTab" :class="[ d.selected? 'tab-active' : '', 'tab']" :key="index" @click="changeMenu(d)">-->
-<!--                               {{d.name}}-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <!--                        <div class="tab-change">-->
+                        <!--                            <div class="tab" v-for="(d,index) in caseTab" :class="[ d.selected? 'tab-active' : '', 'tab']" :key="index" @click="changeMenu(d)">-->
+                        <!--                               {{d.name}}-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
                         <div class="con-right-List" v-show="caseTabCode">
                             <ul>
                                 <li v-for="(disposeItem, index) in disposeList" :key="index">
@@ -182,6 +182,45 @@
                     </div>
                 </div>
             </div>
+            <ocx-modal v-model="ocxModel" :width="360" :styles="{ top: '0',width:'360' }" scrollable :mask="true"
+                       :mask-closable="true">
+                <div slot="header" class="ocx-modal-header">
+                    {{ alarmTitle }}消防报警应急预案
+                </div>
+                <div class="waring-body">
+                    <div class="waring-body-msg">
+                        <span class="color-fontKey">当前报警变电站：</span> <span class="color-fontValue">{{alarmTitle}}</span>
+                        <span class="color-fontKey">防护区：</span> <span class="color-fontValue">{{alarmDetail.araeName}}</span>
+                        <span class="color-fontKey">设备名称：</span> <span class="color-fontValue">{{alarmDetail.devName}}</span>
+                        <span class="color-fontKey">报警节点：</span> <span class="color-fontValue">{{alarmDetail.nodeName}}</span>
+                        <span class="color-fontKey">报警时间：</span> <span class="color-fontValue">{{alarmDetail.beginTime}}</span>
+                    </div>
+                    <el-container>
+                        <el-aside width="76%">
+                            <div class="modal-video">
+                                <div class="modal-video-single video-left" >
+                                    <OcxVideo  :videoConfig="videoConfig[0]"></OcxVideo>
+                                </div>
+                                <div class="modal-video-single video-right" >
+                                    <OcxVideo :videoConfig="videoConfig[1]"></OcxVideo>
+                                </div>
+                            </div>
+                            <div class="modal-map">
+                                <div class="newTitle">报警信息</div>
+
+                            </div>
+
+                        </el-aside>
+                    </el-container>
+
+                </div>
+
+
+                <div slot="footer">
+
+                </div>
+
+            </ocx-modal>
         </div>
     </div>
 </template>
@@ -210,13 +249,18 @@
         },
         data() {
             return {
+                ocxModel: false,
                 imgUrl: '',
                 cfgName: '',
                 moreFlag: false,
                 modal1: false,
-                caseTab:[{name:"ichnography",icon:"picture",title:"流程图"},{name:"table",icon:"table",title:"文字"}],
-                caseTabCode:0,
-                mapImgUrl:"",
+                caseTab: [{name: "ichnography", icon: "picture", title: "流程图"}, {
+                    name: "table",
+                    icon: "table",
+                    title: "文字"
+                }],
+                caseTabCode: 0,
+                mapImgUrl: "",
                 javainterface: {
                     allStation: {
                         subModuleName: 'systemView',
@@ -307,8 +351,7 @@
                         ]
                     }
                 ],
-                disposeList: [
-                ],
+                disposeList: [],
                 idListObj: {
                     arr1: [],
                     arr2: [],
@@ -353,8 +396,8 @@
             /**
              * 应急预案切换方案
              */
-            handleChangeDisplayMode(mode,index){
-                this.caseTabCode=index
+            handleChangeDisplayMode(mode, index) {
+                this.caseTabCode = index
             },
             /**
              *弹窗关闭事件
@@ -384,7 +427,7 @@
                                 this.labelList = res.data
                                 this.labelList.forEach((im, i) => {
                                     im.index = i + 1
-                                    im.beginTime=moment(im.beginTime * 1000).format('YYYY-MM-DD HH:mm')
+                                    im.beginTime = moment(im.beginTime * 1000).format('YYYY-MM-DD HH:mm')
                                 })
 
 
@@ -404,19 +447,19 @@
              * param：item为当前勾选对象
              */
             async showItemDetail(item) {
-                let num=0
+                let num = 0
 
-                this.labelList.forEach(i=>{
-                    if(item.alarmId==i.alarmId){
-                        i.selected=true
+                this.labelList.forEach(i => {
+                    if (item.alarmId == i.alarmId) {
+                        i.selected = true
                         num++
-                    }else {
-                        i.selected=false
+                    } else {
+                        i.selected = false
                     }
                 })
-                if(!num&&this.labelList.length>0){
-                    this.labelList[0].selected=true
-                    item=this.labelList[0]
+                if (!num && this.labelList.length > 0) {
+                    this.labelList[0].selected = true
+                    item = this.labelList[0]
                 }
                 if (item.unitId) {
                     this.$store.dispatch('updateUnitId', item.unitId)
@@ -436,6 +479,7 @@
                     this.alarmListInfo[2].value = result.data.nodeName
                     this.alarmListInfo[3].value = moment(result.data.beginTime * 1000).format('YYYY-MM-DD HH:mm')
                     this.alarmDetail = result.data
+                    this.alarmDetail.beginTime = moment(result.data.beginTime * 1000).format('YYYY-MM-DD HH:mm')
                     this.protectAreaId = result.data.protectAreaId
 
                     //
@@ -446,8 +490,8 @@
                         areaId: this.protectAreaId
                     }
                     //报警联动视频赋值逻辑
-                    if(result.data.videoList&&result.data.videoList.length>0){
-                        result.data.videoList.forEach((item,index)=>{
+                    if (result.data.videoList && result.data.videoList.length > 0) {
+                        result.data.videoList.forEach((item, index) => {
                             this.videoConfig[index].deviceInfo = item.vcParams1
                         })
                     }
@@ -468,7 +512,7 @@
                 if (result.success) {
                     this.cfgName = result.data.cfgName
                     this.disposeList = result.data.list
-                    this.mapImgUrl=result.data.vcPicture
+                    this.mapImgUrl = result.data.vcPicture
                 }
             },
             //charts表渲染
@@ -700,12 +744,12 @@
                 item.selected = true
             },
             //应急方案切换
-            changeMenu(item){
-                this.caseTab.forEach(i=>{
-                    i.selected=false
+            changeMenu(item) {
+                this.caseTab.forEach(i => {
+                    i.selected = false
                 })
                 item.selected = true
-                this.caseTabCode=item.code
+                this.caseTabCode = item.code
             },
             //获取ht接口数据
             getHtMap() {
@@ -721,11 +765,12 @@
                     })
             },
             alarmShow() {
-                this.confirHide = this.pageType ? false : true
-                this.comfireAlarm = this.pageType ? true : false
-
-                this.modal1 = true
-                this.getHtMap()
+                this.ocxModel = true
+                // this.confirHide = this.pageType ? false : true
+                // this.comfireAlarm = this.pageType ? true : false
+                //
+                // this.modal1 = true
+                // this.getHtMap()
             },
             close() {
                 this.comfireAlarm = true
@@ -750,16 +795,77 @@
     .font-time {
         font-family: 'DS-DIGI';
     }
-    .el-switch__label{
-        color: #00aaff;
+    .color-fontKey{
+        color: #47b2fe;
+        margin-right: 10px;
     }
-    .el-switch__label.is-active{
-        color: #ffd36a;
+    .color-fontValue{
+        color: yellow;
+        margin-right: 16px;
     }
 </style>
 
 <style lang="stylus" scoped>
-    .newTitle{
+    //弹窗处理----------------------------------------------------------start-----------------------------------------------------------
+    /deep/ .ivu-modal {
+        top: 0.04444rem !important;
+        left: auto;
+        width: 94% !important;
+    }
+
+    /deep/ .ivu-modal-mask {
+        background none !important
+    }
+
+    .waring-body {
+        .waring-body-msg{
+            height 40px
+            color white
+            font-size 14px
+        }
+        .el-container{
+            height 800px
+            .el-aside{
+                padding 0
+                border 1px solid red
+                .modal-video{
+                    height 450px
+                    .video-left{
+                        margin-right: 16px;
+                    }
+                    .modal-video-single{
+                        width 49%
+                        float left
+                        .ocxVideo{
+                            width 670px !important
+                            height 450px !important
+
+                        }
+                    }
+
+                }
+                .modal-map{
+                    float left
+                    width 670px
+                    margin-top 10px
+                    height 335px
+                    border 1px solid #ff9900
+                }
+            }
+        }
+    }
+
+    /deep/ .ivu-modal-header {
+        background #185a9e
+        color white
+        height 50px
+        font-size 16px
+        border-top-left-radius 4px
+        border-top-right-radius 4px
+    }
+
+    //弹窗处理----------------------------------------------------------end-----------------------------------------------------------
+    .newTitle {
         width: 100%;
         height: 50px;
         line-height 50px
@@ -768,6 +874,7 @@
         border-top-right-radius 4px
         color: #fff;
         padding-left 16px
+
         .ant-btn {
             background-color: #054166;
             border-color: #000;
@@ -779,6 +886,7 @@
         }
         font-size: 18px;
     }
+
     .modal-header {
         color red
     }
@@ -810,6 +918,7 @@
             float left
             padding 10px 0 0 10px
             background url('../../assets/img/common/tree-bg.png')
+
             .alarmNow-title {
                 width: 100%;
                 height: 30px;
@@ -856,6 +965,7 @@
 
                         ul li {
                             color white
+
                             .icon {
                                 color red
                                 margin-right 6px
@@ -903,7 +1013,7 @@
                     margin: 0px 0 5px 36px;
 
                     .alarm-now-video-item {
-                        width:49%;
+                        width: 49%;
                         height: 100%;
                         float: left;
                     }
@@ -965,7 +1075,7 @@
 
                             ul {
                                 li {
-                                    .el-row{
+                                    .el-row {
                                         width 100%
                                     }
                                     height: 30px;
@@ -1158,7 +1268,7 @@
                 .con-left {
                     width: 76%;
                     height: 34.1rem;
-                    margin-right  10px
+                    margin-right 10px
 
                     // border 1px solid red;
 
@@ -1270,7 +1380,7 @@
 
                                 ul {
                                     li {
-                                        .el-row{
+                                        .el-row {
                                             width 100%
                                         }
 
@@ -1324,8 +1434,9 @@
                             border-top-left-radius 4px
                             border-top-right-radius 4px
                             box-sizing: border-box;
+
                             .htCon {
-                                img{
+                                img {
                                     width 22rem
                                     height 11rem
                                     margin 16px
@@ -1350,10 +1461,12 @@
                         color #32e611
 
                     }
-                    .tab-change{
-                        height 30pxW
+
+                    .tab-change {
+                        height 30 pxW
                         line-height 30px
-                        .tab{
+
+                        .tab {
                             border 0.04444rem solid #3ea1aa
                             width 50%
                             float left
@@ -1361,8 +1474,9 @@
                             cursor pointer
                             color white
                         }
-                        .tab-active{
-                            background: rgba(15,33,69,0.7);
+
+                        .tab-active {
+                            background: rgba(15, 33, 69, 0.7);
                             color: #ffd36a;
                         }
                     }
@@ -1371,6 +1485,7 @@
                         color: #fff;
                         font-size: 20px;
                         margin 10px 0
+
                         .ant-btn {
                             background-color: #054166;
                             border-color: #000;

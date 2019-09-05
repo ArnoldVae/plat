@@ -16,7 +16,7 @@
 				</el-form>
 				<p>本次巡检共巡检点位{{ inspectionNodeNum }}个</p>
 			</div>
-			
+
 			<el-table
 				:data="nodesTableData"
 				max-height="560"
@@ -65,8 +65,8 @@
 			</div>
 			<!-- 底部 按钮 -->
 			<div class="modalFooterBtn">
-				<input type="button" value="上一步" class="btn" @click="lastStepClick('ruleForm')" />
 				<input type="button" value="生成任务" class="btn" @click="saveClick('ruleForm')" />
+				<input type="button" value="上一步" class="btn" @click="lastStepClick('ruleForm')" />
 				<input type="button" value="取消" class="btn" @click="closeClick('ruleForm')" />
 			</div>
 		</div>
@@ -96,7 +96,7 @@ export default {
 			total: 1,
 			inspectionNodeNum: 0,
 			pageNum: 1, //当前页
-			pageSize: 10,//每页条数
+			pageSize: 10, //每页条数
 			nodesArr: []
 		}
 	},
@@ -156,7 +156,10 @@ export default {
 		handleChangePage(page) {
 			let crr = []
 			this.nodesTableData = []
-			crr = this.modalInspectionTaskTableData.slice((page - 1) * this.pageSize, (page - 1) * this.pageSize + this.pageSize)
+			crr = this.modalInspectionTaskTableData.slice(
+				(page - 1) * this.pageSize,
+				(page - 1) * this.pageSize + this.pageSize
+			)
 			crr.forEach(item => {
 				this.$set(item, 'customType', 'tableTdSelect')
 			})
@@ -290,17 +293,17 @@ export default {
 		background-size: 100% 100%;
 		border-radius: 0;
 		padding-top: 1px;
-		
+
 		.headerInfo{
 			width: 100%;
 			height: 50px;
 			padding-top: 10px;
-			
+
 			.el-form{
 				float: left;
 				margin-top: 0;
 			}
-			
+
 			p{
 				margin-left: 10px;
 				display: inline-block;
@@ -309,21 +312,21 @@ export default {
 				line-height: 50px;
 			}
 		}
-		
-		
+
+
 
 		/deep/.el-table {
 			margin-left: 10px;
 			margin-top: 10px;
 			width: calc(100% - 20px);
-			border-color: #0098ff;
-			
+			border-color: #054598;
+
 			/deep/td, /deep/th.is-leaf {
 			  color: #fff;
-			  border-color: #0098ff;
-			  
+			  border-color: #054598;
+
 			}
-			
+
 			/deep/th {
 				padding: 0;
 			}
@@ -385,8 +388,11 @@ export default {
 				iview-page()
 			}
 		}
+		.modalFooterBtn .btn{
+			float: right;
+		}
 		.modalFooterBtn .btn:nth-of-type(1){
-			margin-left: 1100px;
+			margin-right: 15px;
 		}
 		.modalFooterBtn {
 			// position: absolute;
@@ -425,46 +431,6 @@ export default {
 
 		}
 
-		.devIdBox {
-			display: flex;
-		}
-
-		.devIdB:nth-of-type(1) {
-			width: 660px;
-			height: 50px;
-			padding-left: 30px;
-		}
-
-		.devIdB:nth-of-type(2) {
-			width: 635px;
-			height: 50px;
-			padding-left: 20px;
-		}
-
-		.devIdB:nth-of-type(3) {
-			width: 270px;
-			height: 50px;
-			display: flex;
-
-			div {
-				width: 85px;
-				display: flex;
-			}
-
-			i {
-				margin-top: 5px;
-				width: 20px;
-				height: 20px;
-				display: block;
-				border-radius: 50%;
-				margin-right: 10px;
-			}
-
-			span {
-				margin-right: 15px;
-			}
-		}
-
 		/deep/.el-form{
 			width: 50%;
 			margin-top: 20px;
@@ -493,9 +459,6 @@ export default {
 			border: 2px solid #0098ff;
 			margin-top: auto;
 		}
-
-
-
 
 	}
 }

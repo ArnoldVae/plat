@@ -141,7 +141,7 @@ export default {
 							this.cableNodes.map(item => {
 								setTimeout(() => {
 									let node = new this.localHt.Node()
-									node.setImage('ht/storage/symbols/txtIcon.json')
+									node.setImage('assets/libs/ht/storage/symbols/txtIcon.json')
 									node.setTag(item.vcSourceId)
 									node.setId(item.vcSourceId)
 									node.setPosition(parseFloat(item.fPageX) + 2, parseFloat(item.fPageY))
@@ -161,6 +161,7 @@ export default {
 									item.devNodes.forEach(itv=>{
 										
 										if(itv.functionCode=='1079.0002'){
+											// console.log(itv.f_Value);
 											node.a('value',itv.f_Value)
 											node.a('functionCode',itv.functionCode)
 										}

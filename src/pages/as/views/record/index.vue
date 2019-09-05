@@ -42,7 +42,6 @@
 			<div class="list">
 				<el-table
           border
-          empty-text=" "
           v-loading="recordLoading"
           element-loading-text="正在加载中"
           element-loading-background="rgba(0, 0, 0, 0)"
@@ -709,7 +708,7 @@ export default {
 
       /* 边框色 */
       .ivu-page-prev, .ivu-page-item, .ivu-page-next, .ivu-select-selection, .ivu-page-options-elevator input {
-        border-color: #0f3047;
+        border-color: #104095;
       }
 
       .ivu-page-prev:hover, .ivu-page-item:hover, .ivu-page-next:hover, .ivu-select-selection:hover, .ivu-page-options-elevator input:hover, .ivu-page-item-active {

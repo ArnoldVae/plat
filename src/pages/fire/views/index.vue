@@ -263,10 +263,10 @@
 
         .fire-nav {
             top: 1px;
-            height: 50px;
+            height: 56px;
             width: 1590px;
             position: relative;
-            line-height: 50px;
+            line-height: 56px;
             left: 16.2%;
             background: url('../assets/img/common/menu-bg-two.png');
             background-size: 100% 100%;
@@ -282,10 +282,10 @@
                     left: -3px;
                 }
             //   width: 230px;
-                height: 50px;
-                line-height: 50px;
+                height: 56px;
+                line-height: 56px;
                 text-align: center;
-                font-size: 18px
+                font-size: 16px
                 cursor: pointer;
                 margin-right: 60px
             }

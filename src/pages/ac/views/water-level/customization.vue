@@ -277,7 +277,8 @@ export default {
 				title: {
 					text: this.nodeTitle,
 					textStyle: {
-						color: '#fff'
+						color: '#fff',
+						fontSize: 16
 					}
 				},
 				tooltip: {
@@ -325,7 +326,9 @@ export default {
 	                    emphasis: {
 	                    	borderColor: '#fa0'
 	                    }
-	                }
+	                },
+	                right: 20,
+	                top: -3
 				},
 				xAxis: {
 					type: 'category',
@@ -462,6 +465,28 @@ export default {
 					color: #fff;
 
 					view-table('~@ac/assets/img/view-table/header.png')
+					
+					button {
+						border-color: #0e88e3;
+						
+						i {
+							color: #0e88e3;
+						}
+						
+						&:hover {
+							border-color: #fa0!important;
+						
+							i {
+								color: #fa0!important;
+							}
+						}
+						
+						&:active {
+							position: relative;
+							left: 1px;
+						}
+					}
+					
 				}
 
 				.page-wrap {

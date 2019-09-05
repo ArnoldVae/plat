@@ -126,7 +126,7 @@
                     // console.log(result.data)
                     this.treeData = result.data
                     this.untid = result.data[0].children[0].children[0].children[0].children[0].id
-                    cosole.log(this.unitid,"书第一个id")
+                    // cosole.log(this.unitid,"书第一个id")
                     this.$store.dispatch('updateUnitId', this.untid)
                 } else {
                     this.treeData = []
@@ -188,7 +188,7 @@
                 background: url('../../assets/img/common/tree-bg.png');
                 overflow-y: auto;
                 margin-top: -49px;
-                height: 930px;
+                height: 950px;
             }
             .el-main {
                 overflow: hidden;
@@ -217,7 +217,7 @@
 
                         .fire-header-title {
                             color: #37a8ff;
-                            font-size: 18px;
+                            font-size: 14px;
                             cursor: pointer;
                             width: 162px;
                             float: left;

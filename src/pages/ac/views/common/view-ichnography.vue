@@ -190,7 +190,7 @@ export default {
 								} else if (item.icon && item.icon != '' && item.icon != 'null' && item.icon != null) {
 									node.setImage(`symbols/QIF/${item.icon}.json`)
 								} else {
-									node.setImage(`assets/libs/${item.vcPath}`)
+									node.setImage(item.vcPath)
 								}
 
 								node.setTag(item.vcSourceId) //设置tag标签名称

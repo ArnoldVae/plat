@@ -420,7 +420,7 @@ export default {
         .border-rb {
           position: absolute;
           bottom: -7px;
-          right: -19px;
+          right: -9px;
           width: 35px;
           height: 30px;
           background: url('~@/assets/img/common/border-rb.png') no-repeat;
@@ -460,7 +460,7 @@ export default {
         .inspStatistics {
           height: 380px;
           border-radius: 5px;
-          width: 595px;
+          width: 580px;
           border: 2px solid #165697;
 
           .selectTimeBox {
@@ -553,13 +553,13 @@ export default {
                   }
 
                   span:nth-child(2) {
-                    font-size: 20px;
+                    font-size: 14px;
                   }
 
                   span:nth-child(3) {
                     color: #b60711;
                     font-family: 'DS-DIGI';
-                    font-size: 30px;
+                    font-size: 20px;
                     letter-spacing: 2px;
                     margin-left: 4px;
                   }
@@ -571,13 +571,13 @@ export default {
                   }
 
                   span:nth-child(2) {
-                    font-size: 20px;
+                    font-size: 14px;
                   }
 
                   span:nth-child(3) {
                     color: #f6ff00;
                     font-family: 'DS-DIGI';
-                    font-size: 30px;
+                    font-size: 20px;
                     letter-spacing: 2px;
                     margin-left: 4px;
                   }
@@ -589,13 +589,13 @@ export default {
                   }
 
                   span:nth-child(2) {
-                    font-size: 20px;
+                    font-size: 14px;
                   }
 
                   span:nth-child(3) {
                     color: #b66912;
                     font-family: 'DS-DIGI';
-                    font-size: 30px;
+                    font-size: 20px;
                     letter-spacing: 1px;
                     margin-left: 4px;
                   }
@@ -607,13 +607,13 @@ export default {
                   }
 
                   span:nth-child(2) {
-                    font-size: 20px;
+                    font-size: 14px;
                   }
 
                   span:nth-child(3) {
                     color: #00aeff;
                     font-family: 'DS-DIGI';
-                    font-size: 30px;
+                    font-size: 20px;
                     letter-spacing: 1px;
                     margin-left: 4px;
                   }
@@ -709,7 +709,7 @@ export default {
         }
 
         .equipStatistics {
-          width: 595px;
+          width: 580px;
           margin-top: 15px;
           padding-bottom: 12px;
           border: 2px solid #165697;
@@ -724,8 +724,9 @@ export default {
 
             // justify-content : space-between;
             .equipmentChartBox {
-              width: 224px;
-              height: 190px;
+              width: 208px;
+              height: 171px;
+              left:-10px;
               position: relative;
 
               #equipmentChart {
@@ -735,8 +736,8 @@ export default {
 
               .equipText {
                 position: absolute;
-                left: 50%;
-                top: 30%;
+                left: 54%;
+                top: 26%;
                 transform: translateX(-50%);
                 display: flex;
                 flex-direction: column;
@@ -771,6 +772,7 @@ export default {
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start;
+                font-size: 18px;
 
                 >div {
                   i {
@@ -783,12 +785,12 @@ export default {
                   }
 
                   .whiteCls {
-                    font-size: 20px;
+                    font-size: 14px;
                   }
 
                   .blueCls, .yellowCls {
                     font-family: 'DS-DIGI';
-                    font-size: 30px;
+                    font-size: 20px;
                     letter-spacing: 2px;
                   }
 

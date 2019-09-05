@@ -347,7 +347,7 @@
 
                     .fire-header-title {
                         color: #37a8ff;
-                        font-size: 18px;
+                        font-size: 14px;
                         margin-right: 68px;
                         cursor: pointer;
                     }

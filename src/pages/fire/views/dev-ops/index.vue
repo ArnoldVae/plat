@@ -152,7 +152,7 @@
                     this.treeData = result.data
                     this.untid = result.data[0].children[0].children[0].children[0].children[0].id
                     this.$store.dispatch('updateUnitId', this.untid)
-                    this.$refs.sunMethod.init(this.treeData[0])
+                    // this.$refs.sunMethod.init(this.treeData[0])
 
                 } else {
                     this.treeData = []
@@ -242,7 +242,7 @@
                 background: url('../../assets/img/common/tree-bg.png') no-repeat;
                 background-size 100% 100%
                 margin-top: -49px;
-                height: 930px;
+                height: 950px;
                 overflow-y: auto;
                 position: absolute;
             }
@@ -273,7 +273,7 @@
 
                         .fire-header-title {
                             color: #37a8ff;
-                            font-size: 18px;
+                            font-size: 14px;
                             cursor: pointer;
                             width: 197px;
                             float: left;

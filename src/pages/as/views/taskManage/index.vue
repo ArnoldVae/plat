@@ -8,19 +8,22 @@
 			<div class="search">
 				<label for>任务类型：</label>
 				<el-select class="ipt" v-model="value" placeholder="请选择" @change="handleChangeTaskType">
-					<el-option v-for="item in taskType" :key="item.key" :label="item.value" :value="item.key"></el-option>
+					<!-- <el-option v-for="item in taskType" :key="item.key" :label="item.value" :value="item.key"></el-option> -->
+          <el-option v-for="item in taskType" :key="item.dictID" :label="item.vcName" :value="item.dictID"></el-option>
 				</el-select>
 			</div>
 			<div class="search">
 				<label for>任务子类型：</label>
 				<el-select class="ipt" v-model="value2" placeholder="请选择" @change="handleChangeTaskSubType">
-					<el-option v-for="item in taskSubType" :key="item.key" :label="item.value" :value="item.key"></el-option>
+					<!-- <el-option v-for="item in taskSubType" :key="item.key" :label="item.value" :value="item.key"></el-option> -->
+          <el-option v-for="item in taskSubType" :key="item.dictID" :label="item.vcName" :value="item.dictID"></el-option>
 				</el-select>
 			</div>
 			<div class="search">
 				<label for>状态：</label>
 				<el-select class="ipt" v-model="value3" placeholder="请选择" @change="handleChangeStatus">
-					<el-option v-for="item in status" :key="item.key" :label="item.value" :value="item.key"></el-option>
+					<!-- <el-option v-for="item in status" :key="item.key" :label="item.value" :value="item.key"></el-option> -->
+          <el-option v-for="item in status" :key="item.dictID" :label="item.vcName" :value="item.dictID"></el-option>
 				</el-select>
 			</div>
 			<el-button type="primary" class="btn searchbtn" @click="getTaskList">查询</el-button>
@@ -30,7 +33,6 @@
 		<div class="list">
 			<el-table
 				border
-        empty-text=" "
 				:data="taskList"
 				v-loading="taskLoading"
         highlight-current-row
@@ -42,9 +44,25 @@
 				style="width: 100%"
 				height="710"
 			>
-				<el-table-column type="selection" width="55" align="center"></el-table-column>
+				<!-- <el-table-column type="selection" width="55" align="center"></el-table-column>
 				<el-table-column label="任务名称" align="center" width="500">
 					<template slot-scope="scope">{{ scope.row.vc_Name }}</template>
+				</el-table-column>
+				<el-table-column label="任务类型" align="center">
+					<template slot-scope="scope">{{ scope.row.str_Type }}</template>
+				</el-table-column>
+				<el-table-column align="center" label="任务子类型">
+					<template slot-scope="scope">{{ scope.row.str_SubType }}</template>
+				</el-table-column>
+				<el-table-column align="center" label="状态">
+					<template slot-scope="scope">{{scope.row.statusName}}</template>
+				</el-table-column>
+				<el-table-column align="center" label="最后执行时间">
+					<template slot-scope="scope">{{ scope.row.updateTime }}</template>
+				</el-table-column> -->
+        <el-table-column type="selection" width="55" align="center"></el-table-column>
+				<el-table-column label="任务名称" align="center" width="500">
+					<template slot-scope="scope">{{ scope.row.taskName }}</template>
 				</el-table-column>
 				<el-table-column label="任务类型" align="center">
 					<template slot-scope="scope">{{ scope.row.str_Type }}</template>
@@ -79,7 +97,7 @@
 		</div>
 		<ocx-modal
 			v-model="addTaskModal"
-			:width="1700"
+			:width="1750"
 			footer-hide
 			:title="addTaskTitle"
 			@on-cancel="closeAddTask"
@@ -217,27 +235,57 @@ export default {
 			})
 		},
 		//获取任务列表
-		getTaskList() {
+		// getTaskList() {
+		// 	let params = {
+		// 		UnitID: this.$store.getters.stationId,
+		// 		Page: this.page,
+		// 		Rows: this.pageSize,
+		// 		i_Type: this.i_Type,
+		// 		i_SubType: this.i_SubType,
+		// 		i_Status: this.i_Status,
+		// 		vc_Name: this.taskName
+		// 	}
+		// 	this.axios
+		// 		.getTaskList(params)
+		// 		.then(res => {
+		// 			if (res.success) {
+		// 				res.data.rows.map(item => {
+		// 					if (item.i_UpdateTime) {
+		// 						item.updateTime = moment(item.i_UpdateTime * 1000).format('YYYY-MM-DD HH:mm:ss')
+		// 					}
+		// 				})
+		// 				this.taskList = res.data.rows
+		// 				this.total = res.data.total
+		// 				this.taskLoading = false
+		// 			}
+		// 		})
+		// 		.catch(err => {
+		// 			console.log(err)
+		// 		})
+    // },
+    getTaskList() {
 			let params = {
-				UnitID: this.$store.getters.stationId,
-				Page: this.page,
-				Rows: this.pageSize,
-				i_Type: this.i_Type,
-				i_SubType: this.i_SubType,
-				i_Status: this.i_Status,
-				vc_Name: this.taskName
+				unitId: this.$store.getters.stationId,
+				currentPage: this.page,
+				pageSize: this.pageSize,
+				intType: this.i_Type,
+				intSubType: this.i_SubType,
+				intStatus: this.i_Status,
+				taskName: this.taskName
 			}
 			this.axios
 				.getTaskList(params)
 				.then(res => {
 					if (res.success) {
-						res.data.rows.map(item => {
-							if (item.i_UpdateTime) {
-								item.updateTime = moment(item.i_UpdateTime * 1000).format('YYYY-MM-DD HH:mm:ss')
+						res.data.lists.map(item => {
+							if (item.str_UpdateTime) {
+								item.updateTime = moment(item.str_UpdateTime * 1000).format('YYYY-MM-DD HH:mm:ss')
 							}
 						})
-						this.taskList = res.data.rows
-						this.total = res.data.total
+						this.taskList = res.data.lists
+            this.total = res.data.page.totlNum
+            this.page = res.data.page.currentPage
+            this.pageSize = res.data.page.pageSize
 						this.taskLoading = false
 					}
 				})
@@ -246,41 +294,74 @@ export default {
 				})
 		},
 		//获取任务类型
-		getTaskType() {
-			let params = { dictgroupid: 7010, isneednull: true }
+		// getTaskType() {
+		// 	let params = { dictgroupid: 7010, isneednull: true }
+		// 	this.axios
+		// 		.getTaskTypeOrTaskSubType(params)
+		// 		.then(res => {
+		// 			this.taskType = res.data
+		// 		})
+		// 		.catch(err => {
+		// 			console.log(err)
+		// 		})
+    // },
+    getTaskType() {
+			let params = { dictGroupID: 7010 }
 			this.axios
 				.getTaskTypeOrTaskSubType(params)
 				.then(res => {
-					this.taskType = res.data
+					this.taskType = res[0].dictDataList
 				})
 				.catch(err => {
 					console.log(err)
 				})
 		},
 		//获取任务子类型
-		getTaskSubType() {
-			let params = { dictgroupid: 7011, isneednull: true }
+		// getTaskSubType() {
+		// 	let params = { dictgroupid: 7011, isneednull: true }
+		// 	this.axios
+		// 		.getTaskTypeOrTaskSubType(params)
+		// 		.then(res => {
+		// 			this.taskSubType = res.data
+		// 		})
+		// 		.catch(err => {
+		// 			console.log(err)
+		// 		})
+    // },
+    getTaskSubType() {
+			let params = { dictGroupID: 7011 }
 			this.axios
 				.getTaskTypeOrTaskSubType(params)
 				.then(res => {
-					this.taskSubType = res.data
+					this.taskSubType = res[0].dictDataList
 				})
 				.catch(err => {
 					console.log(err)
 				})
 		},
-		getTaskStatus(){		//获取任务状态
-			let params = { dictgroupid: 7014, isneednull: true }
+		// getTaskStatus(){		//获取任务状态
+		// 	let params = { dictgroupid: 7014, isneednull: true }
+		// 	this.axios
+		// 		.getTaskTypeOrTaskSubType(params)
+		// 		.then(res => {
+		// 			// this.taskSubType = res.data
+		// 				this.status = res.data
+		// 		})
+		// 		.catch(err => {
+		// 			console.log(err)
+		// 		})
+    // },
+    getTaskStatus(){		//获取任务状态
+			let params = { dictGroupID: 7014 }
 			this.axios
 				.getTaskTypeOrTaskSubType(params)
 				.then(res => {
 					// this.taskSubType = res.data
-						this.status = res.data
+						this.status = res[0].dictDataList
 				})
 				.catch(err => {
 					console.log(err)
 				})
-
 		},
 		subscribe() {
 			if (this.$_mqtt.connected) {
@@ -398,7 +479,7 @@ export default {
 				onOk: () => {
 					this.axios
 						.delTask({
-							id: row.id
+							ids: row.id
 						})
 						.then(res => {
 							if (res.success == true) {
@@ -431,7 +512,7 @@ export default {
 						})
 						this.axios
 							.delTask({
-								id: arr.join(',')
+								ids: arr.join(',')
 							})
 							.then(res => {
 								if (res.success == true) {
@@ -641,7 +722,7 @@ export default {
 
       /* 边框色 */
       .ivu-page-prev, .ivu-page-item, .ivu-page-next, .ivu-select-selection, .ivu-page-options-elevator input {
-        border-color: #0f3047;
+        border-color: #104095;
         border-width: 1px;
       }
 
@@ -748,9 +829,9 @@ export default {
   white-space: pre-line;
 }
 
-/deep/.el-checkbox__inner {
-  width: 20px;
-  height: 20px;
+/deep/.el-checkbox__inner,/deep/.el-checkbox__input.is-disabled .el-checkbox__inner {
+  width: 16px;
+  height: 16px;
   background: none;
   border: 2px solid #409eff;
 }
@@ -768,9 +849,9 @@ export default {
   border-left: 0;
   border-top: 0;
   height: 0.32111rem;
-  left: 5px;
+  left: 3px;
   position: absolute;
-  top: 3px;
+  top: 0;
   transform: rotate(45deg) scaleY(0);
   width: 0.14333rem;
   transition: transform 0.15s ease-in 0.05s;

@@ -2,6 +2,7 @@ const path = require('path')
 const resolve = dir => {
 	return path.join(__dirname, dir)
 }
+const webpack = require('webpack')
 
 const CompressionPlugin = require('compression-webpack-plugin')
 
@@ -99,8 +100,18 @@ module.exports = {
 			openAnalyzer: false,
 			analyzerPort: 5201
 		}
+	},
+
+	configureWebpack: {
+		plugins: [
+			new webpack.ProvidePlugin({
+				jQuery: 'jquery',
+				$: 'jquery'
+			})
+		]
 	}
 
+	// 不要删！！！后期要用
 	/*configureWebpack: config => {
 		if (process.env.NODE_ENV === 'production') {
 			return {
@@ -118,4 +129,5 @@ module.exports = {
 			}
 		}
 	}*/
+
 }
