@@ -38,19 +38,53 @@
             <div class="alarmContainer" v-show="comfireAlarm">
                 <div class="container">
                     <div class="unitTitle">
-                        <span>{{ unitTitle }}</span>
+                        <span>{{ alarmData.unitName }}</span>
                     </div>
                     <div class="alarm-now-video" v-if="comfireAlarm">
                         <div class="alarm-now-video-item" style="margin-right: 18px;height: 102%">
-                            <OcxVideo :videoConfig="videoConfig[0]" style="width: 753px"></OcxVideo>
+                            <OcxVideo :videoConfig="alarmData.videoList[0]" style="width: 753px"></OcxVideo>
                         </div>
                         <div class="alarm-now-video-item">
-                            <OcxVideo :videoConfig="videoConfig[1]" style="height: 102%"></OcxVideo>
+                            <OcxVideo :videoConfig="alarmData.videoList[1]" style="height: 102%"></OcxVideo>
                         </div>
                     </div>
                     <div class="alarm-now-chart">
                         <div class="chart-container" ref="envChart"></div>
                         <div class="infoWarp-top">
+
+                            <div class="alarmInfo-box">
+                                <div class="newTitle">报警信息</div>
+                                <div class="info-wrap">
+                                    <ul>
+                                        <li>
+                                            <div class="name">防护区</div>
+                                            <div class="valueColor1">
+                                                {{ alarmData.areaName }}
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="name">设备名称</div>
+                                            <div class="valueColor2">
+                                                {{ alarmData.devName }}
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="name">报警节点</div>
+                                            <div class="valueColor1">
+                                                {{ alarmData.nodeName }}
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="name">报警时间</div>
+                                            <div class="valueColor2">
+                                                {{ alarmData.time }}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="infoWarp-bottom">
                             <div class="newTitle">站内气象</div>
                             <div class="weatherInfo">
                                 <ul>
@@ -69,21 +103,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
-                        <div class="infoWarp-bottom">
-                            <div class="alarmInfo-box">
-                                <div class="newTitle">报警信息</div>
-                                <div class="info-wrap">
-                                    <ul>
-                                        <li v-for="(infoItem, index) in alarmListInfo" :key="index">
-                                            <div class="name">{{ infoItem.name }}</div>
-                                            <div :class="['value', index % 2 == 0 ? 'valueColor1' : 'valueColor2']">
-                                                {{ infoItem.value }}
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+
                             <div class="alarm-btn">
                                 <button class="btn confirm" @click="alarmShow()">确定</button>
                                 <button class="btn false">误报</button>
@@ -93,95 +113,6 @@
                 </div>
             </div>
             <!--        确定页面-->
-            <div class="alarmPlanBox" v-if="confirHide">
-                <div class="close" @click="close()"></div>
-                <div class="title">
-                    <span>{{ alarmTitle }}消防报警应急预案</span>
-                </div>
-                <div class="alarmPlanCon">
-                    <div class="con-left">
-                        <div class="left-topCon" v-if="confirHide">
-                            <div class="videoAlarm" v-for="(valarmItem, index) in videoConfig" :key="index">
-                                <OcxVideo :videoConfig="valarmItem"></OcxVideo>
-                            </div>
-                        </div>
-                        <div class="left-bottomCon">
-                            <div class="left-bottomCon-left">
-                                <div class="alarmInfo-box">
-                                    <div class="newTitle">报警信息</div>
-                                    <div class="info-wrap">
-                                        <ul>
-                                            <li v-for="(infoItem, index) in alarmListInfo" :key="index">
-                                                <div class="name">{{ infoItem.name }}</div>
-                                                <div :class="['value', index % 2 == 0 ? 'valueColor1' : 'valueColor2']">
-                                                    {{ infoItem.value }}
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="left-bottomCon-center">
-                                <div class="newTitle">站内气象</div>
-                                <div class="weatherInfo">
-                                    <ul>
-                                        <li v-for="(item, index) in weatherList" :key="index">
-                                            <el-row>
-                                                <el-col :span="2" class="icon">
-                                                    <img :src="item.icon" alt>
-                                                </el-col>
-                                                <el-col :span="6">
-                                                    <div class="name">{{item.name}}</div>
-                                                </el-col>
-                                                <el-col :span="16">
-                                                    <div class="value">{{item.value}}{{item.vcUnit}}</div>
-                                                </el-col>
-                                            </el-row>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="left-bottomCon-right">
-                                <div class="newTitle">灭火资源</div>
-                                <div class="htCon">
-                                    <img :src="imgUrl" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="con-right">
-                        <div class="newTitle"><span></span>应急处置流程
-                            <a-button-group style="float: right">
-                                <a-button
-                                        v-for="(mode, index) in caseTab"
-                                        :key="index"
-                                        @click="handleChangeDisplayMode(mode, index)"
-                                        :icon="mode.icon"
-                                        :class="{ current: caseTabCode == index }"
-                                ></a-button>
-                            </a-button-group>
-                        </div>
-
-                        <!--                        <div class="tab-change">-->
-                        <!--                            <div class="tab" v-for="(d,index) in caseTab" :class="[ d.selected? 'tab-active' : '', 'tab']" :key="index" @click="changeMenu(d)">-->
-                        <!--                               {{d.name}}-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-                        <div class="con-right-List" v-show="caseTabCode">
-                            <ul>
-                                <li v-for="(disposeItem, index) in disposeList" :key="index">
-                                    <div class="flag">{{ index + 1 }}</div>
-                                    <p class="con">{{ disposeItem.itemContext }}</p>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="con-right-List" v-show="!caseTabCode">
-                            <img :src="mapImgUrl" alt="">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
             <ocx-modal v-model="ocxModel" :width="360" :styles="{ top: '0',width:'360' }" scrollable :mask="true"
                        :mask-closable="true">
                 <div slot="header" class="ocx-modal-header">
@@ -190,7 +121,7 @@
                 <div class="waring-body">
                     <div class="waring-body-msg">
                         <span class="color-fontKey">当前报警变电站：</span> <span class="color-fontValue">{{alarmTitle}}</span>
-                        <span class="color-fontKey">防护区：</span> <span class="color-fontValue">{{alarmDetail.araeName}}</span>
+                        <span class="color-fontKey">防护区：</span> <span class="color-fontValue">{{alarmDetail.areaName}}</span>
                         <span class="color-fontKey">设备名称：</span> <span class="color-fontValue">{{alarmDetail.devName}}</span>
                         <span class="color-fontKey">报警节点：</span> <span class="color-fontValue">{{alarmDetail.nodeName}}</span>
                         <span class="color-fontKey">报警时间：</span> <span class="color-fontValue">{{alarmDetail.beginTime}}</span>
@@ -199,18 +130,59 @@
                         <el-aside width="76%">
                             <div class="modal-video">
                                 <div class="modal-video-single video-left" >
-                                    <OcxVideo  :videoConfig="videoConfig[0]"></OcxVideo>
+                                    <OcxVideo  :videoConfig="alarmData.videoList[0]"></OcxVideo>
                                 </div>
                                 <div class="modal-video-single video-right" >
-                                    <OcxVideo :videoConfig="videoConfig[1]"></OcxVideo>
+                                    <OcxVideo :videoConfig="alarmData.videoList[1]"></OcxVideo>
                                 </div>
                             </div>
                             <div class="modal-map">
-                                <div class="newTitle">报警信息</div>
+                                <div class="newTitle">外部救援</div>
+                                <fireMap
+                                        ref="map"
+                                        @clickRcuImg="clickRcuImg"
+                                        :moduleNames="'fireMap'"
+                                        :javainterface="javainterface">
+
+                                </fireMap>
+
+                            </div>
+                            <div class="modal-source">
+                                <div class="newTitle">灭火资源</div>
+                                <div class="htCon">
+                                    <img :src="imgUrl" alt="">
+                                </div>
 
                             </div>
 
                         </el-aside>
+                        <el-main>
+                            <div class="con-right">
+                                <div class="newTitle"><span></span>应急处置流程
+                                    <a-button-group style="float: right;margin-right: 15px;">
+                                        <a-button
+                                                v-for="(mode, index) in caseTab"
+                                                :key="index"
+                                                @click="handleChangeDisplayMode(mode, index)"
+                                                :icon="mode.icon"
+                                                :class="{ current: caseTabCode == index }"
+                                        ></a-button>
+                                    </a-button-group>
+                                </div>
+                                <div class="con-right-List" v-show="caseTabCode">
+                                    <ul>
+                                        <li v-for="(disposeItem, index) in disposeList" :key="index">
+                                            <div class="flag">{{ index + 1 }}</div>
+                                            <p class="con">{{ disposeItem.itemContext }}</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="con-right-List" v-show="!caseTabCode">
+                                    <img :src="mapImgUrl" alt="">
+
+                                </div>
+                            </div>
+                        </el-main>
                     </el-container>
 
                 </div>
@@ -230,11 +202,13 @@
 
     // import htCommon from '@fire/views/common/ht-common'
     import moment from 'moment'
+    import fireMap from '@/components/native/fireMap/fireMap.vue'
 
     export default {
         name: 'alarm-now',
         components: {
             OcxVideo,
+            fireMap
         },
         props: {
             node: {
@@ -249,6 +223,29 @@
         },
         data() {
             return {
+                alarmData:{
+                    videoList:[
+                        {
+                            isAutoPlay: true,
+                            serviceInfo: '1$22.46.34.114$6800$admin$admin',
+                            deviceInfo: '1|22.46.34.114:8001|admin:admin123|1',
+                            hideTool: true
+                        },
+                        {
+                            isAutoPlay: true,
+                            serviceInfo: '1$22.46.34.114$6800$admin$admin',
+                            deviceInfo: '2|22.46.34.114:37781|admin:admin123|2',
+                            hideTool: true
+                        }
+                    ],
+                },
+                defaultMapConfig: {
+                    center: {lng: 118.79288, lat: 31.88029},
+                    zoom: 10,
+                    scrollWheelZoom: true,
+                    minZoom: 8,
+                    maxZoom: 15
+                },
                 ocxModel: false,
                 imgUrl: '',
                 cfgName: '',
@@ -268,34 +265,6 @@
                         param: {iType: 10060003}
                     }
                 },
-                videoConfig: [
-                    {
-                        isAutoPlay: true,
-                        serviceInfo: '1$22.46.34.114$6800$admin$admin',
-                        deviceInfo: '1|22.46.34.114:8001|admin:admin123|1',
-                        hideTool: true
-                    },
-                    {
-                        isAutoPlay: true,
-                        serviceInfo: '1$22.46.34.114$6800$admin$admin',
-                        deviceInfo: '2|22.46.34.114:37781|admin:admin123|2',
-                        hideTool: true
-                    }
-                ],
-                videoAlarm: [
-                    {
-                        isAutoPlay: true,
-                        serviceInfo: '1$22.46.34.114$6800$admin$admin',
-                        deviceInfo: '1|22.46.34.114:8001|admin:admin123|8',
-                        hideTool: true
-                    },
-                    {
-                        isAutoPlay: true,
-                        serviceInfo: '1$22.46.34.114$8001$admin$admin',
-                        deviceInfo: '2|22.46.34.114:37781|admin:admin123|2',
-                        hideTool: true
-                    }
-                ],
                 alarmDetail: {},
                 labelList: [],
                 subLabelList: [],
@@ -378,13 +347,8 @@
         created() {
         },
         mounted() {
-            this.envChart = this.$_echarts.init(this.$refs['envChart'])
-
-            if (this.node) {
-                this.getAlarmList()
-            } else {
-                this.init()
-            }
+            // this.envChart = this.$_echarts.init(this.$refs['envChart'])
+            // this.getAlarmList()
         },
         activited() {
         },
@@ -393,6 +357,10 @@
         beforeDestory() {
         },
         methods: {
+            clickRcuImg(){},
+            mapSuccess(){
+
+            },
             /**
              * 应急预案切换方案
              */
@@ -414,6 +382,7 @@
              *
              */
             getAlarmList(item) {
+                console.log(this)
                 this.$_api.alarmAction
                     .getAlarmList({
                         unitId: this.$store.getters.unitId || '0'
@@ -421,9 +390,9 @@
                     })
                     .then(res => {
                         if (res.code == 200) {
-                            this.subLabelList = []
-
                             if (res.data) {
+                                console.log(this)
+                                this.labelList=[]
                                 this.labelList = res.data
                                 this.labelList.forEach((im, i) => {
                                     im.index = i + 1
@@ -431,7 +400,7 @@
                                 })
 
 
-                                // this.unitTitle = this.alarmTitle = res.data[0].unitName
+                                this.alarmData.unitName =  res.data[0].unitName
                                 if (item) {
                                     this.showItemDetail(item)
                                 } else {
@@ -471,13 +440,11 @@
                     alarmId: item.alarmId || item.alarmid
                 })
                 if (result.success) {
-
-
                     //报警信息赋值操作
-                    this.alarmListInfo[0].value = result.data.araeName
-                    this.alarmListInfo[1].value = result.data.devName
-                    this.alarmListInfo[2].value = result.data.nodeName
-                    this.alarmListInfo[3].value = moment(result.data.beginTime * 1000).format('YYYY-MM-DD HH:mm')
+                    this.alarmData.araeName=result.data.araeName
+                    this.alarmData.devName=result.data.devName
+                    this.alarmData.nodeName=result.data.nodeName
+                    this.alarmData.time=moment(result.data.beginTime * 1000).format('YYYY-MM-DD HH:mm')
                     this.alarmDetail = result.data
                     this.alarmDetail.beginTime = moment(result.data.beginTime * 1000).format('YYYY-MM-DD HH:mm')
                     this.protectAreaId = result.data.protectAreaId
@@ -492,7 +459,7 @@
                     //报警联动视频赋值逻辑
                     if (result.data.videoList && result.data.videoList.length > 0) {
                         result.data.videoList.forEach((item, index) => {
-                            this.videoConfig[index].deviceInfo = item.vcParams1
+                            this.alarmData.videoList[index].deviceInfo = item.vcParams1
                         })
                     }
                     // this.videoConfig[0].deviceInfo = result.data.[0].vcParams1
@@ -766,6 +733,13 @@
             },
             alarmShow() {
                 this.ocxModel = true
+                let that=this
+                //点位地图
+                setTimeout(()=>{
+                    // center: {lng: 118.79288, lat: 31.88029},
+                    that.$refs.map.location({dMapx:118.79288,dMapy:31.88029})
+                },200)
+                this.getReserve(this.alarmData)
                 // this.confirHide = this.pageType ? false : true
                 // this.comfireAlarm = this.pageType ? true : false
                 //
@@ -777,7 +751,42 @@
                 this.confirHide = false
             },
             init(node) {
-                this.getAlarmList(node)
+                if(node){
+                    this.alarmData=node
+                    //左侧条目操作赋值操作
+                    this.labelList.push({
+                        unitName:node.unitName,
+                        araeName:node.areaName,
+                        devName:node.devName,
+                        beginTime:node.time
+                    })
+                    //站内气象赋值操作
+                    if(node.wqxList&&node.wqxList.length>0){
+                        node.wqxList.forEach(item => {
+                            if (item.functioinId == 155) {
+                                this.weatherList[1].value = item.fValue
+                                this.weatherList[1].vcUnit = item.vcUnit
+                            }
+                            if (item.functioinId == 156) {
+                                this.weatherList[3].value = item.fValue
+                                this.weatherList[3].vcUnit = item.vcUnit
+                            }
+                            if (item.functioinId == 157) {
+                                this.weatherList[0].value = item.fValue
+                                this.weatherList[0].vcUnit = item.vcUnit
+                                this.getEchartData(item.nodeId, item.functioinId)
+                            }
+                            if (item.functioinId == 158) {
+                                this.weatherList[2].value = item.fValue
+                                this.weatherList[2].vcUnit = item.vcUnit
+                                this.getEchartData(item.nodeId, item.functioinId)
+                            }
+                        })
+                    }
+                }
+                console.log(this.alarmData)
+
+                // this.getAlarmList(node)
             },
         },
         beforeRouteEnter(to, from, next) {
@@ -810,7 +819,7 @@
     /deep/ .ivu-modal {
         top: 0.04444rem !important;
         left: auto;
-        width: 94% !important;
+        width: 100% !important;
     }
 
     /deep/ .ivu-modal-mask {
@@ -824,10 +833,8 @@
             font-size 14px
         }
         .el-container{
-            height 800px
             .el-aside{
                 padding 0
-                border 1px solid red
                 .modal-video{
                     height 450px
                     .video-left{
@@ -837,7 +844,7 @@
                         width 49%
                         float left
                         .ocxVideo{
-                            width 670px !important
+                            width 710px !important
                             height 450px !important
 
                         }
@@ -846,10 +853,122 @@
                 }
                 .modal-map{
                     float left
-                    width 670px
+                    width 710px
+                    border 1px solid #195891
                     margin-top 10px
-                    height 335px
-                    border 1px solid #ff9900
+                    height 345px
+                    margin-right 8px
+                    .mapContanier{
+                        height 292px
+
+                    }
+                }
+                .modal-source{
+                    float left
+                    width 710px
+                    border 1px solid #195891
+                    margin-top 10px
+                    height 345px
+                }
+            }
+            .el-main{
+                padding 0
+                .con-right {
+                    height: 35.8rem;
+                    border 1px solid #195a9e
+                    border-top-left-radius 4px
+                    border-top-right-radius 4px
+                    margin-left 10px
+
+                    h4 {
+                        font-size 16px
+                        margin-top 20px
+                        color #32e611
+
+                    }
+
+                    .tab-change {
+                        height 30 pxW
+                        line-height 30px
+
+                        .tab {
+                            border 0.04444rem solid #3ea1aa
+                            width 50%
+                            float left
+                            text-align center
+                            cursor pointer
+                            color white
+                        }
+
+                        .tab-active {
+                            background: rgba(15, 33, 69, 0.7);
+                            color: #ffd36a;
+                        }
+                    }
+
+                    .con-right-title {
+                        color: #fff;
+                        font-size: 20px;
+                        margin 10px 0
+
+                        .ant-btn {
+                            background-color: #054166;
+                            border-color: #000;
+
+                            &.current {
+                                background-color: #0291ed;
+                                border-color: #013351;
+                            }
+                        }
+
+                        span {
+                            width 20px;
+                            height 20px;
+                            display inline-block;
+                            background: url('~@fire/assets/img/alarm-now/star.png') no-repeat;
+                            background-size: 100% 100%;
+                            margin-right 5px;
+                        }
+                    }
+
+                    .con-right-List {
+                        width: 399px;
+                        height: 28.55556rem
+                        margin-top: 20px;
+                        overflow-y: auto;
+                        overflow-x hidden
+
+                        li {
+                            width: 400px;
+                            color: #fff;
+                            font-size: 17px;
+                            // margin: 5px auto;
+                            position relative;
+                            overflow hidden;
+                            border 1px solid #093774;
+                            padding-bottom 10px;
+
+                            .flag {
+                                position absolute;
+                                top 0;
+                                left 0;
+                                background: url('~@fire/assets/img/alarm-now/flag.png') no-repeat;
+                                background-size: 100% 100%;
+                                text-align center;
+                                color #fff;
+                                width 35px;
+                                height 25px;
+                            }
+
+                            .con {
+                                width 380px;
+                                // border 1px solid red;
+                                margin 15px 0 0 20px;
+                                text-indent 20px;
+                                padding-right 10px
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -1064,14 +1183,79 @@
                                 height: 100%;
                             }
                         }
+                        .alarmInfo-box {
+                            width: 100%;
 
+                            border-top-left-radius 4px
+                            border-top-right-radius 4px
+                            background-size: 100% 100%;
+                            box-sizing: border-box;
+
+                            .title {
+                                width: 100%;
+                                height: 50px;
+                                line-height 50px
+                                background #185a9e
+                                color: #fff;
+                                padding-left 16px
+                                font-size: 18px;
+                            }
+
+                            .info-wrap {
+                                width: 100%;
+                                height: 300px;
+                                margin-top: 42px;
+                                margin-left: 25px;
+                                overflow-y: auto;
+
+                                ul {
+                                    overflow: hidden;
+
+                                    li {
+                                        color: #fff;
+                                        font-size: 18px;
+                                        margin-bottom: 15px;
+                                        width: 100%;
+                                        height: 30px;
+
+                                        .name, .value {
+                                            width: 120px;
+                                            height: 30px;
+                                            float: left;
+                                            font-size 16px
+                                            text-align: left;
+                                        }
+
+                                        .value {
+                                            width: 180px;
+                                        }
+
+                                        .valueColor1 {
+                                            color: #49ff01;
+                                        }
+
+                                        .valueColor2 {
+                                            color: #ffd36a;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+                    .infoWarp-bottom {
+                        width: 450px;
+                        height: 280px;
+                        margin-right 10px
+                        border 1px solid #195891
                         .weatherInfo {
-                            height: 90px;
+
                             padding: 10px;
                             padding-left 25px
                             left: 16%;
                             position: relative;
-                            top: 16%;
+                            top: 10%;
 
                             ul {
                                 li {
@@ -1120,79 +1304,14 @@
                                 }
                             }
                         }
-                    }
 
-                    .infoWarp-bottom {
-                        width: 450px;
-                        height: 380px;
-                        margin-right 10px
-
-                        .alarmInfo-box {
-                            width: 94%;
-                            height: 280px;
-                            border 1px solid #195891
-                            border-top-left-radius 4px
-                            border-top-right-radius 4px
-                            background-size: 100% 100%;
-                            box-sizing: border-box;
-
-                            .title {
-                                width: 100%;
-                                height: 50px;
-                                line-height 50px
-                                background #185a9e
-                                color: #fff;
-                                padding-left 16px
-                                font-size: 18px;
-                            }
-
-                            .info-wrap {
-                                width: 100%;
-                                height: 300px;
-                                margin-top: 20px;
-                                margin-left: 25px;
-                                overflow-y: auto;
-
-                                ul {
-                                    overflow: hidden;
-
-                                    li {
-                                        color: #fff;
-                                        font-size: 18px;
-                                        margin-bottom: 15px;
-                                        width: 100%;
-                                        height: 30px;
-
-                                        .name, .value {
-                                            width: 120px;
-                                            height: 30px;
-                                            float: left;
-                                            font-size 16px
-                                            text-align: left;
-                                        }
-
-                                        .value {
-                                            width: 180px;
-                                        }
-
-                                        .valueColor1 {
-                                            color: #49ff01;
-                                        }
-
-                                        .valueColor2 {
-                                            color: #ffd36a;
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
 
                     .alarm-btn {
                         width: 95%;
                         height: 50px;
                         text-align: center;
-                        margin-top 10px
+                        margin-top 56px
 
                         .btn {
                             width: 45%;

@@ -116,18 +116,7 @@ export default {
 				return false
 			})
 			if (!this.residualUrl.length) return
-			if (process.env.NODE_ENV == 'production') {
-				var http = `${$_production.javaRequest.location}/${$_production.javaRequest.javaModule}${
-					this.residualUrl
-				}`
-			}
-			if (process.env.NODE_ENV == 'development') {
-				var http = `${$_development.javaRequest.location}/${$_development.javaRequest.javaModule}${
-					this.residualUrl
-				}`
-			}
-			ht.Default.xhrLoad(http, res => {
-				// res.p.background='transparent'
+			this.$_api.devOps.getHtControl(this.residualUrl).then(res=>{
 				let json = ht.Default.parse(res)
 				json.p.background = 'transparent'
 				dataModel.deserialize(json)
@@ -140,6 +129,9 @@ export default {
 						}
 					}
 				})
+			})
+			.catch(err=>{
+				this.$ocxMessage.error('图纸丢失!!!')
 			})
 			this.getNode()
 		},

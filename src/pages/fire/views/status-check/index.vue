@@ -47,14 +47,14 @@
 
 <script>
     import subSystem from './sub-system'
-    import viewCheck from './view-check'
+    // import viewCheck from './view-check'
     import protectionZone from './protection-zone'
 
     export default {
         name: 'statusCheck',
         components: {
             'sub-system': subSystem,
-            'view-check': viewCheck,
+            // 'view-check': viewCheck,
             'protection-zone': protectionZone
         },
         props: {
@@ -82,7 +82,7 @@
                         active: true
                     },
                     // {
-                    // 	title: '电缆温度监测',
+                    // 	title: '视觉监测',
                     // 	id: '02',
                     // 	code: 'view-check',
                     // 	active: false
@@ -93,6 +93,7 @@
                         code: 'protection-zone',
                         active: false
                     }
+                    
                 ],
                 subTabList: [],
                 current: 'sub-system'
@@ -160,7 +161,7 @@
                     this.treeData = result.data
                     this.untid = result.data[0].children[0].children[0].children[0].children[0].id
                     this.$store.dispatch('updateUnitId', this.untid)
-                    this.$refs.sunMethod.init(this.treeData[0])
+                    // this.$refs.sunMethod.init(this.treeData[0])
                     // this.itemData=this.treeData[0]
                 } else {
                     this.treeData = []

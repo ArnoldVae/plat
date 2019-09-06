@@ -19,7 +19,7 @@
             <keep-alive include="systemView">
             <component
                     v-bind:is="current"
-                    ref="test"
+                    ref="fireMain"
                     @transfer="getMethod"
                     @receiveAlarm="receiveAlarm"
                     @switchWarning="switchWarning"
@@ -152,10 +152,9 @@
 
                 this.current = 'status-check'
                 this.$store.dispatch('updateUnitId', val.id)
-
                 let that = this
                 setTimeout(() => {
-                    that.$refs.test.initView(val)
+                    that.$refs.fireMain.initView(val)
                 }, 100)
             },
             /**
@@ -167,6 +166,7 @@
             },
             //跳转切换报警联动页面
             switchWarning(val) {
+
                 // console.log(val)
                 this.tabList.forEach(item => {
                     if (item.code == 'alarm-action') {
@@ -178,7 +178,7 @@
                 this.current = 'alarm-action'
                 let that=this
                 setTimeout(()=>{
-                    that.$refs.test.init(val)
+                    that.$refs.fireMain.initAlam(val)
                 },10)
 
 
@@ -220,7 +220,6 @@
                 })
             },
             receiveAlarm(component, node) {
-                console.log(component, node)
                 this.tabList.forEach(item => {
                     if (item.code == component) {
                         item.active = true
@@ -231,7 +230,7 @@
                 this.current = component
                 let that=this
                 setTimeout(()=>{
-                    that.$refs.test.init(node)
+                    that.$refs.fireMain.init(node)
                 },10)
                 this.$store.dispatch('updateUnitId', node.unitId)
             }

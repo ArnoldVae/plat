@@ -55,6 +55,7 @@
     import subsystem from '../status-check/sub-system'
     import protectionZone from '../status-check/protection-zone'
     import testReport from './test-report'
+    import viewCheck from './view-check'
 
     export default {
         name: 'dev-ops',
@@ -63,7 +64,8 @@
             'equipment-account': quipmentAccount,
             'sub-system': subsystem,
             'protection-zone': protectionZone,
-            'test-report': testReport
+            'test-report': testReport,
+            'view-check': viewCheck,
         },
         props: {
             pageType: {
@@ -111,6 +113,12 @@
                         id: '05',
                         code: 'test-report',
                         active: false
+                    },
+                    {
+                    	title: '视觉监测',
+                    	id: '06',
+                    	code: 'view-check',
+                    	active: false
                     }
                 ],
                 alarmNode: '',
@@ -299,7 +307,7 @@
                     background: url("~@/assets/img/common/wai.png")
                     background-repeat: no-repeat;
                     background-size: 100% 100%;
-                    margin-top: -2px;
+                    // margin-top: -2px;
                 }
             }
         }

@@ -50,6 +50,7 @@
 									name="inspectionTask"
 									v-loading="inspectionTaskTableDataLoad"
 									element-loading-background="rgba(7, 42, 115)"
+									element-loading-text="巡检数据加载中"
 									:disabled="tabsDisable"
 								>
 									<div class="progress-box">
@@ -297,7 +298,7 @@
 
 		<ocx-modal
 			v-model="addTask"
-			:width="1750"
+			:width="1765"
 			:title="addTaskTitle"
 			footer-hide
 			@on-cancel="closeAddTask"
@@ -411,6 +412,8 @@ export default {
       pageNum: 1, //当前页
       //signForm: false,//页面巡检成票标记
 
+      //ocx
+      ocxTimer:null, //切换模块时，ocx的渲染添加定时器
       showVideo: true, //用于切换模块时，控制视频的渲染，防止黑屏的问题
 
       //新增任务相关
@@ -428,7 +431,8 @@ export default {
       alarmCount: 0,
       label: h => {
         return h('div', [h('span', '设备报警'), h('i', '(' + this.alarmCount + ')')])
-      }
+      },
+
     }
   },
   computed: {},
@@ -467,73 +471,17 @@ export default {
     this.subscribe()
     this.topicStr = this.topicArr[1]
     this.registerListen()
-    // this.$_listen('inspectionmonitor', (topic, message, packet) => {
-    // 	let data = ''
-    // 	let dataObj = []
-    // 	data = message.toString()
-    //   let msgData = JSON.parse(data)
-    //   console.log(msgData)
-    // 	if (topic == this.topicStr) {
-    // 		//巡检结果
-    // 		if (msgData.cmd === 2104) {
-    // 			msgData.time = moment(msgData.time * 1000).format('YYYY-MM-DD HH:mm:ss')
-    // 			this.getNodeIdData(msgData.tasksresult.nodeid,msgData.tasksresult.alarmlevel)
-
-    // 			this.finishNum = parseInt(++this.finishNum)
-    //       this.residueNum = parseInt(this.inspectionTarget - this.finishNum)
-    //       this.finishNum = parseInt(this.finishNum)
-    //       this.inspectionTarget = parseInt(this.inspectionTarget)
-    //       this.percentage =parseFloat((this.finishNum / this.inspectionTarget*100).toFixed(2));
-
-    // 			if (msgData.tasksresult.alarmlevel > 0) {
-    //         this.alarmTable.unshift(msgData)
-    //         this.name = 'alarm'
-    //         this.alarmCount++
-    // 				// 如果长度超过一百 就删除最初的一个数据
-    // 				if (this.alarmTable.length > 100) {
-    // 					this.alarmTable.shift()
-    // 				}
-    // 			} else {
-    // 				this.realTimeInfo.unshift(msgData)
-    // 				// 如果长度超过一百 就删除最初的一个数据
-    // 				if (this.realTimeInfo.length > 100) {
-    // 					this.realTimeInfo.shift()
-    // 				}
-    // 			}
-    // 		}else if(msgData.cmd === 2203){  //增加任务回复
-    //       this.inspectionTaskListLoading = true
-    //       this.addTaskNext = false
-    //       this.getPresetInspectionData()
-    //       	this.addTaskLoadingText = '正在生成巡检任务单'
-    //     }else if(msgData.cmd === 2103){ //巡检进度，切换视频
-    //         this.tableList.forEach((item,index)=>{
-    //           if(item.robotId === msgData.taskrate.robotid){
-    //             this.selectTab(item,index)
-    //           }
-    //         })
-    //     }else if(msgData.cmd === 2101){  //机器人状态
-
-    //     }else if(msgData.cmd === 2102){  //任务状态
-    //       this.presetInspectionArr.map(item=>{
-    //         if(item.taskID === msgData.taskstatus.taskid){
-    //           item.i_Status = msgData.taskstatus.status
-    //         }
-    //       })
-
-    //     }else if (msgData.cmd === 2205){//任务控制回复
-    //       this.$ocxMessage.success({
-    //         content: '任务下发成功',
-    //         duration: 5
-    //       })
-    //     }
-    // 	}
-    // })
   },
   activated() {
     //使用keep-alive之后，activated和deactivated会被触发，destory不会被触发
     //重新添加回调事件
     this.registerListen()
-    this.showVideo = true
+    clearTimeout(this.ocxTimer);
+    
+    //为了防止切换时，视频打不开，导致卡顿，无法立即切换，添加定时器，在页面切换成功之后，再显示视频
+    this.ocxTimer = setTimeout(() => {
+      this.showVideo = true
+    }, 500);
   },
   deactivated() {
     //取消回调事件
@@ -795,6 +743,8 @@ export default {
           TaskID: this.presetInspectionTaskId,
           UnitID: this.stationId
         }
+		this.workOrderTableHeaderData = []
+		this.inspectionTaskTableDataAll = []
         this.axios.getInspectionWorkOrderDataN(infos).then(res => {
           if (res.success) {
             this.tabsDisable = false
@@ -844,7 +794,7 @@ export default {
 		this.axios.getPresetInspectionData(obj).then(res => {
 		  if (res.code == 200 && res.data.length > 0) {
 		    this.presetInspectionArr = res.data
-		    this.presetInspectionTaskId = res.data.taskId
+		    this.presetInspectionTaskId = res.data[0].taskId
 		  }
 		})
 		

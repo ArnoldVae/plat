@@ -165,7 +165,7 @@
                                 </li>
                                 <li class="itemDetails">
                                     <span class="color-red">●</span>
-                                    <span class="color-white">{{ item.beginTime }}</span>
+                                    <span class="color-white">{{ item.time }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -315,8 +315,8 @@
                             console.log(res)
 
                             if(res.data&&res.data.length>0){
-                                res.data.forEach((im, i) => {
-                                    im.beginTime=moment(im.beginTime * 1000).format('YYYY-MM-DD HH:mm')
+                                res.data.forEach((im,) => {
+                                    im.time=moment(im.beginTime * 1000).format('YYYY-MM-DD HH:mm')
                                 })
 
                                 this.sysLists=res.data
@@ -414,25 +414,28 @@
             registerMQTT() {
                 this.$_listen(this.$options.name, (topic, msg, pack) => {
                     // debugger
-
+                    debugger
                     let msgJson = JSON.parse(msg.toString())
-                     console.log(msgJson)
+
                     // debugger
 
                     if (msgJson.cmd === '3002') {
+                        if(msgJson.alarmId=="3e48d3ecd04a11e9b585ac1f6b74ee30"){
+                            return
+                        }
                         //报警的上传数据
                         //                        日期格式化
-//                        if (msgJson.level == '0') {
-//                            this.sysLists.forEach((item, index) => {
-//                                if (item.alarmid == msgJson.alarmid) {
-//                                    this.sysLists.splice(index, 1)
-//                                }
-//                            })
-//                            return false
-//                        }
-//                        msgJson.time = moment(Number(msgJson.time) * 1000).format('YYYY-MM-DD hh:mm:ss')
-//                        this.sysLists.unshift(msgJson)
-                        this.getAlarmList()
+                       if (msgJson.level == '0') {
+                           this.sysLists.forEach((item, index) => {
+                               if (item.alarmid == msgJson.alarmid) {
+                                   this.sysLists.splice(index, 1)
+                               }
+                           })
+                           return false
+                       }
+                       msgJson.time = moment(Number(msgJson.time) * 1000).format('YYYY-MM-DD hh:mm:ss')
+                       this.sysLists.unshift(msgJson)
+//                         this.getAlarmList()
 
 
                         //右上角消防统计报警数增加
@@ -445,7 +448,7 @@
                                 })
                             }
                         })
-                        this.$refs.map.changeAlarmNum(msgJson.unitId)
+                        // this.$refs.map.changeAlarmNum(msgJson.unitId)
                         if(msgJson.level == '0')
                             return false
                         this.$emit('receiveAlarm', 'alarm-action', msgJson)

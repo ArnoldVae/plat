@@ -44,7 +44,7 @@
 						</el-form-item>
 					</el-form>
 				</div>
-				<div class="list-con" style="height:125px;">
+				<div class="list-con">
 					<div class="title">设备区域：</div>
 					<div class="select">
 						<el-checkbox
@@ -63,7 +63,7 @@
 					</div>
 					<!-- <span @click="handleShowMore1(val1)" v-if="deviceAreaList.length > 3">展开更多</span> -->
 				</div>
-				<div class="list-con" style="height:220px;">
+				<div class="list-con">
 					<div class="title">设备类型：</div>
 					<div class="select">
 						<el-checkbox
@@ -84,7 +84,7 @@
 					</div>
 					<!-- <span @click="handleShowMore2(val2)" ref="more2" v-if="deviceType.length > 3">展开更多</span> -->
 				</div>
-				<div class="list-con" style="height:50px;">
+				<div class="list-con">
 					<div class="title">识别类型：</div>
 					<div class="select">
 						<el-checkbox
@@ -107,7 +107,7 @@
 					</div>
 					<!-- <span @click="handleShowMore3(val3)" ref="more3" v-if="recognitionType.length > 3">展开更多</span> -->
 				</div>
-				<div class="list-con" style="height:100px;">
+				<div class="list-con">
 					<div class="title">表计类型：</div>
 					<div class="select">
 						<el-checkbox
@@ -143,18 +143,16 @@
 					<!-- <span @click="handleShowMore5(val5)" ref="more5" v-if="appearanceType.length > 3">展开更多</span> -->
 				</div>
 			</div>
-			<div class="right-tree">
+			<div class="right-tree"
+				v-loading="loading"
+				element-loading-text="正在加载树"
+				element-loading-background="#0a2e63">
 				<el-input placeholder="输入关键字进行过滤" v-model="filterText">
 					 <el-button slot="append" icon="el-icon-search" @click="filterByKeyWord"></el-button>
 				</el-input>
 
-				<div
-					class="tree-wrap"
-					v-loading="loading"
-					element-loading-text="正在加载树"
-					element-loading-background="#0a2e63"
-				>
-					<ul id="ztree" class="ztree"></ul>
+				<div class="tree-wrap">
+					<ul ref="ztree"  class="ztree"></ul>
 				</div>
 			</div>
 		</div>
@@ -344,10 +342,12 @@ export default {
 					'surfaceTypeId': appearanceType || []
 				}).then(res => {
 					if (res.code == 200 ) {
-						console.log( res )
 						this.loading = false
 						this.treeData = res.data
-						$.fn.zTree.init($('#ztree'), this.setting, res.data)
+						// console.log($('#ztree'));
+						// console.log($(this.$refs.ztree));
+						// $.fn.zTree.init($('#ztree'), this.setting, res.data)
+						$.fn.zTree.init($(this.$refs.ztree), this.setting, res.data)
 						this.ztreeObj = $.fn.zTree.getZTreeObj('ztree')
 					}
 				}).catch(err => {
@@ -365,7 +365,8 @@ export default {
 					if (res.code == 200 ) {
 						this.loading = false
 						this.treeData = res.data
-						$.fn.zTree.init($('#ztree'), this.setting, res.data)
+						//$.fn.zTree.init($('#ztree'), this.setting, res.data)
+						$.fn.zTree.init($(this.$refs.ztree), this.setting, res.data)
 						this.ztreeObj = $.fn.zTree.getZTreeObj('ztree')
 		
 						//标识为过滤用
@@ -375,7 +376,7 @@ export default {
 						this.ztreeObj.checkAllNodes(true)
 		
 						//展开区域一级
-						let areaNodes = this.ztreeObj.getNodesByParam('type', 1, null)
+						let areaNodes = this.ztreeObj.getNodeByParam('type', 1, null)
 						areaNodes.map(item => {
 							this.ztreeObj.expandNode(item, true, false, false)
 						})
@@ -387,8 +388,8 @@ export default {
 		},
 		
 		
-		/* （net接口）
-		getStaticTreeData(area, devType, regType, meterType, appearanceType, selectStr) {
+		//（net接口）
+		/* getStaticTreeData(area, devType, regType, meterType, appearanceType, selectStr) {
 			//console.log( this.treeData.length )
 			this.isFilter = false
 			if (this.treeData.length > 0 && !selectStr) {
@@ -760,16 +761,16 @@ export default {
 
 .main {
   overflow: hidden;
-  height: 620px;
+  /* height: 620px; */
   background: #082053;
 
   .left-content {
     float: left;
     /* width: 1060px; */
-    width: 1400px;
-    height: 740px;
+    width: 1420px;
+    /* height: 740px; */
     overflow: auto;
-	padding-left: 10px;
+	margin-left: 10px;
 
     .select-type {
       width: 100%;
@@ -809,28 +810,31 @@ export default {
     }
 
     .list-con {
-      height: 140px;
+      /* height: 140px; */
       width: 1415px;
-      margin: 5px;
-      position: relative;
+      margin: 5px 5px 5px 0;
+     /* position: relative; */
       background: #063e7a;
       padding-left: 15px;
       padding-top: 10px;
 
       .title {
-        float: left;
+        /* float: left; */
         width: 130px;
         height: 30px;
         font-size: 18px;
         line-height: 30px;
         color: #fff;
+		display: inline-block;
+		vertical-align: top; 
       }
 
       .select {
-        position: absolute;
-        float: left;
+        /* position: absolute; */
+       /* float: left; */
         width: 1225px;
-        left: 150px;
+        /* left: 150px; */
+		display: inline-block;
 
         /deep/.el-checkbox {
           float: left;
@@ -843,10 +847,21 @@ export default {
             width: 16px;
             height: 16px;
           }
-
+		
+		
           /deep/.el-checkbox__inner::after {
-            border-color: yellow;
-            width: 3px;
+            /* border-color: #c4c335; */
+           /* width: 3px; */
+			   border: 2px solid #c4c335;
+			   box-sizing: content-box;
+			   content: "";
+			   border-left: 0;
+			   border-top: 0;
+			   height: 7px;
+			   left: 4px;
+			   position: absolute;
+			   top: 1px;
+			   width: 3px;
           }
         }
 
@@ -881,16 +896,27 @@ export default {
   }
 
   .right-tree {
-    float: left;
+    float: right;
     width: 325px;
-    height: 570px;
+    height: 590px;
     margin-top: 20px;
-    margin-left: 10px;
+    margin-right: 10px;
     background: url('../../assets/img/common/tree.png') no-repeat;
     background-size: 100% 100%;
 	
 	/deep/ .tree-wrap{
-		height: 94% !important;
+		margin-top: 10px;
+		height: 90.5% !important;
+	}
+	
+	/deep/.el-input{
+		width: calc(100% - 20px);
+		margin: 10px 0 0 10px;
+		
+		/deep/.el-input__inner{
+			border: 0;
+		}
+		
 	}
 
     /deep/ .ztree {
@@ -932,8 +958,8 @@ export default {
 }
 
 /deep/ .ztree li span.button.chk.checkbox_true_full, /deep/ .ztree li span.button.chk.checkbox_true_full_focus, /deep/ .ztree li span.button.chk.checkbox_true_part, /deep/.ztree li span.button.checkbox_true_part_focus {
-  background: url('../../assets/img/common/dui.png') no-repeat center !important;
-  background-size: 80% 60% !important;
+  background: url('../../assets/img/common/dui1.png') no-repeat center !important;
+  background-size: 80% 65% !important;
   cursor: pointer;
 }
 
@@ -963,7 +989,7 @@ export default {
   height: 50px;
   position: relative;
   background: #063e7a;
-  padding: 22px 0 50px 0;
+  padding: 11px 0 25px 0;
   border-radius: 0 0 10px 10px;
 
   .btn {
@@ -1036,6 +1062,15 @@ export default {
 
 /deep/.ztree .button.bottom_close:before, /deep/.ztree .button.bottom_open:before, /deep/.ztree .button.center_close:before, /deep/.ztree .button.center_open:before, /deep/.ztree .button.noline_close:before, /deep/.ztree .button.noline_open:before, /deep/.ztree .button.root_close:before, /deep/.ztree .button.root_open:before, /deep/.ztree .button.roots_close:before, /deep/.ztree .button.roots_open:before {
   border-color: transparent transparent transparent #fff;
+}
+
+::-webkit-scrollbar{
+	width:10px;
+	height:10px;
+}
+
+ ::-webkit-scrollbar-thumb{
+	background-color:#0173bb;
 }
 
 </style>

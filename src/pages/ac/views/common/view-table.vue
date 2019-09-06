@@ -19,7 +19,7 @@
 				</el-table-column>
 				<el-table-column label="节点" align="center">
 					<template slot-scope="scope">
-						<span style="margin-left: 10px">{{ scope.row.nodeName }}</span>
+						<span style="margin-left: 10px">{{ scope.row.vcName }}</span>
 					</template>
 				</el-table-column>
 				<el-table-column label="报警等级" align="center">
@@ -27,7 +27,7 @@
 						<template v-for="item in alarmLevelList">
 							<span
 								:key="item.value"
-								v-if="item.value == scope.row.i_AlarmLevel"
+								v-if="item.value == scope.row.alarmLevel"
 								style="margin-left: 10px"
 								>{{ item.label }}</span
 							>
@@ -36,7 +36,7 @@
 				</el-table-column>
 				<el-table-column label="状态/值" align="center">
 					<template slot-scope="scope">
-						<!-- <span style="margin-left: 10px">{{ vc_ValueDesc | getLabel(scope.row.f_Value) }}/{{ scope.row.f_Value }}</span> -->
+						<!-- <span style="margin-left: 10px">{{ vcValueDesc | getLabel(scope.row.f_Value) }}/{{ scope.row.f_Value }}</span> -->
 						<span style="margin-left: 10px">{{ scope.row.desc }}</span>
 						<!-- <el-popover trigger="hover" placement="top">
 							<p>姓名: {{ scope.row.name }}</p>
@@ -49,8 +49,8 @@
 				</el-table-column>
 				<el-table-column label="远方控制" align="center">
 					<template slot-scope="scope">
-						<div class="control-wrap" v-if="scope.row.i_NodeType == 3 || scope.row.i_NodeType == 4">
-							<template v-for="item in transFunction(scope.row.vc_ValueDesc)">
+						<div class="control-wrap" v-if="scope.row.nodeType == 3 || scope.row.nodeType == 4">
+							<template v-for="item in transFunction(scope.row.vcValueDesc)">
 								<el-button size="mini" @click="handleControl(item.id, scope.row)">{{
 									item.label
 								}}</el-button>
@@ -61,7 +61,7 @@
 				<el-table-column label="操作" align="center">
 					<template slot-scope="scope">
 						<el-button
-							v-if="scope.row.i_NodeType == 1 || scope.row.i_NodeType == 2"
+							v-if="scope.row.nodeType == 1 || scope.row.nodeType == 2"
 							size="mini"
 							@click="handleViewHistory(scope.row)"
 							>历史数据</el-button
@@ -81,6 +81,7 @@
 					show-sizer
 					show-elevator
 					show-total
+					ref='page'
 				/>
 			</div>
 		</div>
@@ -231,7 +232,8 @@ export default {
 		activeDeviceTypeId: {
 			handler(val) {
 				this.currentPage = 1
-				this.getNodesInfo()
+				// this.getNodesInfo()
+				this.getDeviceInfo()
 			},
 			immediate: true
 		},
@@ -275,7 +277,7 @@ export default {
 
 			// for (let key in this.statistics) {
 			// 	if (columnIndex === 0 && rowIndex === 0) {
-			// 		if (row['DevID'] === key) {
+			// 		if (row['devId'] === key) {
 			// 			return {
 			// 				rowspan: this.statistics[key],
 			// 				colspan: 1
@@ -318,9 +320,9 @@ export default {
 		async handleViewHistory(row) {
 			// console.log(row)
 			this.historyModal = true
-			this.nodeTitle = `${row.devName}设备 ${row.nodeName}节点 状态分布`
+			this.nodeTitle = `${row.devName}设备 ${row.vcName}节点 状态分布`
 
-			this.formatstr = row.vc_Unit
+			this.formatstr = row.vcUnit
 
 			// this.axisLabelData = row.valueDesc.split('|')
 			// if (!!row.valueDesc && row.nodeName != '水位') {
@@ -329,7 +331,7 @@ export default {
 			// 	this.axisLabelData = []
 			// }
 
-			this.eNodeId = row.NodeID
+			this.eNodeId = row.nodeId
 
 			// 设置默认时间 风速 风向 数据量过大 只取一小时
 			this.$set(this.formValidate.date, 0, new Date(Date.now() - 24 * 60 * 60 * 1000))
@@ -354,7 +356,47 @@ export default {
 			let { data } = await this.$_api.getStaticData()
 			this.alarmLevelList = data.alarmLevel
 		},
-		// 获取所有设备信息
+		// 获取设备信息
+		async getDeviceInfo() {
+			this.loading = true
+			try {
+				let result = await this.$_api.frame.getDeviceInfo({
+					unitId: this.$store.getters.unitId,
+					devTypeId: this.activeDeviceTypeId,
+					currentPage: this.currentPage,
+					pageSize: this.pageSize,
+					isFindNodes: 1
+				})
+
+				if (result.success) {
+
+					let arr = []
+					if (result.data.lists.length > 0) {
+						result.data.lists.forEach( item => {
+							arr = arr.concat(item.devNodesList)
+						})
+					}
+
+					this.spanArr = []
+					this.position = 0
+					this.tableData = arr
+					this.total = result.data.page.totalNum
+
+					this.rowFn()
+
+					// this.$refs.page.$el.getElementsByClassName('ivu-page-total')[0].innerText = `共 ${this.total} 个设备`
+				} else {
+					this.tableData = []
+					this.total = 0
+				}
+				this.loading = false
+			} catch(e) {
+				this.$ocxMessage.error(`${e}`)
+				this.loading = false
+			}
+			
+		},
+		// 获取所有节点信息
 		async getNodesInfo() {
 			this.loading = true
 			try {
@@ -372,7 +414,6 @@ export default {
 					this.spanArr = []
 					this.position = 0
 					this.tableData = result.data.lists
-					// console.log(this.tableData)
 					this.total = result.data.page.totalNum
 
 					this.rowFn()
@@ -398,7 +439,7 @@ export default {
 					this.spanArr.push(1)
 					this.position = 0
 				} else {
-					if (item.DevID === this.tableData[index - 1].DevID) {
+					if (item.devId === this.tableData[index - 1].devId) {
 						this.spanArr[this.position] += 1
 						this.spanArr.push(0)
 					} else {
@@ -411,7 +452,7 @@ export default {
 		spanA() {
 			let arr = []
 			this.tableData.map(item => {
-				item.devName && arr.push(item.DevID)
+				item.devName && arr.push(item.devId)
 			})
 
 			this.statistics = {}
@@ -428,12 +469,12 @@ export default {
 		// 分页跳转
 		handleChangePage(page) {
 			this.currentPage = page
-			this.getNodesInfo()
+			this.getDeviceInfo()
 		},
 		// 改变分页大小
 		handleChangeSize(size) {
 			this.pageSize = size
-			this.getNodesInfo()
+			this.getDeviceInfo()
 		},
 		// 获取设备节点历史数据
 		async getHistoryByNodeId() {
@@ -611,7 +652,7 @@ export default {
 			EchartsDom.setOption(option)
 		},
 		handleCurrentChange(row) {
-			this.nodeId = row.NodeID
+			this.nodeId = row.nodeId
 		},
 		handleControl(value, row) {
 			this.controlValue = value
@@ -650,7 +691,7 @@ export default {
 		// 实时数据
 		handleRealMessage(msg) {
 			this.tableData.forEach(deviceNode => {
-				if (msg.nodeid == deviceNode.NodeID) {
+				if (msg.nodeid == deviceNode.nodeId) {
 					deviceNode.f_Value = msg.value
 					deviceNode.desc = msg.desc
 				}
@@ -659,10 +700,10 @@ export default {
 		// 实时报警
 		handleRealAlarm(msg) {
 			this.tableData.forEach(deviceNode => {
-				if (msg.nodeid == deviceNode.NodeID) {
+				if (msg.nodeid == deviceNode.nodeId) {
 					deviceNode.f_Value = msg.value
 					deviceNode.desc = msg.desc
-					deviceNode.i_AlarmLevel = msg.level
+					deviceNode.alarmLevel = msg.level
 				}
 			})
 		},
@@ -698,8 +739,8 @@ export default {
 				time: parseInt(new Date().getTime() / 1000),
 				nodes: [
 					{
-						devid: this.currentRowInfo.DevID,
-						nodeid: this.currentRowInfo.NodeID,
+						devid: this.currentRowInfo.devId,
+						nodeid: this.currentRowInfo.nodeId,
 						value: this.controlValue
 					}
 				]

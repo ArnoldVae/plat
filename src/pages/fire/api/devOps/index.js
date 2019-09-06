@@ -24,5 +24,36 @@ export default {
 			method: 'post',
 			data: JSON.stringify(params)
 		})
-	}
+	},
+	//获取图纸
+	getHtControl(params) {
+		return axios.request({
+			url: params,
+			method: 'get'
+		})
+	},
+	
+	//新增Equipment
+	addEquipmentDate(params) {
+		return axios.request({
+			url: params,
+			method: 'post'
+		})
+	},
+
+	//修改Equipment
+	editEquipmentDate(params) {
+		return axios.request({
+			url: params,
+			method: 'post'
+		})
+	},
+
+	//删除Equipment
+	delEquipmentDate(params) {
+		return axios.request({
+			url: params,
+			method: 'post'
+		})
+	},
 }

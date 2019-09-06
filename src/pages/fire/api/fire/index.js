@@ -33,5 +33,35 @@ export default {
 			method: 'post',
 			data: JSON.stringify(params)
 		})
+	},
+
+	//新增main
+	addMainDate(params) {
+		return axios.request({
+			headers: { 'Content-Type': 'application/json' },
+			url: 'maintenance/list',
+			method: 'post',
+			data: JSON.stringify(params)
+		})
+	},
+
+	//修改main
+	editMainDate(params) {
+		return axios.request({
+			headers: { 'Content-Type': 'application/json' },
+			url: 'maintenance/list',
+			method: 'post',
+			data: JSON.stringify(params)
+		})
+	},
+
+	//删除main
+	delMainDate(params) {
+		return axios.request({
+			headers: { 'Content-Type': 'application/json' },
+			url: 'maintenance/list',
+			method: 'post',
+			data: JSON.stringify(params)
+		})
 	}
 }

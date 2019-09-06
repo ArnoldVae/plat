@@ -68,6 +68,74 @@
         <el-button class="yellow-btn" @click="comfir" type="text">取 消</el-button>
       </span>
     </ElDialog>
+  <!-- 新增弹窗 -->
+    <ElDialog
+      style="left: 15vw; top:-4vh;text-align: center;"
+      :visible.sync="dialogAddVisible"
+      center
+      :title="modalTitle"
+      :before-close="handleClose"
+    >
+    <Form
+				ref="addFormRef"
+				:rules="ruleValidate"
+				:model="addFormData"
+				:label-width="200"
+				label-position="right"
+			>
+				<!-- 变电站 -->
+				<FormItem label="变电站" prop="unitName">
+					<Input v-model="addFormData.unitName" placeholder="请输入..." style="width: 370px" />
+				</FormItem>
+				<!-- 设备名称 -->
+				<FormItem label="设备名称" prop="vcName">
+					<Input v-model="addFormData.vcName" placeholder="请输入..." style="width: 370px" />
+				</FormItem>
+				<!-- 设备类型 -->
+				<FormItem label="设备类型" prop="devTypeName">
+					<Input v-model="addFormData.devTypeName" placeholder="请输入..." style="width: 370px" />
+				</FormItem>
+				<!-- 所属子系统 -->
+				<FormItem label="所属子系统" prop="subName">
+					<Input v-model="addFormData.subName" placeholder="请输入..." style="width: 370px" />
+				</FormItem>
+        <!-- 定置点编号 -->
+				<FormItem label="定置点编号" prop="num">
+					<Input v-model="addFormData.num" placeholder="请输入..." style="width: 370px" />
+				</FormItem>
+        <!-- 规格型号 -->
+				<FormItem label="规格型号" prop="vcCode">
+					<Input v-model="addFormData.vcCode" placeholder="请输入..." style="width: 370px" />
+				</FormItem>
+        <!-- 有效日期 -->
+				<FormItem label="有效日期" prop="beginTime">
+          <Input v-model="addFormData.beginTime" placeholder="请输入..." style="width: 370px" />
+					<!-- <el-date-picker
+					v-model="addFormData.beginTime"
+					value-format="timestamp"
+					type="date"
+				></el-date-picker> -->
+				</FormItem>
+        <!-- 保管责任人 -->
+				<FormItem label="保管责任人" prop="userId">
+					<Input v-model="addFormData.userId" placeholder="请输入..." style="width: 370px" />
+				</FormItem>
+        <!-- 安装位置 -->
+				<FormItem label="安装位置" prop="vcLocal">
+					<Input v-model="addFormData.vcLocal" placeholder="请输入..." style="width: 370px" />
+				</FormItem>
+        <!-- 备注 -->
+				<FormItem label="备注" prop="vcMemo">
+					<Input v-model="addFormData.vcMemo" placeholder="请输入..." style="width: 370px" />
+				</FormItem>
+    </Form>
+      <span slot="footer" class="dialog-footer">
+        <el-button class="blue-btn" type="text" @click="addInfo">确 定</el-button>
+        <el-button class="yellow-btn" @click="handleClose" type="text">取 消</el-button>
+      </span>
+    </ElDialog>
+
+   
 
     <el-form class="formSize" :inline="true" size="mini" :model="search">
       <el-form-item label="设备名称:" style="margin-right: 20px">
@@ -105,14 +173,15 @@
       <br>
       <el-form-item class="taining-button">
         <div>
+          <el-button class="blue-btn" type="text" @click="showAdd(0,{})">新增</el-button>
           <el-button class="blue-btn" type="text" @click="doSearch()">查询</el-button>
           <el-button class="blue-btn" @click="leadTo" type="text">查看</el-button>
           <el-button class="yellow-btn" @click="exportInfo" type="text">导入</el-button>
+					<el-button class="yellow-btn" @click="exportData" type="text">导 出</el-button>
         </div>
         <!-- <div style>
 					<el-button style="margin: 0" class="yellow-btn" type="text">删 除</el-button>
 					<el-button class="import-btn" type="text">导 入</el-button>
-					<el-button class="import-btn" type="text">导 出</el-button>
         </div>-->
       </el-form-item>
     </el-form>
@@ -125,23 +194,30 @@
         style="width: 100%;"
         height="400"
         border
+        ref="table"
       >
         <el-table-column prop="unitName" align="center" label="变电站名称" width="160"></el-table-column>
         <el-table-column
           prop="vcName"
           align="center"
           label="设备名称"
-          width="250"
+          width="210"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column prop="devTypeName" align="center" label="设备类型" width="120"></el-table-column>
         <el-table-column prop="subName" align="center" label="所属子系统" width="150"></el-table-column>
-        <el-table-column prop="num" align="center" label="定置点编号" width="140"></el-table-column>
-        <el-table-column prop="vcCode" align="center" label="型号规格" width="150"></el-table-column>
+        <el-table-column prop="num" align="center" label="定置点编号" width="100"></el-table-column>
+        <el-table-column prop="vcCode" align="center" label="型号规格" width="130"></el-table-column>
         <el-table-column prop="beginTime" align="center" label="有效期" width="120"></el-table-column>
-        <el-table-column prop="userId" align="center" label="保管责任人" width="110"></el-table-column>
-        <el-table-column prop="vcLocal" align="center" label="安装位置" width="180"></el-table-column>
+        <el-table-column prop="userId" align="center" label="保管责任人" width="100"></el-table-column>
+        <el-table-column prop="vcLocal" align="center" label="安装位置" width="140"></el-table-column>
         <el-table-column prop="vcMemo" align="center" label="备注"></el-table-column>
+        <el-table-column prop="" align="center" label="操作" width="180">
+          <template slot-scope="scope">
+              <el-button size="min" @click="showAdd(1,scope.row)">修改</el-button>
+              <el-button size="min" @click="removeInfo(1,scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="pagination">
@@ -189,6 +265,21 @@ export default {
 	name: 'docFire',
 	data() {
 		return {
+      isAdd: true, // 判断新增还是修改 设置禁用
+      modalTitle: '新增',
+      //新增表单对象
+      addFormData: {
+        unitName: '',
+        vcName: '',
+        devTypeName: '',
+        subName: '',
+        num: '',
+        vcCode: '',
+        beginTime: '',
+        userId: '',
+        vcLocal: '',
+        vcMemo: ''
+      },
 			forData: [],
 
 			eqnameS: [
@@ -223,7 +314,8 @@ export default {
 			subModels: [{ MtcCoID: 1, vc_Name: '正常' }, { MtcCoID: 2, vc_Name: '异常' }],
 			subpostions: [],
 			subModelshs: [],
-			dialogVisible: false,
+      dialogVisible: false,
+      dialogAddVisible: false,
 			nullValue: null,
 			data: '',
 			search: {
@@ -341,7 +433,19 @@ export default {
 						'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
 				}
 			],
-			diaShow:true
+      diaShow:true,
+      // 表单验证
+			ruleValidate: {
+				unitName: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
+				vcName: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
+				devTypeName: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
+				vcCode: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
+				userId: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
+				vcLocal: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
+				num: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
+				beginTime: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }]
+			
+			}
 		}
 	},
 	mounted() {},
@@ -364,6 +468,72 @@ export default {
 		}
 	},
 	methods: {
+    //导出
+    exportData() {
+      this.$refs.table.exportCsv({
+          filename: 'The original data'
+      })
+    },
+
+    //删除
+    removeInfo(data,params) {
+      this.$Modal.confirm({
+				title: '删除',
+				content: '确认删除所选项?',
+				onOk: () => {
+						this.$_api.devOps.delEquipmentDate({ companyId: params.row.companyId }).then(res => {
+						if (res.code == 200) {
+							this.$Message.success('删除成功')
+							this.page = 1
+							this.getTable()
+						} else {
+							this.$Message.warning(res.msg)
+						}
+					})
+				},
+				onCancel: () => {}
+      })
+
+    },
+    //新增确定提交
+    addInfo() {
+      let params = {}
+			if (this.isAdd) {
+				// 新增
+				this.$refs.addFormRef.validate(async valid => {
+					if (!valid) return
+					//验证成功，掉接口提交数据
+          params = JSON.parse(JSON.stringify(params))
+					let res = await 	this.$_api.devOps.addEquipmentDate(params)
+					if (res.success) {
+						this.getTable()
+						this.modalAddShow = false
+					}
+				})
+			} 
+			else {
+				// 修改
+				this.$refs.addFormRef.validate(async valid => {
+					if (!valid) return
+					//验证成功，掉接口提交数据
+          params = JSON.parse(JSON.stringify(params))
+					let res = await 	this.$_api.devOps.editEquipmentDate(params)
+					if (res.success) {
+						this.getTable()
+						this.modalAddShow = false
+					}
+				})
+			}
+    },
+    // 显示新增弹框
+    showAdd(data,params) {
+      data == 0 ? (this.modalTitle = '新增') : (this.modalTitle = '修改')
+      data == 0 ? (this.isAdd = true) : (this.isAdd = false)
+      if(data == 1) {
+        this.addFormData = JSON.parse(JSON.stringify(params))
+      }
+      this.dialogAddVisible = true;
+    },
 		//获取设备和子系统数据
 		getData() {
 			this.$_api.devOps
@@ -493,14 +663,15 @@ export default {
 		},
 		//导入弹框的逻辑
 		exportInfo() {
-			// this.DaoShow = true
+			this.DaoShow = true
 			// this.Message({
 			// 	message: '警告哦，这是一条警告消息',
 			// 	type: 'warning'
 			// })
 		},
 		Close() {
-			this.DaoShow = false
+      this.DaoShow = false
+     
 		},
 		handleRemove(file, fileList) {
 			// console.log(file, fileList)
@@ -509,7 +680,19 @@ export default {
 			// console.log(file)
 		},
 		handleClose() {
-			this.dialogVisible = false
+      this.$refs.addFormRef.resetFields()
+      this.dialogVisible = false
+      this.dialogAddVisible = false
+      this.addFormData.unitName = ''
+			this.addFormData.vcName = ''
+			this.addFormData.devTypeName = ''
+			this.addFormData.subName = ''
+			this.addFormData.num = ''
+			this.addFormData.vcCode = ''
+			this.addFormData.beginTime = ''
+			this.addFormData.userId = ''
+			this.addFormData.vcLocal = ''
+			this.addFormData.vcMemo = ''
 		},
 		handleSelectionChange(val) {
 			this.data = val
@@ -535,6 +718,7 @@ export default {
 
     /deep/ .el-table {
       width: 100%;
+      // overflow: y;
       height: calc(100% - 5.2rem) !important;
       background: transparent;
       color: #fff;
@@ -554,11 +738,14 @@ export default {
       }
 
       .el-button {
-        margin: 2.5px;
+        height: 30px;
+        line-height: 6px;
+        margin: 0 2.5px;
         background: transparent;
         border-color: #2d8cf0;
         color: #2d8cf0;
         position: relative;
+        font-size: 16px;
 
         &:hover {
           background: #09102f;
@@ -811,5 +998,36 @@ export default {
 /deep/ .el-picker-panel {
   background-color: #1A587F !important;
 }
+.el-table .cell {
+  padding-left: 0;
+}
+.ivu-form .ivu-form-item-label {
+  color: #fff!important;
+  
+}
+.ivu-input {
+      background-color: #081e4d!important;
+      color: #fff;
+  }
+  .el-dialog__title {
+    color: #fff;
+  }
+  .el-input__inner {
+    background-color: #081e4d!important;
+    color: #fff;
+  }
+  .el-input__prefix {
+    top: 0!important;
+    left: 0!important;
+  }
+  .ivu-modal-content {
+    // height: 160px;
+    // width: 480px;
+    // left: 800px;
+    // top: 200px;
+  }
+.ivu-modal-content {
+    // background-color: #081e4d!important;
 
+}
 </style>

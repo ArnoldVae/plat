@@ -112,18 +112,14 @@ export default {
 				return false
 			})
 			if (!this.cablelUrl.length) return
-			if (process.env.NODE_ENV == 'production') {
-				var http = `${$_production.javaRequest.location}/${$_production.javaRequest.javaModule}${this.cablelUrl}`
-			}
-			if (process.env.NODE_ENV == 'development') {
-				var http = `${$_development.javaRequest.location}/${$_development.javaRequest.javaModule}${this.cablelUrl}`
-			}
-			ht.Default.xhrLoad(http, res => {
+			this.$_api.devOps.getHtControl(this.cablelUrl).then(res=>{
 				let json = ht.Default.parse(res)
-				// console.log(json);
 				dataModel.deserialize(json)
 				// graphView.fitContent(true)
 				graphView.setZoom(5.5,true,{x:340,y:460})
+			})
+			.catch(err=>{
+				this.$ocxMessage.error('图纸丢失!!!')
 			})
 			this.getNode()
 		},
