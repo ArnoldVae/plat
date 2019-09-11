@@ -6,7 +6,7 @@
 			:visible.sync="dialogAddVisible"
 			center
 			:title="modalTitle"
-			:before-close="handleClose"
+			@closed="handleClose"
 		>
 			<Form
 				ref="addFormRef"
@@ -17,23 +17,28 @@
 			>
 				<!-- 维保单位 -->
 				<FormItem label="维保单位" prop="coName">
-					<Input v-model="addFormData.coName" placeholder="请输入..." style="width: 370px" />
+					<!-- <Input v-model="addFormData.coName" placeholder="请输入..." style="width: 370px" /> -->
+					<el-select v-model="addFormData.coName" placeholder style="width: 370px">
+						<el-option label="全部" value="nullValue"></el-option>
+						<el-option
+							v-for="item in maintenanceUnits"
+							:key="item.mtcCoId"
+							:label="item.vcFileFullName"
+							:value="item.mtcCoId"
+						></el-option>
+					</el-select>
 				</FormItem>
 				<!-- 变电站 -->
-				<FormItem label="变电站" prop="unitName">
+				<!-- <FormItem label="变电站" prop="unitName">
 					<Input v-model="addFormData.unitName" placeholder="请输入..." style="width: 370px" />
-				</FormItem>
+				</FormItem>-->
 				<!-- 维护内容 -->
 				<FormItem label="维护内容" prop="context">
 					<Input v-model="addFormData.context" placeholder="请输入..." style="width: 370px" />
 				</FormItem>
 				<!-- 维保时间 -->
 				<FormItem label="维保时间" prop="beginTime">
-					<el-date-picker
-					v-model="addFormData.beginTime"
-					type="date"
-					style="width: 370px;"
-					></el-date-picker>
+					<el-date-picker v-model="addFormData.beginTime" type="date" style="width: 370px;"></el-date-picker>
 				</FormItem>
 				<!-- 工作条件 -->
 				<FormItem label="工作条件" prop="vc_PowerOffScene">
@@ -46,11 +51,6 @@
 				<!-- 工作票号 -->
 				<FormItem label="工作票号" prop="workTicketNum">
 					<Input v-model="addFormData.workTicketNum" placeholder="请输入..." style="width: 370px" />
-					<!-- <el-date-picker
-					v-model="addFormData.beginTime"
-					value-format="timestamp"
-					type="date"
-					></el-date-picker>-->
 				</FormItem>
 				<!-- 负责人 -->
 				<FormItem label="负责人" prop="presetName">
@@ -129,28 +129,28 @@
 		<!-- table -->
 		<div class="table">
 			<el-table :data="maintainData" style="width: 100%;" height="630" border>
-				<el-table-column prop="coName" align="center" label="维保单位" width="100"></el-table-column>
+				<el-table-column prop="coName" align="center" label="维保单位" width="90"></el-table-column>
 				<el-table-column prop="unitName" align="center" label="变电站" width="130"></el-table-column>
-				<el-table-column prop="context" align="center" label="维护内容" width="240" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="context" align="center" label="维护内容" width="320" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="beginTime" align="center" label="维保时间" width="100"></el-table-column>
 				<!-- <el-table-column prop="endTime" align="center" label="计划结束时间" width='130'></el-table-column> -->
 				<el-table-column prop="vc_PowerOffScene" align="center" label="工作条件" width="100"></el-table-column>
-				<el-table-column prop="vc_PowerLevel" align="center" label="电压等级" width="90"></el-table-column>
+				<el-table-column prop="vc_PowerLevel" align="center" label="电压等级" width="80"></el-table-column>
 				<el-table-column prop="workTicketNum" align="center" label="工作票号" width="110"></el-table-column>
-				<el-table-column prop="presetName" align="center" label="负责人" width="90"></el-table-column>
-				<el-table-column prop="telePhone" align="center" label="联系电话" width="120"></el-table-column>
-				<el-table-column prop="status" align="center" label="当前状态" width="90">
+				<el-table-column prop="presetName" align="center" label="负责人" width="70"></el-table-column>
+				<el-table-column prop="telePhone" align="center" label="联系电话" width="110"></el-table-column>
+				<el-table-column prop="status" align="center" label="当前状态" width="80">
 					<!-- <template slot-scope="scope">
 						<span v-if="scope.row.status=='未执行'" style="color:red;">{{scope.row.status}}</span>
 						<span v-if="scope.row.status=='正在执行'" style="color:green;">{{scope.row.status}}</span>
 						<span v-if="scope.row.status=='已结束'" style="color:blue;">{{scope.row.status}}</span>
 					</template>-->
 				</el-table-column>
-				<el-table-column label="操作" align="center" width="350">
+				<el-table-column label="操作" align="center" width="304">
 					<template slot-scope="scope">
 						<div>
 							<el-button
-								class="blue-btn"
+								class="info-btn"
 								@click="infoModals(scope.row)"
 								size="mini"
 								type="text"
@@ -158,21 +158,21 @@
 								:disabled="scope.row.status=='未执行'? true:false"
 							>详情</el-button>
 							<el-button
-								class="blue-btn"
+								class="info-btn"
 								@click="recordModals(scope.row)"
 								size="mini"
 								type="text"
 								style="width:3.0rem;"
 							>记录</el-button>
 							<el-button
-								class="blue-btn"
+								class="edit-btn"
 								@click="showAdd(1,scope.row)"
 								size="mini"
 								type="text"
 								style="width:3.0rem;"
-							>修改</el-button>
+							>编辑</el-button>
 							<el-button
-								class="blue-btn"
+								class="del-btn"
 								@click="removeInfo(1,scope.row)"
 								size="mini"
 								type="text"
@@ -184,6 +184,7 @@
 				</el-table-column>
 			</el-table>
 		</div>
+
 		<div class="pagination">
 			<el-pagination
 				ref="pages"
@@ -197,7 +198,7 @@
 				@current-change="changePage"
 			></el-pagination>
 		</div>
-		<infoModal :dialogVisible="modalShow" :delitail="detileData" @handleClose="handleClose"></infoModal>
+		<infoModal :dialogVisible="modalShow" :delitail="detileData" @handleClose="hClose" class="modals"></infoModal>
 
 		<ocx-modal
 			v-model="recordShow"
@@ -214,6 +215,62 @@
 				style="position: relative;"
 			></iframe>
 		</ocx-modal>
+
+		<!-- 导入弹框 -->
+		<!-- <el-dialog title="导入文件" :visible.sync="DaoShow" width="50%" class="Daoshow" :before-close="Close">
+			<el-upload
+				class="upload-demo"
+				ref="upload"
+				action="http://172.26.1.233:8085/xdq/file/wordToPdf"
+				:on-remove="handleRemove"
+				:auto-upload="false"
+				:file-list="fileList"
+			>
+		<el-button size="small" type="primary">点击上传</el-button>-->
+		<!-- <div slot="tip" class="el-upload__tip">只能上传elx格式文件</div> -->
+		<!-- </el-upload>
+		</el-dialog>-->
+
+		<el-dialog title="导入文件" :visible.sync="Daoshow" width="50%" :before-close="close">
+			<div class="upload-content">
+				<Steps class="steps" :current="step" title="文件导入步骤">
+					<Step title="步骤一" content="择导入文件 (支持.xls格式的文件)"></Step>
+					<Step title="步骤二" content="选择完毕后点击 '导入' 按钮进行上传"></Step>
+					<Step title="步骤三" content="等待导入完成"></Step>
+				</Steps>
+				<Upload type="drag" :before-upload="handleUpload" action :accept="accept" :format="Format">
+					<div style="padding: 20px 0">
+						<Icon type="ios-add-circle-outline" size="52" style="color: #3399ff"></Icon>
+						<p>选择导入文件</p>
+					</div>
+				</Upload>
+				<div v-if="file !== null" class="up-box">
+					待导入文件:
+					<span>
+						<div class="del" @click="removeFile">
+							<!-- <Icon type="md-trash" /> -->
+							<i class="el-icon-delete"></i>
+						</div>
+						{{ file.name }}
+					</span>
+				</div>
+			</div>
+			<div slot="footer">
+				<Button type="text" size="large" @click="close">取消</Button>
+				<Button
+					class="btn2"
+					type="success"
+					size="large"
+					icon="md-cloud-upload"
+					@click="upload"
+					:loading="loadingStatus"
+				>
+					{{
+					loadingStatus ? '文件导入中 请稍后...' : '导入'
+					}}
+				</Button>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -222,12 +279,30 @@ export default {
 	name: 'mian-taining',
 	components: { infoModal },
 	data() {
+		//手机号码自定义验证
+		const validatePass = (rule, value, callback) => {
+			let telephone = /^1[3456789]\d{9}$/
+			if (telephone.test(value)) {
+				return callback()
+			} else {
+				callback(new Error('请输入合法的手机号码'))
+			}
+		}
+
 		return {
-			isAdd: true,
+			//导入文件
+			Daoshow: false,
+			step: 0,
+			file: null,
+			loadingStatus: false,
+			accept: '.xls',
+			Format: ['.xls'],
+			isAdd: true, // 判断新增还是修改 设置禁用
+			modalTitle: '新增',
 			//新增表单对象
 			addFormData: {
+				mtcPlanId: '',
 				coName: '',
-				unitName: '',
 				context: '',
 				beginTime: '',
 				vc_PowerOffScene: '',
@@ -235,7 +310,8 @@ export default {
 				workTicketNum: '',
 				presetName: '',
 				telePhone: '',
-				status: ''
+				status: '',
+				unitId: this.$store.getters.unitId
 			},
 			dialogAddVisible: false,
 			fileDate: '',
@@ -268,19 +344,56 @@ export default {
 			starTim: '',
 			endTim: '',
 
-			 // 表单验证
+			// fileList: [
+			// {
+			// 	name: 'food.jpeg',
+			// 	url:
+			// 		'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+			// },
+			// {
+			// 	name: 'food2.jpeg',
+			// 	url:
+			// 		'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+			// }
+			// ],
+			// 表单验证
 			ruleValidate: {
-				coName: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				unitName: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				context: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				beginTime: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				vc_PowerOffScene: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				vc_PowerLevel: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				workTicketNum: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				presetName: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				telePhone: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				status: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }]
-			
+				coName: [
+					{ required: true, message: '该项为必填项', trigger: 'blur' },
+					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				],
+				context: [
+					{ required: true, message: '该项为必填项', trigger: 'blur' },
+					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				],
+				// beginTime: [
+				// 	{ required: true, message: '该项为必填项', trigger: 'blur' },
+				// 	{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				// ],
+				vc_PowerOffScene: [
+					{ required: true, message: '该项为必填项', trigger: 'blur' },
+					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				],
+				vc_PowerLevel: [
+					{ required: true, message: '该项为必填项', trigger: 'blur' },
+					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				],
+				workTicketNum: [
+					{ required: true, message: '该项为必填项', trigger: 'blur' },
+					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				],
+				presetName: [
+					{ required: true, message: '该项为必填项', trigger: 'blur' },
+					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				],
+				telePhone: [
+					{ required: true, message: '该项为必填项', trigger: 'blur' },
+					{ validator: validatePass, trigger: 'blur' }
+				],
+				status: [
+					{ required: true, message: '该项为必填项', trigger: 'blur' },
+					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				]
 			}
 		}
 	},
@@ -387,17 +500,21 @@ export default {
 		removeInfo(data, params) {
 			this.$Modal.confirm({
 				title: '删除',
-				content: '确认删除所选项?',
+				content: '确认删除该数据?',
 				onOk: () => {
-					this.$_api.maintaining.delMainDate({ companyId: params.row.companyId }).then(res => {
-						if (res.code == 200) {
-							this.$Message.success('删除成功')
-							this.page = 1
-							this.getTable()
-						} else {
-							this.$Message.warning(res.msg)
-						}
-					})
+					this.$_api.maintaining
+						.delMainDate({ unitId: this.activeUnitId, mtcPlanId: params.mtcPlanId })
+						.then(res => {
+							if (res.code == 200) {
+								this.$Message.success('删除成功')
+								if ((this.totals - 1) % this.pageSize == 0) {
+									this.curIndex -= 1
+								}
+								this.searchInfo()
+							} else {
+								this.$Message.warning(res.msg)
+							}
+						})
 				},
 				onCancel: () => {}
 			})
@@ -410,10 +527,10 @@ export default {
 				this.$refs.addFormRef.validate(async valid => {
 					if (!valid) return
 					//验证成功，掉接口提交数据
-					params = JSON.parse(JSON.stringify(params))
+					params = JSON.parse(JSON.stringify(this.addFormData))
 					let res = await this.$_api.maintaining.addMainDate(params)
 					if (res.success) {
-						this.getTable()
+						this.searchInfo()
 						this.modalAddShow = false
 					}
 				})
@@ -422,24 +539,21 @@ export default {
 				this.$refs.addFormRef.validate(async valid => {
 					if (!valid) return
 					//验证成功，掉接口提交数据
-					params = JSON.parse(JSON.stringify(params))
-					let res = await this.$_api.maintaining.editMainDate(params)
+					params = JSON.parse(JSON.stringify(this.addFormData))
+					let res = await this.$_api.maintaining.addMainDate(params)
 					if (res.success) {
-						this.getTable()
-						
+						this.searchInfo()
 						this.modalAddShow = false
 					}
 				})
 			}
 		},
-		// 显示新增弹框
+		// 显示新增/修改弹框
 		showAdd(data, params) {
 			data == 0 ? (this.modalTitle = '新增') : (this.modalTitle = '修改')
 			data == 0 ? (this.isAdd = true) : (this.isAdd = false)
 			if (data == 1) {
 				this.addFormData = JSON.parse(JSON.stringify(params))
-			} else {
-				
 			}
 			this.dialogAddVisible = true
 		},
@@ -511,7 +625,8 @@ export default {
 		// 		this.maintainData = []
 		// 	}
 		// },
-		leadTo() {},
+
+		//导出
 		exportInfo() {},
 		getThisWeek(currentTime) {
 			var currentDate = new Date(currentTime)
@@ -544,12 +659,26 @@ export default {
 			this.detileData = row.mtcPlanId
 			this.modalShow = true
 		},
+
+		//导入弹框的逻辑
+		leadTo() {
+			this.Daoshow = true
+		},
+		// 弹窗取消
+		close() {
+			this.Daoshow = false
+			this.loadingStatus = false
+			this.removeFile()
+		},
+
+		hClose() {
+			this.modalShow = false
+		},
+
 		handleClose() {
 			this.$refs.addFormRef.resetFields()
-			this.modalShow = false
 			this.dialogAddVisible = false
 			this.addFormData.coName = ''
-			this.addFormData.unitName = ''
 			this.addFormData.context = ''
 			this.addFormData.beginTime = ''
 			this.addFormData.vc_PowerOffScene = ''
@@ -558,6 +687,7 @@ export default {
 			this.addFormData.presetName = ''
 			this.addFormData.telePhone = ''
 			this.addFormData.status = ''
+			this.addFormData.unitId = this.unitId
 		},
 		recordModals(row) {
 			// this.recordData = row.mtcPlanId
@@ -565,6 +695,60 @@ export default {
 			// console.log(this.fileDate)
 			console.log(row)
 			this.recordShow = true
+		},
+
+		// 选择文件
+		handleUpload(file) {
+			// 添加文件
+			this.file = file
+			this.step = 1
+			this.isFile = true
+			return false
+		},
+		// 移除文件
+		removeFile() {
+			this.file = null
+			this.step = 0
+			this.isFile = false
+			this.loadingStatus = false
+		},
+		// 上传提交
+		upload() {
+			// 点击上传
+			if (this.isFile) {
+				if (
+					this.file.name.substring(this.file.name.length - 3) == 'xls' ||
+					this.file.name.substring(this.file.name.length - 3) == 'XLS'
+				) {
+					this.loadingStatus = true
+					this.step = 2
+					let params = new FormData() // 创建form对象
+					params.append('xfile', this.file) // 通过append向form对象添加数据
+					params.append('unitID', this.$store.getters.unitId) // 添加变电站id
+					// let config = {
+					// 	header: { 'Content-Type': 'multipart/form-data' }
+					// }
+					this.$_api.devOps.importFile(params).then(res => {
+						if (res.code == 200) {
+							this.file = null
+							this.loadingStatus = false
+							this.$Message.success({ duration: 3, content: '文件导入成功' })
+							this.Daoshow = false
+							this.searchItem()
+							this.step = 1
+						} else {
+							this.$Message.error(res.msg)
+						}
+					})
+				} else {
+					this.file = null
+					this.isFile = false
+					this.step = 0
+					this.$Message.warning('请选择.xls格式的文件')
+				}
+			} else {
+				this.$Message.warning('请选择需要导入的文件')
+			}
 		}
 	}
 }
@@ -606,12 +790,50 @@ export default {
         margin: 2.5px;
       }
 
+      .info-btn {
+        color: #45adf7;
+        font-size: 16px;
+        background: url('~@fire/assets/img/seach_blue.png') no-repeat!important;
+        background-size: 100% 100%!important;
+        border: none;
+      }
+
+      .info-btn:hover {
+        background: url('~@fire/assets/img/common/detail-hover.png') no-repeat !important;
+        background-size: 100% 100% !important;
+      }
+
+      .edit-btn {
+        background: url('~@fire/assets/img/seach_yellow.png') no-repeat !important;
+        background-size: 100% 100% !important;
+        border: none;
+        color: #f6ce69 !important;
+      }
+
+      .edit-btn:hover {
+        background: url('~@fire/assets/img/common/export-hover.png') no-repeat !important;
+        background-size: 100% 100% !important;
+      }
+
+      .del-btn {
+        background: url('~@fire/assets/img/common/del.png') no-repeat !important;
+        background-size: 100% 100% !important;
+        border: none;
+        color: #fff !important;
+      }
+
+      .del-btn:hover {
+        background: url('~@fire/assets/img/common/del-hover.png') no-repeat !important;
+        background-size: 100% 100% !important;
+      }
+
       .el-button {
         margin: 2.5px;
         background: transparent;
         border-color: #2d8cf0;
         color: #2d8cf0;
         position: relative;
+        font-size: 16px;
 
         &:hover {
           background: #09102f;
@@ -695,9 +917,10 @@ export default {
     border: 1PX solid #0c4e75;
   }
 
-  .pagination {
+  // 分页样式的修改
+  /deep/ .pagination {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 25px;
 
     .el-pagination {
       .el-pagination__total {
@@ -715,17 +938,18 @@ export default {
         cursor: pointer;
       }
 
-      .el-pagination__jump {
-        color: #73a6c3;
-      }
-
       /deep/ .el-pager li {
         color: #2d8cf0 !important;
         background: transparent;
       }
 
+      .el-pagination__jump {
+        color: #73a6c3;
+      }
+
       .el-input__inner {
         background: transparent;
+        border-color: #0d7ec5;
       }
 
       .el-select:hover .el-input__inner {
@@ -753,6 +977,11 @@ export default {
     background-size: 100% 100%;
   }
 
+  .blue-btn:hover {
+    background: url('~@fire/assets/img/common/detail-hover.png') no-repeat !important;
+    background-size: 100% 100% !important;
+  }
+
   .btnClick {
     color: #f6ce69;
   }
@@ -760,10 +989,15 @@ export default {
   .yellow-btn {
     width: 100px;
     color: #F6CE69;
-    font-size: 18px;
+    font-size: 16px;
     background: url('~@fire/assets/img/seach_yellow.png') no-repeat;
     background-size: 100% 100%;
-    margin-left: 20px;
+    margin-left: 10px;
+  }
+
+  .yellow-btn:hover {
+    background: url('~@fire/assets/img/common/export-hover.png') no-repeat !important;
+    background-size: 100% 100% !important;
   }
 
   .item-zt {
@@ -799,18 +1033,19 @@ export default {
 
 .iframeCal {
   left: 0 !important;
-  height: 40rem;
+  height: 39.6rem;
   top: 0 !important;
 }
 
 .ivu-modal-content {
   // top: -122px;
-  height: 41.2rem !important;
+  height: 39rem !important;
 }
 
-.ivu-modal-wrap {
+/deep/ .ivu-modal-wrap {
   height: 42rem !important;
   top: 2px;
+  width: 99.6% !important;
 }
 
 .iframw-view {
@@ -825,8 +1060,162 @@ export default {
   background: url('~@/assets/img/common/modal-bg.png') no-repeat;
   background-size: 100% 100%;
 }
+
 /deep/ .el-input__inner {
-	border-color: #fff;
-	cursor: pointer;
+  border-color: #fff;
+  cursor: pointer;
+}
+
+/deep/ .Daoshow {
+  .el-dialog {
+    height: 500px;
+    border: none;
+    background: url('../../../assets/img/dialog.png') no-repeat;
+    background-size: 100% 100%;
+
+    .el-dialog__header {
+      text-align: center;
+    }
+
+    .el-dialog__title {
+      color: #fff;
+      font-size: 30px;
+    }
+
+    .el-dialog__close {
+      font-size: 30px;
+    }
+
+    .el-upload__tip {
+      color: #fff;
+      font-size: 25px;
+    }
+
+    /deep/ .el-upload-list__item-name {
+      color: #fff !important;
+      font-size: 20px !important;
+    }
+
+    /deep/ .el-upload-list__item:hover {
+      background: #054598;
+    }
+  }
+}
+
+/deep/ .el-icon-close {
+  color: #fff;
+}
+
+/deep/ .el-dialog__headerbtn:hover .el-dialog__close {
+  color: #fff;
+}
+
+/deep/ .el-dialog__wrapper {
+  overflow: auto;
+  // z-index: 2029
+}
+
+#dialogs {
+  // overflow: auto;
+  margin-top: 13px;
+  height: 796px;
+}
+
+/deep/ .modals .el-dialog--center .el-dialog__body {
+  padding: 0 1.1111rem;
+  height: 763px;
+  border: none !important;
+}
+
+.ivu-modal-content {
+  background: url('../../../assets/img/dialog.png') no-repeat !important;
+  background-size: 100% 100% !important;
+}
+
+.ivu-modal-confirm-head-title {
+  color: #fff;
+}
+
+.ivu-modal-confirm-body {
+  color: #fff;
+}
+
+// .ivu-btn-text {
+// color: #fff;
+// }
+.ivu-steps-item.ivu-steps-status-wait .ivu-steps-title {
+  color: #fff !important;
+}
+
+.ivu-steps-horizontal .ivu-steps-content {
+  color: #fff !important;
+}
+
+.ivu-btn {
+  margin: 0 5px;
+}
+
+.ivu-upload-drag {
+  background: none;
+  color: #fff;
+}
+
+.upload-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .steps {
+    margin-left: 100px;
+    margin-bottom: 30px;
+  }
+
+  .up-box {
+    margin-left: 50px;
+    font-size: 16px;
+    color: #fff;
+    margin-top: 30px;
+
+    span {
+      font-size: 16px;
+      margin-top: 10px;
+      color: #fff;
+      font-weight: 700;
+      display: block;
+
+      .del {
+        float: left;
+        display: inline-block;
+        width: 30px;
+        text-align: center;
+        font-size: 18px;
+        line-height: 100%;
+        color: #2b85e4;
+        cursor: pointer;
+
+        &:hover {
+          color: #ed4014;
+        }
+      }
+    }
+  }
+
+  .btn1 {
+    width: 400px;
+    margin: 10px 10px 10px 50px;
+  }
+}
+
+.ivu-steps-item.ivu-steps-status-wait .ivu-steps-head-inner span, .ivu-steps-item.ivu-steps-status-wait .ivu-steps-head-inner>.ivu-steps-icon {
+  color: black !important;
+}
+
+.import-btn {
+  height: 32px;
+  width: 61.17px;
+  border: none;
+  color: #F6CE69 !important;
+  background: url('~@fire/assets/img/seach_red.png') no-repeat !important;
+  background-size: 100% 100% !important;
 }
 </style>

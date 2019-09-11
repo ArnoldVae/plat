@@ -347,8 +347,8 @@
         created() {
         },
         mounted() {
-            // this.envChart = this.$_echarts.init(this.$refs['envChart'])
-            // this.getAlarmList()
+            this.envChart = this.$_echarts.init(this.$refs['envChart'])
+            this.getAlarmList()
         },
         activited() {
         },
@@ -435,6 +435,7 @@
                 }
 
                 this.unitTitle = this.alarmTitle = item.unitName
+                debugger
                 let result = await this.$_api.alarmAction.getAlarmData({
                     unitId: item.unitId || '',
                     alarmId: item.alarmId || item.alarmid
@@ -474,7 +475,7 @@
             async getReserve(item) {
                 let result = await this.$_api.alarmAction.getReserve({
                     unitId: item.unitId || '',
-                    areaId: item.areaId
+                    areaId: item.areaId||'19ba44379e6f42fc88fa26226dc14334'
                 })
                 if (result.success) {
                     this.cfgName = result.data.cfgName
@@ -750,15 +751,33 @@
                 this.comfireAlarm = true
                 this.confirHide = false
             },
+            //确认报警删除条目操作
+            delAlarm(node){
+                debugger
+                this.labelList.forEach((item,index)=>{
+                    if(item.alarmId==node.alarmId){
+                        this.labelList.splice(index,1)
+                    }
+                })
+                this.showItemDetail( this.labelList[0])
+            },
             init(node) {
                 if(node){
                     this.alarmData=node
                     //左侧条目操作赋值操作
+                    if(this.labelList.length>0){
+                        this.labelList.forEach(item=>{
+                            item.selected=false
+                        })
+                    }
                     this.labelList.push({
                         unitName:node.unitName,
                         araeName:node.areaName,
                         devName:node.devName,
-                        beginTime:node.time
+                        beginTime:node.time,
+                        unitId:node.unitId,
+                        alarmId:node.alarmId,
+                        selected:true
                     })
                     //站内气象赋值操作
                     if(node.wqxList&&node.wqxList.length>0){
@@ -783,6 +802,24 @@
                             }
                         })
                     }
+                    // 曲线赋值
+                    if(node.nodeList&&node.nodeList.length>0){
+                        node.nodeList.forEach(item=>{
+                            if(item.functionid==157){
+                                this.idListObj.arr1.push(item.f_value)
+                                this.idListObj.arr3.push(moment(Number(item.i_datatime) * 1000).format('YYYY-MM-DD HH:mm'))
+                            }else {
+                                this.idListObj.arr2.push(item.f_value)
+                            }
+
+
+                        })
+                        //绘画
+                        this.getEnvChart(this.idListObj)
+                    }
+                    //    灭火资源赋值
+                    this.imgUrl=node.svgList[0].vcmemo
+
                 }
                 console.log(this.alarmData)
 

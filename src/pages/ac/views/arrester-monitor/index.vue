@@ -8,7 +8,7 @@
 <script>
 import arresterTable from '@ac/views/common/view-table'
 import arresterCustomization from './customization.vue'
-import arresterHtCustomization from './htcustomization.vue'
+import arresterHtCustomization from '@ac/views/common/view-ht-web'
 export default {
 	name: 'arrester-monitor',
 	components: {

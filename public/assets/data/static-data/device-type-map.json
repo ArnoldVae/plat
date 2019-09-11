@@ -37,9 +37,9 @@
                 "icon": "table"
             },
             {
-                "title": "平面图",
-                "name": "ichnography",
-                "icon": "picture"
+                "title": "ht-图纸",
+                "name": "viewHtPage",
+                "icon": "layout"
             }
         ]
     },
@@ -172,8 +172,8 @@
                 "icon": "table"
             },
             {
-                "title": "定制化",
-                "name": "customization",
+                "title": "ht-图纸",
+                "name": "viewHtPage",
                 "icon": "layout"
             }
         ]
@@ -217,8 +217,8 @@
                 "icon": "layout"
             },
             {
-                "title": "平面图",
-                "name": "htcustomization",
+                "title": "ht-页面",
+                "name": "viewHtWeb",
                 "icon": "picture"
             },
             {
@@ -237,8 +237,8 @@
                 "icon": "layout"
             },
             {
-                "title": "平面图",
-                "name": "htcustomization",
+                "title": "ht-页面",
+                "name": "viewHtWeb",
                 "icon": "picture"
             },
             {
@@ -317,8 +317,8 @@
                 "icon": "table"
             },
             {
-                "title": "定制化",
-                "name": "customization",
+                "title": "ht-图纸",
+                "name": "viewHtPage",
                 "icon": "layout"
             }
         ]
@@ -332,8 +332,8 @@
                 "icon": "table"
             },
             {
-                "title": "定制化",
-                "name": "customization",
+                "title": "ht-图纸",
+                "name": "viewHtPage",
                 "icon": "layout"
             }
         ]
@@ -347,8 +347,8 @@
                 "icon": "table"
             },
             {
-                "title": "定制化",
-                "name": "customization",
+                "title": "ht-图纸",
+                "name": "viewHtPage",
                 "icon": "layout"
             }
         ]
@@ -357,8 +357,8 @@
         "typeId": 1085,
         "name": "hgis",
         "mode": [{
-                "title": "平面图",
-                "name": "htcustomization",
+                "title": "ht-页面",
+                "name": "viewHtWeb",
                 "icon": "picture"
             },
             {
@@ -372,8 +372,8 @@
         "typeId": 1086,
         "name": "breaker",
         "mode": [{
-                "title": "平面图",
-                "name": "htcustomization",
+                "title": "ht-页面",
+                "name": "viewHtWeb",
                 "icon": "picture"
             },
             {
@@ -392,8 +392,8 @@
                 "icon": "table"
             },
             {
-                "title": "定制化",
-                "name": "customization",
+                "title": "ht-图纸",
+                "name": "viewHtPage",
                 "icon": "layout"
             }
         ]

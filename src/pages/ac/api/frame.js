@@ -33,6 +33,14 @@ export default {
 			data: JSON.stringify(params)
 		})
 	},
+	// 根据设备类型 获取显示类型
+	getDisplayModeBytypeId(params) {
+		return axios.request({
+			url: 'dev_type/findDevTypeShowKinds',
+			method: 'post',
+			data: JSON.stringify(params)
+		})
+	},
 	// 获取所有节点信息
 	getNodesInfo(params) {
 		return axios.request({

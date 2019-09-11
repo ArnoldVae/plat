@@ -39,7 +39,7 @@
 			<Col :span="14">
 				<div class="rectangle">
 					<Row style="margin-left: 25px">
-						<Col :span="8" v-for="(value, index) in this.maintenancePlan.firstRow" :key="index">
+						<Col :span="index==1? 10 : 7" v-for="(value, index) in this.maintenancePlan.firstRow" :key="index">
 							<p>
 								<img :src="value.imgSrc" alt />
 								<span>{{ value.title }}{{ value.data }}</span>
@@ -88,7 +88,7 @@
 									{{ value.title }}
 									<img
 										class="rectangleImg"
-										:src="value.data.vcFileFullName"
+										:src="value.data? value.data.vcFileFullName:{}"
 										v-if="value.bool === true"
 									/>
 									<span v-if="value.bool === false">
@@ -116,7 +116,7 @@
 					</Row>
 				</div>
 				<div class="square" v-for="(value, index) in this.implement.imgs" :key="index">
-					<img style="height: 100%;width: 100%" :src="value.data.vcFileFullName" alt="" />
+					<img style="height: 100%;width: 100%" :src="value.data? value.data.vcFileFullName:{}" alt="" />
 				</div>
 			</Col>
 		</Row>
@@ -448,4 +448,5 @@ export default {
 	padding: 5px 0;
 	font-weight: 700;
 }
+
 </style>

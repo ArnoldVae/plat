@@ -1,82 +1,82 @@
 <template>
-  <div class="docFire">
-    <ElDialog
-      style="left: 15vw; top:-4vh;text-align: center"
-      :visible.sync="dialogVisible"
-      center
-      :before-close="handleClose"
-    >
-      <!-- <img src="./lan.png" style="position: relative;top:-120px;left: -50px; width: 107%;" alt> -->
-      <span
-        style="color: #fff;font-size:30px;position:relative;top: -3.5rem;left: 15rem;font-weight: bold"
-      >设备详情</span>
+	<div class="docFire">
+		<ElDialog
+			style="left: 15vw; top:-4vh;text-align: center"
+			:visible.sync="dialogVisible"
+			center
+			:before-close="hClose"
+		>
+			<!-- <img src="./lan.png" style="position: relative;top:-120px;left: -50px; width: 107%;" alt> -->
+			<span
+				style="color: #fff;font-size:30px;position:relative;top: -3.5rem;left: 15rem;font-weight: bold"
+			>设备详情</span>
 
-      <div class="diaSpan" style="position: relative;top:-40px">
-        <el-row style="color: #ffffff;">
-          <el-col :span="12">
-            <span>变电站:</span>
-            <span style="margin-left:50px;color:#47b2fe">{{ forData.unitName }}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>设备名称:</span>
-            <span style="margin-left:50px;color:#47b2fe">{{ forData.vcName }}</span>
-          </el-col>
-        </el-row>
-        <el-row style="color: #ffffff">
-          <el-col :span="12">
-            <span>设备类型:</span>
-            <span style="margin-left:41px;color:#47b2fe">{{ forData.devTypeName }}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>所属子系统:</span>
-            <span style="margin-left:38px;color:#47b2fe">{{ forData.subName }}</span>
-          </el-col>
-        </el-row>
-        <el-row style="color: #ffffff">
-          <el-col :span="12">
-            <span>定置点编号:</span>
-            <span style="margin-left:24px;color:#47b2fe">{{ forData.num }}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>规格型号:</span>
-            <span style="margin-left:51px;color:#47b2fe">{{ forData.vcCode }}</span>
-          </el-col>
-        </el-row>
-        <el-row style="color: #ffffff">
-          <el-col :span="12">
-            <span>有效日期:</span>
-            <span style="margin-left:38px;color:#47b2fe">{{ forData.beginTime }}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>保管责任人:</span>
-            <span style="margin-left:34px;color:#47b2fe">{{ forData.userId }}</span>
-          </el-col>
-        </el-row>
-        <el-row style="color: #ffffff">
-          <el-col :span="12">
-            <span>安装位置:</span>
-            <span style="margin-left:36px;color:#47b2fe">{{ forData.vcLocal }}</span>
-          </el-col>
-          <el-col :span="12">
-            <span>备注:</span>
-            <span style="margin-left:83px;color:#47b2fe">{{ forData.vcMemo }}</span>
-          </el-col>
-        </el-row>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="blue-btn" type="text" @click="comfir">确 定</el-button>
-        <el-button class="yellow-btn" @click="comfir" type="text">取 消</el-button>
-      </span>
-    </ElDialog>
-  <!-- 新增弹窗 -->
-    <ElDialog
-      style="left: 15vw; top:-4vh;text-align: center;"
-      :visible.sync="dialogAddVisible"
-      center
-      :title="modalTitle"
-      :before-close="handleClose"
-    >
-    <Form
+			<div class="diaSpan" style="position: relative;top:-40px">
+				<el-row style="color: #ffffff;">
+					<el-col :span="12">
+						<span>变电站:</span>
+						<span style="margin-left:50px;color:#47b2fe">{{ forData.unitName }}</span>
+					</el-col>
+					<el-col :span="12">
+						<span>设备名称:</span>
+						<span style="margin-left:50px;color:#47b2fe">{{ forData.vcName }}</span>
+					</el-col>
+				</el-row>
+				<el-row style="color: #ffffff">
+					<el-col :span="12">
+						<span>设备类型:</span>
+						<span style="margin-left:41px;color:#47b2fe">{{ forData.devTypeName }}</span>
+					</el-col>
+					<el-col :span="12">
+						<span>所属子系统:</span>
+						<span style="margin-left:38px;color:#47b2fe">{{ forData.subName }}</span>
+					</el-col>
+				</el-row>
+				<el-row style="color: #ffffff">
+					<el-col :span="12">
+						<span>定置点编号:</span>
+						<span style="margin-left:24px;color:#47b2fe">{{ forData.num }}</span>
+					</el-col>
+					<el-col :span="12">
+						<span>规格型号:</span>
+						<span style="margin-left:51px;color:#47b2fe">{{ forData.vcCode }}</span>
+					</el-col>
+				</el-row>
+				<el-row style="color: #ffffff">
+					<el-col :span="12">
+						<span>有效日期:</span>
+						<span style="margin-left:38px;color:#47b2fe">{{ forData.beginTime }}</span>
+					</el-col>
+					<el-col :span="12">
+						<span>保管责任人:</span>
+						<span style="margin-left:34px;color:#47b2fe">{{ forData.userId }}</span>
+					</el-col>
+				</el-row>
+				<el-row style="color: #ffffff">
+					<el-col :span="12">
+						<span>安装位置:</span>
+						<span style="margin-left:36px;color:#47b2fe">{{ forData.vcLocal }}</span>
+					</el-col>
+					<el-col :span="12">
+						<span>备注:</span>
+						<span style="margin-left:83px;color:#47b2fe">{{ forData.vcMemo }}</span>
+					</el-col>
+				</el-row>
+			</div>
+			<span slot="footer" class="dialog-footer">
+				<el-button class="blue-btn" type="text" @click="comfir">确 定</el-button>
+				<el-button class="yellow-btn" @click="comfir" type="text">取 消</el-button>
+			</span>
+		</ElDialog>
+		<!-- 新增弹窗 -->
+		<ElDialog
+			style="left: 15vw; top:-4vh;text-align: center;"
+			:visible.sync="dialogAddVisible"
+			center
+			:title="modalTitle"
+			@closed="handleClose"
+		>
+			<Form
 				ref="addFormRef"
 				:rules="ruleValidate"
 				:model="addFormData"
@@ -84,202 +84,236 @@
 				label-position="right"
 			>
 				<!-- 变电站 -->
-				<FormItem label="变电站" prop="unitName">
+				<!-- <FormItem label="变电站" prop="unitName">
 					<Input v-model="addFormData.unitName" placeholder="请输入..." style="width: 370px" />
-				</FormItem>
+				</FormItem>-->
 				<!-- 设备名称 -->
 				<FormItem label="设备名称" prop="vcName">
 					<Input v-model="addFormData.vcName" placeholder="请输入..." style="width: 370px" />
 				</FormItem>
 				<!-- 设备类型 -->
 				<FormItem label="设备类型" prop="devTypeName">
-					<Input v-model="addFormData.devTypeName" placeholder="请输入..." style="width: 370px" />
+					<el-select v-model="addFormData.devTypeId" placeholder="请选择设备类型" style="width: 370px">
+						<el-option label="全部" value="nullValue"></el-option>
+						<el-option
+							v-for="(item, index) in eqcnameS"
+							:key="index"
+							:label="item.vcName"
+							:value="item.dictID"
+						></el-option>
+					</el-select>
 				</FormItem>
 				<!-- 所属子系统 -->
 				<FormItem label="所属子系统" prop="subName">
-					<Input v-model="addFormData.subName" placeholder="请输入..." style="width: 370px" />
+					<el-select v-model="addFormData.subId" placeholder="请选择所属子系统" style="width: 370px">
+						<el-option label="全部" value="nullValue"></el-option>
+						<el-option
+							v-for="(item, index) in eqctypeS"
+							:key="index"
+							:label="item.vcName"
+							:value="item.subSystemId"
+						></el-option>
+					</el-select>
 				</FormItem>
-        <!-- 定置点编号 -->
+				<!-- 定置点编号 -->
 				<FormItem label="定置点编号" prop="num">
 					<Input v-model="addFormData.num" placeholder="请输入..." style="width: 370px" />
 				</FormItem>
-        <!-- 规格型号 -->
+				<!-- 规格型号 -->
 				<FormItem label="规格型号" prop="vcCode">
 					<Input v-model="addFormData.vcCode" placeholder="请输入..." style="width: 370px" />
 				</FormItem>
-        <!-- 有效日期 -->
+				<!-- 有效日期 -->
 				<FormItem label="有效日期" prop="beginTime">
-          <Input v-model="addFormData.beginTime" placeholder="请输入..." style="width: 370px" />
-					<!-- <el-date-picker
-					v-model="addFormData.beginTime"
-					value-format="timestamp"
-					type="date"
-				></el-date-picker> -->
+					<!-- <Input v-model="addFormData.beginTime" placeholder="请输入..." style="width: 370px" /> -->
+					<el-date-picker
+						v-model="addFormData.beginTime"
+						value-format="yyyy年M月"
+						type="month"
+						style="width: 370px"
+					></el-date-picker>
 				</FormItem>
-        <!-- 保管责任人 -->
+				<!-- 保管责任人 -->
 				<FormItem label="保管责任人" prop="userId">
 					<Input v-model="addFormData.userId" placeholder="请输入..." style="width: 370px" />
 				</FormItem>
-        <!-- 安装位置 -->
+				<!-- 安装位置 -->
 				<FormItem label="安装位置" prop="vcLocal">
 					<Input v-model="addFormData.vcLocal" placeholder="请输入..." style="width: 370px" />
 				</FormItem>
-        <!-- 备注 -->
+				<!-- 备注 -->
 				<FormItem label="备注" prop="vcMemo">
 					<Input v-model="addFormData.vcMemo" placeholder="请输入..." style="width: 370px" />
 				</FormItem>
-    </Form>
-      <span slot="footer" class="dialog-footer">
-        <el-button class="blue-btn" type="text" @click="addInfo">确 定</el-button>
-        <el-button class="yellow-btn" @click="handleClose" type="text">取 消</el-button>
-      </span>
-    </ElDialog>
+			</Form>
+			<span slot="footer" class="dialog-footer">
+				<el-button class="blue-btn" type="text" @click="addInfo">确 定</el-button>
+				<el-button class="yellow-btn" @click="handleClose" type="text">取 消</el-button>
+			</span>
+		</ElDialog>
 
-   
+		<el-form class="formSize" :inline="true" size="mini" :model="search">
+			<el-form-item label="设备名称:" style="margin-right: 20px">
+				<el-input v-model="search.eqName" placeholder="请输入设备名称"></el-input>
+			</el-form-item>
+			<el-form-item label="设备类型:" style="margin-right: 20px">
+				<el-select v-model="search.devType" placeholder="请选择设备类型">
+					<el-option label="全部" value="nullValue"></el-option>
+					<el-option
+						v-for="(item, index) in eqcnameS"
+						:key="index"
+						:label="item.vcName"
+						:value="item.dictID"
+					></el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item label="所属子系统:" style="margin-right: 26px">
+				<el-select v-model="search.maintenanceUnit" placeholder="请选择所属子系统">
+					<el-option label="全部" value="nullValue"></el-option>
+					<el-option
+						v-for="(item, index) in eqctypeS"
+						:key="index"
+						:label="item.vcName"
+						:value="item.subSystemId"
+					></el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item label="定置点编号:" style="margin-right: 20px">
+				<el-input v-model="search.Num" placeholder="请输入定置点编号"></el-input>
+			</el-form-item>
 
-    <el-form class="formSize" :inline="true" size="mini" :model="search">
-      <el-form-item label="设备名称:" style="margin-right: 20px">
-        <el-input v-model="search.eqName" placeholder="请输入设备名称"></el-input>
-      </el-form-item>
-      <el-form-item label="设备类型:" style="margin-right: 20px">
-        <el-select v-model="search.devType" placeholder="请选择设备类型">
-          <el-option label="全部" value="nullValue"></el-option>
-          <el-option
-            v-for="(item, index) in eqcnameS"
-            :key="index"
-            :label="item.vcName"
-            :value="item.dictID"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="所属子系统:" style="margin-right: 26px">
-        <el-select v-model="search.maintenanceUnit" placeholder="请选择所属子系统">
-          <el-option label="全部" value="nullValue"></el-option>
-          <el-option
-            v-for="(item, index) in eqctypeS"
-            :key="index"
-            :label="item.vcName"
-            :value="item.subSystemId"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="定置点编号:" style="margin-right: 20px">
-        <el-input v-model="search.Num" placeholder="请输入定置点编号"></el-input>
-      </el-form-item>
-
-      <el-form-item label="保管责任人:">
-        <el-input v-model="search.keeperName" placeholder="请输入保管责任人"></el-input>
-      </el-form-item>
-      <br>
-      <el-form-item class="taining-button">
-        <div>
-          <el-button class="blue-btn" type="text" @click="showAdd(0,{})">新增</el-button>
-          <el-button class="blue-btn" type="text" @click="doSearch()">查询</el-button>
-          <el-button class="blue-btn" @click="leadTo" type="text">查看</el-button>
-          <el-button class="yellow-btn" @click="exportInfo" type="text">导入</el-button>
-					<el-button class="yellow-btn" @click="exportData" type="text">导 出</el-button>
-        </div>
-        <!-- <div style>
+			<el-form-item label="保管责任人:">
+				<el-input v-model="search.keeperName" placeholder="请输入保管责任人"></el-input>
+			</el-form-item>
+			<br />
+			<el-form-item class="taining-button">
+				<div>
+					<el-button class="blue-btn" type="text" @click="showAdd(0,{})">新增</el-button>
+					<el-button class="blue-btn" type="text" @click="doSearch()">查询</el-button>
+					<el-button class="blue-btn" @click="leadTo" type="text">查看</el-button>
+					<el-button class="yellow-btn" @click="exportInfo" type="text">导入</el-button>
+					<el-button class="yellow-btn" @click="exportList" type="text">导 出</el-button>
+				</div>
+				<!-- <div style>
 					<el-button style="margin: 0" class="yellow-btn" type="text">删 除</el-button>
 					<el-button class="import-btn" type="text">导 入</el-button>
-        </div>-->
-      </el-form-item>
-    </el-form>
-    <!-- table -->
-    <div class="table">
-      <el-table
-        :data="maintainDatas"
-        @selection-change="handleSelectionChange"
-        @row-click="rowClick"
-        style="width: 100%;"
-        height="400"
-        border
-        ref="table"
-      >
-        <el-table-column prop="unitName" align="center" label="变电站名称" width="160"></el-table-column>
-        <el-table-column
-          prop="vcName"
-          align="center"
-          label="设备名称"
-          width="210"
-          show-overflow-tooltip
-        ></el-table-column>
-        <el-table-column prop="devTypeName" align="center" label="设备类型" width="120"></el-table-column>
-        <el-table-column prop="subName" align="center" label="所属子系统" width="150"></el-table-column>
-        <el-table-column prop="num" align="center" label="定置点编号" width="100"></el-table-column>
-        <el-table-column prop="vcCode" align="center" label="型号规格" width="130"></el-table-column>
-        <el-table-column prop="beginTime" align="center" label="有效期" width="120"></el-table-column>
-        <el-table-column prop="userId" align="center" label="保管责任人" width="100"></el-table-column>
-        <el-table-column prop="vcLocal" align="center" label="安装位置" width="140"></el-table-column>
-        <el-table-column prop="vcMemo" align="center" label="备注"></el-table-column>
-        <el-table-column prop="" align="center" label="操作" width="180">
-          <template slot-scope="scope">
-              <el-button size="min" @click="showAdd(1,scope.row)">修改</el-button>
-              <el-button size="min" @click="removeInfo(1,scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-    <div class="pagination">
-      <el-pagination
-        ref="pages"
-        background
-        layout="total,  prev, pager, next,sizes, jumper"
-        :current-page="curIndex"
-        @size-change="handleSizeChange"
-        :page-sizes="[10, 20, 30, 40]"
-        :page-size="pageSize"
-        :total="totals"
-        @current-change="changePage"
-      ></el-pagination>
-    </div>
-    <!-- 导入弹框 -->
-    <el-dialog
-      title="导入文件"
-      :visible.sync="DaoShow"
-      width="50%"
-      class="Daoshow"
-      :before-close="Close"
-    >
-      <el-upload
-        class="upload-demo"
-				ref="upload"
-        action="http://172.26.1.233:8085/xdq/file/wordToPdf"
-        :on-preview="handlePreview"
-        :on-remove="handleRemove"
-				:auto-upload="false"
-        :file-list="fileList"
-      >
-        <el-button size="small" type="primary">点击上传</el-button>
-        <!-- <div slot="tip" class="el-upload__tip">只能上传elx格式文件</div> -->
-      </el-upload>
-    </el-dialog>
-		<!--查看提示框 -->
-		<!-- <div class='dialoag' v-show="diaShow">
-			<span>请选择列表信息!!!</span>
-		</div> -->
-  </div>
+				</div>-->
+			</el-form-item>
+		</el-form>
+		<!-- table -->
+		<div class="table">
+			<el-table
+				:data="maintainDatas"
+				@selection-change="handleSelectionChange"
+				@row-click="rowClick"
+				:highlight-current-row="isCurrent"
+				style="width: 100%;"
+				height="400"
+				border
+			>
+				<el-table-column prop="unitName" align="center" label="变电站名称" width="130"></el-table-column>
+				<el-table-column prop="vcName" align="center" label="设备名称" width="210" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="devTypeName" align="center" label="设备类型" width="150"></el-table-column>
+				<el-table-column prop="subName" align="center" label="所属子系统" width="140"></el-table-column>
+				<el-table-column prop="num" align="center" label="定置点编号" width="90"></el-table-column>
+				<el-table-column prop="vcCode" align="center" label="型号规格" width="120"></el-table-column>
+				<el-table-column prop="beginTime" align="center" label="有效期" width="110"></el-table-column>
+				<el-table-column prop="userId" align="center" label="保管责任人" width="90"></el-table-column>
+				<el-table-column prop="vcLocal" align="center" label="安装位置" width="140"></el-table-column>
+				<el-table-column prop="vcMemo" align="center" label="备注" width="120"></el-table-column>
+				<el-table-column prop align="center" label="操作" width="190">
+					<template slot-scope="scope">
+						<el-button class="edit-btn" size="min" @click="showAdd(1,scope.row)">编辑</el-button>
+						<el-button class="del-btn" size="min" @click="removeInfo(1,scope.row)">删除</el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+		</div>
+		<div class="pagination">
+			<el-pagination
+				ref="pages"
+				background
+				layout="total,  prev, pager, next,sizes, jumper"
+				:current-page="curIndex"
+				@size-change="handleSizeChange"
+				:page-sizes="[10, 20, 30, 40]"
+				:page-size="pageSize"
+				:total="totals"
+				@current-change="changePage"
+			></el-pagination>
+		</div>
+		<!-- 导入弹框 -->
+		<el-dialog title="导入文件" :visible.sync="Daoshow" width="50%" :before-close="close">
+			<div class="upload-content">
+				<Steps class="steps" :current="step" title="文件导入步骤">
+					<Step title="步骤一" content="择导入文件 (支持.xls格式的文件)"></Step>
+					<Step title="步骤二" content="选择完毕后点击 '导入' 按钮进行上传"></Step>
+					<Step title="步骤三" content="等待导入完成"></Step>
+				</Steps>
+				<Upload type="drag" :before-upload="handleUpload" action :accept="accept" :format="Format">
+					<div style="padding: 20px 0">
+						<Icon type="ios-add-circle-outline" size="52" style="color: #3399ff"></Icon>
+						<p>选择导入文件</p>
+					</div>
+				</Upload>
+				<div v-if="file !== null" class="up-box">
+					待导入文件:
+					<span>
+						<div class="del" @click="removeFile">
+							<!-- <Icon type="md-trash" /> -->
+							<i class="el-icon-delete"></i>
+						</div>
+						{{ file.name }}
+					</span>
+				</div>
+			</div>
+			<div slot="footer">
+				<Button type="text" size="large" @click="close">取消</Button>
+				<Button
+					class="btn2"
+					type="success"
+					size="large"
+					icon="md-cloud-upload"
+					@click="upload"
+					:loading="loadingStatus"
+				>
+					{{
+					loadingStatus ? '文件导入中 请稍后...' : '导入'
+					}}
+				</Button>
+			</div>
+		</el-dialog>
+	</div>
 </template>
 <script>
 export default {
 	name: 'docFire',
 	data() {
 		return {
-      isAdd: true, // 判断新增还是修改 设置禁用
-      modalTitle: '新增',
-      //新增表单对象
-      addFormData: {
-        unitName: '',
-        vcName: '',
-        devTypeName: '',
-        subName: '',
-        num: '',
-        vcCode: '',
-        beginTime: '',
-        userId: '',
-        vcLocal: '',
-        vcMemo: ''
-      },
+			isCurrent: false,
+			//导入文件
+			Daoshow: false,
+			step: 0,
+			file: null,
+			loadingStatus: false,
+			accept: '.xls',
+			Format: ['.xls'],
+			isAdd: true, // 判断新增还是修改 设置禁用
+			modalTitle: '新增',
+			//新增表单对象
+			addFormData: {
+				accountId: '',
+				vcName: '',
+				devTypeId: '',
+				subId: '',
+				num: '',
+				vcCode: '',
+				beginTime: '',
+				userId: '',
+				vcLocal: '',
+				vcMemo: '',
+				unitId: this.$store.getters.unitId
+			},
 			forData: [],
 
 			eqnameS: [
@@ -314,8 +348,8 @@ export default {
 			subModels: [{ MtcCoID: 1, vc_Name: '正常' }, { MtcCoID: 2, vc_Name: '异常' }],
 			subpostions: [],
 			subModelshs: [],
-      dialogVisible: false,
-      dialogAddVisible: false,
+			dialogVisible: false,
+			dialogAddVisible: false,
 			nullValue: null,
 			data: '',
 			search: {
@@ -419,32 +453,48 @@ export default {
 			pageSize: 10,
 			totals: 3,
 			unitId: this.$store.getters.unitId,
-			//导入文件
-			DaoShow: false,
-			fileList: [
-				{
-					name: 'food.jpeg',
-					url:
-						'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-				},
-				{
-					name: 'food2.jpeg',
-					url:
-						'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-				}
-			],
-      diaShow:true,
-      // 表单验证
+
+			// fileList: [
+			// {
+			// 	name: 'food.jpeg',
+			// 	url:
+			// 		'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+			// },
+			// {
+			// 	name: 'food2.jpeg',
+			// 	url:
+			// 		'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+			// }
+			// ],
+			// 表单验证
 			ruleValidate: {
-				unitName: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				vcName: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				devTypeName: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				vcCode: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				userId: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				vcLocal: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				num: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }],
-				beginTime: [{ required: true, message: '该项为必填项', trigger: 'blur' }, { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }]
-			
+				vcName: [
+					{ required: true, message: '该项为必填项', trigger: 'blur' }
+					// { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				],
+				// devTypeName: [
+				// 	{ required: true, message: '该项为必填项', trigger: 'blur' },
+				// 	{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				// ],
+				vcCode: [
+					{ required: true, message: '该项为必填项', trigger: 'blur' },
+					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				],
+				userId: [
+					{ required: true, message: '该项为必填项', trigger: 'blur' },
+					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				],
+				vcLocal: [
+					{ required: true, message: '该项为必填项', trigger: 'blur' },
+					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				],
+				// num: [
+				// 	{ required: true, message: '该项为必填项', trigger: 'blur' }
+				// ],
+				beginTime: [
+					{ required: true, message: '该项为必填项', trigger: 'blur' },
+					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				]
 			}
 		}
 	},
@@ -468,72 +518,85 @@ export default {
 		}
 	},
 	methods: {
-    //导出
-    exportData() {
-      this.$refs.table.exportCsv({
-          filename: 'The original data'
-      })
-    },
+		//导出
+		exportList() {
+			// var time = moment().format('YYYYMMDDHHmmss')
+			// window.location.href = this.javaUrl + '/report/export?unitId=' + this.stationId +
+			//   '&iIsAlarm=' +
+			//   this.iIsAlarm +
+			//   '&iStatus=' +
+			//   this.iStatus +
+			//   '&dateId=' +
+			//   this.dateId +
+			//   '&filename=' +
+			//   time
+		},
 
-    //删除
-    removeInfo(data,params) {
-      this.$Modal.confirm({
+		//删除
+		removeInfo(data, params) {
+			this.$Modal.confirm({
 				title: '删除',
-				content: '确认删除所选项?',
+				content: '确认删除该数据?',
 				onOk: () => {
-						this.$_api.devOps.delEquipmentDate({ companyId: params.row.companyId }).then(res => {
-						if (res.code == 200) {
-							this.$Message.success('删除成功')
-							this.page = 1
-							this.getTable()
-						} else {
-							this.$Message.warning(res.msg)
-						}
-					})
+					this.$_api.devOps
+						.delEquipmentDate({ unitId: this.activeUnitId, accountId: params.accountId })
+						.then(res => {
+							if (res.code == 200) {
+								this.$Message.success('删除成功')
+								if ((this.totals - 1) % this.pageSize == 0) {
+									this.curIndex -= 1
+								}
+								this.searchItem()
+							} else {
+								this.$Message.warning(res.msg)
+							}
+						})
 				},
 				onCancel: () => {}
-      })
-
-    },
-    //新增确定提交
-    addInfo() {
-      let params = {}
+			})
+		},
+		//新增、修改确定提交
+		addInfo() {
+			let params = {}
 			if (this.isAdd) {
 				// 新增
 				this.$refs.addFormRef.validate(async valid => {
 					if (!valid) return
 					//验证成功，掉接口提交数据
-          params = JSON.parse(JSON.stringify(params))
-					let res = await 	this.$_api.devOps.addEquipmentDate(params)
+					params = JSON.parse(JSON.stringify(this.addFormData))
+					// console.log(params)
+					let res = await this.$_api.devOps.addEquipmentDate(params)
 					if (res.success) {
-						this.getTable()
-						this.modalAddShow = false
+						this.searchItem()
+						this.dialogAddVisible = false
 					}
 				})
-			} 
-			else {
+			} else {
 				// 修改
 				this.$refs.addFormRef.validate(async valid => {
 					if (!valid) return
 					//验证成功，掉接口提交数据
-          params = JSON.parse(JSON.stringify(params))
-					let res = await 	this.$_api.devOps.editEquipmentDate(params)
+					params = JSON.parse(JSON.stringify(this.addFormData))
+					params.unitId = this.unitId
+					// console.log(params)
+					let res = await this.$_api.devOps.addEquipmentDate(params)
 					if (res.success) {
-						this.getTable()
-						this.modalAddShow = false
+						this.searchItem()
+						this.dialogAddVisible = false
 					}
 				})
 			}
-    },
-    // 显示新增弹框
-    showAdd(data,params) {
-      data == 0 ? (this.modalTitle = '新增') : (this.modalTitle = '修改')
-      data == 0 ? (this.isAdd = true) : (this.isAdd = false)
-      if(data == 1) {
-        this.addFormData = JSON.parse(JSON.stringify(params))
-      }
-      this.dialogAddVisible = true;
-    },
+		},
+		// 显示新增、修改弹框
+		showAdd(data, params) {
+			data == 0 ? (this.modalTitle = '新增') : (this.modalTitle = '修改')
+			data == 0 ? (this.isAdd = true) : (this.isAdd = false)
+			if (data == 1) {
+				this.addFormData = JSON.parse(JSON.stringify(params))
+				// console.log(this.addFormData)
+			}
+			this.dialogAddVisible = true
+		},
 		//获取设备和子系统数据
 		getData() {
 			this.$_api.devOps
@@ -639,63 +702,116 @@ export default {
 		leadTo() {
 			// console.log(this.forData.length);
 			// return
-			if(this.forData.length==0){
-				    this.$Message.info({
-                content: '请点击列表信息!!!',
-                duration: 3
-            });
-			}else{
+			if (this.forData.length == 0) {
+				this.$Message.info({
+					content: '请点击列表信息!!!',
+					duration: 3
+				})
+			} else {
 				this.dialogVisible = true
 			}
-		
-			
 		},
 		infoModal() {
 			this.modalShow = true
 		},
 		rowClick(row) {
+			this.isCurrent = true
 			// console.log(row)
 			this.forData = row
 		},
 		comfir() {
 			this.forData = []
 			this.dialogVisible = false
+			this.isCurrent = false
 		},
+
 		//导入弹框的逻辑
 		exportInfo() {
-			this.DaoShow = true
-			// this.Message({
-			// 	message: '警告哦，这是一条警告消息',
-			// 	type: 'warning'
-			// })
+			this.Daoshow = true
 		},
-		Close() {
-      this.DaoShow = false
-     
+		// 弹窗取消
+		close() {
+			this.Daoshow = false
+			this.loadingStatus = false
+			this.removeFile()
 		},
-		handleRemove(file, fileList) {
-			// console.log(file, fileList)
+
+		hClose() {
+			this.dialogVisible = false
+			this.isCurrent = false
 		},
-		handlePreview(file) {
-			// console.log(file)
-		},
+
 		handleClose() {
-      this.$refs.addFormRef.resetFields()
-      this.dialogVisible = false
-      this.dialogAddVisible = false
-      this.addFormData.unitName = ''
+			this.$refs.addFormRef.resetFields()
+			this.dialogAddVisible = false
+			this.addFormData.accountId = ''
 			this.addFormData.vcName = ''
-			this.addFormData.devTypeName = ''
-			this.addFormData.subName = ''
+			this.addFormData.devTypeId = ''
+			this.addFormData.subId = ''
 			this.addFormData.num = ''
 			this.addFormData.vcCode = ''
 			this.addFormData.beginTime = ''
 			this.addFormData.userId = ''
 			this.addFormData.vcLocal = ''
 			this.addFormData.vcMemo = ''
+			this.addFormData.unitId = this.unitId
 		},
 		handleSelectionChange(val) {
 			this.data = val
+		},
+
+		// 选择文件
+		handleUpload(file) {
+			// 添加文件
+			this.file = file
+			this.step = 1
+			this.isFile = true
+			return false
+		},
+		// 移除文件
+		removeFile() {
+			this.file = null
+			this.step = 0
+			this.isFile = false
+			this.loadingStatus = false
+		},
+		// 上传提交
+		upload() {
+			// 点击上传
+			if (this.isFile) {
+				if (
+					this.file.name.substring(this.file.name.length - 3) == 'xls' ||
+					this.file.name.substring(this.file.name.length - 3) == 'XLS'
+				) {
+					this.loadingStatus = true
+					this.step = 2
+					let params = new FormData() // 创建form对象
+					params.append('xfile', this.file) // 通过append向form对象添加数据
+					params.append('unitID', this.$store.getters.unitId) // 添加变电站id
+					// let config = {
+					// 	header: { 'Content-Type': 'multipart/form-data' }
+					// }
+					this.$_api.devOps.importFile(params).then(res => {
+						if (res.code == 200) {
+							this.file = null
+							this.loadingStatus = false
+							this.$Message.success({ duration: 3, content: '文件导入成功' })
+							this.Daoshow = false
+							this.searchItem()
+							this.step = 1
+						} else {
+							this.$Message.error(res.msg)
+						}
+					})
+				} else {
+					this.file = null
+					this.isFile = false
+					this.step = 0
+					this.$Message.warning('请选择.xls格式的文件')
+				}
+			} else {
+				this.$Message.warning('请选择需要导入的文件')
+			}
 		}
 	}
 }
@@ -737,6 +853,30 @@ export default {
         margin: 2.5px;
       }
 
+      .edit-btn {
+        background: url('~@fire/assets/img/seach_yellow.png') no-repeat !important;
+        background-size: 100% 100% !important;
+        border: none;
+        color: #f6ce69 !important;
+      }
+
+      .edit-btn:hover {
+        background: url('~@fire/assets/img/common/export-hover.png') no-repeat !important;
+        background-size: 100% 100% !important;
+      }
+
+      .del-btn {
+        background: url('~@fire/assets/img/common/del.png') no-repeat !important;
+        background-size: 100% 100% !important;
+        border: none;
+        color: #fff !important;
+      }
+
+      .del-btn:hover {
+        background: url('~@fire/assets/img/common/del-hover.png') no-repeat !important;
+        background-size: 100% 100% !important;
+      }
+
       .el-button {
         height: 30px;
         line-height: 6px;
@@ -774,41 +914,6 @@ export default {
     font-size: 0.7rem;
     font-weight: bold;
     margin-bottom: 20px;
-  }
-
-  .Daoshow {
-    .el-dialog {
-      height: 500px;
-      border: none;
-      background: url('../../../assets/img/dialog.png') no-repeat;
-      background-size: 100% 100%;
-
-      .el-dialog__title {
-        color: #fff;
-        font-size: 30px;
-      }
-
-      .el-dialog__close {
-        font-size: 30px;
-      }
-
-      .el-upload__tip {
-        color: #fff;
-        font-size: 25px;
-      }
-
-      .el-upload-list__item-name {
-        color: #fff;
-        font-size: 20px;
-				// background:#054598;
-      }
-			/deep/ .el-upload-list__item:hover{
-					background:#054598;
-			}
-			/deep/ .el-upload-list__item .el-icon-close{
-				color:#fff;
-			}
-    }
   }
 
   .el-dialog {
@@ -855,10 +960,14 @@ export default {
     background: #1A587F !important;
   }
 
+  /deep/ .el-input__inner {
+    border-color: #fff;
+    cursor: pointer;
+  }
+
   .el-form--inline {
     .el-input {
-      width: 180px;
-
+      // width: 180px;
       /deep/ .el-input__inner {
         border: 1px solid #0d7ec5 !important;
         background: #081e4d;
@@ -941,26 +1050,38 @@ export default {
 
   .blue-btn {
     width: 100px;
-    font-size: 18px;
+    font-size: 16px !important;
     background: url('~@fire/assets/img/seach_blue.png') no-repeat;
     background-size: 100% 100%;
     color: #45adf7;
-    margin-left: 20px;
+    margin-left: 10px;
+  }
+
+  .blue-btn:hover {
+    background: url('~@fire/assets/img/common/detail-hover.png') no-repeat !important;
+    background-size: 100% 100%!important;
   }
 
   .import-btn {
-    width: 100px;
-    color: #F6CE69;
-    background: url('~@fire/assets/img/seach_red.png') no-repeat;
-    background-size: 100% 100%;
+    border: none;
+    color: #F6CE69 !important;
+    background: url('~@fire/assets/img/seach_red.png') no-repeat !important;
+    background-size: 100% 100% !important;
   }
 
   .yellow-btn {
+    border: none;
     width: 100px;
-    color: #f6ce69;
-    background: url('~@fire/assets/img/seach_yellow.png') no-repeat;
-    background-size: 100% 100%;
-    margin-left: 20px;
+    color: #f6ce69 !important;
+    font-size: 16px !important;
+    background: url('~@fire/assets/img/seach_yellow.png') no-repeat !important;
+    background-size: 100% 100% !important;
+    margin-left: 10px;
+  }
+
+  .yellow-btn:hover {
+    background: url('~@fire/assets/img/common/export-hover.png') no-repeat !important;
+    background-size: 100% 100% !important;
   }
 
   .item-zt {
@@ -975,59 +1096,135 @@ export default {
   .taining-button button {
     font-size: 20px;
   }
-	// .dialoag{
-	// 	width:200px;
-	// 	height:40px;
-	// 	border:1px solid #333;
-	// 	position absolute;
-	// 	top:10%;
-	// 	left:50%;
-	// 	transform:translate(-50%,-50%);
-	// 	color:#fff;
-	// 	font-size:20px;
-	// 	text-align:center;
-	// 	border-radius:25%;
-		
-	// 	span{
-	// 		display:inline-block;
-	// 		margin-top:5px;
-	// 	}
-	// }
 }
 
 /deep/ .el-picker-panel {
   background-color: #1A587F !important;
 }
+
 .el-table .cell {
   padding-left: 0;
 }
-.ivu-form .ivu-form-item-label {
-  color: #fff!important;
-  
-}
-.ivu-input {
-      background-color: #081e4d!important;
-      color: #fff;
-  }
-  .el-dialog__title {
-    color: #fff;
-  }
-  .el-input__inner {
-    background-color: #081e4d!important;
-    color: #fff;
-  }
-  .el-input__prefix {
-    top: 0!important;
-    left: 0!important;
-  }
-  .ivu-modal-content {
-    // height: 160px;
-    // width: 480px;
-    // left: 800px;
-    // top: 200px;
-  }
-.ivu-modal-content {
-    // background-color: #081e4d!important;
 
+.ivu-form .ivu-form-item-label {
+  color: #fff !important;
+}
+
+.ivu-input {
+  background-color: #081e4d !important;
+  color: #fff;
+}
+
+.el-dialog__title {
+  color: #fff;
+}
+
+.el-input__inner {
+  background-color: #081e4d !important;
+  color: #fff;
+}
+
+.el-input__prefix {
+  top: 0 !important;
+  left: 0 !important;
+}
+
+.ivu-modal-content {
+  // height: 160px;
+  // width: 480px;
+  // left: 800px;
+  // top: 200px;
+}
+
+.ivu-modal-content {
+  // background-color: #081e4d!important;
+}
+
+.el-month-table td .cell {
+  color: #fff;
+}
+
+.ivu-steps-item.ivu-steps-status-wait .ivu-steps-title {
+  color: #fff !important;
+}
+
+.ivu-steps-horizontal .ivu-steps-content {
+  color: #fff !important;
+}
+
+.ivu-btn {
+  margin: 0 5px;
+}
+
+.ivu-upload-drag {
+  background: none;
+  color: #fff;
+}
+
+.upload-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .steps {
+    margin-left: 100px;
+    margin-bottom: 30px;
+  }
+
+  .up-box {
+    margin-left: 50px;
+    font-size: 16px;
+    color: #fff;
+    margin-top: 30px;
+
+    span {
+      font-size: 16px;
+      margin-top: 10px;
+      color: #fff;
+      font-weight: 700;
+      display: block;
+
+      .del {
+        float: left;
+        display: inline-block;
+        width: 30px;
+        text-align: center;
+        font-size: 18px;
+        line-height: 100%;
+        color: #2b85e4;
+        cursor: pointer;
+
+        &:hover {
+          color: #ed4014;
+        }
+      }
+    }
+  }
+
+  .btn1 {
+    width: 400px;
+    margin: 10px 10px 10px 50px;
+  }
+}
+
+.ivu-modal-content {
+  background: url('../../../assets/img/dialog.png') no-repeat !important;
+  background-size: 100% 100% !important;
+}
+
+.ivu-modal-confirm-head-title {
+  color: #fff;
+}
+
+.ivu-modal-confirm-body {
+  color: #fff;
+}
+
+.ivu-btn-text {
+  color: #fff;
+}
+
+.ivu-steps-item.ivu-steps-status-wait .ivu-steps-head-inner span, .ivu-steps-item.ivu-steps-status-wait .ivu-steps-head-inner>.ivu-steps-icon {
+  color: black !important;
 }
 </style>

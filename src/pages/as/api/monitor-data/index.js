@@ -137,7 +137,7 @@ export default {
 		})
 	},
 
-	//获取巡检任务单数据
+	//获取巡检任务单数据(net)
 	getInspectionWorkOrderData(params) {
 		return axiosNet.request({
 			url: '/as/GetAsTaskNodeByNodes',
@@ -148,7 +148,6 @@ export default {
 			data: qs.stringify(params)
 		})
 	},
-	
 	getInspectionWorkOrderDataN(params) {
 		return axiosNet.request({
 			url: '/as/GetAsTaskNodeByTree',
@@ -159,6 +158,15 @@ export default {
 			data: qs.stringify(params)
 		})
 	},
+	//获取巡检任务单数据(java)
+	CheckingIntoAticket( params ) {
+		return axios.request({
+			url: 'robot/findTicketByTaskIdOrNodeIds',
+			method: 'post',
+			data: params
+		})
+	},
+	
 	
 	//获取预置巡检数据(net)
 	getPresetInspectionInfo( params ) {

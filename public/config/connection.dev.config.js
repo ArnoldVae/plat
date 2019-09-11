@@ -3,7 +3,7 @@
  */
 var $_development = {
 	javaRequest: {
-		location: "http://172.26.1.110:8080",
+		location: "http://172.26.1.109:8080",
 		javaModule: "dsa5200"
 	},
 	netRequest: {

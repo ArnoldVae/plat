@@ -1,4 +1,5 @@
 <template>
+<!-- 任务管理 -->
 	<div class="taskManage">
 		<div class="search-bar">
 			<div class="search">
@@ -97,7 +98,7 @@
 		</div>
 		<ocx-modal
 			v-model="addTaskModal"
-			:width="1750"
+			:width="1765"
 			footer-hide
 			:title="addTaskTitle"
 			@on-cancel="closeAddTask"
@@ -145,9 +146,10 @@ export default {
 	data() {
 		return {
 			axios: this.$_api.taskManageData,
-			value: '',
-			value2: '',
-			value3: '',
+			axiosM: this.$_api.monitorData,
+			value: null,
+			value2: null,
+			value3: null,
 			taskList: [],
 			page: 1,
 			pageSize: 10,
@@ -202,7 +204,7 @@ export default {
 		this.topicArr = temp
 	},
 	mounted() {
-		this.subscribe()
+		//this.subscribe()
 		this.topicStr = this.topicArr[1]
 		this.registerListen()
 	},
@@ -283,15 +285,28 @@ export default {
 							}
 						})
 						this.taskList = res.data.lists
-            this.total = res.data.page.totlNum
-            this.page = res.data.page.currentPage
-            this.pageSize = res.data.page.pageSize
+						this.total = res.data.page.totlNum
+						this.page = res.data.page.currentPage
+						this.pageSize = res.data.page.pageSize
 						this.taskLoading = false
 					}
 				})
 				.catch(err => {
 					console.log(err)
 				})
+		},
+		getTaskAllList() {
+			let obj = {
+				unitId: this.stationId,
+				isPage: 1
+			}
+			this.axiosM.getPresetInspectionData(obj).then(res => {
+				if (res.code == 200 && res.data.length > 0) {
+					this.$store.commit('CHANGE_INSPECTIONTASKLIST', {
+						inspectionTaskList: res.data
+					})
+				}
+			})
 		},
 		//获取任务类型
 		// getTaskType() {
@@ -333,6 +348,7 @@ export default {
 			this.axios
 				.getTaskTypeOrTaskSubType(params)
 				.then(res => {
+					console.log(res)
 					this.taskSubType = res[0].dictDataList
 				})
 				.catch(err => {
@@ -487,6 +503,7 @@ export default {
 									content: '<p>删除成功</p>'
 								})
 								this.getTaskList()
+								this.getTaskAllList()
 							}
 						})
 						.catch(err => {
@@ -520,6 +537,7 @@ export default {
 										content: '<p>删除成功</p>'
 									})
 									this.getTaskList()
+									this.getTaskAllList()
 								}
 							})
 							.catch(err => {
@@ -803,26 +821,28 @@ export default {
   }
 }
 
-/deep/.ivu-modal-header {
-  background: #17579a;
-  border-radius: 10px 10px 0 0;
-}
+/deep/.ivu-modal {
+  /deep/.ivu-modal-body {
+    padding-top: 0 !important;
+    border-radius: 0 0 10px 10px;
+	background: #082051;
+	padding: 0;
+	border-radius: 0 0 10px 10px;
+  }
 
-/deep/.ivu-modal-header-inner {
-  height: 35px;
-  line-height: 35px;
-  color: #e9edf3 !important;
-  font-size: 24px;
-}
+  /deep/.ivu-modal-header {
+    padding: 7px 0 7px 35px !important;
+	background: #17579a;
+	border-radius: 10px 10px 0 0;
+	border: 0;
 
-/deep/.ivu-modal-body {
-  background: #082051;
-  padding: 0;
-  border-radius: 0 0 10px 10px;
-}
-
-/deep/.ivu-modal-close {
-  top: 15px;
+    /deep/.ivu-modal-header-inner {
+      font-size: 16px !important;
+	  height: 35px;
+	  line-height: 35px;
+	  color: #e9edf3 !important;
+    }
+  }
 }
 
 /deep/.el-table .cell {

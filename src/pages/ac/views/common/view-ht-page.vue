@@ -1,5 +1,5 @@
 <template>
-  <div class="water-soaking-customization">
+  <div class="view-ht-page">
     <div class="water-soaking-center">
       <div class="water-soaking-top"
            v-if="list.length > 1">
@@ -25,11 +25,11 @@
   </div>
 </template>
 <script>
-import htBlueprint from '../common/view-ichnography'
+import htBlueprint from './view-ichnography'
 import charts from '../main-oil/charts1'
 import { log } from 'util';
 export default {
-	name: 'water-soaking-customization',
+	name: 'view-ht-page',
 	components: {
 		htBlueprint,
 		charts
@@ -113,6 +113,10 @@ export default {
 			let index = nodes.findIndex(item => item.vcSourceId == data._tag)
 			let node = nodes[index]
 			let nodeIndex = node.devNodes.findIndex(val => val.functionCode == data.a('functionCode'))
+			if(nodeIndex == -1){
+				this.$ocxMessage.error('数据丢失！！！')
+				return
+			}
 			let devNode = node.devNodes[nodeIndex]
 			
 			this.historyModal = true
@@ -190,7 +194,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.water-soaking-customization {
+.view-ht-page {
   width: 100%;
   height: 100%;
 

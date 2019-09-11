@@ -55,7 +55,7 @@
     import subsystem from '../status-check/sub-system'
     import protectionZone from '../status-check/protection-zone'
     import testReport from './test-report'
-    import viewCheck from './view-check'
+    // import viewCheck from './view-check'
 
     export default {
         name: 'dev-ops',
@@ -65,7 +65,7 @@
             'sub-system': subsystem,
             'protection-zone': protectionZone,
             'test-report': testReport,
-            'view-check': viewCheck,
+            // 'view-check': viewCheck,
         },
         props: {
             pageType: {

@@ -165,7 +165,6 @@ export default {
 			// }
 		},
 
-
 		getNode() {
 			let params = {
 				pageId: this.blueprintObj.pageId,
@@ -190,7 +189,11 @@ export default {
 								} else if (item.icon && item.icon != '' && item.icon != 'null' && item.icon != null) {
 									node.setImage(`symbols/QIF/${item.icon}.json`)
 								} else {
-									node.setImage(item.vcPath)
+									if (item.vcPath.indexOf('ht') == 0) {
+										node.setImage(`assets/libs/${item.vcPath}`)
+									} else {
+										node.setImage(item.vcPath)
+									}
 								}
 
 								node.setTag(item.vcSourceId) //设置tag标签名称
@@ -205,6 +208,7 @@ export default {
 								node.a('i_NodeType', item.iNodeType)
 								node.a('pageId', this.pageId)
 								node.a('sort', item.iOrder)
+								node.a('functionCode', item.functionCode ? item.functionCode : null )
 								node.a('iParam1', item.iParam1)
 								node.a('iParam2', item.iParam2)
 								node.a('iParam3', item.iParam3)
@@ -247,8 +251,7 @@ export default {
 				}
 			})
 			return modeList
-		},
-		
+		}
 	}
 }
 </script>

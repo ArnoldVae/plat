@@ -16,13 +16,14 @@
         </div>
 
         <div class="fire-content">
-            <keep-alive include="systemView">
+            <keep-alive>
             <component
                     v-bind:is="current"
                     ref="fireMain"
                     @transfer="getMethod"
                     @receiveAlarm="receiveAlarm"
                     @switchWarning="switchWarning"
+                    @deleteAlarm="deleteAlarm"
             ></component>
             </keep-alive>
         </div>
@@ -156,6 +157,13 @@
                 setTimeout(() => {
                     that.$refs.fireMain.initView(val)
                 }, 100)
+            },
+            //删除条目
+            deleteAlarm(val){
+                let that=this
+                setTimeout(()=>{
+                    that.$refs.fireMain.delAlarm(val)
+                },10)
             },
             /**
              *跳转首页

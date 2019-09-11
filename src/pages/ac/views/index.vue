@@ -79,20 +79,20 @@
 					<!-- view 区域 -->
 					<div class="router-view-wrap">
 						<!-- <transition name="fade" mode="out-in"> -->
+						<!-- @hook:mounted="initDisplayMode" -->
 						<router-view
-							@hook:mounted="initDisplayMode"
 							ref="view"
 							class="view"
 							:class="{ full: typeList.length == 1 }"
 						></router-view>
 						<!-- </transition> -->
 						<div class="style">
-							<!-- v-if="currentModeList.length != 1" -->
+							<!-- v-if="currentModeInfo.length != 1" -->
 							<a-button-group v-show="buttonGroupShow">
 								<a-button
-									v-for="(mode, index) in currentModeList"
-									:key="mode.typeId"
-									@click="handleChangeDisplayMode(mode, index)"
+									v-for="(mode, index) in currentModeInfo.devTypeShowModes"
+									:key="mode.viewConfigId"
+									@click="handleChangeDisplayMode(mode, index, currentModeInfo)"
 									:icon="mode.icon"
 									:class="{ current: currentModeIndex == index }"
 								></a-button>
@@ -122,7 +122,7 @@ export default {
 			},
 			typeList: [],
 			deviceTypeMapList: [],
-			currentModeList: [],
+			currentModeInfo: [],
 			currentSystemName: '',
 			currentSystemId: null,
 			currentTypeId: null,
@@ -285,8 +285,7 @@ export default {
 			}
 		},
 		async init() {
-			this.getDeviceTypeMap()
-			await this.getDeviceTypeMap()
+			// await this.getDeviceTypeMap()
 			await this.getSubsystemByUnitId()
 
 			// 未查询到子系统，则清空设备类型
@@ -316,57 +315,105 @@ export default {
 			this.handleSelectCard(this.typeList[0])
 		},
 		getRouterNameByMap(id) {
-			let name = 'table'
+			let name = 'T1001'
 			this.deviceTypeMapList.forEach(item => {
 				if (item.typeId == id) name = item.name
 			})
 			return name
 		},
 		async handleSelectCard(item) {
+			// console.log('类型', item.devTypeId)
 			this.currentTypeId = item.devTypeId
 			// await this.getDeviceInfo()
 
 			// this.$router.push({ name: this.getRouterNameByMap(item.devTypeId) })
-			this.$router.push({ name: this.getRouterNameByMap(item.devTypeId), query: {unitId: this.$store.getters.unitId } })
+			// this.$router.push({ name: this.getRouterNameByMap(item.devTypeId), query: {unitId: this.$store.getters.unitId } })
+			this.$router.push({ name: 'type-container', query: {
+				unitId: this.$store.getters.unitId,
+				typeId: item.devTypeId
+			} })
 
 			// 更新当前路由下得显示类型列表
-			this.currentModeList = this.getDisplayModeBytypeId(item.devTypeId)
+			this.currentModeInfo = await this.getDisplayModeBytypeId(item.devTypeId)
+			// console.log('更新当前路由下得显示类型列表', this.currentModeInfo)
 
 			// 清空相关显示模型标识
 			this.currentModeIndex = 0
+
+			// ~~~
+			this.initDisplayMode()
 		},
-		// 根据typeId查询显示类型
-		getDisplayModeBytypeId(id) {
-			let modeList = []
-			this.deviceTypeMapList.forEach(item => {
-				if (item.typeId == id) {
-					modeList = item.mode
+		// 根据typeId查询显示类型参数
+		async getDisplayModeBytypeId(id) {
+			// let modeInfo = {}
+			// this.deviceTypeMapList.forEach(item => {
+			// 	if (item.typeId == id) {
+			// 		modeInfo = item
+			// 	}
+			// })
+			// return modeInfo
+
+			try {
+				let result = await this.$_api.frame.getDisplayModeBytypeId({
+					devTypeName: '',
+					devTypeId: id
+				})
+				// console.log('根据typeId查询显示类型参数', result)
+				if (result.success) {
+					return result.data.lists[0] || []
+				} else {
+					return {}
 				}
-			})
-			return modeList
+			} catch(e) {
+				return {}
+				this.$ocxMessage.error(`${e}`)
+			}
 		},
-		handleChangeDisplayMode(mode, index) {
+		handleChangeDisplayMode(mode, index, modeInfo) {
 			if (!mode) return false
 			this.currentModeIndex = index
-			this.$refs.view.current = `${this.$route.name}-${mode.name}`
+			// if (mode.vcComponent == 'table') {
+			// 	this.$refs.view.current = 'common-table'
+			// } else if (mode.vcComponent == 'viewHtWeb') {
+			// 	this.$refs.view.current = 'common-ht-web'
+			// }else if (mode.vcComponent == 'viewHtPage') {
+			// 	this.$refs.view.current = 'common-ht-page'
+			// } else {
+			this.$refs.view.current = `${mode.vcComponent}`
+			// }
 			// this.$router.push({ name: 'table' })
+		},
+		handleChangeTableMode() {
+			this.$refs.view.current = 'T1001'
 		},
 		// 初始化显示模式
 		initDisplayMode() {
-			this.handleChangeDisplayMode(this.currentModeList[0], 0)
-			/*this.rotation = setInterval(() => {
-				if (this.currentModeList && this.currentModeList.length > 0) {
-					// 如果当前第一个显示模式和组件匹配则不再执行初始化
-					if (!this.$refs.view.current) clearInterval(this.rotation)
-					if (this.$refs.view.current && this.$refs.view.current == `${this.$route.name}-${this.currentModeList[0]['name']}`) {
-						return clearInterval(this.rotation)
+			// this.handleChangeDisplayMode(this.currentModeInfo.devTypeShowModes[0], 0, this.currentModeInfo)
+			this.rotation = setInterval(() => {
+
+				// if (this.currentModeInfo && this.currentModeInfo.length > 0) {
+				// 	// 如果当前第一个显示模式和组件匹配则不再执行初始化
+				// 	if (!this.$refs.view.current) clearInterval(this.rotation)
+				// 	if (this.$refs.view.current && this.$refs.view.current == `${this.$route.name}-${this.currentModeInfo[0]['name']}`) {
+				// 		return clearInterval(this.rotation)
+				// 	}
+				// 	this.handleChangeDisplayMode(this.currentModeInfo.devTypeShowModes[0], 0, this.currentModeInfo)
+				// 	clearInterval(this.rotation)
+				// } else {
+				// 	clearInterval(this.rotation)
+				// }
+
+				if (this.$refs.view && this.$refs.view.current != undefined) {
+					// console.log('执行')
+					clearInterval(this.rotation)
+					// console.log(this.currentModeInfo.devTypeShowModes)
+					if (this.currentModeInfo.devTypeShowModes == undefined) {
+						return this.handleChangeTableMode()
 					}
-					this.handleChangeDisplayMode(this.currentModeList[0], 0)
-					clearInterval(this.rotation)
-				} else {
-					clearInterval(this.rotation)
-				}
-			}, 500)*/
+					return this.handleChangeDisplayMode(this.currentModeInfo.devTypeShowModes[0], 0, this.currentModeInfo)
+				} 
+				// console.log('轮询', this.rotation)
+			}, 100)
 		},
 		// 点击树节点
 		handleClickNode(data, node, root) {
@@ -374,7 +421,7 @@ export default {
 			if (data.type == 2) {
 				// 更新当前模块单元id
 				this.$store.commit('UPDATE_UNITID', data.id)
-				console.log(this.$store.getters.unitId)
+				// console.log(this.$store.getters.unitId)
 			}
 			
 			// 如果匹配到最根级则返回
@@ -444,6 +491,7 @@ export default {
 		next()
 	},
 	beforeRouteLeave(to, from, next) {
+		clearInterval(this.rotation)
 		next()
 	}
 }

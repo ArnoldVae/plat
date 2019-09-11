@@ -21,6 +21,40 @@ export default [
 		component: () => import('@ac/views'),
 		children: [
 			{
+				path: 'type-container',
+				name: 'type-container',
+				meta: {
+					title: '模板容器'
+				},
+				component: () => import('@ac/views/type-container')
+			},
+			{
+				path: 'table',
+				name: 'table',
+				meta: {
+					title: '表格总览'
+				},
+				component: () => import('@ac/views/common/view-table')
+			},
+			{
+				path: 'notFind',
+				name: 'notFind',
+				meta: {
+					title: '404'
+				},
+				component: () => import('@ac/views/notFind')
+			}
+		]
+	},
+	/*{
+		path: '/intelligent',
+		name: 'intelligent',
+		meta: {
+			title: '辅助综合'
+		},
+		component: () => import('@ac/views'),
+		children: [
+			{
 				path: 'notFind',
 				name: 'notFind',
 				meta: {
@@ -238,5 +272,5 @@ export default [
 				component: () => import('@ac/views/breaker')
 			}
 		]
-	}
+	}*/
 ]

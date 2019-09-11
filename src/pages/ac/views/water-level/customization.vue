@@ -416,6 +416,50 @@ export default {
 		async init() {
 			await this.getNodesInfo()
 			this.getHistoryByNodeId()
+			this.listenMqttMessage()
+		},
+		// 监听消息
+		listenMqttMessage() {
+			this.$_listen(this.$options.name, (topic, message, packet) => {
+				// 数据转换
+				let oMessage = JSON.parse(message.toString())
+				// console.log(oMessage)
+
+				// 实时数据
+				if (oMessage.cmd == '1001' && oMessage.unitid == this.$store.getters.unitId) {
+					// console.log('水位-实时数据', oMessage)
+					// 处理空调实时消息
+					this.handleRealMessage(oMessage)
+				}
+
+				// 实时报警
+				if (oMessage.cmd == '1002' && oMessage.unitid == this.$store.getters.unitId) {
+					// console.log('水位-实时报警', oMessage)
+					// 处理控制结果解析
+					// this.handleRealAlarm(oMessage)
+				}
+			})
+		},
+		handleRealMessage(msg) {
+			this.tableData.forEach(deviceNode => {
+				if (msg.nodeid == deviceNode.NodeID) {
+					deviceNode.f_Value = msg.value
+					deviceNode.desc = msg.desc
+				}
+				// 如果是当前展示的节点曲线 则更新
+				if (msg.nodeid == this.nodeId) {
+					this.getHistoryByNodeId()
+				}
+			})
+		},
+		handleRealAlarm(msg) {
+			this.tableData.forEach(deviceNode => {
+				if (msg.nodeid == deviceNode.NodeID) {
+					deviceNode.f_Value = msg.value
+					deviceNode.desc = msg.desc
+					deviceNode.i_AlarmLevel = msg.level
+				}
+			})
 		}
 	},
 	beforeRouteEnter(to, from, next) {

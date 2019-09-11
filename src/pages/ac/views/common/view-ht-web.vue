@@ -1,5 +1,5 @@
 <template>
-  <div class="arrester-monitor-htcustomization">
+  <div class="view-ht-web">
     <div class="top"
          v-if="htUrl.length > 1">
       <span v-for="(item, index) in htUrl"
@@ -23,7 +23,7 @@ import { log } from 'util'
 import { setTimeout } from 'timers'
 import { constants } from 'crypto'
 export default {
-	name: 'arrester-monitor-htcustomization',
+	name: 'view-ht-web',
 	components: { charts },
 	props: {},
 	data() {
@@ -376,7 +376,7 @@ export default {
 }
 </script>
 <style lang='stylus' scoped>
-.arrester-monitor-htcustomization {
+.view-ht-web {
   width: calc(100% - 20px);
   height: 100%;
   background: url('~@/assets/img/common/bg-border.png') no-repeat;

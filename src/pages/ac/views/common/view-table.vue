@@ -195,6 +195,9 @@ export default {
 		},*/
 		activeDeviceTypeId() {
 			return findComponentUpward(this, 'intelligent').currentTypeId
+		},
+		activeUnitId() {
+			return this.$store.getters.unitId
 		}
 	},
 	filters: {
@@ -241,6 +244,13 @@ export default {
 			handler() {
 				// 更新历史数据
 			}
+		},
+		activeUnitId: {
+			handler(val) {
+				this.currentPage = 1
+				this.getDeviceInfo()
+			},
+			// immediate: true
 		}
 	},
 	created() {

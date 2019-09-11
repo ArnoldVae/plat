@@ -18,24 +18,41 @@
 									>
 										<!-- <div :class="item.i_Status == 70140001? 'checkedInspectionStatus1': 'checkedInspectionStatus2'"></div> -->
 										<!-- <p>{{ item.vc_Name }}</p> -->
-										<div :class="item.intStatus == 70140001? 'checkedInspectionStatus1': 'checkedInspectionStatus2'"></div>
-										<p>{{item.taskName}}</p>
+										<div
+											:class="
+												item.intStatus == 70140001
+													? 'checkedInspectionStatus1'
+													: 'checkedInspectionStatus2'
+											"
+										></div>
+										<p>{{ item.taskName }}</p>
 									</li>
 								</ul>
 							</div>
 							<div class="left-bottom-btn">
 								<input type="button" value="新增任务" class="bottom-btn" @click="addTaskClick" />
-								<input type="button" value="巡检成票" class="bottom-btn" @click="inspectionAticketBtn" />
-								<input type="button" value="执行任务" class="bottom-btn" @click="executeTaskClick('start')" />
-								<input type="button" value="停止任务" class="bottom-btn" @click="executeTaskClick('stop')" />
+								<input
+									type="button"
+									value="巡检成票"
+									class="bottom-btn"
+									@click="inspectionAticketBtn"
+								/>
+								<input
+									type="button"
+									value="执行任务"
+									class="bottom-btn"
+									@click="executeTaskClick('start')"
+								/>
+								<input
+									type="button"
+									value="停止任务"
+									class="bottom-btn"
+									@click="executeTaskClick('stop')"
+								/>
 							</div>
 							<div class="left-bottom-state">
-								<p>
-									<i></i>正在执行
-								</p>
-								<p>
-									<i></i>未执行
-								</p>
+								<p><i></i>正在执行</p>
+								<p><i></i>未执行</p>
 							</div>
 						</div>
 						<div class="content-right">
@@ -57,7 +74,7 @@
 										<Progress :percent="percentage" stroke-color="#00c6ff" />
 										<span>
 											本次巡检共包含目标{{ inspectionTarget }}个,已完成{{ finishNum }}个，剩余{{
-											residueNum
+												residueNum
 											}}个
 										</span>
 									</div>
@@ -75,9 +92,24 @@
 											fontWeight: 500
 										}"
 									>
-										<el-table-column prop="area" label="区域" align="center" width="80"></el-table-column>
-										<el-table-column prop="interval" label="间隔" align="center" width="80"></el-table-column>
-										<el-table-column prop="dev" label="设备" align="center" width="110"></el-table-column>
+										<el-table-column
+											prop="area"
+											label="区域"
+											align="center"
+											width="80"
+										></el-table-column>
+										<el-table-column
+											prop="interValue"
+											label="间隔"
+											align="center"
+											width="80"
+										></el-table-column>
+										<el-table-column
+											prop="dev"
+											label="设备"
+											align="center"
+											width="110"
+										></el-table-column>
 										<el-table-column prop="node" label="巡检点位" align="center"></el-table-column>
 										<el-table-column
 											v-for="(item, index) in workOrderTableHeaderData"
@@ -91,7 +123,7 @@
 													src="../../assets/img/common/dui.png"
 													alt
 													style="width: 15px;height: 15px;"
-													v-if="handelCheck(scope.row.robotIDS, item.robotID)"
+													v-if="handelCheck(scope.row.robotIds, item.id)"
 												/>
 											</template>
 										</el-table-column>
@@ -137,10 +169,29 @@
 												:header-cell-style="tableHeaderColor"
 												@row-click="handleTimeInfoModal"
 											>
-												<el-table-column prop="time" label="时间" align="center" width="190"></el-table-column>
-												<el-table-column prop="tasksresult.nodefullname" label="点位" align="center"></el-table-column>
-												<el-table-column prop="tasksresult.source" align="center" label="数据来源" width="150"></el-table-column>
-												<el-table-column prop="tasksresult.result" align="center" label="识别结果" width="150"></el-table-column>
+												<el-table-column
+													prop="time"
+													label="时间"
+													align="center"
+													width="190"
+												></el-table-column>
+												<el-table-column
+													prop="tasksresult.nodefullname"
+													label="点位"
+													align="center"
+												></el-table-column>
+												<el-table-column
+													prop="tasksresult.source"
+													align="center"
+													label="数据来源"
+													width="150"
+												></el-table-column>
+												<el-table-column
+													prop="tasksresult.result"
+													align="center"
+													label="识别结果"
+													width="150"
+												></el-table-column>
 											</el-table>
 										</div>
 									</Tab-pane>
@@ -156,11 +207,35 @@
 												:header-cell-style="tableHeaderColor"
 												@row-click="handleAlarmModal"
 											>
-												<el-table-column prop="time" label="时间" align="center" width="190"></el-table-column>
-												<el-table-column prop="tasksresult.nodefullname" label="点位" align="center"></el-table-column>
-												<el-table-column prop="tasksresult.source" align="center" label="数据来源" width="150"></el-table-column>
-												<el-table-column prop="tasksresult.result" align="center" label="识别结果" width="150"></el-table-column>
-												<el-table-column prop="tasksresult.alarmlevel" align="center" label="报警等级" width="120"></el-table-column>
+												<el-table-column
+													prop="time"
+													label="时间"
+													align="center"
+													width="190"
+												></el-table-column>
+												<el-table-column
+													prop="tasksresult.nodefullname"
+													label="点位"
+													align="center"
+												></el-table-column>
+												<el-table-column
+													prop="tasksresult.source"
+													align="center"
+													label="数据来源"
+													width="150"
+												></el-table-column>
+												<el-table-column
+													prop="tasksresult.result"
+													align="center"
+													label="识别结果"
+													width="150"
+												></el-table-column>
+												<el-table-column
+													prop="tasksresult.alarmlevel"
+													align="center"
+													label="报警等级"
+													width="120"
+												></el-table-column>
 											</el-table>
 										</div>
 									</Tab-pane>
@@ -177,7 +252,8 @@
 									:key="index"
 									:class="tabIdx === index ? 'spanActive' : ''"
 									@click="selectTab(item, index)"
-								>{{ item.vcName }}</span>
+									>{{ item.vcName }}</span
+								>
 							</el-scrollbar>
 						</div>
 						<div class="videoBox">
@@ -221,14 +297,12 @@
 												:class="{
 													'robot-out': item.vcName.substr(0, 2) == '室外',
 													'robot-in': item.vcName.substr(0, 2) == '室内',
-													'hvideo': item.vcName.substr(0, 2) == '高清'
+													hvideo: item.vcName.substr(0, 2) == '高清'
 												}"
 											></i>
 											<p>{{ item.vcName }}</p>
 											<span :class="{ yellow: item.statusName == null }">
-												{{
-												item.statusName == null ? '停止' : item.statusName
-												}}
+												{{ item.statusName == null ? '停止' : item.statusName }}
 											</span>
 										</div>
 									</div>
@@ -241,35 +315,40 @@
 		</div>
 
 		<!-- 实时报警 -->
-		<ocx-modal v-model="alarmRecordFlag" :width="1600" footer-hide :styles="{ top: '0' }">
+		<ocx-modal v-model="alarmRecordFlag" title="报警信息" :width="1020" footer-hide :styles="{ top: '0' }">
 			<div class="alarm-detail">
-				<div class="img">
+				<div class="result">
+					识别结果：<span>{{ alarmResult }}</span>
+				</div>
+				<div :class="alarmPicUrl2.length > 0 ? 'imgBox2' : 'imgBox'" ref="imgBox">
 					<!-- <img class="img-content" :src="alarmPicUrl" alt /> -->
 					<vue-photo-zoom-pro
 						class="img-content"
-						v-if="alarmPicUrl1.length > 0"
+						v-show="alarmPicUrl1.length > 0"
 						:url="alarmPicUrl1"
 						type="circle"
 						:width="400"
 					></vue-photo-zoom-pro>
 					<vue-photo-zoom-pro
 						class="img-content"
-						v-if="alarmPicUrl2.length > 0"
+						v-show="alarmPicUrl2.length > 0"
 						:url="alarmPicUrl2"
 						type="circle"
 						:width="400"
 					></vue-photo-zoom-pro>
 				</div>
-				<div class="result">识别结果:{{ alarmResult }}</div>
 				<div class="btn-group">
-					<input type="button" class="btn confirm" value="确定" @click="closeModal" />
-					<input type="button" class="btn cancel" value="取消" @click="closeModal" />
+					<input type="button" class="btn" value="确定" @click="closeModal" />
+					<input type="button" class="btn" value="取消" @click="closeModal" />
 				</div>
 			</div>
 		</ocx-modal>
 		<!-- 实时信息 -->
-		<ocx-modal v-model="timeInfoFlag" :width="1600" footer-hide :styles="{ top: '0' }">
+		<ocx-modal v-model="timeInfoFlag" title="实时信息详情" :width="1600" footer-hide :styles="{ top: '0' }">
 			<div class="alarm-detail">
+				<div class="result">
+					识别结果：<span>{{ timeInfoResult }}</span>
+				</div>
 				<div class="img">
 					<!-- <img class="img-content" :src="timeInfoPicUrl" alt /> -->
 					<vue-photo-zoom-pro
@@ -287,8 +366,6 @@
 						:width="400"
 					></vue-photo-zoom-pro>
 				</div>
-
-				<div class="result">识别结果:{{ timeInfoResult }}</div>
 				<div class="btn-group">
 					<input type="button" class="btn confirm" value="确定" @click="closeModal" />
 					<input type="button" class="btn cancel" value="取消" @click="closeModal" />
@@ -342,787 +419,837 @@ import taskOrder from '../common/task-order.vue'
 import inspectionTaskList from '../common/inspectionTaskList.vue'
 import qs from 'qs'
 export default {
-  name: 'monitor',
-  props: {},
-  data() {
-    return {
-      axios: this.$_api.monitorData,
-      // 任务相关
-      currentTaskInfo: null, // 当前活动的 任务
-      topicArr: ['qif/xj/app/control/', 'qif/xj/app/data/'], //控制命令，任务上报
-      topicStr: '',
-      msg: '',
-      alarmRecordFlag: false, //实时报警弹框开关
-      timeInfoFlag: false, //实时信息弹框开关
-      realTimeInfo: [], //实时信息列表
-      alarmTable: [],
-      // 保存stationId
-      stationId: this.$store.getters.stationId,
-      // 视频tab头
-      tabIdx: -1,
-      tableList: [],
-      tabFirstData: [],
-      video1: {
-        deviceInfo: '2|22.46.34.114:37779|admin:admin123|22',
-        isAutoPlay: false,
-        serviceInfo: '1$22.46.34.114$6801$admin$admin',
-        hideTool: true
-      },
-      video2: {
-        deviceInfo: '2|22.46.34.114:37779|admin:admin123|21',
-        isAutoPlay: false,
-        serviceInfo: '1$22.46.34.114$6801$admin$admin',
-        hideTool: true
-      },
-      defaultProps: {
-        children: 'children',
-        label: 'vcName'
-      },
-      temperature: '', //温度
-      humidity: '', //湿度
-      windSpeed: '', //风速
-      inspectionAticket: false, //巡检成票弹框开关
-      isLoading: false,
-      alarmPicUrl1: '', //报警图片地址
-      alarmPicUrl2: '',
-      alarmResult: '', //报警识别结果
-      timeInfoPicUrl1: '', //实时信息图片地址
-      timeInfoPicUrl2: '',
-      timeInfoResult: '', //实时信息识别结果
+	name: 'monitor',
+	props: {},
+	data() {
+		return {
+			axios: this.$_api.monitorData,
+			// 任务相关
+			currentTaskInfo: null, // 当前活动的 任务
+			topicArr: [`qif/xj/app/control/`, `qif/xj/app/data/`], //控制命令，任务上报
+			topicStr: '',
+			msg: '',
+			alarmRecordFlag: false, //实时报警弹框开关
+			timeInfoFlag: false, //实时信息弹框开关
+			realTimeInfo: [], //实时信息列表
+			alarmTable: [],
+			// 保存stationId
+			stationId: this.$store.getters.stationId,
+			// 视频tab头
+			tabIdx: -1,
+			tableList: [],
+			tabFirstData: [],
+			video1: {
+				deviceInfo: '2|22.46.34.114:37779|admin:admin123|22',
+				isAutoPlay: false,
+				serviceInfo: '1$22.46.34.114$6801$admin$admin',
+				hideTool: true
+			},
+			video2: {
+				deviceInfo: '2|22.46.34.114:37779|admin:admin123|21',
+				isAutoPlay: false,
+				serviceInfo: '1$22.46.34.114$6801$admin$admin',
+				hideTool: true
+			},
+			defaultProps: {
+				children: 'children',
+				label: 'vcName'
+			},
+			temperature: '', //温度
+			humidity: '', //湿度
+			windSpeed: '', //风速
+			inspectionAticket: false, //巡检成票弹框开关
+			isLoading: false,
+			alarmPicUrl1: '', //报警图片地址
+			alarmPicUrl2: '',
+			alarmResult: '', //报警识别结果
+			timeInfoPicUrl1: '', //实时信息图片地址
+			timeInfoPicUrl2: '',
+			timeInfoResult: '', //实时信息识别结果
 
-      //预置巡检数组
-      presetInspectionArr: [],
-      recordIndex: 0,
-      affirmTicket: false, //巡检成票确认
-      presetInspectionTaskId: '', //任务id
+			//预置巡检数组
+			presetInspectionArr: [],
+			recordIndex: 0,
+			affirmTicket: false, //巡检成票确认
+			presetInspectionTaskId: '', //任务id
 
-      //巡检总览、任务单相关
-      currentTab: 'inspectionPandect',
-      tabsDisable: true, //初始化时巡检任务单不可点
-      workOrderTableHeaderData: [], //巡检任务单表头
-      inspectionTaskTableDataAll: [], //巡检任务单表所有数据
-      inspectionTaskTableData: [], //巡检任务单表数据
-      inspectionTaskTableDataLoad: false, //巡检任务单loading
-      inspectionTarget: 0, //巡检目标总数
-      finishNum: 0, //完成数量
-      residueNum: 0, //剩余数量
-      percentage: 0, //已完成百分比
-      totalNum: 0, //数据所有条数
-      pageSize: 10, //每页条数
-      pageNum: 1, //当前页
-      //signForm: false,//页面巡检成票标记
+			//巡检总览、任务单相关
+			currentTab: 'inspectionPandect',
+			tabsDisable: true, //初始化时巡检任务单不可点
+			workOrderTableHeaderData: [], //巡检任务单表头
+			inspectionTaskTableDataAll: [], //巡检任务单表所有数据
+			inspectionTaskTableData: [], //巡检任务单表数据
+			inspectionTaskTableDataLoad: false, //巡检任务单loading
+			inspectionTarget: 0, //巡检目标总数
+			finishNum: 0, //完成数量
+			residueNum: 0, //剩余数量
+			percentage: 0, //已完成百分比
+			totalNum: 0, //数据所有条数
+			pageSize: 10, //每页条数
+			pageNum: 1, //当前页
+			//signForm: false,//页面巡检成票标记
 
-      //ocx
-      ocxTimer:null, //切换模块时，ocx的渲染添加定时器
-      showVideo: true, //用于切换模块时，控制视频的渲染，防止黑屏的问题
+			//ocx
+			ocxTimer: null, //切换模块时，ocx的渲染添加定时器
+			showVideo: true, //用于切换模块时，控制视频的渲染，防止黑屏的问题
 
-      //新增任务相关
-      addTask: false,
-      addTaskNext: false,
-      inspectionTaskListLoading: false,
-      modalWorkOrderTableHeaderData: [],
-      modalInspectionTaskTableData: [],
-      addTaskNodesArr: [],
-      isActiveTask: false, //是否点击执行任务
-      addTaskTitle: '新增任务',
-      inspectionTaskFormTitle: '巡检任务单',
-      addTaskLoadingText: '正在生成巡检任务单',
-      name: 'info',
-      alarmCount: 0,
-      label: h => {
-        return h('div', [h('span', '设备报警'), h('i', '(' + this.alarmCount + ')')])
-      },
-
-    }
-  },
-  computed: {},
-  filters: {},
-  watch: {
-    pageSize() {
-      this.inspectionTaskTableData = this.inspectionTaskTableDataAll.slice(0, this.pageSize)
-    },
-    stationId() {
-      this.getTabs()
-      this.getStationInfo()
-      this.getPresetInspectionData()
-    }
-  },
-  components: {
-    cvideo,
-    monitorCurrent,
-    inspectionTaskList,
-    taskOrder
-  },
-  created() {
-    this.getTabs()
-    this.getStationInfo()
-    //获取预置巡检数据
-    this.getPresetInspectionData()
-    // this.topicArr.forEach(item=>{
-    // 	item = item + this.stationId;
-    // })
-    let temp = []
-    this.topicArr.forEach(item => {
-      temp.push(item + this.stationId)
-    })
-    this.topicArr = temp
-  },
-  mounted() {
-    this.subscribe()
-    this.topicStr = this.topicArr[1]
-    this.registerListen()
-  },
-  activated() {
-    //使用keep-alive之后，activated和deactivated会被触发，destory不会被触发
-    //重新添加回调事件
-    this.registerListen()
-    clearTimeout(this.ocxTimer);
-    
-    //为了防止切换时，视频打不开，导致卡顿，无法立即切换，添加定时器，在页面切换成功之后，再显示视频
-    this.ocxTimer = setTimeout(() => {
-      this.showVideo = true
-    }, 500);
-  },
-  deactivated() {
-    //取消回调事件
-    this.$_stop('inspectionmonitor')
-    this.showVideo = false
-  },
-  update() {
-    console.log('ipdate')
-  },
-  methods: {
-    registerListen() {
-      this.$_listen('inspectionmonitor', (topic, message, packet) => {
-        let data = ''
-        let dataObj = []
-        data = message.toString()
-        let msgData = JSON.parse(data)
-        console.log(msgData)
-        if (topic == this.topicStr) {
-          //巡检结果
-          if (msgData.cmd === 2104) {
-            msgData.time = moment(msgData.time * 1000).format('YYYY-MM-DD HH:mm:ss')
-            this.getNodeIdData(msgData.tasksresult.nodeid, msgData.tasksresult.alarmlevel)
-
-            this.finishNum = parseInt(++this.finishNum)
-            this.residueNum = parseInt(this.inspectionTarget - this.finishNum)
-            this.finishNum = parseInt(this.finishNum)
-            this.inspectionTarget = parseInt(this.inspectionTarget)
-            this.percentage = parseFloat(((this.finishNum / this.inspectionTarget) * 100).toFixed(2))
-            msgData.tasksresult.result =
-              msgData.tasksresult.result === '' ? msgData.tasksresult.fdata : msgData.tasksresult.result
-
-            if (msgData.tasksresult.alarmlevel > 0) {
-              if (msgData.tasksresult.alarmlevel === 1) {
-                msgData.tasksresult.alarmlevel = '一般报警'
-              } else if (msgData.tasksresult.alarmlevel === 2) {
-                msgData.tasksresult.alarmlevel = '严重报警'
-              } else {
-                msgData.tasksresult.alarmlevel = '危急报警'
-              }
-              this.alarmTable.unshift(msgData)
-              this.name = 'alarm'
-              this.alarmCount++
-
-              // 如果长度超过一百 就删除最初的一个数据
-              if (this.alarmTable.length > 100) {
-                this.alarmTable.shift()
-              }
-            } else {
-              this.realTimeInfo.unshift(msgData)
-              // 如果长度超过一百 就删除最初的一个数据
-              if (this.realTimeInfo.length > 100) {
-                this.realTimeInfo.shift()
-              }
-            }
-          } else if (msgData.cmd === 2203) {
-            //增加任务回复
-            this.inspectionTaskListLoading = true
-            this.addTaskNext = false
-            this.getPresetInspectionData()
-            this.addTaskLoadingText = '正在生成巡检任务单'
-          } else if (msgData.cmd === 2103) {
-            //巡检进度，切换视频
-            let robotIndex = -1
-            this.tableList.forEach((item, index) => {
-              if (item.robotId === msgData.taskrate.robotid) {
-                robotIndex = index
-              }
-            })
-
-            if (robotIndex === this.tabIdx) {
-              //当前选中的机器人与实时数据想通过时，才切换视频
-              if (msgData.taskrate.normalvideoid != '') {
-                this.video1.deviceInfo = msgData.taskrate.normalvideoid
-              }
-              if (msgData.taskrate.infravideoid != '') {
-                this.video2.deviceInfo = msgData.taskrate.infravideoid
-              }
-            }
-          } else if (msgData.cmd === 2101) {
-            //机器人状态
-            this.tableList.map(item => {
-              if (
-                item.robotId == msgData.robotstatus.robotid &&
-                item.serviceId === msgData.robotstatus.serviceid
-              ) {
-                console.log(item, msgData.robotstatus)
-                item.statusName = msgData.robotstatus.status
-              }
-            })
-          } else if (msgData.cmd === 2102) {
-            //任务状态
-            this.presetInspectionArr.map(item => {
-				if (item.taskId === msgData.taskstatus.taskid) {
-				  item.intStatus = msgData.taskstatus.status
-				}
-              /* if (item.taskID === msgData.taskstatus.taskid) {
-                item.i_Status = msgData.taskstatus.status
-              } */
-            })
-          } else if (msgData.cmd === 2205) {
-            //任务控制回复
-            this.$ocxMessage.success({
-              content: '任务下发成功',
-              duration: 5
-            })
-          }
-        }
-      })
-    },
-    //页面 巡检任务单 测点推送
-    getNodeIdData(nodeid, alarmlevel) {
-      if (nodeid) {
-        if (this.$refs['inspecAticketTable']) {
-          let index = this.inspectionTaskTableDataAll.findIndex(node => {
-            return node.nodeID == nodeid
-          })
-          if (index === -1) {
-            return
-          }
-          let pages = parseInt(index / this.pageSize) + 1
-          this.handleChangePage(pages, nodeid, alarmlevel)
-
-          let num = this.inspectionTaskTableData.findIndex(node => {
-            return node.nodeID == nodeid
-          })
-          this.$nextTick(() => {
-            let targetTr = document.querySelectorAll('#ticketTableScroll .el-table__body-wrapper tr')[num]
-            //console.log(num)
-            let targetTable = document.querySelector('#ticketTableScroll .el-table__body-wrapper')
-            if (targetTr && targetTable) {
-              targetTable.scrollTop = targetTr.offsetTop
-            }
-          })
-        }
-      }
-    },
-    //分页操作
-    handleChangePage(page, nodeid, alarmlevel) {
-      //console.log( page )
-      this.pageNum = page
-
-      let brr = this.inspectionTaskTableDataAll.slice(
-        (page - 1) * this.pageSize,
-        (page - 1) * this.pageSize + this.pageSize
-      )
-      brr.forEach(item => {
-        if (nodeid == item.nodeID) {
-          if (alarmlevel == 0) {
-            this.$set(item, 'status', '0')
-          } else if (alarmlevel > 0) {
-            this.$set(item, 'status', '1')
-          }
-        }
-      })
-      this.inspectionTaskTableData = brr
-    },
-    getTableDataArr() {
-      this.inspectionTaskListLoading = false
-    },
-    taskNodesDataArr(arr) {
-      this.addTaskNodesArr = arr
-    },
-    //点击新增任务
-    addTaskClick() {
-      this.addTask = true
-      this.$refs.taskOrder.getStaticTreeData('', '', '', '', '')
-    },
-    //关闭新增任务弹框
-    closeAddTask() {
-      //this.$refs.taskOrder.clearFilter()
-      this.addTask = false
-    },
-    //点击新增任务弹框的 巡检成票 按钮
-    inspectionAticketClick(arr) {
-      this.addTaskNodesArr = []
-
-      this.addTask = false
-      this.addTaskNext = true
-      let addInfos = {
-        IsThread: true,
-        Nodes: arr.join(',')
-      }
-      this.inspectionTaskListLoading = true
-      this.$refs.inspectionTaskList.getTableDataAll(addInfos)
-    },
-    //新增任务 上一步 按钮
-    lastStepClick() {
-      this.addTaskNext = false
-      this.addTask = true
-    },
-    //新增任务 生成任务 按钮
-    saveClick(name) {
-      this.addTaskLoadingText = '正在生成任务...'
-      this.inspectionTaskListLoading = true
-      let obj = {
-        cmd: 2202,
-        type: 'req',
-        srcid: '',
-        destid: '',
-        serial: '',
-        time: '',
-        task: {
-          unitid: this.stationId,
-          name: name,
-          tasktype: '70100004',
-          tasksubtype: '70110008',
-          executetype: '70120100',
-          executetime: '0000',
-          startdate: '0000',
-          stopdate: '0000',
-          userid: '',
-          tasknode: this.addTaskNodesArr
-        }
-      }
-      obj.time = new Date().valueOf()
-      this.$_mqtt.publish(this.topicArr[0], JSON.stringify(obj))
-    },
-    //关闭新增任务 巡检成票 弹框
-    closeAddTaskNext() {
-      this.addTaskNext = false
-      this.modalInspectionTaskTableData = []
-      this.modalWorkOrderTableHeaderData = []
-      this.$refs.taskOrder.clearFilter()
-    },
-    //点击左侧 巡检成票
-    inspectionAticketBtn() {
-      //判断是否执行
-      // this.affirmTicket = true
-      if (this.presetInspectionTaskId == '') {
-        this.$ocxModal.confirm({
-          title: '确认',
-          content: '请选择巡检任务'
-        })
-      } else {
-        this.$ocxModal.confirm({
-          title: '确认',
-          content: '是否执行巡检成票？',
-          onOk: () => {
-            // this.signForm = true
-            this.affirmTicketYes()
-          }
-        })
-      }
-    },
-    //执行左侧 巡检成票
-    affirmTicketYes() {
-      if (this.presetInspectionTaskId == '') {
-        return
-      } else {
-        this.currentTab = 'inspectionTask'
-        this.affirmTicket = false
-        this.inspectionTaskTableDataLoad = true
-        //let infos = `TaskID=${this.presetInspectionTaskId}&UnitID=${this.stationId}`
-        // let infos = qs.stringify({
-        // 	TaskID: this.presetInspectionTaskId,
-        // 	UnitID: this.stationId
-        // })
-        let infos = {
-          TaskID: this.presetInspectionTaskId,
-          UnitID: this.stationId
-        }
-		this.workOrderTableHeaderData = []
-		this.inspectionTaskTableDataAll = []
-        this.axios.getInspectionWorkOrderDataN(infos).then(res => {
-          if (res.success) {
-            this.tabsDisable = false
-            this.workOrderTableHeaderData = res.data.asRobots
-            this.inspectionTaskTableDataAll = res.data.asTaskNodes
-            this.inspectionTaskTableData = res.data.asTaskNodes.slice(0, this.pageSize)
-
-            this.inspectionTarget = res.data.asTaskNodes.length
-            this.finishNum = 0
-            this.residueNum = res.data.asTaskNodes.length
-            this.percentage = 0
-
-            this.totalNum = res.data.asTaskNodes.length
-            this.pageNum = 1
-            this.inspectionTaskTableDataLoad = false
-          }
-        })
-      }
-    },
-    //不执行左侧 巡检成票
-    affirmTicketNo() {
-      this.affirmTicket = false
-    },
-    inspectionTaskHeaderText(info) {
-      let str = ''
-      let startTop = info.r_vc_Name.substr(0, 2)
-      let stopTop = info.r_vc_Name.substr(2)
-      if (info.r_vc_Name.length > 3) {
-        return (str = `${startTop} \n ${stopTop} \n (${info.count})`)
-      } else {
-        return (str = `${info.r_vc_Name} \n (${info.count})`)
-      }
-    },
-    //巡检任务单勾选功能
-    handelCheck(arr, id) {
-      if (arr.indexOf(id) == 0) {
-        return true
-      }
-    },
-    //获取预置巡检数据
-    getPresetInspectionData() {
-		//java
-		let obj = {
-		  unitId: this.stationId,
-		  isPage: 1
+			//新增任务相关
+			addTask: false,
+			addTaskNext: false,
+			inspectionTaskListLoading: false,
+			modalWorkOrderTableHeaderData: [],
+			modalInspectionTaskTableData: [],
+			addTaskNodesArr: [],
+			isActiveTask: false, //是否点击执行任务
+			addTaskTitle: '新增任务',
+			inspectionTaskFormTitle: '巡检任务单',
+			addTaskLoadingText: '正在生成巡检任务单',
+			name: 'info',
+			alarmCount: 0,
+			label: h => {
+				return h('div', [h('span', '设备报警'), h('i', '(' + this.alarmCount + ')')])
+			}
 		}
-		this.axios.getPresetInspectionData(obj).then(res => {
-		  if (res.code == 200 && res.data.length > 0) {
-		    this.presetInspectionArr = res.data
-		    this.presetInspectionTaskId = res.data[0].taskId
-		  }
+	},
+	computed: {
+		globalTasks() {
+			return this.$store.getters.inspectionTaskList
+		}
+	},
+	filters: {},
+	watch: {
+		pageSize() {
+			this.inspectionTaskTableData = this.inspectionTaskTableDataAll.slice(0, this.pageSize)
+		},
+		stationId() {
+			this.getTabs()
+			this.getStationInfo()
+			this.getPresetInspectionData()
+		},
+		globalTasks() {
+			this.presetInspectionArr = this.globalTasks
+		}
+	},
+	components: {
+		cvideo,
+		monitorCurrent,
+		inspectionTaskList,
+		taskOrder
+	},
+	created() {
+		this.getTabs()
+		this.getStationInfo()
+		//获取预置巡检数据
+		this.getPresetInspectionData()
+		// this.topicArr.forEach(item=>{
+		// 	item = item + this.stationId;
+		// })
+		let temp = []
+		this.topicArr.forEach(item => {
+			temp.push(item + this.stationId)
 		})
-		
-      //(net)
-	  /* let str = {
-        UnitID: this.stationId,
-        isThread: true
-      }
-      this.axios.getPresetInspectionInfo(str).then(res => {
-        if (res.success && res.data.rows.length > 0) {
-          this.presetInspectionArr = res.data.rows
-          this.presetInspectionTaskId = res.data.rows[0].taskID
-        }
-      }) */
-    },
-    //点击预置巡检
-    handelInspecClick(info, index) {
-      this.recordIndex = index
-		//console.log(info)
-		//this.presetInspectionTaskId = info.taskID
-		this.presetInspectionTaskId = info.taskId
-    },
+		this.topicArr = temp
+	},
+	mounted() {
+		//this.subscribe()
+		this.topicStr = this.topicArr[1]
+		this.registerListen()
+	},
+	activated() {
+		//使用keep-alive之后，activated和deactivated会被触发，destory不会被触发
+		//重新添加回调事件
+		this.registerListen()
+		clearTimeout(this.ocxTimer)
 
-    //获取设备ID
-    getDevIdFromHt(devId) {
-      if (devId) {
-        this.devOrInspec = true
-        this.inspectionAticket = true
-        if (this.$refs['inspecAticketTable']) {
-          let targetTrIndex = this.inspectionAticketData.findIndex(node => {
-            return node.devId == devIds
-          })
-          this.$nextTick(() => {
-            let targetTr = document.querySelectorAll('#ticketTables .el-table__body-wrapper tr')[targetTrIndex]
-            //console.log(targetTr)
-            let targetTable = document.querySelector('#ticketTables .el-table__body-wrapper')
-            if (targetTr && targetTable) {
-				targetTable.scrollTop = targetTr.offsetTop
-            }
-          })
-        }
-      }
-    },
-    _forEach: function (data, isTrue, callback) {
-      var arr = []
-      for (var i = 0; i < data.length; i++) {
-        arr.push(data[i])
-      }
-      while (arr.length) {
-        var _p = arr.shift()
-        if (callback(_p) == false) {
-          return
-        }
-        if (isTrue && _p.children) {
-          for (var j = _p.children.length - 1; j >= 0; j--) {
-            arr.unshift(_p.children[j])
-          }
-        }
-      }
-    },
-    subscribe() {
-      if (this.$_mqtt.connected) {
-        this.$_mqtt.unsubscribe(this.topicArr, err => {
-          if (err) {
-            console.log('取消MQTT订阅失败')
-          } else {
-            console.log('取消MQTT订阅成功')
-            this.$_mqtt.subscribe(this.topicArr, err => {
-              if (err) {
-                console.log('订阅失败!')
-              } else {
-                console.log('订阅成功!')
-              }
-            })
-          }
-        })
-      } else {
-        console.log('MQTT连接失败')
-      }
-    },
-    unsubscribe(callback) {
-      // this.$_mqtt.end()
-      this.$_mqtt.unsubscribe(this.topicArr, err => {
-        if (err) {
-          console.log('取消MQTT订阅失败')
-        } else {
-          console.log('取消MQTT订阅成功')
-          callback()
-        }
-      })
-    },
-    //合并单元格的方法
-    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      //console.log( row )
-      if (columnIndex === 0) {
-        const _row = this.desData('mainArea', this.inspectionTaskTableData)[rowIndex]
-        const _col = _row > 0 ? 1 : 0
-        return {
-          rowspan: _row,
-          colspan: _col
-        }
-      }
-      if (columnIndex === 1) {
-        const _row = this.desData('subArea', this.inspectionTaskTableData)[rowIndex]
-        const _col = _row > 0 ? 1 : 0
-        return {
-          rowspan: _row,
-          colspan: _col
-        }
-      }
-      if (columnIndex == 2) {
-        const _row = this.desData('devName', this.inspectionTaskTableData)[rowIndex]
-        const _col = _row > 0 ? 1 : 0
-        return {
-          rowspan: _row,
-          colspan: _col
-        }
-      }
-    },
-    // 核心处理 数据方法
-    desData(key, data) {
-      let contactDot = 0
-      let spanArr = []
-      data.forEach((item, index) => {
-        item.index = index
-        if (index === 0) {
-          spanArr.push(1)
-        } else {
-          if (item[key] === data[index - 1][key]) {
-            spanArr[contactDot] += 1
-            spanArr.push(0)
-          } else {
-            spanArr.push(1)
-            contactDot = index
-          }
-        }
-      })
-      return spanArr
-    },
-    handleReachBottom() {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          const last = this.presetInspectionList[this.presetInspectionList.length - 1]
-          for (let i = 1; i < 11; i++) {
-            this.presetInspectionList.push(last + i)
-          }
-          resolve()
-        }, 2000)
-      })
-    },
-    //报警弹框
-    handleAlarmModal(row) {
-      this.alarmRecordFlag = true
-      this.alarmPicUrl1 = row.tasksresult.normalpicpath
-      this.alarmPicUrl2 = row.tasksresult.infrapicpath
-      this.alarmResult = row.tasksresult.result
-    },
-    //实时信息弹框
-    handleTimeInfoModal(row) {
-      this.timeInfoFlag = true
-      this.timeInfoPicUrl1 = row.tasksresult.normalpicpath
-      this.timeInfoPicUrl2 = row.tasksresult.infrapicpath
-      this.timeInfoResult = row.tasksresult.result
-    },
-    // 修改table tr行的背景色
-    tableRowStyle({ row, rowIndex }) {
-      return 'color: #fff;'
-    },
-    // 修改table header的背景色
-    tableHeaderColor({ row, column, rowIndex, columnIndex }) {
-      if (rowIndex === 0) {
-        return 'background:#1d63b9;color: #fff;font-weight: 500;border: none;'
-      }
-    },
-    //关闭模态框
-    closeModal() {
-      this.alarmRecordFlag = false
-      this.timeInfoFlag = false
-    },
-    getTabs() {
-      this.$_api.monitorData
-        .getTitleData({
-          unitId: this.stationId
-        })
-        .then(res => {
-          if (res.success) {
-            this.tableList = res.data
-            // this.tabFirstData = res.data[0]
-            this.selectTab(res.data[0], 0)
-          } else {
-            console.log(res.msg)
-          }
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
+		//为了防止切换时，视频打不开，导致卡顿，无法立即切换，添加定时器，在页面切换成功之后，再显示视频
+		this.ocxTimer = setTimeout(() => {
+			this.showVideo = true
+		}, 500)
+	},
+	deactivated() {
+		//取消回调事件
+		this.$_stop('inspectionmonitor')
+		this.showVideo = false
+	},
+	update() {
+		console.log('ipdate')
+	},
+	methods: {
+		registerListen() {
+			this.$_listen('inspectionmonitor', (topic, message, packet) => {
+				let data = ''
+				let dataObj = []
+				data = message.toString()
+				let msgData = JSON.parse(data)
+				console.log(msgData)
+				if (topic == this.topicStr) {
+					//巡检结果
+					if (msgData.cmd === 2104) {
+						msgData.time = moment(msgData.time * 1000).format('YYYY-MM-DD HH:mm:ss')
+						this.getNodeIdData(msgData.tasksresult.nodeid, msgData.tasksresult.alarmlevel)
 
-    //  选择tab页签加载视频
-    selectTab(item, idx) {
-      // if(this.tabIdx === idx){
-      //当前机器人不需要切换时，直接切换视频
-      // if(normalVideo && normalVideo != ''){
-      //     this.video1.deviceInfo =normalVideo;
-      // }
+						this.finishNum = parseInt(++this.finishNum)
+						this.residueNum = parseInt(this.inspectionTarget - this.finishNum)
+						this.finishNum = parseInt(this.finishNum)
+						this.inspectionTarget = parseInt(this.inspectionTarget)
+						this.percentage = parseFloat(((this.finishNum / this.inspectionTarget) * 100).toFixed(2))
+						msgData.tasksresult.result =
+							msgData.tasksresult.result === '' ? msgData.tasksresult.fdata : msgData.tasksresult.result
 
-      //  if(infrateVideo && infrateVideo != ''){
-      //     this.video1.deviceInfo =infrateVideo;
-      // }
-      //   return;
-      // }
-      this.tabIdx = idx
-      let params = {
-        robotId: item.robotId,
-        serviceId: item.serviceId,
-        unitId: item.unitId
-      }
-      // 请求接口获取机器人红外和可见光的视频地址
-      this.$_api.monitorData
-        .getVideoData(params)
-        .then(res => {
-          if (res.success && res.data.length > 0) {
-            this.video1.deviceInfo = res.data[0].strNormal
-            this.video1.isAutoPlay = true
-            this.video2.deviceInfo = res.data[0].strInfra
-            this.video2.isAutoPlay = true
-          } else {
-            console.log(res.msg)
-          }
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-    //点击 执行/停止任务 按钮
-    executeTaskClick(params) {
-      let data = {
-        cmd: 2204,
-        type: 'req',
-        srcid: '',
-        serial: '',
-        time: parseInt(new Date().getTime() / 1000),
-        tasks: {
-          unitid: this.stationId,
-          taskid: this.presetInspectionTaskId,
-          control: params,
-          userid: '',
-          type: ''
-        }
-      }
-      if (params == 'start') {
-        if (this.presetInspectionTaskId == '') {
-          this.$ocxModal.warning({
-            title: '确认',
-            content: '<p>请选择巡检任务</p>'
-          })
-        } else {
-          // if( this.signForm ) {
-          this.isActiveTask = true
-          //this.signForm = false
-          this.$ocxModal.confirm({
-            title: '确认',
-            content: '<p>确认执行该任务</p>',
-            onOk: () => {
-              this.$_mqtt.publish(this.topicArr[0], JSON.stringify(data))
-              //临时代码，勿动
-              // this.presetInspectionArr.forEach( item => {
-              //   if( item.taskID == this.presetInspectionTaskId ) {
-              //     this.$set( item , 'i_Status' , 1 )
-              //   }
-              // })
-              this.affirmTicketYes()
-              this.inspectionAticket = false
-            }
-          })
-          // }
-          // else{
-          // this.$ocxModal.warning({
-          //   title: '提示',
-          //   content: '<p>请先执行巡检成票</p>'
-          // })
-          // }
-        }
-      }
-      if (params == 'stop') {
-        this.$ocxModal.confirm({
-          title: '确认',
-          content: '<p>确认停止该任务</p>',
-          onOk: () => {
-            this.isActiveTask = false
-            this.$_mqtt.publish(this.topicArr[0], JSON.stringify(data))
-            this.inspectionAticket = false
-          }
-        })
-      }
-    },
-    //获取站端信息
-    getStationInfo() {
-      this.$_api.monitorData
-        .getStationInfo({
-          unitID: this.stationId
-        })
-        .then(res => {
-          var data = res.data
-          for (let i = 0, len = data.length; i < len; i++) {
-            if (data[i].type == 70200001) {
-              this.temperature = data[i].value ? data[i].value + '℃' : '--'
-            } else if (data[i].type == 70200003) {
-              this.humidity = data[i].value ? data[i].value + '%' : '--'
-            } else if (data[i].type == 70200002) {
-              this.windSpeed = data[i].value ? data[i].value + 'm/s' : '--'
-            }
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
-  },
-  beforeRouteEnter(to, from, next) {
-    next()
-  },
-  beforeRouteUpdate(to, from, next) {
-    next()
-  },
-  beforeRouteLeave(to, from, next) {
-    next()
-  }
+						if (msgData.tasksresult.alarmlevel > 0) {
+							if (msgData.tasksresult.alarmlevel === 1) {
+								msgData.tasksresult.alarmlevel = '一般报警'
+							} else if (msgData.tasksresult.alarmlevel === 2) {
+								msgData.tasksresult.alarmlevel = '严重报警'
+							} else {
+								msgData.tasksresult.alarmlevel = '危急报警'
+							}
+							this.alarmTable.unshift(msgData)
+							this.name = 'alarm'
+							this.alarmCount++
+
+							// 如果长度超过一百 就删除最初的一个数据
+							if (this.alarmTable.length > 100) {
+								this.alarmTable.shift()
+							}
+						} else {
+							this.realTimeInfo.unshift(msgData)
+							// 如果长度超过一百 就删除最初的一个数据
+							if (this.realTimeInfo.length > 100) {
+								this.realTimeInfo.shift()
+							}
+						}
+					} else if (msgData.cmd === 2203) {
+						//增加任务回复
+						this.inspectionTaskListLoading = true
+						this.addTaskNext = false
+						this.getPresetInspectionData()
+						this.addTaskLoadingText = '正在生成巡检任务单'
+					} else if (msgData.cmd === 2103) {
+						//巡检进度，切换视频
+						let robotIndex = -1
+						this.tableList.forEach((item, index) => {
+							if (item.robotId === msgData.taskrate.robotid) {
+								robotIndex = index
+							}
+						})
+
+						if (robotIndex === this.tabIdx) {
+							//当前选中的机器人与实时数据想通过时，才切换视频
+							if (msgData.taskrate.normalvideoid != '') {
+								this.video1.deviceInfo = msgData.taskrate.normalvideoid
+							}
+							if (msgData.taskrate.infravideoid != '') {
+								this.video2.deviceInfo = msgData.taskrate.infravideoid
+							}
+						}
+					} else if (msgData.cmd === 2101) {
+						//机器人状态
+						this.tableList.map(item => {
+							if (
+								item.robotId == msgData.robotstatus.robotid &&
+								item.serviceId === msgData.robotstatus.serviceid
+							) {
+								console.log(item, msgData.robotstatus)
+								item.statusName = msgData.robotstatus.status
+							}
+						})
+					} else if (msgData.cmd === 2102) {
+						//任务状态
+						this.presetInspectionArr.map(item => {
+							if (item.taskId === msgData.taskstatus.taskid) {
+								item.intStatus = msgData.taskstatus.status
+							}
+							/* if (item.taskID === msgData.taskstatus.taskid) {
+								item.i_Status = msgData.taskstatus.status
+							} */
+						})
+					} else if (msgData.cmd === 2205) {
+						//任务控制回复
+						this.$ocxMessage.success({
+							content: '任务下发成功',
+							duration: 5
+						})
+					}
+				}
+			})
+		},
+		//页面 巡检任务单 测点推送
+		getNodeIdData(nodeid, alarmlevel) {
+			if (nodeid) {
+				if (this.$refs['inspecAticketTable']) {
+					let index = this.inspectionTaskTableDataAll.findIndex(node => {
+						return node.nodeID == nodeid
+					})
+					if (index === -1) {
+						return
+					}
+					let pages = parseInt(index / this.pageSize) + 1
+					this.handleChangePage(pages, nodeid, alarmlevel)
+
+					let num = this.inspectionTaskTableData.findIndex(node => {
+						return node.nodeID == nodeid
+					})
+					this.$nextTick(() => {
+						let targetTr = document.querySelectorAll('#ticketTableScroll .el-table__body-wrapper tr')[num]
+						//console.log(num)
+						let targetTable = document.querySelector('#ticketTableScroll .el-table__body-wrapper')
+						if (targetTr && targetTable) {
+							targetTable.scrollTop = targetTr.offsetTop
+						}
+					})
+				}
+			}
+		},
+		//分页操作
+		handleChangePage(page, nodeid, alarmlevel) {
+			//console.log( page )
+			this.pageNum = page
+
+			let brr = this.inspectionTaskTableDataAll.slice(
+				(page - 1) * this.pageSize,
+				(page - 1) * this.pageSize + this.pageSize
+			)
+			brr.forEach(item => {
+				if (nodeid == item.nodeID) {
+					if (alarmlevel == 0) {
+						this.$set(item, 'status', '0')
+					} else if (alarmlevel > 0) {
+						this.$set(item, 'status', '1')
+					}
+				}
+			})
+			this.inspectionTaskTableData = brr
+		},
+		getTableDataArr() {
+			this.inspectionTaskListLoading = false
+		},
+		taskNodesDataArr(arr) {
+			this.addTaskNodesArr = arr
+		},
+		//点击新增任务
+		addTaskClick() {
+			this.addTask = true
+			this.$refs.taskOrder.getStaticTreeData('', '', '', '', '')
+		},
+		//关闭新增任务弹框
+		closeAddTask() {
+			//this.$refs.taskOrder.clearFilter()
+			this.addTask = false
+		},
+		//点击新增任务弹框的 巡检成票 按钮
+		inspectionAticketClick(arr) {
+			this.addTaskNodesArr = []
+
+			this.addTask = false
+			this.addTaskNext = true
+			let addInfos = {
+				unitId: this.stationId,
+				nodeIds: arr.join(',')
+			}
+			/* let addInfos = {
+				IsThread: true,
+				Nodes: arr.join(',')
+			} */
+			this.inspectionTaskListLoading = true
+			this.$refs.inspectionTaskList.getTableDataAll(addInfos)
+		},
+		//新增任务 上一步 按钮
+		lastStepClick() {
+			this.addTaskNext = false
+			this.addTask = true
+		},
+		//新增任务 生成任务 按钮
+		saveClick(name) {
+			this.addTaskLoadingText = '正在生成任务...'
+			this.inspectionTaskListLoading = true
+			let obj = {
+				cmd: 2202,
+				type: 'req',
+				srcid: '',
+				destid: '',
+				serial: '',
+				time: '',
+				task: {
+					unitid: this.stationId,
+					name: name,
+					tasktype: '70100004',
+					tasksubtype: '70110008',
+					executetype: '70120100',
+					executetime: '0000',
+					startdate: '0000',
+					stopdate: '0000',
+					userid: '',
+					tasknode: this.addTaskNodesArr
+				}
+			}
+			obj.time = new Date().valueOf()
+			this.$_mqtt.publish(this.topicArr[0], JSON.stringify(obj))
+		},
+		//关闭新增任务 巡检成票 弹框
+		closeAddTaskNext() {
+			this.addTaskNext = false
+			this.modalInspectionTaskTableData = []
+			this.modalWorkOrderTableHeaderData = []
+			this.$refs.taskOrder.clearFilter()
+		},
+		//点击左侧 巡检成票
+		inspectionAticketBtn() {
+			//判断是否执行
+			// this.affirmTicket = true
+			if (this.presetInspectionTaskId == '') {
+				this.$ocxModal.confirm({
+					title: '确认',
+					content: '请选择巡检任务'
+				})
+			} else {
+				this.$ocxModal.confirm({
+					title: '确认',
+					content: '是否执行巡检成票？',
+					onOk: () => {
+						// this.signForm = true
+						this.affirmTicketYes()
+					}
+				})
+			}
+		},
+		//执行左侧 巡检成票(java)
+		affirmTicketYes() {
+			if (this.presetInspectionTaskId == '') {
+				return
+			} else {
+				this.currentTab = 'inspectionTask'
+				this.affirmTicket = false
+				this.inspectionTaskTableDataLoad = true
+
+				let infos = {
+					unitId: this.stationId,
+					taskId: this.presetInspectionTaskId
+				}
+				this.workOrderTableHeaderData = []
+				this.inspectionTaskTableDataAll = []
+				this.axios.CheckingIntoAticket(infos).then(res => {
+					if (res.code == 200) {
+						this.tabsDisable = false
+						this.workOrderTableHeaderData = res.data[0].robotStatistics
+						this.inspectionTaskTableDataAll = res.data[0].robotNodeTree
+						this.inspectionTaskTableData = res.data[0].robotNodeTree.slice(0, this.pageSize)
+
+						this.inspectionTarget = res.data[0].robotNodeTree.length
+						this.finishNum = 0
+						this.residueNum = res.data[0].robotNodeTree.length
+						this.percentage = 0
+
+						this.totalNum = res.data[0].robotNodeTree.length
+						this.pageNum = 1
+						this.inspectionTaskTableDataLoad = false
+					}
+				})
+			}
+		},
+		//执行左侧 巡检成票(net)
+		// 		affirmTicketYes() {
+		// 			if (this.presetInspectionTaskId == '') {
+		// 				return
+		// 			} else {
+		// 				this.currentTab = 'inspectionTask'
+		// 				this.affirmTicket = false
+		// 				this.inspectionTaskTableDataLoad = true
+		//
+		// 				let infos = {
+		// 					TaskID: this.presetInspectionTaskId,
+		// 					UnitID: this.stationId
+		// 				}
+		// 				this.workOrderTableHeaderData = []
+		// 				this.inspectionTaskTableDataAll = []
+		// 				this.axios.getInspectionWorkOrderDataN(infos).then(res => {
+		// 					if (res.success) {
+		// 						this.tabsDisable = false
+		// 						this.workOrderTableHeaderData = res.data.asRobots
+		// 						this.inspectionTaskTableDataAll = res.data.asTaskNodes
+		// 						this.inspectionTaskTableData = res.data.asTaskNodes.slice(0, this.pageSize)
+		//
+		// 						this.inspectionTarget = res.data.asTaskNodes.length
+		// 						this.finishNum = 0
+		// 						this.residueNum = res.data.asTaskNodes.length
+		// 						this.percentage = 0
+		//
+		// 						this.totalNum = res.data.asTaskNodes.length
+		// 						this.pageNum = 1
+		// 						this.inspectionTaskTableDataLoad = false
+		// 					}
+		// 				})
+		// 			}
+		// 		},
+		//不执行左侧 巡检成票
+		affirmTicketNo() {
+			this.affirmTicket = false
+		},
+		inspectionTaskHeaderText(info) {
+			let str = ''
+			let startTop = info.robotName.substr(0, 2)
+			let stopTop = info.robotName.substr(2)
+			if (info.robotName.length > 3) {
+				return (str = `${startTop} \n ${stopTop} \n (${info.total})`)
+			} else {
+				return (str = `${info.robotName} \n (${info.total})`)
+			}
+			// let str = ''
+			// let startTop = info.r_vc_Name.substr(0, 2)
+			// let stopTop = info.r_vc_Name.substr(2)
+			// if (info.r_vc_Name.length > 3) {
+			// 	return (str = `${startTop} \n ${stopTop} \n (${info.count})`)
+			// } else {
+			// 	return (str = `${info.r_vc_Name} \n (${info.count})`)
+			// }
+		},
+		//巡检任务单勾选功能
+		handelCheck(arr, id) {
+			if (arr.indexOf(id) == 0) {
+				return true
+			}
+		},
+		//获取预置巡检数据
+		getPresetInspectionData() {
+			//java
+			let obj = {
+				unitId: this.stationId,
+				isPage: 1
+			}
+			this.axios.getPresetInspectionData(obj).then(res => {
+				if (res.code == 200 && res.data.length > 0) {
+					this.presetInspectionArr = res.data
+					this.presetInspectionTaskId = res.data[0].taskId
+				}
+			})
+
+			//(net)
+			/* let str = {
+				UnitID: this.stationId,
+				isThread: true
+			  }
+			this.axios.getPresetInspectionInfo(str).then(res => {
+				if (res.success && res.data.rows.length > 0) {
+				  this.presetInspectionArr = res.data.rows
+				  this.presetInspectionTaskId = res.data.rows[0].taskID
+				}
+			}) */
+		},
+		//点击预置巡检
+		handelInspecClick(info, index) {
+			this.recordIndex = index
+			//console.log(info)
+			//this.presetInspectionTaskId = info.taskID
+			this.presetInspectionTaskId = info.taskId
+		},
+
+		//获取设备ID
+		getDevIdFromHt(devId) {
+			if (devId) {
+				this.devOrInspec = true
+				this.inspectionAticket = true
+				if (this.$refs['inspecAticketTable']) {
+					let targetTrIndex = this.inspectionAticketData.findIndex(node => {
+						return node.devId == devIds
+					})
+					this.$nextTick(() => {
+						let targetTr = document.querySelectorAll('#ticketTables .el-table__body-wrapper tr')[
+							targetTrIndex
+						]
+						//console.log(targetTr)
+						let targetTable = document.querySelector('#ticketTables .el-table__body-wrapper')
+						if (targetTr && targetTable) {
+							targetTable.scrollTop = targetTr.offsetTop
+						}
+					})
+				}
+			}
+		},
+		_forEach: function(data, isTrue, callback) {
+			var arr = []
+			for (var i = 0; i < data.length; i++) {
+				arr.push(data[i])
+			}
+			while (arr.length) {
+				var _p = arr.shift()
+				if (callback(_p) == false) {
+					return
+				}
+				if (isTrue && _p.children) {
+					for (var j = _p.children.length - 1; j >= 0; j--) {
+						arr.unshift(_p.children[j])
+					}
+				}
+			}
+		},
+		subscribe() {
+			if (this.$_mqtt.connected) {
+				this.$_mqtt.unsubscribe(this.topicArr, err => {
+					if (err) {
+						console.log('取消MQTT订阅失败')
+					} else {
+						console.log('取消MQTT订阅成功')
+						this.$_mqtt.subscribe(this.topicArr, err => {
+							if (err) {
+								console.log('订阅失败!')
+							} else {
+								console.log('订阅成功!')
+							}
+						})
+					}
+				})
+			} else {
+				console.log('MQTT连接失败')
+			}
+		},
+		unsubscribe(callback) {
+			// this.$_mqtt.end()
+			this.$_mqtt.unsubscribe(this.topicArr, err => {
+				if (err) {
+					console.log('取消MQTT订阅失败')
+				} else {
+					console.log('取消MQTT订阅成功')
+					callback()
+				}
+			})
+		},
+		//合并单元格的方法
+		objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+			//console.log( row )
+			if (columnIndex === 0) {
+				const _row = this.desData('mainArea', this.inspectionTaskTableData)[rowIndex]
+				const _col = _row > 0 ? 1 : 0
+				return {
+					rowspan: _row,
+					colspan: _col
+				}
+			}
+			if (columnIndex === 1) {
+				const _row = this.desData('subArea', this.inspectionTaskTableData)[rowIndex]
+				const _col = _row > 0 ? 1 : 0
+				return {
+					rowspan: _row,
+					colspan: _col
+				}
+			}
+			if (columnIndex == 2) {
+				const _row = this.desData('devName', this.inspectionTaskTableData)[rowIndex]
+				const _col = _row > 0 ? 1 : 0
+				return {
+					rowspan: _row,
+					colspan: _col
+				}
+			}
+		},
+		// 核心处理 数据方法
+		desData(key, data) {
+			let contactDot = 0
+			let spanArr = []
+			data.forEach((item, index) => {
+				item.index = index
+				if (index === 0) {
+					spanArr.push(1)
+				} else {
+					if (item[key] === data[index - 1][key]) {
+						spanArr[contactDot] += 1
+						spanArr.push(0)
+					} else {
+						spanArr.push(1)
+						contactDot = index
+					}
+				}
+			})
+			return spanArr
+		},
+		handleReachBottom() {
+			return new Promise(resolve => {
+				setTimeout(() => {
+					const last = this.presetInspectionList[this.presetInspectionList.length - 1]
+					for (let i = 1; i < 11; i++) {
+						this.presetInspectionList.push(last + i)
+					}
+					resolve()
+				}, 2000)
+			})
+		},
+		//报警弹框
+		handleAlarmModal(row) {
+			this.alarmRecordFlag = true
+			this.alarmPicUrl1 = row.tasksresult.normalpicpath
+			this.alarmPicUrl2 = row.tasksresult.infrapicpath
+			this.alarmResult = row.tasksresult.result
+		},
+		//实时信息弹框
+		handleTimeInfoModal(row) {
+			this.timeInfoFlag = true
+			this.timeInfoPicUrl1 = row.tasksresult.normalpicpath
+			this.timeInfoPicUrl2 = row.tasksresult.infrapicpath
+			this.timeInfoResult = row.tasksresult.result
+		},
+		// 修改table tr行的背景色
+		tableRowStyle({ row, rowIndex }) {
+			return 'color: #fff;'
+		},
+		// 修改table header的背景色
+		tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+			if (rowIndex === 0) {
+				return 'background:#1d63b9;color: #fff;font-weight: 500;border: none;'
+			}
+		},
+		//关闭模态框
+		closeModal() {
+			this.alarmRecordFlag = false
+			this.timeInfoFlag = false
+		},
+		getTabs() {
+			this.$_api.monitorData
+				.getTitleData({
+					unitId: this.stationId
+				})
+				.then(res => {
+					if (res.success) {
+						this.tableList = res.data
+						// this.tabFirstData = res.data[0]
+						this.selectTab(res.data[0], 0)
+					} else {
+						console.log(res.msg)
+					}
+				})
+				.catch(error => {
+					console.log(error)
+				})
+		},
+
+		//  选择tab页签加载视频
+		selectTab(item, idx) {
+			// if(this.tabIdx === idx){
+			//当前机器人不需要切换时，直接切换视频
+			// if(normalVideo && normalVideo != ''){
+			//     this.video1.deviceInfo =normalVideo;
+			// }
+
+			//  if(infrateVideo && infrateVideo != ''){
+			//     this.video1.deviceInfo =infrateVideo;
+			// }
+			//   return;
+			// }
+			this.tabIdx = idx
+			let params = {
+				robotId: item.robotId,
+				serviceId: item.serviceId,
+				unitId: item.unitId
+			}
+			// 请求接口获取机器人红外和可见光的视频地址
+			this.$_api.monitorData
+				.getVideoData(params)
+				.then(res => {
+					if (res.success && res.data.length > 0) {
+						this.video1.deviceInfo = res.data[0].strNormal
+						this.video1.isAutoPlay = true
+						this.video2.deviceInfo = res.data[0].strInfra
+						this.video2.isAutoPlay = true
+					} else {
+						console.log(res.msg)
+					}
+				})
+				.catch(error => {
+					console.log(error)
+				})
+		},
+		//点击 执行/停止任务 按钮
+		executeTaskClick(params) {
+			let data = {
+				cmd: 2204,
+				type: 'req',
+				srcid: '',
+				serial: '',
+				time: parseInt(new Date().getTime() / 1000),
+				tasks: {
+					unitid: this.stationId,
+					taskid: this.presetInspectionTaskId,
+					control: params,
+					userid: '',
+					type: ''
+				}
+			}
+			if (params == 'start') {
+				if (this.presetInspectionTaskId == '') {
+					this.$ocxModal.warning({
+						title: '确认',
+						content: '<p>请选择巡检任务</p>'
+					})
+				} else {
+					// if( this.signForm ) {
+					this.isActiveTask = true
+					//this.signForm = false
+					this.$ocxModal.confirm({
+						title: '确认',
+						content: '<p>确认执行该任务</p>',
+						onOk: () => {
+							this.$_mqtt.publish(this.topicArr[0], JSON.stringify(data))
+							//临时代码，勿动
+							// this.presetInspectionArr.forEach( item => {
+							//   if( item.taskID == this.presetInspectionTaskId ) {
+							//     this.$set( item , 'i_Status' , 1 )
+							//   }
+							// })
+							this.affirmTicketYes()
+							this.inspectionAticket = false
+						}
+					})
+					// }
+					// else{
+					// this.$ocxModal.warning({
+					//   title: '提示',
+					//   content: '<p>请先执行巡检成票</p>'
+					// })
+					// }
+				}
+			}
+			if (params == 'stop') {
+				this.$ocxModal.confirm({
+					title: '确认',
+					content: '<p>确认停止该任务</p>',
+					onOk: () => {
+						this.isActiveTask = false
+						this.$_mqtt.publish(this.topicArr[0], JSON.stringify(data))
+						this.inspectionAticket = false
+					}
+				})
+			}
+		},
+		//获取站端信息
+		getStationInfo() {
+			this.$_api.monitorData
+				.getStationInfo({
+					unitID: this.stationId
+				})
+				.then(res => {
+					var data = res.data
+					for (let i = 0, len = data.length; i < len; i++) {
+						if (data[i].type == 70200001) {
+							this.temperature = data[i].value ? data[i].value + '℃' : '--'
+						} else if (data[i].type == 70200003) {
+							this.humidity = data[i].value ? data[i].value + '%' : '--'
+						} else if (data[i].type == 70200002) {
+							this.windSpeed = data[i].value ? data[i].value + 'm/s' : '--'
+						}
+					}
+				})
+				.catch(err => {
+					console.log(err)
+				})
+		}
+	},
+	beforeRouteEnter(to, from, next) {
+		next()
+	},
+	beforeRouteUpdate(to, from, next) {
+		next()
+	},
+	beforeRouteLeave(to, from, next) {
+		next()
+	}
 }
 </script>
 <style lang="stylus" scoped>
@@ -1329,7 +1456,7 @@ export default {
           .content-left {
             width: 223px;
             height: 615px;
-            border: 2px solid #064886;
+            border: 2px solid #1c5892;
             float: left;
 
             // padding-top: 7px;
@@ -1371,7 +1498,7 @@ export default {
                     height: 100%;
                     font-size: 14px;
                     vertical-align: middle;
-                    //margin-left: 10px;
+                    // margin-left: 10px;
                     background: none;
                   }
                 }
@@ -1498,7 +1625,7 @@ export default {
           .content-right {
             width: 880px;
             height: 615px;
-            border: 2px solid #064886;
+            border: 2px solid #1c5892;
             float: left;
             margin-left: 5px;
             padding-top: 7px;
@@ -1670,7 +1797,7 @@ export default {
               position: absolute;
               left: 0px;
               bottom: 5px;
-				
+
               /deep/.ivu-page {
                 iview-page();
               }
@@ -1687,17 +1814,17 @@ export default {
               float: left;
               height: 210px;
               width: 100%;
-			  border: 2px solid #064886;
-              //background: url('../../assets/img/monitor/bigBg2.png') no-repeat;
-              //background-size: 100% 100%;
+              border: 2px solid #1c5892;
 
+              // background: url('../../assets/img/monitor/bigBg2.png') no-repeat;
+              // background-size: 100% 100%;
               /deep/.ivu-tabs-bar {
                 margin: 10px 0 0 10px;
-				
-				/deep/i {
-				  color: #f00;
-				}
-				
+
+                /deep/i {
+                  color: #f00;
+                }
+
                 .ivu-tabs-tab {
                   width: 100%;
                   height: 1.4rem;
@@ -1805,7 +1932,7 @@ export default {
               left: -7px;
               width: 35px;
               height: 30px;
-              //background: url('~@/assets/img/common/border-lt.png') no-repeat;
+              // background: url('~@/assets/img/common/border-lt.png') no-repeat;
               background-size: 35px 30px;
             }
 
@@ -1815,7 +1942,7 @@ export default {
               right: 27px;
               width: 35px;
               height: 30px;
-              //background: url('~@/assets/img/common/border-rb.png') no-repeat;
+              // background: url('~@/assets/img/common/border-rb.png') no-repeat;
               background-size: 35px 30px;
             }
 
@@ -1837,7 +1964,7 @@ export default {
               width: 403px;
               height: 210px;
               margin: 10px 0 0 0;
-              border: 1px solid #063765;
+              border: 2px solid #1c5892;
 
               // padding-left: 10px;
               // padding-top: 2px;
@@ -1941,63 +2068,78 @@ export default {
 
 .alarm-detail {
   width: 100%;
-  height: 830px;
-  // background: url('../../assets/img/common/bg.png') no-repeat center;
-  background-size: 100% 100%;
-  overflow: hidden;
 
-  .img {
-    margin-top: 40px;
-    width: 100%;
-    height: 570px;
-    display: flex;
-    justify-content: space-around;
+  // background: url('../../assets/img/common/bg.png') no-repeat center;
+  .result {
+    font-size: 16px;
+    line-height: 55px;
+    height: 55px;
+    margin-left: 20px;
+
+    span {
+      color: #ffd36a;
+    }
+  }
+
+  .imgBox {
+    margin-left: 10px;
+    width: calc(100% - 20px);
 
     .img-content {
-      width: 760px;
-      height: 100%;
-
       /deep/.img-container {
-        width: 100%;
-        height: 100%;
-
         img {
-          height: 100%;
+          width: 1000px;
+          height: 720px;
         }
       }
     }
   }
 
-  .result {
-    margin: 60px 0 0 50px;
-    font-size: 20px;
-    line-height: 30px;
-    height: 30px;
+  .imgBox2 {
+    margin-left: 10px;
+    width: calc(100% - 20px);
+
+    .img-content {
+      display: inline-block;
+
+      /deep/.img-container {
+        img {
+          width: 495px !important;
+          height: 357px;
+        }
+      }
+    }
+
+    .img-content:nth-of-type(2) {
+      margin-left: 10px;
+    }
   }
 
   .btn-group {
-    height: 40px;
+    width: 100%;
+    height: 50px;
+    background: #063e7a;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    border-radius: 0 0 10px 10px;
+    margin-top: 10px;
+    padding-right: 10px;
 
     .btn {
-      width: 150px;
-      height: 40px;
+      width: 110px;
+      height: 30px;
       background: url('../../../../assets/img/common/bg540.png') no-repeat center;
       background-size: 100% 100%;
       border-radius: 3px;
       text-align: center;
       margin: 5px;
       border: 0;
-      color: #fff902;
-      font: 100 20px / 40px '';
-      cursor: pointer;
-    }
-
-    .confirm {
-      margin-left: 1190px;
-    }
-
-    .cancel {
       color: #fff;
+      font-size: 14px;
+      float: right;
+      cursor: pointer;
+      margin-top: 10px;
     }
   }
 
@@ -2202,13 +2344,22 @@ export default {
   /deep/.ivu-modal-body {
     padding-top: 0 !important;
     border-radius: 0 0 10px 10px;
+    background: #082051;
+    padding: 0;
+    border-radius: 0 0 10px 10px;
   }
 
   /deep/.ivu-modal-header {
-    padding-left: 35px !important;
+    padding: 7px 0 7px 35px !important;
+    background: #17579a;
+    border-radius: 10px 10px 0 0;
+    border: 0;
 
     /deep/.ivu-modal-header-inner {
-      font-size: 18px !important;
+      font-size: 16px !important;
+      height: 35px;
+      line-height: 35px;
+      color: #e9edf3 !important;
     }
   }
 }
@@ -2245,12 +2396,6 @@ export default {
   }
 }
 
-.affirm {
-  /deep/.ivu-modal {
-    top: 240px;
-  }
-}
-
 .textTop {
   display: inline-block;
   vertical-align: top;
@@ -2277,27 +2422,6 @@ export default {
 /deep/ .el-scrollbar__view {
   display: flex;
   flex-wrap: wrap;
-}
-
-/deep/.ivu-modal-header {
-  background: #17579a;
-  border-radius: 10px 10px 0 0;
-}
-
-/deep/.ivu-modal-header-inner {
-  height: 35px;
-  line-height: 35px;
-  color: #e9edf3 !important;
-}
-
-/deep/.ivu-modal-body {
-  background: #082051;
-  padding: 0;
-  border-radius: 0 0 10px 10px;
-}
-
-/deep/.ivu-modal-close {
-  top: 15px;
 }
 
 /deep/.ivu-badge-count {
@@ -2330,7 +2454,6 @@ export default {
 /deep/.el-table--border::after, /deep/.el-table--group::after, /deep/.el-table::before {
   background: none;
 }
-
 
 .robot-out {
   background: url('../../assets/img/monitor/robot-out.png') no-repeat center;

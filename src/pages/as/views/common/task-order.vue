@@ -22,9 +22,7 @@
 						<el-form-item label=" ">
 							<el-radio-group v-model="specSubTypeForm.subType">
 								<el-radio :label="item.id" v-for="item in espInspSubType" :key="item.id">
-									{{
-									item.typeName
-									}}
+									{{ item.typeName }}
 								</el-radio>
 							</el-radio-group>
 						</el-form-item>
@@ -35,11 +33,9 @@
 					<el-form ref="subTypeForm" :model="espSubTypeForm" label-width="100px">
 						<el-form-item label=" ">
 							<el-radio-group v-model="espSubTypeForm.subType">
-								<el-radio
-									:label="item.id"
-									v-for="item in specInspSubType"
-									:key="item.id"
-								>{{ item.typeName }}</el-radio>
+								<el-radio :label="item.id" v-for="item in specInspSubType" :key="item.id">{{
+									item.typeName
+								}}</el-radio>
 							</el-radio-group>
 						</el-form-item>
 					</el-form>
@@ -51,13 +47,13 @@
 							:indeterminate="isdeviceAreaList"
 							v-model="checkdeviceAreaListAll"
 							@change="handleCheckAllDeviceAreaListChange"
-						>全部</el-checkbox>
-						<el-checkbox-group
-							v-model="checkedDeviceAreaList"
-							@change="handleCheckedDeviceAreaListChange"
+							>全部</el-checkbox
 						>
+						<el-checkbox-group v-model="checkedDeviceAreaList" @change="handleCheckedDeviceAreaListChange">
 							<el-scrollbar style="height: 100%">
-								<el-checkbox v-for="item in deviceAreaList" :label="item" :key="item.id">{{ item.typeName }}</el-checkbox>
+								<el-checkbox v-for="item in deviceAreaList" :label="item" :key="item.id">{{
+									item.typeName
+								}}</el-checkbox>
 							</el-scrollbar>
 						</el-checkbox-group>
 					</div>
@@ -70,7 +66,8 @@
 							:indeterminate="isDeviceType"
 							v-model="checkedDeviceTypeAll"
 							@change="handleCheckDeviceTypeAllChange"
-						>全部</el-checkbox>
+							>全部</el-checkbox
+						>
 						<el-checkbox-group v-model="checkedDeviceType" @change="handleCheckedDeviceTypeChange">
 							<!-- <el-scrollbar style="height: 100%"> -->
 							<el-checkbox
@@ -78,7 +75,8 @@
 								:label="item"
 								:key="item.id"
 								v-model="item.vcFlag"
-							>{{ item.typeName }}</el-checkbox>
+								>{{ item.typeName }}</el-checkbox
+							>
 							<!-- </el-scrollbar> -->
 						</el-checkbox-group>
 					</div>
@@ -91,17 +89,16 @@
 							:indeterminate="isRecognitionType"
 							v-model="checkRecognitionTypeAll"
 							@change="handleCheckAllRecognitionTypeChange"
-						>全部</el-checkbox>
+							>全部</el-checkbox
+						>
 						<el-checkbox-group
 							v-model="checkedRecognitionType"
 							@change="handleCheckedRecognitionTypeChange"
 						>
 							<el-scrollbar style="height: 100%">
-								<el-checkbox
-									v-for="item in recognitionType"
-									:label="item"
-									:key="item.id"
-								>{{ item.typeName }}</el-checkbox>
+								<el-checkbox v-for="item in recognitionType" :label="item" :key="item.id">{{
+									item.typeName
+								}}</el-checkbox>
 							</el-scrollbar>
 						</el-checkbox-group>
 					</div>
@@ -114,10 +111,13 @@
 							:indeterminate="isMeterType"
 							v-model="checkMeterTypeAll"
 							@change="handleCheckAllMeterTypeChange"
-						>全部</el-checkbox>
+							>全部</el-checkbox
+						>
 						<el-checkbox-group v-model="checkedMeterType" @change="handleCheckedMeterTypeChange">
 							<el-scrollbar style="height: 100%">
-								<el-checkbox v-for="item in meterType" :label="item" :key="item.id">{{ item.typeName }}</el-checkbox>
+								<el-checkbox v-for="item in meterType" :label="item" :key="item.id">{{
+									item.typeName
+								}}</el-checkbox>
 							</el-scrollbar>
 						</el-checkbox-group>
 					</div>
@@ -130,29 +130,31 @@
 							:indeterminate="isAppearanceType"
 							v-model="checkedAppearanceTypeAll"
 							@change="handleCheckAppearanceTypeAllChange"
-						>全部</el-checkbox>
-						<el-checkbox-group
-							v-model="checkedAppearanceType"
-							@change="handleCheckedAppearanceTypeChange"
+							>全部</el-checkbox
 						>
+						<el-checkbox-group v-model="checkedAppearanceType" @change="handleCheckedAppearanceTypeChange">
 							<el-scrollbar style="height: 100%">
-								<el-checkbox v-for="item in appearanceType" :label="item" :key="item.id">{{ item.typeName }}</el-checkbox>
+								<el-checkbox v-for="item in appearanceType" :label="item" :key="item.id">{{
+									item.typeName
+								}}</el-checkbox>
 							</el-scrollbar>
 						</el-checkbox-group>
 					</div>
 					<!-- <span @click="handleShowMore5(val5)" ref="more5" v-if="appearanceType.length > 3">展开更多</span> -->
 				</div>
 			</div>
-			<div class="right-tree"
+			<div
+				class="right-tree"
 				v-loading="loading"
 				element-loading-text="正在加载树"
-				element-loading-background="#0a2e63">
+				element-loading-background="#0a2e63"
+			>
 				<el-input placeholder="输入关键字进行过滤" v-model="filterText">
-					 <el-button slot="append" icon="el-icon-search" @click="filterByKeyWord"></el-button>
+					<el-button slot="append" icon="el-icon-search" @click="filterByKeyWord"></el-button>
 				</el-input>
 
 				<div class="tree-wrap">
-					<ul ref="ztree"  class="ztree"></ul>
+					<ul :id="ztreeId" ref="ztree" class="ztree"></ul>
 				</div>
 			</div>
 		</div>
@@ -259,10 +261,9 @@ export default {
 				}
 			},
 			ztreeObj: null,
+			ztreeId: '',
 			isFilter: false,
 			hiddenNodes: [],
-			
-			
 		}
 	},
 	computed: {},
@@ -274,6 +275,7 @@ export default {
 	},
 	created() {
 		this.getDeviceType()
+		this.getZtreeId()
 	},
 	mounted() {},
 	activited() {},
@@ -296,6 +298,11 @@ export default {
 					}
 				}
 			}
+		},
+		//获取随机的ztree ID
+		getZtreeId() {
+			let Num = Date.now()
+			this.ztreeId = 'ztree' + '_' + Num
 		},
 		//重新渲染树
 		// applyTreeData() {
@@ -324,7 +331,15 @@ export default {
 					nodesArr.push(item.id)
 				}
 			})
-			this.$emit('inspectionAticketClick', nodesArr)
+			if( nodesArr.length == 0 ) {
+				this.$ocxModal.warning({
+				  title: '提示',
+				  content: '<p>请选择测点</p>'
+				})
+			}else {
+				this.$emit('inspectionAticketClick', nodesArr)
+			}
+			
 		},
 		//新增任务右侧树
 		//(java接口)
@@ -333,61 +348,79 @@ export default {
 			if (this.treeData.length > 0 && !selectStr) {
 				return
 			} else if (this.treeData.length == 0 && !selectStr) {
-				this.axios.getAddTaskTreeData({
-					'unitId': this.stationId,
-					'codeStr': area || [],
-					'devTypeId': devType || [],
-					'recogTypeId': regType || [],
-					'meterTypeId': meterType || [],
-					'surfaceTypeId': appearanceType || []
-				}).then(res => {
-					if (res.code == 200 ) {
-						this.loading = false
-						this.treeData = res.data
-						// console.log($('#ztree'));
-						// console.log($(this.$refs.ztree));
-						// $.fn.zTree.init($('#ztree'), this.setting, res.data)
-						$.fn.zTree.init($(this.$refs.ztree), this.setting, res.data)
-						this.ztreeObj = $.fn.zTree.getZTreeObj('ztree')
-					}
-				}).catch(err => {
-					console.log(err)
-				})
+				this.axios
+					.getAddTaskTreeData({
+						unitId: this.stationId,
+						codeStr: area || [],
+						devTypeId: devType || [],
+						recogTypeId: regType || [],
+						meterTypeId: meterType || [],
+						surfaceTypeId: appearanceType || []
+					})
+					.then(res => {
+						if (res.code == 200) {
+							this.loading = false
+							this.treeData = res.data
+							// console.log($('#ztree'));
+							// console.log($(this.$refs.ztree));
+							// $.fn.zTree.init($('#ztree'), this.setting, res.data)
+							$.fn.zTree.init($(this.$refs.ztree), this.setting, res.data)
+							this.ztreeObj = $.fn.zTree.getZTreeObj(this.ztreeId)
+						}
+					})
+					.catch(err => {
+						console.log(err)
+					})
 			} else if (selectStr) {
-				this.axios.getAddTaskTreeData({
-					'unitId': this.stationId,
-					'codeStr': area || [],
-					'devTypeId': devType || [],
-					'recogTypeId': regType || [],
-					'meterTypeId': meterType || [],
-					'surfaceTypeId': appearanceType || []
-				}).then(res => {
-					if (res.code == 200 ) {
-						this.loading = false
-						this.treeData = res.data
-						//$.fn.zTree.init($('#ztree'), this.setting, res.data)
-						$.fn.zTree.init($(this.$refs.ztree), this.setting, res.data)
-						this.ztreeObj = $.fn.zTree.getZTreeObj('ztree')
-		
-						//标识为过滤用
-						// this.isFilter = true
-		
-						//当前使用过滤时，需要选中节点
-						this.ztreeObj.checkAllNodes(true)
-		
-						//展开区域一级
-						let areaNodes = this.ztreeObj.getNodeByParam('type', 1, null)
-						areaNodes.map(item => {
-							this.ztreeObj.expandNode(item, true, false, false)
-						})
-					}
-				}).catch(err => {
-					console.log(err)
-				})
+				this.axios
+					.getAddTaskTreeData({
+						unitId: this.stationId,
+						codeStr: area || [],
+						devTypeId: devType || [],
+						recogTypeId: regType || [],
+						meterTypeId: meterType || [],
+						surfaceTypeId: appearanceType || []
+					})
+					.then(res => {
+						if (res.code == 200) {
+							this.loading = false
+							this.treeData = res.data
+							//$.fn.zTree.init($('#ztree'), this.setting, res.data)
+							$.fn.zTree.init($(this.$refs.ztree), this.setting, res.data)
+							this.ztreeObj = $.fn.zTree.getZTreeObj(this.ztreeId)
+
+							//标识为过滤用
+							// this.isFilter = true
+
+							//当前使用过滤时，需要选中节点
+							if( area.length !== this.deviceAreaList.length && area.length > 0 ) {
+								this.ztreeObj.checkAllNodes(true)
+							}else if( this.checkdeviceAreaListAll ) {
+								this.ztreeObj.checkAllNodes(true)
+							}
+	
+
+							//展开区域一级
+							//let areaNodes = this.ztreeObj.getNodeByParam('type', 1, null)
+							let areaNodes = this.ztreeObj.getNodesByFilter( (node)=>{
+								node.vcCode = node.vcCode.split('.')
+								if( this.checkdeviceAreaListAll || area.length === this.deviceAreaList.length || area.length === 0 ) {
+									return node.pid === "0"
+								}else if( !this.checkdeviceAreaListAll && area ){
+									return node.vcCode.length <= 3 && node.type === 1
+								}
+							})
+							areaNodes.map(item => {
+								this.ztreeObj.expandNode(item, true, false, false)
+							})
+						}
+					})
+					.catch(err => {
+						console.log(err)
+					})
 			}
 		},
-		
-		
+
 		//（net接口）
 		/* getStaticTreeData(area, devType, regType, meterType, appearanceType, selectStr) {
 			//console.log( this.treeData.length )
@@ -657,11 +690,16 @@ export default {
 			//区域
 			//let area = ''
 			let area = []
-			this.selectAreaList.map(item => {
-				//area += item.vcCode + ','
-				area.push( item.vcCode )
-			})
-			//area = area.substring(0, area.length - 1)
+			if( this.checkdeviceAreaListAll ) {
+				area = []
+			} else{
+				this.selectAreaList.map(item => {
+					//area += item.vcCode + ','
+					area.push(item.vcCode)
+				})
+				//area = area.substring(0, area.length - 1)
+			}
+			
 
 			//设备类型
 			//let deviceType = ''
@@ -677,7 +715,7 @@ export default {
 			let regType = []
 			this.selectRegType.map(item => {
 				//regType += item.typeCode + ','
-				regType.push( item.typeCode )
+				regType.push(item.typeCode)
 			})
 			//regType = regType.substring(0, regType.length - 1)
 
@@ -686,7 +724,7 @@ export default {
 			let meterType = []
 			this.selectMeterType.map(item => {
 				//meterType += item.typeCode + ','
-				meterType.push( item.typeCode )
+				meterType.push(item.typeCode)
 			})
 			//meterType = meterType.substring(0, meterType.length - 1)
 
@@ -695,18 +733,17 @@ export default {
 			let appearanceType = []
 			this.selectAppearanceType.map(item => {
 				//appearanceType += item.typeCode + ','
-				appearanceType.push( item.typeCode )
+				appearanceType.push(item.typeCode)
 			})
 			//appearanceType = appearanceType.substring(0, appearanceType.length - 1)
-
 			this.getStaticTreeData(area, deviceType, regType, meterType, appearanceType, true)
 		},
 		filterByKeyWord() {
-			this.loading = true;
+			this.loading = true
 			setTimeout(() => {
-				let nodes = this.ztreeObj.getNodesByFilter(this.filterFun);
-      		    this.processShowNodes(nodes);
-			}, 1000);
+				let nodes = this.ztreeObj.getNodesByFilter(this.filterFun)
+				this.processShowNodes(nodes)
+			}, 1000)
 		},
 		filterFun(node) {
 			var nameKey = this.ztreeObj.setting.data.key.name // get the key of the node name
@@ -729,8 +766,8 @@ export default {
 						// i < pathOfOne.length-1 process every node in path except self
 						for (var i = 0; i < pathOfOne.length - 1; i++) {
 							this.ztreeObj.showNode(pathOfOne[i]) // show node
-							if (pathOfOne[i].type === 1) {
-								this.ztreeObj.expandNode(pathOfOne[i], true,false,false) //expand node
+							if (pathOfOne[i].level === 1) {
+								this.ztreeObj.expandNode(pathOfOne[i], true, false, false) //expand node
 							}
 						}
 					}
@@ -741,7 +778,7 @@ export default {
 					this.ztreeObj.expandNode(obj, true) // expand all root nodes
 				})
 			}
-			this.loading = false;
+			this.loading = false
 		}
 	},
 	beforeRouteEnter(to, from, next) {
@@ -755,7 +792,7 @@ export default {
 	}
 }
 </script>
-<style lang='stylus' scoped>
+<style lang="stylus" scoped>
 .task-order {
 }
 
@@ -826,7 +863,7 @@ export default {
         line-height: 30px;
         color: #fff;
 		display: inline-block;
-		vertical-align: top; 
+		vertical-align: top;
       }
 
       .select {
@@ -847,8 +884,8 @@ export default {
             width: 16px;
             height: 16px;
           }
-		
-		
+
+
           /deep/.el-checkbox__inner::after {
             /* border-color: #c4c335; */
            /* width: 3px; */
@@ -903,20 +940,20 @@ export default {
     margin-right: 10px;
     background: url('../../assets/img/common/tree.png') no-repeat;
     background-size: 100% 100%;
-	
+
 	/deep/ .tree-wrap{
 		margin-top: 10px;
 		height: 90.5% !important;
 	}
-	
+
 	/deep/.el-input{
 		width: calc(100% - 20px);
 		margin: 10px 0 0 10px;
-		
+
 		/deep/.el-input__inner{
 			border: 0;
 		}
-		
+
 	}
 
     /deep/ .ztree {
@@ -985,12 +1022,13 @@ export default {
 .task-order-btn {
   /* float: right;
   margin: -30px 20px 0 0; */
-  widht: 100%;
+  width: 100%;
   height: 50px;
   position: relative;
   background: #063e7a;
   padding: 11px 0 25px 0;
   border-radius: 0 0 10px 10px;
+  bottom: -10px;
 
   .btn {
     width: 100px;
@@ -1006,15 +1044,15 @@ export default {
     font-size: 16px;
 	float: right;
   }
-	
+
 	.btn:active{
 		color: #d8c50e;
 	}
-	
+
 	.btn:nth-of-type(1){
 		margin-right: 15px;
 	}
-	
+
 }
 
 
@@ -1072,5 +1110,4 @@ export default {
  ::-webkit-scrollbar-thumb{
 	background-color:#0173bb;
 }
-
 </style>

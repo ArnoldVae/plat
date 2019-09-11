@@ -39,17 +39,7 @@ export default {
 	addMainDate(params) {
 		return axios.request({
 			headers: { 'Content-Type': 'application/json' },
-			url: 'maintenance/list',
-			method: 'post',
-			data: JSON.stringify(params)
-		})
-	},
-
-	//修改main
-	editMainDate(params) {
-		return axios.request({
-			headers: { 'Content-Type': 'application/json' },
-			url: 'maintenance/list',
+			url: 'maintenance/saveOrUpdate',
 			method: 'post',
 			data: JSON.stringify(params)
 		})
@@ -59,7 +49,16 @@ export default {
 	delMainDate(params) {
 		return axios.request({
 			headers: { 'Content-Type': 'application/json' },
-			url: 'maintenance/list',
+			url: 'maintenance/del',
+			method: 'post',
+			data: JSON.stringify(params)
+		})
+	},
+
+	//导入文件
+	importFile(params) {
+		return axios.request({
+			url: 'account/upload',
 			method: 'post',
 			data: JSON.stringify(params)
 		})

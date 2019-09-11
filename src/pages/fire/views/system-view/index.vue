@@ -161,7 +161,7 @@
                                 </li>
                                 <li class="itemDetails">
                                     <span class="color-red">●</span>
-                                    <span class="color-white">{{ item.araeName}}</span>
+                                    <span class="color-white">{{ item.areaName}}</span>
                                 </li>
                                 <li class="itemDetails">
                                     <span class="color-red">●</span>
@@ -420,15 +420,14 @@
                     // debugger
 
                     if (msgJson.cmd === '3002') {
-                        if(msgJson.alarmId=="3e48d3ecd04a11e9b585ac1f6b74ee30"){
-                            return
-                        }
                         //报警的上传数据
                         //                        日期格式化
+                        debugger
                        if (msgJson.level == '0') {
                            this.sysLists.forEach((item, index) => {
-                               if (item.alarmid == msgJson.alarmid) {
+                               if (item.alarmId == msgJson.alarmId) {
                                    this.sysLists.splice(index, 1)
+                                   this.$emit('deleteAlarm', msgJson)
                                }
                            })
                            return false

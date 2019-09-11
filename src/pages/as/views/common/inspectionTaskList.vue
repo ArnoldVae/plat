@@ -32,7 +32,7 @@
 				}"
 			>
 				<el-table-column prop="area" label="区域" align="center" width="150"></el-table-column>
-				<el-table-column prop="interval" label="间隔" align="center" width="150"></el-table-column>
+				<el-table-column prop="interValue" label="间隔" align="center" width="150"></el-table-column>
 				<el-table-column prop="dev" label="设备" align="center" width="150"></el-table-column>
 				<el-table-column prop="node" label="巡检点位" align="center"></el-table-column>
 				<el-table-column
@@ -42,14 +42,11 @@
 					align="center"
 					width="140"
 				>
-					<!-- <template slot-scope="scope">
-						<img src="../../assets/img/common/dui.png" alt style="width: 15px;height: 15px;" v-if="handelCheck( scope.row.robotIDS , item.robotID )" />
-					</template> -->
 					<template slot-scope="scope">
 						<div
 							:class="scope.row.customType"
-							v-if="handelCheck(scope.row.robotIDS, item.robotID)"
-							@click="tableTdClick(scope.row, item.robotID)"
+							v-if="handelCheck(scope.row.robotIds, item.id)"
+							@click="tableTdClick(scope.row, item.id)"
 						></div>
 					</template>
 				</el-table-column>
@@ -115,7 +112,36 @@ export default {
 			this.nodesTableData = []
 			this.modalWorkOrderTableHeaderData = []
 			this.modalInspectionTaskTableData = []
-			this.axios.getInspectionWorkOrderData(addInfos).then(response => {
+			//(java)
+			this.axios.CheckingIntoAticket(addInfos).then(res => {
+				if ( res.code == 200 ) {
+					this.$emit('getTableDataArr')
+					this.modalWorkOrderTableHeaderData = res.data[0].robotStatistics
+					this.modalInspectionTaskTableData = res.data[0].robotNodeTree
+			
+					this.total = this.modalInspectionTaskTableData.length || 1
+					this.inspectionNodeNum = this.modalInspectionTaskTableData.length || 0
+			
+					let arr = this.modalInspectionTaskTableData.slice(0, this.pageSize)
+					arr.forEach(item => {
+						this.$set(item, 'customType', 'tableTdSelect')
+					})
+					this.nodesTableData = arr
+			
+					res.data[0].robotNodeTree.forEach(item => {
+						item.nodeGUIds.forEach(ite => {
+							this.nodesArr.push({
+								nodeid: item.nodeId,
+								nodeguid: ite,
+								sortid: 0
+							})
+						})
+					})
+					this.$emit('taskNodesDataArr', this.nodesArr)
+				}
+			})
+			//(net)
+			/* this.axios.getInspectionWorkOrderData(addInfos).then(response => {
 				if (response.success) {
 					this.$emit('getTableDataArr')
 					this.modalWorkOrderTableHeaderData = response.data.asRobots
@@ -141,10 +167,10 @@ export default {
 					})
 					this.$emit('taskNodesDataArr', this.nodesArr)
 				}
-			})
+			}) */
 		},
 		tableTdClick(rowInfo, id) {
-			if (rowInfo.robotIDS.indexOf(id) !== -1) {
+			if (rowInfo.robotIds.indexOf(id) !== -1) {
 				if (rowInfo.customType == 'tableTdSelect') {
 					this.$set(rowInfo, 'customType', 'tabletdSelectN')
 				} else if (rowInfo.customType == 'tabletdSelectN') {
@@ -167,7 +193,7 @@ export default {
 		},
 		inspectionTaskHeaderText(info) {
 			let str = ''
-			return (str = `${info.r_vc_Name} \n (${info.count})`)
+			return (str = `${info.robotName} \n (${info.total})`)
 		},
 		handelCheck(arr, id) {
 			if (arr.indexOf(id) !== -1) {

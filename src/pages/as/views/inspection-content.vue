@@ -68,6 +68,7 @@ export default {
 	props: {},
 	data() {
 		return {
+			topicArr: [],
 			currentView: 'monitor',
 			currentIndex: 1,
 			vcName: '',
@@ -104,10 +105,15 @@ export default {
 			defaultProps: {
 				children: 'children',
 				label: 'label'
-			}
+			},
+			stationId: '',//变电站ID
 		}
 	},
-	computed: {},
+	computed: {
+		changeStationId() {
+			return this.$store.getters.stationId
+		}
+	},
 	filters: {},
 	watch: {
 		vcName: {
@@ -123,21 +129,65 @@ export default {
 		},
 		filterText(val) {
 			this.$refs.elFilterTree.$refs['el-tree'].filter(val)
+		},
+		changeStationId() {
+			if (this.$_mqtt.connected) {
+				this.$_mqtt.unsubscribe(this.topicArr, err => {
+					if (err) {
+						console.log('取消MQTT订阅失败')
+					} else {
+						console.log('取消MQTT订阅成功')
+						this.stationId = this.changeStationId
+						this.topicArr = [`qif/xj/app/control/${this.stationId}`, `qif/xj/app/data/${this.stationId}`]
+						this.$_mqtt.subscribe(this.topicArr, err => {
+							if (err) {
+								console.log('联合巡检_订阅失败!')
+							} else {
+								console.log('联合巡检_订阅成功!')
+							}
+						})
+					}
+				})
+			} else {
+				console.log('MQTT连接失败')
+			}
 		}
 	},
 	created() {
 		// console.log(this.$route.params.vcName)
 		this.vcName = this.$route.params.vcName
-
 		this.getNuitTreeData()
+		this.stationId = this.$store.getters.stationId
+		this.topicArr = [`qif/xj/app/control/${this.stationId}`, `qif/xj/app/data/${this.stationId}`]
 	},
 	mounted() {
 		// this.changeView(monitor,1)
+		this.subscribe()
 	},
 	activited() {},
 	update() {},
 	beforeDestory() {},
 	methods: {
+		subscribe() {
+			if (this.$_mqtt.connected) {
+				this.$_mqtt.unsubscribe(this.topicArr, err => {
+					if (err) {
+						console.log('取消MQTT订阅失败')
+					} else {
+						console.log('取消MQTT订阅成功')
+						this.$_mqtt.subscribe(this.topicArr, err => {
+							if (err) {
+								console.log('联合巡检_订阅失败!')
+							} else {
+								console.log('联合巡检_订阅成功!')
+							}
+						})
+					}
+				})
+			} else {
+				console.log('MQTT连接失败')
+			}
+		},
 		//切换组件
 		changeView(data, index) {
 			this.currentView = data
@@ -200,15 +250,16 @@ export default {
     background-size: 100% 100%;
 
     /deep/.el-input{
-      width: calc( 100% - 10px );
-      margin-left: 5px;
+      width: calc( 100% - 20px );
+      margin-left: 10px;
       margin-top: 10px;
+	  padding: 0 ;
 
 	  .el-input__inner{
 		  height: 34px;
 	  }
 	  /deep/ .el-input__prefix {
-	  	left: 20px;
+	  	left: 10px;
 	  	top: 7px;
 	  }
 
@@ -235,7 +286,7 @@ export default {
         //background: url('../assets/img/common/back.png') no-repeat 20px center;
         background-size: 12px 12px;
         position: absolute;
-        right: 8px;
+        right: 0px;
         top: 0;
         height: 100%;
         width: 100px;
@@ -245,7 +296,7 @@ export default {
         font-size: 18px;
         line-height: 56px;
         text-align: center;
-		border-radius: 0 8px 8px 0;
+		border-radius: 0 5px 5px 0;
 
 		img{
 			margin-right: 10px;
