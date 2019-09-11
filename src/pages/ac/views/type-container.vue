@@ -62,10 +62,10 @@ export default {
 		'T2016': vrvCustomization,
 		'T2017': waterLevelCustomization,
 		// 临时
-		'T3001': arresterHtCustomization,
-		'T3002': breakerHtCustomization,
+		// 'T3001': arresterHtCustomization,
+		// 'T3002': breakerHtCustomization,
 		'T3003': securityControlCustomization,
-		'T3004': coreClampHtCustomization,
+		// 'T3004': coreClampHtCustomization,
 		'T3005': intelligentLighting,
 		'T3006': waterSoakingIchnography,
 		// ????

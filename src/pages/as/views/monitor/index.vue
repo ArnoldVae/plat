@@ -416,8 +416,9 @@ import { debuglog } from 'util'
 import monitorCurrent from '../common/monitor-current.vue'
 import moment from 'moment'
 import taskOrder from '../common/task-order.vue'
-import inspectionTaskList from '../common/inspectionTaskList.vue'
+import inspectionTaskList from '../common/inspection-taskList.vue'
 import qs from 'qs'
+import { clearTimeout } from 'timers';
 export default {
 	name: 'monitor',
 	props: {},
@@ -488,6 +489,7 @@ export default {
 			pageSize: 10, //每页条数
 			pageNum: 1, //当前页
 			//signForm: false,//页面巡检成票标记
+			addTaskTimer:null, //新增任务定时器
 
 			//ocx
 			ocxTimer: null, //切换模块时，ocx的渲染添加定时器
@@ -551,7 +553,7 @@ export default {
 		this.topicArr = temp
 	},
 	mounted() {
-		//this.subscribe()
+		this.subscribe()
 		this.topicStr = this.topicArr[1]
 		this.registerListen()
 	},
@@ -785,6 +787,13 @@ export default {
 			}
 			obj.time = new Date().valueOf()
 			this.$_mqtt.publish(this.topicArr[0], JSON.stringify(obj))
+			
+			//不论新增任务是否成功，30秒后都关闭窗口
+			clearTimeout(this.addTaskTimer);
+			this.addTaskTimer = setTimeout(() => {
+				this.addTaskNext = false
+				this.inspectionTaskListLoading = true
+			}, 30000);
 		},
 		//关闭新增任务 巡检成票 弹框
 		closeAddTaskNext() {

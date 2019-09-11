@@ -1,6 +1,7 @@
 <template>
   <div class="breaker-htcustomization">
-    <div class="center">
+	  <h1>1234</h1>
+    <!-- <div class="center">
       <div class="top"
            v-if="list.length > 1">
         <span v-for="(item, index) in list"
@@ -15,7 +16,7 @@
               :pitchOn="pitchOn"
               :mainDevList="mainDevList"
 			  :msgData="msgData" />
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

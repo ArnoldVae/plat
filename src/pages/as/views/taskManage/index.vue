@@ -135,7 +135,7 @@
 <script>
 import moment from 'moment'
 import taskOrder from '../common/task-order'
-import inspectionTaskList from '../common/inspectionTaskList.vue'
+import inspectionTaskList from '../common/inspection-taskList.vue'
 export default {
 	name: 'taskManage',
 	components: {

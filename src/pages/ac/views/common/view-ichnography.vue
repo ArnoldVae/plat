@@ -172,7 +172,7 @@ export default {
 			}
 			this.axios.getHtFind(params).then(res => {
 				if (res.code == 200) {
-					console.log(res.data)
+					// console.log(res.data)
 					this.findNodes = res.data
 
 					let primitiveNodes = res.data
@@ -183,7 +183,6 @@ export default {
 								//创建ht node节点
 								let node = new this.localHt.Node()
 								//设置图片
-								console.log(item)
 								if (this.source == 'terminalBox') {
 									node.setImage('symbols/zf/dzx_zc.png')
 								} else if (item.icon && item.icon != '' && item.icon != 'null' && item.icon != null) {

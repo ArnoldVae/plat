@@ -161,7 +161,7 @@
                                 </li>
                                 <li class="itemDetails">
                                     <span class="color-red">●</span>
-                                    <span class="color-white">{{ item.areaName}}</span>
+                                    <span class="color-white">{{ item.araeName}}</span>
                                 </li>
                                 <li class="itemDetails">
                                     <span class="color-red">●</span>

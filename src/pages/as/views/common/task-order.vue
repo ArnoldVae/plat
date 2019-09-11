@@ -1,22 +1,8 @@
 <template>
 	<div class="task-order">
-		<!-- <ocx-modal v-model="selectTree" :width="1485"  footer-hide @on-cancel="closeAddTask" :styles="{top: '100px'}"> -->
 		<!-- 左侧的树 -->
 		<div class="main">
 			<div class="left-content">
-				<!-- <div class="select-type">
-						<el-form ref="form" :model="form" label-width="130px">
-							<el-form-item label="巡检类型">
-								<el-radio-group v-model="form.inspection" @change="handleSelectInspType">
-									<el-radio :label="item.typeCode" v-for="item in inspectionType" :key="item.id">
-										{{
-										item.typeName
-										}}
-									</el-radio>
-								</el-radio-group>
-							</el-form-item>
-						</el-form>
-				</div>-->
 				<div class="sub-type" v-show="form.inspection == 165">
 					<el-form ref="subTypeForm" :model="specSubTypeForm" label-width="100px">
 						<el-form-item label=" ">
@@ -361,9 +347,6 @@ export default {
 						if (res.code == 200) {
 							this.loading = false
 							this.treeData = res.data
-							// console.log($('#ztree'));
-							// console.log($(this.$refs.ztree));
-							// $.fn.zTree.init($('#ztree'), this.setting, res.data)
 							$.fn.zTree.init($(this.$refs.ztree), this.setting, res.data)
 							this.ztreeObj = $.fn.zTree.getZTreeObj(this.ztreeId)
 						}
@@ -385,7 +368,6 @@ export default {
 						if (res.code == 200) {
 							this.loading = false
 							this.treeData = res.data
-							//$.fn.zTree.init($('#ztree'), this.setting, res.data)
 							$.fn.zTree.init($(this.$refs.ztree), this.setting, res.data)
 							this.ztreeObj = $.fn.zTree.getZTreeObj(this.ztreeId)
 
@@ -393,21 +375,28 @@ export default {
 							// this.isFilter = true
 
 							//当前使用过滤时，需要选中节点
-							if( area.length !== this.deviceAreaList.length && area.length > 0 ) {
-								this.ztreeObj.checkAllNodes(true)
-							}else if( this.checkdeviceAreaListAll ) {
+							// if( area.length !== this.deviceAreaList.length && area.length > 0 ) {
+							// 	this.ztreeObj.checkAllNodes(true)
+							// }else if( this.checkdeviceAreaListAll ) {
+							// 	this.ztreeObj.checkAllNodes(true)
+							// }
+							// this.ztreeObj.checkAllNodes(true)
+							if(area.length === 0 && this.selectAreaList.length === 0 && devType.length === 0 && regType.length === 0 && meterType.length === 0 && appearanceType.length ===0){
+								
+							}else{
 								this.ztreeObj.checkAllNodes(true)
 							}
-	
 
 							//展开区域一级
 							//let areaNodes = this.ztreeObj.getNodeByParam('type', 1, null)
 							let areaNodes = this.ztreeObj.getNodesByFilter( (node)=>{
-								node.vcCode = node.vcCode.split('.')
-								if( this.checkdeviceAreaListAll || area.length === this.deviceAreaList.length || area.length === 0 ) {
-									return node.pid === "0"
-								}else if( !this.checkdeviceAreaListAll && area ){
-									return node.vcCode.length <= 3 && node.type === 1
+								if(node.vcCode != null){
+									node.vcCode = node.vcCode.split('.')
+									if( this.checkdeviceAreaListAll || area.length === this.deviceAreaList.length || area.length === 0 ) {
+										return node.pid === "0"
+									}else if( !this.checkdeviceAreaListAll && area ){
+										return node.vcCode.length <= 3 && node.type === 1
+									}
 								}
 							})
 							areaNodes.map(item => {
@@ -601,6 +590,8 @@ export default {
 			this.isdeviceAreaList = false
 			if (val == true) {
 				this.selectAreaList = this.deviceAreaList
+			}else{
+				this.selectAreaList = [];
 			}
 			this.filterByCondition2()
 		},
@@ -645,7 +636,6 @@ export default {
 		handleCheckedDeviceAreaListChange(value) {
 			let checkedCount = value.length
 			this.checkdeviceAreaListAll = checkedCount === this.deviceAreaList.length
-			// this.isdeviceAreaList = checkedCount > 0 && checkedCount < this.deviceAreaList.length
 			this.selectAreaList = value
 			this.filterByCondition2()
 		},
@@ -744,7 +734,7 @@ export default {
 				let nodes = this.ztreeObj.getNodesByFilter(this.filterFun)
 				this.processShowNodes(nodes)
 			}, 1000)
-		},
+		},	
 		filterFun(node) {
 			var nameKey = this.ztreeObj.setting.data.key.name // get the key of the node name
 			if (
@@ -766,8 +756,17 @@ export default {
 						// i < pathOfOne.length-1 process every node in path except self
 						for (var i = 0; i < pathOfOne.length - 1; i++) {
 							this.ztreeObj.showNode(pathOfOne[i]) // show node
-							if (pathOfOne[i].level === 1) {
-								this.ztreeObj.expandNode(pathOfOne[i], true, false, false) //expand node
+							// if (pathOfOne[i].level === 0) {
+							// 	this.ztreeObj.expandNode(pathOfOne[i], true, false, false) //expand node
+							// }
+
+							//当筛选点数小于200时，展开所有节点
+							if(nodes.lenth <= 200){
+								this.ztreeObj.expandNode(pathOfOne[i], true, false, false)
+							}else if(nodes.length > 200 && nodes.length <= 500 && pathOfOne[i].level === 1){	//200-500时，只展开树等级为1的节点
+								this.ztreeObj.expandNode(pathOfOne[i], true, false, false)
+							}else if(pathOfOne[i].level === 0){	
+								this.ztreeObj.expandNode(pathOfOne[i], true, false, false)
 							}
 						}
 					}

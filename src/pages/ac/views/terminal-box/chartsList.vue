@@ -13,6 +13,7 @@
         <div class="content-top">
           <div class="btn-switch">
             <span :class="{switch: item.NodeID == NodeID}"
+                  v-show="nodeId.length > 1"
                   v-for="(item, index) in nodeId"
                   :key="index"
                   @click="clickSwitch(item)">
@@ -75,7 +76,7 @@ export default {
 	filters: {},
 	watch: {
 		nodeId(newVal) {
-			console.log(newVal)
+			// console.log(newVal)
 			if (newVal.length) {
 				this.NodeID = newVal[0].NodeID
 				this.chartTitle = `${newVal[0].devName}-${newVal[0].nodeName}`
@@ -116,7 +117,7 @@ export default {
 		handleCloseHistoryModal() {},
 		handleDay() {
 			let type = this.button4
-			console.log(type)
+			// console.log(type)
 
 			let time = type == '一天' ? 86400 : type == '三天' ? 259200 : type == '一周' ? 604800 : 86400
 			let nowDate = new Date().getTime()
@@ -129,12 +130,12 @@ export default {
 				startTime: startTime,
 				endTime: endTime
 			}
-			console.log(params)
+			// console.log(params)
 
 			this.getChartsData(params)
 		},
 		getChartsData(params) {
-			console.log(params)
+			// console.log(params)
 			this.$_api.humiture.getNodeChart(params).then(res => {
 				if (res.code == 200 && res.data) {
 					// console.log(res)

@@ -36,14 +36,14 @@ export default {
 	},
 
 	//新增main
-	addMainDate(params) {
-		return axios.request({
-			headers: { 'Content-Type': 'application/json' },
-			url: 'maintenance/saveOrUpdate',
-			method: 'post',
-			data: JSON.stringify(params)
-		})
-	},
+	// addMainDate(params) {
+	// 	return axios.request({
+	// 		headers: { 'Content-Type': 'application/json' },
+	// 		url: 'maintenance/saveOrUpdate',
+	// 		method: 'post',
+	// 		data: JSON.stringify(params)
+	// 	})
+	// },
 
 	//删除main
 	delMainDate(params) {

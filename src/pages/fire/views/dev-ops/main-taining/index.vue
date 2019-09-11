@@ -34,7 +34,7 @@
 				</FormItem>-->
 				<!-- 维护内容 -->
 				<FormItem label="维护内容" prop="context">
-					<Input v-model="addFormData.context" placeholder="请输入..." style="width: 370px" />
+					<Input type="textarea" v-model="addFormData.context" placeholder="请输入..." style="width: 370px" />
 				</FormItem>
 				<!-- 维保时间 -->
 				<FormItem label="维保时间" prop="beginTime">
@@ -55,15 +55,24 @@
 				<!-- 负责人 -->
 				<FormItem label="负责人" prop="presetName">
 					<Input v-model="addFormData.presetName" placeholder="请输入..." style="width: 370px" />
+					<!-- <el-select v-model="addFormData.presetName" placeholder style="width: 370px">
+						<el-option label="全部" value="nullValue"></el-option>
+						<el-option
+							v-for="item in presetName"
+							:key="item.mtcCoId"
+							:label="item.vcFileFullName"
+							:value="item.mtcCoId"
+						></el-option>
+					</el-select> -->
 				</FormItem>
 				<!-- 联系电话 -->
 				<FormItem label="联系电话" prop="telePhone">
 					<Input v-model="addFormData.telePhone" placeholder="请输入..." style="width: 370px" />
 				</FormItem>
 				<!-- 当前状态 -->
-				<FormItem label="当前状态" prop="status">
+				<!-- <FormItem label="当前状态" prop="status">
 					<Input v-model="addFormData.status" placeholder="请输入..." style="width: 370px" />
-				</FormItem>
+				</FormItem> -->
 			</Form>
 			<span slot="footer" class="dialog-footer">
 				<el-button class="blue-btn" type="text" @click="addInfo">确 定</el-button>
@@ -119,7 +128,7 @@
 
 			<!-- <el-button class="blue-btn" style=" line-height: 21PX;" @click="searchInfo" type="text">查&nbsp找</el-button> -->
 			<el-form-item class="taining-button">
-				<el-button class="blue-btn" type="text" @click="showAdd(0,{})">新增</el-button>
+				<!-- <el-button class="blue-btn" type="text" @click="showAdd(0,{})">新增</el-button> -->
 				<el-button class="blue-btn" @click="dosearch" type="text">查找</el-button>
 				<!-- <el-button class="blue-btn" v-if="!searchIS" @click="searchInfos" type="text">查找</el-button> -->
 				<el-button class="yellow-btn" @click="leadTo" type="text">导入</el-button>
@@ -132,21 +141,21 @@
 				<el-table-column prop="coName" align="center" label="维保单位" width="90"></el-table-column>
 				<el-table-column prop="unitName" align="center" label="变电站" width="130"></el-table-column>
 				<el-table-column prop="context" align="center" label="维护内容" width="320" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="beginTime" align="center" label="维保时间" width="100"></el-table-column>
+				<el-table-column prop="beginTime" align="center" label="维保时间" width="110"></el-table-column>
 				<!-- <el-table-column prop="endTime" align="center" label="计划结束时间" width='130'></el-table-column> -->
 				<el-table-column prop="vc_PowerOffScene" align="center" label="工作条件" width="100"></el-table-column>
-				<el-table-column prop="vc_PowerLevel" align="center" label="电压等级" width="80"></el-table-column>
+				<el-table-column prop="vc_PowerLevel" align="center" label="电压等级" width="90"></el-table-column>
 				<el-table-column prop="workTicketNum" align="center" label="工作票号" width="110"></el-table-column>
-				<el-table-column prop="presetName" align="center" label="负责人" width="70"></el-table-column>
-				<el-table-column prop="telePhone" align="center" label="联系电话" width="110"></el-table-column>
-				<el-table-column prop="status" align="center" label="当前状态" width="80">
+				<el-table-column prop="presetName" align="center" label="负责人" width="80"></el-table-column>
+				<el-table-column prop="telePhone" align="center" label="联系电话" width="120"></el-table-column>
+				<el-table-column prop="status" align="center" label="当前状态" width="90">
 					<!-- <template slot-scope="scope">
 						<span v-if="scope.row.status=='未执行'" style="color:red;">{{scope.row.status}}</span>
 						<span v-if="scope.row.status=='正在执行'" style="color:green;">{{scope.row.status}}</span>
 						<span v-if="scope.row.status=='已结束'" style="color:blue;">{{scope.row.status}}</span>
 					</template>-->
 				</el-table-column>
-				<el-table-column label="操作" align="center" width="304">
+				<el-table-column label="操作" align="center" width="250">
 					<template slot-scope="scope">
 						<div>
 							<el-button
@@ -164,13 +173,13 @@
 								type="text"
 								style="width:3.0rem;"
 							>记录</el-button>
-							<el-button
+							<!-- <el-button
 								class="edit-btn"
 								@click="showAdd(1,scope.row)"
 								size="mini"
 								type="text"
 								style="width:3.0rem;"
-							>编辑</el-button>
+							>编辑</el-button> -->
 							<el-button
 								class="del-btn"
 								@click="removeInfo(1,scope.row)"
@@ -234,8 +243,8 @@
 		<el-dialog title="导入文件" :visible.sync="Daoshow" width="50%" :before-close="close">
 			<div class="upload-content">
 				<Steps class="steps" :current="step" title="文件导入步骤">
-					<Step title="步骤一" content="择导入文件 (支持.xls格式的文件)"></Step>
-					<Step title="步骤二" content="选择完毕后点击 '导入' 按钮进行上传"></Step>
+					<Step title="步骤一" content="选择导入文件 (支持.xlsx格式的文件)"></Step>
+					<Step title="步骤二" content="选择完毕后点击 '导入' 按钮进行导入"></Step>
 					<Step title="步骤三" content="等待导入完成"></Step>
 				</Steps>
 				<Upload type="drag" :before-upload="handleUpload" action :accept="accept" :format="Format">
@@ -256,6 +265,7 @@
 				</div>
 			</div>
 			<div slot="footer">
+				<Button icon="md-cloud-download" type="success" size="large" @click="downloadTemplate" style="float:left">模板下载</Button>
 				<Button type="text" size="large" @click="close">取消</Button>
 				<Button
 					class="btn2"
@@ -295,8 +305,8 @@ export default {
 			step: 0,
 			file: null,
 			loadingStatus: false,
-			accept: '.xls',
-			Format: ['.xls'],
+			accept: '.xlsx',
+			Format: ['.xlsx'],
 			isAdd: true, // 判断新增还是修改 设置禁用
 			modalTitle: '新增',
 			//新增表单对象
@@ -519,44 +529,44 @@ export default {
 				onCancel: () => {}
 			})
 		},
-		// 新增、修改确认
-		addInfo() {
-			let params = {}
-			if (this.isAdd) {
-				// 新增
-				this.$refs.addFormRef.validate(async valid => {
-					if (!valid) return
-					//验证成功，掉接口提交数据
-					params = JSON.parse(JSON.stringify(this.addFormData))
-					let res = await this.$_api.maintaining.addMainDate(params)
-					if (res.success) {
-						this.searchInfo()
-						this.modalAddShow = false
-					}
-				})
-			} else {
-				// 修改
-				this.$refs.addFormRef.validate(async valid => {
-					if (!valid) return
-					//验证成功，掉接口提交数据
-					params = JSON.parse(JSON.stringify(this.addFormData))
-					let res = await this.$_api.maintaining.addMainDate(params)
-					if (res.success) {
-						this.searchInfo()
-						this.modalAddShow = false
-					}
-				})
-			}
-		},
-		// 显示新增/修改弹框
-		showAdd(data, params) {
-			data == 0 ? (this.modalTitle = '新增') : (this.modalTitle = '修改')
-			data == 0 ? (this.isAdd = true) : (this.isAdd = false)
-			if (data == 1) {
-				this.addFormData = JSON.parse(JSON.stringify(params))
-			}
-			this.dialogAddVisible = true
-		},
+		// // 新增、修改确认
+		// addInfo() {
+		// 	let params = {}
+		// 	if (this.isAdd) {
+		// 		// 新增
+		// 		this.$refs.addFormRef.validate(async valid => {
+		// 			if (!valid) return
+		// 			//验证成功，掉接口提交数据
+		// 			params = JSON.parse(JSON.stringify(this.addFormData))
+		// 			let res = await this.$_api.maintaining.addMainDate(params)
+		// 			if (res.success) {
+		// 				this.searchInfo()
+		// 				this.modalAddShow = false
+		// 			}
+		// 		})
+		// 	} else {
+		// 		// 修改
+		// 		this.$refs.addFormRef.validate(async valid => {
+		// 			if (!valid) return
+		// 			//验证成功，掉接口提交数据
+		// 			params = JSON.parse(JSON.stringify(this.addFormData))
+		// 			let res = await this.$_api.maintaining.addMainDate(params)
+		// 			if (res.success) {
+		// 				this.searchInfo()
+		// 				this.modalAddShow = false
+		// 			}
+		// 		})
+		// 	}
+		// },
+		// // 显示新增/修改弹框
+		// showAdd(data, params) {
+		// 	data == 0 ? (this.modalTitle = '新增') : (this.modalTitle = '修改')
+		// 	data == 0 ? (this.isAdd = true) : (this.isAdd = false)
+		// 	if (data == 1) {
+		// 		this.addFormData = JSON.parse(JSON.stringify(params))
+		// 	}
+		// 	this.dialogAddVisible = true
+		// },
 		async init() {
 			let result = await this.$_api.maintaining.getMaintenance()
 			if (result.success) {
@@ -578,6 +588,7 @@ export default {
 		dosearch() {
 			this.starTim = parseInt(this.search.starTime / 1000) == 0 ? '' : parseInt(this.search.starTime / 1000)
 			this.endTim = parseInt(this.search.endTime / 1000) == 0 ? '' : parseInt(this.search.endTime / 1000)
+			console.log(this.search.starTime)
 			this.searchInfo()
 		},
 		async searchInfo() {
@@ -626,8 +637,16 @@ export default {
 		// 	}
 		// },
 
+		//模板下载
+		downloadTemplate() {
+
+		},
+
 		//导出
-		exportInfo() {},
+		exportInfo() {
+
+		},
+
 		getThisWeek(currentTime) {
 			var currentDate = new Date(currentTime)
 			var timesStamp = currentDate.getTime()
@@ -712,13 +731,17 @@ export default {
 			this.isFile = false
 			this.loadingStatus = false
 		},
+		//导出模板文件
+		exportTemplate() {
+
+		},
 		// 上传提交
 		upload() {
 			// 点击上传
 			if (this.isFile) {
 				if (
-					this.file.name.substring(this.file.name.length - 3) == 'xls' ||
-					this.file.name.substring(this.file.name.length - 3) == 'XLS'
+					this.file.name.substring(this.file.name.length - 4) == 'xlsx' ||
+					this.file.name.substring(this.file.name.length - 4) == 'XLSX'
 				) {
 					this.loadingStatus = true
 					this.step = 2
@@ -744,7 +767,7 @@ export default {
 					this.file = null
 					this.isFile = false
 					this.step = 0
-					this.$Message.warning('请选择.xls格式的文件')
+					this.$Message.warning('请选择.xlsx格式的文件')
 				}
 			} else {
 				this.$Message.warning('请选择需要导入的文件')

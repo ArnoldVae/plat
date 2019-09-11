@@ -3,6 +3,7 @@
     <div class="water-soaking-center">
       <div class="water-soaking-top"
            v-if="list.length > 1">
+		   <!-- 图纸切换按钮 -->
         <span v-for="(item, index) in list"
               :key="index"
               v-show="item.vcUrl.length != 0"
@@ -16,23 +17,31 @@
                    @htClick="htClick"
                    :isNodeClick="true"
                    :mqttData="mqttData"
-				   :isShowName="true" />
+                   :isShowName="true"
+                   :source="sourceName" />
     </div>
-    <charts v-model="historyModal"
+    <!-- <charts v-model="historyModal"
             :node-id="nodeId"
             :sub-title="chartTitle"
-            :unit="unit"></charts>
+            :unit="unit" /> -->
+    <chartsList v-model="historyListModal"
+                :node-id="nodeId"
+                :sub-title="chartTitle"
+                :unit="unit" />
   </div>
 </template>
 <script>
+import { findComponentUpward } from '@/libs/assist'
 import htBlueprint from './view-ichnography'
 import charts from '../main-oil/charts1'
-import { log } from 'util';
+import chartsList from '../terminal-box/chartsList'
+import { log } from 'util'
 export default {
 	name: 'view-ht-page',
 	components: {
 		htBlueprint,
-		charts
+		charts,
+		chartsList
 	},
 	data() {
 		return {
@@ -47,82 +56,62 @@ export default {
 			topicStr: '',
 			mqttData: {},
 			historyModal: false,
-			nodeId: '',
-			chartTitle: '',
-			unit: '',
-			functionCode: "1011.0002"
+			nodeId: [],
+			chartTitle: [],
+			unit: [],
+			functionCode: '1011.0002',
+			sourceName: '',
+			historyListModal: false
 		}
 	},
 	watch: {},
+	computed: {
+		activeTypeMapLists() {
+			return findComponentUpward(this, 'intelligent').currentModeInfo
+		}
+	},
 	created() {
 		this.getData()
 	},
 	mounted() {
 		this.topicStr = this.topicArr[0] + this.unitId
 		// this.subscribe(this.topicStr)
-		console.log(this.topicStr)
+		// console.log(this.topicStr)
 
 		//实时数据回调
 		const _this = this
-
-		// this.$_listen(_this.$options.name, (topic, message, packet) => {
-		// 	// let data = ''
-		// 	// let dataobj = []
-		// 	// dataobj = message
-		// 	// dataobj.forEach(item => {
-		// 	// 	//将推送的报文转码
-		// 	// 	data = data + String.fromCharCode(item)
-		// 	// })
-		// 	console.log(message);
-
-		// 	let data = JSON.parse(message.toString())
-		// 	//如果推送上来的数据的topic和订阅的topic一致qif/zf/app/192fe4cec3ec4d3fb81c0d05f82bde41
-		// 	// 	if (topic == _this.topicStr) {
-		// 	//   console.log(data)
-		// 	// 	}
-		// 	console.log(123123);
-
-		// 	console.log(data);
-
-		// 	if (topic == _this.topicStr) {
-		// 		let val = JSON.parse(data)
-		// 		if (val.type == 'req' && val.cmd == '1002') {
-		// 			console.log(val)
-		// 			_this.mqttData = val
-		// 		}
-		// 	}
-		// })
 		this.$_listen(this.$options.name, (topic, message, packet) => {
 			//如果推送上来的数据的topic和订阅的topic一致
 			if (topic == _this.topicStr) {
 				let msgData = JSON.parse(message.toString())
-				console.log(msgData)
-				if (msgData.type == 'req' && msgData.cmd == '1002') {
+				// console.log(msgData)
+				if (msgData.unitid == this.$store.getters.unitId && msgData.cmd == 1002) {
 					this.mqttData = msgData
 				}
-				
 			}
 		})
 	},
 	methods: {
 		//图纸节点点击回调
 		htClick(data, nodes) {
-			console.log(data);
-			console.log(data.a('functionCode'));
-			
-			let index = nodes.findIndex(item => item.vcSourceId == data._tag)
-			let node = nodes[index]
-			let nodeIndex = node.devNodes.findIndex(val => val.functionCode == data.a('functionCode'))
-			if(nodeIndex == -1){
+			if (data.a('functionCode') != null) {
+				let str = data.a('functionCode').split(',')
+				let index = nodes.findIndex(item => item.vcSourceId == data._tag)
+				let node = nodes[index]
+				let arr = []
+				for (let i = 0; i < str.length; i++) {
+					let functionCode = str[i]
+					let nodeIndex = node.devNodes.findIndex(val => val.functionCode == functionCode)
+					arr.push(node.devNodes[nodeIndex])
+				}
+
+				this.historyListModal = true
+				this.nodeId = arr
+				this.chartTitle = arr
+				this.unit = arr
+			} else {
 				this.$ocxMessage.error('数据丢失！！！')
-				return
 			}
-			let devNode = node.devNodes[nodeIndex]
-			
-			this.historyModal = true
-			this.nodeId = devNode.NodeID
-			this.chartTitle = devNode.devName
-			this.unit = devNode.vc_Unit
 		},
 
 		//图纸切换
@@ -136,20 +125,35 @@ export default {
 
 		//获取图纸信息
 		getData() {
-			let params = {
-				unitId: this.unitId,
-				iSubType: '10100010'
-			}
-			this.axios.getHtDrawing(params).then(res => {
-				if (res.code == 200) {
-					this.list = res.data
-					if (res.data.length) {
-						this.blueprintObj = res.data[0]
-						this.blueprintUrl = res.data[0].vcUrl
-						this.pitchOn = res.data[0].pageId
-					}
+			let index = this.activeTypeMapLists.devTypeShowModes.findIndex(item => item.icon == 'picture')
+			if (index != -1) {
+				let data = this.activeTypeMapLists.devTypeShowModes[index]
+
+				let iSubType
+				if (data.iParam1 != null) {
+					iSubType = data.iParam1
+					if (iSubType == '10100011') this.sourceName = 'terminalBox'
+				} else {
+					this.$ocxMessage.error('请配置参数！！！')
 				}
-			})
+
+				let params = {
+					unitId: this.unitId,
+					iSubType
+				}
+				this.axios.getHtDrawing(params).then(res => {
+					if (res.code == 200) {
+						console.log(res)
+
+						this.list = res.data
+						if (res.data.length) {
+							this.blueprintObj = res.data[0]
+							this.blueprintUrl = res.data[0].vcUrl
+							this.pitchOn = res.data[0].pageId
+						}
+					}
+				})
+			}
 		},
 
 		//获取图元节点

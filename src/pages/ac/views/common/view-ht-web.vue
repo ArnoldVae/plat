@@ -66,26 +66,9 @@ export default {
 		this.getDevList()
 	},
 	mounted() {
-		// this.start()
+		console.log('activeTypeMapLists', this.activeTypeMapLists.devTypeShowModes)
 
-		//获取图纸信息
-		let params = {
-			unitId: this.unitId,
-			iSubType: '10100012'
-		}
-		this.$_api.humiture.getHtDrawing(params).then(res => {
-			if (res.code == 200) {
-				this.list = res.data
-				if (res.data.length) {
-					this.htUrl = res.data
-					// this.blueprintObj = res.data[0]
-					// this.blueprintUrl = res.data[0].vcUrl
-					this.htSwitch = res.data[0].pageId
-
-					this.init(this.htUrl[0])
-				}
-			}
-		})
+		this.getList()
 
 		this.topicStr = this.topicArr[0] + this.unitId
 		// console.log(this.topicStr)
@@ -118,9 +101,45 @@ export default {
 		},
 		activeTypeMapList() {
 			return findComponentUpward(this, 'intelligent').deviceTypeMapList
+		},
+		activeTypeMapLists() {
+			return findComponentUpward(this, 'intelligent').currentModeInfo
 		}
 	},
 	methods: {
+		//获取图纸列表信息
+		getList() {
+			let index = this.activeTypeMapLists.devTypeShowModes.findIndex(item => item.icon == 'picture')
+			if (index != -1) {
+				let data = this.activeTypeMapLists.devTypeShowModes[index]
+				console.log('data', data)
+				let iSubType
+				if (data.iParam1 != null) {
+					iSubType = data.iParam1
+				} else {
+					this.$ocxMessage.error('请配置参数！！！')
+				}
+
+				//获取图纸信息
+				let params = {
+					unitId: this.unitId,
+					iSubType
+				}
+				this.$_api.humiture.getHtDrawing(params).then(res => {
+					if (res.code == 200) {
+						this.list = res.data
+						if (res.data.length) {
+							this.htUrl = res.data
+							// this.blueprintObj = res.data[0]
+							// this.blueprintUrl = res.data[0].vcUrl
+							this.htSwitch = res.data[0].pageId
+
+							this.init(this.htUrl[0])
+						}
+					}
+				})
+			}
+		},
 		//获取设备列表
 		getDevList() {
 			let params = {

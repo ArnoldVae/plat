@@ -126,16 +126,26 @@
 				<!-- 有效日期 -->
 				<FormItem label="有效日期" prop="beginTime">
 					<!-- <Input v-model="addFormData.beginTime" placeholder="请输入..." style="width: 370px" /> -->
-					<el-date-picker
+					<el-date-picker v-model="addFormData.beginTime" type="date" style="width: 370px;"></el-date-picker>
+					<!-- <el-date-picker
 						v-model="addFormData.beginTime"
 						value-format="yyyy年M月"
 						type="month"
 						style="width: 370px"
-					></el-date-picker>
+					></el-date-picker> -->
 				</FormItem>
 				<!-- 保管责任人 -->
 				<FormItem label="保管责任人" prop="userId">
 					<Input v-model="addFormData.userId" placeholder="请输入..." style="width: 370px" />
+					<!-- <el-select v-model="addFormData.userId" placeholder="请选择保管责任人" style="width: 370px">
+						<el-option label="全部" value="nullValue"></el-option>
+						<el-option
+							v-for="(item, index) in eqcnameS"
+							:key="index"
+							:label="item.vcName"
+							:value="item.dictID"
+						></el-option>
+					</el-select> -->
 				</FormItem>
 				<!-- 安装位置 -->
 				<FormItem label="安装位置" prop="vcLocal">
@@ -143,7 +153,7 @@
 				</FormItem>
 				<!-- 备注 -->
 				<FormItem label="备注" prop="vcMemo">
-					<Input v-model="addFormData.vcMemo" placeholder="请输入..." style="width: 370px" />
+					<Input type="textarea" v-model="addFormData.vcMemo" placeholder="请输入..." style="width: 370px" />
 				</FormItem>
 			</Form>
 			<span slot="footer" class="dialog-footer">
@@ -184,6 +194,15 @@
 
 			<el-form-item label="保管责任人:">
 				<el-input v-model="search.keeperName" placeholder="请输入保管责任人"></el-input>
+				<!-- <el-select v-model="search.keeperName" placeholder="请选择保管责任人" style="width: 370px">
+						<el-option label="全部" value="nullValue"></el-option>
+						<el-option
+							v-for="(item, index) in eqcnameS"
+							:key="index"
+							:label="item.vcName"
+							:value="item.dictID"
+						></el-option>
+					</el-select> -->
 			</el-form-item>
 			<br />
 			<el-form-item class="taining-button">
@@ -246,8 +265,8 @@
 		<el-dialog title="导入文件" :visible.sync="Daoshow" width="50%" :before-close="close">
 			<div class="upload-content">
 				<Steps class="steps" :current="step" title="文件导入步骤">
-					<Step title="步骤一" content="择导入文件 (支持.xls格式的文件)"></Step>
-					<Step title="步骤二" content="选择完毕后点击 '导入' 按钮进行上传"></Step>
+					<Step title="步骤一" content="选择导入文件 (支持.xlsx格式的文件)"></Step>
+					<Step title="步骤二" content="选择完毕后点击 '导入' 按钮进行导入"></Step>
 					<Step title="步骤三" content="等待导入完成"></Step>
 				</Steps>
 				<Upload type="drag" :before-upload="handleUpload" action :accept="accept" :format="Format">
@@ -268,6 +287,7 @@
 				</div>
 			</div>
 			<div slot="footer">
+				<Button icon="md-cloud-download" type="success" size="large" @click="downloadTemplate" style="float:left">模板下载</Button>
 				<Button type="text" size="large" @click="close">取消</Button>
 				<Button
 					class="btn2"
@@ -296,8 +316,8 @@ export default {
 			step: 0,
 			file: null,
 			loadingStatus: false,
-			accept: '.xls',
-			Format: ['.xls'],
+			accept: '.xlsx',
+			Format: ['.xlsx'],
 			isAdd: true, // 判断新增还是修改 设置禁用
 			modalTitle: '新增',
 			//新增表单对象
@@ -487,14 +507,14 @@ export default {
 				vcLocal: [
 					{ required: true, message: '该项为必填项', trigger: 'blur' },
 					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
-				],
+				]
 				// num: [
 				// 	{ required: true, message: '该项为必填项', trigger: 'blur' }
 				// ],
-				beginTime: [
-					{ required: true, message: '该项为必填项', trigger: 'blur' },
-					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
-				]
+				// beginTime: [
+				// 	{ required: true, message: '该项为必填项', trigger: 'blur' },
+				// 	{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				// ]
 			}
 		}
 	},
@@ -518,6 +538,10 @@ export default {
 		}
 	},
 	methods: {
+		//模板下载
+		downloadTemplate() {
+
+		},
 		//导出
 		exportList() {
 			// var time = moment().format('YYYYMMDDHHmmss')
@@ -563,8 +587,9 @@ export default {
 				this.$refs.addFormRef.validate(async valid => {
 					if (!valid) return
 					//验证成功，掉接口提交数据
+					// this.addFormData.beginTime = new Date(this.addFormData.beginTime)
 					params = JSON.parse(JSON.stringify(this.addFormData))
-					// console.log(params)
+					console.log(params)
 					let res = await this.$_api.devOps.addEquipmentDate(params)
 					if (res.success) {
 						this.searchItem()
@@ -775,13 +800,14 @@ export default {
 			this.isFile = false
 			this.loadingStatus = false
 		},
+		
 		// 上传提交
 		upload() {
 			// 点击上传
 			if (this.isFile) {
 				if (
-					this.file.name.substring(this.file.name.length - 3) == 'xls' ||
-					this.file.name.substring(this.file.name.length - 3) == 'XLS'
+					this.file.name.substring(this.file.name.length - 4) == 'xlsx' ||
+					this.file.name.substring(this.file.name.length - 4) == 'XLSX'
 				) {
 					this.loadingStatus = true
 					this.step = 2
@@ -807,7 +833,7 @@ export default {
 					this.file = null
 					this.isFile = false
 					this.step = 0
-					this.$Message.warning('请选择.xls格式的文件')
+					this.$Message.warning('请选择.xlsx格式的文件')
 				}
 			} else {
 				this.$Message.warning('请选择需要导入的文件')

@@ -80,11 +80,7 @@
 					<div class="router-view-wrap">
 						<!-- <transition name="fade" mode="out-in"> -->
 						<!-- @hook:mounted="initDisplayMode" -->
-						<router-view
-							ref="view"
-							class="view"
-							:class="{ full: typeList.length == 1 }"
-						></router-view>
+						<router-view ref="view" class="view" :class="{ full: typeList.length == 1 }"></router-view>
 						<!-- </transition> -->
 						<div class="style">
 							<!-- v-if="currentModeInfo.length != 1" -->
@@ -328,10 +324,13 @@ export default {
 
 			// this.$router.push({ name: this.getRouterNameByMap(item.devTypeId) })
 			// this.$router.push({ name: this.getRouterNameByMap(item.devTypeId), query: {unitId: this.$store.getters.unitId } })
-			this.$router.push({ name: 'type-container', query: {
-				unitId: this.$store.getters.unitId,
-				typeId: item.devTypeId
-			} })
+			this.$router.push({
+				name: 'type-container',
+				query: {
+					unitId: this.$store.getters.unitId,
+					typeId: item.devTypeId
+				}
+			})
 
 			// 更新当前路由下得显示类型列表
 			this.currentModeInfo = await this.getDisplayModeBytypeId(item.devTypeId)
@@ -364,7 +363,7 @@ export default {
 				} else {
 					return {}
 				}
-			} catch(e) {
+			} catch (e) {
 				return {}
 				this.$ocxMessage.error(`${e}`)
 			}
@@ -390,7 +389,6 @@ export default {
 		initDisplayMode() {
 			// this.handleChangeDisplayMode(this.currentModeInfo.devTypeShowModes[0], 0, this.currentModeInfo)
 			this.rotation = setInterval(() => {
-
 				// if (this.currentModeInfo && this.currentModeInfo.length > 0) {
 				// 	// 如果当前第一个显示模式和组件匹配则不再执行初始化
 				// 	if (!this.$refs.view.current) clearInterval(this.rotation)
@@ -410,20 +408,23 @@ export default {
 					if (this.currentModeInfo.devTypeShowModes == undefined) {
 						return this.handleChangeTableMode()
 					}
-					return this.handleChangeDisplayMode(this.currentModeInfo.devTypeShowModes[0], 0, this.currentModeInfo)
-				} 
+					return this.handleChangeDisplayMode(
+						this.currentModeInfo.devTypeShowModes[0],
+						0,
+						this.currentModeInfo
+					)
+				}
 				// console.log('轮询', this.rotation)
 			}, 100)
 		},
 		// 点击树节点
 		handleClickNode(data, node, root) {
-
-			if (data.type == 2) {
+			if (data.type == 0 || data.type == 1 || data.type == 2) {
 				// 更新当前模块单元id
 				this.$store.commit('UPDATE_UNITID', data.id)
 				// console.log(this.$store.getters.unitId)
 			}
-			
+
 			// 如果匹配到最根级则返回
 			if (data.id == this.data[0]['id']) {
 				this.handleGoBack()
@@ -517,7 +518,7 @@ export default {
       // padding: 0 10px;
       padding-top: 10px;
       margin: 0 10px;
-		
+
 	  /deep/ .el-input__prefix {
 	  	left: 20px;
 	  	top: 7px;

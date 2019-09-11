@@ -47,7 +47,7 @@
 						</Col>
 					</Row>
 					<Row style="margin-left: 25px">
-						<Col :span="8" v-for="(value, index) in this.maintenancePlan.secondRow" :key="index">
+						<Col :span="index==1? 10 : 7" v-for="(value, index) in this.maintenancePlan.secondRow" :key="index">
 							<p>
 								<img :src="value.imgSrc" alt />
 								<span>{{ value.title }}{{ value.data }}</span>
@@ -55,7 +55,7 @@
 						</Col>
 					</Row>
 					<Row style="margin-left: 25px">
-						<Col :span="8" v-for="(value, index) in this.maintenancePlan.thirdRow" :key="index">
+						<Col :span="index==1? 10 : 7" v-for="(value, index) in this.maintenancePlan.thirdRow" :key="index">
 							<p>
 								<img :src="value.imgSrc" alt />
 								<span>{{ value.title }}{{ value.data }}</span>
@@ -63,7 +63,7 @@
 						</Col>
 					</Row>
 					<Row style="margin-left: 25px">
-						<Col :span="8" v-for="(value, index) in this.maintenancePlan.fourthRow" :key="index">
+						<Col :span="index==1? 10 : 7" v-for="(value, index) in this.maintenancePlan.fourthRow" :key="index">
 							<p>
 								<img :src="value.imgSrc" alt />
 								<span>{{ value.title }}{{ value.data }}</span>
