@@ -121,18 +121,22 @@
                 <div class="waring-body">
                     <div class="waring-body-msg">
                         <span class="color-fontKey">当前报警变电站：</span> <span class="color-fontValue">{{alarmTitle}}</span>
-                        <span class="color-fontKey">防护区：</span> <span class="color-fontValue">{{alarmDetail.areaName}}</span>
-                        <span class="color-fontKey">设备名称：</span> <span class="color-fontValue">{{alarmDetail.devName}}</span>
-                        <span class="color-fontKey">报警节点：</span> <span class="color-fontValue">{{alarmDetail.nodeName}}</span>
-                        <span class="color-fontKey">报警时间：</span> <span class="color-fontValue">{{alarmDetail.beginTime}}</span>
+                        <span class="color-fontKey">防护区：</span> <span
+                            class="color-fontValue">{{alarmDetail.areaName}}</span>
+                        <span class="color-fontKey">设备名称：</span> <span
+                            class="color-fontValue">{{alarmDetail.devName}}</span>
+                        <span class="color-fontKey">报警节点：</span> <span
+                            class="color-fontValue">{{alarmDetail.nodeName}}</span>
+                        <span class="color-fontKey">报警时间：</span> <span
+                            class="color-fontValue">{{alarmDetail.beginTime}}</span>
                     </div>
                     <el-container>
                         <el-aside width="76%">
                             <div class="modal-video">
-                                <div class="modal-video-single video-left" >
-                                    <OcxVideo  :videoConfig="alarmData.videoList[0]"></OcxVideo>
+                                <div class="modal-video-single video-left">
+                                    <OcxVideo :videoConfig="alarmData.videoList[0]"></OcxVideo>
                                 </div>
-                                <div class="modal-video-single video-right" >
+                                <div class="modal-video-single video-right">
                                     <OcxVideo :videoConfig="alarmData.videoList[1]"></OcxVideo>
                                 </div>
                             </div>
@@ -223,8 +227,8 @@
         },
         data() {
             return {
-                alarmData:{
-                    videoList:[
+                alarmData: {
+                    videoList: [
                         {
                             isAutoPlay: true,
                             serviceInfo: '1$22.46.34.114$6800$admin$admin',
@@ -357,8 +361,9 @@
         beforeDestory() {
         },
         methods: {
-            clickRcuImg(){},
-            mapSuccess(){
+            clickRcuImg() {
+            },
+            mapSuccess() {
 
             },
             /**
@@ -392,7 +397,7 @@
                         if (res.code == 200) {
                             if (res.data) {
                                 console.log(this)
-                                this.labelList=[]
+                                this.labelList = []
                                 this.labelList = res.data
                                 this.labelList.forEach((im, i) => {
                                     im.index = i + 1
@@ -400,7 +405,7 @@
                                 })
 
 
-                                this.alarmData.unitName =  res.data[0].unitName
+                                this.alarmData.unitName = res.data[0].unitName
                                 if (item) {
                                     this.showItemDetail(item)
                                 } else {
@@ -442,10 +447,10 @@
                 })
                 if (result.success) {
                     //报警信息赋值操作
-                    this.alarmData.araeName=result.data.araeName
-                    this.alarmData.devName=result.data.devName
-                    this.alarmData.nodeName=result.data.nodeName
-                    this.alarmData.time=moment(result.data.beginTime * 1000).format('YYYY-MM-DD HH:mm')
+                    this.alarmData.araeName = result.data.araeName
+                    this.alarmData.devName = result.data.devName
+                    this.alarmData.nodeName = result.data.nodeName
+                    this.alarmData.time = moment(result.data.beginTime * 1000).format('YYYY-MM-DD HH:mm')
                     this.alarmDetail = result.data
                     this.alarmDetail.beginTime = moment(result.data.beginTime * 1000).format('YYYY-MM-DD HH:mm')
                     this.protectAreaId = result.data.protectAreaId
@@ -475,7 +480,7 @@
             async getReserve(item) {
                 let result = await this.$_api.alarmAction.getReserve({
                     unitId: item.unitId || '',
-                    areaId: item.areaId||'19ba44379e6f42fc88fa26226dc14334'
+                    areaId: item.areaId || '19ba44379e6f42fc88fa26226dc14334'
                 })
                 if (result.success) {
                     this.cfgName = result.data.cfgName
@@ -615,6 +620,7 @@
                             smooth: true,
                             markLine: {
                                 silent: true,
+
                                 lineStyle: {
                                     normal: {
                                         color: '#01fef9' // 这儿设置安全基线颜色
@@ -734,12 +740,12 @@
             },
             alarmShow() {
                 this.ocxModel = true
-                let that=this
+                let that = this
                 //点位地图
-                setTimeout(()=>{
+                setTimeout(() => {
                     // center: {lng: 118.79288, lat: 31.88029},
-                    that.$refs.map.location({dMapx:118.79288,dMapy:31.88029})
-                },200)
+                    that.$refs.map.location({dMapx: 118.79288, dMapy: 31.88029})
+                }, 200)
                 this.getReserve(this.alarmData)
                 // this.confirHide = this.pageType ? false : true
                 // this.comfireAlarm = this.pageType ? true : false
@@ -752,35 +758,35 @@
                 this.confirHide = false
             },
             //确认报警删除条目操作
-            delAlarm(node){
+            delAlarm(node) {
                 debugger
-                this.labelList.forEach((item,index)=>{
-                    if(item.alarmId==node.alarmId){
-                        this.labelList.splice(index,1)
+                this.labelList.forEach((item, index) => {
+                    if (item.alarmId == node.alarmId) {
+                        this.labelList.splice(index, 1)
                     }
                 })
-                this.showItemDetail( this.labelList[0])
+                this.showItemDetail(this.labelList[0])
             },
             init(node) {
-                if(node){
-                    this.alarmData=node
+                if (node) {
+                    this.alarmData = node
                     //左侧条目操作赋值操作
-                    if(this.labelList.length>0){
-                        this.labelList.forEach(item=>{
-                            item.selected=false
+                    if (this.labelList.length > 0) {
+                        this.labelList.forEach(item => {
+                            item.selected = false
                         })
                     }
                     this.labelList.push({
-                        unitName:node.unitName,
-                        araeName:node.areaName,
-                        devName:node.devName,
-                        beginTime:node.time,
-                        unitId:node.unitId,
-                        alarmId:node.alarmId,
-                        selected:true
+                        unitName: node.unitName,
+                        araeName: node.areaName,
+                        devName: node.devName,
+                        beginTime: node.time,
+                        unitId: node.unitId,
+                        alarmId: node.alarmId,
+                        selected: true
                     })
                     //站内气象赋值操作
-                    if(node.wqxList&&node.wqxList.length>0){
+                    if (node.wqxList && node.wqxList.length > 0) {
                         node.wqxList.forEach(item => {
                             if (item.functioinId == 155) {
                                 this.weatherList[1].value = item.fValue
@@ -803,12 +809,12 @@
                         })
                     }
                     // 曲线赋值
-                    if(node.nodeList&&node.nodeList.length>0){
-                        node.nodeList.forEach(item=>{
-                            if(item.functionid==157){
+                    if (node.nodeList && node.nodeList.length > 0) {
+                        node.nodeList.forEach(item => {
+                            if (item.functionid == 157) {
                                 this.idListObj.arr1.push(item.f_value)
                                 this.idListObj.arr3.push(moment(Number(item.i_datatime) * 1000).format('YYYY-MM-DD HH:mm'))
-                            }else {
+                            } else {
                                 this.idListObj.arr2.push(item.f_value)
                             }
 
@@ -818,7 +824,7 @@
                         this.getEnvChart(this.idListObj)
                     }
                     //    灭火资源赋值
-                    this.imgUrl=node.svgList[0].vcmemo
+                    this.imgUrl = node.svgList[0].vcmemo
 
                 }
                 console.log(this.alarmData)
@@ -841,11 +847,13 @@
     .font-time {
         font-family: 'DS-DIGI';
     }
-    .color-fontKey{
+
+    .color-fontKey {
         color: #47b2fe;
         margin-right: 10px;
     }
-    .color-fontValue{
+
+    .color-fontValue {
         color: yellow;
         margin-right: 16px;
     }
@@ -864,23 +872,28 @@
     }
 
     .waring-body {
-        .waring-body-msg{
+        .waring-body-msg {
             height 40px
             color white
             font-size 14px
         }
-        .el-container{
-            .el-aside{
+
+        .el-container {
+            .el-aside {
                 padding 0
-                .modal-video{
+
+                .modal-video {
                     height 450px
-                    .video-left{
+
+                    .video-left {
                         margin-right: 16px;
                     }
-                    .modal-video-single{
+
+                    .modal-video-single {
                         width 49%
                         float left
-                        .ocxVideo{
+
+                        .ocxVideo {
                             width 710px !important
                             height 450px !important
 
@@ -888,19 +901,22 @@
                     }
 
                 }
-                .modal-map{
+
+                .modal-map {
                     float left
                     width 710px
                     border 1px solid #195891
                     margin-top 10px
                     height 345px
                     margin-right 8px
-                    .mapContanier{
+
+                    .mapContanier {
                         height 292px
 
                     }
                 }
-                .modal-source{
+
+                .modal-source {
                     float left
                     width 710px
                     border 1px solid #195891
@@ -908,8 +924,10 @@
                     height 345px
                 }
             }
-            .el-main{
+
+            .el-main {
                 padding 0
+
                 .con-right {
                     height: 35.8rem;
                     border 1px solid #195a9e
@@ -1220,6 +1238,7 @@
                                 height: 100%;
                             }
                         }
+
                         .alarmInfo-box {
                             width: 100%;
 
@@ -1286,6 +1305,7 @@
                         height: 280px;
                         margin-right 10px
                         border 1px solid #195891
+
                         .weatherInfo {
 
                             padding: 10px;

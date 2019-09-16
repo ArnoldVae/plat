@@ -25,6 +25,15 @@ export default {
 			data: JSON.stringify(params)
 		})
 	},
+	//获取责任人列表
+	getPersonData(params){
+		return axios.request({
+			headers: { 'Content-type': 'application/json; charset=utf-8' },
+			url: 'account/user_list',
+			method: 'post',
+			data: JSON.stringify(params)
+		})
+	},
 	//获取图纸
 	getHtControl(params) {
 		return axios.request({
@@ -56,7 +65,7 @@ export default {
 		return axios.request({
 			url: 'account/upload',
 			method: 'post',
-			data: JSON.stringify(params)
+			data: params
 		})
 	}
 }

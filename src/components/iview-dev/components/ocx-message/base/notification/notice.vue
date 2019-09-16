@@ -168,14 +168,19 @@ export default {
 </script>
 <style lang="stylus" scoped>
 /deep/ .ivu-message-notice-content {
-    background: #335981;
-
-    .ivu-icon, .ivu-message-loading .ivu-icon,
-    .ivu-message-custom-content  {
-        color: #fff;
-        span {
-            color: #fff;
-        }
-    }
+    background: #0c173a;
+	color: #b0e1f9;
+	font-size: 18px;
+	
+	/deep/.ivu-message-custom-content{
+		i{
+			font-size: 28px;
+			display: inline-block;
+		}
+		span{
+			display: inline-block;
+		}
+	}
+   
 }
 </style>

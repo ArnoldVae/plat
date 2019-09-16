@@ -49,7 +49,7 @@ export default {
 	delMainDate(params) {
 		return axios.request({
 			headers: { 'Content-Type': 'application/json' },
-			url: 'maintenance/del',
+			url: 'maintenance/plan/delMtcPlanById',
 			method: 'post',
 			data: JSON.stringify(params)
 		})

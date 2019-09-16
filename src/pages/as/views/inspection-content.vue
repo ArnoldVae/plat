@@ -293,7 +293,7 @@ export default {
 		color: #fff;
 		cursor: pointer;
         background-color: #106fd9;
-        font-size: 18px;
+        font-size: 15px;
         line-height: 56px;
         text-align: center;
 		border-radius: 0 5px 5px 0;
@@ -327,7 +327,7 @@ export default {
           width: 100%;
           background: url('../assets/img/common/secondary_ menu.png');
           background-size: 100% 100%;
-          color: #fff;
+          color: #b0e1f9;
 
           li {
             float: left;

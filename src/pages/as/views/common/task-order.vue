@@ -139,9 +139,10 @@
 					<el-button slot="append" icon="el-icon-search" @click="filterByKeyWord"></el-button>
 				</el-input>
 
-				<div class="tree-wrap">
+				<div class="tree-wrap" v-show="ztreeSwitch">
 					<ul :id="ztreeId" ref="ztree" class="ztree"></ul>
 				</div>
+				<p v-show="ztreeNull">暂无数据</p>
 			</div>
 		</div>
 		<div class="task-order-btn">
@@ -250,6 +251,8 @@ export default {
 			ztreeId: '',
 			isFilter: false,
 			hiddenNodes: [],
+			ztreeSwitch: false,
+			ztreeNull: false,
 		}
 	},
 	computed: {},
@@ -304,6 +307,7 @@ export default {
 		//关闭弹框
 		closeAddTask() {
 			this.transmitArr = []
+			this.ztreeSwitch = false
 			this.$emit('closeAddTask')
 		},
 		//点击巡检成票
@@ -318,9 +322,9 @@ export default {
 				}
 			})
 			if( nodesArr.length == 0 ) {
-				this.$ocxModal.warning({
-				  title: '提示',
-				  content: '<p>请选择测点</p>'
+				this.$ocxMessage.warning({
+				 duration: 3,
+				  content: '<p>已选数据中没有测点</p>'
 				})
 			}else {
 				this.$emit('inspectionAticketClick', nodesArr)
@@ -331,6 +335,7 @@ export default {
 		//(java接口)
 		getStaticTreeData(area, devType, regType, meterType, appearanceType, selectStr) {
 			this.isFilter = false
+			this.ztreeSwitch = true
 			if (this.treeData.length > 0 && !selectStr) {
 				return
 			} else if (this.treeData.length == 0 && !selectStr) {
@@ -349,6 +354,13 @@ export default {
 							this.treeData = res.data
 							$.fn.zTree.init($(this.$refs.ztree), this.setting, res.data)
 							this.ztreeObj = $.fn.zTree.getZTreeObj(this.ztreeId)
+							
+							if( this.treeData.length === 0 ) {
+								this.ztreeNull = true
+							}else {
+								this.ztreeNull = false
+							}
+							
 						}
 					})
 					.catch(err => {
@@ -370,7 +382,13 @@ export default {
 							this.treeData = res.data
 							$.fn.zTree.init($(this.$refs.ztree), this.setting, res.data)
 							this.ztreeObj = $.fn.zTree.getZTreeObj(this.ztreeId)
-
+							
+							if( this.treeData.length === 0 ) {
+								this.ztreeNull = true
+							}else {
+								this.ztreeNull = false
+							}
+							
 							//标识为过滤用
 							// this.isFilter = true
 
@@ -382,26 +400,46 @@ export default {
 							// }
 							// this.ztreeObj.checkAllNodes(true)
 							if(area.length === 0 && this.selectAreaList.length === 0 && devType.length === 0 && regType.length === 0 && meterType.length === 0 && appearanceType.length ===0){
-								
+
 							}else{
 								this.ztreeObj.checkAllNodes(true)
 							}
 
+
 							//展开区域一级
 							//let areaNodes = this.ztreeObj.getNodeByParam('type', 1, null)
-							let areaNodes = this.ztreeObj.getNodesByFilter( (node)=>{
-								if(node.vcCode != null){
-									node.vcCode = node.vcCode.split('.')
-									if( this.checkdeviceAreaListAll || area.length === this.deviceAreaList.length || area.length === 0 ) {
-										return node.pid === "0"
-									}else if( !this.checkdeviceAreaListAll && area ){
-										return node.vcCode.length <= 3 && node.type === 1
-									}
-								}
-							})
-							areaNodes.map(item => {
-								this.ztreeObj.expandNode(item, true, false, false)
-							})
+							
+							// let areaNodes = this.ztreeObj.getNodesByFilter( (node)=>{
+							// 	if(node.vcCode != null){
+							// 		node.vcCode = node.vcCode.split('.')
+							// 		if( this.checkdeviceAreaListAll || area.length === this.deviceAreaList.length || area.length === 0 ) {
+							// 			return node.pid === "0"
+							// 		}else if( !this.checkdeviceAreaListAll && area ){
+							// 			return node.vcCode.length <= 3 && node.type === 1
+							// 		}
+							// 	}
+							// })
+							// areaNodes.map(item => {
+							// 	this.ztreeObj.expandNode(item, true, false, false)
+							// })
+							if(res.data.length<=200){
+								this.ztreeObj.expandAll(true);
+							}else if(res.data.length > 200 && res.data.length <= 500){
+								// this.ztreeObj.expandAll(true);
+								let nodeTemp = this.ztreeObj.getNodesByFilter(node=>{
+									return node.level === 1;
+								})
+								nodeTemp.map(item => {
+									this.ztreeObj.expandNode(item, true, false, false)
+								})
+							}else{
+								let nodeTemp = this.ztreeObj.getNodesByFilter(node=>{
+									return node.level === 0;
+								})
+								nodeTemp.map(item => {
+									this.ztreeObj.expandNode(item, true, false, false)
+								})
+							}
 						}
 					})
 					.catch(err => {
@@ -571,6 +609,8 @@ export default {
 			this.isMeterType = false
 			if (val == true) {
 				this.selectMeterType = this.meterType
+			}else {
+				this.selectMeterType = []
 			}
 
 			this.filterByCondition2()
@@ -581,6 +621,8 @@ export default {
 			this.isRecognitionType = false
 			if (val == true) {
 				this.selectRegType = this.recognitionType
+			}else {
+				this.selectRegType = []
 			}
 			this.filterByCondition2()
 		},
@@ -601,6 +643,8 @@ export default {
 			this.isDeviceType = false
 			if (val == true) {
 				this.selectDevType = this.deviceType
+			}else {
+				this.selectDevType = []
 			}
 			this.filterByCondition2()
 		},
@@ -610,6 +654,8 @@ export default {
 			this.isAppearanceType = false
 			if (val == true) {
 				this.selectAppearanceType = this.appearanceType
+			}else {
+				this.selectAppearanceType = []
 			}
 
 			this.filterByCondition2()
@@ -858,7 +904,7 @@ export default {
         /* float: left; */
         width: 130px;
         height: 30px;
-        font-size: 18px;
+        font-size: 16px;
         line-height: 30px;
         color: #fff;
 		display: inline-block;
@@ -879,11 +925,14 @@ export default {
 
           /deep/.el-checkbox__inner {
             background: none;
-            border: 2px solid #409eff;
-            width: 16px;
-            height: 16px;
+            border: 1px solid #409eff;
+            width: 14px;
+            height: 14px;
           }
-
+			
+			/deep/.el-checkbox__label{
+				font-size: 14px;
+			}
 
           /deep/.el-checkbox__inner::after {
             /* border-color: #c4c335; */
@@ -893,10 +942,10 @@ export default {
 			   content: "";
 			   border-left: 0;
 			   border-top: 0;
-			   height: 7px;
+			   height: 8px;
 			   left: 4px;
 			   position: absolute;
-			   top: 1px;
+			   top: 0px;
 			   width: 3px;
           }
         }
@@ -904,7 +953,7 @@ export default {
         /deep/.el-checkbox-group {
           float: left;
           margin-left: 80px;
-          margin-top: -45px;
+          margin-top: -43px;
           height: 100%;
           overflow: auto;
           width: 1168px;
@@ -939,7 +988,15 @@ export default {
     margin-right: 10px;
     background: url('../../assets/img/common/tree.png') no-repeat;
     background-size: 100% 100%;
-
+	
+	p{
+		font-size: 20px;
+		color: #409EFF;
+		position: relative;
+		top: -300px;
+		left: 125px;
+	}
+	
 	/deep/ .tree-wrap{
 		margin-top: 10px;
 		height: 90.5% !important;
@@ -967,15 +1024,16 @@ export default {
           text-decoration: none;
 
           span {
-            font-size: 16px !important;
+            font-size: 14px !important;
+			vertical-align: middle;
           }
         }
       }
 
       .button.chk {
-        width: 16px;
-        height: 16px;
-        border: 2px solid #409eff;
+        width: 14px;
+        height: 14px;
+        border: 1px solid #409eff;
         background: none;
       }
     }
@@ -1109,4 +1167,6 @@ export default {
  ::-webkit-scrollbar-thumb{
 	background-color:#0173bb;
 }
+
+
 </style>

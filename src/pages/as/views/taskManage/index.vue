@@ -1,5 +1,5 @@
 <template>
-<!-- 任务管理 -->
+	<!-- 任务管理 -->
 	<div class="taskManage">
 		<div class="search-bar">
 			<div class="search">
@@ -10,21 +10,31 @@
 				<label for>任务类型：</label>
 				<el-select class="ipt" v-model="value" placeholder="请选择" @change="handleChangeTaskType">
 					<!-- <el-option v-for="item in taskType" :key="item.key" :label="item.value" :value="item.key"></el-option> -->
-          <el-option v-for="item in taskType" :key="item.dictID" :label="item.vcName" :value="item.dictID"></el-option>
+					<el-option
+						v-for="item in taskType"
+						:key="item.dictID"
+						:label="item.vcName"
+						:value="item.dictID"
+					></el-option>
 				</el-select>
 			</div>
 			<div class="search">
 				<label for>任务子类型：</label>
 				<el-select class="ipt" v-model="value2" placeholder="请选择" @change="handleChangeTaskSubType">
 					<!-- <el-option v-for="item in taskSubType" :key="item.key" :label="item.value" :value="item.key"></el-option> -->
-          <el-option v-for="item in taskSubType" :key="item.dictID" :label="item.vcName" :value="item.dictID"></el-option>
+					<el-option
+						v-for="item in taskSubType"
+						:key="item.dictID"
+						:label="item.vcName"
+						:value="item.dictID"
+					></el-option>
 				</el-select>
 			</div>
 			<div class="search">
 				<label for>状态：</label>
 				<el-select class="ipt" v-model="value3" placeholder="请选择" @change="handleChangeStatus">
 					<!-- <el-option v-for="item in status" :key="item.key" :label="item.value" :value="item.key"></el-option> -->
-          <el-option v-for="item in status" :key="item.dictID" :label="item.vcName" :value="item.dictID"></el-option>
+					<el-option v-for="item in status" :key="item.dictID" :label="item.vcName" :value="item.dictID"></el-option>
 				</el-select>
 			</div>
 			<el-button type="primary" class="btn searchbtn" @click="getTaskList">查询</el-button>
@@ -36,9 +46,9 @@
 				border
 				:data="taskList"
 				v-loading="taskLoading"
-        highlight-current-row
-        element-loading-text="正在加载中"
-        element-loading-background="rgba(0, 0, 0, 0)"
+				highlight-current-row
+				element-loading-text="正在加载中"
+				element-loading-background="rgba(0, 0, 0, 0)"
 				:row-style="tableRowStyle"
 				:header-cell-style="tableHeaderColor"
 				@selection-change="handleSelectionChange"
@@ -60,8 +70,8 @@
 				</el-table-column>
 				<el-table-column align="center" label="最后执行时间">
 					<template slot-scope="scope">{{ scope.row.updateTime }}</template>
-				</el-table-column> -->
-        <el-table-column type="selection" width="55" align="center"></el-table-column>
+				</el-table-column>-->
+				<el-table-column type="selection" width="55" align="center"></el-table-column>
 				<el-table-column label="任务名称" align="center" width="500">
 					<template slot-scope="scope">{{ scope.row.taskName }}</template>
 				</el-table-column>
@@ -211,7 +221,7 @@ export default {
 	activited() {
 		this.registerListen()
 	},
-	deactivated(){
+	deactivated() {
 		this.$_stop('addTask')
 	},
 	update() {},
@@ -264,8 +274,8 @@ export default {
 		// 		.catch(err => {
 		// 			console.log(err)
 		// 		})
-    // },
-    getTaskList() {
+		// },
+		getTaskList() {
 			let params = {
 				unitId: this.$store.getters.stationId,
 				currentPage: this.page,
@@ -319,8 +329,8 @@ export default {
 		// 		.catch(err => {
 		// 			console.log(err)
 		// 		})
-    // },
-    getTaskType() {
+		// },
+		getTaskType() {
 			let params = { dictGroupID: 7010 }
 			this.axios
 				.getTaskTypeOrTaskSubType(params)
@@ -342,8 +352,8 @@ export default {
 		// 		.catch(err => {
 		// 			console.log(err)
 		// 		})
-    // },
-    getTaskSubType() {
+		// },
+		getTaskSubType() {
 			let params = { dictGroupID: 7011 }
 			this.axios
 				.getTaskTypeOrTaskSubType(params)
@@ -366,14 +376,15 @@ export default {
 		// 		.catch(err => {
 		// 			console.log(err)
 		// 		})
-    // },
-    getTaskStatus(){		//获取任务状态
+		// },
+		getTaskStatus() {
+			//获取任务状态
 			let params = { dictGroupID: 7014 }
 			this.axios
 				.getTaskTypeOrTaskSubType(params)
 				.then(res => {
 					// this.taskSubType = res.data
-						this.status = res[0].dictDataList
+					this.status = res[0].dictDataList
 				})
 				.catch(err => {
 					console.log(err)
@@ -472,6 +483,13 @@ export default {
 			}
 			obj.time = new Date().valueOf()
 			this.$_mqtt.publish(this.topicArr[0], JSON.stringify(obj))
+
+			//过30秒自动关闭添加窗口
+			setTimeout(() => {
+				this.inspectionTaskListLoading = true
+				this.addTaskNext = false
+				this.addTaskLoadingText = '正在生成巡检任务单'
+			}, 30000);
 		},
 		//新增任务 上一步 按钮
 		lastStepClick() {
@@ -696,6 +714,7 @@ export default {
     /deep/.el-table tbody tr:hover>td {
       background: rgba(35, 118, 220, 0.21);
     }
+
     /deep/.el-table__body tr.current-row>td {
       background: rgba(35, 118, 220, 0.21);
     }
@@ -775,9 +794,10 @@ export default {
   font-size: 16px;
   border-color: #104095;
 }
- /deep/.el-table--border {
-    border-right: 1px solid #054598;
-    border-bottom: 1px solid #054598;
+
+/deep/.el-table--border {
+  border-right: 1px solid #054598;
+  border-bottom: 1px solid #054598;
 }
 
 /deep/.el-table::before {
@@ -825,22 +845,22 @@ export default {
   /deep/.ivu-modal-body {
     padding-top: 0 !important;
     border-radius: 0 0 10px 10px;
-	background: #082051;
-	padding: 0;
-	border-radius: 0 0 10px 10px;
+    background: #082051;
+    padding: 0;
+    border-radius: 0 0 10px 10px;
   }
 
   /deep/.ivu-modal-header {
     padding: 7px 0 7px 35px !important;
-	background: #17579a;
-	border-radius: 10px 10px 0 0;
-	border: 0;
+    background: #17579a;
+    border-radius: 10px 10px 0 0;
+    border: 0;
 
     /deep/.ivu-modal-header-inner {
       font-size: 16px !important;
-	  height: 35px;
-	  line-height: 35px;
-	  color: #e9edf3 !important;
+      height: 35px;
+      line-height: 35px;
+      color: #e9edf3 !important;
     }
   }
 }
@@ -849,7 +869,7 @@ export default {
   white-space: pre-line;
 }
 
-/deep/.el-checkbox__inner,/deep/.el-checkbox__input.is-disabled .el-checkbox__inner {
+/deep/.el-checkbox__inner, /deep/.el-checkbox__input.is-disabled .el-checkbox__inner {
   width: 16px;
   height: 16px;
   background: none;

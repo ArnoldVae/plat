@@ -300,7 +300,7 @@
 													hvideo: item.vcName.substr(0, 2) == '高清'
 												}"
 											></i>
-											<p>{{ item.vcName }}</p>
+											<p>{{ item.vcName }}：</p>
 											<span :class="{ yellow: item.statusName == null }">
 												{{ item.statusName == null ? '停止' : item.statusName }}
 											</span>
@@ -553,7 +553,7 @@ export default {
 		this.topicArr = temp
 	},
 	mounted() {
-		this.subscribe()
+		//this.subscribe()
 		this.topicStr = this.topicArr[1]
 		this.registerListen()
 	},
@@ -732,7 +732,9 @@ export default {
 		//点击新增任务
 		addTaskClick() {
 			this.addTask = true
-			this.$refs.taskOrder.getStaticTreeData('', '', '', '', '')
+			setTimeout(() => {
+				this.$refs.taskOrder.getStaticTreeData('', '', '', '', '')
+			}, 100)
 		},
 		//关闭新增任务弹框
 		closeAddTask() {
@@ -793,6 +795,7 @@ export default {
 			this.addTaskTimer = setTimeout(() => {
 				this.addTaskNext = false
 				this.inspectionTaskListLoading = true
+				this.addTaskLoadingText = '正在生成巡检任务单'
 			}, 30000);
 		},
 		//关闭新增任务 巡检成票 弹框
@@ -800,7 +803,7 @@ export default {
 			this.addTaskNext = false
 			this.modalInspectionTaskTableData = []
 			this.modalWorkOrderTableHeaderData = []
-			this.$refs.taskOrder.clearFilter()
+			// this.$refs.taskOrder.clearFilter()
 		},
 		//点击左侧 巡检成票
 		inspectionAticketBtn() {
@@ -1670,7 +1673,7 @@ export default {
                 color: #fff;
                 border: none;
                 margin-left: 12px;
-                font-size: 16px;
+                font-size: 14px;
                 line-height: 30px;
                 height: 30px;
               }
@@ -1843,7 +1846,7 @@ export default {
                   background-size: 100% 100%;
                   color: #fff;
                   border: none;
-                  font-size: 16px;
+                  font-size: 14px;
                 }
 
                 .ivu-tabs-tab-active {
@@ -1922,7 +1925,7 @@ export default {
               cursor: pointer;
               background: url('~@/assets/img/common/bg540.png') no-repeat;
               background-size: 100% 100%;
-              font-size: 16px;
+              font-size: 14px;
             }
 
             .spanActive {
@@ -1986,7 +1989,7 @@ export default {
 
                 .content {
                   // height: 25px;
-                  font-size: 16px;
+                  font-size: 14px;
                   line-height: 25px;
                   color: #fff;
 
@@ -2004,7 +2007,7 @@ export default {
                     line-height: 30px;
                     background: none;
                     padding-left: 0;
-                    font-size: 16px;
+                    font-size: 14px;
                   }
                 }
               }
@@ -2020,7 +2023,7 @@ export default {
               span {
                 display: inline-block;
                 color: #49ff01;
-                font-size: 16px;
+                font-size: 14px;
               }
 
               .yellow {
@@ -2083,7 +2086,7 @@ export default {
     font-size: 16px;
     line-height: 55px;
     height: 55px;
-    margin-left: 20px;
+    margin-left: 25px;
 
     span {
       color: #ffd36a;
@@ -2359,7 +2362,7 @@ export default {
   }
 
   /deep/.ivu-modal-header {
-    padding: 7px 0 7px 35px !important;
+    padding: 7px 0 7px 25px !important;
     background: #17579a;
     border-radius: 10px 10px 0 0;
     border: 0;

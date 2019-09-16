@@ -94,7 +94,6 @@
 				<!-- 设备类型 -->
 				<FormItem label="设备类型" prop="devTypeName">
 					<el-select v-model="addFormData.devTypeId" placeholder="请选择设备类型" style="width: 370px">
-						<el-option label="全部" value="nullValue"></el-option>
 						<el-option
 							v-for="(item, index) in eqcnameS"
 							:key="index"
@@ -106,7 +105,6 @@
 				<!-- 所属子系统 -->
 				<FormItem label="所属子系统" prop="subName">
 					<el-select v-model="addFormData.subId" placeholder="请选择所属子系统" style="width: 370px">
-						<el-option label="全部" value="nullValue"></el-option>
 						<el-option
 							v-for="(item, index) in eqctypeS"
 							:key="index"
@@ -127,25 +125,18 @@
 				<FormItem label="有效日期" prop="beginTime">
 					<!-- <Input v-model="addFormData.beginTime" placeholder="请输入..." style="width: 370px" /> -->
 					<el-date-picker v-model="addFormData.beginTime" type="date" style="width: 370px;"></el-date-picker>
-					<!-- <el-date-picker
-						v-model="addFormData.beginTime"
-						value-format="yyyy年M月"
-						type="month"
-						style="width: 370px"
-					></el-date-picker> -->
 				</FormItem>
 				<!-- 保管责任人 -->
 				<FormItem label="保管责任人" prop="userId">
-					<Input v-model="addFormData.userId" placeholder="请输入..." style="width: 370px" />
-					<!-- <el-select v-model="addFormData.userId" placeholder="请选择保管责任人" style="width: 370px">
-						<el-option label="全部" value="nullValue"></el-option>
+					<!-- <Input v-model="addFormData.userId" placeholder="请输入..." style="width: 370px" /> -->
+					<el-select v-model="addFormData.userId" placeholder="请选择保管责任人" style="width: 370px">
 						<el-option
-							v-for="(item, index) in eqcnameS"
+							v-for="(item, index) in keeperNames"
 							:key="index"
-							:label="item.vcName"
-							:value="item.dictID"
+							:label="item.userName"
+							:value="item.code"
 						></el-option>
-					</el-select> -->
+					</el-select>
 				</FormItem>
 				<!-- 安装位置 -->
 				<FormItem label="安装位置" prop="vcLocal">
@@ -168,7 +159,6 @@
 			</el-form-item>
 			<el-form-item label="设备类型:" style="margin-right: 20px">
 				<el-select v-model="search.devType" placeholder="请选择设备类型">
-					<el-option label="全部" value="nullValue"></el-option>
 					<el-option
 						v-for="(item, index) in eqcnameS"
 						:key="index"
@@ -179,7 +169,6 @@
 			</el-form-item>
 			<el-form-item label="所属子系统:" style="margin-right: 26px">
 				<el-select v-model="search.maintenanceUnit" placeholder="请选择所属子系统">
-					<el-option label="全部" value="nullValue"></el-option>
 					<el-option
 						v-for="(item, index) in eqctypeS"
 						:key="index"
@@ -193,16 +182,14 @@
 			</el-form-item>
 
 			<el-form-item label="保管责任人:">
-				<el-input v-model="search.keeperName" placeholder="请输入保管责任人"></el-input>
-				<!-- <el-select v-model="search.keeperName" placeholder="请选择保管责任人" style="width: 370px">
-						<el-option label="全部" value="nullValue"></el-option>
+				<el-select v-model="search.keeperName" placeholder="请选择保管责任人">
 						<el-option
-							v-for="(item, index) in eqcnameS"
+							v-for="(item, index) in keeperNames"
 							:key="index"
-							:label="item.vcName"
-							:value="item.dictID"
+							:label="item.userName"
+							:value="item.personId"
 						></el-option>
-					</el-select> -->
+					</el-select>
 			</el-form-item>
 			<br />
 			<el-form-item class="taining-button">
@@ -211,12 +198,8 @@
 					<el-button class="blue-btn" type="text" @click="doSearch()">查询</el-button>
 					<el-button class="blue-btn" @click="leadTo" type="text">查看</el-button>
 					<el-button class="yellow-btn" @click="exportInfo" type="text">导入</el-button>
-					<el-button class="yellow-btn" @click="exportList" type="text">导 出</el-button>
+					<!-- <el-button class="yellow-btn" @click="exportList" type="text">导 出</el-button> -->
 				</div>
-				<!-- <div style>
-					<el-button style="margin: 0" class="yellow-btn" type="text">删 除</el-button>
-					<el-button class="import-btn" type="text">导 入</el-button>
-				</div>-->
 			</el-form-item>
 		</el-form>
 		<!-- table -->
@@ -237,7 +220,7 @@
 				<el-table-column prop="num" align="center" label="定置点编号" width="90"></el-table-column>
 				<el-table-column prop="vcCode" align="center" label="型号规格" width="120"></el-table-column>
 				<el-table-column prop="beginTime" align="center" label="有效期" width="110"></el-table-column>
-				<el-table-column prop="userId" align="center" label="保管责任人" width="90"></el-table-column>
+				<el-table-column prop="userName" align="center" label="保管责任人" width="90"></el-table-column>
 				<el-table-column prop="vcLocal" align="center" label="安装位置" width="140"></el-table-column>
 				<el-table-column prop="vcMemo" align="center" label="备注" width="120"></el-table-column>
 				<el-table-column prop align="center" label="操作" width="190">
@@ -310,14 +293,15 @@ export default {
 	name: 'docFire',
 	data() {
 		return {
+			keeperNames: [],
 			isCurrent: false,
 			//导入文件
 			Daoshow: false,
 			step: 0,
 			file: null,
 			loadingStatus: false,
-			accept: '.xlsx',
-			Format: ['.xlsx'],
+			accept: '.xls',
+			Format: ['.xls'],
 			isAdd: true, // 判断新增还是修改 设置禁用
 			modalTitle: '新增',
 			//新增表单对象
@@ -500,10 +484,10 @@ export default {
 					{ required: true, message: '该项为必填项', trigger: 'blur' },
 					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
 				],
-				userId: [
-					{ required: true, message: '该项为必填项', trigger: 'blur' },
-					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
-				],
+				// userId: [
+				// 	{ required: true, message: '该项为必填项', trigger: 'blur' },
+				// 	{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				// ],
 				vcLocal: [
 					{ required: true, message: '该项为必填项', trigger: 'blur' },
 					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
@@ -540,7 +524,7 @@ export default {
 	methods: {
 		//模板下载
 		downloadTemplate() {
-
+			window.location.href = "http://172.26.1.109:8080/webshare/DONGSHANQIAN/FIRE/WORD/TEMP/xftz.xls"
 		},
 		//导出
 		exportList() {
@@ -622,7 +606,7 @@ export default {
 			}
 			this.dialogAddVisible = true
 		},
-		//获取设备和子系统数据
+		//获取设备和子系统数据和责任人列表
 		getData() {
 			this.$_api.devOps
 				.geteqData({
@@ -640,6 +624,13 @@ export default {
 				.then(res => {
 					if (res.code == 200) {
 						this.eqctypeS = res.data.lists
+					}
+				})
+			this.$_api.devOps
+				.getPersonData()
+				.then(res => {
+					if (res.code == 200) {
+						this.keeperNames = res.data
 					}
 				})
 		},
@@ -806,8 +797,8 @@ export default {
 			// 点击上传
 			if (this.isFile) {
 				if (
-					this.file.name.substring(this.file.name.length - 4) == 'xlsx' ||
-					this.file.name.substring(this.file.name.length - 4) == 'XLSX'
+					this.file.name.substring(this.file.name.length - 3) == 'xls' ||
+					this.file.name.substring(this.file.name.length - 3) == 'XLS'
 				) {
 					this.loadingStatus = true
 					this.step = 2
@@ -833,7 +824,7 @@ export default {
 					this.file = null
 					this.isFile = false
 					this.step = 0
-					this.$Message.warning('请选择.xlsx格式的文件')
+					this.$Message.warning('请选择.xls格式的文件')
 				}
 			} else {
 				this.$Message.warning('请选择需要导入的文件')

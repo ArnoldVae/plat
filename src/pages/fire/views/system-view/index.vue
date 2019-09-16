@@ -285,7 +285,6 @@
         created() {
         },
         mounted() {
-            // this.getFireItem()
             this.getSubFireItem()
             this.registerMQTT()
             this.getAllStation() //已接入变电站
@@ -311,9 +310,6 @@
                     })
                     .then(res => {
                         if (res.code == 200) {
-                            console.log('获取列表')
-                            console.log(res)
-
                             if(res.data&&res.data.length>0){
                                 res.data.forEach((im,) => {
                                     im.time=moment(im.beginTime * 1000).format('YYYY-MM-DD HH:mm')

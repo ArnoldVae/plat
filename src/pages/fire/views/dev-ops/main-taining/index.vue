@@ -1,85 +1,5 @@
 <template>
 	<div class="mian-taining">
-		<!-- 新增弹窗 -->
-		<ElDialog
-			style="left: 15vw; top:-4vh;text-align: center;"
-			:visible.sync="dialogAddVisible"
-			center
-			:title="modalTitle"
-			@closed="handleClose"
-		>
-			<Form
-				ref="addFormRef"
-				:rules="ruleValidate"
-				:model="addFormData"
-				:label-width="200"
-				label-position="right"
-			>
-				<!-- 维保单位 -->
-				<FormItem label="维保单位" prop="coName">
-					<!-- <Input v-model="addFormData.coName" placeholder="请输入..." style="width: 370px" /> -->
-					<el-select v-model="addFormData.coName" placeholder style="width: 370px">
-						<el-option label="全部" value="nullValue"></el-option>
-						<el-option
-							v-for="item in maintenanceUnits"
-							:key="item.mtcCoId"
-							:label="item.vcFileFullName"
-							:value="item.mtcCoId"
-						></el-option>
-					</el-select>
-				</FormItem>
-				<!-- 变电站 -->
-				<!-- <FormItem label="变电站" prop="unitName">
-					<Input v-model="addFormData.unitName" placeholder="请输入..." style="width: 370px" />
-				</FormItem>-->
-				<!-- 维护内容 -->
-				<FormItem label="维护内容" prop="context">
-					<Input type="textarea" v-model="addFormData.context" placeholder="请输入..." style="width: 370px" />
-				</FormItem>
-				<!-- 维保时间 -->
-				<FormItem label="维保时间" prop="beginTime">
-					<el-date-picker v-model="addFormData.beginTime" type="date" style="width: 370px;"></el-date-picker>
-				</FormItem>
-				<!-- 工作条件 -->
-				<FormItem label="工作条件" prop="vc_PowerOffScene">
-					<Input v-model="addFormData.vc_PowerOffScene" placeholder="请输入..." style="width: 370px" />
-				</FormItem>
-				<!-- 电压等级 -->
-				<FormItem label="电压等级" prop="vc_PowerLevel">
-					<Input v-model="addFormData.vc_PowerLevel" placeholder="请输入..." style="width: 370px" />
-				</FormItem>
-				<!-- 工作票号 -->
-				<FormItem label="工作票号" prop="workTicketNum">
-					<Input v-model="addFormData.workTicketNum" placeholder="请输入..." style="width: 370px" />
-				</FormItem>
-				<!-- 负责人 -->
-				<FormItem label="负责人" prop="presetName">
-					<Input v-model="addFormData.presetName" placeholder="请输入..." style="width: 370px" />
-					<!-- <el-select v-model="addFormData.presetName" placeholder style="width: 370px">
-						<el-option label="全部" value="nullValue"></el-option>
-						<el-option
-							v-for="item in presetName"
-							:key="item.mtcCoId"
-							:label="item.vcFileFullName"
-							:value="item.mtcCoId"
-						></el-option>
-					</el-select> -->
-				</FormItem>
-				<!-- 联系电话 -->
-				<FormItem label="联系电话" prop="telePhone">
-					<Input v-model="addFormData.telePhone" placeholder="请输入..." style="width: 370px" />
-				</FormItem>
-				<!-- 当前状态 -->
-				<!-- <FormItem label="当前状态" prop="status">
-					<Input v-model="addFormData.status" placeholder="请输入..." style="width: 370px" />
-				</FormItem> -->
-			</Form>
-			<span slot="footer" class="dialog-footer">
-				<el-button class="blue-btn" type="text" @click="addInfo">确 定</el-button>
-				<el-button class="yellow-btn" @click="handleClose" type="text">取 消</el-button>
-			</span>
-		</ElDialog>
-
 		<el-form :inline="true" size="mini" :model="search">
 			<el-form-item label="开始日期:" style="margin-right:25px">
 				<el-date-picker
@@ -132,7 +52,7 @@
 				<el-button class="blue-btn" @click="dosearch" type="text">查找</el-button>
 				<!-- <el-button class="blue-btn" v-if="!searchIS" @click="searchInfos" type="text">查找</el-button> -->
 				<el-button class="yellow-btn" @click="leadTo" type="text">导入</el-button>
-				<el-button class="yellow-btn" @click="exportInfo" type="text">导出</el-button>
+				<!-- <el-button class="yellow-btn" @click="exportInfo" type="text">导出</el-button> -->
 			</el-form-item>
 		</el-form>
 		<!-- table -->
@@ -225,21 +145,6 @@
 			></iframe>
 		</ocx-modal>
 
-		<!-- 导入弹框 -->
-		<!-- <el-dialog title="导入文件" :visible.sync="DaoShow" width="50%" class="Daoshow" :before-close="Close">
-			<el-upload
-				class="upload-demo"
-				ref="upload"
-				action="http://172.26.1.233:8085/xdq/file/wordToPdf"
-				:on-remove="handleRemove"
-				:auto-upload="false"
-				:file-list="fileList"
-			>
-		<el-button size="small" type="primary">点击上传</el-button>-->
-		<!-- <div slot="tip" class="el-upload__tip">只能上传elx格式文件</div> -->
-		<!-- </el-upload>
-		</el-dialog>-->
-
 		<el-dialog title="导入文件" :visible.sync="Daoshow" width="50%" :before-close="close">
 			<div class="upload-content">
 				<Steps class="steps" :current="step" title="文件导入步骤">
@@ -305,8 +210,8 @@ export default {
 			step: 0,
 			file: null,
 			loadingStatus: false,
-			accept: '.xlsx',
-			Format: ['.xlsx'],
+			accept: '.xls',
+			Format: ['.xls'],
 			isAdd: true, // 判断新增还是修改 设置禁用
 			modalTitle: '新增',
 			//新增表单对象
@@ -513,7 +418,7 @@ export default {
 				content: '确认删除该数据?',
 				onOk: () => {
 					this.$_api.maintaining
-						.delMainDate({ unitId: this.activeUnitId, mtcPlanId: params.mtcPlanId })
+						.delMainDate({ mtcPlanId: params.mtcPlanId })
 						.then(res => {
 							if (res.code == 200) {
 								this.$Message.success('删除成功')
@@ -529,44 +434,7 @@ export default {
 				onCancel: () => {}
 			})
 		},
-		// // 新增、修改确认
-		// addInfo() {
-		// 	let params = {}
-		// 	if (this.isAdd) {
-		// 		// 新增
-		// 		this.$refs.addFormRef.validate(async valid => {
-		// 			if (!valid) return
-		// 			//验证成功，掉接口提交数据
-		// 			params = JSON.parse(JSON.stringify(this.addFormData))
-		// 			let res = await this.$_api.maintaining.addMainDate(params)
-		// 			if (res.success) {
-		// 				this.searchInfo()
-		// 				this.modalAddShow = false
-		// 			}
-		// 		})
-		// 	} else {
-		// 		// 修改
-		// 		this.$refs.addFormRef.validate(async valid => {
-		// 			if (!valid) return
-		// 			//验证成功，掉接口提交数据
-		// 			params = JSON.parse(JSON.stringify(this.addFormData))
-		// 			let res = await this.$_api.maintaining.addMainDate(params)
-		// 			if (res.success) {
-		// 				this.searchInfo()
-		// 				this.modalAddShow = false
-		// 			}
-		// 		})
-		// 	}
-		// },
-		// // 显示新增/修改弹框
-		// showAdd(data, params) {
-		// 	data == 0 ? (this.modalTitle = '新增') : (this.modalTitle = '修改')
-		// 	data == 0 ? (this.isAdd = true) : (this.isAdd = false)
-		// 	if (data == 1) {
-		// 		this.addFormData = JSON.parse(JSON.stringify(params))
-		// 	}
-		// 	this.dialogAddVisible = true
-		// },
+
 		async init() {
 			let result = await this.$_api.maintaining.getMaintenance()
 			if (result.success) {
@@ -622,24 +490,10 @@ export default {
 			this.pageSize = pagesize
 			this.searchInfo()
 		},
-		// async searchInfos() {
-		// 	let res = await this.$_api.maintaining.getfindPlanRecord({
-		// 		startTime: this.searchb.starTime,
-		// 		endTime: this.searchb.endTime,
-		// 		mtcCoID: this.search.maintenanceUnit,
-		// 		iStatus: this.search.stute,
-
-		// 	})
-		// 	if (res.code == '200') {
-		// 		this.maintainData = res.data.list
-		// 	} else {
-		// 		this.maintainData = []
-		// 	}
-		// },
 
 		//模板下载
 		downloadTemplate() {
-
+			window.location.href = "http://172.26.1.109:8080/webshare/DONGSHANQIAN/FIRE/WORD/TEMP/xftz.xls"
 		},
 
 		//导出
@@ -740,8 +594,8 @@ export default {
 			// 点击上传
 			if (this.isFile) {
 				if (
-					this.file.name.substring(this.file.name.length - 4) == 'xlsx' ||
-					this.file.name.substring(this.file.name.length - 4) == 'XLSX'
+					this.file.name.substring(this.file.name.length - 3) == 'xls' ||
+					this.file.name.substring(this.file.name.length - 3) == 'XLS'
 				) {
 					this.loadingStatus = true
 					this.step = 2

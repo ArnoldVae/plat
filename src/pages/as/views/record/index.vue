@@ -41,20 +41,20 @@
 			<!-- 任务表 -->
 			<div class="list">
 				<el-table
-          border
-          v-loading="recordLoading"
-          element-loading-text="正在加载中"
-          element-loading-background="rgba(0, 0, 0, 0)"
+					border
+					v-loading="recordLoading"
+					element-loading-text="正在加载中"
+					element-loading-background="rgba(0, 0, 0, 0)"
 					:data="inspectionRecordList"
 					:row-style="tableRowStyle"
 					:header-cell-style="tableHeaderColor"
-          highlight-current-row
+					highlight-current-row
 					style="width: 100%"
-          height="706"
+					height="706"
 				>
 					<!-- <el-table-column label="计划" align="center" width="218">
 						<template slot-scope="scope">{{ scope.row.planName }}</template>
-					</el-table-column> -->
+					</el-table-column>-->
 					<el-table-column label="任务" align="center" width="280">
 						<template slot-scope="scope">{{ scope.row.taskName }}</template>
 					</el-table-column>
@@ -82,10 +82,10 @@
 					<el-table-column align="center" label="结束时间" width="170">
 						<template slot-scope="scope">{{ scope.row.iStopTime }}</template>
 					</el-table-column>
-          	<el-table-column align="center" label="总巡检点数" width="90">
+					<el-table-column align="center" label="总巡检点数" width="90">
 						<template slot-scope="scope">{{ scope.row.allTaskNode }}</template>
 					</el-table-column>
-          	<el-table-column align="center" label="失败点数" width="80">
+					<el-table-column align="center" label="失败点数" width="80">
 						<template slot-scope="scope">{{ scope.row.failnodes }}</template>
 					</el-table-column>
 					<el-table-column align="center" label="报警点数" width="80">
@@ -93,13 +93,10 @@
 					</el-table-column>
 					<!-- <el-table-column align="center" label="操作人" width="90">
 						<template slot-scope="scope">{{ scope.row.userId || '-' }}</template>
-					</el-table-column> -->
+					</el-table-column>-->
 					<el-table-column prop align="center" label="操作">
 						<template slot-scope="scope">
-							<span
-								class="operation detail"
-								@click="goDetail(scope.row)"
-							>详细</span>
+							<span class="operation detail" @click="goDetail(scope.row)">详细</span>
 							<span class="operation export" @click="exportRow(scope.row)">导出</span>
 						</template>
 					</el-table-column>
@@ -118,433 +115,493 @@
 				/>
 			</div>
 		</div>
-  <ocx-modal v-model="detailFlag" fullscreen footer-hide :styles="{top: '0'}">
-    <div class="detail">
-		<!-- <div class="back" @click="goback">返回</div> -->
-
-		<div class="detail-content">
-			<!-- <div class="look-detail">查看任务详情</div> -->
-			<div class="info">
-				<div class="info-left">
-					<span class="txt">任务名称：{{ taskName }}</span>
-					<span class="txt">启动原因：{{ startReason }}</span>
-					<span class="txt">结束原因：{{ stopReason }}</span>
-				</div>
-				<div class="info-right">
-					<i class="count inspect"></i>
-					<span class="txt">
-						巡检点数:
-						<!-- <i class="num">{{viewPoints}}</i> -->
-						<span>{{ viewPoints }}</span>
-					</span>
-					<i class="count fail"></i>
-					<span class="txt">
-						失败点数:
-						<!-- <i class="count">{{failPoints}}</i> -->
-						<span>{{ failPoints }}</span>
-					</span>
-					<i class="count police"></i>
-					<span class="txt">
-						报警点数:
-						<!-- <i class="count">{{alarmPoints}}</i> -->
-						<span>{{ alarmPoints }}</span>
-					</span>
-					<i class="count normal"></i>
-					<span class="txt">
-						正常点数:
-						<!-- <i class="count">{{normalPoints}}</i> -->
-						<span>{{ normalPoints }}</span>
-					</span>
-				</div>
+		<ocx-modal v-model="detailFlag" fullscreen footer-hide :styles="{top: '0'}">
+			<div class="detail">
 				<!-- <div class="back" @click="goback">返回</div> -->
-			</div>
-			<div class="time">
-				<!-- <div class="plan-time">
+
+				<div class="detail-content">
+					<!-- <div class="look-detail">查看任务详情</div> -->
+					<div class="info">
+						<div class="info-left">
+							<span class="txt">任务名称：{{ taskName }}</span>
+							<span class="txt">启动原因：{{ startReason }}</span>
+							<span class="txt">结束原因：{{ stopReason }}</span>
+						</div>
+						<div class="info-right">
+							<i class="count inspect"></i>
+							<span class="txt">
+								巡检点数:
+								<!-- <i class="num">{{viewPoints}}</i> -->
+								<span>{{ viewPoints }}</span>
+							</span>
+							<i class="count fail"></i>
+							<span class="txt">
+								失败点数:
+								<!-- <i class="count">{{failPoints}}</i> -->
+								<span>{{ failPoints }}</span>
+							</span>
+							<i class="count police"></i>
+							<span class="txt">
+								报警点数:
+								<!-- <i class="count">{{alarmPoints}}</i> -->
+								<span>{{ alarmPoints }}</span>
+							</span>
+							<i class="count normal"></i>
+							<span class="txt">
+								正常点数:
+								<!-- <i class="count">{{normalPoints}}</i> -->
+								<span>{{ normalPoints }}</span>
+							</span>
+						</div>
+						<!-- <div class="back" @click="goback">返回</div> -->
+					</div>
+					<div class="time">
+						<!-- <div class="plan-time">
           <div class="time-content">{{planTime}}</div>
           <div class="time-des">任务计划时间</div>
-				</div>-->
-				<div class="start-time">
-					<div class="time-content">{{ startTime }}</div>
-					<div class="time-des">开始时间</div>
-				</div>
-			</div>
-			<el-scrollbar>
-				<div class="steps" v-loading="stepDetail" element-loading-text="正在加载中" element-loading-background="#061638">
-					<div class="steps-content" v-for="item in nodeList" :key="item.index">
-						<div class="circle-out skip-out" :style="{ background: item.outBgColor }">
-							<div class="circle-in skip-in" :style="{ background: item.inBgColor }">{{ item.status }}</div>
-							<i class="bd-top"></i>
-							<i class="bd-bt"></i>
+						</div>-->
+						<div class="start-time">
+							<div class="time-content">{{ startTime }}</div>
+							<div class="time-des">开始时间</div>
 						</div>
-						<div class="node-info">
-							<ul>
-								<li><span>巡检对象：</span><i>{{ item.nodeName }}</i></li>
-								<li>分析结果：{{item.vcResult}}</li>
-								<li>环境信息：{{ item.fTemperatureData }}，{{ item.fHumidityData }}</li>
-								<li>报警状态：{{ item.iIsAlarm }}</li>
-							</ul>
-							<div class="history-rcord">历史记录</div>
-						</div>
-						<div class="img-content">
-							<img v-if="item.vcInfraPicturePath" :src="item.vcInfraPicturePath" alt @click="handleImgModal(item.vcInfraPicturePath)"/>
-							<!-- <vue-photo-zoom-pro
+					</div>
+					<el-scrollbar>
+						<div
+							class="steps"
+							v-loading="stepDetail"
+							element-loading-text="正在加载中"
+							element-loading-background="#061638"
+						>
+							<div class="steps-content" v-for="item in nodeList" :key="item.index">
+								<div class="circle-out skip-out" :style="{ background: item.outBgColor }">
+									<div class="circle-in skip-in" :style="{ background: item.inBgColor }">{{ item.status }}</div>
+									<i class="bd-top"></i>
+									<i class="bd-bt"></i>
+								</div>
+								<div class="node-info">
+									<ul>
+										<li>
+											<span>巡检对象：</span>
+											<i>{{ item.nodeName }}</i>
+										</li>
+										<li>分析结果：{{item.vcResult}}</li>
+										<li>环境信息：{{ item.fTemperatureData }}，{{ item.fHumidityData }}</li>
+										<li>报警状态：{{ item.iIsAlarm }}</li>
+									</ul>
+									<div class="history-rcord">历史记录</div>
+								</div>
+								<div class="img-content">
+									<img
+										v-if="item.vcInfraPicturePath"
+										:src="item.vcInfraPicturePath"
+										alt
+										@click="handleImgModal(item.vcInfraPicturePath)"
+									/>
+									<!-- <vue-photo-zoom-pro
 								v-if="item.vcInfraPicturePath"
 								:url="item.vcInfraPicturePath"
 								:width="180"
 								type="circle"
-							></vue-photo-zoom-pro> -->
-							<img v-if="item.vcNormalPicturePath" :src="item.vcNormalPicturePath" alt @click="handleImgModal(item.vcNormalPicturePath)"/>
-							<!-- <vue-photo-zoom-pro
+									></vue-photo-zoom-pro>-->
+									<img
+										v-if="item.vcNormalPicturePath"
+										:src="item.vcNormalPicturePath"
+										alt
+										@click="handleImgModal(item.vcNormalPicturePath)"
+									/>
+									<!-- <vue-photo-zoom-pro
 								v-if="item.vcNormalPicturePath"
 								:url="item.vcNormalPicturePath"
 								:width="180"
-							></vue-photo-zoom-pro> -->
+									></vue-photo-zoom-pro>-->
+								</div>
+								<i class="line"></i>
+								<i class="dot"></i>
+								<span class="node-time">{{ item.iUpdateTime || '--' }}</span>
+								<span class="node-point">{{ item.nodeParentName }}</span>
+							</div>
 						</div>
-						<i class="line"></i>
-						<i class="dot"></i>
-						<span class="node-time">{{ item.iUpdateTime || '--' }}</span>
-						<span class="node-point">{{ item.nodeParentName }}</span>
+					</el-scrollbar>
+					<div class="detail-name">
+						<i class="bg-lf"></i>
+						<i class="bg-rg"></i>
+						查看任务详情
 					</div>
 				</div>
-			</el-scrollbar>
-			<div class="detail-name">
-				<i class="bg-lf"></i>
-				<i class="bg-rg"></i>
-				查看任务详情
+				<!-- <statistics></statistics> -->
+				<!-- <el-button type="primary" class="back" @click="goback">返回</el-button> -->
 			</div>
-		</div>
-		<!-- <statistics></statistics> -->
-		<!-- <el-button type="primary" class="back" @click="goback">返回</el-button> -->
-	</div>
-  </ocx-modal>
-  <ocx-modal v-model="imgFlag" :width="1000" footer-hide>
-      <!-- <img :src="imgUrl" alt=""> -->
-      <vue-photo-zoom-pro :url="imgUrl" :width="400" type="circle" class="bigImg"></vue-photo-zoom-pro>
-      <!-- <div class="btn-group">
+		</ocx-modal>
+		<ocx-modal v-model="imgFlag" :width="1000" footer-hide>
+			<!-- <img :src="imgUrl" alt=""> -->
+			<vue-photo-zoom-pro :url="imgUrl" :width="400" type="circle" class="bigImg"></vue-photo-zoom-pro>
+			<!-- <div class="btn-group">
           <input type="button" class="btn confirm" value="确定" @click="closeModal" />
           <input type="button" class="btn cancel" value="取消" @click="closeModal" />
-        </div> -->
-    </ocx-modal>
+			</div>-->
+		</ocx-modal>
 	</div>
 </template>
 <script>
 import moment from 'moment'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'report',
-  components: {},
-  props: {},
-  data() {
-    return {
-      recordId: '',
-      taskId: '',
-      unitId: '',
-      taskName: '', //任务名称
-      startReason: '', //启动原因
-      stopReason: '', //停止原因
-      skipPoints: '', //跳过点数
-      failPoints: '', //失败点数
-      alarmPoints: '', //报警点数
-      normalPoints: '', //正常点数
-      viewPoints: '', //巡检点数
-      planTime: '', //计划时间
-      startTime: '', //开始时间
-      nodeList: [], //节点列表
-      imgFlag: false,
-      imgUrl: '',
-      stepDetail: true,
-      axios: this.$_api.recordData,
-      inspectionRecordList: [], //任务记录列表
-      timeOptions: [
-        {
-          value: '6',
-          label: '全部'
-        },
-        {
-          value: '1',
-          label: '一天'
-        },
-        {
-          value: '3',
-          label: '三天'
-        },
-        {
-          value: '7',
-          label: '一周'
-        }
-      ],
-      statusOptions: [
-        {
-          value: '',
-          label: '全部'
-        },
-        {
-          value: '70140002',
-          label: '正常结束'
-        },
-        {
-          value: '70140001',
-          label: '正在执行'
-        },
-        {
-          value: '70140003',
-          label: '异常终止'
-        }
-      ],
-      alarmOptions: [
-        {
-          value: '',
-          label: '全部'
-        },
-        {
-          value: '1',
-          label: '报警'
-        },
-        {
-          value: '0',
-          label: '无报警'
-        }
-      ],
-      value: '6',
-      value2: '',
-      value3: '',
-      iIsAlarm: '', //是否报警
-      iStatus: '', //任务状态
-      dateId: '6', //时间
-      pageSize: 10, //每页显示条数
-      currentPage: 1, //当前页码
-      total: 0,
-      javaUrl:'',
-      netUrl:'',
-      detailFlag: false,
-      recordLoading: false
-    }
-  },
-  computed: {
-    stationId() {
-      return this.$store.getters.stationId
-    }
-  },
-  filters: {},
-  watch: {
-    stationId: {
-      handler(val){
-        console.log(val)
-        // this.stationId = val
-        this.getList()
-      }
-    }
-  },
-  created() { 
-    this.javaUrl = process.env.NODE_ENV === 'development'?$_development.javaRequest.location + '/'+$_development.javaRequest.javaModule:$_development.netRequest.location + '/'+$_development.netRequest.javaModule
-    this.netUrl = process.env.NODE_ENV === 'development'?$_development.netRequest.location + '/'+$_development.netRequest.netModule : $_development.netRequest.location + '/'+$_development.netRequest.netModule
-  },
-  mounted() {
-    this.getList()
-  },
-  activited() { },
-  update() { },
-  beforeDestory() { },
-  methods: {
-    changeTimeHandle(value) {
-      this.dateId = value
-    },
-    changeStatusHandle(value) {
-      this.iStatus = value
-    },
-    changeAlarmHandle(value) {
-      this.iIsAlarm = value
-    },
-    // 修改table tr行的背景色
-    tableRowStyle({ row, rowIndex }) {
-      return 'color: #fff;'
-    },
-    // 修改table header的背景色
-    tableHeaderColor({ row, column, rowIndex, columnIndex }) {
-      if (rowIndex === 0) {
-        return 'background:#1d63b9;color: #fff;font-weight: 500;border: none;'
-      }
-    },
-    //获取记录列表
-    getList() {
-      this.recordLoading = true
-      this.axios
-        .getRecordList({
-          unitId: this.stationId,
-          iIsAlarm: this.iIsAlarm,
-          iStatus: this.iStatus,
-          dateId: this.dateId,
-          // "unitId":"42389edde72d41f4bcd978b574eefbae","iIsAlarm":"","iStatus":"","dateId":"50",
-          currentPage: this.currentPage,
-          pageSize: this.pageSize
-        })
-        .then(res => {
-          if (res.code == 200) {
-            let data = res.data.lists
-            for (let i = 0, len = data.length; i < len; i++) {
-              data[i].iStartTime = moment(data[i].iStartTime * 1000).format('YYYY-MM-DD HH:mm:ss')
-              // data[i].iStopTime = moment(data[i].iStopTime * 1000).format('YYYY-MM-DD HH:mm:ss')
-              data[i].iStopTime = data[i].iStopTime === null ? '': moment(data[i].iStopTime * 1000).format('YYYY-MM-DD HH:mm:ss')
-            }
-            this.inspectionRecordList = res.data.lists
-            this.total = res.data.page.totalNum
-            this.recordLoading = false
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    //详情
-    goDetail(row) {
-      // this.$router.push({
-      //   name: 'detail',
-      //   params: {
-      //     recordId,
-      //     unitId,
-      //     taskId
-      //   }
-      // }
-      this.recordId = row.recordId
-      this.unitId = row.unitId
-      this.taskId = row.taskId
-      this.detailFlag = true
-      this.taskName = row.taskName
-      this.startReason = row.iStartReason
-      this.stopReason = row.iStopReason
-      this.failPoints = row.failnodes
-      this.alarmPoints = row.allAlarm
-      this.normalPoints = row.successNode
-      this.viewPoints = row.allTaskNode
-      this.startTime = row.iStartTime
-      // this.getDetail()
-      this.getStepsDetail()
-    },
-    //导出
-    exportList() {
-      var time = moment().format('YYYYMMDDHHmmss')
-      window.location.href = this.javaUrl + '/report/export?unitId=' + this.stationId +
-        '&iIsAlarm=' +
-        this.iIsAlarm +
-        '&iStatus=' +
-        this.iStatus +
-        '&dateId=' +
-        this.dateId +
-        '&filename=' +
-        time
-    },
-    //每行导出
-    exportRow(row) {
-      var time = moment().format('YYYYMMDDHHmmss')
-      // window.location.href = this.netUrl + 'As/ExportTaskReport?RecordID='
-      // + row.recordId + '&filename=' + time + '.docx&isCache=true'
+	name: 'report',
+	components: {},
+	props: {},
+	data() {
+		return {
+			recordId: '',
+			taskId: '',
+			unitId: '',
+			taskName: '', //任务名称
+			startReason: '', //启动原因
+			stopReason: '', //停止原因
+			skipPoints: '', //跳过点数
+			failPoints: '', //失败点数
+			alarmPoints: '', //报警点数
+			normalPoints: '', //正常点数
+			viewPoints: '', //巡检点数
+			planTime: '', //计划时间
+			startTime: '', //开始时间
+			nodeList: [], //节点列表
+			imgFlag: false,
+			imgUrl: '',
+			stepDetail: true,
+			axios: this.$_api.recordData,
+			inspectionRecordList: [], //任务记录列表
+			timeOptions: [
+				{
+					value: '6',
+					label: '全部'
+				},
+				{
+					value: '1',
+					label: '一天'
+				},
+				{
+					value: '3',
+					label: '三天'
+				},
+				{
+					value: '7',
+					label: '一周'
+				}
+			],
+			statusOptions: [
+				{
+					value: '',
+					label: '全部'
+				},
+				{
+					value: '70140002',
+					label: '正常结束'
+				},
+				{
+					value: '70140001',
+					label: '正在执行'
+				},
+				{
+					value: '70140003',
+					label: '异常终止'
+				}
+			],
+			alarmOptions: [
+				{
+					value: '',
+					label: '全部'
+				},
+				{
+					value: '1',
+					label: '报警'
+				},
+				{
+					value: '0',
+					label: '无报警'
+				}
+			],
+			value: '6',
+			value2: '',
+			value3: '',
+			iIsAlarm: '', //是否报警
+			iStatus: '', //任务状态
+			dateId: '6', //时间
+			pageSize: 10, //每页显示条数
+			currentPage: 1, //当前页码
+			total: 0,
+			javaUrl: '',
+			netUrl: '',
+			detailFlag: false,
+			recordLoading: false
+		}
+	},
+	computed: {
+		stationId() {
+			return this.$store.getters.stationId
+		}
+	},
+	filters: {},
+	watch: {
+		stationId: {
+			handler(val) {
+				console.log(val)
+				// this.stationId = val
+				this.getList()
+			}
+		}
+	},
+	created() {
+		this.javaUrl =
+			process.env.NODE_ENV === 'development'
+				? $_development.javaRequest.location + '/' + $_development.javaRequest.javaModule
+				: $_development.netRequest.location + '/' + $_development.netRequest.javaModule
+		this.netUrl =
+			process.env.NODE_ENV === 'development'
+				? $_development.netRequest.location + '/' + $_development.netRequest.netModule
+				: $_development.netRequest.location + '/' + $_development.netRequest.netModule
+	},
+	mounted() {
+		this.getList()
+	},
+	activited() {},
+	update() {},
+	beforeDestory() {},
+	methods: {
+		changeTimeHandle(value) {
+			this.dateId = value
+		},
+		changeStatusHandle(value) {
+			this.iStatus = value
+		},
+		changeAlarmHandle(value) {
+			this.iIsAlarm = value
+		},
+		// 修改table tr行的背景色
+		tableRowStyle({ row, rowIndex }) {
+			return 'color: #fff;'
+		},
+		// 修改table header的背景色
+		tableHeaderColor({ row, column, rowIndex, columnIndex }) {
+			if (rowIndex === 0) {
+				return 'background:#1d63b9;color: #fff;font-weight: 500;border: none;'
+			}
+		},
+		//获取记录列表
+		getList() {
+			this.recordLoading = true
+			this.axios
+				.getRecordList({
+					unitId: this.stationId,
+					iIsAlarm: this.iIsAlarm,
+					iStatus: this.iStatus,
+					dateId: this.dateId,
+					// "unitId":"42389edde72d41f4bcd978b574eefbae","iIsAlarm":"","iStatus":"","dateId":"50",
+					currentPage: this.currentPage,
+					pageSize: this.pageSize
+				})
+				.then(res => {
+					if (res.code == 200) {
+						let data = res.data.lists
+						for (let i = 0, len = data.length; i < len; i++) {
+							data[i].iStartTime = moment(data[i].iStartTime * 1000).format('YYYY-MM-DD HH:mm:ss')
+							// data[i].iStopTime = moment(data[i].iStopTime * 1000).format('YYYY-MM-DD HH:mm:ss')
+							data[i].iStopTime =
+								data[i].iStopTime === null
+									? ''
+									: moment(data[i].iStopTime * 1000).format('YYYY-MM-DD HH:mm:ss')
+						}
+						this.inspectionRecordList = res.data.lists
+						this.total = res.data.page.totalNum
+						this.recordLoading = false
+					}
+				})
+				.catch(err => {
+					console.log(err)
+				})
+		},
+		//详情
+		goDetail(row) {
+			// this.$router.push({
+			//   name: 'detail',
+			//   params: {
+			//     recordId,
+			//     unitId,
+			//     taskId
+			//   }
+			// }
+			this.recordId = row.recordId
+			this.unitId = row.unitId
+			this.taskId = row.taskId
+			this.detailFlag = true
+			this.taskName = row.taskName
+			this.startReason = row.iStartReason
+			this.stopReason = row.iStopReason
+			this.failPoints = row.failnodes
+			this.alarmPoints = row.allAlarm
+			this.normalPoints = row.successNode
+			this.viewPoints = row.allTaskNode
+			this.startTime = row.iStartTime
+			// this.getDetail()
+			this.getStepsDetail()
+		},
+		//导出
+		exportList() {
+			var time = moment().format('YYYYMMDDHHmmss')
+			window.location.href =
+				this.javaUrl +
+				'/report/export?unitId=' +
+				this.stationId +
+				'&iIsAlarm=' +
+				this.iIsAlarm +
+				'&iStatus=' +
+				this.iStatus +
+				'&dateId=' +
+				this.dateId +
+				'&filename=' +
+				time
+			console.log(window.location.href)
+		},
+
+		// exportRow(row) {
+		//   var time = moment().format('YYYYMMDDHHmmss')
+		//   // window.location.href = this.netUrl + 'As/ExportTaskReport?RecordID='
+		//   // + row.recordId + '&filename=' + time + '.docx&isCache=true'
+		//   let params = {
+		//     RecordID: row.recordId,
+		//     filename: time + '.docx',
+		//     isCache: true
+		//   }
+		//   this.axios.exportRow(params).then(res => {
+		//     if(res.success == true){
+		//       window.location.href = this.netUrl + res.data
+		//     }
+		//   }).catch(err => {
+		//     console.log(err)
+		//   })
+		// },
+		//每行导出
+		exportRow(row) {
+			// console.log(row)
+			var time = moment().format('YYYYMMDDHHmmss')
+			var id = row.recordId
+			console.log(id)
+			// var url;
+			// this.axios.exportRow('recordId=' + id
+			// + '&fileName=' + time).then(res=>{
+			//   url=res;
+			//   window.location.href=url
+      // })
       let params = {
-        RecordID: row.recordId,
-        filename: time + '.docx',
-        isCache: true
+        "recordId" :id,"fileName":id
       }
-      this.axios.exportRow(params).then(res => {
-        if(res.success == true){
-          window.location.href = this.netUrl + res.data
-        }
-      }).catch(err => {
-        console.log(err)
+			this.axios.exportRow(params).then(res => {
+        console.log(res)
+        window.location.href = res
       })
-    },
-    handleChangePage(page) {
-      this.currentPage = page
-      this.getList()
-    },
-    handleChangeSize(size) {
-      this.pageSize = size
-      this.getList()
-    },
-        // 获取详情
-    getDetail() {
-      this.axios
-        .getDetail({
-          recordId: this.recordId,
-          unitId: this.unitId,
-          taskId: this.taskId
-        })
-        .then(res => {
-          var data = res.data
-          // console.log(res, 'data')
-          this.taskName = data.taskName
-          this.startReason = data.startReason
-          this.stopReason = data.stopReason
-          this.failPoints = data.failPoints
-          this.alarmPoints = data.alarmPoints
-          this.normalPoints = data.normalPoints
-          this.viewPoints = data.viewPoints
-          this.startTime = moment(data.startTime * 1000).format('YYYY-MM-DD HH:mm:ss')
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    //获取进度详情
-    getStepsDetail() {
-      this.axios
-        .getStepDetail({
-          unitId: this.unitId,
-          taskId: this.taskId,
-          recordId: this.recordId
-        })
-        .then(res => {
-          // console.log(res, 'step')
-          var data = res.data
-          for (var i = 0, len = data.length; i < len; i++) {
-            if (data[i].iIsAlarm == 0) {
-              data[i].iIsAlarm = '正常'
-            } else if (data[i].iIsAlarm == 1) {
-              data[i].iIsAlarm = '报警'
-            }
-            if (data[i].iIsOverlap == null) {
-              data[i].status = '未到达'
-              data[i].outBgColor = '#6abfed'
-              data[i].inBgColor = '#1773a7'
-            } else if (data[i].iIsOverlap == 0) {
-              data[i].status = '已到达'
-              data[i].outBgColor = '#5ae8f8'
-              data[i].inBgColor = '#1895a3'
-            } else if (data[i].iIsOverlap == 1) {
-              data[i].status = '失败'
-              data[i].outBgColor = '#6aa4b0'
-              data[i].inBgColor = '#4f6570'
-            }
-            data[i].fHumidityData = data[i].fHumidityData ? data[i].fHumidityData + '%' : '--'
-            data[i].fTemperatureData = data[i].fTemperatureData ? data[i].fTemperatureData + '℃' : '--'
-            data[i].iUpdateTime = data[i].iUpdateTime
-              ? moment(data[i].iUpdateTime).format('HH:mm:ss')
-              : '--'
-          }
-          this.nodeList = data
-          this.stepDetail = false
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    //点击图片
-    handleImgModal(val){
-      this.imgFlag = true
-      this.imgUrl = val
-    },
-    //关闭模态框
-    closeModal() {
+
+			// const elink = document.createElement('a')
+			// elink.download = time
+			// elink.style.display = 'none'
+			// elink.href = this.javaUrl + '/astask/exportTaskReport?recordId=' + id + '&fileName=' + time
+			// document.body.appendChild(elink)
+			// elink.click()
+			// URL.revokeObjectURL(elink.href) // 释放URL 对象
+			// document.body.removeChild(elink)
+		},
+		handleChangePage(page) {
+			this.currentPage = page
+			this.getList()
+		},
+		handleChangeSize(size) {
+			this.pageSize = size
+			this.getList()
+		},
+		// 获取详情
+		getDetail() {
+			this.axios
+				.getDetail({
+					recordId: this.recordId,
+					unitId: this.unitId,
+					taskId: this.taskId
+				})
+				.then(res => {
+					var data = res.data
+					// console.log(res, 'data')
+					this.taskName = data.taskName
+					this.startReason = data.startReason
+					this.stopReason = data.stopReason
+					this.failPoints = data.failPoints
+					this.alarmPoints = data.alarmPoints
+					this.normalPoints = data.normalPoints
+					this.viewPoints = data.viewPoints
+					this.startTime = moment(data.startTime * 1000).format('YYYY-MM-DD HH:mm:ss')
+				})
+				.catch(err => {
+					console.log(err)
+				})
+		},
+		//获取进度详情
+		getStepsDetail() {
+			this.axios
+				.getStepDetail({
+					unitId: this.unitId,
+					taskId: this.taskId,
+					recordId: this.recordId
+				})
+				.then(res => {
+					// console.log(res, 'step')
+					var data = res.data
+					for (var i = 0, len = data.length; i < len; i++) {
+						if (data[i].iIsAlarm == 0) {
+							data[i].iIsAlarm = '正常'
+						} else if (data[i].iIsAlarm == 1) {
+							data[i].iIsAlarm = '报警'
+						}
+						if (data[i].iIsOverlap == null) {
+							data[i].status = '未到达'
+							data[i].outBgColor = '#6abfed'
+							data[i].inBgColor = '#1773a7'
+						} else if (data[i].iIsOverlap == 0) {
+							data[i].status = '已到达'
+							data[i].outBgColor = '#5ae8f8'
+							data[i].inBgColor = '#1895a3'
+						} else if (data[i].iIsOverlap == 1) {
+							data[i].status = '失败'
+							data[i].outBgColor = '#6aa4b0'
+							data[i].inBgColor = '#4f6570'
+						}
+						data[i].fHumidityData = data[i].fHumidityData ? data[i].fHumidityData + '%' : '--'
+						data[i].fTemperatureData = data[i].fTemperatureData ? data[i].fTemperatureData + '℃' : '--'
+						data[i].iUpdateTime = data[i].iUpdateTime
+							? moment(data[i].iUpdateTime).format('HH:mm:ss')
+							: '--'
+					}
+					this.nodeList = data
+					this.stepDetail = false
+				})
+				.catch(err => {
+					console.log(err)
+				})
+		},
+		//点击图片
+		handleImgModal(val) {
+			this.imgFlag = true
+			this.imgUrl = val
+		},
+		//关闭模态框
+		closeModal() {
 			this.imgFlag = false
 		}
-  },
-  beforeRouteEnter(to, from, next) {
-    next()
-  },
-  beforeRouteUpdate(to, from, next) {
-    next()
-  },
-  beforeRouteLeave(to, from, next) {
-    next()
-  }
+	},
+	beforeRouteEnter(to, from, next) {
+		next()
+	},
+	beforeRouteUpdate(to, from, next) {
+		next()
+	},
+	beforeRouteLeave(to, from, next) {
+		next()
+	}
 }
 </script>
 <style lang="stylus" scoped>
@@ -627,10 +684,11 @@ export default {
         background: none;
       }
     }
+
     /deep/.el-table--border {
-    border-right: 1px solid #054598;
-    border-bottom: 1px solid #054598;
-}
+      border-right: 1px solid #054598;
+      border-bottom: 1px solid #054598;
+    }
 
     .operation {
       display: inline-block;
@@ -776,11 +834,12 @@ label {
 }
 
 // /deep/.el-table__empty-block{
-//   border-bottom: 1px solid #054598;
+// border-bottom: 1px solid #054598;
 // }
 /deep/.el-table tbody tr:hover>td {
   background: rgba(35, 118, 220, 0.21);
 }
+
 /deep/.el-table__body tr.current-row>td {
   background: rgba(35, 118, 220, 0.21);
 }
@@ -792,6 +851,7 @@ label {
 /deep/.el-table .cell, /deep/.el-table th div {
   padding-right: 0;
 }
+
 .detail {
   width: 1920px;
   height: 1080px;
@@ -1029,13 +1089,15 @@ label {
               background: url('../../assets/img/record/object.png') no-repeat 30px 9px;
               background-size: 14px 14px;
               text-indent: 0;
-              span{
+
+              span {
                 float: left;
                 width: 90px;
                 margin-left: 56px;
                 height: 100%;
               }
-              i{
+
+              i {
                 float: left;
                 width: 370px;
                 height: 100%;
@@ -1079,8 +1141,9 @@ label {
           float: left;
           width: 280px;
           height: 100%;
+
           // margin-left: 20px;
-          img{
+          img {
             display: inline-block;
             width: 130px;
             height: 100%;
@@ -1093,9 +1156,11 @@ label {
             width: 138px;
             height: 100%;
             margin-left: 10px;
-            .img-container{
+
+            .img-container {
               height: 100%;
-              img{
+
+              img {
                 height: 100%;
               }
             }
@@ -1215,44 +1280,48 @@ label {
     }
   }
 }
-/deep/img{
+
+/deep/img {
   display: block;
   width: 800px;
   height: 600px;
   margin: 0 auto;
 }
 
-/deep/.bigImg{
+/deep/.bigImg {
   margin-top: 40px;
 }
-  .btn-group {
+
+.btn-group {
+  height: 40px;
+
+  .btn {
+    width: 150px;
     height: 40px;
-
-    .btn {
-      width: 150px;
-      height: 40px;
-      background: url('../../../../assets/img/common/bg540.png') no-repeat center;
-      background-size: 100% 100%;
-      border-radius: 3px;
-      text-align: center;
-      margin: 5px;
-      border: 0;
-      color: #fff902;
-      font: 100 20px / 40px '';
-      cursor: pointer;
-    }
-
-    .confirm {
-      margin-left: 990px;
-    }
-
-    .cancel {
-      color: #fff;
-    }
+    background: url('../../../../assets/img/common/bg540.png') no-repeat center;
+    background-size: 100% 100%;
+    border-radius: 3px;
+    text-align: center;
+    margin: 5px;
+    border: 0;
+    color: #fff902;
+    font: 100 20px / 40px '';
+    cursor: pointer;
   }
-  /deep/.el-loading-text {
+
+  .confirm {
+    margin-left: 990px;
+  }
+
+  .cancel {
+    color: #fff;
+  }
+}
+
+/deep/.el-loading-text {
   font-size: 20px;
 }
+
 /deep/.ivu-modal-body {
   padding: 0;
 }
