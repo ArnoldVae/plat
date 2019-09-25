@@ -107,7 +107,7 @@ export default {
 	beforeDestory() {},
 	methods: {
 		//获取表格所有数据
-		getTableDataAll(addInfos) {
+		async getTableDataAll(addInfos) {
 			this.nodesArr = []
 			this.nodesTableData = []
 			this.modalWorkOrderTableHeaderData = []
@@ -274,7 +274,6 @@ export default {
 			this.$refs['area'].innerHTML = this.selectAreaList.length
 				? this.selectAreaList[0].typeName
 				: '请选择巡检区域'
-			// console.log('666')
 			let data = {
 				cmd: '2202',
 				type: 'req',
@@ -477,13 +476,13 @@ export default {
 			background: url('../../assets/img/common/dui.png') no-repeat center;
 			background-size: 15px 15px;
 			border: 2px solid #0098ff;
-			margin-top: auto;
+			// margin-top: auto;
 		}
 		.tabletdSelectN{
 			width: 20px;
 			height: 20px;
 			border: 2px solid #0098ff;
-			margin-top: auto;
+			// margin-top: auto;
 		}
 
 	}

@@ -235,7 +235,16 @@ export default {
 					feature: {
 						restore: {},
 						saveAsImage: {}
-					}
+					},
+					iconStyle:{
+	                    normal:{
+	                    	borderColor: '#fff'
+	                    },
+	                    emphasis: {
+	                    	borderColor: '#fa0'
+	                    }
+	                },
+	                right: 20
 				},
 				xAxis: {
 					type: 'category',
@@ -316,13 +325,6 @@ export default {
 				// ],
 				dataZoom: [
 					{
-						type: 'inside',
-						minValueSpan: 7,
-						minSpan: 20,
-						start: 0,
-						end: 100
-					},
-					{
 						showDetail: true,
 						height: 15,
 						bottom: 10,
@@ -330,7 +332,17 @@ export default {
 						backgroundColor: 'rgba(1,37,59,0.5)',
 						dataBackgroundColor: 'rgba(47,126,181,0.9)',
 						fillerColor: 'rgba(1,138,225,0.5)',
-						handleColor: 'rgba(1,37,59,0.8)'
+						handleColor: 'rgba(1,37,59,0.8)',
+						textStyle: {
+				            color: '#fff'
+				        }
+					},
+					{
+						type: 'inside',
+						minValueSpan: 7,
+						minSpan: 20,
+						start: 0,
+						end: 100
 					}
 				]
 			}

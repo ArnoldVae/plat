@@ -27,7 +27,7 @@
 <script>
 import { findComponentUpward } from '@/libs/assist'
 import htBlueprint from '../common/view-ichnography'
-import charts from '../main-oil/charts1'
+import charts from '../main-oil/charts-modal'
 export default {
 	name: 'security-control-customization',
 	components: {

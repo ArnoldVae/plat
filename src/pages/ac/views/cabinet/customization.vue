@@ -44,7 +44,7 @@
 <script>
 import qs from 'qs'
 import moment from 'moment'
-import charts from '../main-oil/charts1'
+import charts from '../main-oil/charts-modal'
 export default {
 	name: 'cabinet-customization',
 	components: { charts },

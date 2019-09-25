@@ -16,8 +16,6 @@
 										@click="handelInspecClick(item, index)"
 										:class="{ checkedInspection: recordIndex == index }"
 									>
-										<!-- <div :class="item.i_Status == 70140001? 'checkedInspectionStatus1': 'checkedInspectionStatus2'"></div> -->
-										<!-- <p>{{ item.vc_Name }}</p> -->
 										<div
 											:class="
 												item.intStatus == 70140001
@@ -543,9 +541,6 @@ export default {
 		this.getStationInfo()
 		//获取预置巡检数据
 		this.getPresetInspectionData()
-		// this.topicArr.forEach(item=>{
-		// 	item = item + this.stationId;
-		// })
 		let temp = []
 		this.topicArr.forEach(item => {
 			temp.push(item + this.stationId)
@@ -561,12 +556,15 @@ export default {
 		//使用keep-alive之后，activated和deactivated会被触发，destory不会被触发
 		//重新添加回调事件
 		this.registerListen()
-		clearTimeout(this.ocxTimer)
+		window.clearTimeout(this.ocxTimer)
 
 		//为了防止切换时，视频打不开，导致卡顿，无法立即切换，添加定时器，在页面切换成功之后，再显示视频
 		this.ocxTimer = setTimeout(() => {
 			this.showVideo = true
 		}, 500)
+		// setTimeout(()=> {
+		// 	this.showVideo = true
+		// }, 500);
 	},
 	deactivated() {
 		//取消回调事件
@@ -694,7 +692,6 @@ export default {
 					})
 					this.$nextTick(() => {
 						let targetTr = document.querySelectorAll('#ticketTableScroll .el-table__body-wrapper tr')[num]
-						//console.log(num)
 						let targetTable = document.querySelector('#ticketTableScroll .el-table__body-wrapper')
 						if (targetTr && targetTable) {
 							targetTable.scrollTop = targetTr.offsetTop
@@ -705,7 +702,6 @@ export default {
 		},
 		//分页操作
 		handleChangePage(page, nodeid, alarmlevel) {
-			//console.log( page )
 			this.pageNum = page
 
 			let brr = this.inspectionTaskTableDataAll.slice(
@@ -738,7 +734,6 @@ export default {
 		},
 		//关闭新增任务弹框
 		closeAddTask() {
-			//this.$refs.taskOrder.clearFilter()
 			this.addTask = false
 		},
 		//点击新增任务弹框的 巡检成票 按钮
@@ -751,10 +746,6 @@ export default {
 				unitId: this.stationId,
 				nodeIds: arr.join(',')
 			}
-			/* let addInfos = {
-				IsThread: true,
-				Nodes: arr.join(',')
-			} */
 			this.inspectionTaskListLoading = true
 			this.$refs.inspectionTaskList.getTableDataAll(addInfos)
 		},
@@ -803,12 +794,10 @@ export default {
 			this.addTaskNext = false
 			this.modalInspectionTaskTableData = []
 			this.modalWorkOrderTableHeaderData = []
-			// this.$refs.taskOrder.clearFilter()
 		},
 		//点击左侧 巡检成票
 		inspectionAticketBtn() {
 			//判断是否执行
-			// this.affirmTicket = true
 			if (this.presetInspectionTaskId == '') {
 				this.$ocxModal.confirm({
 					title: '确认',
@@ -826,7 +815,7 @@ export default {
 			}
 		},
 		//执行左侧 巡检成票(java)
-		affirmTicketYes() {
+		async affirmTicketYes() {
 			if (this.presetInspectionTaskId == '') {
 				return
 			} else {
@@ -906,14 +895,6 @@ export default {
 			} else {
 				return (str = `${info.robotName} \n (${info.total})`)
 			}
-			// let str = ''
-			// let startTop = info.r_vc_Name.substr(0, 2)
-			// let stopTop = info.r_vc_Name.substr(2)
-			// if (info.r_vc_Name.length > 3) {
-			// 	return (str = `${startTop} \n ${stopTop} \n (${info.count})`)
-			// } else {
-			// 	return (str = `${info.r_vc_Name} \n (${info.count})`)
-			// }
 		},
 		//巡检任务单勾选功能
 		handelCheck(arr, id) {
@@ -922,7 +903,7 @@ export default {
 			}
 		},
 		//获取预置巡检数据
-		getPresetInspectionData() {
+		async getPresetInspectionData() {
 			//java
 			let obj = {
 				unitId: this.stationId,
@@ -1191,31 +1172,16 @@ export default {
 						content: '<p>请选择巡检任务</p>'
 					})
 				} else {
-					// if( this.signForm ) {
 					this.isActiveTask = true
-					//this.signForm = false
 					this.$ocxModal.confirm({
 						title: '确认',
 						content: '<p>确认执行该任务</p>',
 						onOk: () => {
 							this.$_mqtt.publish(this.topicArr[0], JSON.stringify(data))
-							//临时代码，勿动
-							// this.presetInspectionArr.forEach( item => {
-							//   if( item.taskID == this.presetInspectionTaskId ) {
-							//     this.$set( item , 'i_Status' , 1 )
-							//   }
-							// })
 							this.affirmTicketYes()
 							this.inspectionAticket = false
 						}
 					})
-					// }
-					// else{
-					// this.$ocxModal.warning({
-					//   title: '提示',
-					//   content: '<p>请先执行巡检成票</p>'
-					// })
-					// }
 				}
 			}
 			if (params == 'stop') {

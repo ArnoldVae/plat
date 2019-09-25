@@ -2,6 +2,15 @@
  * 辅助函数
  */
 
+// 管道组合
+export function pipeline(...fns) {
+	return function(x){
+		return fns.reduce(function(arg,fn){
+			return fn(arg);
+		},x)
+	}
+}
+
 // 根据节点id查找更新后的节点pid
 export const getTreeNodeParentIdByTreeNodeId = (tree, nodeId) => {
 	let parentId = ''

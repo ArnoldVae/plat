@@ -2,11 +2,11 @@
 	<div class="view-table">
 		<div class="table-wrap">
 			<!-- 表格 -->
+			<!-- @current-change="handleCurrentChange" -->
 			<el-table
 				v-if="tableReset"
 				:span-method="objectSpanMethod"
 				highlight-current-row
-				@current-change="handleCurrentChange"
 				:data="tableData"
 				height="500"
 				v-loading="loading"
@@ -239,11 +239,6 @@ export default {
 				this.getDeviceInfo()
 			},
 			immediate: true
-		},
-		nodeId: {
-			handler() {
-				// 更新历史数据
-			}
 		},
 		activeUnitId: {
 			handler(val) {
@@ -560,7 +555,17 @@ export default {
 					feature: {
 						restore: {},
 						saveAsImage: {}
-					}
+					},
+					iconStyle:{
+	                    normal:{
+	                    	borderColor: '#fff'
+	                    },
+	                    emphasis: {
+	                    	borderColor: '#fa0'
+	                    }
+	                },
+	                right: 20,
+	                // top: -3
 				},
 				xAxis: {
 					type: 'category',
@@ -655,14 +660,18 @@ export default {
 						backgroundColor: 'rgba(1,37,59,0.5)',
 						dataBackgroundColor: 'rgba(47,126,181,0.9)',
 						fillerColor: 'rgba(1,138,225,0.5)',
-						handleColor: 'rgba(1,37,59,0.8)'
+						handleColor: 'rgba(1,37,59,0.8)',
+						textStyle: {
+				            color: '#fff'
+				        }
 					}
 				]
 			}
 			EchartsDom.setOption(option)
 		},
 		handleCurrentChange(row) {
-			this.nodeId = row.nodeId
+			console.log(row)
+			// this.nodeId = row.nodeId
 		},
 		handleControl(value, row) {
 			this.controlValue = value

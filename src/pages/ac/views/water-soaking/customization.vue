@@ -26,7 +26,7 @@
 </template>
 <script>
 import htBlueprint from '../common/view-ichnography'
-import charts from '../main-oil/charts1'
+import charts from '../main-oil/charts-modal'
 import { log } from 'util';
 export default {
 	name: 'water-soaking-customization',

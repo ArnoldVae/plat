@@ -18,7 +18,7 @@
 </template>
 <script>
 import { findComponentUpward } from '@/libs/assist'
-import charts from '../main-oil/charts1'
+import charts from '../main-oil/charts-modal'
 import { log } from 'util'
 import { setTimeout } from 'timers'
 import { constants } from 'crypto'
@@ -49,6 +49,20 @@ export default {
 		}
 	},
 	filters: {},
+	computed: {
+		getunitId: function() {
+			return this.$store.getters.unitId
+		},
+		activeDeviceType() {
+			return findComponentUpward(this, 'intelligent').currentTypeId
+		},
+		activeTypeMapList() {
+			return findComponentUpward(this, 'intelligent').deviceTypeMapList
+		},
+		activeTypeMapLists() {
+			return findComponentUpward(this, 'intelligent').currentModeInfo
+		}
+	},
 	watch: {
 		htSwitch(newVal) {
 			this.dataModel.clear()
@@ -60,18 +74,23 @@ export default {
 			}
 			let index = this.htUrl.findIndex(item => item.pageId == newVal)
 			this.init(this.htUrl[index])
+		},
+		activeDeviceType: {
+			handler(val) {
+				// console.log('activeDeviceTypeId', val)
+				this.getDevList()
+				this.getDisplay(val)
+			},
+			immediate: true
 		}
 	},
 	created() {
-		this.getDevList()
+		// this.getDevList()
 	},
 	mounted() {
-		console.log('activeTypeMapLists', this.activeTypeMapLists.devTypeShowModes)
-
-		this.getList()
+		// this.getList()
 
 		this.topicStr = this.topicArr[0] + this.unitId
-		// console.log(this.topicStr)
 		//实时数据回调
 		const _this = this
 		this.$_listen(this.$options.name, (topic, message, packet) => {
@@ -92,27 +111,35 @@ export default {
 	activited() {},
 	update() {},
 	beforeDestory() {},
-	computed: {
-		getunitId: function() {
-			return this.$store.getters.unitId
-		},
-		activeDeviceTypeId() {
-			return findComponentUpward(this, 'intelligent').currentTypeId
-		},
-		activeTypeMapList() {
-			return findComponentUpward(this, 'intelligent').deviceTypeMapList
-		},
-		activeTypeMapLists() {
-			return findComponentUpward(this, 'intelligent').currentModeInfo
-		}
-	},
+
 	methods: {
+		async getDisplay(id) {
+			try {
+				let result = await this.$_api.frame.getDisplayModeBytypeId({
+					devTypeName: '',
+					devTypeId: id
+				})
+				if (result.success) {
+					// console.log(result)
+					// return result.data.lists[0] || []
+					this.getList(result.data.lists[0])
+				}
+			} catch (e) {
+				// return {}
+				this.$ocxMessage.error(`${e}`)
+			}
+		},
+
 		//获取图纸列表信息
-		getList() {
-			let index = this.activeTypeMapLists.devTypeShowModes.findIndex(item => item.icon == 'picture')
+		getList(val) {
+			if (val.devTypeShowModes == undefined || val.devTypeShowModes == null) {
+				this.$ocxMessage.error('数据丢失！！！')
+				return
+			}
+			let index = val.devTypeShowModes.findIndex(item => item.icon == 'picture')
 			if (index != -1) {
-				let data = this.activeTypeMapLists.devTypeShowModes[index]
-				console.log('data', data)
+				let data = val.devTypeShowModes[index]
+				// console.log('data', data)
 				let iSubType
 				if (data.iParam1 != null) {
 					iSubType = data.iParam1
@@ -143,7 +170,7 @@ export default {
 		//获取设备列表
 		getDevList() {
 			let params = {
-				devTypeId: this.activeDeviceTypeId,
+				devTypeId: this.activeDeviceType,
 				isPage: 1,
 				isFindNodes: 1,
 				unitId: this.unitId
@@ -348,7 +375,6 @@ export default {
 		},
 		chartsModal(data, functionCode) {
 			let val = data.a('item')
-			// console.log(val)
 			if (val != undefined) {
 				let index = val.devNodesList.findIndex(item => item.functionCode == functionCode)
 				if (index != -1) {

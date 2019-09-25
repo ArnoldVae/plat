@@ -11,13 +11,13 @@ export default {
 		})
 	},
 	//导出巡检记录列表
-	// exportList(params) {
-	// 	return axios.request({
-	// 		url: 'report/export',
-	// 		method: 'get',
-	// 		data: JSON.stringify(params)
-	// 	})
-	// },
+	exportList(params) {
+		return axios.request({
+			url: 'report/export',
+			method: 'get',
+			data: JSON.stringify(params)
+		})
+	},
 	//获取详情
 	getDetail(params) {
 		return axios.request({
@@ -35,23 +35,6 @@ export default {
 		})
 	},
 	//导出每一行的数据
-	// exportRow(params){
-	// 	return axiosNet.request({
-	// 		url: 'As/ExportTaskReport',
-	// 		method: 'post',
-	// 		headers: {
-	// 			'Content-Type': 'application/x-www-form-urlencoded'
-	// 		},
-	// 		data: qs.stringify(params)
-	// 	})
-	// },
-	//导出每一行的数据
-	// exportRow(params){
-	// 	return axios.request({
-	// 		url: 'astask/exportTaskReport?'+params,
-	// 		method: 'get',
-	// 	})
-	// },
 	exportRow(params){
 		return axios.request({
 			url: 'astask/exportTaskReport',

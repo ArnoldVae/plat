@@ -293,11 +293,6 @@ export default {
 			let Num = Date.now()
 			this.ztreeId = 'ztree' + '_' + Num
 		},
-		//重新渲染树
-		// applyTreeData() {
-		// 	console.log( 789 )
-		// 	this.treeData = JSON.parse(this.treeDataStr);
-		// },
 		//勾选树节点
 		handleCheckChange() {
 			this.checkedNodes = []
@@ -333,7 +328,7 @@ export default {
 		},
 		//新增任务右侧树
 		//(java接口)
-		getStaticTreeData(area, devType, regType, meterType, appearanceType, selectStr) {
+		async getStaticTreeData(area, devType, regType, meterType, appearanceType, selectStr) {
 			this.isFilter = false
 			this.ztreeSwitch = true
 			if (this.treeData.length > 0 && !selectStr) {
@@ -514,7 +509,7 @@ export default {
 					})
 			}
 		}, */
-		getDeviceType() {
+		async getDeviceType() {
 			this.isMeterType = false
 			this.isRecognitionType = false
 			this.isdeviceAreaList = false
@@ -807,7 +802,7 @@ export default {
 							// }
 
 							//当筛选点数小于200时，展开所有节点
-							if(nodes.lenth <= 200){
+							if(nodes.length <= 200){
 								this.ztreeObj.expandNode(pathOfOne[i], true, false, false)
 							}else if(nodes.length > 200 && nodes.length <= 500 && pathOfOne[i].level === 1){	//200-500时，只展开树等级为1的节点
 								this.ztreeObj.expandNode(pathOfOne[i], true, false, false)

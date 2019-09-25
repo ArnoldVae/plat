@@ -27,7 +27,7 @@
 <script>
 import qs from 'qs'
 import moment from 'moment'
-import charts from './charts1'
+import charts from './charts-modal'
 import { findComponentUpward } from '@/libs/assist'
 export default {
 	name: 'main-oil-customization',

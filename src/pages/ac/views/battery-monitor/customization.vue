@@ -445,15 +445,16 @@ export default {
     }
 
     .status-right {
-      width: 100px;
-      height: 40px;
+      width: 85px;
+      height: 35px;
       float: left;
       margin-left: 20px;
+	  margin-top 5px;
       background: #3d3d3d;
       border: 1px solid #3299ff;
 	  border-radius 3px;
-      line-height: 40px;
-      font-size: 18px;
+      line-height: 35px;
+      font-size: 16px;
       text-align: center;
       color: #49ff19;
 

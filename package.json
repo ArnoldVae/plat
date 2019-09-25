@@ -24,7 +24,7 @@
     "element-theme-chalk": "^2.9.1",
     "element-ui": "^2.9.1",
     "iview": "^3.4.2",
-    "jquery": "^3.4.1",
+    "jquery": "^2.2.4",
     "moment": "^2.24.0",
     "mqtt": "^3.0.0",
     "pinyin2": "^2.0.8",

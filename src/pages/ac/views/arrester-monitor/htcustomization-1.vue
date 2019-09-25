@@ -17,7 +17,7 @@
 </template>
 <script>
 import { findComponentUpward } from '@/libs/assist'
-import charts from '../main-oil/charts1'
+import charts from '../main-oil/charts-modal'
 import { log } from 'util'
 import { setTimeout } from 'timers'
 import { constants } from 'crypto'

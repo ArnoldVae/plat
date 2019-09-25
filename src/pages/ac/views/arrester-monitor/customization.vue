@@ -84,7 +84,7 @@
 </template>
 <script>
 import { findComponentUpward } from '@/libs/assist'
-import charts from '../main-oil/charts1'
+import charts from '../main-oil/charts-modal'
 export default {
 	name: 'arrester-monitor-customization',
 	components: { charts },

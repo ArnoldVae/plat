@@ -10,7 +10,7 @@
 
 </template>
 <script>
-import charts from '../main-oil/charts1'
+import charts from '../main-oil/charts-modal'
 import { findComponentUpward } from '@/libs/assist'
 export default {
 	name: 'ht-page',

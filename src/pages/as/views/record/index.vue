@@ -1,4 +1,5 @@
 <template>
+	<!-- 巡检记录 -->
 	<div class="report">
 		<div class="report-view">
 			<div class="search-bar">
@@ -52,9 +53,6 @@
 					style="width: 100%"
 					height="706"
 				>
-					<!-- <el-table-column label="计划" align="center" width="218">
-						<template slot-scope="scope">{{ scope.row.planName }}</template>
-					</el-table-column>-->
 					<el-table-column label="任务" align="center" width="280">
 						<template slot-scope="scope">{{ scope.row.taskName }}</template>
 					</el-table-column>
@@ -91,9 +89,6 @@
 					<el-table-column align="center" label="报警点数" width="80">
 						<template slot-scope="scope">{{ scope.row.allAlarm }}</template>
 					</el-table-column>
-					<!-- <el-table-column align="center" label="操作人" width="90">
-						<template slot-scope="scope">{{ scope.row.userId || '-' }}</template>
-					</el-table-column>-->
 					<el-table-column prop align="center" label="操作">
 						<template slot-scope="scope">
 							<span class="operation detail" @click="goDetail(scope.row)">详细</span>
@@ -117,10 +112,7 @@
 		</div>
 		<ocx-modal v-model="detailFlag" fullscreen footer-hide :styles="{top: '0'}">
 			<div class="detail">
-				<!-- <div class="back" @click="goback">返回</div> -->
-
 				<div class="detail-content">
-					<!-- <div class="look-detail">查看任务详情</div> -->
 					<div class="info">
 						<div class="info-left">
 							<span class="txt">任务名称：{{ taskName }}</span>
@@ -131,35 +123,26 @@
 							<i class="count inspect"></i>
 							<span class="txt">
 								巡检点数:
-								<!-- <i class="num">{{viewPoints}}</i> -->
 								<span>{{ viewPoints }}</span>
 							</span>
 							<i class="count fail"></i>
 							<span class="txt">
 								失败点数:
-								<!-- <i class="count">{{failPoints}}</i> -->
 								<span>{{ failPoints }}</span>
 							</span>
 							<i class="count police"></i>
 							<span class="txt">
 								报警点数:
-								<!-- <i class="count">{{alarmPoints}}</i> -->
 								<span>{{ alarmPoints }}</span>
 							</span>
 							<i class="count normal"></i>
 							<span class="txt">
 								正常点数:
-								<!-- <i class="count">{{normalPoints}}</i> -->
 								<span>{{ normalPoints }}</span>
 							</span>
 						</div>
-						<!-- <div class="back" @click="goback">返回</div> -->
 					</div>
 					<div class="time">
-						<!-- <div class="plan-time">
-          <div class="time-content">{{planTime}}</div>
-          <div class="time-des">任务计划时间</div>
-						</div>-->
 						<div class="start-time">
 							<div class="time-content">{{ startTime }}</div>
 							<div class="time-des">开始时间</div>
@@ -197,23 +180,12 @@
 										alt
 										@click="handleImgModal(item.vcInfraPicturePath)"
 									/>
-									<!-- <vue-photo-zoom-pro
-								v-if="item.vcInfraPicturePath"
-								:url="item.vcInfraPicturePath"
-								:width="180"
-								type="circle"
-									></vue-photo-zoom-pro>-->
 									<img
 										v-if="item.vcNormalPicturePath"
 										:src="item.vcNormalPicturePath"
 										alt
 										@click="handleImgModal(item.vcNormalPicturePath)"
 									/>
-									<!-- <vue-photo-zoom-pro
-								v-if="item.vcNormalPicturePath"
-								:url="item.vcNormalPicturePath"
-								:width="180"
-									></vue-photo-zoom-pro>-->
 								</div>
 								<i class="line"></i>
 								<i class="dot"></i>
@@ -228,17 +200,10 @@
 						查看任务详情
 					</div>
 				</div>
-				<!-- <statistics></statistics> -->
-				<!-- <el-button type="primary" class="back" @click="goback">返回</el-button> -->
 			</div>
 		</ocx-modal>
 		<ocx-modal v-model="imgFlag" :width="1000" footer-hide>
-			<!-- <img :src="imgUrl" alt=""> -->
 			<vue-photo-zoom-pro :url="imgUrl" :width="400" type="circle" class="bigImg"></vue-photo-zoom-pro>
-			<!-- <div class="btn-group">
-          <input type="button" class="btn confirm" value="确定" @click="closeModal" />
-          <input type="button" class="btn cancel" value="取消" @click="closeModal" />
-			</div>-->
 		</ocx-modal>
 	</div>
 </template>
@@ -320,9 +285,9 @@ export default {
 					label: '无报警'
 				}
 			],
-			value: '6',
-			value2: '',
-			value3: '',
+			value: '6', //默认查询的字段
+			value2: '', //默认查询的字段
+			value3: '', //默认查询的字段
 			iIsAlarm: '', //是否报警
 			iStatus: '', //任务状态
 			dateId: '6', //时间
@@ -330,7 +295,7 @@ export default {
 			currentPage: 1, //当前页码
 			total: 0,
 			javaUrl: '',
-			netUrl: '',
+			// netUrl: '',
 			detailFlag: false,
 			recordLoading: false
 		}
@@ -355,10 +320,10 @@ export default {
 			process.env.NODE_ENV === 'development'
 				? $_development.javaRequest.location + '/' + $_development.javaRequest.javaModule
 				: $_development.netRequest.location + '/' + $_development.netRequest.javaModule
-		this.netUrl =
-			process.env.NODE_ENV === 'development'
-				? $_development.netRequest.location + '/' + $_development.netRequest.netModule
-				: $_development.netRequest.location + '/' + $_development.netRequest.netModule
+		// this.netUrl =
+		// 	process.env.NODE_ENV === 'development'
+		// 		? $_development.netRequest.location + '/' + $_development.netRequest.netModule
+		// 		: $_development.netRequest.location + '/' + $_development.netRequest.netModule
 	},
 	mounted() {
 		this.getList()
@@ -395,7 +360,6 @@ export default {
 					iIsAlarm: this.iIsAlarm,
 					iStatus: this.iStatus,
 					dateId: this.dateId,
-					// "unitId":"42389edde72d41f4bcd978b574eefbae","iIsAlarm":"","iStatus":"","dateId":"50",
 					currentPage: this.currentPage,
 					pageSize: this.pageSize
 				})
@@ -404,7 +368,6 @@ export default {
 						let data = res.data.lists
 						for (let i = 0, len = data.length; i < len; i++) {
 							data[i].iStartTime = moment(data[i].iStartTime * 1000).format('YYYY-MM-DD HH:mm:ss')
-							// data[i].iStopTime = moment(data[i].iStopTime * 1000).format('YYYY-MM-DD HH:mm:ss')
 							data[i].iStopTime =
 								data[i].iStopTime === null
 									? ''
@@ -421,14 +384,6 @@ export default {
 		},
 		//详情
 		goDetail(row) {
-			// this.$router.push({
-			//   name: 'detail',
-			//   params: {
-			//     recordId,
-			//     unitId,
-			//     taskId
-			//   }
-			// }
 			this.recordId = row.recordId
 			this.unitId = row.unitId
 			this.taskId = row.taskId
@@ -441,7 +396,6 @@ export default {
 			this.normalPoints = row.successNode
 			this.viewPoints = row.allTaskNode
 			this.startTime = row.iStartTime
-			// this.getDetail()
 			this.getStepsDetail()
 		},
 		//导出
@@ -462,51 +416,20 @@ export default {
 			console.log(window.location.href)
 		},
 
-		// exportRow(row) {
-		//   var time = moment().format('YYYYMMDDHHmmss')
-		//   // window.location.href = this.netUrl + 'As/ExportTaskReport?RecordID='
-		//   // + row.recordId + '&filename=' + time + '.docx&isCache=true'
-		//   let params = {
-		//     RecordID: row.recordId,
-		//     filename: time + '.docx',
-		//     isCache: true
-		//   }
-		//   this.axios.exportRow(params).then(res => {
-		//     if(res.success == true){
-		//       window.location.href = this.netUrl + res.data
-		//     }
-		//   }).catch(err => {
-		//     console.log(err)
-		//   })
-		// },
 		//每行导出
 		exportRow(row) {
 			// console.log(row)
 			var time = moment().format('YYYYMMDDHHmmss')
 			var id = row.recordId
-			console.log(id)
-			// var url;
-			// this.axios.exportRow('recordId=' + id
-			// + '&fileName=' + time).then(res=>{
-			//   url=res;
-			//   window.location.href=url
-      // })
-      let params = {
-        "recordId" :id,"fileName":id
-      }
+			// console.log(id)
+			let params = {
+				recordId: id,
+				fileName: id
+			}
 			this.axios.exportRow(params).then(res => {
-        console.log(res)
-        window.location.href = res
-      })
-
-			// const elink = document.createElement('a')
-			// elink.download = time
-			// elink.style.display = 'none'
-			// elink.href = this.javaUrl + '/astask/exportTaskReport?recordId=' + id + '&fileName=' + time
-			// document.body.appendChild(elink)
-			// elink.click()
-			// URL.revokeObjectURL(elink.href) // 释放URL 对象
-			// document.body.removeChild(elink)
+				console.log(res)
+				window.location.href = res
+			})
 		},
 		handleChangePage(page) {
 			this.currentPage = page

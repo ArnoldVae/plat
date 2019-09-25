@@ -3,7 +3,7 @@
     <div class="water-soaking-center">
       <div class="water-soaking-top"
            v-if="list.length > 1">
-		   <!-- 图纸切换按钮 -->
+        <!-- 图纸切换按钮 -->
         <span v-for="(item, index) in list"
               :key="index"
               v-show="item.vcUrl.length != 0"
@@ -33,9 +33,8 @@
 <script>
 import { findComponentUpward } from '@/libs/assist'
 import htBlueprint from './view-ichnography'
-import charts from '../main-oil/charts1'
+import charts from '../main-oil/charts-modal'
 import chartsList from '../terminal-box/chartsList'
-import { log } from 'util'
 export default {
 	name: 'view-ht-page',
 	components: {
@@ -64,14 +63,26 @@ export default {
 			historyListModal: false
 		}
 	},
-	watch: {},
+	watch: {
+		activeDeviceType: {
+			handler(val) {
+				console.log('activeDeviceTypeId', val)
+
+				this.getDisplay(val)
+			},
+			immediate: true
+		}
+	},
 	computed: {
 		activeTypeMapLists() {
 			return findComponentUpward(this, 'intelligent').currentModeInfo
+		},
+		activeDeviceType() {
+			return findComponentUpward(this, 'intelligent').currentTypeId
 		}
 	},
 	created() {
-		this.getData()
+		// this.getData()
 	},
 	mounted() {
 		this.topicStr = this.topicArr[0] + this.unitId
@@ -122,12 +133,32 @@ export default {
 				this.pitchOn = val.pageId
 			}
 		},
+		async getDisplay(id) {
+			try {
+				let result = await this.$_api.frame.getDisplayModeBytypeId({
+					devTypeName: '',
+					devTypeId: id
+				})
+				if (result.success) {
+					// console.log(result)
+					// return result.data.lists[0] || []
+					this.getData(result.data.lists[0])
+				}
+			} catch (e) {
+				// return {}
+				this.$ocxMessage.error(`${e}`)
+			}
+		},
 
 		//获取图纸信息
-		getData() {
-			let index = this.activeTypeMapLists.devTypeShowModes.findIndex(item => item.icon == 'picture')
+		getData(val) {
+			if (val.devTypeShowModes == undefined || val.devTypeShowModes == null) {
+				this.$ocxMessage.error('数据丢失！！！')
+				return
+			}
+			let index = val.devTypeShowModes.findIndex(item => item.icon == 'picture')
 			if (index != -1) {
-				let data = this.activeTypeMapLists.devTypeShowModes[index]
+				let data = val.devTypeShowModes[index]
 
 				let iSubType
 				if (data.iParam1 != null) {
@@ -143,8 +174,7 @@ export default {
 				}
 				this.axios.getHtDrawing(params).then(res => {
 					if (res.code == 200) {
-						console.log(res)
-
+						// console.log(res)
 						this.list = res.data
 						if (res.data.length) {
 							this.blueprintObj = res.data[0]
