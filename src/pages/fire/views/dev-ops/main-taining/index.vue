@@ -50,7 +50,7 @@
 
 			<!-- <el-button class="blue-btn" style=" line-height: 21PX;" @click="searchInfo" type="text">查&nbsp找</el-button> -->
 			<el-form-item class="taining-button">
-				<el-button class="blue-btn" @click="searchInfo" type="text">查&nbsp找</el-button>
+				<el-button class="blue-btn" @click="dosearch" type="text">查&nbsp找</el-button>
 				<!-- <el-button class="blue-btn" v-if="!searchIS" @click="searchInfos" type="text">查&nbsp找</el-button>
 				<el-button class="yellow-btn" @click="leadTo" type="text">导&nbsp入</el-button>
 				<el-button class="yellow-btn" @click="exportInfo" type="text">导&nbsp出</el-button> -->
@@ -64,32 +64,44 @@
 				:data="maintainData"
 				style="width: 100%;"
 			>
-				<el-table-column prop="coName" align="center" label="维保单位"></el-table-column>
+			<el-table-column prop="coName" align="center" label="维保单位" width='200'></el-table-column>
 				<el-table-column prop="unitName" align="center" label="变电站" width="300"></el-table-column>
-				<el-table-column prop="context" align="center" label="维护内容" width="500"></el-table-column>
+				<el-table-column prop="context" align="center" label="维护内容" width="860"></el-table-column>
 				<el-table-column prop="beginTime" align="center" label="计划开始时间" width="264"></el-table-column>
 				<el-table-column prop="endTime" align="center" label="计划结束时间" width="264"></el-table-column>
-				<el-table-column prop="vc_PowerOffScene" align="center" label="停电场所"></el-table-column>
-				<el-table-column prop="vc_PowerLevel" align="center" label="电压等级"></el-table-column>
-				<el-table-column prop="presetName" align="center" label="负责人"></el-table-column>
-				<el-table-column prop="telePhone" align="center" label="联系电话" width="294"></el-table-column>
-				<el-table-column prop="status" align="center" label="当前状态">
+				<el-table-column prop="vc_PowerOffScene" align="center" label="停电场所" width="190"></el-table-column>
+				<el-table-column prop="vc_PowerLevel" align="center" label="电压等级" width="190"></el-table-column>
+				<el-table-column prop="presetName" align="center" label="负责人" width="170"></el-table-column>
+				<el-table-column prop="telePhone" align="center" label="联系电话" width="275"></el-table-column>
+				<el-table-column prop="status" align="center" label="当前状态" width="200">
 					<!-- <template slot-scope="scope">
 						<span v-if="scope.row.status=='未执行'" style="color:red;">{{scope.row.status}}</span>
 						<span v-if="scope.row.status=='正在执行'" style="color:green;">{{scope.row.status}}</span>
 						<span v-if="scope.row.status=='已结束'" style="color:blue;">{{scope.row.status}}</span>
 					</template>-->
 				</el-table-column>
-				<el-table-column label="操作" align="center" width="450">
+				<el-table-column label="操作" align="center" width="350">
 					<template slot-scope="scope">
 						<div>
-							<el-button class="blue-btn" v-show="scope.row.status!='未执行'" @click="infoModals(scope.row)" size="mini" type="text">详情</el-button>
+							<!-- <el-button class="blue-btn" v-show="scope.row.status !='未执行'" @click="infoModals(scope.row)" size="mini" type="text">详情</el-button> -->
 							<el-button class="blue-btn" @click="recordModals(scope.row)" size="mini" type="text">记录</el-button>
 							<!-- <el-button class="yellow-btn" @click="searchInfo" size="mini" type="text">导出</el-button> -->
 						</div>
 					</template>
 				</el-table-column>
 			</el-table>
+		</div>
+		<div class="pagination" style="left:45%;bottom:1%">
+			<el-pagination
+			    ref="pages"
+				background
+				:page-size="pageSize"
+				layout="prev, pager, next"
+				@current-change="handleCurrentChange"
+				@prev-click="searchInfo('page')"
+				@next-click="searchInfo('page')"
+				:total="pageTotal"
+			></el-pagination>
 		</div>
 		<infoModal :dialogVisible="modalShow" :delitail="detileData" @handleClose="handleClose"></infoModal>
 
@@ -121,6 +133,10 @@ export default {
 	components: { infoModal },
 	data() {
 		return {
+			pageTotal: 0,
+			pageSize: 10,
+			currentPage: 1,
+			pagenation: {},
 			fileDate: '',
 			recordShow: false,
 			nullValue: null,
@@ -142,7 +158,9 @@ export default {
 			maintainData: [],
 			modalShow: false,
 			detileData: '',
-			searchIS: false
+			searchIS: false,
+			starTim:'',
+			endTim:''
 		}
 	},
 	mounted() {},
@@ -175,7 +193,7 @@ export default {
 					break
 				case 'month':
 					const dayNo = 1 - new Date().getDate()
-					const endm = new Date()
+					const endm = new Date().getTime()
 					const startm = this.getTargetDate(0, 0, dayNo).getTime()
 					this.search.starTime = Date.parse(new Date(startm))
 					this.search.endTime = endm
@@ -190,7 +208,7 @@ export default {
 							.substring(0, 10) * 1
 					break
 				case 'year':
-					const endy = new Date(),
+					const endy = new Date().getTime(),
 						nowDay = 1 - new Date().getDate(),
 						nowMonth = 0 - new Date().getMonth()
 					const starty = this.getTargetDate(0, nowMonth, nowDay)
@@ -207,7 +225,7 @@ export default {
 							.substring(0, 10) * 1
 					break
 				case 'threeDay':
-					const endy1 = new Date()
+					const endy1 = new Date().getTime()
 					const starty1 = this.getTargetDate(0, 0, -2)
 
 					this.search.starTime = Date.parse(new Date(starty1))
@@ -233,6 +251,11 @@ export default {
 		}
 	},
 	methods: {
+		handleCurrentChange(val) {
+			// console.log(val)
+			this.currentPage = val
+			this.searchInfo('index')
+		},
 		async init() {
 			let result = await this.$_api.maintaining.getMaintenance()
 			if (result.success) {
@@ -248,34 +271,46 @@ export default {
 		opoentimeB() {
 			this.searchIS = false
 		},
-		async searchInfo() {
+		dosearch(){
+			this.starTim=parseInt(this.search.starTime/1000)==0 ? '' : parseInt(this.search.starTime/1000)
+			this.endTim=parseInt(this.search.endTime/1000)==0 ? '': parseInt(this.search.endTime/1000)
+			this.searchInfo()
+		},
+		async searchInfo(target) {
+			if (!target) this.currentPage = 1
 			let res = await this.$_api.maintaining.getfindPlanRecord({
-				startTime: this.search.starTime,
-				endTime: this.search.endTime,
+				startTime: this.starTim,
+				endTime: this.endTim,
 				mtcCoID: this.search.maintenanceUnit,
 				iStatus: this.search.stute,
-				unitId:'8177a787a28b4f86a103fac9a023db05'
+				pageSize: 10,
+				currentPage: this.currentPage
+				// unitId:'8177a787a28b4f86a103fac9a023db05'
 			})
 			if (res.code == '200') {
+				this.pageTotal = res.data.total
+				this.pageSize = res.data.pageSize
+				this.currentPage = res.data.nextPage
+				this.pagenation = res.data	
 				this.maintainData = res.data.list
 			} else {
 				this.maintainData = []
 			}
 		},
 
-		async searchInfos() {
-			let res = await this.$_api.maintaining.getfindPlanRecord({
-				startTime: this.searchb.starTime,
-				endTime: this.searchb.endTime,
-				mtcCoID: this.search.maintenanceUnit,
-				iStatus: this.search.stute
-			})
-			if (res.code == '200') {
-				this.maintainData = res.data.list
-			} else {
-				this.maintainData = []
-			}
-		},
+		// async searchInfos() {
+		// 	let res = await this.$_api.maintaining.getfindPlanRecord({
+		// 		startTime: this.searchb.starTime,
+		// 		endTime: this.searchb.endTime,
+		// 		mtcCoID: this.search.maintenanceUnit,
+		// 		iStatus: this.search.stute
+		// 	})
+		// 	if (res.code == '200') {
+		// 		this.maintainData = res.data.list
+		// 	} else {
+		// 		this.maintainData = []
+		// 	}
+		// },
 		leadTo() {},
 		exportInfo() {},
 		getThisWeek(currentTime) {
@@ -323,8 +358,9 @@ export default {
 <style lang="stylus">
 @import './input.css';
 
+
 .mian-taining {
-  // padding: 1.66667rem;
+
   width: 100%;
   height: 99%;
   margin-top: 5px;

@@ -254,7 +254,7 @@
 
             .el-main-content {
                 height: 750px;
-                width: 99%;
+                width: 98.5%;
                 position: relative;
             }
         }

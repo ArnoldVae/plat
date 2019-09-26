@@ -116,7 +116,7 @@
 						v-for="(item, index) in eqcnameS"
 						:key="index"
 						:label="item.vcName"
-						:value="item.vcName"
+						:value="item.dictID"
 					></el-option>
 				</el-select>
 			</el-form-item>
@@ -127,7 +127,7 @@
 						v-for="(item, index) in eqctypeS"
 						:key="index"
 						:label="item.vcName"
-						:value="item.vcName"
+						:value="item.subSystemId"
 					></el-option>
 				</el-select>
 			</el-form-item>
@@ -205,7 +205,7 @@
 				:data="maintainDatas"
 				:row-style="tableColor"
 				@selection-change="handleSelectionChange"
-				height="1380"
+				height="1420"
 				style="width: 100%;position: relative;top: -57px;"
 			>
 				<el-table-column prop="unitName" align="center" label="变电站名称" width="300"></el-table-column>
@@ -311,51 +311,51 @@ export default {
 			stutes: [{ id: 0, name: '未执行' }, { id: 1, name: '正在执行' }, { id: 2, name: '已结束' }],
 
 			maintainDatas: [
-				{
-					substatio: '550kv东善桥变电站',
-					numID: 'BJ-263',
-					eqname: '火灾传输装置',
-					eqtype: '火灾自动报警系统',
-					eqctype: '火灾报警控制主机',
-					subname: '消防子系统',
-					type_name: '灭火',
-					type_code: 'JK-S-01',
-					subModelsh: '————',
-					materia: '',
-					subnum: '',
-					substute: '正常',
-					subpostion: '主控楼一楼过道'
-				},
-				{
-					substatio: '550kv东善桥变电站',
-					numID: 'NJ-2',
-					eqname: '细水灭火指示灯',
-					eqtype: '细水灭火装置',
-					eqctype: '释放指示灯',
-					subname: '消防子系统',
-					type_name: '报警',
-					type_code: '2008系列',
-					subModelsh: '————',
-					materia: '',
-					subnum: '',
-					substute: '正常',
-					subpostion: '一号主变区域'
-				},
-				{
-					substatio: '550kv东善桥变电站',
-					numID: 'NJ-266',
-					eqname: '火灾传输装置',
-					eqtype: '火灾自动报警系统',
-					eqctype: '火灾报警控制主机',
-					subname: '消防子系统',
-					type_name: '报警',
-					type_code: 'QM600',
-					subModelsh: '————',
-					materia: '',
-					subnum: '',
-					substute: '正常',
-					subpostion: '一号主变区域'
-				}
+				// {
+				// 	substatio: '550kv东善桥变电站',
+				// 	numID: 'BJ-263',
+				// 	eqname: '火灾传输装置',
+				// 	eqtype: '火灾自动报警系统',
+				// 	eqctype: '火灾报警控制主机',
+				// 	subname: '消防子系统',
+				// 	type_name: '灭火',
+				// 	type_code: 'JK-S-01',
+				// 	subModelsh: '————',
+				// 	materia: '',
+				// 	subnum: '',
+				// 	substute: '正常',
+				// 	subpostion: '主控楼一楼过道'
+				// },
+				// {
+				// 	substatio: '550kv东善桥变电站',
+				// 	numID: 'NJ-2',
+				// 	eqname: '细水灭火指示灯',
+				// 	eqtype: '细水灭火装置',
+				// 	eqctype: '释放指示灯',
+				// 	subname: '消防子系统',
+				// 	type_name: '报警',
+				// 	type_code: '2008系列',
+				// 	subModelsh: '————',
+				// 	materia: '',
+				// 	subnum: '',
+				// 	substute: '正常',
+				// 	subpostion: '一号主变区域'
+				// },
+				// {
+				// 	substatio: '550kv东善桥变电站',
+				// 	numID: 'NJ-266',
+				// 	eqname: '火灾传输装置',
+				// 	eqtype: '火灾自动报警系统',
+				// 	eqctype: '火灾报警控制主机',
+				// 	subname: '消防子系统',
+				// 	type_name: '报警',
+				// 	type_code: 'QM600',
+				// 	subModelsh: '————',
+				// 	materia: '',
+				// 	subnum: '',
+				// 	substute: '正常',
+				// 	subpostion: '一号主变区域'
+				// }
 			],
 			modalShow: false
 		}
@@ -417,11 +417,11 @@ export default {
 			if (!target) this.currentPage = 1
 			let result = await this.$_api.devOps.getAcountList({
 				vcName: this.search.eqName,
-				devTypeName: this.search.devType,
+				devTypeId: this.search.devType,
 				num: this.search.Num,
-				subName: this.search.maintenanceUnit,
+				subId: this.search.maintenanceUnit,
 				userId: this.search.keeperName,
-				pageSize: 12,
+				pageSize: 15,
 				currentPage: this.currentPage
 			})
 			if (result.success) {
@@ -706,7 +706,7 @@ export default {
   text-align: center;
   position: absolute;
   left: 36%;
-  bottom: 4%;
+  bottom: 1%;
 }
 </style>
 

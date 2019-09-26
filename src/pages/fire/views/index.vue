@@ -1,23 +1,23 @@
 <template>
-    <!--<div class="fire">-->
-        <!--&lt;!&ndash;		<div class="fire-header">&ndash;&gt;-->
-        <!--&lt;!&ndash;			<navigation :menuData="test" title="智能消防管理平台" :alarm="99" > </navigation>&ndash;&gt;-->
-        <!--&lt;!&ndash;		</div>&ndash;&gt;-->
-        <!--<div class="fire-nav">-->
+    <div class="fire">
+        <!--		<div class="fire-header">-->
+        <!--			<navigation :menuData="test" title="智能消防管理平台" :alarm="99" > </navigation>-->
+        <!--		</div>-->
+        <div class="fire-nav">
 
-            <!--<div class="fire-header-title" :class="{'fire-header-active': tab.active==true}" @click="tabChange(tab)"-->
-                 <!--v-for="(tab,index) in tabList" :key="index">{{tab.title}}-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="fire-content">-->
-            <!--<keep-alive  include="systemView">-->
-                <!--<component v-bind:is="current" ref="test" @transfer="getMethod" :node="alarmNode"-->
-                           <!--@receiveAlarm="receiveAlarm" @switchWarning="switchWarning"></component>-->
-            <!--</keep-alive>-->
+            <div class="fire-header-title" :class="{'fire-header-active': tab.active==true}" @click="tabChange(tab)"
+                 v-for="(tab,index) in tabList" :key="index">{{tab.title}}
+            </div>
+        </div>
+        <div class="fire-content">
+            <keep-alive  include="systemView">
+                <component v-bind:is="current" ref="test" @transfer="getMethod" :node="alarmNode"
+                           @receiveAlarm="receiveAlarm" @switchWarning="switchWarning"></component>
+            </keep-alive>
 
-        <!--</div>-->
-        <!--<statistics class='statisBottom'></statistics>-->
-    <!--</div>-->
+        </div>
+        <statistics class='statisBottom'></statistics>
+    </div>
 </template>
 <script>
     import systemView from './system-view'

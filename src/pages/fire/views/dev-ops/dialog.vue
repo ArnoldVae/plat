@@ -6,7 +6,7 @@
             center
             :visible.sync="dialogVisible"
             width="100%"
-            style="top:-16vh;left: 4vw"
+            style="top:-53vh;left: 4vw"
             :before-close="handleClose"
     >
         <Row type="flex" class="row-bg" justify="center">

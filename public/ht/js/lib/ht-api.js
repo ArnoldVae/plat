@@ -37,7 +37,7 @@ ht.List = function (){};
  * @param {Object} item 新元素
  * @param {Number} [index] 插入索引
  */
-    ht.List.prototype.add = function (item, index){};
+ht.List.prototype.add = function (item, index){};
 
 /**
  * 将一批元素加入到当前集合中

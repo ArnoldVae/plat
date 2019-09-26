@@ -64,7 +64,7 @@
 						<!--<span>{{unitTitle}}</span>-->
 						<!--</div>-->
 						<div class="video-img" v-if="videoShow">
-              <div class="titleText">此区域无视频</div>
+              <div class="titleText" >无视频</div>
 							<img src="../../../../../public/img/defaultVideoPic.png" alt />
 						</div>
 						<div v-if="!videoShow">
@@ -999,7 +999,7 @@ export default {
       overflow-x: auto;
       width: 2698PX;
       margin-top: 9PX;
-      height: 8rem;
+      height: 8.5rem;
       background: #141a26;
       z-index: 99999999999;
       position: fixed;
@@ -1066,7 +1066,7 @@ export default {
     }
 
     .video {
-      margin-top: 8rem;
+      margin-top: 8.8rem;
       border: 1PX solid #cccccc;
       margin-bottom: 10px;
       height: 450px;
@@ -1321,7 +1321,7 @@ export default {
       width: 100%;
       background: #141a26;
       margin-bottom: 10px;
-      height: 41.65rem;
+      height: 42.5rem;
       border: 1PX solid #cccccc;
 
       .agin-con-right-List {
@@ -1952,7 +1952,7 @@ export default {
   padding: 0;
   height: 100%;
   margin-top: 20px;
-  margin-left: 10px;
+  // margin-left: 10px;
   display: flex;
 
   .noAlarm {
