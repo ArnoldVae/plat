@@ -50,8 +50,10 @@ export default {
 		}
 	},
 	methods: {
+		//初始化OCX控件
 		initOCX() {
 			const _this = this
+			//是否隐藏工具栏
 			if (_this.videoConfig.hideTool == true) {
 				_this.showTool = false
 			}
@@ -76,6 +78,7 @@ export default {
 				console.log('当前浏览器不支持视频控件 ' + e)
 			}
 		},
+		//播放视频
 		play() {
 			const _this = this
 			if (!!_this.videoConfig.serviceInfo && !!_this.videoConfig.deviceInfo) {
@@ -91,6 +94,8 @@ export default {
 					} else {
 						_this.pageResize()
 						console.log('视频播放中...')
+
+						//有预置位时，调用预置位
 						if (_this.videoConfig.presetVal) {
 							_this.excPreset()
 						}
@@ -104,6 +109,7 @@ export default {
 				console.log('请先配置视频信息!!!')
 			}
 		},
+		//停止播放视频
 		stop() {
 			const _this = this
 			try {
@@ -122,6 +128,7 @@ export default {
 				return false
 			}
 		},
+		//在视频组件被销毁之前，
 		beforeDestroy() {
 			if (this.isPlay == true) {
 				this.stop()
@@ -139,6 +146,7 @@ export default {
 				}, 300)
 			}
 		},
+		//调用预置位
 		excPreset() {
 			const _this = this
 			try {
@@ -151,6 +159,7 @@ export default {
 				return false
 			}
 		},
+		//为防止黑屏问题，页面结构有变化时，改变oxc容器大小
 		pageResize() {
 			const _this = this
 			if (_this.resizeTimer != null) {
@@ -167,34 +176,86 @@ export default {
 				}
 			}, 300)
 		},
+		//查看录像功能
+		//beginTime-录像开始时间,endTime-录像结束时间
 		playHistory(beginTime, endTime) {
-			//查看录像功能
-			let recordStr = this.videoOutput.PlatformOCXFindRecordEX(
-				this.videoConfig.serviceInfo,
-				this.videoConfig.deviceInfo,
-				beginTime,
-				endTime
-			)
-
-			if (recordStr.length === 0) {
-				console.log('没有找到可播放的录像')
-				return
-			}
-			let tempary = recordStr.split('|')
-			console.log(tempary)
-			if (tempary.length > 0) {
-				let strRecordInfo = tempary[0].substring(0, tempary[0].indexOf(':'))
-				let ct = this.videoOutput.PlatformOCXPlayBackByNameEX(
-					0,
+			try {
+				let recordStr = this.videoOutput.PlatformOCXFindRecordEX(
 					this.videoConfig.serviceInfo,
 					this.videoConfig.deviceInfo,
-					strRecordInfo
+					beginTime,
+					endTime
 				)
-				if (ct === 0) {
-					console.log('播放录像成功')
-				} else {
-					console.log('播放录像失败')
+
+				if (recordStr.length === 0) {
+					console.log('没有找到可播放的录像')
+					return
 				}
+				let tempary = recordStr.split('|')
+				console.log(tempary)
+				if (tempary.length > 0) {
+					let strRecordInfo = tempary[0].substring(0, tempary[0].indexOf(':'))
+					let ct = this.videoOutput.PlatformOCXPlayBackByNameEX(
+						0,
+						this.videoConfig.serviceInfo,
+						this.videoConfig.deviceInfo,
+						strRecordInfo
+					)
+					if (ct === 0) {
+						console.log('播放录像成功')
+					} else {
+						console.log('播放录像失败')
+					}
+				}
+			} catch (e) {
+				console.log('回放录像功能出错：' + e)
+			}
+		},
+		//控球
+		//type -控制的方向
+		//1-左，2-右，3-上，4-下，5-左上，6-左下，7-右上，8-右下,9-缩放减小，10-缩放放大，11-光圈和焦距缩小，12-焦距方法，13-光圈放大
+		//speed - 控制的速度  1-16
+		//type和speed同时传0，停止控球
+		ctrlCam(type, speed) {
+			try {
+				let result = this.videoOutput.PlatformOCXPTZCtrl(0, type, speed)
+				if (result !== 0) {
+					console.log('控球失败')
+				}
+			} catch (e) {
+				console.log('控球失败：' + e)
+			}
+		},
+		//截取视频到指定路径
+		//path-图片存放路径
+		capturePic(path) {
+			try {
+				if(!path){
+					console.log('请选择图片保存的路径');
+					return;
+				}
+				let result = this.videoOutput.PlatformOCXCapPicture(0, path)
+				if (result !== 0) {
+					console.log('截屏失败')
+				}
+			} catch (e) {
+				console.log('截屏失败：' + e)
+			}
+		},
+		//视频录像
+		//path-录像存放路径
+		startRecord(path) {
+			try {
+				if(!path){
+					console.log('请选择录像保存的路径');
+					return;
+				}
+				let result = this.videoOutput.PlatformOCXStartRecord(0, path)
+				if (result !== 0) {
+					console.log('截屏失败')
+				}
+			} catch (e) {
+				console.log('截屏失败：' + e)
 			}
 		}
 	},
@@ -234,22 +295,26 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+
   .videoEl {
     width: 100%;
     height: calc(100% - 25px);
     // object-fit: fill;
   }
+
   .videoFull {
     height: 100%;
   }
+
   .videoControl {
     position: absolute;
     bottom: 0;
     z-index: 999;
-    height:25px;
-    line-height:25px;
+    height: 25px;
+    line-height: 25px;
     width: 100%;
     background: #555;
+
     .iconBtn {
       height: 100%;
       float: left;

@@ -155,10 +155,10 @@
 
 		<el-form class="formSize" :inline="true" size="mini" :model="search">
 			<el-form-item label="设备名称:" style="margin-right: 20px">
-				<el-input v-model="search.eqName" placeholder="请输入设备名称"></el-input>
+				<el-input v-model="search.eqName" placeholder="请输入"></el-input>
 			</el-form-item>
 			<el-form-item label="设备类型:" style="margin-right: 20px">
-				<el-select v-model="search.devType" placeholder="请选择设备类型">
+				<el-select v-model="search.devType" placeholder="请选择">
 					<el-option
 						v-for="(item, index) in eqcnameS"
 						:key="index"
@@ -168,7 +168,7 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item label="所属子系统:" style="margin-right: 26px">
-				<el-select v-model="search.maintenanceUnit" placeholder="请选择所属子系统">
+				<el-select v-model="search.maintenanceUnit" placeholder="请选择">
 					<el-option
 						v-for="(item, index) in eqctypeS"
 						:key="index"
@@ -178,11 +178,11 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item label="定置点编号:" style="margin-right: 20px">
-				<el-input v-model="search.Num" placeholder="请输入定置点编号"></el-input>
+				<el-input v-model="search.Num" placeholder="请输入"></el-input>
 			</el-form-item>
 
 			<el-form-item label="保管责任人:">
-				<el-select v-model="search.keeperName" placeholder="请选择保管责任人">
+				<el-select v-model="search.keeperName" placeholder="请选择">
 						<el-option
 							v-for="(item, index) in keeperNames"
 							:key="index"
@@ -209,8 +209,8 @@
 				@selection-change="handleSelectionChange"
 				@row-click="rowClick"
 				:highlight-current-row="isCurrent"
-				style="width: 100%;"
-				height="400"
+				style="width: 100%;height:565px!important"
+				height="570"
 				border
 			>
 				<el-table-column prop="unitName" align="center" label="变电站名称" width="130"></el-table-column>
@@ -1243,5 +1243,12 @@ export default {
 
 .ivu-steps-item.ivu-steps-status-wait .ivu-steps-head-inner span, .ivu-steps-item.ivu-steps-status-wait .ivu-steps-head-inner>.ivu-steps-icon {
   color: black !important;
+}
+
+.docFire .el-form--inline .el-select /deep/ .el-input__inner {
+	width: 180px;
+}
+.docFire .el-form--inline .el-input /deep/ .el-input__inner {
+	width: 180px;
 }
 </style>

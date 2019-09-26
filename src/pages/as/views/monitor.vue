@@ -57,7 +57,7 @@
 							<Tabs :animated="false" type="card" v-model="currentTab">
 								<Tab-pane label="巡检总览" name="inspectionPandect">
 									<div class="inspection-map">
-										<img src="../../assets/img/monitor/station-all-img.png" alt />
+										<img src="../assets/img/monitor/station-all-img.png" alt />
 									</div>
 								</Tab-pane>
 								<Tab-pane
@@ -118,7 +118,7 @@
 										>
 											<template slot-scope="scope">
 												<img
-													src="../../assets/img/common/dui.png"
+													src="../assets/img/common/dui.png"
 													alt
 													style="width: 15px;height: 15px;"
 													v-if="handelCheck(scope.row.robotIds, item.id)"
@@ -411,12 +411,11 @@
 <script>
 import cvideo from '@/components/native/video/OcxVideo'
 import { debuglog } from 'util'
-import monitorCurrent from '../common/monitor-current.vue'
+import monitorCurrent from './common/monitor-current.vue'
 import moment from 'moment'
-import taskOrder from '../common/task-order.vue'
-import inspectionTaskList from '../common/inspection-taskList.vue'
+import taskOrder from './common/task-order.vue'
+import inspectionTaskList from './common/inspection-taskList.vue'
 import qs from 'qs'
-import { clearTimeout } from 'timers';
 export default {
 	name: 'monitor',
 	props: {},
@@ -556,7 +555,7 @@ export default {
 		//使用keep-alive之后，activated和deactivated会被触发，destory不会被触发
 		//重新添加回调事件
 		this.registerListen()
-		window.clearTimeout(this.ocxTimer)
+		clearTimeout(this.ocxTimer)
 
 		//为了防止切换时，视频打不开，导致卡顿，无法立即切换，添加定时器，在页面切换成功之后，再显示视频
 		this.ocxTimer = setTimeout(() => {
@@ -1292,7 +1291,7 @@ export default {
           .ivu-tabs-tab {
             width: 76%;
             text-align: center;
-            background: url('~@/assets/img/common/bg540.png') no-repeat;
+            background: url('../../../assets/img/common/bg540.png') no-repeat;
             background-size: 100% 100%;
             color: #fff;
           }
@@ -1353,7 +1352,7 @@ export default {
                 float: right;
                 margin-right: 20px;
                 padding: 0;
-                background: url('../../assets/img/monitor/bg17.png') no-repeat;
+                background: url('../assets/img/monitor/bg17.png') no-repeat;
                 background-size: 100% 100%;
               }
             }
@@ -1486,7 +1485,7 @@ export default {
                 .ivu-tabs-tab {
                   width: 90px;
                   text-align: center;
-                  background: url('~@/assets/img/common/bg540.png') no-repeat;
+                  background: url('../../../assets/img/common/bg540.png') no-repeat;
                   background-size: 100% 100%;
                   color: #fff;
                   border: none;
@@ -1634,7 +1633,7 @@ export default {
               .ivu-tabs-tab {
                 width: 100px;
                 text-align: center;
-                background: url('~@/assets/img/common/bg540.png') no-repeat;
+                background: url('../../../assets/img/common/bg540.png') no-repeat;
                 background-size: 100% 100%;
                 color: #fff;
                 border: none;
@@ -1889,7 +1888,7 @@ export default {
               margin-right: 10px;
               border-radius: 4px;
               cursor: pointer;
-              background: url('~@/assets/img/common/bg540.png') no-repeat;
+              background: url('../../../assets/img/common/bg540.png') no-repeat;
               background-size: 100% 100%;
               font-size: 14px;
             }
@@ -2022,17 +2021,17 @@ export default {
                 }
 
                 .content:nth-of-type(1) i {
-                  background: url('../../assets/img/monitor/temperature.png') no-repeat center;
+                  background: url('../assets/img/monitor/temperature.png') no-repeat center;
                   background-size: 100% 100%;
                 }
 
                 .content:nth-of-type(2) i {
-                  background: url('../../assets/img/monitor/humidity.png') no-repeat center;
+                  background: url('../assets/img/monitor/humidity.png') no-repeat center;
                   background-size: 100% 100%;
                 }
 
                 .content:nth-of-type(3) i {
-                  background: url('../../assets/img/monitor/wind-speed.png') no-repeat center;
+                  background: url('../assets/img/monitor/wind-speed.png') no-repeat center;
                   background-size: 100% 100%;
                 }
               }
@@ -2107,7 +2106,7 @@ export default {
     .btn {
       width: 110px;
       height: 30px;
-      background: url('../../../../assets/img/common/bg540.png') no-repeat center;
+      background: url('../../../assets/img/common/bg540.png') no-repeat center;
       background-size: 100% 100%;
       border-radius: 3px;
       text-align: center;
@@ -2125,7 +2124,7 @@ export default {
     float: left;
     width: 374px;
     height: 800px;
-    background: url('../../assets/img/monitor/border.png') no-repeat;
+    background: url('../assets/img/monitor/border.png') no-repeat;
     background-size: 100% 100%;
     margin: 64px 0 0 45px;
 
@@ -2199,7 +2198,7 @@ export default {
         .btn {
           width: 150px;
           height: 36px;
-          background: url('~@/assets/img/common/bg540.png') no-repeat center;
+          background: url('../../../assets/img/common/bg540.png') no-repeat center;
           background-size: 100% 100%;
           border-radius: 3px;
           text-align: center;
@@ -2358,7 +2357,7 @@ export default {
   .btn {
     width: 40px;
     height: 20px;
-    background: url('../../../../assets/img/common/bg540.png') no-repeat center;
+    background: url('../../../assets/img/common/bg540.png') no-repeat center;
     background-size: 100% 100%;
     border-radius: 3px;
     text-align: center;
@@ -2434,17 +2433,17 @@ export default {
 }
 
 .robot-out {
-  background: url('../../assets/img/monitor/robot-out.png') no-repeat center;
+  background: url('../assets/img/monitor/robot-out.png') no-repeat center;
   background-size: 100% 100%;
 }
 
 .robot-in {
-  background: url('../../assets/img/monitor/robot-in.png') no-repeat center;
+  background: url('../assets/img/monitor/robot-in.png') no-repeat center;
   background-size: 100% 100%;
 }
 
 .hvideo {
-  background: url('../../assets/img/monitor/video.png') no-repeat center;
+  background: url('../assets/img/monitor/video.png') no-repeat center;
   background-size: 100% 100%;
 }
 </style>

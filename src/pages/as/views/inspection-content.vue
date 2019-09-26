@@ -54,9 +54,9 @@
 	</div>
 </template>
 <script>
-import monitor from './monitor'
-import record from './record'
-import taskManage from './taskManage'
+import monitor from './monitor.vue'
+import record from './record.vue'
+import taskManage from './taskManage.vue'
 import { debuglog } from 'util'
 export default {
 	name: 'inspection-content',

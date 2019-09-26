@@ -62,9 +62,7 @@
 					<el-table-column align="center" label="状态" width="100">
 						<template slot-scope="scope">
 							<span :class="{ abnormal: scope.row.iStatusName == '异常终止' }">
-								{{
-								scope.row.iStatusName
-								}}
+								{{ scope.row.iStatusName }}
 							</span>
 						</template>
 					</el-table-column>
@@ -110,7 +108,7 @@
 				/>
 			</div>
 		</div>
-		<ocx-modal v-model="detailFlag" fullscreen footer-hide :styles="{top: '0'}">
+		<ocx-modal v-model="detailFlag" fullscreen footer-hide :styles="{ top: '0' }">
 			<div class="detail">
 				<div class="detail-content">
 					<div class="info">
@@ -157,7 +155,9 @@
 						>
 							<div class="steps-content" v-for="item in nodeList" :key="item.index">
 								<div class="circle-out skip-out" :style="{ background: item.outBgColor }">
-									<div class="circle-in skip-in" :style="{ background: item.inBgColor }">{{ item.status }}</div>
+									<div class="circle-in skip-in" :style="{ background: item.inBgColor }">
+										{{ item.status }}
+									</div>
 									<i class="bd-top"></i>
 									<i class="bd-bt"></i>
 								</div>
@@ -167,7 +167,7 @@
 											<span>巡检对象：</span>
 											<i>{{ item.nodeName }}</i>
 										</li>
-										<li>分析结果：{{item.vcResult}}</li>
+										<li>分析结果：{{ item.vcResult }}</li>
 										<li>环境信息：{{ item.fTemperatureData }}，{{ item.fHumidityData }}</li>
 										<li>报警状态：{{ item.iIsAlarm }}</li>
 									</ul>
@@ -418,8 +418,27 @@ export default {
 
 		//每行导出
 		exportRow(row) {
-			// console.log(row)
 			var time = moment().format('YYYYMMDDHHmmss')
+			// window.location.href = this.netUrl + 'As/ExportTaskReport?RecordID='
+			// + row.recordId + '&filename=' + time + '.docx&isCache=true'
+			let params = {
+				RecordID: row.recordId,
+				filename: time + '.docx',
+				isCache: true
+			}
+			this.axios
+				.exportRow(params)
+				.then(res => {
+					if (res.success == true) {
+						window.location.href = this.netUrl + res.data
+					}
+				})
+				.catch(err => {
+					console.log(err)
+				})
+
+			// console.log(row)
+			/* var time = moment().format('YYYYMMDDHHmmss')
 			var id = row.recordId
 			// console.log(id)
 			let params = {
@@ -429,7 +448,7 @@ export default {
 			this.axios.exportRow(params).then(res => {
 				console.log(res)
 				window.location.href = res
-			})
+			}) */
 		},
 		handleChangePage(page) {
 			this.currentPage = page
@@ -571,24 +590,24 @@ export default {
     }
 
     .searchbtn {
-      background: url('../../assets/img/record/detail.png') no-repeat;
+      background: url('../assets/img/record/detail.png') no-repeat;
       background-size: 100% 100%;
       color: #fff;
     }
 
     .searchbtn:hover, .searchbtn:active {
-      background: url('../../assets/img/record/detail-hover.png') no-repeat;
+      background: url('../assets/img/record/detail-hover.png') no-repeat;
       background-size: 100% 100%;
     }
 
     .exportbtn {
-      background: url('../../assets/img/record/export.png') no-repeat;
+      background: url('../assets/img/record/export.png') no-repeat;
       background-size: 100% 100%;
       color: #bca062;
     }
 
     .exportbtn:hover, .exportbtn:active {
-      background: url('../../assets/img/record/export-hover.png') no-repeat;
+      background: url('../assets/img/record/export-hover.png') no-repeat;
       background-size: 100% 100%;
     }
   }
@@ -623,25 +642,25 @@ export default {
     }
 
     .detail {
-      background: url('../../assets/img/record/detail.png') no-repeat;
+      background: url('../assets/img/record/detail.png') no-repeat;
       background-size: 100% 100%;
       color: #fff;
     }
 
     .detail:hover, .detail:active {
-      background: url('../../assets/img/record/detail-hover.png') no-repeat;
+      background: url('../assets/img/record/detail-hover.png') no-repeat;
       background-size: 100% 100%;
     }
 
     .export {
-      background: url('../../assets/img/record/export.png') no-repeat;
+      background: url('../assets/img/record/export.png') no-repeat;
       background-size: 100% 100%;
       color: #bca062;
       margin-left: 8px;
     }
 
     .export:hover, .export.active {
-      background: url('../../assets/img/record/export-hover.png') no-repeat;
+      background: url('../assets/img/record/export-hover.png') no-repeat;
       background-size: 100% 100%;
     }
   }
@@ -798,7 +817,7 @@ label {
     width: 95%;
     margin: 0 auto;
     position: relative;
-    background: url('../../assets/img/common/bg.png') no-repeat;
+    background: url('../assets/img/common/bg.png') no-repeat;
     background-size: 100% 100%;
     -moz-background-size: 100% 100%;
 
@@ -878,7 +897,7 @@ label {
         height: 90px;
         position: relative;
         text-align: center;
-        background: url('../../assets/img/record/plan-time.png') no-repeat;
+        background: url('../assets/img/record/plan-time.png') no-repeat;
         background-size: 96px 82px;
       }
 
@@ -888,7 +907,7 @@ label {
         position: relative;
         text-align: center;
         margin-top: 20px;
-        background: url('../../assets/img/record/start-time.png') no-repeat;
+        background: url('../assets/img/record/start-time.png') no-repeat;
         background-size: 96px 82px;
       }
 
@@ -991,7 +1010,7 @@ label {
           width: 940px;
           height: 100%;
           margin-left: 220px;
-          background: url('../../assets/img/record/border.png') no-repeat;
+          background: url('../assets/img/record/border.png') no-repeat;
           background-size: 100% 100%;
 
           ul {
@@ -1009,7 +1028,7 @@ label {
 
             li:nth-of-type(1) {
               width: 520px;
-              background: url('../../assets/img/record/object.png') no-repeat 30px 9px;
+              background: url('../assets/img/record/object.png') no-repeat 30px 9px;
               background-size: 14px 14px;
               text-indent: 0;
 
@@ -1029,20 +1048,20 @@ label {
 
             li:nth-of-type(2) {
               width: 250px;
-              background: url('../../assets/img/record/result.png') no-repeat 30px 9px;
+              background: url('../assets/img/record/result.png') no-repeat 30px 9px;
               background-size: 14px 14px;
             }
 
             li:nth-of-type(3) {
               width: 350px;
-              background: url('../../assets/img/record/env-info.png') no-repeat 30px 9px;
+              background: url('../assets/img/record/env-info.png') no-repeat 30px 9px;
               background-size: 14px 14px;
               margin-top: 15px;
             }
 
             li:nth-of-type(4) {
               width: 250px;
-              background: url('../../assets/img/record/alarm-status.png') no-repeat 30px 9px;
+              background: url('../assets/img/record/alarm-status.png') no-repeat 30px 9px;
               background-size: 14px 14px;
               margin: 10px 0 0 180px;
             }
@@ -1154,7 +1173,7 @@ label {
         position: absolute;
         left: 415px;
         top: 15px;
-        background: url('../../assets/img/record/bd-lf.png') no-repeat;
+        background: url('../assets/img/record/bd-lf.png') no-repeat;
         background-size: 100% 100%;
       }
 
@@ -1164,7 +1183,7 @@ label {
         position: absolute;
         top: 15px;
         left: 620px;
-        background: url('../../assets/img/record/bd-rg.png') no-repeat;
+        background: url('../assets/img/record/bd-rg.png') no-repeat;
         background-size: 100% 100%;
       }
     }
@@ -1221,7 +1240,7 @@ label {
   .btn {
     width: 150px;
     height: 40px;
-    background: url('../../../../assets/img/common/bg540.png') no-repeat center;
+    background: url('../../../assets/img/common/bg540.png') no-repeat center;
     background-size: 100% 100%;
     border-radius: 3px;
     text-align: center;

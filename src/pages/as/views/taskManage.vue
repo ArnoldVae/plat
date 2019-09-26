@@ -125,8 +125,8 @@
 </template>
 <script>
 import moment from 'moment'
-import taskOrder from '../common/task-order'
-import inspectionTaskList from '../common/inspection-taskList.vue'
+import taskOrder from './common/task-order'
+import inspectionTaskList from './common/inspection-taskList.vue'
 export default {
 	name: 'taskManage',
 	components: {
@@ -558,36 +558,36 @@ export default {
     }
 
     .searchbtn {
-      background: url('../../assets/img/record/detail.png') no-repeat;
+      background: url('../assets/img/record/detail.png') no-repeat;
       background-size: 100% 100%;
       color: #fff;
     }
 
     .searchbtn:hover, .searchbtn:active {
-      background: url('../../assets/img/record/detail-hover.png') no-repeat;
+      background: url('../assets/img/record/detail-hover.png') no-repeat;
       background-size: 100% 100%;
     }
 
     .addTaskBtn {
-      background: url('../../assets/img/record/export.png') no-repeat;
+      background: url('../assets/img/record/export.png') no-repeat;
       background-size: 100% 100%;
       color: #bca062;
     }
 
     .addTaskBtn:hover, .exportbtn:active {
-      background: url('../../assets/img/record/export-hover.png') no-repeat;
+      background: url('../assets/img/record/export-hover.png') no-repeat;
       background-size: 100% 100%;
     }
 
     .delTaskBtn {
       width: 100px;
       color: #fff;
-      background: url('../../assets/img/taskManage/del.png') no-repeat;
+      background: url('../assets/img/taskManage/del.png') no-repeat;
       background-size: 100% 100%;
     }
 
     .delTaskBtn:hover, .delTaskBtn:active {
-      background: url('../../assets/img/taskManage/del-hover.png') no-repeat;
+      background: url('../assets/img/taskManage/del-hover.png') no-repeat;
       background-size: 100% 100%;
     }
   }
@@ -625,13 +625,13 @@ export default {
       cursor: pointer;
       display: inline-block;
       width: 80px;
-      background: url('../../assets/img/taskManage/del.png') no-repeat;
+      background: url('../assets/img/taskManage/del.png') no-repeat;
       background-size: 100% 100%;
       border: none;
     }
 
     .del:hover, .del:active {
-      background: url('../../assets/img/taskManage/del-hover.png') no-repeat;
+      background: url('../assets/img/taskManage/del-hover.png') no-repeat;
       background-size: 100% 100%;
     }
 

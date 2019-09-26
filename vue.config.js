@@ -4,7 +4,7 @@ const resolve = dir => {
 }
 const webpack = require('webpack')
 
-const CompressionPlugin = require('compression-webpack-plugin')
+// const CompressionPlugin = require('compression-webpack-plugin')
 
 let getPagesConfig = require('./pages.config.js')
 

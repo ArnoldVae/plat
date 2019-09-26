@@ -125,7 +125,7 @@ $view-height = 898px;
 
     .el-main {
       overflow: hidden;
-
+      padding:0.8888rem 0.8888rem 0 0.88888rem;
       .menu-bar {
         font-size: 18px;
         height: 2.2228rem;

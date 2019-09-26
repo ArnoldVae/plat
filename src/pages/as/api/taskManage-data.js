@@ -3,6 +3,7 @@ import axiosNet from '@/config/api.request.net'
 import qs from 'qs';
 export default {
   //获取任务列表
+  //net
   // getTaskList(params) {
   //   return axiosNet.request({
   //     url: 'as/GetAsTask',
@@ -11,6 +12,7 @@ export default {
   //     data: qs.stringify(params)
   //   })
   // },
+  //java
   getTaskList(params) {
     return axios.request({
       url: 'astask/getAsTaskpost',
@@ -19,6 +21,7 @@ export default {
     })
   },
   //获取任务类型  子类型
+  //net
   // getTaskTypeOrTaskSubType(params) {
   //   return axiosNet.request({
   //     url: 'as/getDictInfo',
@@ -27,6 +30,7 @@ export default {
   //     data: qs.stringify(params)
   //   })
   // },
+  //java
   getTaskTypeOrTaskSubType(params) {
     return axios.request({
       url: 'as_dictA/getDictInfo',
@@ -44,6 +48,7 @@ export default {
     })
   },
   //删除
+  //net
   // delTask(params) {
   //   return axiosNet.request({
   //     url: 'as/DelAsTask',
@@ -52,6 +57,7 @@ export default {
   //     data: qs.stringify(params)
   //   })
   // }
+  //java
   delTask(params) {
     return axios.request({
       url: 'astask/delAsTask',

@@ -1,11 +1,11 @@
 // 获取本地数据
 import getStaticData from '@/config/axios.getStaticData'
-import monitorData from './monitor-data'
-import recordData from './record-data'
-import taskManageData from './taskManage-data'
 import exampleModule from './example-module' // 案例模块
 
-import inspectionIndex from './inspectionIndex/inspectionIndex'
+import inspectionIndex from './inspectionIndex.js'
+import monitorData from './monitor-data.js'
+import taskManageData from './taskManage-data.js'
+import recordData from './record-data.js'
 
 export default {
 	getStaticData,
@@ -13,6 +13,6 @@ export default {
 	exampleModule,
 	monitorData,
 	recordData,
-  inspectionIndex,
-  taskManageData
+	inspectionIndex,
+	taskManageData
 }

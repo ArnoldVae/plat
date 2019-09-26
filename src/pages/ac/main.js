@@ -4,7 +4,7 @@ import App from '@ac/App.vue'
 import router from '@ac/router'
 import store from '@ac/store'
 
-// iView 全局(按需的话低版本会出问题，已经比原版小1M)
+// iView 全局(按需引入接入体积优化有问题，会固定引入iview.min.js)
 import iView from 'iview/dist/iview.min.js'
 import 'iview/dist/styles/iview.css'
 Vue.use(iView)

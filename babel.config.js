@@ -79,8 +79,8 @@ module.exports = {
 				style: true
 			}
 		],
-		// iview 按需引入接入, 低版本浏览器不可用
-		[
+		// iview 按需引入接入体积优化有问题
+		/*[
 			'import',
 			{
 				libraryName: 'iview',
@@ -88,6 +88,6 @@ module.exports = {
 				style: false
 			},
 			'iview'
-		]
+		]*/
 	]
 }

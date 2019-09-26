@@ -138,7 +138,7 @@ $view-height = 898px;
 
 .cable-temp {
   width: 100%;
-  height: 100%;
+  height: 99%;
   background: url('~@/assets/img/common/wai.png');
   background-repeat: no-repeat;
   background-size: 100% 100%;

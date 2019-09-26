@@ -44,9 +44,9 @@
 				>
 					<template slot-scope="scope">
 						<div
-							:class="scope.row.customType"
+							:class="scope.row.customType[index]"
 							v-if="handelCheck(scope.row.robotIds, item.id)"
-							@click="tableTdClick(scope.row, item.id)"
+							@click="tableTdClick(scope.row, item.id, index)"
 						></div>
 					</template>
 				</el-table-column>
@@ -114,20 +114,26 @@ export default {
 			this.modalInspectionTaskTableData = []
 			//(java)
 			this.axios.CheckingIntoAticket(addInfos).then(res => {
-				if ( res.code == 200 ) {
+				if (res.code == 200) {
 					this.$emit('getTableDataArr')
 					this.modalWorkOrderTableHeaderData = res.data[0].robotStatistics
 					this.modalInspectionTaskTableData = res.data[0].robotNodeTree
-			
+
 					this.total = this.modalInspectionTaskTableData.length || 1
 					this.inspectionNodeNum = this.modalInspectionTaskTableData.length || 0
-			
+
 					let arr = this.modalInspectionTaskTableData.slice(0, this.pageSize)
 					arr.forEach(item => {
-						this.$set(item, 'customType', 'tableTdSelect')
+						this.$set(item, 'customType', [])
 					})
+					this.modalWorkOrderTableHeaderData.forEach(item => {
+						arr.forEach(ite => {
+							ite.customType.push('tableTdSelect')
+						})
+					})
+
 					this.nodesTableData = arr
-			
+
 					res.data[0].robotNodeTree.forEach(item => {
 						item.nodeGUIds.forEach(ite => {
 							this.nodesArr.push({
@@ -169,14 +175,21 @@ export default {
 				}
 			}) */
 		},
-		tableTdClick(rowInfo, id) {
+		tableTdClick(rowInfo, id, index) {
 			if (rowInfo.robotIds.indexOf(id) !== -1) {
+				if (rowInfo.customType[index] == 'tableTdSelect') {
+					this.$set(rowInfo.customType, index, 'tabletdSelectN')
+				} else if (rowInfo.customType[index] == 'tabletdSelectN') {
+					this.$set(rowInfo.customType, index, 'tableTdSelect')
+				}
+			}
+			/* if (rowInfo.robotIds.indexOf(id) !== -1) {
 				if (rowInfo.customType == 'tableTdSelect') {
 					this.$set(rowInfo, 'customType', 'tabletdSelectN')
 				} else if (rowInfo.customType == 'tabletdSelectN') {
 					this.$set(rowInfo, 'customType', 'tableTdSelect')
 				}
-			}
+			} */
 		},
 		//分页
 		handleChangePage(page) {
@@ -187,7 +200,12 @@ export default {
 				(page - 1) * this.pageSize + this.pageSize
 			)
 			crr.forEach(item => {
-				this.$set(item, 'customType', 'tableTdSelect')
+				this.$set(item, 'customType', [])
+			})
+			this.modalWorkOrderTableHeaderData.forEach(item => {
+				crr.forEach(ite => {
+					ite.customType.push('tableTdSelect')
+				})
 			})
 			this.nodesTableData = crr
 		},
