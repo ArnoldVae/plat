@@ -342,7 +342,7 @@
 			</div>
 		</ocx-modal>
 		<!-- 实时信息 -->
-		<ocx-modal v-model="timeInfoFlag" title="实时信息详情" :width="1600" footer-hide :styles="{ top: '0' }">
+		<ocx-modal v-model="timeInfoFlag" title="实时信息详情" :width="1020" footer-hide :styles="{ top: '0' }">
 			<div class="alarm-detail">
 				<div class="result">
 					识别结果：<span>{{ timeInfoResult }}</span>

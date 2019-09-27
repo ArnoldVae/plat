@@ -228,7 +228,7 @@ export default {
 			})
 		},
 		//获取任务列表
-		getTaskList() {
+		async getTaskList() {
 			let params = {
 				unitId: this.$store.getters.stationId,
 				currentPage: this.page,
@@ -258,7 +258,7 @@ export default {
 					console.log(err)
 				})
 		},
-		getTaskAllList() {
+		async getTaskAllList() {
 			let obj = {
 				unitId: this.stationId,
 				isPage: 1
@@ -272,7 +272,7 @@ export default {
 			})
 		},
 		//获取任务类型
-		getTaskType() {
+		async getTaskType() {
 			let params = { dictGroupID: 7010 }
 			this.axios
 				.getTaskTypeOrTaskSubType(params)
@@ -284,7 +284,7 @@ export default {
 				})
 		},
 		//获取任务子类型
-		getTaskSubType() {
+		async getTaskSubType() {
 			let params = { dictGroupID: 7011 }
 			this.axios
 				.getTaskTypeOrTaskSubType(params)
@@ -297,7 +297,7 @@ export default {
 				})
 		},
 		// getTaskStatus(){		//获取任务状态
-		getTaskStatus() {
+		async getTaskStatus() {
 			//获取任务状态
 			let params = { dictGroupID: 7014 }
 			this.axios
@@ -430,7 +430,7 @@ export default {
 		handleSelectionChange(val) {
 			this.allTasks = val
 		},
-		delOneTask(row) {
+		async delOneTask(row) {
 			this.$ocxModal.confirm({
 				title: '确认',
 				content: '<p>确认删除此任务</p>',
@@ -454,7 +454,7 @@ export default {
 				}
 			})
 		},
-		delMoreTask() {
+		async delMoreTask() {
 			if (this.allTasks.length == 0) {
 				this.$ocxModal.confirm({
 					title: '确认',

@@ -1,6 +1,6 @@
 <template>
 	<div class="mapContanier">
-		<baidu-map class="map" v-bind="defaultMapConfig" @ready="mapSuccess">
+		<baidu-map class="map" v-bind="defaultMapConfig" @ready="mapSuccess" >
 			<!-- 有角标版本 -->
 			<bm-rich-marker
 				@click="markerClick({ $event, item })"
@@ -161,7 +161,8 @@ export default {
 				scrollWheelZoom: true,
 				minZoom: 8,
 				maxZoom: 15,
-				viewportPoints: []
+				viewportPoints: [],
+				viewports:[]
 			},
 			arr: [10, 20],
 			markerList: [],
@@ -368,20 +369,25 @@ export default {
 			this.$_api.intelligentMap.getAllStation(params).then(res => {
 				if (res.success) {
 					this.markerList = []
-					this.defaultMapConfig.viewportPoints = []
+					// this.defaultMapConfig.viewportPoints = []
+					this.defaultMapConfig.viewports = []
 					//先将地图定位至第一条数据的坐标
-					this.defaultMapConfig.zoom = 13
-					this.defaultMapConfig.center = {
-						lng: res.data.lists[0].dMapx,
-						lat: res.data.lists[0].dMapy
-					}
+					// this.defaultMapConfig.zoom = 13
+					// this.defaultMapConfig.center = {
+					// 	lng: res.data.lists[0].dMapx,
+					// 	lat: res.data.lists[0].dMapy
+					// }
 					//循环数据将图标赋值坐标
 					res.data.lists.forEach(item => {
 						if (item.dMapx !== 0 && item.dMapy !== 0 && !!item.dMapx && !!item.dMapx) {
-							this.defaultMapConfig.viewportPoints.push({
-								lng: item.dMapx,
-								lat: item.dMapy
-							})
+							// this.defaultMapConfig.viewportPoints.push({
+							// 	lng: item.dMapx,
+							// 	lat: item.dMapy
+							// })
+							// this.defaultMapConfig.viewports.push({
+							// 	lng: item.dMapx,
+							// 	lat: item.dMapy
+							// })
 
 							// 有角标版本
 							this.markerList.push({

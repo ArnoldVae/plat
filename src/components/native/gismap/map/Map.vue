@@ -184,6 +184,7 @@ export default {
 		viewports: {
 			deep: true,
 			handler(val) {
+				console.log(val)
 				this.map.setViewport(
 					val.map(
 						function(item) {
@@ -249,10 +250,10 @@ export default {
 				bindEvents.call(this, map)
 
 				map.centerAndZoom(getCenterPoint(), zoom)
-				this.viewportPoints &&
-					this.viewportPoints.length > 0 &&
+				this.viewports &&
+					this.viewports.length > 0 &&
 					this.map.setViewport(
-						this.viewportPoints.map(item => {
+						this.viewports.map(item => {
 							if (item.lng && item.lat) {
 								return createPoint(this.BMap, item)
 							}

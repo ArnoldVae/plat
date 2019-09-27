@@ -352,7 +352,7 @@ export default {
 			}
 		},
 		//获取记录列表
-		getList() {
+		async getList() {
 			this.recordLoading = true
 			this.axios
 				.getRecordList({
@@ -417,7 +417,7 @@ export default {
 		},
 
 		//每行导出
-		exportRow(row) {
+		async exportRow(row) {
 			var time = moment().format('YYYYMMDDHHmmss')
 			// window.location.href = this.netUrl + 'As/ExportTaskReport?RecordID='
 			// + row.recordId + '&filename=' + time + '.docx&isCache=true'
@@ -459,7 +459,7 @@ export default {
 			this.getList()
 		},
 		// 获取详情
-		getDetail() {
+		async getDetail() {
 			this.axios
 				.getDetail({
 					recordId: this.recordId,
@@ -483,7 +483,7 @@ export default {
 				})
 		},
 		//获取进度详情
-		getStepsDetail() {
+		async getStepsDetail() {
 			this.axios
 				.getStepDetail({
 					unitId: this.unitId,
