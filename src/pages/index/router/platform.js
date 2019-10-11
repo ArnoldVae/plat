@@ -5,7 +5,7 @@ export default [
 		name: 'platform',
 		// redirect: '/platform',
 		meta: {
-			title: '变电信息综合处理系统'
+			title: '电力物联网配电智能综合监控系统'
 		},
 		component: () => import('@index/views')
 	},

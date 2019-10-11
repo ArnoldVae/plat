@@ -798,7 +798,7 @@ export default {
 	padding-right: 20px;
 
 	/deep/ .el-loading-mask {
-		background-color: #0e224c;
+		background-color: #0a255dcc;
 	}
 
 	/deep/ .table-wrap {

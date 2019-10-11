@@ -19,7 +19,7 @@
 
 			<el-table
 				:data="nodesTableData"
-				max-height="560"
+				max-height="580"
 				:span-method="objectSpanMethod"
 				border
 				:header-cell-style="{
@@ -221,7 +221,7 @@ export default {
 		//合并单元格的方法
 		objectSpanMethod({ row, column, rowIndex, columnIndex }) {
 			if (columnIndex === 0) {
-				const _row = this.desData('mainArea', this.modalInspectionTaskTableData)[rowIndex]
+				const _row = this.desData('area', this.modalInspectionTaskTableData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
 					rowspan: _row,
@@ -229,7 +229,7 @@ export default {
 				}
 			}
 			if (columnIndex === 1) {
-				const _row = this.desData('subArea', this.modalInspectionTaskTableData)[rowIndex]
+				const _row = this.desData('interValue', this.modalInspectionTaskTableData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
 					rowspan: _row,
@@ -237,7 +237,7 @@ export default {
 				}
 			}
 			if (columnIndex == 2) {
-				const _row = this.desData('devName', this.modalInspectionTaskTableData)[rowIndex]
+				const _row = this.desData('dev', this.modalInspectionTaskTableData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
 					rowspan: _row,
@@ -332,7 +332,7 @@ export default {
 @import '~@/assets/style/component/iview-page/index.styl'
 .inspectionTaskList {
 	.inspectionTicket {
-		height: 760px;
+		height: 780px;
 		background-size: 100% 100%;
 		border-radius: 0;
 		padding-top: 1px;

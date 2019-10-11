@@ -43,8 +43,8 @@
 		<div class="lfCtn">
 			<div class="tabBox">
 				<!-- 选择 -->
-				<div class="inBox" @click="videoclickShow('视频')" :class="{ active: active == videoShow }">视频</div>
-				<div class="inBox" @click="videoclickShow('场景')" :class="{ active: active == !videoShow }">场景</div>
+				<div class="inBox" @click="videoclickShow('视频')" :class="{ active: active == videoShow }">视频画面</div>
+				<div class="inBox" @click="videoclickShow('场景')" :class="{ active: active == !videoShow }">轨迹跟踪</div>
 			</div>
 			<div class="videoBox" v-show="videoShow">
 				<Menu :active-name="firstScene" width="auto" @on-select="selectMenu" ref="videoScene">
@@ -580,16 +580,53 @@ export default {
   display: flex;
   width: 100%;
   height: 100%;
+  overflow hidden;
   position: relative;
 
-  .tree {
-    width: 290px;
-    height: 890px;
-    // background: url('~@/assets/img/common/side-bg.png') no-repeat;
-    // background-size: 313px 890px;
-    padding: 0 10px;
-    margin: 0 10px;
-  }
+//   .tree {
+//     width: 290px;
+//     height: 890px;
+//     // background: url('~@/assets/img/common/side-bg.png') no-repeat;
+//     // background-size: 313px 890px;
+//     padding: 0 10px;
+//     margin: 0 10px;
+//   }
+
+    .tree {
+        width: 290px;
+        height: 890px;
+        // background: url('~@/assets/img/common/side-bg.png') no-repeat;
+        // background-size: 290px 100vh;
+        padding-top: 10px;
+        margin: 0 10px;
+
+        ::-webkit-scrollbar { /* 滚动条整体样式 */
+            width: 10px; /* 高宽分别对应横竖滚动条的尺寸 */
+            height: 100%;
+        }
+
+        ::-webkit-scrollbar-thumb { /* 滚动条里面小方块 */
+            -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            background: #054598;
+        }
+
+        ::-webkit-scrollbar-track { /* 滚动条里面轨道 */
+            -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            border-radius: 0;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /deep/ .el-input__prefix {
+            left: 20px;
+            top: 7px;
+        }
+
+        /deep/ .el-tree {
+            height: calc(100vh - 150px);
+            overflow: auto;
+        }
+    }
+
 
   .lfCtn {
     width: 290px;

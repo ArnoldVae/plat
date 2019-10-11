@@ -57,13 +57,15 @@
 import monitor from './monitor.vue'
 import record from './record.vue'
 import taskManage from './taskManage.vue'
+import ponitManage from './pointManage.vue'
 import { debuglog } from 'util'
 export default {
 	name: 'inspection-content',
 	components: {
 		monitor,
 		record,
-		taskManage
+		taskManage,
+		ponitManage
 	},
 	props: {},
 	data() {
@@ -97,6 +99,11 @@ export default {
 					id: 5,
 					name: '任务管理',
 					view: 'taskManage'
+				},
+				{
+					id: 6,
+					name: '点位管理',
+					view: 'ponitManage'
 				}
 			],
 			unitId: '',

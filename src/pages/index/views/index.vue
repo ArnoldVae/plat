@@ -63,11 +63,11 @@ export default {
 			menuData: [],
 			selectMenuIndex: 0,
 			frameSrcArr: [], //存放iframe src，初始全部为空
-			title: '变电信息综合处理系统',
+			title: '电力物联网配电智能综合监控系统',
 			mainLogTitle: '国家电网',
 			mainLogTitleEn: 'STATE GRID',
-			subLogTitle: '国网江苏省电力公司',
-			subLogTitleEn: 'STATE GRID JIANGSU ELECTRIC POWER CO.,LTD.',
+			subLogTitle: '国网无锡供电公司',
+			subLogTitleEn: 'STATE GRID WUXI ELECTRIC POWER CO.,LTD.',
 			currentIsVideoModule: false,
 			// 视频模块是否已加载
 			isLoad: false

@@ -169,7 +169,11 @@
 										</li>
 										<li>分析结果：{{ item.vcResult }}</li>
 										<li>环境信息：{{ item.fTemperatureData }}，{{ item.fHumidityData }}</li>
-										<li>报警状态：{{ item.iIsAlarm }}</li>
+										<li>报警状态：
+                      <span :class="{
+                        'errInfo': item.iIsAlarm === '报警'
+                      }">{{ item.iIsAlarm }}</span>
+                    </li>
 									</ul>
 									<div class="history-rcord">历史记录</div>
 								</div>
@@ -295,7 +299,7 @@ export default {
 			currentPage: 1, //当前页码
 			total: 0,
 			javaUrl: '',
-			// netUrl: '',
+			netUrl: '',
 			detailFlag: false,
 			recordLoading: false
 		}
@@ -317,13 +321,14 @@ export default {
 	},
 	created() {
 		this.javaUrl =
+			// process.env.NODE_ENV === 'development'
+			// 	? $_development.javaRequest.location + '/' + $_development.javaRequest.javaModule
+    	// 	: $_production.javaRequest.location + '/' + $_production.netRequest.javaModule
+    this.javaUrl = $_development.javaRequest.location + '/' + $_development.javaRequest.javaModule
+		this.netUrl =
 			process.env.NODE_ENV === 'development'
-				? $_development.javaRequest.location + '/' + $_development.javaRequest.javaModule
-				: $_development.netRequest.location + '/' + $_development.netRequest.javaModule
-		// this.netUrl =
-		// 	process.env.NODE_ENV === 'development'
-		// 		? $_development.netRequest.location + '/' + $_development.netRequest.netModule
-		// 		: $_development.netRequest.location + '/' + $_development.netRequest.netModule
+				? $_development.netRequest.location + '/' + $_development.netRequest.netModule
+				: $_development.netRequest.location + '/' + $_development.netRequest.netModule
 	},
 	mounted() {
 		this.getList()
@@ -384,8 +389,9 @@ export default {
 		},
 		//详情
 		goDetail(row) {
+      console.log( row )
 			this.recordId = row.recordId
-			this.unitId = row.unitId
+			this.unitId = this.stationId
 			this.taskId = row.taskId
 			this.detailFlag = true
 			this.taskName = row.taskName
@@ -418,27 +424,27 @@ export default {
 
 		//每行导出
 		async exportRow(row) {
-			var time = moment().format('YYYYMMDDHHmmss')
+			  // var time = moment().format('YYYYMMDDHHmmss')
 			// window.location.href = this.netUrl + 'As/ExportTaskReport?RecordID='
 			// + row.recordId + '&filename=' + time + '.docx&isCache=true'
-			let params = {
-				RecordID: row.recordId,
-				filename: time + '.docx',
-				isCache: true
-			}
-			this.axios
-				.exportRow(params)
-				.then(res => {
-					if (res.success == true) {
-						window.location.href = this.netUrl + res.data
-					}
-				})
-				.catch(err => {
-					console.log(err)
-				})
+        // let params = {
+        // 	RecordID: row.recordId,
+        // 	filename: time + '.docx',
+        // 	isCache: true
+        // }
+        // this.axios
+        // 	.exportRow(params)
+        // 	.then(res => {
+        // 		if (res.success == true) {
+        // 			window.location.href = this.netUrl + res.data
+        // 		}
+        // 	})
+        // 	.catch(err => {
+        // 		console.log(err)
+        // 	})
 
 			// console.log(row)
-			/* var time = moment().format('YYYYMMDDHHmmss')
+		  var time = moment().format('YYYYMMDDHHmmss')
 			var id = row.recordId
 			// console.log(id)
 			let params = {
@@ -446,9 +452,9 @@ export default {
 				fileName: id
 			}
 			this.axios.exportRow(params).then(res => {
-				console.log(res)
+				//console.log(res)
 				window.location.href = res
-			}) */
+			}) 
 		},
 		handleChangePage(page) {
 			this.currentPage = page
@@ -796,10 +802,10 @@ label {
 
 .detail {
   width: 1920px;
-  height: 1080px;
+  height: 922px;
   background: url('~@/assets/img/navigation/background.png') no-repeat;
   background-size: 100% 1080px;
-  position: relative;
+  // position: relative;
 
   .back {
     color: #90d9ff;
@@ -958,7 +964,7 @@ label {
             margin: 15px 0 0 15px;
             border-radius: 50%;
             text-align: center;
-            font: 100 14px / 70px '';
+            line-height: 70px;
             color: #fff;
           }
 
@@ -1266,5 +1272,8 @@ label {
 
 /deep/.ivu-modal-body {
   padding: 0;
+}
+.errInfo{
+  color: red;
 }
 </style>

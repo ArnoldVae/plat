@@ -182,13 +182,13 @@
 													prop="tasksresult.source"
 													align="center"
 													label="数据来源"
-													width="150"
+													width="190"
 												></el-table-column>
 												<el-table-column
 													prop="tasksresult.result"
 													align="center"
 													label="识别结果"
-													width="150"
+													width="110"
 												></el-table-column>
 											</el-table>
 										</div>
@@ -220,13 +220,13 @@
 													prop="tasksresult.source"
 													align="center"
 													label="数据来源"
-													width="150"
+													width="190"
 												></el-table-column>
 												<el-table-column
 													prop="tasksresult.result"
 													align="center"
 													label="识别结果"
-													width="150"
+													width="110"
 												></el-table-column>
 												<el-table-column
 													prop="tasksresult.alarmlevel"
@@ -291,10 +291,17 @@
 									<p>设备运行状态</p>
 									<div class="env-flex">
 										<div class="content" v-for="(item, index) in tableList" :key="index">
-											<i
+											<!-- <i
 												:class="{
 													'robot-out': item.vcName.substr(0, 2) == '室外',
 													'robot-in': item.vcName.substr(0, 2) == '室内',
+													hvideo: item.vcName.substr(0, 2) == '高清'
+												}"
+											></i> -->
+											<i
+												:class="{
+													'robot-out': item.vcName.substr(0, 2) == '室外',
+													'robot-in': item.vcName.substr(0, 2) !== '室外' && item.vcName.substr(0, 2) !== '高清',
 													hvideo: item.vcName.substr(0, 2) == '高清'
 												}"
 											></i>
@@ -318,7 +325,7 @@
 				<div class="result">
 					识别结果：<span>{{ alarmResult }}</span>
 				</div>
-				<div :class="alarmPicUrl2.length > 0 ? 'imgBox2' : 'imgBox'" ref="imgBox">
+				<div :class="alarmPicUrl2.length > 0 && alarmPicUrl1.length > 0 ? 'imgBox2' : 'imgBox'" ref="imgBox">
 					<!-- <img class="img-content" :src="alarmPicUrl" alt /> -->
 					<vue-photo-zoom-pro
 						class="img-content"
@@ -347,18 +354,18 @@
 				<div class="result">
 					识别结果：<span>{{ timeInfoResult }}</span>
 				</div>
-				<div class="img">
+				<div :class="timeInfoPicUrl2.length > 0 && timeInfoPicUrl1.length > 0 ? 'imgBox2' : 'imgBox'" ref="imgBox">
 					<!-- <img class="img-content" :src="timeInfoPicUrl" alt /> -->
 					<vue-photo-zoom-pro
 						class="img-content"
-						v-if="timeInfoPicUrl1"
+						v-show="timeInfoPicUrl1"
 						:url="timeInfoPicUrl1"
 						type="circle"
 						:width="400"
 					></vue-photo-zoom-pro>
 					<vue-photo-zoom-pro
 						class="img-content"
-						v-if="timeInfoPicUrl2"
+						v-show="timeInfoPicUrl2"
 						:url="timeInfoPicUrl2"
 						type="circle"
 						:width="400"
@@ -626,22 +633,28 @@ export default {
 						this.addTaskLoadingText = '正在生成巡检任务单'
 					} else if (msgData.cmd === 2103) {
 						//巡检进度，切换视频
-						let robotIndex = -1
-						this.tableList.forEach((item, index) => {
-							if (item.robotId === msgData.taskrate.robotid) {
-								robotIndex = index
-							}
-						})
+						// let robotIndex = -1
+						// this.tableList.forEach((item, index) => {
+						// 	if (item.robotId === msgData.taskrate.robotid) {
+						// 		robotIndex = index
+						// 	}
+						// })
 
-						if (robotIndex === this.tabIdx) {
-							//当前选中的机器人与实时数据想通过时，才切换视频
-							if (msgData.taskrate.normalvideoid != '') {
+						// if (robotIndex === this.tabIdx) {
+						// 	//当前选中的机器人与实时数据想通过时，才切换视频
+						// 	if (msgData.taskrate.normalvideoid != '') {
+						// 		this.video1.deviceInfo = msgData.taskrate.normalvideoid
+						// 	}
+						// 	if (msgData.taskrate.infravideoid != '') {
+						// 		this.video2.deviceInfo = msgData.taskrate.infravideoid
+						// 	}
+						// }
+							if (msgData.taskrate.normalvideoid && msgData.taskrate.normalvideoid != '') {
 								this.video1.deviceInfo = msgData.taskrate.normalvideoid
 							}
-							if (msgData.taskrate.infravideoid != '') {
+							if (msgData.taskrate.infravideoid && msgData.taskrate.infravideoid != '') {
 								this.video2.deviceInfo = msgData.taskrate.infravideoid
 							}
-						}
 					} else if (msgData.cmd === 2101) {
 						//机器人状态
 						this.tableList.map(item => {
@@ -649,7 +662,7 @@ export default {
 								item.robotId == msgData.robotstatus.robotid &&
 								item.serviceId === msgData.robotstatus.serviceid
 							) {
-								console.log(item, msgData.robotstatus)
+								// console.log(item, msgData.robotstatus)
 								item.statusName = msgData.robotstatus.status
 							}
 						})
@@ -1009,7 +1022,7 @@ export default {
 		objectSpanMethod({ row, column, rowIndex, columnIndex }) {
 			//console.log( row )
 			if (columnIndex === 0) {
-				const _row = this.desData('mainArea', this.inspectionTaskTableData)[rowIndex]
+				const _row = this.desData('area', this.inspectionTaskTableData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
 					rowspan: _row,
@@ -1017,7 +1030,7 @@ export default {
 				}
 			}
 			if (columnIndex === 1) {
-				const _row = this.desData('subArea', this.inspectionTaskTableData)[rowIndex]
+				const _row = this.desData('interValue', this.inspectionTaskTableData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
 					rowspan: _row,
@@ -1025,7 +1038,7 @@ export default {
 				}
 			}
 			if (columnIndex == 2) {
-				const _row = this.desData('devName', this.inspectionTaskTableData)[rowIndex]
+				const _row = this.desData('dev', this.inspectionTaskTableData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
 					rowspan: _row,
@@ -1066,17 +1079,19 @@ export default {
 		},
 		//报警弹框
 		handleAlarmModal(row) {
-			this.alarmRecordFlag = true
 			this.alarmPicUrl1 = row.tasksresult.normalpicpath
 			this.alarmPicUrl2 = row.tasksresult.infrapicpath
 			this.alarmResult = row.tasksresult.result
+			this.alarmRecordFlag = true
 		},
 		//实时信息弹框
 		handleTimeInfoModal(row) {
-			this.timeInfoFlag = true
+			console.log(row.tasksresult.normalpicpath)
+			console.log(row.tasksresult.infrapicpath)
 			this.timeInfoPicUrl1 = row.tasksresult.normalpicpath
 			this.timeInfoPicUrl2 = row.tasksresult.infrapicpath
 			this.timeInfoResult = row.tasksresult.result
+			this.timeInfoFlag = true
 		},
 		// 修改table tr行的背景色
 		tableRowStyle({ row, rowIndex }) {
@@ -1100,7 +1115,13 @@ export default {
 				})
 				.then(res => {
 					if (res.success) {
-						this.tableList = res.data
+						this.tableList = []
+						res.data.forEach( (item,index) => {
+							if( index <= 2 ) {
+								this.tableList.push( item )
+							}
+						})
+						// this.tableList = res.data
 						// this.tabFirstData = res.data[0]
 						this.selectTab(res.data[0], 0)
 					} else {
@@ -1202,16 +1223,25 @@ export default {
 					unitID: this.stationId
 				})
 				.then(res => {
-					var data = res.data
-					for (let i = 0, len = data.length; i < len; i++) {
-						if (data[i].type == 70200001) {
-							this.temperature = data[i].value ? data[i].value + '℃' : '--'
-						} else if (data[i].type == 70200003) {
-							this.humidity = data[i].value ? data[i].value + '%' : '--'
-						} else if (data[i].type == 70200002) {
-							this.windSpeed = data[i].value ? data[i].value + 'm/s' : '--'
+					if( res.code == 200 ) {
+						if( res.data.length > 0 ) {
+							var data = res.data
+							for (let i = 0, len = data.length; i < len; i++) {
+								if (data[i].type == 70200001) {
+									this.temperature = data[i].value ? data[i].value + '℃' : '--'
+								} else if (data[i].type == 70200003) {
+									this.humidity = data[i].value ? data[i].value + '%' : '--'
+								} else if (data[i].type == 70200002) {
+									this.windSpeed = data[i].value ? data[i].value + 'm/s' : '--'
+								}
+							}
+						}else if( res.data.length == 0 ) {
+							this.temperature =  '--'
+							this.humidity =  '--'
+							this.windSpeed =  '--'
 						}
 					}
+					
 				})
 				.catch(err => {
 					console.log(err)
@@ -1967,12 +1997,13 @@ export default {
 
                   p {
                     display: inline-block;
-                    width: 100px;
+                    width: 145px;
                     height: 30px;
                     line-height: 30px;
                     background: none;
                     padding-left: 0;
                     font-size: 14px;
+					    vertical-align: middle;
                   }
                 }
               }
@@ -2061,6 +2092,7 @@ export default {
   .imgBox {
     margin-left: 10px;
     width: calc(100% - 20px);
+	height: 720px;
 
     .img-content {
       /deep/.img-container {
@@ -2075,6 +2107,7 @@ export default {
   .imgBox2 {
     margin-left: 10px;
     width: calc(100% - 20px);
+	height: 360px;
 
     .img-content {
       display: inline-block;

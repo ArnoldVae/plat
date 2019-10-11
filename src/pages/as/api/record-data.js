@@ -36,18 +36,18 @@ export default {
 	},
 	//导出每一行的数据
 	exportRow(params){
-		return axiosNet.request({
-			url: 'As/ExportTaskReport',
-			method: 'post',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			data: qs.stringify(params)
-		})
-		/* return axios.request({
+		// return axiosNet.request({
+		// 	url: 'As/ExportTaskReport',
+		// 	method: 'post',
+		// 	headers: {
+		// 		'Content-Type': 'application/x-www-form-urlencoded'
+		// 	},
+		// 	data: qs.stringify(params)
+		// })
+		return axios.request({
 			url: 'astask/exportTaskReport',
 			method: 'post',
 			data: JSON.stringify(params)
-		}) */
+		}) 
 	}
 }

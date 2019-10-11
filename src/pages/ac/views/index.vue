@@ -205,7 +205,7 @@ export default {
 	},
 	activited() {},
 	update() {},
-	beforeDestory() {
+	beforeDestroy() {
 		clearInterval(this.rotation)
 	},
 	methods: {

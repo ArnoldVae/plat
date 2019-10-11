@@ -129,7 +129,8 @@
 								<div class="detailLine">
 									<div class="firstDiv">
 										<i class="wrjCls"></i>
-										<span class="whiteCls">无人机：</span>
+										<!-- <span class="whiteCls">无人机：</span> -->
+                    <span class="whiteCls">智辅机器人：</span>
 										<span class="blueCls" style="color:#ff7800">{{ wrj.wrj }}</span>
 									</div>
 									<div class="secondDiv">
@@ -333,12 +334,14 @@ export default {
             { value: res.data.gq, name: '高清机器人' },
             { value: res.data.innerRobotNum, name: '室内机器人' },
             { value: res.data.outDoorRobotNum, name: '室外机器人' },
-            { value: res.data.wuRenJiNum, name: '无人机' }
+            // { value: res.data.wuRenJiNum, name: '无人机' }
+            { value: res.data.wuRenJiNum, name: '智辅机器人' }
           ]
           _this.createPie(_this.equipmentChart, equipmentColor, equipmentData)
           _this.equipmentTotal = res.data.allDev
           // 高清
-          _this.gq.video = res.data.gqOnLine
+          // _this.gq.video = res.data.gqOnLine
+          _this.gq.video = res.data.gq
           _this.gq.online = res.data.gqOnLine
           _this.gq.offline = res.data.gqOutLine
           // 室内机器人
@@ -350,7 +353,7 @@ export default {
           _this.swjqr.online = res.data.outDoorOnLine
           _this.swjqr.offline = res.data.outDoorOutLine
           // 无人机
-          _this.wrj.robot = res.data.wuRenJiNum
+          _this.wrj.wrj = res.data.wuRenJiNum
           _this.wrj.online = res.data.wuRenJiOnLine
           _this.wrj.offline = res.data.wuRenJiOutLine
         } else {
