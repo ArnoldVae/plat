@@ -271,13 +271,13 @@ export default {
 									console.log(itv.i_AlarmLevel);
 									if(itv.functionCode == '1079.0001'){
 										node.a('level', itv.i_AlarmLevel)
-										if(itv.i_AlarmLevel===0){
-											node.setImage('ht/storage/symbols/txtIcon.json')
-											node.setSize(25, 10)
+										if(itv.i_AlarmLevel>0){
 											
-										}else {
 											node.setImage('ht/storage/symbols/txt.json')
 											node.setSize(40, 25)
+										}else {
+											node.setImage('ht/storage/symbols/txtIcon.json')
+											node.setSize(25, 10)
 										}
 									}
 									
