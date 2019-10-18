@@ -171,8 +171,7 @@ export default {
 									item.devNodes[0]['f_Value'] = item.devNodes[0].f_Value / 100
 								}
 								node.setToolTip(item.vcName)
-								let NumValue = (item.devNodes[0].f_Value =
-									item.devNodes[0].f_Value == '65535' ? '    --' : item.devNodes[0].f_Value)
+								let NumValue = (item.devNodes[0].f_Value =item.devNodes[0].f_Value == '65535' ? '    --' : item.devNodes[0].f_Value)
 								node.a('value', NumValue.toFixed(1))
 								node.setStyle('2d.visible', false)
 								this.dataModel.add(node)

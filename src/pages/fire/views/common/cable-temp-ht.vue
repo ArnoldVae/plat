@@ -113,6 +113,7 @@ export default {
 			})
 			if (!this.cablelUrl.length) return
 			this.$_api.devOps.getHtControl(this.cablelUrl).then(res=>{
+				console.log(res);
 				let json = ht.Default.parse(res)
 				dataModel.deserialize(json)
 				// graphView.fitContent(true)

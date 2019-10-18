@@ -35,7 +35,7 @@ export default {
 		})
 	},
 	//导出每一行的数据
-	exportRow(params){
+	exportRow(params) {
 		// return axiosNet.request({
 		// 	url: 'As/ExportTaskReport',
 		// 	method: 'post',
@@ -48,6 +48,21 @@ export default {
 			url: 'astask/exportTaskReport',
 			method: 'post',
 			data: JSON.stringify(params)
-		}) 
+		})
+	},
+	//获取节点历史数据
+	getHistoryData(param) {
+		return axios.request({
+			url: 'AsTaskResult/findVideoResult',
+			method: 'post',
+			data: param
+		})
+	},
+	getHistoryImg(param) {
+		return axios.request({
+			url: 'AsTaskResult/findVideoPicture',
+			method: 'post',
+			data: param
+		})
 	}
 }

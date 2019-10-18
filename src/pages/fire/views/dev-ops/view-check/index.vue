@@ -62,9 +62,20 @@ export default {
 			hturl:''
 		}
 	},
-	computed: {},
 	filters: {},
-	watch: {},
+	computed: {
+		activeUnitId() {
+			return this.$store.getters.unitId
+		}
+	},
+	watch: {
+		activeUnitId: {
+			handler(val) {
+				this.getId = val
+				this.getCharts()
+			}
+		}
+	},
 	created() {},
 	mounted() {
 		this.getCharts()

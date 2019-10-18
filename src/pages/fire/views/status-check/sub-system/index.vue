@@ -208,10 +208,10 @@
         },
         created() {
             this.pageType = this.pageTypeState
-            console.log(new Date())
+            // console.log(new Date())
         },
         mounted() {
-            // this.init()
+            this.init()
         },
         activited() {
         },
@@ -236,16 +236,16 @@
                 this.getSubMenu(item)
             },
             //获取流程图接口
-            async getHtMap(item) {
-                this.getId = item && item.UnitID ? item.UnitID : '192fe4cec3ec4d3fb81c0d05f82bde41'
-                let result = await this.$_api.statusCheck.getHtMap({
-                    unitId: this.getId,
-                    subIdsStr: item.subSystemId
-                })
-                if (result.success) {
-                    this.$refs.htCommon.init(result.data[0].vcUrl)
-                }
-            },
+            // async getHtMap(item) {
+            //     this.getId = item && item.UnitID ? item.UnitID : '192fe4cec3ec4d3fb81c0d05f82bde41'
+            //     let result = await this.$_api.statusCheck.getHtMap({
+            //         unitId: this.getId,
+            //         subIdsStr: item.subSystemId
+            //     })
+            //     if (result.success) {
+            //         this.$refs.htCommon.init(result.data[0].vcUrl)
+            //     }
+            // },
             //获取光牌接口
             async getLightItem(item) {
                 this.getId = this.activeUnitId || ''
@@ -289,7 +289,7 @@
                         if (i.subSystemId == 90010014) {
                             if (i.areaList.length > 0) {
                                 i.areaList.forEach((o, n) => {
-                                    console.log(o)
+                                    // console.log(o)
                                     if (o.protectAreaId == 'd8b03d6100ba4ccd8fc07f4b8734e099') {
                                         i.areaList.splice(n, 1)
                                     }

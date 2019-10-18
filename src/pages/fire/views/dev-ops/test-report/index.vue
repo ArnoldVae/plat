@@ -111,4 +111,8 @@ export default {
 		display: none;
 	}
 }
+
+.protectionZone {
+	margin-top: 5px!important;
+}
 </style>

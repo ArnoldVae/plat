@@ -84,20 +84,20 @@
         },
         computed: {
             activeUnitId() {
-                return this.$store.getters.unitId
+                return this.$store.getters.sId
             }
         },
         filters: {},
         watch: {
-            activeUnitId: {
-                handler(val) {
-                    this.current = 'residual-current'
-                    this.tabList.forEach(item => {
-                        item.active = false
-                    })
-                    this.tabList[0].active = true
-                }
-            }
+            // activeUnitId: {
+            //     handler(val) {
+            //         this.current = 'residual-current'
+            //         this.tabList.forEach(item => {
+            //             item.active = false
+            //         })
+            //         this.tabList[0].active = true
+            //     }
+            // }
         },
         created() {
             this.getOrganization()
@@ -126,8 +126,9 @@
                     // console.log(result.data)
                     this.treeData = result.data
                     this.untid = result.data[0].children[0].children[0].children[0].children[0].id
-                    // cosole.log(this.unitid,"书第一个id")
-                    this.$store.dispatch('updateUnitId', this.untid)
+                    // console.log(this.untid,"书第一个id")
+                    this.$store.dispatch('updatesId', this.untid)
+                    // console.log(this.$store.getters.sId);
                 } else {
                     this.treeData = []
                 }
@@ -135,7 +136,7 @@
             // 点击树节点
             handleClickNode(data, node, root) {
                 // 更新当前模块单元id
-                this.$store.dispatch('updateUnitId', data.id)
+                this.$store.dispatch('updatesId', data.id)
             },
             registerMQTT() {
                 this.$_listen('firecontrolAllAlarm', (topic, msg, pack) => {

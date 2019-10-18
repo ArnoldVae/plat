@@ -13,7 +13,7 @@
 				</div>
 				<div class="right">
 					<div class="inspStatistics">
-						<div class="title">巡检统计：</div>
+						<div class="title">巡检异常统计：</div>
 						<div class="selectTimeBox">
 							<span @click="selectTime('month')" :class="selectTimeIdx === 1 ? 'spanActive' : ''">一月</span>
 							<span @click="selectTime('week')" :class="selectTimeIdx === 2 ? 'spanActive' : ''">一周</span>
@@ -70,13 +70,13 @@
 						</div>
 					</div>
 					<div class="equipStatistics">
-						<div class="title">巡检装备统计：</div>
+						<div class="title">巡检装置统计：</div>
 						<div class="equipmentBox">
 							<div class="equipmentChartBox">
 								<div id="equipmentChart"></div>
 								<div class="equipText" v-if="equipmentShow">
 									<span>{{ equipmentTotal }}</span>
-									<span>装备总数</span>
+									<span>装置总数</span>
 								</div>
 							</div>
 
@@ -130,7 +130,7 @@
 									<div class="firstDiv">
 										<i class="wrjCls"></i>
 										<!-- <span class="whiteCls">无人机：</span> -->
-                    <span class="whiteCls">智辅机器人：</span>
+                    <span class="whiteCls">智能辅助：</span>
 										<span class="blueCls" style="color:#ff7800">{{ wrj.wrj }}</span>
 									</div>
 									<div class="secondDiv">
@@ -219,17 +219,58 @@ export default {
     }
   },
   methods: {
+    //获取报警数据
+    getErrData(timePoint) {
+      let agoDay 
+      if( timePoint == 1 ) {
+        agoDay = 30
+      }else if( timePoint == 2 ) {
+        agoDay = 7
+      }else if( timePoint == 3 ) {
+        agoDay = 3
+      }
+      let flagTime = new Date().getTime()
+      let endTime = Math.round( flagTime/1000 ).toString()
+      let startTime = Math.round( (flagTime - 8640000*agoDay)/1000 ).toString()
+      
+      this.$_api.inspectionIndex.getErrData({
+          "startTime": startTime,
+          "endTime": endTime
+        }).then( res=> {
+          if( res.code == 200 ) {
+            this.alarmLevelData.critical = res.data.criticalNum
+            this.alarmLevelData.serious = res.data.importantNum
+            this.alarmLevelData.normal = res.data.commonlyNum
+            this.alarmLevelData.earlyWarning = res.data.earlyWarningNum
+
+            let errColor = ['#f13b2b', '#f6ff00', '#ff7800', '#00aeff']
+            this.levelChart = echarts.init(document.getElementById('alarmLevelChart'))
+            let errData = [
+              { value: this.alarmLevelData.critical, name: '危急统计' },
+              { value: this.alarmLevelData.normal, name: '一般统计' },
+              { value: this.alarmLevelData.serious, name: '严重统计' },
+              { value: this.alarmLevelData.earlyWarning, name: '预警统计' }
+            ]
+            this.createPie(this.levelChart, errColor, errData)
+
+          }
+      })
+
+    },
     // 巡检统计的时间按钮
     selectTime(time) {
       switch (time) {
         case 'month':
           this.selectTimeIdx = 1
+          this.getErrData(this.selectTimeIdx)
           break
         case 'week':
           this.selectTimeIdx = 2
+          this.getErrData(this.selectTimeIdx)
           break
         case 'day':
           this.selectTimeIdx = 3
+          this.getErrData(this.selectTimeIdx)
           break
       }
     },
@@ -301,7 +342,9 @@ export default {
       })
     }
   },
-  created() { },
+  created() {
+    this.getErrData(1)
+  },
   mounted() {
     const _this = this
     _this.selectTime('month')
@@ -335,7 +378,7 @@ export default {
             { value: res.data.innerRobotNum, name: '室内机器人' },
             { value: res.data.outDoorRobotNum, name: '室外机器人' },
             // { value: res.data.wuRenJiNum, name: '无人机' }
-            { value: res.data.wuRenJiNum, name: '智辅机器人' }
+            { value: res.data.wuRenJiNum, name: '智能辅助' }
           ]
           _this.createPie(_this.equipmentChart, equipmentColor, equipmentData)
           _this.equipmentTotal = res.data.allDev
@@ -346,11 +389,11 @@ export default {
           _this.gq.offline = res.data.gqOutLine
           // 室内机器人
           _this.snjqr.robot = res.data.innerRobotNum
-          _this.snjqr.online = res.data.innerOnLine
+          _this.snjqr.online = res.data.innerRobotNum
           _this.snjqr.offline = res.data.innerOutLine
           // 室外机器人
           _this.swjqr.robot = res.data.outDoorRobotNum
-          _this.swjqr.online = res.data.outDoorOnLine
+          _this.swjqr.online = res.data.outDoorRobotNum
           _this.swjqr.offline = res.data.outDoorOutLine
           // 无人机
           _this.wrj.wrj = res.data.wuRenJiNum

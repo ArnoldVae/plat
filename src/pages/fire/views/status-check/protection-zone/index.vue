@@ -432,7 +432,7 @@ export default {
 			})
 			if (result.success) {
 				if (result.data.length > 0) {
-					console.log(result)
+					// console.log(result)
 					result.data.forEach(item => {
 						if (item.functioinId == 158) {
 							this.temData.mechine = item.fValue
@@ -461,8 +461,8 @@ export default {
 				protectAreaId: item.protectAreaId
 			})
 			if (result.success) {
-				console.log('视频出')
-				console.log(result)
+				// console.log('视频出')
+				// console.log(result)
 				if (result.data && result.data.length > 0) {
 //					this.videoConfig.deviceInfo = result.data[0].devId
 					 this.videoConfig.serviceInfo = result.data[0].vcParams1

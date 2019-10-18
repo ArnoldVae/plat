@@ -7,7 +7,9 @@
 				:cableObj="cableObj"
 				:cablelUrl="cablelUrl"
 				:mqttData="mqttData"
+				v-if="htcableShow"
 			></component>
+			<!-- <div class='httext' v-if="!htcableShow">请配置图纸</div> -->
 		</el-aside>
 	</div>
 </template>
@@ -22,8 +24,9 @@ export default {
 	props: {},
 	data() {
 		return {
+			htcableShow:true,
 			current: 'fireControl-customization',
-			unitId: this.$store.getters.unitId,
+			unitId: this.$store.getters.sId,
 			resultData: {
 				dev: {},
 				data: []
@@ -67,14 +70,19 @@ export default {
 	methods: {
 		//获取图纸接口
 		getHtMap() {
+			// console.log(this.unitId);
 			let params = {
 				unitId: this.unitId,
 				iSubType: '10100008'
 			}
 			this.$_api.statusCheck.getSubCharts(params).then(res => {
-				//    console.log(res)
+				 
 				if (res.code == 200) {
-					if (res.data.length) {
+					if (res.data.length==0) {
+						this.htcableShow=false
+						// this.$ocxMessage.error('请配置图纸!!!')
+					}else{
+						this.htcableShow=true
 						for (let i = 0; i < res.data.length; i++) {
 							let item = res.data[i]
 							if (item.vcUrl.length) {
@@ -111,7 +119,7 @@ export default {
 	},
 	computed: {
 		activeUnitId() {
-			return this.$store.getters.unitId
+			return this.$store.getters.sId
 		}
 	},
 	watch: {
@@ -143,7 +151,13 @@ $view-height = 898px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
 
-  .el-aside {
+  .httext{
+	  position:absolute;
+	  top:50%;
+	  left:50%;
+	  transform:translate(-50%,-50%);
+	  color:#fff;
+	  font-size:25px;
   }
 }
 </style>

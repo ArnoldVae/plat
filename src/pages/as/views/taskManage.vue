@@ -31,7 +31,12 @@
 			<div class="search">
 				<label for>状态：</label>
 				<el-select class="ipt" v-model="value3" placeholder="请选择" @change="handleChangeStatus">
-					<el-option v-for="item in status" :key="item.dictID" :label="item.vcName" :value="item.dictID"></el-option>
+					<el-option
+						v-for="item in status"
+						:key="item.dictID"
+						:label="item.vcName"
+						:value="item.dictID"
+					></el-option>
 				</el-select>
 			</div>
 			<el-button type="primary" class="btn searchbtn" @click="getTaskList">查询</el-button>
@@ -57,13 +62,13 @@
 					<template slot-scope="scope">{{ scope.row.taskName }}</template>
 				</el-table-column>
 				<el-table-column label="任务类型" align="center">
-					<template slot-scope="scope">{{ scope.row.str_Type }}</template>
+					<template slot-scope="scope">{{ scope.row.strType }}</template>
 				</el-table-column>
 				<el-table-column align="center" label="任务子类型">
-					<template slot-scope="scope">{{ scope.row.str_SubType }}</template>
+					<template slot-scope="scope">{{ scope.row.strSubType }}</template>
 				</el-table-column>
 				<el-table-column align="center" label="状态">
-					<template slot-scope="scope">{{scope.row.statusName}}</template>
+					<template slot-scope="scope">{{ scope.row.statusName }}</template>
 				</el-table-column>
 				<el-table-column align="center" label="最后执行时间">
 					<template slot-scope="scope">{{ scope.row.updateTime }}</template>
@@ -89,11 +94,12 @@
 		</div>
 		<ocx-modal
 			v-model="addTaskModal"
-			:width="1765"
+			:width="1430"
 			footer-hide
 			:title="addTaskTitle"
 			@on-cancel="closeAddTask"
-			:styles="{top: '0'}"
+			:styles="{ top: '0' }"
+			draggable
 		>
 			<taskOrder
 				ref="taskOrder"
@@ -103,15 +109,15 @@
 		</ocx-modal>
 		<ocx-modal
 			v-model="addTaskNext"
-			:width="1485"
+			:width="1430"
 			:title="inspectionTaskFormTitle"
 			footer-hide
 			@on-cancel="closeAddTaskNext"
-			:styles="{top: '0'}"
+			:styles="{ top: '0' }"
+			draggable
 		>
 			<inspectionTaskList
 				ref="inspectionTaskList"
-				v-loading="inspectionTaskListLoading"
 				:element-loading-text="addTaskLoadingText"
 				element-loading-background="#061638"
 				@closeAddTaskNext="closeAddTaskNext"
@@ -119,8 +125,17 @@
 				@lastStepClick="lastStepClick"
 				@getTableDataArr="getTableDataArr"
 				@taskNodesDataArr="taskNodesDataArr"
+				v-show="inspectionFlag"
 			></inspectionTaskList>
+			<!-- v-loading="inspectionTaskListLoading" -->
+			<div class="taskListMark" v-show="inspectionMark">
+				<img src="../assets/img/monitor/xunjiangif.gif" alt="" />
+			</div>
 		</ocx-modal>
+
+		<div class="addTaskLoading" v-show="addImgFlag">
+			<img src="../assets/img/monitor/xunjiangif.gif" alt="" />
+		</div>
 	</div>
 </template>
 <script>
@@ -138,6 +153,11 @@ export default {
 		return {
 			axios: this.$_api.taskManageData,
 			axiosM: this.$_api.monitorData,
+
+			addImgFlag: false,
+			inspectionFlag: false,
+			inspectionMark: true,
+
 			value: null,
 			value2: null,
 			value3: null,
@@ -342,7 +362,9 @@ export default {
 			})
 		},
 		getTableDataArr() {
-			this.inspectionTaskListLoading = false
+			//this.inspectionTaskListLoading = false
+			this.inspectionFlag = true
+			this.inspectionMark = false
 		},
 		taskNodesDataArr(arr) {
 			this.addTaskNodesArr = arr
@@ -377,7 +399,9 @@ export default {
 				unitId: this.stationId,
 				nodeIds: arr.join(',')
 			}
-			this.inspectionTaskListLoading = true
+			//this.inspectionTaskListLoading = true
+			this.inspectionFlag = false
+			this.inspectionMark = true
 			this.$refs.inspectionTaskList.getTableDataAll(addInfos)
 		},
 		//新增任务 保存 按钮
@@ -408,12 +432,18 @@ export default {
 			obj.time = new Date().valueOf()
 			this.$_mqtt.publish(this.topicArr[0], JSON.stringify(obj))
 
-			//过30秒自动关闭添加窗口
+			this.addTaskNext = false
+			this.addImgFlag = true
 			setTimeout(() => {
-				this.inspectionTaskListLoading = true
-				this.addTaskNext = false
-				this.addTaskLoadingText = '正在生成巡检任务单'
-			}, 30000);
+				this.addImgFlag = false
+			}, 30000)
+
+			//过30秒自动关闭添加窗口
+			// setTimeout(() => {
+			// 	this.inspectionTaskListLoading = true
+			// 	this.addTaskNext = false
+			// 	this.addTaskLoadingText = '正在生成巡检任务单'
+			// }, 30000)
 		},
 		//新增任务 上一步 按钮
 		lastStepClick() {
@@ -521,7 +551,7 @@ export default {
 	}
 }
 </script>
-<style lang='stylus' scoped>
+<style lang="stylus" scoped>
 .taskManage {
   width: 1590px;
   height: 860px;
@@ -602,11 +632,19 @@ export default {
       border-color: #054598;
       width: 1980px;
       overflow: auto;
+	  //大屏
+	  border: 2px solid #054598;
 
       /deep/tr {
         background: none;
       }
     }
+	//大屏
+	/deep/.el-table td, /deep/.el-table th.is-leaf {
+                // border: none;
+                border-color: #054598;
+				border: 1px solid #054598;
+              }
 
     .operation {
       display: inline-block;
@@ -692,6 +730,13 @@ export default {
       }
     }
   }
+
+	.addTaskLoading{
+		position: absolute;
+		top: 300px;
+		left: 855px;
+	}
+
 }
 
 /deep/.el-table__fixed-right::before, .el-table__fixed::before {
@@ -841,5 +886,18 @@ export default {
   left: 0;
   right: 0;
   top: 35px;
+}
+
+.taskListMark{
+	width: 1430px;
+	height: 780px;
+	border-radius: 0;
+	padding-top: 1px;
+	background: #082053;
+
+	img{
+		margin: 350px 0 0  642px;
+	}
+
 }
 </style>

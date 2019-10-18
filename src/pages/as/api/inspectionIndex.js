@@ -31,5 +31,13 @@ export default {
 			method: 'post',
 			data: JSON.stringify(params)
 		})
+	},
+	//获取报警数据
+	getErrData( params ) {
+		return axios.request({
+			url: '/AsTaskResult/findAlarmData',
+			method: 'post',
+			data: JSON.stringify(params)
+		})
 	}
 }

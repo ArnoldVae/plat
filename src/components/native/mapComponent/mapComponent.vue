@@ -182,6 +182,12 @@ export default {
 									})
 
 									// 有角标版本
+									let nums = ''
+									if( item.alarmNum > 99 ) {
+										nums = '99+'
+									} else {
+										nums = item.alarmNum
+									}
 									this.markerList.push({
 										position: { lng: item.dMapx, lat: item.dMapy },
 										label: item.vcName,
@@ -194,7 +200,7 @@ export default {
 												height: 55
 											}
 										},
-										badge: item.alarmNum,
+										badge: nums,
 										isAlarm: item.isAlarm,
 										level: item.iVoltageLevelId
 									})

@@ -73,6 +73,7 @@
 			style="left: 15vw; top:-4vh;text-align: center;"
 			:visible.sync="dialogAddVisible"
 			center
+			class="add"
 			:title="modalTitle"
 			@closed="handleClose"
 		>
@@ -92,7 +93,7 @@
 					<Input v-model="addFormData.vcName" placeholder="请输入..." style="width: 370px" />
 				</FormItem>
 				<!-- 设备类型 -->
-				<FormItem label="设备类型" prop="devTypeName">
+				<FormItem label="设备类型" prop="devTypeId">
 					<el-select v-model="addFormData.devTypeId" placeholder="请选择设备类型" style="width: 370px">
 						<el-option
 							v-for="(item, index) in eqcnameS"
@@ -103,7 +104,7 @@
 					</el-select>
 				</FormItem>
 				<!-- 所属子系统 -->
-				<FormItem label="所属子系统" prop="subName">
+				<FormItem label="所属子系统" prop="subId">
 					<el-select v-model="addFormData.subId" placeholder="请选择所属子系统" style="width: 370px">
 						<el-option
 							v-for="(item, index) in eqctypeS"
@@ -183,13 +184,13 @@
 
 			<el-form-item label="保管责任人:">
 				<el-select v-model="search.keeperName" placeholder="请选择">
-						<el-option
-							v-for="(item, index) in keeperNames"
-							:key="index"
-							:label="item.userName"
-							:value="item.personId"
-						></el-option>
-					</el-select>
+					<el-option
+						v-for="(item, index) in keeperNames"
+						:key="index"
+						:label="item.userName"
+						:value="item.personId"
+					></el-option>
+				</el-select>
 			</el-form-item>
 			<br />
 			<el-form-item class="taining-button">
@@ -210,7 +211,7 @@
 				@row-click="rowClick"
 				:highlight-current-row="isCurrent"
 				style="width: 100%;height:565px!important"
-				height="570"
+				height="576"
 				border
 			>
 				<el-table-column prop="unitName" align="center" label="变电站名称" width="130"></el-table-column>
@@ -225,8 +226,8 @@
 				<el-table-column prop="vcMemo" align="center" label="备注" width="120"></el-table-column>
 				<el-table-column prop align="center" label="操作" width="190">
 					<template slot-scope="scope">
-						<el-button class="edit-btn" size="min" @click="showAdd(1,scope.row)">编辑</el-button>
-						<el-button class="del-btn" size="min" @click="removeInfo(1,scope.row)">删除</el-button>
+						<el-button class="edit-btn" size="min" @click.stop="showAdd(1,scope.row)">编辑</el-button>
+						<el-button class="del-btn" size="min" @click.stop="removeInfo(1,scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -270,7 +271,13 @@
 				</div>
 			</div>
 			<div slot="footer">
-				<Button icon="md-cloud-download" type="success" size="large" @click="downloadTemplate" style="float:left">模板下载</Button>
+				<Button
+					icon="md-cloud-download"
+					type="success"
+					size="large"
+					@click="downloadTemplate"
+					style="float:left"
+				>模板下载</Button>
 				<Button type="text" size="large" @click="close">取消</Button>
 				<Button
 					class="btn2"
@@ -294,7 +301,7 @@ export default {
 	data() {
 		return {
 			keeperNames: [],
-			isCurrent: false,
+			isCurrent: true,
 			//导入文件
 			Daoshow: false,
 			step: 0,
@@ -321,22 +328,22 @@ export default {
 			forData: [],
 
 			eqnameS: [
-				{ MtcCoID: 1, vc_Name: '火灾传输装置' },
-				{ MtcCoID: 2, vc_Name: '细水灭火指示灯' },
-				{ MtcCoID: 3, vc_Name: '消防供水系统' },
-				{ MtcCoID: 4, vc_Name: '火灾自动报警系统' }
+				// { MtcCoID: 1, vc_Name: '火灾传输装置' },
+				// { MtcCoID: 2, vc_Name: '细水灭火指示灯' },
+				// { MtcCoID: 3, vc_Name: '消防供水系统' },
+				// { MtcCoID: 4, vc_Name: '火灾自动报警系统' }
 			],
 
 			eqcnameS: [
-				{ MtcCoID: 1, vc_Name: '火灾自动报警控制主机' },
-				{ MtcCoID: 2, vc_Name: '释放指示灯' },
-				{ MtcCoID: 3, vc_Name: '细水雾喷头' },
-				{ MtcCoID: 4, vc_Name: '消防专门电话' },
-				{ MtcCoID: 5, vc_Name: '液位显示装置' },
-				{ MtcCoID: 2, vc_Name: '释放指示灯' },
-				{ MtcCoID: 6, vc_Name: '输入输出模块' }
+				// { MtcCoID: 1, vc_Name: '火灾自动报警控制主机' },
+				// { MtcCoID: 2, vc_Name: '释放指示灯' },
+				// { MtcCoID: 3, vc_Name: '细水雾喷头' },
+				// { MtcCoID: 4, vc_Name: '消防专门电话' },
+				// { MtcCoID: 5, vc_Name: '液位显示装置' },
+				// { MtcCoID: 2, vc_Name: '释放指示灯' },
+				// { MtcCoID: 6, vc_Name: '输入输出模块' }
 			],
-			eqctypeS: [{ MtcCoID: 1, vc_Name: '消防子系统' }],
+			eqctypeS: [],
 			subnames: [],
 			eqcaizhi: [
 				{ MtcCoID: 1, vc_Name: '火灾传输装置' },
@@ -366,90 +373,90 @@ export default {
 			stutes: [{ id: 0, name: '未执行' }, { id: 1, name: '正在执行' }, { id: 2, name: '已结束' }],
 
 			maintainDatas: [
-				{
-					unit_name: '550kv东善桥变电站',
-					dev_name: 'BJ-263',
-					dev_type: '火灾传输装置',
-					dev_subsytem: '火灾自动报警系统',
-					dev_num: 1,
-					vc_Code: '火灾报警控制主机',
-					i_BeginTime: '消防子系统',
-					vc_User: '灭火',
-					vc_Local: 'JK-S-01',
-					vc_remark: '正常'
-				},
-				{
-					unit_name: '550kv东善桥变电站',
-					dev_name: 'BJ-263',
-					dev_type: '火灾传输装置',
-					dev_subsytem: '火灾自动报警系统',
-					dev_num: 1,
-					vc_Code: '火灾报警控制主机',
-					i_BeginTime: '消防子系统',
-					vc_User: '灭火',
-					vc_Local: 'JK-S-01',
-					vc_remark: '正常'
-				},
-				{
-					unit_name: '550kv东善桥变电站',
-					dev_name: 'BJ-263',
-					dev_type: '火灾传输装置',
-					dev_num: 1,
-					dev_subsytem: '火灾自动报警系统',
-					vc_Code: '火灾报警控制主机',
-					i_BeginTime: '消防子系统',
-					vc_User: '灭火',
-					vc_Local: 'JK-S-01',
-					vc_remark: '正常'
-				},
-				{
-					unit_name: '550kv东善桥变电站',
-					dev_name: 'BJ-263',
-					dev_type: '火灾传输装置',
-					dev_subsytem: '火灾自动报警系统',
-					dev_num: 1,
-					vc_Code: '火灾报警控制主机',
-					i_BeginTime: '消防子系统',
-					vc_User: '灭火',
-					vc_Local: 'JK-S-01',
-					vc_remark: '正常'
-				},
-				{
-					unit_name: '550kv东善桥变电站',
-					dev_name: 'BJ-263',
-					dev_type: '火灾传输装置',
-					dev_subsytem: '火灾自动报警系统',
-					dev_num: 1,
-					vc_Code: '火灾报警控制主机',
-					i_BeginTime: '消防子系统',
-					vc_User: '灭火',
-					vc_Local: 'JK-S-01',
-					vc_remark: '正常'
-				},
-				{
-					unit_name: '550kv东善桥变电站',
-					dev_name: 'BJ-263',
-					dev_type: '火灾传输装置',
-					dev_subsytem: '火灾自动报警系统',
-					dev_num: 1,
-					vc_Code: '火灾报警控制主机',
-					i_BeginTime: '消防子系统',
-					vc_User: '灭火',
-					vc_Local: 'JK-S-01',
-					vc_remark: '正常'
-				},
-				{
-					unit_name: '550kv东善桥变电站',
-					dev_name: 'BJ-263',
-					dev_type: '火灾传输装置',
-					dev_subsytem: '火灾自动报警系统',
-					dev_num: 1,
-					vc_Code: '火灾报警控制主机',
-					i_BeginTime: '消防子系统',
-					vc_User: '灭火',
-					vc_Local: 'JK-S-01',
-					vc_remark: '正常'
-				}
+				// {
+				// 	unit_name: '550kv东善桥变电站',
+				// 	dev_name: 'BJ-263',
+				// 	dev_type: '火灾传输装置',
+				// 	dev_subsytem: '火灾自动报警系统',
+				// 	dev_num: 1,
+				// 	vc_Code: '火灾报警控制主机',
+				// 	i_BeginTime: '消防子系统',
+				// 	vc_User: '灭火',
+				// 	vc_Local: 'JK-S-01',
+				// 	vc_remark: '正常'
+				// },
+				// {
+				// 	unit_name: '550kv东善桥变电站',
+				// 	dev_name: 'BJ-263',
+				// 	dev_type: '火灾传输装置',
+				// 	dev_subsytem: '火灾自动报警系统',
+				// 	dev_num: 1,
+				// 	vc_Code: '火灾报警控制主机',
+				// 	i_BeginTime: '消防子系统',
+				// 	vc_User: '灭火',
+				// 	vc_Local: 'JK-S-01',
+				// 	vc_remark: '正常'
+				// },
+				// {
+				// 	unit_name: '550kv东善桥变电站',
+				// 	dev_name: 'BJ-263',
+				// 	dev_type: '火灾传输装置',
+				// 	dev_num: 1,
+				// 	dev_subsytem: '火灾自动报警系统',
+				// 	vc_Code: '火灾报警控制主机',
+				// 	i_BeginTime: '消防子系统',
+				// 	vc_User: '灭火',
+				// 	vc_Local: 'JK-S-01',
+				// 	vc_remark: '正常'
+				// },
+				// {
+				// 	unit_name: '550kv东善桥变电站',
+				// 	dev_name: 'BJ-263',
+				// 	dev_type: '火灾传输装置',
+				// 	dev_subsytem: '火灾自动报警系统',
+				// 	dev_num: 1,
+				// 	vc_Code: '火灾报警控制主机',
+				// 	i_BeginTime: '消防子系统',
+				// 	vc_User: '灭火',
+				// 	vc_Local: 'JK-S-01',
+				// 	vc_remark: '正常'
+				// },
+				// {
+				// 	unit_name: '550kv东善桥变电站',
+				// 	dev_name: 'BJ-263',
+				// 	dev_type: '火灾传输装置',
+				// 	dev_subsytem: '火灾自动报警系统',
+				// 	dev_num: 1,
+				// 	vc_Code: '火灾报警控制主机',
+				// 	i_BeginTime: '消防子系统',
+				// 	vc_User: '灭火',
+				// 	vc_Local: 'JK-S-01',
+				// 	vc_remark: '正常'
+				// },
+				// {
+				// 	unit_name: '550kv东善桥变电站',
+				// 	dev_name: 'BJ-263',
+				// 	dev_type: '火灾传输装置',
+				// 	dev_subsytem: '火灾自动报警系统',
+				// 	dev_num: 1,
+				// 	vc_Code: '火灾报警控制主机',
+				// 	i_BeginTime: '消防子系统',
+				// 	vc_User: '灭火',
+				// 	vc_Local: 'JK-S-01',
+				// 	vc_remark: '正常'
+				// },
+				// {
+				// 	unit_name: '550kv东善桥变电站',
+				// 	dev_name: 'BJ-263',
+				// 	dev_type: '火灾传输装置',
+				// 	dev_subsytem: '火灾自动报警系统',
+				// 	dev_num: 1,
+				// 	vc_Code: '火灾报警控制主机',
+				// 	i_BeginTime: '消防子系统',
+				// 	vc_User: '灭火',
+				// 	vc_Local: 'JK-S-01',
+				// 	vc_remark: '正常'
+				// }
 			],
 			modalShow: false,
 			// 分页相关数据
@@ -472,32 +479,15 @@ export default {
 			// ],
 			// 表单验证
 			ruleValidate: {
-				vcName: [
-					{ required: true, message: '该项为必填项', trigger: 'blur' }
-					// { pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
-				],
-				// devTypeName: [
-				// 	{ required: true, message: '该项为必填项', trigger: 'blur' },
-				// 	{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
-				// ],
-				vcCode: [
-					{ required: true, message: '该项为必填项', trigger: 'blur' },
-					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
-				],
-				// userId: [
-				// 	{ required: true, message: '该项为必填项', trigger: 'blur' },
-				// 	{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
-				// ],
-				vcLocal: [
-					{ required: true, message: '该项为必填项', trigger: 'blur' },
-					{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
-				]
-				// num: [
-				// 	{ required: true, message: '该项为必填项', trigger: 'blur' }
-				// ],
+				vcName: [{ required: true, message: '该项为必填项', trigger: 'blur' }],
+				devTypeId: [{ required: true, message: '该项为必填项', trigger: 'change', type: 'number' }],
+				subId: [{ required: true, message: '该项为必填项', trigger: 'change', type: 'number' }],
+				vcCode: [{ required: true, message: '该项为必填项', trigger: 'blur' }],
+				userId: [{ required: true, message: '该项为必填项', trigger: 'change' }],
+				vcLocal: [{ required: true, message: '该项为必填项', trigger: 'blur' }],
+				num: [{ required: true, message: '该项为必填项', trigger: 'blur' }]
 				// beginTime: [
-				// 	{ required: true, message: '该项为必填项', trigger: 'blur' },
-				// 	{ pattern: /^.{0,100}$/, message: '最多输入100字', trigger: 'change' }
+				// 	{ required: true, message: '该项为必填项', trigger: 'change', type: 'date' }
 				// ]
 			}
 		}
@@ -524,7 +514,7 @@ export default {
 	methods: {
 		//模板下载
 		downloadTemplate() {
-			window.location.href = "http://172.26.1.109:8080/webshare/DONGSHANQIAN/FIRE/WORD/TEMP/xftz.xls"
+			window.location.href = 'http://172.26.1.109:8080/webshare/DONGSHANQIAN/FIRE/WORD/TEMP/xftz.xls'
 		},
 		//导出
 		exportList() {
@@ -572,8 +562,9 @@ export default {
 					if (!valid) return
 					//验证成功，掉接口提交数据
 					// this.addFormData.beginTime = new Date(this.addFormData.beginTime)
+					this.addFormData.beginTime = +new Date(this.addFormData.beginTime)/1000
 					params = JSON.parse(JSON.stringify(this.addFormData))
-					console.log(params)
+					// console.log(params)
 					let res = await this.$_api.devOps.addEquipmentDate(params)
 					if (res.success) {
 						this.searchItem()
@@ -585,6 +576,7 @@ export default {
 				this.$refs.addFormRef.validate(async valid => {
 					if (!valid) return
 					//验证成功，掉接口提交数据
+					this.addFormData.beginTime = +new Date(this.addFormData.beginTime)/1000
 					params = JSON.parse(JSON.stringify(this.addFormData))
 					params.unitId = this.unitId
 					// console.log(params)
@@ -626,13 +618,11 @@ export default {
 						this.eqctypeS = res.data.lists
 					}
 				})
-			this.$_api.devOps
-				.getPersonData()
-				.then(res => {
-					if (res.code == 200) {
-						this.keeperNames = res.data
-					}
-				})
+			this.$_api.devOps.getPersonData().then(res => {
+				if (res.code == 200) {
+					this.keeperNames = res.data
+				}
+			})
 		},
 		tableColor({ row, column, rowIndex, columnIndex }) {
 			let index = rowIndex
@@ -643,13 +633,15 @@ export default {
 			}
 		},
 		doSearch() {
-			this.searchItem()
 			// 重置页码为1
-			this.$nextTick(() => {
-				this.$refs['pages'].internalCurrentPage = 1
-			})
+			// this.$nextTick(() => {
+			// 	this.$refs['pages'].internalCurrentPage = 1
+			// })
+			this.curIndex = 1
+			this.searchItem()
 		},
 		async searchItem() {
+			this.forData = []
 			let result = await this.$_api.devOps.getAcountList({
 				vcName: this.search.eqName,
 				devTypeId: this.search.devType,
@@ -731,14 +723,14 @@ export default {
 			this.modalShow = true
 		},
 		rowClick(row) {
-			this.isCurrent = true
+			// this.isCurrent = true
 			// console.log(row)
 			this.forData = row
 		},
 		comfir() {
-			this.forData = []
+			// this.forData = []
 			this.dialogVisible = false
-			this.isCurrent = false
+			// this.isCurrent = false
 		},
 
 		//导入弹框的逻辑
@@ -754,7 +746,7 @@ export default {
 
 		hClose() {
 			this.dialogVisible = false
-			this.isCurrent = false
+			// this.isCurrent = false
 		},
 
 		handleClose() {
@@ -791,7 +783,7 @@ export default {
 			this.isFile = false
 			this.loadingStatus = false
 		},
-		
+
 		// 上传提交
 		upload() {
 			// 点击上传
@@ -851,8 +843,6 @@ export default {
 
     /deep/ .el-table {
       width: 100%;
-      // overflow: y;
-      height: calc(100% - 5.2rem) !important;
       background: transparent;
       color: #fff;
       border: 1px solid #054598 !important;
@@ -1076,7 +1066,7 @@ export default {
 
   .blue-btn:hover {
     background: url('~@fire/assets/img/common/detail-hover.png') no-repeat !important;
-    background-size: 100% 100%!important;
+    background-size: 100% 100% !important;
   }
 
   .import-btn {
@@ -1141,7 +1131,7 @@ export default {
   color: #fff;
 }
 
-.el-input__prefix {
+.add .el-input__prefix {
   top: 0 !important;
   left: 0 !important;
 }
@@ -1246,9 +1236,10 @@ export default {
 }
 
 .docFire .el-form--inline .el-select /deep/ .el-input__inner {
-	width: 180px;
+  width: 180px;
 }
+
 .docFire .el-form--inline .el-input /deep/ .el-input__inner {
-	width: 180px;
+  width: 180px;
 }
 </style>

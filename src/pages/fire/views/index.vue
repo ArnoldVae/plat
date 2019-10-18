@@ -240,6 +240,7 @@
                 setTimeout(()=>{
                     that.$refs.fireMain.init(node)
                 },10)
+                // debugger
                 this.$store.dispatch('updateUnitId', node.unitId)
             }
         },

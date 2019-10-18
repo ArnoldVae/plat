@@ -384,10 +384,10 @@ export default {
 							// 	lng: item.dMapx,
 							// 	lat: item.dMapy
 							// })
-							// this.defaultMapConfig.viewports.push({
-							// 	lng: item.dMapx,
-							// 	lat: item.dMapy
-							// })
+							this.defaultMapConfig.viewports.push({
+								lng: item.dMapx,
+								lat: item.dMapy
+							})
 
 							// 有角标版本
 							this.markerList.push({

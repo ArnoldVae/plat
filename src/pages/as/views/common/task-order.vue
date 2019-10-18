@@ -252,7 +252,7 @@ export default {
 			isFilter: false,
 			hiddenNodes: [],
 			ztreeSwitch: false,
-			ztreeNull: false,
+			ztreeNull: false
 		}
 	},
 	computed: {},
@@ -316,15 +316,14 @@ export default {
 					nodesArr.push(item.id)
 				}
 			})
-			if( nodesArr.length == 0 ) {
+			if (nodesArr.length == 0) {
 				this.$ocxMessage.warning({
-				 duration: 3,
-				  content: '<p>已选数据中没有测点</p>'
+					duration: 3,
+					content: '<p>已选数据中没有测点</p>'
 				})
-			}else {
+			} else {
 				this.$emit('inspectionAticketClick', nodesArr)
 			}
-			
 		},
 		//新增任务右侧树
 		//(java接口)
@@ -349,13 +348,12 @@ export default {
 							this.treeData = res.data
 							$.fn.zTree.init($(this.$refs.ztree), this.setting, res.data)
 							this.ztreeObj = $.fn.zTree.getZTreeObj(this.ztreeId)
-							
-							if( this.treeData.length === 0 ) {
+
+							if (this.treeData.length === 0) {
 								this.ztreeNull = true
-							}else {
+							} else {
 								this.ztreeNull = false
 							}
-							
 						}
 					})
 					.catch(err => {
@@ -377,13 +375,13 @@ export default {
 							this.treeData = res.data
 							$.fn.zTree.init($(this.$refs.ztree), this.setting, res.data)
 							this.ztreeObj = $.fn.zTree.getZTreeObj(this.ztreeId)
-							
-							if( this.treeData.length === 0 ) {
+
+							if (this.treeData.length === 0) {
 								this.ztreeNull = true
-							}else {
+							} else {
 								this.ztreeNull = false
 							}
-							
+
 							//标识为过滤用
 							// this.isFilter = true
 
@@ -394,16 +392,21 @@ export default {
 							// 	this.ztreeObj.checkAllNodes(true)
 							// }
 							// this.ztreeObj.checkAllNodes(true)
-							if(area.length === 0 && this.selectAreaList.length === 0 && devType.length === 0 && regType.length === 0 && meterType.length === 0 && appearanceType.length ===0){
-
-							}else{
+							if (
+								area.length === 0 &&
+								this.selectAreaList.length === 0 &&
+								devType.length === 0 &&
+								regType.length === 0 &&
+								meterType.length === 0 &&
+								appearanceType.length === 0
+							) {
+							} else {
 								this.ztreeObj.checkAllNodes(true)
 							}
 
-
 							//展开区域一级
 							//let areaNodes = this.ztreeObj.getNodeByParam('type', 1, null)
-							
+
 							// let areaNodes = this.ztreeObj.getNodesByFilter( (node)=>{
 							// 	if(node.vcCode != null){
 							// 		node.vcCode = node.vcCode.split('.')
@@ -417,19 +420,19 @@ export default {
 							// areaNodes.map(item => {
 							// 	this.ztreeObj.expandNode(item, true, false, false)
 							// })
-							if(res.data.length<=200){
-								this.ztreeObj.expandAll(true);
-							}else if(res.data.length > 200 && res.data.length <= 500){
+							if (res.data.length <= 200) {
+								this.ztreeObj.expandAll(true)
+							} else if (res.data.length > 200 && res.data.length <= 500) {
 								// this.ztreeObj.expandAll(true);
-								let nodeTemp = this.ztreeObj.getNodesByFilter(node=>{
-									return node.level === 1;
+								let nodeTemp = this.ztreeObj.getNodesByFilter(node => {
+									return node.level === 1
 								})
 								nodeTemp.map(item => {
 									this.ztreeObj.expandNode(item, true, false, false)
 								})
-							}else{
-								let nodeTemp = this.ztreeObj.getNodesByFilter(node=>{
-									return node.level === 0;
+							} else {
+								let nodeTemp = this.ztreeObj.getNodesByFilter(node => {
+									return node.level === 0
 								})
 								nodeTemp.map(item => {
 									this.ztreeObj.expandNode(item, true, false, false)
@@ -604,7 +607,7 @@ export default {
 			this.isMeterType = false
 			if (val == true) {
 				this.selectMeterType = this.meterType
-			}else {
+			} else {
 				this.selectMeterType = []
 			}
 
@@ -616,7 +619,7 @@ export default {
 			this.isRecognitionType = false
 			if (val == true) {
 				this.selectRegType = this.recognitionType
-			}else {
+			} else {
 				this.selectRegType = []
 			}
 			this.filterByCondition2()
@@ -627,8 +630,8 @@ export default {
 			this.isdeviceAreaList = false
 			if (val == true) {
 				this.selectAreaList = this.deviceAreaList
-			}else{
-				this.selectAreaList = [];
+			} else {
+				this.selectAreaList = []
 			}
 			this.filterByCondition2()
 		},
@@ -638,7 +641,7 @@ export default {
 			this.isDeviceType = false
 			if (val == true) {
 				this.selectDevType = this.deviceType
-			}else {
+			} else {
 				this.selectDevType = []
 			}
 			this.filterByCondition2()
@@ -649,7 +652,7 @@ export default {
 			this.isAppearanceType = false
 			if (val == true) {
 				this.selectAppearanceType = this.appearanceType
-			}else {
+			} else {
 				this.selectAppearanceType = []
 			}
 
@@ -721,16 +724,15 @@ export default {
 			//区域
 			//let area = ''
 			let area = []
-			if( this.checkdeviceAreaListAll ) {
+			if (this.checkdeviceAreaListAll) {
 				area = []
-			} else{
+			} else {
 				this.selectAreaList.map(item => {
 					//area += item.vcCode + ','
 					area.push(item.vcCode)
 				})
 				//area = area.substring(0, area.length - 1)
 			}
-			
 
 			//设备类型
 			//let deviceType = ''
@@ -775,7 +777,7 @@ export default {
 				let nodes = this.ztreeObj.getNodesByFilter(this.filterFun)
 				this.processShowNodes(nodes)
 			}, 1000)
-		},	
+		},
 		filterFun(node) {
 			var nameKey = this.ztreeObj.setting.data.key.name // get the key of the node name
 			if (
@@ -802,11 +804,12 @@ export default {
 							// }
 
 							//当筛选点数小于200时，展开所有节点
-							if(nodes.length <= 200){
+							if (nodes.length <= 200) {
 								this.ztreeObj.expandNode(pathOfOne[i], true, false, false)
-							}else if(nodes.length > 200 && nodes.length <= 500 && pathOfOne[i].level === 1){	//200-500时，只展开树等级为1的节点
+							} else if (nodes.length > 200 && nodes.length <= 500 && pathOfOne[i].level === 1) {
+								//200-500时，只展开树等级为1的节点
 								this.ztreeObj.expandNode(pathOfOne[i], true, false, false)
-							}else if(pathOfOne[i].level === 0){	
+							} else if (pathOfOne[i].level === 0) {
 								this.ztreeObj.expandNode(pathOfOne[i], true, false, false)
 							}
 						}
@@ -844,7 +847,7 @@ export default {
   .left-content {
     float: left;
     /* width: 1060px; */
-    width: 1420px;
+    width: 1085px;
     /* height: 740px; */
     overflow: auto;
 	margin-left: 10px;
@@ -863,6 +866,7 @@ export default {
       /deep/.el-form-item__label, .el-radio {
         font: 100 18px / 60px '';
         color: #35a2ff;
+
       }
 
       /deep/.el-radio__label {
@@ -888,7 +892,7 @@ export default {
 
     .list-con {
       /* height: 140px; */
-      width: 1415px;
+      width: 1080px;
       margin: 5px 5px 5px 0;
      /* position: relative; */
       background: #063e7a;
@@ -897,7 +901,7 @@ export default {
 
       .title {
         /* float: left; */
-        width: 130px;
+        width: 120px;
         height: 30px;
         font-size: 16px;
         line-height: 30px;
@@ -909,22 +913,24 @@ export default {
       .select {
         /* position: absolute; */
        /* float: left; */
-        width: 1225px;
+        width: 685px;
         /* left: 150px; */
 		display: inline-block;
 
         /deep/.el-checkbox {
           float: left;
-          margin-bottom: 14px;
-          width: 164px;
+          margin-bottom: 10px;
+          width: 150px;
+		  margin-right: 15px;
 
+			// 复选框
           /deep/.el-checkbox__inner {
             background: none;
-            border: 1px solid #409eff;
-            width: 14px;
-            height: 14px;
+            border: 2px solid #409eff;
+            width: 16px;
+            height: 16px;
           }
-			
+
 			/deep/.el-checkbox__label{
 				font-size: 14px;
 			}
@@ -951,7 +957,7 @@ export default {
           margin-top: -43px;
           height: 100%;
           overflow: auto;
-          width: 1168px;
+          width: 850px;
         }
       }
 
@@ -978,12 +984,12 @@ export default {
   .right-tree {
     float: right;
     width: 325px;
-    height: 590px;
+    height: 630px;
     margin-top: 20px;
-    margin-right: 10px;
+	margin-right: 10px;
     background: url('../../assets/img/common/tree.png') no-repeat;
     background-size: 100% 100%;
-	
+
 	p{
 		font-size: 20px;
 		color: #409EFF;
@@ -991,7 +997,7 @@ export default {
 		top: -300px;
 		left: 125px;
 	}
-	
+
 	/deep/ .tree-wrap{
 		margin-top: 10px;
 		height: 90.5% !important;
@@ -1024,11 +1030,11 @@ export default {
           }
         }
       }
-
+		//复选框
       .button.chk {
-        width: 14px;
-        height: 14px;
-        border: 1px solid #409eff;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #409eff;
         background: none;
       }
     }
@@ -1162,6 +1168,4 @@ export default {
  ::-webkit-scrollbar-thumb{
 	background-color:#0173bb;
 }
-
-
 </style>

@@ -69,6 +69,7 @@
 									:disabled="tabsDisable"
 								>
 									<div class="progress-box">
+										<!-- <Progress :percent="percentage" stroke-color="#00c6ff" /> -->
 										<Progress :percent="percentage" stroke-color="#00c6ff" />
 										<span>
 											本次巡检共包含目标{{ inspectionTarget }}个,已完成{{ finishNum }}个，剩余{{
@@ -83,6 +84,7 @@
 										max-height="475"
 										:span-method="objectSpanMethod"
 										border
+										@header-click="tableHeaderClick"
 										:header-cell-style="{
 											background: '#1d63b9',
 											color: '#fff',
@@ -100,7 +102,7 @@
 											prop="interValue"
 											label="间隔"
 											align="center"
-											width="80"
+											width="110"
 										></el-table-column>
 										<el-table-column
 											prop="dev"
@@ -301,12 +303,17 @@
 											<i
 												:class="{
 													'robot-out': item.vcName.substr(0, 2) == '室外',
-													'robot-in': item.vcName.substr(0, 2) !== '室外' && item.vcName.substr(0, 2) !== '高清',
+													'robot-in':
+														item.vcName.substr(0, 2) !== '室外' &&
+														item.vcName.substr(0, 2) !== '高清',
 													hvideo: item.vcName.substr(0, 2) == '高清'
 												}"
 											></i>
 											<p>{{ item.vcName }}：</p>
-											<span :class="{ yellow: item.statusName == null }">
+											<!-- <span :class="{ yellow: item.statusName == null }">
+												{{ item.statusName == null ? '停止' : item.statusName }}
+											</span> -->
+											<span :class="{ yellow: item.statusName != '任务中' }">
 												{{ item.statusName == null ? '停止' : item.statusName }}
 											</span>
 										</div>
@@ -320,7 +327,14 @@
 		</div>
 
 		<!-- 实时报警 -->
-		<ocx-modal v-model="alarmRecordFlag" title="报警信息" :width="1020" footer-hide :styles="{ top: '0' }">
+		<ocx-modal
+			v-model="alarmRecordFlag"
+			title="报警信息"
+			:width="1020"
+			footer-hide
+			:styles="{ top: '0' }"
+			draggable
+		>
 			<div class="alarm-detail">
 				<div class="result">
 					识别结果：<span>{{ alarmResult }}</span>
@@ -349,12 +363,22 @@
 			</div>
 		</ocx-modal>
 		<!-- 实时信息 -->
-		<ocx-modal v-model="timeInfoFlag" title="实时信息详情" :width="1020" footer-hide :styles="{ top: '0' }">
+		<ocx-modal
+			v-model="timeInfoFlag"
+			title="实时信息详情"
+			:width="1020"
+			footer-hide
+			:styles="{ top: '0' }"
+			draggable
+		>
 			<div class="alarm-detail">
 				<div class="result">
 					识别结果：<span>{{ timeInfoResult }}</span>
 				</div>
-				<div :class="timeInfoPicUrl2.length > 0 && timeInfoPicUrl1.length > 0 ? 'imgBox2' : 'imgBox'" ref="imgBox">
+				<div
+					:class="timeInfoPicUrl2.length > 0 && timeInfoPicUrl1.length > 0 ? 'imgBox2' : 'imgBox'"
+					ref="imgBox"
+				>
 					<!-- <img class="img-content" :src="timeInfoPicUrl" alt /> -->
 					<vue-photo-zoom-pro
 						class="img-content"
@@ -380,11 +404,12 @@
 
 		<ocx-modal
 			v-model="addTask"
-			:width="1765"
+			:width="modalWidth"
 			:title="addTaskTitle"
 			footer-hide
 			@on-cancel="closeAddTask"
 			:styles="{ top: '0' }"
+			draggable
 		>
 			<taskOrder
 				ref="taskOrder"
@@ -395,15 +420,15 @@
 
 		<ocx-modal
 			v-model="addTaskNext"
-			:width="1485"
+			:width="1430"
 			:title="inspectionTaskFormTitle"
 			footer-hide
 			@on-cancel="closeAddTaskNext"
 			:styles="{ top: '0px' }"
+			draggable
 		>
 			<inspectionTaskList
 				ref="inspectionTaskList"
-				v-loading="inspectionTaskListLoading"
 				:element-loading-text="addTaskLoadingText"
 				element-loading-background="#061638"
 				@closeAddTaskNext="closeAddTaskNext"
@@ -411,8 +436,30 @@
 				@lastStepClick="lastStepClick"
 				@getTableDataArr="getTableDataArr"
 				@taskNodesDataArr="taskNodesDataArr"
+				v-show="inspectionFlag"
 			></inspectionTaskList>
+			<!-- v-loading="inspectionTaskListLoading" -->
+
+			<div class="taskListMark" v-show="inspectionMark">
+				<img src="../assets/img/monitor/xunjiangif.gif" alt="" />
+			</div>
 		</ocx-modal>
+
+		<ocx-modal
+			v-model="pointFlag"
+			footer-hide
+			:width="1000"
+			:title="pointTitle"
+			:styles="{ top: '0px' }"
+			@on-cancel="closepointFrame"
+			draggable
+		>
+			<pointFrame :tableFilterHId="tableFilterHId" :tranTableData="tranTableData" ref="pointFrame"></pointFrame>
+		</ocx-modal>
+
+		<div class="addTaskLoading" v-show="addImgFlag">
+			<img src="../assets/img/monitor/xunjiangif.gif" alt="" />
+		</div>
 	</div>
 </template>
 <script>
@@ -422,12 +469,20 @@ import monitorCurrent from './common/monitor-current.vue'
 import moment from 'moment'
 import taskOrder from './common/task-order.vue'
 import inspectionTaskList from './common/inspection-taskList.vue'
+import pointFrame from './common/point-frame.vue'
 import qs from 'qs'
 export default {
 	name: 'monitor',
 	props: {},
 	data() {
 		return {
+			addImgFlag: false,
+
+			inspectionFlag: false,
+			inspectionMark: true,
+
+			modalWidth: 1100, //新增任务弹框宽度
+
 			axios: this.$_api.monitorData,
 			// 任务相关
 			currentTaskInfo: null, // 当前活动的 任务
@@ -442,6 +497,8 @@ export default {
 			stationId: this.$store.getters.stationId,
 			// 视频tab头
 			tabIdx: -1,
+			videoTabRobotId: '', //选中当前机器人id
+			robotSubType: '', //选中机器人的subType
 			tableList: [],
 			tabFirstData: [],
 			video1: {
@@ -492,8 +549,16 @@ export default {
 			totalNum: 0, //数据所有条数
 			pageSize: 10, //每页条数
 			pageNum: 1, //当前页
+
+			tableFilterData: [], //预过滤表格数据
+			tableFilterHId: [], //预过滤表头数据
+			tranTableData: [], //传递的数据
+			pointTitle: '',
+
+			pointFlag: false, //巡检成票表头弹框
+
 			//signForm: false,//页面巡检成票标记
-			addTaskTimer:null, //新增任务定时器
+			addTaskTimer: null, //新增任务定时器
 
 			//ocx
 			ocxTimer: null, //切换模块时，ocx的渲染添加定时器
@@ -540,7 +605,8 @@ export default {
 		cvideo,
 		monitorCurrent,
 		inspectionTaskList,
-		taskOrder
+		taskOrder,
+		pointFrame
 	},
 	created() {
 		this.getTabs()
@@ -552,6 +618,7 @@ export default {
 			temp.push(item + this.stationId)
 		})
 		this.topicArr = temp
+		this.taskOrderDevWidth()
 	},
 	mounted() {
 		//this.subscribe()
@@ -581,6 +648,43 @@ export default {
 		console.log('ipdate')
 	},
 	methods: {
+		taskOrderDevWidth() {
+			let tWidth = window.screen.width
+			if (tWidth == 1440) {
+				this.modalWidth = 1080
+			} else {
+				this.modalWidth = 1430
+			}
+		},
+		tableHeaderClick(column, event) {
+			let clickH = {}
+			this.tableFilterHId = []
+			let tHname = column.label.slice(0, 2)
+			this.workOrderTableHeaderData.forEach(item => {
+				if (tHname == item.robotName.slice(0, 2)) {
+					clickH = item
+				}
+			})
+			if (clickH != {}) {
+				this.tableFilterHId.push(clickH)
+			}
+
+			this.tableFilterData.forEach(item => {
+				if (item.tableHeaderId == this.tableFilterHId[0].id) {
+					this.tranTableData = item.tableData
+				}
+			})
+			this.workOrderTableHeaderData.forEach(item => {
+				if (clickH.robotName == item.robotName) {
+					this.pointTitle = `${clickH.robotName}巡检点位`
+					this.pointFlag = true
+				}
+			})
+		},
+		closepointFrame() {
+			this.$refs.pointFrame.closeItem()
+			this.pointFlag = false
+		},
 		registerListen() {
 			this.$_listen('inspectionmonitor', (topic, message, packet) => {
 				let data = ''
@@ -594,11 +698,16 @@ export default {
 						msgData.time = moment(msgData.time * 1000).format('YYYY-MM-DD HH:mm:ss')
 						this.getNodeIdData(msgData.tasksresult.nodeid, msgData.tasksresult.alarmlevel)
 
-						this.finishNum = parseInt(++this.finishNum)
-						this.residueNum = parseInt(this.inspectionTarget - this.finishNum)
-						this.finishNum = parseInt(this.finishNum)
-						this.inspectionTarget = parseInt(this.inspectionTarget)
-						this.percentage = parseFloat(((this.finishNum / this.inspectionTarget) * 100).toFixed(2))
+						if (this.residueNum > 0 && this.finishNum < this.inspectionTarget) {
+							this.finishNum = parseInt(++this.finishNum)
+							this.residueNum = parseInt(this.inspectionTarget - this.finishNum)
+							this.finishNum = parseInt(this.finishNum)
+							this.inspectionTarget = parseInt(this.inspectionTarget)
+							this.percentage = parseFloat(((this.finishNum / this.inspectionTarget) * 100).toFixed(2))
+						} else if (this.residueNum == 0 && this.finishNum == this.inspectionTarget) {
+							this.percentage = 100
+						}
+
 						msgData.tasksresult.result =
 							msgData.tasksresult.result === '' ? msgData.tasksresult.fdata : msgData.tasksresult.result
 
@@ -649,12 +758,36 @@ export default {
 						// 		this.video2.deviceInfo = msgData.taskrate.infravideoid
 						// 	}
 						// }
-							if (msgData.taskrate.normalvideoid && msgData.taskrate.normalvideoid != '') {
-								this.video1.deviceInfo = msgData.taskrate.normalvideoid
-							}
-							if (msgData.taskrate.infravideoid && msgData.taskrate.infravideoid != '') {
-								this.video2.deviceInfo = msgData.taskrate.infravideoid
-							}
+						if (
+							msgData.taskrate.infravideoid &&
+							msgData.taskrate.infravideoid != '' &&
+							msgData.taskrate.taskid == this.presetInspectionTaskId &&
+							msgData.taskrate.robotid == this.videoTabRobotId &&
+							this.video2.deviceInfo != msgData.taskrate.infravideoid
+						) {
+							this.video2.deviceInfo = msgData.taskrate.infravideoid
+						}
+
+						if (
+							(!msgData.taskrate.infravideoid || msgData.taskrate.infravideoid == '') &&
+							msgData.taskrate.taskid == this.presetInspectionTaskId &&
+							msgData.taskrate.robotid == this.videoTabRobotId &&
+							this.video2.deviceInfo != this.video1.deviceInfo &&
+							this.robotSubType == '70030001' &&
+							this.video1.deviceInfo != msgData.taskrate.normalvideoid
+						) {
+							this.video2.deviceInfo = this.video1.deviceInfo
+						}
+
+						if (
+							msgData.taskrate.normalvideoid &&
+							msgData.taskrate.normalvideoid != '' &&
+							msgData.taskrate.taskid == this.presetInspectionTaskId &&
+							msgData.taskrate.robotid == this.videoTabRobotId &&
+							this.video1.deviceInfo != msgData.taskrate.normalvideoid
+						) {
+							this.video1.deviceInfo = msgData.taskrate.normalvideoid
+						}
 					} else if (msgData.cmd === 2101) {
 						//机器人状态
 						this.tableList.map(item => {
@@ -678,8 +811,22 @@ export default {
 						})
 					} else if (msgData.cmd === 2205) {
 						//任务控制回复
+						// this.$ocxMessage.success({
+						// 	content: '任务下发成功',
+						// 	duration: 5
+						// })
+
+						let content = ''
+						//执行任务的控制回复
+						//result为0时代表成功，不为0代表失败
+						if (msgData.serial == 'start') {
+							content = msgData.tasks.result == 0 ? '任务开始执行' : '执行任务失败'
+						} else if (msgData.serial == 'stop') {
+							content = msgData.tasks.result == 0 ? '任务已停止' : '停止任务失败'
+						}
+
 						this.$ocxMessage.success({
-							content: '任务下发成功',
+							content: content,
 							duration: 5
 						})
 					}
@@ -691,7 +838,7 @@ export default {
 			if (nodeid) {
 				if (this.$refs['inspecAticketTable']) {
 					let index = this.inspectionTaskTableDataAll.findIndex(node => {
-						return node.nodeID == nodeid
+						return node.nodeId == nodeid
 					})
 					if (index === -1) {
 						return
@@ -721,7 +868,7 @@ export default {
 				(page - 1) * this.pageSize + this.pageSize
 			)
 			brr.forEach(item => {
-				if (nodeid == item.nodeID) {
+				if (nodeid == item.nodeId) {
 					if (alarmlevel == 0) {
 						this.$set(item, 'status', '0')
 					} else if (alarmlevel > 0) {
@@ -732,7 +879,9 @@ export default {
 			this.inspectionTaskTableData = brr
 		},
 		getTableDataArr() {
-			this.inspectionTaskListLoading = false
+			//this.inspectionTaskListLoading = false
+			this.inspectionFlag = true
+			this.inspectionMark = false
 		},
 		taskNodesDataArr(arr) {
 			this.addTaskNodesArr = arr
@@ -758,7 +907,9 @@ export default {
 				unitId: this.stationId,
 				nodeIds: arr.join(',')
 			}
-			this.inspectionTaskListLoading = true
+			// this.inspectionTaskListLoading = true
+			this.inspectionFlag = false
+			this.inspectionMark = true
 			this.$refs.inspectionTaskList.getTableDataAll(addInfos)
 		},
 		//新增任务 上一步 按钮
@@ -792,14 +943,22 @@ export default {
 			}
 			obj.time = new Date().valueOf()
 			this.$_mqtt.publish(this.topicArr[0], JSON.stringify(obj))
-			
+
 			//不论新增任务是否成功，30秒后都关闭窗口
-			clearTimeout(this.addTaskTimer);
+			this.addTaskNext = false
+			this.addImgFlag = true
+			clearTimeout(this.addTaskTimer)
 			this.addTaskTimer = setTimeout(() => {
-				this.addTaskNext = false
-				this.inspectionTaskListLoading = true
-				this.addTaskLoadingText = '正在生成巡检任务单'
-			}, 30000);
+				this.addImgFlag = false
+			}, 30000)
+
+			//不论新增任务是否成功，30秒后都关闭窗口
+			// clearTimeout(this.addTaskTimer);
+			// this.addTaskTimer = setTimeout(() => {
+			// 	this.addTaskNext = false
+			// 	this.inspectionTaskListLoading = true
+			// 	this.addTaskLoadingText = '正在生成巡检任务单'
+			// }, 30000);
 		},
 		//关闭新增任务 巡检成票 弹框
 		closeAddTaskNext() {
@@ -841,10 +1000,12 @@ export default {
 				}
 				this.workOrderTableHeaderData = []
 				this.inspectionTaskTableDataAll = []
+				this.tableFilterData = []
 				this.axios.CheckingIntoAticket(infos).then(res => {
 					if (res.code == 200) {
 						this.tabsDisable = false
 						this.workOrderTableHeaderData = res.data[0].robotStatistics
+						this.inspectionTaskTableDataAll = []
 						this.inspectionTaskTableDataAll = res.data[0].robotNodeTree
 						this.inspectionTaskTableData = res.data[0].robotNodeTree.slice(0, this.pageSize)
 
@@ -856,6 +1017,21 @@ export default {
 						this.totalNum = res.data[0].robotNodeTree.length
 						this.pageNum = 1
 						this.inspectionTaskTableDataLoad = false
+
+						//数据预过滤
+						this.workOrderTableHeaderData.forEach(item => {
+							this.tableFilterData.push({
+								tableHeaderId: item.id,
+								tableData: []
+							})
+						})
+						this.tableFilterData.forEach(item => {
+							this.inspectionTaskTableDataAll.forEach(ite => {
+								if (ite.robotIds.indexOf(item.tableHeaderId) == 0) {
+									item.tableData.push(ite)
+								}
+							})
+						})
 					}
 				})
 			}
@@ -899,18 +1075,26 @@ export default {
 			this.affirmTicket = false
 		},
 		inspectionTaskHeaderText(info) {
-			let str = ''
-			let startTop = info.robotName.substr(0, 2)
-			let stopTop = info.robotName.substr(2)
-			if (info.robotName.length > 3) {
-				return (str = `${startTop} \n ${stopTop} \n (${info.total})`)
-			} else {
-				return (str = `${info.robotName} \n (${info.total})`)
+			if (info.robotName.length > 0 && info.robotName.length < 11) {
+				let str = ''
+				let startTop = info.robotName.substr(0, 2)
+				let stopTop = info.robotName.substr(2)
+				if (info.robotName.length > 3) {
+					return (str = `${startTop} \n ${stopTop} \n (${info.total})`)
+				} else {
+					return (str = `${info.robotName} \n (${info.total})`)
+				}
+			} else if (info.robotName.length == 11) {
+				let strS = ''
+				let sTop = info.robotName.substr(0, 5)
+				let zTop = info.robotName.substr(5, 3)
+				let eTop = info.robotName.substr(8)
+				return (strS = `${sTop} \n ${zTop} \n ${eTop} \n (${info.total})`)
 			}
 		},
 		//巡检任务单勾选功能
 		handelCheck(arr, id) {
-			if (arr.indexOf(id) == 0) {
+			if (arr.indexOf(id) != -1) {
 				return true
 			}
 		},
@@ -1086,8 +1270,6 @@ export default {
 		},
 		//实时信息弹框
 		handleTimeInfoModal(row) {
-			console.log(row.tasksresult.normalpicpath)
-			console.log(row.tasksresult.infrapicpath)
 			this.timeInfoPicUrl1 = row.tasksresult.normalpicpath
 			this.timeInfoPicUrl2 = row.tasksresult.infrapicpath
 			this.timeInfoResult = row.tasksresult.result
@@ -1116,9 +1298,9 @@ export default {
 				.then(res => {
 					if (res.success) {
 						this.tableList = []
-						res.data.forEach( (item,index) => {
-							if( index <= 2 ) {
-								this.tableList.push( item )
+						res.data.forEach((item, index) => {
+							if (index <= 2) {
+								this.tableList.push(item)
 							}
 						})
 						// this.tableList = res.data
@@ -1147,10 +1329,12 @@ export default {
 			//   return;
 			// }
 			this.tabIdx = idx
+			this.videoTabRobotId = item.robotId
+			this.robotSubType = item.isubType
 			let params = {
 				robotId: item.robotId,
 				serviceId: item.serviceId,
-				unitId: item.unitId
+				unitId: this.stationId //item.unitId
 			}
 			// 请求接口获取机器人红外和可见光的视频地址
 			this.$_api.monitorData
@@ -1175,7 +1359,7 @@ export default {
 				cmd: 2204,
 				type: 'req',
 				srcid: '',
-				serial: '',
+				serial: params,
 				time: parseInt(new Date().getTime() / 1000),
 				tasks: {
 					unitid: this.stationId,
@@ -1223,8 +1407,8 @@ export default {
 					unitID: this.stationId
 				})
 				.then(res => {
-					if( res.code == 200 ) {
-						if( res.data.length > 0 ) {
+					if (res.code == 200) {
+						if (res.data.length > 0) {
 							var data = res.data
 							for (let i = 0, len = data.length; i < len; i++) {
 								if (data[i].type == 70200001) {
@@ -1235,13 +1419,12 @@ export default {
 									this.windSpeed = data[i].value ? data[i].value + 'm/s' : '--'
 								}
 							}
-						}else if( res.data.length == 0 ) {
-							this.temperature =  '--'
-							this.humidity =  '--'
-							this.windSpeed =  '--'
+						} else if (res.data.length == 0) {
+							this.temperature = '--'
+							this.humidity = '--'
+							this.windSpeed = '--'
 						}
 					}
-					
 				})
 				.catch(err => {
 					console.log(err)
@@ -1690,16 +1873,17 @@ export default {
               width: calc(100% - 20px);
               border-left-color: #054598;
               border-top-color: #054598;
+			  border: 2px solid #054598;
 
               /deep/td {
-                height: 40px;
-                vertical-align: top;
+                vertical-align: center;
                 padding: 0;
 
                 .cell {
                   display: flex;
                   justify-content: center;
                   align-items: center;
+				  height: 55px !important;
                 }
               }
 
@@ -1718,6 +1902,7 @@ export default {
                 font-size: 14px;
                 color: #fff;
                 border-color: #054598;
+				border: 1px solid #054598;
               }
 
               .statePageTab {
@@ -1808,6 +1993,8 @@ export default {
               /deep/.ivu-page {
                 iview-page();
               }
+
+
             }
           }
 
@@ -1877,11 +2064,14 @@ export default {
               /deep/ .el-table {
                 font-size: 16px;
                 border-color: #054598;
+				//大屏
+				border: 2px solid #054598;
               }
 
               /deep/.el-table td, /deep/.el-table th.is-leaf {
                 // border: none;
                 border-color: #054598;
+				border: 2px solid #054598;
               }
             }
           }
@@ -2072,6 +2262,14 @@ export default {
       }
     }
   }
+
+	.addTaskLoading{
+		position: absolute;
+		top: 300px;
+		left: 855px;
+	}
+
+
 }
 
 .alarm-detail {
@@ -2373,6 +2571,12 @@ export default {
     }
   }
 }
+//拖动弹框 覆盖视频
+/deep/.ivu-modal-content-drag{
+	position: relative;
+}
+
+
 
 /deep/.el-progress-bar__outer {
   background: #062056;
@@ -2465,6 +2669,19 @@ export default {
   background: none;
 }
 
+/deep/.el-loading-spinner{
+	display: flex;
+	justify-content: center;
+
+	.circular{
+		width: 35px;
+		margin: 0 10px 0 0;
+	}
+
+}
+
+
+
 .robot-out {
   background: url('../assets/img/monitor/robot-out.png') no-repeat center;
   background-size: 100% 100%;
@@ -2478,5 +2695,18 @@ export default {
 .hvideo {
   background: url('../assets/img/monitor/video.png') no-repeat center;
   background-size: 100% 100%;
+}
+
+.taskListMark{
+	width: 1430px;
+	height: 780px;
+	border-radius: 0;
+	padding-top: 1px;
+	background: #082053;
+
+	img{
+		margin: 350px 0 0  642px;
+	}
+
 }
 </style>

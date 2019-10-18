@@ -7,7 +7,9 @@
 				:residualUrl="residualUrl"
 				:mqttData="mqttData"
 				:residualObj="residualObj"
+				v-if="htShow"
 			></component>
+			<!-- <div class='httext' v-if="!htShow">请配置图纸</div> -->
 		</el-aside>
 	</div>
 </template>
@@ -22,7 +24,8 @@ export default {
 	props: {},
 	data() {
 		return {
-			unitId: this.$store.getters.unitId,
+			htShow:true,
+			unitId: this.$store.getters.sId,
 			current: 'fireControl-customization',
 			resultData: {
 				dev: {},
@@ -105,7 +108,7 @@ export default {
 		// 		})
 		// },
 		showHtMap(item) {
-			console.log(item)
+			// console.log(item)
 			this.$refs.htCommon.init(item.vcUrl)
 		},
 		subscribe(topicArr) {
@@ -131,7 +134,7 @@ export default {
 		},
 		//获取图纸接口
 		getHtMap() {
-			console.log(this.unitId,"加载id")
+			// console.log(this.unitId,"加载id")
 			let params = {
 				unitId: this.unitId,
 				iSubType: '10100009'
@@ -139,7 +142,11 @@ export default {
 			this.$_api.statusCheck.getSubCharts(params).then(res => {
 				//    console.log(res)
 				if (res.code == 200) {
-					if (res.data.length) {
+					if (res.data.length==0) {
+						this.htShow=false
+						// this.$ocxMessage.error('请配置图纸!!!')
+					}else{
+						this.htShow=true
 						for (let i = 0; i < res.data.length; i++) {
 							let item = res.data[i]
 							if (item.vcUrl.length) {
@@ -155,7 +162,7 @@ export default {
 	},
 	computed: {
 		activeUnitId() {
-			return this.$store.getters.unitId
+			return this.$store.getters.sId
 		}
 	},
 	watch: {
@@ -186,5 +193,13 @@ $view-height = 898px;
   background: url("~@/assets/img/common/wai.png")
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  .httext{
+	  position:absolute;
+	  top:50%;
+	  left:50%;
+	  transform:translate(-50%,-50%);
+	  color:#fff;
+	  font-size:25px;
+  }
 }
 </style>

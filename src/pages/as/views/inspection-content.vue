@@ -57,7 +57,7 @@
 import monitor from './monitor.vue'
 import record from './record.vue'
 import taskManage from './taskManage.vue'
-import ponitManage from './pointManage.vue'
+import ponitManage from './position-manage'
 import { debuglog } from 'util'
 export default {
 	name: 'inspection-content',
@@ -113,7 +113,7 @@ export default {
 				children: 'children',
 				label: 'label'
 			},
-			stationId: '',//变电站ID
+			stationId: '' //变电站ID
 		}
 	},
 	computed: {
@@ -222,9 +222,11 @@ export default {
 		handleClickNode(data, node, root) {
 			console.log(data)
 			// 更新当前模块单元id
-			this.$store.commit('CHANGE_STATION', {
-				stationId: data.id
-			})
+			if (data.flag == 1) {
+				this.$store.commit('CHANGE_STATION', {
+					stationId: data.id
+				})
+			}
 			// console.log(this.$store.getters.stationId,'vuex')
 		}
 	},

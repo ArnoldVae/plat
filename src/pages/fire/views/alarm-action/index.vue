@@ -292,10 +292,10 @@
                 categorName: ['温度', '湿度'],
                 weatherImg: require('@/assets/img/common/sun.png'),
                 weatherList: [
-                    {icon: require('@fire/assets/img/alarm-now/wendu.png'), name: '温度:', value: '34'},
-                    {icon: require('@fire/assets/img/alarm-now/fengsu.png'), name: '风速:', value: '4'},
-                    {icon: require('@fire/assets/img/alarm-now/shidu.png'), name: '湿度:', value: '65'},
-                    {icon: require('@fire/assets/img/alarm-now/fengxiang.png'), name: '风向:', value: '东南'}
+                    {icon: require('@fire/assets/img/alarm-now/wendu.png'), name: '温度:', value: ''},
+                    {icon: require('@fire/assets/img/alarm-now/fengsu.png'), name: '风速:', value: ''},
+                    {icon: require('@fire/assets/img/alarm-now/shidu.png'), name: '湿度:', value: ''},
+                    {icon: require('@fire/assets/img/alarm-now/fengxiang.png'), name: '风向:', value: ''}
                 ],
                 obj: {},
                 alarmListInfo: [
@@ -396,6 +396,7 @@
                     .then(res => {
                         if (res.code == 200) {
                             if (res.data) {
+
                                 console.log(this)
                                 this.labelList = []
                                 this.labelList = res.data
@@ -437,17 +438,19 @@
                 }
                 if (item.unitId) {
                     this.$store.dispatch('updateUnitId', item.unitId)
+                    this.$store.dispatch('updatesId', item.unitId)
+                    
                 }
 
                 this.unitTitle = this.alarmTitle = item.unitName
-                debugger
+                // debugger
                 let result = await this.$_api.alarmAction.getAlarmData({
                     unitId: item.unitId || '',
                     alarmId: item.alarmId || item.alarmid
                 })
                 if (result.success) {
                     //报警信息赋值操作
-                    this.alarmData.araeName = result.data.araeName
+                    this.alarmData.areaName = result.data.araeName
                     this.alarmData.devName = result.data.devName
                     this.alarmData.nodeName = result.data.nodeName
                     this.alarmData.time = moment(result.data.beginTime * 1000).format('YYYY-MM-DD HH:mm')
@@ -462,12 +465,27 @@
                         unitId: this.$store.getters.unitId || '',
                         areaId: this.protectAreaId
                     }
+                    let that=this
+                    that.alarmData.videoList=[ {
+                        isAutoPlay: true,
+                        serviceInfo: '1$22.46.34.114$6800$admin$admin',
+                        deviceInfo: '1|22.46.34.114:8001|admin:admin123|1',
+                        hideTool: true
+                    },
+                        {
+                            isAutoPlay: true,
+                            serviceInfo: '1$22.46.34.114$6800$admin$admin',
+                            deviceInfo: '2|22.46.34.114:37781|admin:admin123|2',
+                            hideTool: true
+                        }]
                     //报警联动视频赋值逻辑
                     if (result.data.videoList && result.data.videoList.length > 0) {
+                        // debugger
                         result.data.videoList.forEach((item, index) => {
-                            this.alarmData.videoList[index].deviceInfo = item.vcParams1
+                            that.alarmData.videoList[index].deviceInfo = item.vcParams1
                         })
                     }
+                    this.alarmData=that.alarmData
                     // this.videoConfig[0].deviceInfo = result.data.[0].vcParams1
                     this.getReserve(obj)
                     //                    获取图例
@@ -759,7 +777,7 @@
             },
             //确认报警删除条目操作
             delAlarm(node) {
-                debugger
+                // debugger
                 this.labelList.forEach((item, index) => {
                     if (item.alarmId == node.alarmId) {
                         this.labelList.splice(index, 1)
@@ -824,7 +842,11 @@
                         this.getEnvChart(this.idListObj)
                     }
                     //    灭火资源赋值
-                    this.imgUrl = node.svgList[0].vcmemo
+                    console.log(node)
+                    if(node.svgList.length>0){
+                        this.imgUrl = node.svgList[0].vcmemo
+                    }
+
 
                 }
                 console.log(this.alarmData)

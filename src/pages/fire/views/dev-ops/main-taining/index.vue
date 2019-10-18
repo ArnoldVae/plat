@@ -99,7 +99,7 @@
 								size="mini"
 								type="text"
 								style="width:3.0rem;"
-							>编辑</el-button> -->
+							>编辑</el-button>-->
 							<el-button
 								class="del-btn"
 								@click="removeInfo(1,scope.row)"
@@ -170,7 +170,13 @@
 				</div>
 			</div>
 			<div slot="footer">
-				<Button icon="md-cloud-download" type="success" size="large" @click="downloadTemplate" style="float:left">模板下载</Button>
+				<Button
+					icon="md-cloud-download"
+					type="success"
+					size="large"
+					@click="downloadTemplate"
+					style="float:left"
+				>模板下载</Button>
 				<Button type="text" size="large" @click="close">取消</Button>
 				<Button
 					class="btn2"
@@ -417,19 +423,17 @@ export default {
 				title: '删除',
 				content: '确认删除该数据?',
 				onOk: () => {
-					this.$_api.maintaining
-						.delMainDate({ mtcPlanId: params.mtcPlanId })
-						.then(res => {
-							if (res.code == 200) {
-								this.$Message.success('删除成功')
-								if ((this.totals - 1) % this.pageSize == 0) {
-									this.curIndex -= 1
-								}
-								this.searchInfo()
-							} else {
-								this.$Message.warning(res.msg)
+					this.$_api.maintaining.delMainDate({ mtcPlanId: params.mtcPlanId }).then(res => {
+						if (res.code == 200) {
+							this.$Message.success('删除成功')
+							if ((this.totals - 1) % this.pageSize == 0) {
+								this.curIndex -= 1
 							}
-						})
+							this.searchInfo()
+						} else {
+							this.$Message.warning(res.msg)
+						}
+					})
 				},
 				onCancel: () => {}
 			})
@@ -456,7 +460,7 @@ export default {
 		dosearch() {
 			this.starTim = parseInt(this.search.starTime / 1000) == 0 ? '' : parseInt(this.search.starTime / 1000)
 			this.endTim = parseInt(this.search.endTime / 1000) == 0 ? '' : parseInt(this.search.endTime / 1000)
-			console.log(this.search.starTime)
+			// console.log(this.search.starTime)
 			this.searchInfo()
 		},
 		async searchInfo() {
@@ -493,13 +497,11 @@ export default {
 
 		//模板下载
 		downloadTemplate() {
-			window.location.href = "http://172.26.1.109:8080/webshare/DONGSHANQIAN/FIRE/WORD/TEMP/xftz.xls"
+			window.location.href = 'http://172.26.1.109:8080/webshare/DONGSHANQIAN/FIRE/WORD/TEMP/xftz.xls'
 		},
 
 		//导出
-		exportInfo() {
-
-		},
+		exportInfo() {},
 
 		getThisWeek(currentTime) {
 			var currentDate = new Date(currentTime)
@@ -566,7 +568,7 @@ export default {
 			// this.recordData = row.mtcPlanId
 			this.fileDate = row.fileName
 			// console.log(this.fileDate)
-			console.log(row)
+			// console.log(row)
 			this.recordShow = true
 		},
 
@@ -586,9 +588,7 @@ export default {
 			this.loadingStatus = false
 		},
 		//导出模板文件
-		exportTemplate() {
-
-		},
+		exportTemplate() {},
 		// 上传提交
 		upload() {
 			// 点击上传
@@ -670,8 +670,8 @@ export default {
       .info-btn {
         color: #45adf7;
         font-size: 16px;
-        background: url('~@fire/assets/img/seach_blue.png') no-repeat!important;
-        background-size: 100% 100%!important;
+        background: url('~@fire/assets/img/seach_blue.png') no-repeat !important;
+        background-size: 100% 100% !important;
         border: none;
       }
 
@@ -777,10 +777,11 @@ export default {
     }
   }
 
-  .el-input__prefix {
-    right: 0;
+  /deep/ .el-input__prefix {
+    top: 0 !important;
+    left: 0 !important;
     text-align: right;
-    top: 3.5px !important;
+    // top: 3.5px !important;
     cursor: pointer;
   }
 
@@ -1095,4 +1096,5 @@ export default {
   background: url('~@fire/assets/img/seach_red.png') no-repeat !important;
   background-size: 100% 100% !important;
 }
+
 </style>

@@ -152,7 +152,7 @@ export default {
 		},
 		zIndex: {
 			type: Number,
-			default: 1000
+			default: 999
 		}
 	},
 	data() {

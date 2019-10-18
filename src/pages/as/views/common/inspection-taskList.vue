@@ -19,7 +19,7 @@
 
 			<el-table
 				:data="nodesTableData"
-				max-height="580"
+				height="580"
 				:span-method="objectSpanMethod"
 				border
 				:header-cell-style="{
@@ -220,7 +220,7 @@ export default {
 		},
 		//合并单元格的方法
 		objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-			if (columnIndex === 0) {
+			if (columnIndex == 0) {
 				const _row = this.desData('area', this.modalInspectionTaskTableData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
@@ -228,7 +228,7 @@ export default {
 					colspan: _col
 				}
 			}
-			if (columnIndex === 1) {
+			if (columnIndex == 1) {
 				const _row = this.desData('interValue', this.modalInspectionTaskTableData)[rowIndex]
 				const _col = _row > 0 ? 1 : 0
 				return {
@@ -390,12 +390,12 @@ export default {
 			}
 
 			/deep/td {
-				height: 50px;
-				vertical-align: top;
+				vertical-align: center;
 				.cell{
 					display: flex;
 					justify-content: center;
 					align-items: center;
+					height: 45px !important;
 				}
 			}
 

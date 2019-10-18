@@ -161,7 +161,7 @@
                                 </li>
                                 <li class="itemDetails">
                                     <span class="color-red">●</span>
-                                    <span class="color-white">{{ item.araeName}}</span>
+                                    <span class="color-white">{{ item.areaName}}</span>
                                 </li>
                                 <li class="itemDetails">
                                     <span class="color-red">●</span>
@@ -312,6 +312,7 @@
                         if (res.code == 200) {
                             if(res.data&&res.data.length>0){
                                 res.data.forEach((im,) => {
+                                    im.areaName=im.araeName
                                     im.time=moment(im.beginTime * 1000).format('YYYY-MM-DD HH:mm')
                                 })
 
@@ -408,17 +409,19 @@
             },
             //            获取推送信息
             registerMQTT() {
+                // debugger
                 this.$_listen(this.$options.name, (topic, msg, pack) => {
                     // debugger
-                    debugger
+                    // debugger
                     let msgJson = JSON.parse(msg.toString())
+                    console.log(msgJson)
 
                     // debugger
 
                     if (msgJson.cmd === '3002') {
                         //报警的上传数据
                         //                        日期格式化
-                        debugger
+                        // debugger
                        if (msgJson.level == '0') {
                            this.sysLists.forEach((item, index) => {
                                if (item.alarmId == msgJson.alarmId) {
@@ -446,6 +449,7 @@
                         // this.$refs.map.changeAlarmNum(msgJson.unitId)
                         if(msgJson.level == '0')
                             return false
+                        // debugger
                         this.$emit('receiveAlarm', 'alarm-action', msgJson)
                         if (this.pageType) {
                             this.$store.dispatch('changeMenu', true)
@@ -613,7 +617,7 @@
         height: 4px;
     }
 </style>
-<style lang="stylus">
+<style lang="stylus" scoped>
     .backNone {
         background none !important
     }
@@ -622,8 +626,7 @@
         top: 6px;
         left: 65%;
     }
-
-    .systemView {
+     .systemView {
         height: 100%;
         width: 100%;
         margin-left 0.88889rem
@@ -642,6 +645,9 @@
                     height: 865px;
                     position: relative;
                     cursor: pointer;
+                    .mapBox{
+                        height 100%
+                    }
 
                     .border-lt {
                         position: absolute;

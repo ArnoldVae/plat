@@ -145,7 +145,8 @@ export default {
 						devTypeId: [],
 						recogTypeId:  [],
 						meterTypeId: [],
-						surfaceTypeId:  []
+                        surfaceTypeId:  [],
+                        type: 70010001
 					})
 					.then(res => {
 						if (res.code == 200) {

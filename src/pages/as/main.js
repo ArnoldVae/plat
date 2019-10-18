@@ -11,8 +11,8 @@ Vue.use(iView)
 
 // ElementUI 按需
 import {
-	Select,Input,Table,Option,Button,TableColumn,Tree,Form,FormItem,Radio,RadioGroup,Checkbox,CheckboxGroup,Progress,Loading,Scrollbar} from 'element-ui'
-const ElementUI = [Table,Select,Input,Option,Button,TableColumn,Tree,Form,FormItem,Radio,RadioGroup,Checkbox,CheckboxGroup,Progress,Loading,Scrollbar]
+	Select,Input,Table,Option,Button,TableColumn,Tree,Form,FormItem,Radio,RadioGroup,Checkbox,CheckboxGroup,Progress,Loading,Scrollbar,DatePicker} from 'element-ui'
+const ElementUI = [Table,Select,Input,Option,Button,TableColumn,Tree,Form,FormItem,Radio,RadioGroup,Checkbox,CheckboxGroup,Progress,Loading,Scrollbar,DatePicker]
 
 // ElementDev 按需
 import { elFilterTree } from '@/components/element-dev'
@@ -23,8 +23,9 @@ const ElementDev = [elFilterTree]
 const Antd = [ A1, A2 ]*/
 
 // Singletons(单例组件库) 按需
-import { statistics } from '@/components/singletons'
+import { statistics,horMenu } from '@/components/singletons'
 Vue.use(statistics)
+Vue.use(horMenu)
 
 // iviewDev 按需
 import { ocxModal, ocxMessage } from '@/components/iview-dev'
