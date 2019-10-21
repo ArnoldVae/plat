@@ -56,6 +56,10 @@
     import protectionZone from '../status-check/protection-zone'
     import testReport from './test-report'
     import viewCheck from './view-check'
+    import maintenanceInformation from './maintenance-information.vue'
+    import installationAccount from './installation-account.vue'
+    import missingRecord from './missing-record.vue'
+    import maintenanceManagement from './maintenance-management.vue'
 
     export default {
         name: 'dev-ops',
@@ -65,7 +69,12 @@
             'sub-system': subsystem,
             'protection-zone': protectionZone,
             'test-report': testReport,
-            'view-check': viewCheck,
+            'view-check': viewCheck, 
+            'maintenance-information': maintenanceInformation, 
+            'installation-account': installationAccount, 
+            'missing-record': missingRecord, 
+            'maintenance-management': maintenanceManagement, 
+            
         },
         props: {
             pageType: {
@@ -119,7 +128,31 @@
                     	id: '06',
                     	code: 'view-check',
                     	active: false
-                    }
+                    },
+                    {
+                    	title: '运维信息总览',
+                    	id: '07',
+                    	code: 'maintenance-information',
+                    	active: false
+                    },
+                    {
+                    	title: '消防设施台账',
+                    	id: '08',
+                    	code: 'installation-account',
+                    	active: false
+                    },
+                    {
+                    	title: '消缺记录',
+                    	id: '09',
+                    	code: 'missing-record',
+                    	active: false
+                    },
+                    {
+                    	title: '维保管理',
+                    	id: '10',
+                    	code: 'maintenance-management',
+                    	active: false
+                    },
                 ],
                 alarmNode: '',
                 untid: ''
@@ -159,7 +192,8 @@
                 if (result.success) {
                     this.treeData = result.data
                     this.untid = result.data[0].children[0].children[0].children[0].children[0].id
-                    this.$store.dispatch('updateUnitId', this.untid)
+                    // this.$store.dispatch('updatesId', this.untid)
+                    this.$store.dispatch('updateUnitId',  this.untid)
                     // this.$refs.sunMethod.init(this.treeData[0])
 
                 } else {
@@ -169,9 +203,10 @@
 
             // 点击树节点
             handleClickNode(data, node, root) {
+                console.log();
                 // 更新当前模块单元id
-     
                     this.$store.dispatch('updateUnitId', data.id)
+                    // this.$store.dispatch('updatesId', data.id)
                 
 
             },

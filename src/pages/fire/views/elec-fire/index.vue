@@ -89,15 +89,15 @@
         },
         filters: {},
         watch: {
-            // activeUnitId: {
-            //     handler(val) {
-            //         this.current = 'residual-current'
-            //         this.tabList.forEach(item => {
-            //             item.active = false
-            //         })
-            //         this.tabList[0].active = true
-            //     }
-            // }
+            activeUnitId: {
+                handler(val) {
+                    this.current = 'residual-current'
+                    this.tabList.forEach(item => {
+                        item.active = false
+                    })
+                    this.tabList[0].active = true
+                }
+            }
         },
         created() {
             this.getOrganization()

@@ -3,7 +3,7 @@
 		<!-- <img src="../../../assets/img/main/lan.png" style="width: 100%;height: 5%" alt="" /> -->
 		<!-- <span style="position: relative;top:-85px;left: 9.5%;font-size:44PX;color: #000000;font-weight: bold"
 			>年度全面检测报告</span -->
-		>
+
 		<div style="float: right;margin-right: 30px">
 			<!-- <el-button @click="isClick1" :class="{ action: isButton1 }" class="blueBtn" size="mini" type="text"
 				>{{ date }}

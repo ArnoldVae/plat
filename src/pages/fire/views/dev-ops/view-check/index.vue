@@ -3,9 +3,10 @@
     <el-container>
       <el-aside width="72%">
         <component 
-		v-bind:is="htCommon" 
-		ref="htCommon" 
-		:htUrl='hturl'></component>
+        v-bind:is="htCommon" 
+        ref="htCommon" 
+        :htUrl='hturl'
+        v-if="htShowCom"></component>
       </el-aside>
 
       <el-main>
@@ -50,6 +51,7 @@ export default {
 	props: {},
 	data() {
 		return {
+      htShowCom:true,
 			current: 'fireControl-customization',
 			resultData: {
 				dev: {},
@@ -91,16 +93,23 @@ export default {
 			this.getId = this.$store.getters.unitId 
 			let result = await this.$_api.statusCheck.getSubCharts({
 				unitId: this.getId,
-				subIdsStr: '1007'
+        subIdsStr: '1007',
+        iType:'10090003'
 			})
 			if (result.success) {
-				this.subMenuList = result.data
-				this.showHtMap(this.subMenuList[0],0)
+        this.subMenuList=[]
+				if(result.data.length==0){
+            this.htShowCom=false
+        }else{
+           
+            this.htShowCom=true
+          this.subMenuList = result.data
+				  this.showHtMap(this.subMenuList[0],0)
+        }
 			}
 		},
 		showHtMap(val,idx) {
 			this.activeIndex=idx
-			// console.log(val)
 			this.hturl=val.vcUrl
 		}
 	},

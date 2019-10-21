@@ -121,7 +121,8 @@ export default {
 			this.getId = this.$store.getters.unitId || '192fe4cec3ec4d3fb81c0d05f82bde41'
 			let result = await this.$_api.statusCheck.getSubCharts({
 				unitId: this.getId,
-				subIdsStr: '1007'
+				subIdsStr: '1007',
+				iType:'10090003'
 			})
 			if (result.success) {
 				this.subMenuList = result.data

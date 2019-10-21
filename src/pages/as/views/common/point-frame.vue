@@ -4,7 +4,7 @@
 			ref="inspecAticketTable"
 			id="ticketTableScroll"
 			:data="tableData"
-			max-height="500"
+			height="500"
 			:span-method="objectSpanMethod"
 			border
 			:header-cell-style="{
@@ -212,6 +212,8 @@ export default {
             font-size: 14px;
             color: #fff;
             border-color: #054598;
+			//大屏
+			border: 1px solid #054598;
           }
 
           .statePageTab {

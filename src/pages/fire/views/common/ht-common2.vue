@@ -22,6 +22,8 @@ export default {
 	},
 	watch: {
 		htUrl(url){
+			
+			// this.htUrl=url
 			this.dataModel.clear()
 			var el = this.$refs['view-main']
 			var childs = el.childNodes

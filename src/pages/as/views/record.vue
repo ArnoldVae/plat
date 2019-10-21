@@ -633,7 +633,8 @@ export default {
 			this.axios.exportRow(params).then(res => {
 				this.exportingLoading = false
 				if (res.code == 200) {
-					window.location.href = res.data
+					//window.location.href = res.data
+					window.open(res.data)
 				} else {
 					this.$ocxMessage.success({
 						content: '导出失败',

@@ -95,7 +95,7 @@
                         id: '05',
                         code: 'dev-ops',
                         active: false
-                    }
+                    },
                     // {
                     //     title: '数据分析',
                     //     active: false,

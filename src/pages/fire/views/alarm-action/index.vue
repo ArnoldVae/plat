@@ -439,7 +439,7 @@
                 if (item.unitId) {
                     this.$store.dispatch('updateUnitId', item.unitId)
                     this.$store.dispatch('updatesId', item.unitId)
-                    
+
                 }
 
                 this.unitTitle = this.alarmTitle = item.unitName
@@ -497,7 +497,7 @@
              */
             async getReserve(item) {
                 let result = await this.$_api.alarmAction.getReserve({
-                    unitId: item.unitId || '',
+                    unitId: item.unitId || this.$store.getters.unitId,
                     areaId: item.areaId || '19ba44379e6f42fc88fa26226dc14334'
                 })
                 if (result.success) {
@@ -680,23 +680,24 @@
                     })
                     .then(res => {
                         res.data.forEach(item => {
-                            if (item.functioinId == 155) {
+                            if (item.functionId == 155) {
                                 this.weatherList[1].value = item.fValue
                                 this.weatherList[1].vcUnit = item.vcUnit
                             }
-                            if (item.functioinId == 156) {
+                            if (item.functionId == 156) {
                                 this.weatherList[3].value = item.fValue
                                 this.weatherList[3].vcUnit = item.vcUnit
                             }
-                            if (item.functioinId == 157) {
+                            if (item.functionId == 157) {
                                 this.weatherList[0].value = item.fValue
                                 this.weatherList[0].vcUnit = item.vcUnit
-                                this.getEchartData(item.nodeId, item.functioinId)
+                                debugger
+                                this.getEchartData(item.nodeId, item.functionId)
                             }
-                            if (item.functioinId == 158) {
+                            if (item.functionId == 158) {
                                 this.weatherList[2].value = item.fValue
                                 this.weatherList[2].vcUnit = item.vcUnit
-                                this.getEchartData(item.nodeId, item.functioinId)
+                                this.getEchartData(item.nodeId, item.functionId)
                             }
                         })
                     })
@@ -713,6 +714,31 @@
                         const newArr = [],
                             dateArr = []
                         //转换时间格式成需要的
+                        res={
+                            data:[
+                                {
+                                    "vc_name":"湿度",
+                                    "vc_Unit":"%RH",
+                                    "NodeID":"676509d60d5444178f6660067192a09f",
+                                    "f_Value":46.37,
+                                    "i_DataTime":1571214197
+                                },
+                                {
+                                    "vc_name":"湿度",
+                                    "vc_Unit":"%RH",
+                                    "NodeID":"676509d60d5444178f6660067192a09f",
+                                    "f_Value":46.14,
+                                    "i_DataTime":1571214531
+                                },
+                                {
+                                    "vc_name":"湿度",
+                                    "vc_Unit":"%RH",
+                                    "NodeID":"676509d60d5444178f6660067192a09f",
+                                    "f_Value":46.83,
+                                    "i_DataTime":1571215021
+                                },
+                            ]
+                        }
                         res.data.forEach(i => {
                             newArr.push(i.f_Value)
                             dateArr.push(moment(i.i_DataTime * 1000).format('YYYY-MM-DD hh:mm:ss'))

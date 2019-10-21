@@ -397,6 +397,7 @@
             clickRcuImg(val) {
 
                 this.$store.dispatch('updateUnitId', val.id)
+                 this.$store.dispatch('updatesId', val.id)
                 //用来切换端口为5200时的样式
                 val.pageType = false
                 setTimeout(() => {
