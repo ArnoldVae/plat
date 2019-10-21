@@ -1,7 +1,7 @@
 <template>
   <div>
     <div ref="view-main" id="main" class="fireControlHt"></div>
-    <div class="btnBox">
+    <div class="btnBox" v-if="tlShow">
       <div class="btnTitle">图例:</div>
       <div class="btnCon">
         <div class="btnConItem">
@@ -27,12 +27,14 @@ export default {
 	name: 'ht-common',
 	data() {
 		return {
+			tlShow: true,
 			localHt: null,
 			dataModel: null,
 			graphView: null,
 			residualNodes: [],
 			deviceid: '',
-			nodeValue: ''
+			nodeValue: '',
+			unitId: this.$store.getters.sId
 		}
 	},
 	props: {
@@ -52,16 +54,16 @@ export default {
 		this.init()
 	},
 	computed: {
-		// activeUnitId() {
-		// 	return this.$store.getters.unitId
+		// tlUnitId() {
+		// 	return this.$store.getters.sId
 		// }
 	},
 	watch: {
-		// activeUnitId: {
-		// 	handler(val) {
-		// 		// console.log(val,"这个是ht图纸的id")
-		// 		this.unitId = val
-		// 		// this.getHtMap()
+		// tlUnitId(val) {
+		// 	if (val != '8177a787a28b4f86a103fac9a023db05') {
+		// 		this.tlShow = false
+		// 	} else {
+		// 		this.tlShow = true
 		// 	}
 		// },
 		residualUrl(url) {
@@ -116,23 +118,25 @@ export default {
 				return false
 			})
 			if (!this.residualUrl.length) return
-			this.$_api.devOps.getHtControl(this.residualUrl).then(res=>{
-				let json = ht.Default.parse(res)
-				json.p.background = 'transparent'
-				dataModel.deserialize(json)
-				// graphView.fitContent(true)
-				graphView.setZoom(5, true, { x: 630, y: 500 })
-				this.dataModel.each(data => {
-					if (data.getTag() == 'sy-bg-shengyu' || data.getTag() == 'sy-bg-kai') {
-						if (data.getStyle('2d.visible') == true) {
-							data.setStyle('2d.visible', false)
+			this.$_api.devOps
+				.getHtControl(this.residualUrl)
+				.then(res => {
+					let json = ht.Default.parse(res)
+					json.p.background = 'transparent'
+					dataModel.deserialize(json)
+					// graphView.fitContent(true)
+					graphView.setZoom(5, true, { x: 630, y: 500 })
+					this.dataModel.each(data => {
+						if (data.getTag() == 'sy-bg-shengyu' || data.getTag() == 'sy-bg-kai') {
+							if (data.getStyle('2d.visible') == true) {
+								data.setStyle('2d.visible', false)
+							}
 						}
-					}
+					})
 				})
-			})
-			.catch(err=>{
-				this.$ocxMessage.error('图纸丢失!!!')
-			})
+				.catch(err => {
+					this.$ocxMessage.error('图纸丢失!!!')
+				})
 			this.getNode()
 		},
 		getNode() {
@@ -171,14 +175,27 @@ export default {
 									item.devNodes[0]['f_Value'] = item.devNodes[0].f_Value / 100
 								}
 								node.setToolTip(item.vcName)
-								let NumValue = (item.devNodes[0].f_Value =item.devNodes[0].f_Value == '65535' ? '    --' : item.devNodes[0].f_Value)
-								node.a('value', NumValue.toFixed(1))
+								let NumValue = (item.devNodes[0].f_Value =
+									item.devNodes[0].f_Value == '65535' || item.devNodes[0].f_Value == null
+										? '    --'
+										: item.devNodes[0].f_Value)
+								// console.log(NumValue);
+								if (NumValue == '    --') {
+									node.a('value', '--')
+								} else {
+									node.a('value', NumValue.toFixed(1))
+								}
 								node.setStyle('2d.visible', false)
 								this.dataModel.add(node)
 							}, 100)
 						})
 				}
 			})
+			if (this.unitId != '8177a787a28b4f86a103fac9a023db05') {
+				this.tlShow = false
+			} else {
+				this.tlShow = true
+			}
 		},
 		//剩余电流的点击 显示与隐藏
 		residueDian() {

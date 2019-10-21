@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div ref="view-main" id="main" class="fireControlHt"></div>
-		<div class="btnBox">
+		<div class="btnBox" v-if="tlfireShow">
 			<div class="btnTitle">图例:</div>
 			<div class="btnCon">
 				<div class="btnConItem">
@@ -28,13 +28,14 @@ export default {
 	name: 'ht-common',
 	data() {
 		return {
+			tlfireShow:true,
 			localHt: null,
 			dataModel: null,
 			graphView: null,
 			cableNodes: [],
 			deviceid: '',
 			nodeValue: '',
-			unitId: this.$store.getters.unitId,
+			unitId: this.$store.getters.sId,
 		}
 	},
 	created() {},
@@ -53,7 +54,20 @@ export default {
 			type: Object
 		}
 	},
+	computed: {
+	},
 	watch: {
+		tlfireUnitId(val){
+			console.log(val);
+			if(val !='8177a787a28b4f86a103fac9a023db05'){
+					console.log('不是东善桥id');
+                  this.tlfireShow=false
+			}else{
+					console.log('是东善桥id');
+			
+				this.tlfireShow=true
+			}
+		},
 		cablelUrl(url) {
 			// console.log(url)
 			this.dataModel.clear()
@@ -85,8 +99,10 @@ export default {
 					// }
 				}
 			}
-		}
+		},
+		
 	},
+
 	methods: {
 		init() {
 			let localHt = (this.localHt = global.ht)
@@ -113,7 +129,7 @@ export default {
 			})
 			if (!this.cablelUrl.length) return
 			this.$_api.devOps.getHtControl(this.cablelUrl).then(res=>{
-				console.log(res);
+				// console.log(res);
 				let json = ht.Default.parse(res)
 				dataModel.deserialize(json)
 				// graphView.fitContent(true)
@@ -159,8 +175,13 @@ export default {
 										
 										if(itv.functionCode=='1079.0002'){
 											// console.log(itv.f_Value);
-											node.a('value',itv.f_Value)
-											node.a('functionCode',itv.functionCode)
+											if(itv.f_Value==65535 || itv.f_Value==null){
+												node.a('value','--')
+												node.a('functionCode',itv.functionCode)
+											}else{
+												node.a('value',itv.f_Value)
+												node.a('functionCode',itv.functionCode)	
+											}
 										}
 									})
 									// node.s({
@@ -176,6 +197,14 @@ export default {
 					}
 				}
 			})
+			if(this.unitId !='8177a787a28b4f86a103fac9a023db05'){
+					
+                  this.tlfireShow=false
+			}else{
+					
+			
+				this.tlfireShow=true
+			}
 		},
 
 		//光纤点击

@@ -13,7 +13,7 @@ export default {
 			option: {
 				title: {
 					show: true,
-					text: '2015年05月全省缺陷情况统计图',
+					text: '2019年05月全省缺陷情况统计图',
 					textStyle: {
 						color: '#85c9ee',
 						fontSize: 18,
@@ -67,7 +67,6 @@ export default {
 							'盐城',
 							'淮安',
 							'连云港',
-							'盐城',
 							'宿迁',
 							'扬州',
 							'南通',
@@ -119,13 +118,13 @@ export default {
 						name: '发现数',
 						type: 'bar',
 						color: '#e7bc3b',
-						data: [1, 5, 2, 3, 3, 4, 2, 6, 7, 2, 3, 3, 4, 2]
+						data: [3, 2, 6, 4, 2, 3, 4, 5, 3, 4, 6, 3, 4]
 					},
 					{
 						name: '消除数',
 						type: 'bar',
 						color: '#9bde54',
-						data: [1, 5, 2, 3, 3, 4, 2, 6, 7, 2, 3, 3, 4, 2]
+						data: [2, 1, 5, 4, 2, 3, 3, 5, 3, 4, 3, 2, 4]
 					}
 				],
 				dataZoom: [
