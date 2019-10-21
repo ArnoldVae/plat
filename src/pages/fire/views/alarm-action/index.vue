@@ -714,31 +714,6 @@
                         const newArr = [],
                             dateArr = []
                         //转换时间格式成需要的
-                        res={
-                            data:[
-                                {
-                                    "vc_name":"湿度",
-                                    "vc_Unit":"%RH",
-                                    "NodeID":"676509d60d5444178f6660067192a09f",
-                                    "f_Value":46.37,
-                                    "i_DataTime":1571214197
-                                },
-                                {
-                                    "vc_name":"湿度",
-                                    "vc_Unit":"%RH",
-                                    "NodeID":"676509d60d5444178f6660067192a09f",
-                                    "f_Value":46.14,
-                                    "i_DataTime":1571214531
-                                },
-                                {
-                                    "vc_name":"湿度",
-                                    "vc_Unit":"%RH",
-                                    "NodeID":"676509d60d5444178f6660067192a09f",
-                                    "f_Value":46.83,
-                                    "i_DataTime":1571215021
-                                },
-                            ]
-                        }
                         res.data.forEach(i => {
                             newArr.push(i.f_Value)
                             dateArr.push(moment(i.i_DataTime * 1000).format('YYYY-MM-DD hh:mm:ss'))
