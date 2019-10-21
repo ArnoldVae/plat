@@ -853,27 +853,27 @@ export default {
 				})
 				.then(res => {
 					res.data.forEach(item => {
-						if (item.functioinId == 155) {
+						if (item.functionId == 155) {
 							//风速
 							this.weatherList[2].value = item.fValue
 							this.weatherList[2].vcUnit = item.vcUnit
 						}
-						if (item.functioinId == 156) {
+						if (item.functionId == 156) {
 							//风向
 							this.weatherList[3].value = item.fValue
 							this.weatherList[3].vcUnit = item.vcUnit
 						}
-						if (item.functioinId == 157) {
+						if (item.functionId == 157) {
 							//温度
 							this.weatherList[0].value = item.fValue
 							this.weatherList[0].vcUnit = item.vcUnit
-							this.getEchartData(item.nodeId, item.functioinId)
+							this.getEchartData(item.nodeId, item.functionId)
 						}
-						if (item.functioinId == 158) {
+						if (item.functionId == 158) {
 							//湿度
 							this.weatherList[1].value = item.fValue
 							this.weatherList[1].vcUnit = item.vcUnit
-							this.getEchartData(item.nodeId, item.functioinId)
+							this.getEchartData(item.nodeId, item.functionId)
 						}
 					})
 				})
