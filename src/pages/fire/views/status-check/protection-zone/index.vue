@@ -75,7 +75,7 @@
 								</el-col>
 							</el-row>
 
-							
+
 						</div>
 					</div>
 				</div>
@@ -434,13 +434,13 @@ export default {
 				if (result.data.length > 0) {
 					// console.log(result)
 					result.data.forEach(item => {
-						if (item.functioinId == 158) {
+						if (item.functionId == 158) {
 							this.temData.mechine = item.fValue
-							this.getTemCharts(item.nodeId, item.functioinId)
+							this.getTemCharts(item.nodeId, item.functionId)
 						}
-						if (item.functioinId == 157) {
+						if (item.functionId == 157) {
 							this.temData.env = item.fValue
-							this.getTemCharts(item.nodeId, item.functioinId)
+							this.getTemCharts(item.nodeId, item.functionId)
 						}
 					})
 				} else {
@@ -519,7 +519,7 @@ export default {
 }
 .color-light-green {
 	color: #32e611;
-	
+
 }
 .font-size-14 {
 	font-size: 16px;

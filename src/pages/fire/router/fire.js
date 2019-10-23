@@ -21,37 +21,5 @@ export default [
 				component: () => import('@ac/views/notFind')
 			}
 		]
-	},
-	{
-		path: '/main',
-		name: 'main',
-		meta: {
-			title: '主监控'
-		},
-		component: () => import('@fire/views/main-check')
-	},
-	{
-		path: '/firecontrol',
-		name: 'firecontrol',
-		meta: {
-			title: '消控室'
-		},
-		component: () => import('@fire/views/sp-parts/control')
-	},
-	{
-		path: '/onekeycontrol',
-		name: 'onekeycontrol',
-		meta: {
-			title: '主监控'
-		},
-		component: () => import('@fire/views/sp-parts/primaryDev')
-	},
-	{
-		path: '/primarydev',
-		name: 'primarydev',
-		meta: {
-			title: '主设备监视'
-		},
-		component: () => import('@fire/views/sp-parts/oneKeyControl')
 	}
 ]
