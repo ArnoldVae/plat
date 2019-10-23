@@ -10,12 +10,59 @@ export default {
 	data() {
 		return {
 			envChart: null,
-			option: {
+			title: '2019年05月全省缺陷情况统计图',
+			citys: [
+				'南京',
+				'镇江',
+				'常州',
+				'无锡',
+				'苏州',
+				'徐州',
+				'盐城',
+				'淮安',
+				'连云港',
+				'宿迁',
+				'扬州',
+				'南通',
+				'泰州'
+			],
+			plan: '计划数',
+			end: '完成数',
+			planStatistics: [85, 76, 78, 74, 89, 82, 76, 80, 65, 65, 68, 79, 76],
+			endStatistics: [81, 72, 76, 74, 87, 81, 73, 80, 61, 65, 63, 75, 74]
+		}
+	},
+	mounted() {
+		this.envChart = this.$_echarts.init(this.$refs['envChart'])
+		this.init()
+	},
+	computed: {
+		activeUnitId() {
+			console.log('收到id被更改')
+			return this.$store.getters.unitId
+		}
+	},
+	watch: {
+		activeUnitId: {
+			handler(val) {
+				console.log('执行')
+			}
+		}
+	},
+	methods: {
+		//树节点过滤
+		filterNode(value, data) {
+			if (!value) return true
+			return data.title.indexOf(value) !== -1
+		},
+
+		init() {
+			let option = {
 				title: {
 					show: true,
-					text: '2019年05月各地市消防设施维保情况统计',
+					text: this.title,
 					textStyle: {
-						color: '#85c9ee',
+						color: '#fff',
 						fontSize: 18,
 						align: 'center'
 					},
@@ -23,14 +70,14 @@ export default {
 					left: 700
 				},
 				legend: {
-					data: ['计划数', '完成数'],
+					data: [this.plan, this.end],
 					right: 50,
 					textStyle: {
 						color: '#fff',
 						fontSize: 18
 					}
 				},
-				color: ['#3398DB'],
+				// color: ['#3398DB'],
 				tooltip: {
 					trigger: 'axis',
 					axisPointer: {
@@ -40,7 +87,7 @@ export default {
 						}
 					},
 					textStyle: {
-						color: '#85c9ee',
+						color: '#fff',
 						fontSize: 16
 					}
 					// axisPointer: {
@@ -57,21 +104,7 @@ export default {
 				xAxis: [
 					{
 						type: 'category',
-						data: [
-							'南京',
-							'镇江',
-							'常州',
-							'无锡',
-							'苏州',
-							'徐州',
-							'盐城',
-							'淮安',
-							'连云港',
-							'宿迁',
-							'扬州',
-							'南通',
-							'泰州'
-						],
+						data: this.citys,
 						axisTick: {
 							alignWithLabel: true
 						},
@@ -82,7 +115,7 @@ export default {
 							}
 						},
 						axisLabel: {
-							color: '#85c9ee',
+							color: '#fff',
 							show: true,
 							textStyle: {
 								fontSize: 16
@@ -106,26 +139,31 @@ export default {
 							}
 						},
 						axisLabel: {
-							color: '#85c9ee',
+							color: '#fff',
 							show: true,
 							textStyle: {
 								fontSize: 16
+							}
+						},
+						splitLine: {
+							lineStyle: {
+								color: '#37a8ff'
 							}
 						}
 					}
 				],
 				series: [
 					{
-						name: '计划数',
+						name: this.plan,
 						type: 'bar',
 						color: '#4472c4',
-						data: [85, 76, 78, 74, 89, 82, 76, 80, 65, 65, 68, 79, 76]
+						data: this.planStatistics
 					},
 					{
-						name: '完成数',
+						name: this.end,
 						type: 'bar',
 						color: '#ed7d31',
-						data: [81, 72, 76, 74, 87, 81, 73, 80, 61, 65, 63, 75, 74]
+						data: this.endStatistics
 					}
 				],
 				dataZoom: [
@@ -148,15 +186,8 @@ export default {
 					// }
 				]
 			}
-		}
-	},
-	mounted() {
-		this.envChart = this.$_echarts.init(this.$refs['envChart'])
-		this.init()
-	},
-	methods: {
-		init() {
-			this.envChart.setOption(this.option)
+			//初始化echarts
+			this.envChart.setOption(option)
 		}
 	}
 }
@@ -171,7 +202,7 @@ export default {
   overflow: hidden;
 
   .echar {
-	margin-top: 30px;
+    margin-top: 30px;
     height: 96%;
     width: 100%;
   }

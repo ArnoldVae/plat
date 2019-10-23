@@ -10,19 +10,63 @@ export default {
 	data() {
 		return {
 			envChart: null,
-			option: {
+			title: '各地市消防设施统计图',
+			citys: [
+				'南京',
+				'镇江',
+				'常州',
+				'无锡',
+				'苏州',
+				'徐州',
+				'盐城',
+				'淮安',
+				'连云港',
+				'宿迁',
+				'扬州',
+				'南通',
+				'泰州'
+			],
+			statistics: [24000, 12000, 18000, 18400, 23000, 16000, 13000, 12000, 14200, 19000, 18400, 22000, 18600]
+		}
+	},
+	mounted() {
+		this.envChart = this.$_echarts.init(this.$refs['envChart'])
+		this.init()
+	},
+	computed: {
+		activeUnitId() {
+			console.log('收到id被更改')
+			return this.$store.getters.unitId
+		}
+	},
+	watch: {
+		activeUnitId: {
+			handler(val) {
+				console.log('执行')
+			}
+		}
+	},
+	methods: {
+		//树节点过滤
+		filterNode(value, data) {
+			if (!value) return true
+			return data.title.indexOf(value) !== -1
+		},
+
+		init() {
+			let option = {
 				title: {
 					show: true,
-					text: '各地市消防设施统计图',
+					text: this.title,
 					textStyle: {
-						color: '#85c9ee',
+						color: '#fff',
 						fontSize: 18,
 						align: 'center'
 					},
 					top: 0,
 					left: 700
 				},
-				color: ['#3398DB'],
+				// color: ['#3398DB'],
 				tooltip: {
 					trigger: 'axis',
 					axisPointer: {
@@ -32,12 +76,12 @@ export default {
 						}
 					},
 					textStyle: {
-						color: '#85c9ee',
+						color: '#fff',
 						fontSize: 16
 					}
 					// axisPointer: {
-						// 坐标轴指示器，坐标轴触发有效
-						// type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+					// 坐标轴指示器，坐标轴触发有效
+					// type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
 					// }
 				},
 				grid: {
@@ -49,7 +93,7 @@ export default {
 				xAxis: [
 					{
 						type: 'category',
-						data: ['南京', '镇江', '常州', '无锡', '苏州', '徐州', '盐城', '淮安', '连云港', '宿迁', '扬州', '南通', '泰州'],
+						data: this.citys,
 						axisTick: {
 							alignWithLabel: true
 						},
@@ -60,14 +104,14 @@ export default {
 							}
 						},
 						axisLabel: {
-							color: '#85c9ee',
+							color: '#fff',
 							show: true,
 							textStyle: {
 								fontSize: 16
 							}
 						},
 						areaStyle: {
-						color: '#fff'
+							color: '#fff'
 						}
 					}
 				],
@@ -83,10 +127,15 @@ export default {
 							}
 						},
 						axisLabel: {
-							color: '#85c9ee',
+							color: '#fff',
 							show: true,
 							textStyle: {
 								fontSize: 16
+							}
+						},
+						splitLine: {
+							lineStyle: {
+								color: '#37a8ff'
 							}
 						}
 					}
@@ -97,7 +146,7 @@ export default {
 						type: 'bar',
 						color: '#4472c4',
 						barWidth: '60%',
-						data: [24000, 12000, 18000, 18400, 23000, 16000, 13000,12000, 14200, 19000, 18400, 22000, 18600]
+						data: this.statistics
 					}
 				],
 				dataZoom: [
@@ -120,15 +169,8 @@ export default {
 					// }
 				]
 			}
-		}
-	},
-	mounted() {
-		this.envChart = this.$_echarts.init(this.$refs['envChart'])
-		this.init()
-	},
-	methods: {
-		init() {
-			this.envChart.setOption(this.option)
+			//初始化echarts
+			this.envChart.setOption(option)
 		}
 	}
 }
@@ -143,9 +185,9 @@ export default {
   overflow: hidden;
 
   .echar {
-	  margin-top: 30px;
-	  height: 96%;
-	  width: 100%;
+    margin-top: 30px;
+    height: 96%;
+    width: 100%;
   }
 }
 </style>
