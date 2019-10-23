@@ -23,7 +23,7 @@ var $_fireVideoCofig={
     netSerUrl:'1$22.46.34.114$6800$admin$admin',//网络安全---服务器地址
 
     // 消防管理
-    masterDevUrl2:"2|22.46.34.114:37781|admin:admin123|27",//主设备监视---装置地址
+    masterDevUrl3:"2|22.46.34.114:37781|admin:admin123|27",//主设备监视---装置地址
     masterSerURL3:'1$22.46.34.114$6800$admin$admin',//主设备监视---服务器地址
 
     proDevUrl:"2|22.46.34.114:37781|admin:admin123|28",//消防集中监控---装置地址

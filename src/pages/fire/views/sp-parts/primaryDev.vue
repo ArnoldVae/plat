@@ -26,7 +26,7 @@
         </div>
         <div>
             <img  @dblclick="changeVideo('video')" src="../../assets/img/title.png" alt="">
-            <span @dblclick="changeVideo('video')" >一键顺控视频主机</span>
+            <span @dblclick="changeVideo('video')" >视频主机</span>
             <video height="93%.5"  controls="true"  width="100%" @click="play(2)" class="video" v-if="showFlag3=='ocx'">
                 <source src="http://26.47.189.184:9000/3.mp4" type="video/mp4">
             </video>
