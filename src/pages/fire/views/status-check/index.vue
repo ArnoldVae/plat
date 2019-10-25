@@ -93,7 +93,7 @@
                         code: 'protection-zone',
                         active: false
                     }
-                    
+
                 ],
                 subTabList: [],
                 current: 'sub-system'

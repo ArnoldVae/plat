@@ -43,7 +43,8 @@
 							size="mini"
 							v-if="scope.row.normalVideoId != null"
 							@click="handleViewVideo(scope.row)"
-						>查看视频</el-button>
+							>查看视频</el-button
+						>
 					</template>
 				</el-table-column>
 			</el-table>

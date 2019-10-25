@@ -609,6 +609,7 @@ export default {
 		pointFrame
 	},
 	created() {
+		this.getVideoServe()
 		this.getTabs()
 		this.getStationInfo()
 		//获取预置巡检数据
@@ -1429,6 +1430,17 @@ export default {
 				.catch(err => {
 					console.log(err)
 				})
+		},
+		//获取流媒体信息
+		getVideoServe() {
+			this.axios.getVideoServe().then(res => {
+				if (res.code == 200 && res.data) {
+					// this.videoConfig.serviceInfo = res.data.vc_Address
+					let obj = res.data
+					this.video1.serviceInfo = obj.ServiceID + '$' + obj.vc_IP + '$' + obj.i_Port + '$admin$admin'
+					this.video1.serviceInfo = obj.ServiceID + '$' + obj.vc_IP + '$' + obj.i_Port + '$admin$admin'
+				}
+			})
 		}
 	},
 	beforeRouteEnter(to, from, next) {

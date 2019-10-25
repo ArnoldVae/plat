@@ -49,7 +49,7 @@
 					</el-col>
 					<el-col :span="12">
 						<span>保管责任人:</span>
-						<span style="margin-left:34px;color:#47b2fe">{{ forData.userId }}</span>
+						<span style="margin-left:34px;color:#47b2fe">{{ forData.userName }}</span>
 					</el-col>
 				</el-row>
 				<el-row style="color: #ffffff">

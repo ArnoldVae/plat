@@ -294,6 +294,10 @@
 			<historyNotes ref="historyNotes" :nodeInfo="nodeInfo"></historyNotes>
 		</ocx-modal>
 		<!--历史记录弹框 end -->
+
+		<ocx-modal v-model="reportDialog" title="查看巡检报告" :width="1300" footer-hide draggable>
+			<iframe :src="reportSrc" style="background:#fff;width:100%;height:700px"></iframe>
+		</ocx-modal>
 	</div>
 </template>
 <script>
@@ -444,7 +448,10 @@ export default {
 			infraImgPath: '',
 			nodata: true,
 
-			nodeInfo: {}
+			nodeInfo: {},
+
+			reportDialog:false,
+			reportSrc:''
 		}
 	},
 	computed: {
@@ -634,13 +641,25 @@ export default {
 				this.exportingLoading = false
 				if (res.code == 200) {
 					//window.location.href = res.data
-					window.open(res.data)
+					// console.log(res.data)
+					// window.open(res.data)
+					this.reportDialog = true;
+					this.reportSrc = res.data;
 				} else {
-					this.$ocxMessage.success({
+					this.$ocxMessage.warning({
 						content: '导出失败',
 						duration: 5
 					})
 				}
+			})
+			.catch(error=>{
+				console.log(error)
+				this.exportingLoading = false
+				this.$ocxMessage.warning({
+						content: '导出失败',
+						duration: 5
+				})
+				
 			})
 		},
 		handleChangePage(page) {
